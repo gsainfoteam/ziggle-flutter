@@ -5,4 +5,5 @@ part of 'pages.dart';
 abstract class Routes {
   Routes._();
   static const HOME = '/';
+  static const LOGIN = '/login';
 }

@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:ziggle/app/modules/login/binding.dart';
+import 'package:ziggle/app/modules/login/page.dart';
 import 'package:ziggle/app/modules/splash/binding.dart';
 import 'package:ziggle/app/modules/splash/page.dart';
 
@@ -15,6 +17,11 @@ class AppPages {
       name: Routes.HOME,
       page: () => const SplashPage(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: Routes.LOGIN,
+      page: () => const LoginPage(),
+      binding: LoginBinding(),
     ),
   ];
 }
