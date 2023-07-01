@@ -96,16 +96,21 @@ class ArticlePage extends GetView<ArticleController> {
                       child: PageView.builder(
                         clipBehavior: Clip.none,
                         controller: controller.pageController,
-                        itemBuilder: (context, index) => Container(
-                          padding: const EdgeInsets.all(10),
-                          decoration: const BoxDecoration(
-                            color: Palette.white,
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            boxShadow: frameShadows,
-                          ),
-                          child: Image.network(article.imagesUrl![index],
-                              fit: BoxFit.contain),
-                        ).paddingSymmetric(horizontal: 50),
+                        itemBuilder: (context, index) => Center(
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            decoration: const BoxDecoration(
+                              color: Palette.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              boxShadow: frameShadows,
+                            ),
+                            child: Image.network(
+                              article.imagesUrl![index],
+                              fit: BoxFit.contain,
+                            ),
+                          ).paddingSymmetric(horizontal: 50),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
