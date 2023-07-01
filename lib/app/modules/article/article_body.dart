@@ -38,7 +38,22 @@ class ArticleBody extends StatelessWidget {
                 DateFormat.yMEd().format(article.deadline!),
               ),
               const SizedBox(width: 10),
-              const DDay(dDay: 10),
+              DDay(
+                dDay: article.deadline!
+                    .copyWith(
+                        hour: 0,
+                        minute: 0,
+                        second: 0,
+                        millisecond: 0,
+                        microsecond: 0)
+                    .difference(article.createdAt.copyWith(
+                        hour: 0,
+                        minute: 0,
+                        second: 0,
+                        millisecond: 0,
+                        microsecond: 0))
+                    .inDays,
+              ),
             ],
           ),
           const SizedBox(height: 10)
