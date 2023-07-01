@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 
@@ -42,7 +44,10 @@ class ArticleController extends GetxController {
 더 궁금한 사항은 제 카톡이나 010-5513-2743 문자로 자유롭게 연락주시면 됩니다.''',
       deadline: DateTime.now().add(2.days),
       createdAt: DateTime.now(),
-      imagesUrl: null,
+      imagesUrl: List.generate(
+        8,
+        (_) => 'https://picsum.photos/seed/${Random().nextInt(100000)}/200/300',
+      ),
     );
   }
 }

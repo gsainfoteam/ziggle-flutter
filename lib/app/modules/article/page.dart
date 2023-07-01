@@ -27,20 +27,19 @@ class ArticlePage extends GetView<ArticleController> {
           ),
         ],
       ),
-      body: CustomScrollView(
-        slivers: [
-          Obx(
-            () => controller.article.value == null
-                ? const SliverFillRemaining(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : SafeArea(
+      body: Obx(
+        () => controller.article.value == null
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SafeArea(
+                child: DraggableScrollableSheet(
+                  builder: (context, scrollController) => SingleChildScrollView(
+                    controller: scrollController,
                     child: ArticleBody(article: controller.article.value!),
-                  ).sliverBox,
-          )
-        ],
+                  ),
+                ),
+              ),
       ),
     );
   }
