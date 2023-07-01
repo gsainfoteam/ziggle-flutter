@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/modules/splash/binding.dart';
+import 'package:ziggle/app/modules/splash/page.dart';
 
 part 'routes.dart';
 
@@ -10,6 +11,10 @@ class AppPages {
   static const INITIAL = Routes.HOME;
 
   static final routes = [
-    GetPage(name: Routes.HOME, page: () => const SizedBox.shrink()),
+    GetPage(
+      name: Routes.HOME,
+      page: () => const SplashPage(),
+      binding: SplashBinding(),
+    ),
   ];
 }
