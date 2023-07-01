@@ -1,5 +1,5 @@
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/modules/home/page.dart';
 import 'package:ziggle/app/modules/login/binding.dart';
 import 'package:ziggle/app/modules/login/page.dart';
 import 'package:ziggle/app/modules/my/binding.dart';
@@ -13,25 +13,25 @@ class AppPages {
   AppPages._();
 
   // ignore: constant_identifier_names
-  static const INITIAL = Routes.HOME;
+  static const INITIAL = Routes.ROOT;
 
   static final routes = [
     GetPage(
-      name: Routes.HOME,
+      name: _Paths.ROOT,
       page: () => const SplashPage(),
       binding: SplashBinding(),
     ),
     GetPage(
-      name: Routes.LOGIN,
+      name: _Paths.LOGIN,
       page: () => const LoginPage(),
       binding: LoginBinding(),
     ),
     GetPage(
-      name: Routes.HOME,
-      page: () => const SizedBox.shrink(),
+      name: _Paths.HOME,
+      page: () => const HomePage(),
       children: [
         GetPage(
-          name: Routes.MY_PAGE,
+          name: _Paths.MY_PAGE,
           page: () => const MyPage(),
           binding: MyBinding(),
         )
