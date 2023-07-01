@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
-import 'package:ziggle/app/modules/home/home_page.dart';
-import 'package:ziggle/app/modules/home/root_controller.dart';
+import 'package:ziggle/app/modules/home/page.dart';
+import 'package:ziggle/app/modules/root/controller.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
 class RootPage extends GetView<RootController> {

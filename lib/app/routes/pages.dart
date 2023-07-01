@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
-import 'package:ziggle/app/modules/home/binding.dart';
-import 'package:ziggle/app/modules/home/root_page.dart';
+import 'package:ziggle/app/modules/root/binding.dart';
+import 'package:ziggle/app/modules/root/page.dart';
 import 'package:ziggle/app/modules/login/binding.dart';
 import 'package:ziggle/app/modules/login/page.dart';
 import 'package:ziggle/app/modules/my/binding.dart';
@@ -14,11 +14,11 @@ class AppPages {
   AppPages._();
 
   // ignore: constant_identifier_names
-  static const INITIAL = Routes.ROOT;
+  static const INITIAL = Routes.SPLASH;
 
   static final routes = [
     GetPage(
-      name: _Paths.ROOT,
+      name: _Paths.SPLASH,
       page: () => const SplashPage(),
       binding: SplashBinding(),
     ),
@@ -28,9 +28,9 @@ class AppPages {
       binding: LoginBinding(),
     ),
     GetPage(
-      name: _Paths.HOME,
+      name: _Paths.ROOT,
       page: () => const RootPage(),
-      binding: HomeBinding(),
+      binding: RootBinding(),
       children: [
         GetPage(
           name: _Paths.MY_PAGE,

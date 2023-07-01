@@ -11,7 +11,7 @@ class SplashController extends GetxController {
 
   _init() async {
     await 1.delay();
-    Get.offAllNamed(Routes.HOME);
+    Get.offAllNamed(Routes.ROOT);
     await 1.delay();
     FlutterNativeSplash.remove();
   }

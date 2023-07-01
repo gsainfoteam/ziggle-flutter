@@ -4,16 +4,16 @@ part of 'pages.dart';
 
 abstract class _Paths {
   _Paths._();
-  static const ROOT = '/';
+  static const SPLASH = '/splash';
   static const LOGIN = '/login';
-  static const HOME = '/home';
+  static const ROOT = '/root';
   static const MY_PAGE = '/my';
 }
 
 abstract class Routes {
   Routes._();
-  static const ROOT = _Paths.ROOT;
+  static const SPLASH = _Paths.SPLASH;
   static const LOGIN = _Paths.LOGIN;
-  static const HOME = _Paths.HOME;
-  static const MY_PAGE = _Paths.HOME + _Paths.MY_PAGE;
+  static const ROOT = _Paths.ROOT;
+  static const MY_PAGE = _Paths.ROOT + _Paths.MY_PAGE;
 }
