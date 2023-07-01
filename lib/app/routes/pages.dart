@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:ziggle/app/modules/article/binding.dart';
+import 'package:ziggle/app/modules/article/page.dart';
 import 'package:ziggle/app/modules/root/binding.dart';
 import 'package:ziggle/app/modules/root/page.dart';
 import 'package:ziggle/app/modules/login/binding.dart';
@@ -36,6 +38,11 @@ class AppPages {
           name: _Paths.MY_PAGE,
           page: () => const MyPage(),
           binding: MyBinding(),
+        ),
+        GetPage(
+          name: _Paths.ARTICLE,
+          page: () => const ArticlePage(),
+          binding: ArticleBinding(),
         )
       ],
     )

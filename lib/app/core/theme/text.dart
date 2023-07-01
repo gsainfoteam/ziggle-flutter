@@ -10,15 +10,18 @@ abstract class TextStyles {
     color: Palette.black,
   );
 
+  static const articleTitle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  );
+
   static const titleTextStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
-    color: Palette.black,
   );
 
   static const label = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,
-    color: Palette.black,
   );
 }
