@@ -32,6 +32,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/logo/icon.png
+    - assets/icons
   fonts:
     - family: NotoSansKR
       fonts:

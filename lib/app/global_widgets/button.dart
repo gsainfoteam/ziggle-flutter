@@ -41,7 +41,7 @@ class ZiggleButton extends StatelessWidget {
             color: Color.lerp(
               color,
               Palette.black,
-              onTap != null && hover.value ? 0.1 : 0,
+              hover.value && onTap != null ? 0.1 : 0,
             ),
             borderRadius: borderRadius,
           ),

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ziggle/app/modules/home/binding.dart';
 import 'package:ziggle/app/modules/home/page.dart';
 import 'package:ziggle/app/modules/login/binding.dart';
 import 'package:ziggle/app/modules/login/page.dart';
@@ -29,6 +30,7 @@ class AppPages {
     GetPage(
       name: _Paths.HOME,
       page: () => const HomePage(),
+      binding: HomeBinding(),
       children: [
         GetPage(
           name: _Paths.MY_PAGE,
