@@ -26,9 +26,12 @@ dev_dependencies:
   json_serializable: ^6.7.0
   retrofit_generator: ^7.0.7
   flutter_launcher_icons: ^0.13.1
+  flutter_gen_runner: ^5.3.1
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/logo/icon.png
   fonts:
     - family: NotoSansKR
       fonts:

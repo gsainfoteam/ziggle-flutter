@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/gen/fonts.gen.dart';
 
 final appTheme = ThemeData(
-  fontFamily: 'NotoSansKR',
+  fontFamily: FontFamily.notoSansKR,
+  useMaterial3: true,
   textTheme: const TextTheme(
     bodyMedium: TextStyles.defaultStyle,
     titleLarge: TextStyles.titleTextStyle,
