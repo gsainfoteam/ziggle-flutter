@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
+import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/modules/article/article_body.dart';
 import 'package:ziggle/app/modules/article/controller.dart';
 import 'package:ziggle/app/modules/article/page_spinner.dart';
@@ -92,32 +93,7 @@ class ArticlePage extends GetView<ArticleController> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      child: PageView.builder(
-                        clipBehavior: Clip.none,
-                        controller: controller.pageController,
-                        itemBuilder: (context, index) => Center(
-                          child: GestureDetector(
-                            onTap: () => controller.onImageTap(index),
-                            child: Container(
-                                padding: const EdgeInsets.all(10),
-                                decoration: const BoxDecoration(
-                                  color: Palette.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)),
-                                  boxShadow: frameShadows,
-                                ),
-                                child: Hero(
-                                  tag: index,
-                                  child: Image.network(
-                                    article.imagesUrl![index],
-                                    fit: BoxFit.contain,
-                                  ),
-                                )).paddingSymmetric(horizontal: 50),
-                          ),
-                        ),
-                      ),
-                    ),
+                    Expanded(child: _buildImageCarousel(article)),
                     const SizedBox(height: 20),
                     PageSpinner(
                       currentPage: controller.page.value,
@@ -135,5 +111,33 @@ class ArticlePage extends GetView<ArticleController> {
     } else {
       return SingleChildScrollView(child: child);
     }
+  }
+
+  Widget _buildImageCarousel(ArticleResponse article) {
+    return PageView.builder(
+      clipBehavior: Clip.none,
+      controller: controller.pageController,
+      itemCount: controller.maxPage,
+      itemBuilder: (context, index) => Center(
+        child: GestureDetector(
+          onTap: () => controller.onImageTap(index),
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+              color: Palette.white,
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              boxShadow: frameShadows,
+            ),
+            child: Hero(
+              tag: index,
+              child: Image.network(
+                article.imagesUrl![index],
+                fit: BoxFit.contain,
+              ),
+            ),
+          ).paddingSymmetric(horizontal: 50),
+        ),
+      ),
+    );
   }
 }
