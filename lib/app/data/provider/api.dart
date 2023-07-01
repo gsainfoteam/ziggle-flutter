@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/data/model/login_response.dart';
 
 part 'api.g.dart';
 
@@ -10,5 +11,5 @@ abstract class ApiProvider {
   static ApiProvider get to => Get.find();
 
   @GET('/user/login')
-  Future login(@Query('auth_code') String authCode);
+  Future<LoginResponse> login(@Query('auth_code') String authCode);
 }
