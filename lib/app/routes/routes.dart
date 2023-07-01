@@ -6,4 +6,5 @@ abstract class Routes {
   Routes._();
   static const HOME = '/';
   static const LOGIN = '/login';
+  static const MY_PAGE = '/my';
 }

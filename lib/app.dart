@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/theme/app.dart';
 import 'package:ziggle/binding.dart';
 
 import 'app/routes/pages.dart';
@@ -14,6 +15,7 @@ class App extends StatelessWidget {
       initialRoute: AppPages.INITIAL,
       initialBinding: initialBinding,
       getPages: AppPages.routes,
+      theme: appTheme,
     );
   }
 }
