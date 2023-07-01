@@ -1,16 +1,35 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 
 class ArticleController extends GetxController {
   final article = Rxn<ArticleResponse>();
   final isReminder = false.obs;
+  final scrollController = DraggableScrollableController();
+  final scrollPixel = 0.0.obs;
+  final pageController = PageController();
+  final page = 1.obs;
+  final maxPage = 8;
 
   @override
   void onInit() {
     super.onInit();
     _load();
+    scrollController.addListener(
+      () => scrollPixel.value = scrollController.pixels,
+    );
+    pageController.addListener(() {
+      page.value = (pageController.page?.toInt() ?? 0) + 1;
+    });
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    pageController.dispose();
+    super.onClose();
   }
 
   Future<void> _load() async {
@@ -45,9 +64,17 @@ class ArticleController extends GetxController {
       deadline: DateTime.now().add(2.days),
       createdAt: DateTime.now(),
       imagesUrl: List.generate(
-        8,
+        maxPage,
         (_) => 'https://picsum.photos/seed/${Random().nextInt(100000)}/200/300',
       ),
+    );
+  }
+
+  void onPageChanged(int page) {
+    pageController.animateToPage(
+      page - 1,
+      duration: 300.milliseconds,
+      curve: Curves.easeOut,
     );
   }
 }
