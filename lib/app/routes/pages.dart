@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:ziggle/app/modules/article/binding.dart';
 import 'package:ziggle/app/modules/article/page.dart';
+import 'package:ziggle/app/modules/article_image/binding.dart';
+import 'package:ziggle/app/modules/article_image/page.dart';
 import 'package:ziggle/app/modules/root/binding.dart';
 import 'package:ziggle/app/modules/root/page.dart';
 import 'package:ziggle/app/modules/login/binding.dart';
@@ -43,7 +45,14 @@ class AppPages {
           name: _Paths.ARTICLE,
           page: () => const ArticlePage(),
           binding: ArticleBinding(),
-        )
+          children: [
+            GetPage(
+              name: _Paths.IMAGE,
+              page: () => const ArticleImagePage(),
+              binding: ArticleImageBinding(),
+            ),
+          ],
+        ),
       ],
     )
   ];

@@ -9,6 +9,7 @@ abstract class _Paths {
   static const ROOT = '/root';
   static const MY_PAGE = '/my';
   static const ARTICLE = '/article';
+  static const IMAGE = '/image';
 }
 
 abstract class Routes {
@@ -18,4 +19,5 @@ abstract class Routes {
   static const ROOT = _Paths.ROOT;
   static const MY_PAGE = _Paths.ROOT + _Paths.MY_PAGE;
   static const ARTICLE = _Paths.ROOT + _Paths.ARTICLE;
+  static const ARTICLE_IMAGE = _Paths.ROOT + _Paths.ARTICLE + _Paths.IMAGE;
 }

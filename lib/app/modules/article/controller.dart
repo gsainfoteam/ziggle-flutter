@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
+import 'package:ziggle/app/routes/pages.dart';
 
 class ArticleController extends GetxController {
   final article = Rxn<ArticleResponse>();
@@ -76,5 +77,17 @@ class ArticleController extends GetxController {
       duration: 300.milliseconds,
       curve: Curves.easeOut,
     );
+  }
+
+  onImageTap(int index) async {
+    final result = await Get.toNamed(
+      Routes.ARTICLE_IMAGE,
+      arguments: {
+        'page': index + 1,
+        'images': article.value?.imagesUrl ?? [],
+      },
+    );
+    if (result == null) return;
+    pageController.jumpToPage(result - 1);
   }
 }

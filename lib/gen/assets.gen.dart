@@ -19,8 +19,12 @@ class $AssetsIconsGen {
   AssetGenImage get rightArrow =>
       const AssetGenImage('assets/icons/right_arrow.png');
 
+  /// File path: assets/icons/right_arrow_white.png
+  AssetGenImage get rightArrowWhite =>
+      const AssetGenImage('assets/icons/right_arrow_white.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [profile, rightArrow];
+  List<AssetGenImage> get values => [profile, rightArrow, rightArrowWhite];
 }
 
 class $AssetsLogoGen {
