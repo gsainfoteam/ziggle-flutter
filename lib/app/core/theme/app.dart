@@ -7,6 +7,7 @@ final appTheme = ThemeData(
   fontFamily: FontFamily.notoSansKR,
   useMaterial3: true,
   scaffoldBackgroundColor: Palette.white,
+  brightness: Brightness.light,
   primaryColor: Palette.primaryColor,
   splashFactory: NoSplash.splashFactory,
   colorScheme: ColorScheme.fromSeed(seedColor: Palette.primaryColor),
