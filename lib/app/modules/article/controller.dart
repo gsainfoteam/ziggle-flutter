@@ -40,7 +40,7 @@ class ArticleController extends GetxController {
 <h3>🔥 문의 및 Q&A</h3>
 관련 문의가 많은 경우에는 평가 요소 및 구체적인 선발 과정 등을 이야기하는 별도의 Q&A 세션을 진행하고자 합니다. <br>
 더 궁금한 사항은 제 카톡이나 010-5513-2743 문자로 자유롭게 연락주시면 됩니다.''',
-      deatline: null,
+      deadline: DateTime.now(),
       createdAt: DateTime.now(),
       imagesUrl: null,
     );

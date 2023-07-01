@@ -12,9 +12,9 @@ _$_ArticleResponse _$$_ArticleResponseFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       views: json['views'] as int,
       body: json['body'] as String,
-      deatline: json['deatline'] == null
+      deadline: json['deadline'] == null
           ? null
-          : DateTime.parse(json['deatline'] as String),
+          : DateTime.parse(json['deadline'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       imagesUrl: (json['images_url'] as List<dynamic>?)
           ?.map((e) => e as String)
@@ -29,7 +29,7 @@ Map<String, dynamic> _$$_ArticleResponseToJson(_$_ArticleResponse instance) =>
       'title': instance.title,
       'views': instance.views,
       'body': instance.body,
-      'deatline': instance.deatline?.toIso8601String(),
+      'deadline': instance.deadline?.toIso8601String(),
       'created_at': instance.createdAt.toIso8601String(),
       'images_url': instance.imagesUrl,
       'tags': instance.tags,

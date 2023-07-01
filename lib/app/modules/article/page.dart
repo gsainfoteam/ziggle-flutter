@@ -36,7 +36,9 @@ class ArticlePage extends GetView<ArticleController> {
                       child: CircularProgressIndicator(),
                     ),
                   )
-                : ArticleBody(article: controller.article.value!).sliverBox,
+                : SafeArea(
+                    child: ArticleBody(article: controller.article.value!),
+                  ).sliverBox,
           )
         ],
       ),

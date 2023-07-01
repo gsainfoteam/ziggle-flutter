@@ -10,7 +10,7 @@ class ArticleResponse with _$ArticleResponse {
     required String title,
     required int views,
     required String body,
-    required DateTime? deatline,
+    required DateTime? deadline,
     required DateTime createdAt,
     required List<String>? imagesUrl,
     required List<String> tags,

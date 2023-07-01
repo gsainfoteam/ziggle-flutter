@@ -10,7 +10,7 @@ abstract class TextStyles {
     color: Palette.black,
   );
 
-  static const articleTitle = TextStyle(
+  static const articleTitleStyle = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
   );
@@ -23,5 +23,16 @@ abstract class TextStyles {
   static const label = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,
+  );
+
+  static const tagStyle = TextStyle(
+    color: Palette.primaryColor,
+    fontSize: 10,
+  );
+
+  static const ddayStyle = TextStyle(
+    color: Palette.white,
+    fontSize: 12,
+    fontWeight: FontWeight.bold,
   );
 }

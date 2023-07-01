@@ -24,7 +24,7 @@ mixin _$ArticleResponse {
   String get title => throw _privateConstructorUsedError;
   int get views => throw _privateConstructorUsedError;
   String get body => throw _privateConstructorUsedError;
-  DateTime? get deatline => throw _privateConstructorUsedError;
+  DateTime? get deadline => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   List<String>? get imagesUrl => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $ArticleResponseCopyWith<$Res> {
       String title,
       int views,
       String body,
-      DateTime? deatline,
+      DateTime? deadline,
       DateTime createdAt,
       List<String>? imagesUrl,
       List<String> tags,
@@ -71,7 +71,7 @@ class _$ArticleResponseCopyWithImpl<$Res, $Val extends ArticleResponse>
     Object? title = null,
     Object? views = null,
     Object? body = null,
-    Object? deatline = freezed,
+    Object? deadline = freezed,
     Object? createdAt = null,
     Object? imagesUrl = freezed,
     Object? tags = null,
@@ -94,9 +94,9 @@ class _$ArticleResponseCopyWithImpl<$Res, $Val extends ArticleResponse>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String,
-      deatline: freezed == deatline
-          ? _value.deatline
-          : deatline // ignore: cast_nullable_to_non_nullable
+      deadline: freezed == deadline
+          ? _value.deadline
+          : deadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -131,7 +131,7 @@ abstract class _$$_ArticleResponseCopyWith<$Res>
       String title,
       int views,
       String body,
-      DateTime? deatline,
+      DateTime? deadline,
       DateTime createdAt,
       List<String>? imagesUrl,
       List<String> tags,
@@ -153,7 +153,7 @@ class __$$_ArticleResponseCopyWithImpl<$Res>
     Object? title = null,
     Object? views = null,
     Object? body = null,
-    Object? deatline = freezed,
+    Object? deadline = freezed,
     Object? createdAt = null,
     Object? imagesUrl = freezed,
     Object? tags = null,
@@ -176,9 +176,9 @@ class __$$_ArticleResponseCopyWithImpl<$Res>
           ? _value.body
           : body // ignore: cast_nullable_to_non_nullable
               as String,
-      deatline: freezed == deatline
-          ? _value.deatline
-          : deatline // ignore: cast_nullable_to_non_nullable
+      deadline: freezed == deadline
+          ? _value.deadline
+          : deadline // ignore: cast_nullable_to_non_nullable
               as DateTime?,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -208,7 +208,7 @@ class _$_ArticleResponse implements _ArticleResponse {
       required this.title,
       required this.views,
       required this.body,
-      required this.deatline,
+      required this.deadline,
       required this.createdAt,
       required final List<String>? imagesUrl,
       required final List<String> tags,
@@ -228,7 +228,7 @@ class _$_ArticleResponse implements _ArticleResponse {
   @override
   final String body;
   @override
-  final DateTime? deatline;
+  final DateTime? deadline;
   @override
   final DateTime createdAt;
   final List<String>? _imagesUrl;
@@ -254,7 +254,7 @@ class _$_ArticleResponse implements _ArticleResponse {
 
   @override
   String toString() {
-    return 'ArticleResponse(id: $id, title: $title, views: $views, body: $body, deatline: $deatline, createdAt: $createdAt, imagesUrl: $imagesUrl, tags: $tags, author: $author)';
+    return 'ArticleResponse(id: $id, title: $title, views: $views, body: $body, deadline: $deadline, createdAt: $createdAt, imagesUrl: $imagesUrl, tags: $tags, author: $author)';
   }
 
   @override
@@ -266,8 +266,8 @@ class _$_ArticleResponse implements _ArticleResponse {
             (identical(other.title, title) || other.title == title) &&
             (identical(other.views, views) || other.views == views) &&
             (identical(other.body, body) || other.body == body) &&
-            (identical(other.deatline, deatline) ||
-                other.deatline == deatline) &&
+            (identical(other.deadline, deadline) ||
+                other.deadline == deadline) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality()
@@ -284,7 +284,7 @@ class _$_ArticleResponse implements _ArticleResponse {
       title,
       views,
       body,
-      deatline,
+      deadline,
       createdAt,
       const DeepCollectionEquality().hash(_imagesUrl),
       const DeepCollectionEquality().hash(_tags),
@@ -310,7 +310,7 @@ abstract class _ArticleResponse implements ArticleResponse {
       required final String title,
       required final int views,
       required final String body,
-      required final DateTime? deatline,
+      required final DateTime? deadline,
       required final DateTime createdAt,
       required final List<String>? imagesUrl,
       required final List<String> tags,
@@ -328,7 +328,7 @@ abstract class _ArticleResponse implements ArticleResponse {
   @override
   String get body;
   @override
-  DateTime? get deatline;
+  DateTime? get deadline;
   @override
   DateTime get createdAt;
   @override
