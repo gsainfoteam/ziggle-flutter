@@ -13,7 +13,13 @@ class MyPage extends GetView<MyController> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('마이페이지'),
-        actions: const [ZiggleButton(text: '수정')],
+        actions: [
+          ZiggleButton(
+            text: '수정',
+            color: Colors.transparent,
+            onTap: () {},
+          )
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

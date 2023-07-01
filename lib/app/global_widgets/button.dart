@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 
 class ZiggleButton extends StatelessWidget {
@@ -9,6 +10,7 @@ class ZiggleButton extends StatelessWidget {
   final Color textColor;
   final double fontSize;
   final Color color;
+  bool get _isTransparent => color == Colors.transparent;
 
   const ZiggleButton({
     super.key,
@@ -16,7 +18,7 @@ class ZiggleButton extends StatelessWidget {
     this.onTap,
     this.borderRadius = const BorderRadius.all(Radius.circular(8)),
     this.text,
-    this.textColor = Palette.white,
+    this.textColor = Colors.white,
     this.fontSize = 16,
     this.color = Palette.primaryColor,
   }) : assert(child == null || text == null,
@@ -24,15 +26,29 @@ class ZiggleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hover = false.obs;
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        height: 40,
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(color: color, borderRadius: borderRadius),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [_buildChild()],
+      onTapDown: (_) => hover.value = true,
+      onTapCancel: () => hover.value = false,
+      onTapUp: (_) => hover.value = false,
+      child: Obx(
+        () => AnimatedContainer(
+          height: _isTransparent ? null : 40,
+          duration: 100.milliseconds,
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          decoration: BoxDecoration(
+            color: Color.lerp(
+              color,
+              Palette.black,
+              onTap != null && hover.value ? 0.1 : 0,
+            ),
+            borderRadius: borderRadius,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [_buildChild()],
+          ),
         ),
       ),
     );
@@ -46,8 +62,8 @@ class ZiggleButton extends StatelessWidget {
       text!,
       style: TextStyle(
         fontSize: fontSize,
-        color: textColor,
-        fontWeight: FontWeight.bold,
+        color: _isTransparent ? Palette.black : textColor,
+        fontWeight: _isTransparent ? FontWeight.normal : FontWeight.bold,
       ),
     );
   }
