@@ -11,6 +11,7 @@ final appTheme = ThemeData(
   scaffoldBackgroundColor: Palette.white,
   appBarTheme: const AppBarTheme(
     backgroundColor: Palette.white,
+    foregroundColor: Palette.black,
     centerTitle: true,
     elevation: 0,
   ),
