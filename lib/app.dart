@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/binding.dart';
 
 import 'app/routes/pages.dart';
 
@@ -11,6 +12,7 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: AppPages.INITIAL,
+      initialBinding: initialBinding,
       getPages: AppPages.routes,
     );
   }
