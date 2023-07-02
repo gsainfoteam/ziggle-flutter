@@ -20,16 +20,20 @@ class WritePage extends GetView<WriteController> {
               : SizedBox(
                   height: 144,
                   child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     clipBehavior: Clip.none,
                     itemCount: controller.images.length + 1,
                     scrollDirection: Axis.horizontal,
                     separatorBuilder: (context, index) =>
                         const SizedBox(width: 4),
                     itemBuilder: (_, index) => index < controller.images.length
-                        ? GalleryItemButton(
-                            file: controller.images[index],
-                            onRemove: () => controller.removeImage(index),
-                          )
+                        ? Obx(() => GalleryItemButton(
+                              file: controller.images[index],
+                              isMain: controller.images[index] ==
+                                  controller.mainImage.value,
+                              onTap: () => controller.setMainImage(index),
+                              onRemove: () => controller.removeImage(index),
+                            ))
                         : SizedBox(
                             width: 144,
                             child: ZiggleButton(
