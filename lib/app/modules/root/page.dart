@@ -5,6 +5,7 @@ import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/modules/home/page.dart';
 import 'package:ziggle/app/modules/root/controller.dart';
+import 'package:ziggle/app/modules/search/page.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
 class RootPage extends GetView<RootController> {
@@ -72,7 +73,7 @@ class RootPage extends GetView<RootController> {
         child: PageView(
           controller: controller.pageController,
           onPageChanged: controller.pageIndex,
-          children: const [HomePage(), HomePage(), HomePage()],
+          children: const [HomePage(), SearchPage(), HomePage()],
         ),
       ),
     );

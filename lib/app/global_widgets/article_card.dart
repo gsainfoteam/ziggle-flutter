@@ -12,21 +12,26 @@ import 'package:ziggle/app/global_widgets/d_day.dart';
 class ArticleCard extends StatelessWidget {
   final ArticleSummaryResponse article;
   final Axis direction;
+  final void Function() onTap;
   const ArticleCard({
     super.key,
     required this.article,
     this.direction = Axis.vertical,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Palette.white,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        boxShadow: frameShadows,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Palette.white,
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          boxShadow: frameShadows,
+        ),
+        child: _buildInner(),
       ),
-      child: _buildInner(),
     );
   }
 

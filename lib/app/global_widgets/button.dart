@@ -10,6 +10,8 @@ class ZiggleButton extends StatelessWidget {
   final Color textColor;
   final double fontSize;
   final Color color;
+  final TextStyle? textStyle;
+  final EdgeInsets? padding;
   bool get _isTransparent => color == Colors.transparent;
 
   const ZiggleButton({
@@ -21,6 +23,8 @@ class ZiggleButton extends StatelessWidget {
     this.textColor = Colors.white,
     this.fontSize = 16,
     this.color = Palette.primaryColor,
+    this.textStyle,
+    this.padding,
   }) : assert(child == null || text == null,
             'Cannot provide both child and text');
 
@@ -34,9 +38,12 @@ class ZiggleButton extends StatelessWidget {
       onTapUp: (_) => hover.value = false,
       child: Obx(
         () => AnimatedContainer(
-          height: _isTransparent ? null : 40,
           duration: 100.milliseconds,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: padding ??
+              EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: _isTransparent ? 0 : 10,
+              ),
           decoration: BoxDecoration(
             color: Color.lerp(
               color,
@@ -60,11 +67,12 @@ class ZiggleButton extends StatelessWidget {
     }
     return Text(
       text!,
-      style: TextStyle(
-        fontSize: fontSize,
-        color: _isTransparent ? Palette.black : textColor,
-        fontWeight: _isTransparent ? FontWeight.normal : FontWeight.bold,
-      ),
+      style: textStyle ??
+          TextStyle(
+            fontSize: fontSize,
+            color: _isTransparent ? Palette.black : textColor,
+            fontWeight: _isTransparent ? FontWeight.normal : FontWeight.bold,
+          ),
     );
   }
 }

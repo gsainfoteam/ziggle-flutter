@@ -38,14 +38,12 @@ class HomePage extends GetView<HomeController> {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: GestureDetector(
+              child: ArticleCard(
+                article: controller.deadlineArticles.value![index],
+                direction: Axis.horizontal,
                 onTap: () => Get.toNamed(Routes.ARTICLE, parameters: {
                   'id': controller.deadlineArticles.value![index].id.toString(),
                 }),
-                child: ArticleCard(
-                  article: controller.deadlineArticles.value![index],
-                  direction: Axis.horizontal,
-                ),
               ),
             );
           },
@@ -68,6 +66,9 @@ class HomePage extends GetView<HomeController> {
       itemCount: controller.hotArticles.value!.length,
       itemBuilder: (context, index) => ArticleCard(
         article: controller.hotArticles.value![index],
+        onTap: () => Get.toNamed(Routes.ARTICLE, parameters: {
+          'id': controller.hotArticles.value![index].id.toString(),
+        }),
       ),
     );
   }
