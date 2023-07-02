@@ -7,7 +7,7 @@ part 'article_summary_response.freezed.dart';
 part 'article_summary_response.g.dart';
 
 @freezed
-class ArticleSummaryResponse {
+class ArticleSummaryResponse with _$ArticleSummaryResponse {
   const factory ArticleSummaryResponse({
     required int id,
     required String title,
@@ -16,6 +16,7 @@ class ArticleSummaryResponse {
     required DateTime? deadline,
     required DateTime createdAt,
     required List<String>? imagesUrl,
+    required List<String> tags,
   }) = _ArticleSummaryResponse;
 
   factory ArticleSummaryResponse.fromJson(Map<String, dynamic> json) =>
@@ -32,5 +33,6 @@ class ArticleSummaryResponse {
           if (Random().nextBool())
             'https://picsum.photos/${Random().nextInt(500) + 100}/${Random().nextInt(500) + 100}'
         ],
+        tags: ['모집', '지붕이', '붕붕붕'],
       );
 }

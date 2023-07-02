@@ -28,6 +28,7 @@ mixin _$ArticleSummaryResponse {
   DateTime? get deadline => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   List<String>? get imagesUrl => throw _privateConstructorUsedError;
+  List<String> get tags => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +49,8 @@ abstract class $ArticleSummaryResponseCopyWith<$Res> {
       int views,
       DateTime? deadline,
       DateTime createdAt,
-      List<String>? imagesUrl});
+      List<String>? imagesUrl,
+      List<String> tags});
 }
 
 /// @nodoc
@@ -72,6 +74,7 @@ class _$ArticleSummaryResponseCopyWithImpl<$Res,
     Object? deadline = freezed,
     Object? createdAt = null,
     Object? imagesUrl = freezed,
+    Object? tags = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -102,6 +105,10 @@ class _$ArticleSummaryResponseCopyWithImpl<$Res,
           ? _value.imagesUrl
           : imagesUrl // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -121,7 +128,8 @@ abstract class _$$_ArticleSummaryResponseCopyWith<$Res>
       int views,
       DateTime? deadline,
       DateTime createdAt,
-      List<String>? imagesUrl});
+      List<String>? imagesUrl,
+      List<String> tags});
 }
 
 /// @nodoc
@@ -143,6 +151,7 @@ class __$$_ArticleSummaryResponseCopyWithImpl<$Res>
     Object? deadline = freezed,
     Object? createdAt = null,
     Object? imagesUrl = freezed,
+    Object? tags = null,
   }) {
     return _then(_$_ArticleSummaryResponse(
       id: null == id
@@ -173,6 +182,10 @@ class __$$_ArticleSummaryResponseCopyWithImpl<$Res>
           ? _value._imagesUrl
           : imagesUrl // ignore: cast_nullable_to_non_nullable
               as List<String>?,
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -187,8 +200,10 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
       required this.views,
       required this.deadline,
       required this.createdAt,
-      required final List<String>? imagesUrl})
-      : _imagesUrl = imagesUrl;
+      required final List<String>? imagesUrl,
+      required final List<String> tags})
+      : _imagesUrl = imagesUrl,
+        _tags = tags;
 
   factory _$_ArticleSummaryResponse.fromJson(Map<String, dynamic> json) =>
       _$$_ArticleSummaryResponseFromJson(json);
@@ -215,9 +230,17 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<String> _tags;
+  @override
+  List<String> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
+
   @override
   String toString() {
-    return 'ArticleSummaryResponse(id: $id, title: $title, author: $author, views: $views, deadline: $deadline, createdAt: $createdAt, imagesUrl: $imagesUrl)';
+    return 'ArticleSummaryResponse(id: $id, title: $title, author: $author, views: $views, deadline: $deadline, createdAt: $createdAt, imagesUrl: $imagesUrl, tags: $tags)';
   }
 
   @override
@@ -234,13 +257,22 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality()
-                .equals(other._imagesUrl, _imagesUrl));
+                .equals(other._imagesUrl, _imagesUrl) &&
+            const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, author, views,
-      deadline, createdAt, const DeepCollectionEquality().hash(_imagesUrl));
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      author,
+      views,
+      deadline,
+      createdAt,
+      const DeepCollectionEquality().hash(_imagesUrl),
+      const DeepCollectionEquality().hash(_tags));
 
   @JsonKey(ignore: true)
   @override
@@ -265,7 +297,8 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
       required final int views,
       required final DateTime? deadline,
       required final DateTime createdAt,
-      required final List<String>? imagesUrl}) = _$_ArticleSummaryResponse;
+      required final List<String>? imagesUrl,
+      required final List<String> tags}) = _$_ArticleSummaryResponse;
 
   factory _ArticleSummaryResponse.fromJson(Map<String, dynamic> json) =
       _$_ArticleSummaryResponse.fromJson;
@@ -284,6 +317,8 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
   DateTime get createdAt;
   @override
   List<String>? get imagesUrl;
+  @override
+  List<String> get tags;
   @override
   @JsonKey(ignore: true)
   _$$_ArticleSummaryResponseCopyWith<_$_ArticleSummaryResponse> get copyWith =>

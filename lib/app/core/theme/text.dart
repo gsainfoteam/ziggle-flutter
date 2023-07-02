@@ -15,6 +15,11 @@ abstract class TextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static const articleCardTitleStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
+
   static const titleTextStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
@@ -34,5 +39,10 @@ abstract class TextStyles {
     color: Palette.white,
     fontSize: 12,
     fontWeight: FontWeight.bold,
+  );
+
+  static const articleCardAuthorStyle = TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.w500,
   );
 }

@@ -20,6 +20,7 @@ _$_ArticleSummaryResponse _$$_ArticleSummaryResponseFromJson(
       imagesUrl: (json['images_url'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$$_ArticleSummaryResponseToJson(
@@ -32,4 +33,5 @@ Map<String, dynamic> _$$_ArticleSummaryResponseToJson(
       'deadline': instance.deadline?.toIso8601String(),
       'created_at': instance.createdAt.toIso8601String(),
       'images_url': instance.imagesUrl,
+      'tags': instance.tags,
     };

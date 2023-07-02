@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ziggle/app/core/theme/text.dart';
+import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/global_widgets/article_tags.dart';
@@ -39,20 +40,7 @@ class ArticleBody extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               DDay(
-                dDay: article.deadline!
-                    .copyWith(
-                        hour: 0,
-                        minute: 0,
-                        second: 0,
-                        millisecond: 0,
-                        microsecond: 0)
-                    .difference(article.createdAt.copyWith(
-                        hour: 0,
-                        minute: 0,
-                        second: 0,
-                        millisecond: 0,
-                        microsecond: 0))
-                    .inDays,
+                dDay: calculateDateDelta(article.createdAt, article.deadline!),
               ),
             ],
           ),
