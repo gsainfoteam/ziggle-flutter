@@ -1,7 +1,12 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ziggle/app/data/enums/article_type.dart';
 
 class WriteController extends GetxController {
+  final title = ''.obs;
+  final hasDeadline = false.obs;
+  final selectedType = Rxn<ArticleType>();
+  final body = ''.obs;
   final images = <XFile>[].obs;
   final mainImage = Rxn<XFile>();
 

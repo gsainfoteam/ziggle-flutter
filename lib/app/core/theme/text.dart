@@ -10,6 +10,11 @@ abstract class TextStyles {
     color: Palette.black,
   );
 
+  static const articleWriterTitleStyle = TextStyle(
+    fontSize: 32,
+    fontWeight: FontWeight.bold,
+  );
+
   static const articleTitleStyle = TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,

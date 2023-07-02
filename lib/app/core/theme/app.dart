@@ -10,6 +10,7 @@ final appTheme = ThemeData(
   brightness: Brightness.light,
   primaryColor: Palette.primaryColor,
   splashFactory: NoSplash.splashFactory,
+  hintColor: Palette.placeholder,
   colorScheme: ColorScheme.fromSeed(seedColor: Palette.primaryColor),
   textTheme: const TextTheme(
     bodyMedium: TextStyles.defaultStyle,
