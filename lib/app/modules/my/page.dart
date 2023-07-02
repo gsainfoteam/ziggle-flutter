@@ -61,7 +61,7 @@ class MyPage extends GetView<MyController> {
         ),
         Text(
           content,
-          style: TextStyles.label.copyWith(color: Palette.secondaryText),
+          style: TextStyles.secondaryLabelStyle,
         ),
       ],
     );

@@ -30,6 +30,12 @@ abstract class TextStyles {
     fontWeight: FontWeight.w500,
   );
 
+  static const secondaryLabelStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Palette.secondaryText,
+  );
+
   static const tagStyle = TextStyle(
     color: Palette.primaryColor,
     fontSize: 10,
