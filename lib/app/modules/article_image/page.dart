@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -31,9 +32,11 @@ class ArticleImagePage extends GetView<ArticleImageController> {
               itemCount: controller.images.length,
               itemBuilder: (context, index) => Hero(
                 tag: index,
-                child: Image.network(
-                  controller.images[index],
+                child: CachedNetworkImage(
+                  imageUrl: controller.images[index],
                   fit: BoxFit.contain,
+                  placeholder: (_, __) =>
+                      const CircularProgressIndicator.adaptive(),
                 ),
               ),
             ),

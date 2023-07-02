@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/values/colors.dart';
@@ -39,7 +40,7 @@ class ArticlePage extends GetView<ArticleController> {
   Widget _buildInner() {
     if (controller.article.value == null) {
       return const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator.adaptive(),
       );
     }
     final article = controller.article.value!;
@@ -130,9 +131,11 @@ class ArticlePage extends GetView<ArticleController> {
             ),
             child: Hero(
               tag: index,
-              child: Image.network(
-                article.imagesUrl![index],
+              child: CachedNetworkImage(
+                imageUrl: article.imagesUrl![index],
                 fit: BoxFit.contain,
+                placeholder: (_, __) =>
+                    const CircularProgressIndicator.adaptive(),
               ),
             ),
           ).paddingSymmetric(horizontal: 50),
