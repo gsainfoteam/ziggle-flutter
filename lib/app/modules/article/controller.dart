@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
+import 'package:ziggle/app/modules/article/repository.dart';
 import 'package:ziggle/app/routes/pages.dart';
 
 class ArticleController extends GetxController {
@@ -11,6 +12,9 @@ class ArticleController extends GetxController {
   final pageController = PageController();
   final page = 1.obs;
   final maxPage = 8;
+  final ArticleRepository repository;
+
+  ArticleController(this.repository);
 
   @override
   void onInit() {
@@ -34,8 +38,9 @@ class ArticleController extends GetxController {
   Future<void> _load() async {
     final id = Get.parameters['id'];
     if (id == null) return;
-    await 1.delay();
-    article.value = ArticleResponse.sample(maxPage);
+    final intId = int.tryParse(id);
+    if (intId == null) return;
+    article.value = await repository.getArticleById(intId);
   }
 
   void onPageChanged(int page) {
