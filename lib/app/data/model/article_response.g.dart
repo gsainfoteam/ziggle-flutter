@@ -19,7 +19,9 @@ _$_ArticleResponse _$$_ArticleResponseFromJson(Map<String, dynamic> json) =>
       imagesUrl: (json['images_url'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              const [],
       author: json['author'] as String,
     );
 

@@ -162,7 +162,7 @@ class WritePage extends GetView<WriteController> {
           child: ZiggleButton(
             text: '공지 미리보기',
             color: Colors.transparent,
-            onTap: () {},
+            onTap: controller.showPreview,
           ),
         ),
         const SizedBox(height: 12),
@@ -171,7 +171,7 @@ class WritePage extends GetView<WriteController> {
           height: 50,
           child: ZiggleButton(
             text: '공지 제출하기',
-            onTap: () {},
+            onTap: controller.submit,
             borderRadius: const BorderRadius.all(Radius.circular(25)),
             fontSize: 20,
           ),

@@ -21,8 +21,10 @@ class ArticleBody extends StatelessWidget {
       children: [
         Text(article.title, style: TextStyles.articleTitleStyle),
         const SizedBox(height: 12),
-        ArticleTags(tags: article.tags),
-        const SizedBox(height: 16),
+        if (article.tags.isNotEmpty) ...[
+          ArticleTags(tags: article.tags),
+          const SizedBox(height: 16),
+        ],
         Row(
           children: [
             _buildTextRich('글쓴이', article.author),
@@ -49,12 +51,14 @@ class ArticleBody extends StatelessWidget {
         _buildTextRich('작성일', DateFormat.yMd().format(article.createdAt)),
         const Divider(
           thickness: 1,
-          height: 50,
+          height: 30,
           color: Palette.placeholder,
         ),
         Html(
           data: article.body,
-          style: {'body': Style(margin: Margins.zero)},
+          style: {
+            'body': Style(margin: Margins.zero),
+          },
           onLinkTap: (url, _, __) => _openUrl(url),
         ),
       ],

@@ -13,10 +13,10 @@ class ArticleResponse with _$ArticleResponse {
     required String title,
     required int views,
     required String body,
-    required DateTime? deadline,
+    DateTime? deadline,
     required DateTime createdAt,
-    required List<String>? imagesUrl,
-    required List<String> tags,
+    List<String>? imagesUrl,
+    @Default([]) List<String> tags,
     required String author,
   }) = _ArticleResponse;
 

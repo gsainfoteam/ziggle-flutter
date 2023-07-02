@@ -208,10 +208,10 @@ class _$_ArticleResponse implements _ArticleResponse {
       required this.title,
       required this.views,
       required this.body,
-      required this.deadline,
+      this.deadline,
       required this.createdAt,
-      required final List<String>? imagesUrl,
-      required final List<String> tags,
+      final List<String>? imagesUrl,
+      final List<String> tags = const [],
       required this.author})
       : _imagesUrl = imagesUrl,
         _tags = tags;
@@ -243,6 +243,7 @@ class _$_ArticleResponse implements _ArticleResponse {
 
   final List<String> _tags;
   @override
+  @JsonKey()
   List<String> get tags {
     if (_tags is EqualUnmodifiableListView) return _tags;
     // ignore: implicit_dynamic_type
@@ -310,10 +311,10 @@ abstract class _ArticleResponse implements ArticleResponse {
       required final String title,
       required final int views,
       required final String body,
-      required final DateTime? deadline,
+      final DateTime? deadline,
       required final DateTime createdAt,
-      required final List<String>? imagesUrl,
-      required final List<String> tags,
+      final List<String>? imagesUrl,
+      final List<String> tags,
       required final String author}) = _$_ArticleResponse;
 
   factory _ArticleResponse.fromJson(Map<String, dynamic> json) =
