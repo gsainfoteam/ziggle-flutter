@@ -1,0 +1,29 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :internal do
+    pubspec = File.read('../../pubspec.yaml')
+    name = pubspec.split('name: ')[1].split("\n")[0]
+    version = pubspec.split('version: ')[1].split("\n")[0]
+    sh("flutter", "build", "ipa", "--obfuscate", "--split-debug-info=debug-info/" + version, "--release")
+    upload_to_testflight(
+      ipa: "../build/ios/ipa/"+name+".ipa"
+    )
+  end
+end
