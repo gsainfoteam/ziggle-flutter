@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/modules/home/controller.dart';
@@ -15,11 +16,12 @@ class HomePage extends GetView<HomeController> {
         const Text('기한 임박').paddingSymmetric(horizontal: 20),
         Obx(_buildDeadlineArticles),
         const Text('요즘 끓는 공지'),
+        Obx(_buildHotArticles),
       ],
     );
   }
 
-  SizedBox _buildDeadlineArticles() {
+  Widget _buildDeadlineArticles() {
     if (controller.deadlineArticles.value == null) {
       return const SizedBox.shrink();
     }
@@ -49,6 +51,24 @@ class HomePage extends GetView<HomeController> {
           },
         );
       }),
+    );
+  }
+
+  Widget _buildHotArticles() {
+    if (controller.hotArticles.value == null) {
+      return const SizedBox.shrink();
+    }
+    return MasonryGridView.count(
+      crossAxisCount: 2,
+      mainAxisSpacing: 15,
+      crossAxisSpacing: 15,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      shrinkWrap: true,
+      itemCount: controller.hotArticles.value!.length,
+      itemBuilder: (context, index) => ArticleCard(
+        article: controller.hotArticles.value![index],
+      ),
     );
   }
 }

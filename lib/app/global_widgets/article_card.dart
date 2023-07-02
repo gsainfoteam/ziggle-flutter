@@ -26,7 +26,13 @@ class ArticleCard extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(20)),
         boxShadow: frameShadows,
       ),
-      child: Row(
+      child: _buildInner(),
+    );
+  }
+
+  Widget _buildInner() {
+    if (direction == Axis.horizontal) {
+      return Row(
         children: [
           if (article.imagesUrl != null && article.imagesUrl!.isNotEmpty)
             ClipRRect(
@@ -42,12 +48,32 @@ class ArticleCard extends StatelessWidget {
               ),
             ),
           Expanded(
-              child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: _buildInfo(),
-          )),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: _buildInfo(),
+            ),
+          ),
         ],
-      ),
+      );
+    }
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: _buildInfo(),
+        ),
+        if (article.imagesUrl != null && article.imagesUrl!.isNotEmpty)
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+            child: CachedNetworkImage(
+              imageUrl: article.imagesUrl![0],
+              fit: BoxFit.cover,
+            ),
+          ),
+      ],
     );
   }
 
@@ -62,8 +88,8 @@ class ArticleCard extends StatelessWidget {
         Text(
           article.title,
           style: TextStyles.articleCardTitleStyle,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
+          maxLines: direction == Axis.horizontal ? 2 : null,
+          overflow: direction == Axis.horizontal ? TextOverflow.ellipsis : null,
         ),
         const SizedBox(height: 2),
         Row(

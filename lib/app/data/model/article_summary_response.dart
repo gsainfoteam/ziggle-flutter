@@ -30,7 +30,7 @@ class ArticleSummaryResponse with _$ArticleSummaryResponse {
         deadline: DateTime.now().add(6.days),
         createdAt: DateTime.now(),
         imagesUrl: [
-          if (Random().nextBool())
+          if (Random().nextDouble() < 0.9)
             'https://picsum.photos/${Random().nextInt(500) + 100}/${Random().nextInt(500) + 100}'
         ],
         tags: ['모집', '지붕이', '붕붕붕'],
