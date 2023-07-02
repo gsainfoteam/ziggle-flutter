@@ -32,11 +32,13 @@ class ArticleImagePage extends GetView<ArticleImageController> {
               itemCount: controller.images.length,
               itemBuilder: (context, index) => Hero(
                 tag: index,
-                child: CachedNetworkImage(
-                  imageUrl: controller.images[index],
-                  fit: BoxFit.contain,
-                  placeholder: (_, __) =>
-                      const CircularProgressIndicator.adaptive(),
+                child: InteractiveViewer(
+                  child: CachedNetworkImage(
+                    imageUrl: controller.images[index],
+                    fit: BoxFit.contain,
+                    placeholder: (_, __) =>
+                        const CircularProgressIndicator.adaptive(),
+                  ),
                 ),
               ),
             ),
