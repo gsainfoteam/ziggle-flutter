@@ -9,6 +9,7 @@ import 'package:ziggle/app/modules/write/article_preview_sheet.dart';
 class WriteController extends GetxController {
   final title = ''.obs;
   final hasDeadline = false.obs;
+  final deadline = DateTime.now().obs;
   final selectedType = Rxn<ArticleType>();
   final body = ''.obs;
   final images = <XFile>[].obs;
@@ -39,6 +40,7 @@ class WriteController extends GetxController {
           body: markdownToHtml(body.value),
           author: '엄준식',
           createdAt: DateTime.now(),
+          deadline: hasDeadline.value ? deadline.value : null,
           views: 0,
         ),
       ),

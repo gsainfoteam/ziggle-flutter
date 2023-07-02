@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/theme/text.dart';
@@ -48,6 +49,24 @@ class WritePage extends GetView<WriteController> {
           ],
         ),
         const SizedBox(height: 10),
+        Obx(
+          () => controller.hasDeadline.value
+              ? Column(
+                  children: [
+                    SizedBox(
+                      height: 144,
+                      child: CupertinoDatePicker(
+                        minimumDate: DateTime.now(),
+                        onDateTimeChanged: controller.deadline,
+                        mode: CupertinoDatePickerMode.date,
+                        dateOrder: DatePickerDateOrder.ymd,
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                  ],
+                )
+              : const SizedBox.shrink(),
+        ),
         const _Label(icon: Icons.sort, label: '분류'),
         const SizedBox(height: 10),
         _buildTypes(),
