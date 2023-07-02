@@ -59,7 +59,7 @@ class ArticleCard extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(12),
           child: _buildInfo(),
         ),
         if (article.imagesUrl != null && article.imagesUrl!.isNotEmpty)
