@@ -55,7 +55,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>ITSAppUsesNonExemptEncryption</key>
-	<true/>
+	<false/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>공지에 사진을 첨부하기 위해 접근 권한이 필요합니다</string>
 </dict>
