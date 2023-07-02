@@ -18,7 +18,6 @@ class ArticlePage extends GetView<ArticleController> {
     return Scaffold(
       appBar: AppBar(
         title: Obx(() => Text(controller.article.value?.title ?? '')),
-        backgroundColor: Colors.white,
         actions: [
           IconButton(
             onPressed: controller.isReminder.toggle,

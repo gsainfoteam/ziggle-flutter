@@ -21,7 +21,7 @@ class ArticleImagePage extends GetView<ArticleImageController> {
           leading: CloseButton(
             onPressed: () => Get.back(result: controller.page.value),
           ),
-          backgroundColor: Palette.black,
+          backgroundColor: Colors.transparent,
           foregroundColor: Palette.white,
         ),
         backgroundColor: Palette.black,

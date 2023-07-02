@@ -16,7 +16,8 @@ final appTheme = ThemeData(
     titleLarge: TextStyles.titleTextStyle,
   ),
   appBarTheme: const AppBarTheme(
-    backgroundColor: Palette.white,
+    backgroundColor: Color(0xb2ffffff),
+    surfaceTintColor: Color(0xb2ffffff),
     foregroundColor: Palette.black,
     centerTitle: true,
     elevation: 0,
