@@ -10,7 +10,11 @@ import 'package:ziggle/app/data/services/user/service.dart';
 final initialBinding = BindingsBuilder(() {
   Get.lazyPut(
     () => ApiProvider(
-      Dio()..interceptors.add(JwtInterceptor(Get.find())),
+      Dio()
+        ..interceptors.addAll([
+          JwtInterceptor(Get.find()),
+          LogInterceptor(logPrint: (obj) => Get.log('dio: $obj')),
+        ]),
     ),
   );
 
