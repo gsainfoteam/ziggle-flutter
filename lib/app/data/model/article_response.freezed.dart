@@ -27,7 +27,9 @@ mixin _$ArticleResponse {
   DateTime? get deadline => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   List<String>? get imagesUrl => throw _privateConstructorUsedError;
-  List<String> get tags => throw _privateConstructorUsedError;
+  List<TagResponse> get tags =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'notExistKeyTemporary')
   String get author => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -50,8 +52,8 @@ abstract class $ArticleResponseCopyWith<$Res> {
       DateTime? deadline,
       DateTime createdAt,
       List<String>? imagesUrl,
-      List<String> tags,
-      String author});
+      List<TagResponse> tags,
+      @JsonKey(name: 'notExistKeyTemporary') String author});
 }
 
 /// @nodoc
@@ -109,7 +111,7 @@ class _$ArticleResponseCopyWithImpl<$Res, $Val extends ArticleResponse>
       tags: null == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<TagResponse>,
       author: null == author
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
@@ -134,8 +136,8 @@ abstract class _$$_ArticleResponseCopyWith<$Res>
       DateTime? deadline,
       DateTime createdAt,
       List<String>? imagesUrl,
-      List<String> tags,
-      String author});
+      List<TagResponse> tags,
+      @JsonKey(name: 'notExistKeyTemporary') String author});
 }
 
 /// @nodoc
@@ -191,7 +193,7 @@ class __$$_ArticleResponseCopyWithImpl<$Res>
       tags: null == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<TagResponse>,
       author: null == author
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
@@ -201,7 +203,8 @@ class __$$_ArticleResponseCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.none)
 class _$_ArticleResponse implements _ArticleResponse {
   const _$_ArticleResponse(
       {required this.id,
@@ -211,8 +214,8 @@ class _$_ArticleResponse implements _ArticleResponse {
       this.deadline,
       required this.createdAt,
       final List<String>? imagesUrl,
-      final List<String> tags = const [],
-      required this.author})
+      final List<TagResponse> tags = const [],
+      @JsonKey(name: 'notExistKeyTemporary') this.author = placeholderUserName})
       : _imagesUrl = imagesUrl,
         _tags = tags;
 
@@ -241,16 +244,18 @@ class _$_ArticleResponse implements _ArticleResponse {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<String> _tags;
+  final List<TagResponse> _tags;
   @override
   @JsonKey()
-  List<String> get tags {
+  List<TagResponse> get tags {
     if (_tags is EqualUnmodifiableListView) return _tags;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_tags);
   }
 
+// ignore: invalid_annotation_target
   @override
+  @JsonKey(name: 'notExistKeyTemporary')
   final String author;
 
   @override
@@ -307,15 +312,16 @@ class _$_ArticleResponse implements _ArticleResponse {
 
 abstract class _ArticleResponse implements ArticleResponse {
   const factory _ArticleResponse(
-      {required final int id,
-      required final String title,
-      required final int views,
-      required final String body,
-      final DateTime? deadline,
-      required final DateTime createdAt,
-      final List<String>? imagesUrl,
-      final List<String> tags,
-      required final String author}) = _$_ArticleResponse;
+          {required final int id,
+          required final String title,
+          required final int views,
+          required final String body,
+          final DateTime? deadline,
+          required final DateTime createdAt,
+          final List<String>? imagesUrl,
+          final List<TagResponse> tags,
+          @JsonKey(name: 'notExistKeyTemporary') final String author}) =
+      _$_ArticleResponse;
 
   factory _ArticleResponse.fromJson(Map<String, dynamic> json) =
       _$_ArticleResponse.fromJson;
@@ -335,8 +341,9 @@ abstract class _ArticleResponse implements ArticleResponse {
   @override
   List<String>? get imagesUrl;
   @override
-  List<String> get tags;
-  @override
+  List<TagResponse> get tags;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'notExistKeyTemporary')
   String get author;
   @override
   @JsonKey(ignore: true)

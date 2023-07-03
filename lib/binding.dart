@@ -13,7 +13,11 @@ final initialBinding = BindingsBuilder(() {
       Dio()
         ..interceptors.addAll([
           JwtInterceptor(Get.find()),
-          LogInterceptor(logPrint: (obj) => Get.log('dio: $obj')),
+          LogInterceptor(
+            logPrint: (obj) => Get.log('dio: $obj'),
+            requestBody: true,
+            responseBody: true,
+          ),
         ]),
     ),
   );

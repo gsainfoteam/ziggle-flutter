@@ -28,7 +28,7 @@ mixin _$ArticleSummaryResponse {
   DateTime? get deadline => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   List<String>? get imagesUrl => throw _privateConstructorUsedError;
-  List<String> get tags => throw _privateConstructorUsedError;
+  List<TagResponse> get tags => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -50,7 +50,7 @@ abstract class $ArticleSummaryResponseCopyWith<$Res> {
       DateTime? deadline,
       DateTime createdAt,
       List<String>? imagesUrl,
-      List<String> tags});
+      List<TagResponse> tags});
 }
 
 /// @nodoc
@@ -108,7 +108,7 @@ class _$ArticleSummaryResponseCopyWithImpl<$Res,
       tags: null == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<TagResponse>,
     ) as $Val);
   }
 }
@@ -129,7 +129,7 @@ abstract class _$$_ArticleSummaryResponseCopyWith<$Res>
       DateTime? deadline,
       DateTime createdAt,
       List<String>? imagesUrl,
-      List<String> tags});
+      List<TagResponse> tags});
 }
 
 /// @nodoc
@@ -185,7 +185,7 @@ class __$$_ArticleSummaryResponseCopyWithImpl<$Res>
       tags: null == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
-              as List<String>,
+              as List<TagResponse>,
     ));
   }
 }
@@ -201,7 +201,7 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
       required this.deadline,
       required this.createdAt,
       required final List<String>? imagesUrl,
-      required final List<String> tags})
+      final List<TagResponse> tags = const []})
       : _imagesUrl = imagesUrl,
         _tags = tags;
 
@@ -230,9 +230,10 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<String> _tags;
+  final List<TagResponse> _tags;
   @override
-  List<String> get tags {
+  @JsonKey()
+  List<TagResponse> get tags {
     if (_tags is EqualUnmodifiableListView) return _tags;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_tags);
@@ -298,7 +299,7 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
       required final DateTime? deadline,
       required final DateTime createdAt,
       required final List<String>? imagesUrl,
-      required final List<String> tags}) = _$_ArticleSummaryResponse;
+      final List<TagResponse> tags}) = _$_ArticleSummaryResponse;
 
   factory _ArticleSummaryResponse.fromJson(Map<String, dynamic> json) =
       _$_ArticleSummaryResponse.fromJson;
@@ -318,7 +319,7 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
   @override
   List<String>? get imagesUrl;
   @override
-  List<String> get tags;
+  List<TagResponse> get tags;
   @override
   @JsonKey(ignore: true)
   _$$_ArticleSummaryResponseCopyWith<_$_ArticleSummaryResponse> get copyWith =>

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/values/strings.dart';
+import 'package:ziggle/app/data/model/tag_response.dart';
 
 part 'article_summary_response.freezed.dart';
 part 'article_summary_response.g.dart';
@@ -17,7 +18,7 @@ class ArticleSummaryResponse with _$ArticleSummaryResponse {
     required DateTime? deadline,
     required DateTime createdAt,
     required List<String>? imagesUrl,
-    required List<String> tags,
+    @Default([]) List<TagResponse> tags,
   }) = _ArticleSummaryResponse;
 
   factory ArticleSummaryResponse.fromJson(Map<String, dynamic> json) =>
@@ -34,6 +35,10 @@ class ArticleSummaryResponse with _$ArticleSummaryResponse {
           if (Random().nextDouble() < 0.9)
             'https://picsum.photos/${Random().nextInt(500) + 100}/${Random().nextInt(500) + 100}'
         ],
-        tags: ['모집', '지붕이', '붕붕붕'],
+        tags: const [
+          TagResponse(id: 0, name: '모집'),
+          TagResponse(id: 0, name: '지붕이'),
+          TagResponse(id: 0, name: '붕붕붕'),
+        ],
       );
 }

@@ -3,12 +3,15 @@ import 'dart:math';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/values/strings.dart';
+import 'package:ziggle/app/data/model/tag_response.dart';
 
 part 'article_response.freezed.dart';
 part 'article_response.g.dart';
 
-@freezed
+@Freezed()
 class ArticleResponse with _$ArticleResponse {
+  // ignore: invalid_annotation_target
+  @JsonSerializable(fieldRename: FieldRename.none)
   const factory ArticleResponse({
     required int id,
     required String title,
@@ -17,8 +20,11 @@ class ArticleResponse with _$ArticleResponse {
     DateTime? deadline,
     required DateTime createdAt,
     List<String>? imagesUrl,
-    @Default([]) List<String> tags,
-    required String author,
+    @Default([]) List<TagResponse> tags,
+    // ignore: invalid_annotation_target
+    @JsonKey(name: 'notExistKeyTemporary')
+    @Default(placeholderUserName)
+    String author,
   }) = _ArticleResponse;
 
   factory ArticleResponse.fromJson(Map<String, dynamic> json) =>
@@ -29,7 +35,11 @@ class ArticleResponse with _$ArticleResponse {
         title: '[하우스연합회🏠] 중고장터 물품 접수안내',
         views: 120,
         author: placeholderUserName,
-        tags: ['자일리톨스톤', '자일리톨돌', '돌'],
+        tags: const [
+          TagResponse(id: 0, name: '자일리톨스톤'),
+          TagResponse(id: 0, name: '자일리톨돌'),
+          TagResponse(id: 0, name: '돌'),
+        ],
         body: '''안녕하세요, 하우스연합회입니다.<br>
 <br>
 작년에 진행한 CCTV 설치 설문조사 결과를 바탕으로, 공용공간 도난 및 이성층 출입을 방지하기 위해 CCTV 설치를 최종 결정하였습니다. <br>

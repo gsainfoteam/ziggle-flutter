@@ -5,6 +5,7 @@ import 'package:ziggle/app/modules/root/controller.dart';
 import 'package:ziggle/app/modules/search/controller.dart';
 import 'package:ziggle/app/modules/search/repository.dart';
 import 'package:ziggle/app/modules/write/controller.dart';
+import 'package:ziggle/app/modules/write/repository.dart';
 
 class RootBinding extends Bindings {
   @override
@@ -12,6 +13,6 @@ class RootBinding extends Bindings {
     Get.lazyPut(() => RootController());
     Get.lazyPut(() => HomeController(HomeRepository()));
     Get.lazyPut(() => SearchController(SearchRepository()));
-    Get.lazyPut(() => WriteController());
+    Get.lazyPut(() => WriteController(WriteRepository(Get.find())));
   }
 }

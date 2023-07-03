@@ -20,7 +20,10 @@ _$_ArticleSummaryResponse _$$_ArticleSummaryResponseFromJson(
       imagesUrl: (json['images_url'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
+      tags: (json['tags'] as List<dynamic>?)
+              ?.map((e) => TagResponse.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$_ArticleSummaryResponseToJson(
