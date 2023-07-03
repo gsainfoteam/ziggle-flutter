@@ -16,7 +16,11 @@ class LoginController extends GetxController {
       );
       final uri = Uri.parse(result);
       final authCode = uri.queryParameters['auth_code'];
-      Get.log('$authCode');
+      if (authCode == null) {
+        Get.snackbar('Error', 'Failed to get auth code');
+        return;
+      }
+      _loginWithCode(authCode);
     } catch (_) {}
   }
 
