@@ -53,29 +53,29 @@ class ArticlePage extends GetView<ArticleController> {
     return Stack(
       children: [
         LayoutBuilder(builder: (context, constraints) {
-          controller.scrollPixel.value = constraints.maxHeight * 0.25;
+          if (controller.scrollPixel.value == 0) {
+            controller.scrollPixel.value = constraints.maxHeight * 0.25;
+          }
           final minHeight = constraints.maxHeight * 0.25;
-          return Obx(
-            () => Container(
-              padding: const EdgeInsets.symmetric(vertical: 15),
-              height: max(
-                constraints.maxHeight - controller.scrollPixel.value,
-                minHeight,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Expanded(child: _buildImageCarousel(article)),
-                  const SizedBox(height: 20),
-                  PageSpinner(
-                    currentPage: controller.page.value,
-                    maxPage: controller.maxPage,
-                    onPageChanged: controller.onPageChanged,
-                  ),
-                ],
-              ),
-            ),
-          );
+          return Obx(() => Container(
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                height: max(
+                  constraints.maxHeight - controller.scrollPixel.value,
+                  minHeight,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(child: _buildImageCarousel(article)),
+                    const SizedBox(height: 20),
+                    PageSpinner(
+                      currentPage: controller.page.value,
+                      maxPage: controller.maxPage,
+                      onPageChanged: controller.onPageChanged,
+                    ),
+                  ],
+                ),
+              ));
         }),
         Obx(
           () => controller.showReminderTooltip.value
