@@ -76,6 +76,7 @@ class ArticleCard extends StatelessWidget {
             child: CachedNetworkImage(
               imageUrl: article.imagesUrl![0],
               fit: BoxFit.cover,
+              width: double.infinity,
             ),
           ),
       ],
