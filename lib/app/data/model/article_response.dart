@@ -21,7 +21,6 @@ class ArticleResponse with _$ArticleResponse {
     required DateTime createdAt,
     List<String>? imagesUrl,
     @Default([]) List<TagResponse> tags,
-    // ignore: invalid_annotation_target
     @JsonKey(name: 'notExistKeyTemporary')
     @Default(placeholderUserName)
     String author,

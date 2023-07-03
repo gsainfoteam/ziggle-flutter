@@ -23,6 +23,7 @@ ArticleSummaryResponse _$ArticleSummaryResponseFromJson(
 mixin _$ArticleSummaryResponse {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  @JsonKey(name: 'notExistKeyTemporary')
   String get author => throw _privateConstructorUsedError;
   int get views => throw _privateConstructorUsedError;
   DateTime? get deadline => throw _privateConstructorUsedError;
@@ -45,7 +46,7 @@ abstract class $ArticleSummaryResponseCopyWith<$Res> {
   $Res call(
       {int id,
       String title,
-      String author,
+      @JsonKey(name: 'notExistKeyTemporary') String author,
       int views,
       DateTime? deadline,
       DateTime createdAt,
@@ -124,7 +125,7 @@ abstract class _$$_ArticleSummaryResponseCopyWith<$Res>
   $Res call(
       {int id,
       String title,
-      String author,
+      @JsonKey(name: 'notExistKeyTemporary') String author,
       int views,
       DateTime? deadline,
       DateTime createdAt,
@@ -191,12 +192,13 @@ class __$$_ArticleSummaryResponseCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.none)
 class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
   const _$_ArticleSummaryResponse(
       {required this.id,
       required this.title,
-      required this.author,
+      @JsonKey(name: 'notExistKeyTemporary') this.author = placeholderUserName,
       required this.views,
       required this.deadline,
       required this.createdAt,
@@ -213,6 +215,7 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
   @override
   final String title;
   @override
+  @JsonKey(name: 'notExistKeyTemporary')
   final String author;
   @override
   final int views;
@@ -294,7 +297,7 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
   const factory _ArticleSummaryResponse(
       {required final int id,
       required final String title,
-      required final String author,
+      @JsonKey(name: 'notExistKeyTemporary') final String author,
       required final int views,
       required final DateTime? deadline,
       required final DateTime createdAt,
@@ -309,6 +312,7 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
   @override
   String get title;
   @override
+  @JsonKey(name: 'notExistKeyTemporary')
   String get author;
   @override
   int get views;

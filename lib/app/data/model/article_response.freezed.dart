@@ -27,8 +27,7 @@ mixin _$ArticleResponse {
   DateTime? get deadline => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   List<String>? get imagesUrl => throw _privateConstructorUsedError;
-  List<TagResponse> get tags =>
-      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  List<TagResponse> get tags => throw _privateConstructorUsedError;
   @JsonKey(name: 'notExistKeyTemporary')
   String get author => throw _privateConstructorUsedError;
 
@@ -253,7 +252,6 @@ class _$_ArticleResponse implements _ArticleResponse {
     return EqualUnmodifiableListView(_tags);
   }
 
-// ignore: invalid_annotation_target
   @override
   @JsonKey(name: 'notExistKeyTemporary')
   final String author;
@@ -342,7 +340,7 @@ abstract class _ArticleResponse implements ArticleResponse {
   List<String>? get imagesUrl;
   @override
   List<TagResponse> get tags;
-  @override // ignore: invalid_annotation_target
+  @override
   @JsonKey(name: 'notExistKeyTemporary')
   String get author;
   @override

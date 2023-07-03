@@ -1,9 +1,12 @@
-import 'package:get/get.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
+import 'package:ziggle/app/data/provider/api.dart';
 
 class HomeRepository {
-  Future<List<ArticleSummaryResponse>> getArticles() => Future.delayed(
-        1.seconds,
-        () => List.generate(4, ArticleSummaryResponse.sample),
-      );
+  final ApiProvider _provider;
+
+  HomeRepository(this._provider);
+
+  Future<List<ArticleSummaryResponse>> getArticles() {
+    return _provider.getNotices();
+  }
 }

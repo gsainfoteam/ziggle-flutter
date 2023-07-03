@@ -46,7 +46,8 @@ class ArticleCard extends StatelessWidget {
                 bottomLeft: Radius.circular(20),
               ),
               child: CachedNetworkImage(
-                imageUrl: article.imagesUrl![0],
+                // imageUrl: article.imagesUrl![0],
+                imageUrl: 'https://picsum.photos/140/170',
                 width: 140,
                 height: 170,
                 fit: BoxFit.cover,
@@ -74,7 +75,8 @@ class ArticleCard extends StatelessWidget {
               bottomRight: Radius.circular(20),
             ),
             child: CachedNetworkImage(
-              imageUrl: article.imagesUrl![0],
+              // imageUrl: article.imagesUrl![0],
+              imageUrl: 'https://picsum.photos/140/170',
               fit: BoxFit.cover,
               width: double.infinity,
             ),

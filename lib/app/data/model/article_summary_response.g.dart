@@ -11,13 +11,13 @@ _$_ArticleSummaryResponse _$$_ArticleSummaryResponseFromJson(
     _$_ArticleSummaryResponse(
       id: json['id'] as int,
       title: json['title'] as String,
-      author: json['author'] as String,
+      author: json['notExistKeyTemporary'] as String? ?? placeholderUserName,
       views: json['views'] as int,
       deadline: json['deadline'] == null
           ? null
           : DateTime.parse(json['deadline'] as String),
-      createdAt: DateTime.parse(json['created_at'] as String),
-      imagesUrl: (json['images_url'] as List<dynamic>?)
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      imagesUrl: (json['imagesUrl'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
       tags: (json['tags'] as List<dynamic>?)
@@ -31,10 +31,10 @@ Map<String, dynamic> _$$_ArticleSummaryResponseToJson(
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
-      'author': instance.author,
+      'notExistKeyTemporary': instance.author,
       'views': instance.views,
       'deadline': instance.deadline?.toIso8601String(),
-      'created_at': instance.createdAt.toIso8601String(),
-      'images_url': instance.imagesUrl,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'imagesUrl': instance.imagesUrl,
       'tags': instance.tags,
     };

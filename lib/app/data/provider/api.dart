@@ -6,6 +6,7 @@ import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/model/article_request.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
+import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/model/login_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
 import 'package:ziggle/app/data/model/user_info_response.dart';
@@ -34,6 +35,12 @@ abstract class ApiProvider {
 
   @POST('/notice')
   Future<ArticleResponse> writeNotice(@Body() ArticleRequest article);
+
+  @GET('/notice/all')
+  Future<List<ArticleSummaryResponse>> getNotices([
+    @Query('offset') int? offset,
+    @Query('limit') int? limit,
+  ]);
 
   @POST('/image/upload')
   @MultiPart()
