@@ -19,28 +19,6 @@ class LoginPage extends GetView<LoginController> {
                   onTap: controller.login,
                   loading: controller.loading.value,
                 )),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    onChanged: controller.code,
-                    maxLength: 10,
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Code',
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Obx(() => ZiggleButton(
-                      text: 'Login with Code',
-                      onTap: controller.loginWithCode,
-                      loading: controller.loading.value,
-                    )),
-              ],
-            ),
           ],
         ).paddingSymmetric(horizontal: 20),
       ),

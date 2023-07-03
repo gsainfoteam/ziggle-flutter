@@ -12,7 +12,7 @@ class LoginController extends GetxController {
     try {
       final result = await FlutterWebAuth2.authenticate(
         url: idpUrl,
-        callbackUrlScheme: 'https',
+        callbackUrlScheme: idpRedirectScheme,
       );
       final uri = Uri.parse(result);
       final authCode = uri.queryParameters['auth_code'];
