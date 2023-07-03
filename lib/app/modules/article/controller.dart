@@ -12,9 +12,9 @@ class ArticleController extends GetxController {
   final pageController = PageController();
   final page = 1.obs;
   final maxPage = 8;
-  final ArticleRepository repository;
+  final ArticleRepository _repository;
 
-  ArticleController(this.repository);
+  ArticleController(this._repository);
 
   @override
   void onInit() {
@@ -40,7 +40,7 @@ class ArticleController extends GetxController {
     if (id == null) return;
     final intId = int.tryParse(id);
     if (intId == null) return;
-    article.value = await repository.getArticleById(intId);
+    article.value = await _repository.getArticleById(intId);
   }
 
   void onPageChanged(int page) {

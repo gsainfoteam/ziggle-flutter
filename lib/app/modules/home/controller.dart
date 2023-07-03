@@ -3,11 +3,11 @@ import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/modules/home/repository.dart';
 
 class HomeController extends GetxController {
-  final HomeRepository repository;
+  final HomeRepository _repository;
   final deadlineArticles = Rxn<List<ArticleSummaryResponse>>();
   final hotArticles = Rxn<List<ArticleSummaryResponse>>();
 
-  HomeController(this.repository);
+  HomeController(this._repository);
 
   @override
   void onInit() {
@@ -16,7 +16,7 @@ class HomeController extends GetxController {
   }
 
   _load() {
-    repository.getArticles().then((v) => deadlineArticles.value = v);
-    repository.getArticles().then((v) => hotArticles.value = v);
+    _repository.getArticles().then((v) => deadlineArticles.value = v);
+    _repository.getArticles().then((v) => hotArticles.value = v);
   }
 }

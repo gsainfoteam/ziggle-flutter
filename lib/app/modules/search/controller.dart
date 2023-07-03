@@ -7,16 +7,17 @@ class SearchController extends GetxController {
   final query = ''.obs;
   final articles = Rxn<List<ArticleSummaryResponse>>();
   final selectedType = Rxn<ArticleType>();
-  final SearchRepository repository;
+  final SearchRepository _repository;
 
-  SearchController(this.repository);
+  SearchController(this._repository);
 
   @override
   void onInit() {
     super.onInit();
     debounce(
       query,
-      (callback) => repository.search(callback).then((v) => articles.value = v),
+      (callback) =>
+          _repository.search(callback).then((v) => articles.value = v),
     );
   }
 }
