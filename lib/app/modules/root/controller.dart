@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/routes/pages.dart';
 
 class RootController extends GetxController {
   final pageIndex = 0.obs;
   final pageController = PageController();
+  final _userService = UserService.to;
+  final name = ''.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _load();
+  }
+
+  _load() async {
+    final user = await _userService.getUserInfo().first;
+    if (user == null) {
+      return;
+    }
+
+    name.value = user.userName;
+  }
 
   @override
   void onClose() {

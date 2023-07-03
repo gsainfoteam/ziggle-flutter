@@ -29,12 +29,12 @@ class RootPage extends GetView<RootController> {
             onTap: controller.goToProfile,
             child: Row(
               children: [
-                Text(
-                  'SUYEON',
-                  style: TextStyles.titleTextStyle.copyWith(
-                    color: Palette.primaryColor,
-                  ),
-                ),
+                Obx(() => Text(
+                      controller.name.value,
+                      style: TextStyles.titleTextStyle.copyWith(
+                        color: Palette.primaryColor,
+                      ),
+                    )),
                 const SizedBox(width: 8),
                 Assets.icons.profile.image(),
               ],
