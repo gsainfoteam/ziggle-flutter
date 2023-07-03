@@ -12,7 +12,7 @@ class ArticlePreviewSheet extends StatelessWidget {
     return DraggableScrollableSheet(
       expand: false,
       initialChildSize: 0.8,
-      minChildSize: 0.8,
+      minChildSize: 0.75,
       builder: (context, controller) => SingleChildScrollView(
         controller: controller,
         child: ArticleBody(article: article),
