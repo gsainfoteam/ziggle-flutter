@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/values/strings.dart';
 
 part 'article_summary_response.freezed.dart';
 part 'article_summary_response.g.dart';
@@ -25,7 +26,7 @@ class ArticleSummaryResponse with _$ArticleSummaryResponse {
   factory ArticleSummaryResponse.sample(int maxPage) => ArticleSummaryResponse(
         id: 1,
         title: '지붕이로 붕붕붕 모두 다 같이 떠나요',
-        author: '홍재정',
+        author: placeholderUserName,
         views: Random().nextInt(200),
         deadline: Random().nextBool() ? null : DateTime.now().add(6.days),
         createdAt: DateTime.now(),

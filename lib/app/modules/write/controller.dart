@@ -3,8 +3,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:markdown/markdown.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
+import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/write/article_preview_sheet.dart';
 
 class WriteController extends GetxController {
@@ -17,6 +19,7 @@ class WriteController extends GetxController {
   final body = ''.obs;
   final images = <XFile>[].obs;
   final mainImage = Rxn<XFile>();
+  late final String _userName;
 
   @override
   void onInit() {
@@ -32,6 +35,10 @@ class WriteController extends GetxController {
         }
       }
     });
+    UserService.to
+        .getUserInfo()
+        .first
+        .then((value) => _userName = value?.userName ?? placeholderUserName);
   }
 
   @override
@@ -63,7 +70,7 @@ class WriteController extends GetxController {
           id: 0,
           title: title.value,
           body: markdownToHtml(body.value),
-          author: '엄준식',
+          author: _userName,
           createdAt: DateTime.now(),
           deadline: hasDeadline.value ? deadline.value : null,
           tags: _tags,

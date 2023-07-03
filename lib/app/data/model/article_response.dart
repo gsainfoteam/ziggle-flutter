@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/values/strings.dart';
 
 part 'article_response.freezed.dart';
 part 'article_response.g.dart';
@@ -27,7 +28,7 @@ class ArticleResponse with _$ArticleResponse {
         id: 1,
         title: '[하우스연합회🏠] 중고장터 물품 접수안내',
         views: 120,
-        author: '엄준식',
+        author: placeholderUserName,
         tags: ['자일리톨스톤', '자일리톨돌', '돌'],
         body: '''안녕하세요, 하우스연합회입니다.<br>
 <br>
