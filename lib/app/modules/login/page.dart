@@ -10,10 +10,37 @@ class LoginPage extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ZiggleButton(
-          text: 'Login with IdP',
-          onTap: controller.login,
-        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ZiggleButton(
+              text: 'Login with IdP',
+              onTap: controller.login,
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    onChanged: controller.code,
+                    maxLength: 10,
+                    decoration: const InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: 'Code',
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ZiggleButton(
+                  text: 'Login with Code',
+                  onTap: controller.loginWithCode,
+                ),
+              ],
+            ),
+          ],
+        ).paddingSymmetric(horizontal: 20),
       ),
     );
   }

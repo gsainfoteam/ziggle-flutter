@@ -1,8 +1,10 @@
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/routes/pages.dart';
+import 'package:ziggle/app/data/services/user/service.dart';
 
 class SplashController extends GetxController {
+  final _userService = UserService.to;
+
   @override
   void onInit() {
     super.onInit();
@@ -10,8 +12,7 @@ class SplashController extends GetxController {
   }
 
   _init() async {
-    await 1.delay();
-    Get.offAllNamed(Routes.LOGIN);
+    await Future.wait([_userService.getUserInfo().first, 1.delay()]);
     FlutterNativeSplash.remove();
   }
 }

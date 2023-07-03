@@ -13,7 +13,7 @@ class _ApiProvider implements ApiProvider {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'api.stg.ziggle.gistory.me';
+    baseUrl ??= 'https://api.stg.ziggle.gistory.me';
   }
 
   final Dio _dio;
@@ -44,6 +44,33 @@ class _ApiProvider implements ApiProvider {
               baseUrl,
             ))));
     final value = LoginResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<UserInfoResponse> userInfo(String userUuid) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'user_uuid': userUuid};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<UserInfoResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/user/info',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = UserInfoResponse.fromJson(_result.data!);
     return value;
   }
 

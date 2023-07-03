@@ -30,13 +30,11 @@ class AppPages {
       name: _Paths.LOGIN,
       page: () => const LoginPage(),
       binding: LoginBinding(),
-      transition: Transition.noTransition,
     ),
     GetPage(
       name: _Paths.ROOT,
       page: () => const RootPage(),
       binding: RootBinding(),
-      transition: Transition.noTransition,
       children: [
         GetPage(
           name: _Paths.MY_PAGE,

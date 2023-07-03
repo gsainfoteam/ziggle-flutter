@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/model/login_response.dart';
+import 'package:ziggle/app/data/model/user_info_response.dart';
 
 part 'api.g.dart';
 
@@ -13,4 +14,7 @@ abstract class ApiProvider {
 
   @GET('/user/login')
   Future<LoginResponse> login(@Query('auth_code') String authCode);
+
+  @GET('/user/info')
+  Future<UserInfoResponse> userInfo(@Query('user_uuid') String userUuid);
 }
