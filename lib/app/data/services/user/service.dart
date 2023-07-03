@@ -18,7 +18,7 @@ class UserService extends GetxService {
   UserService(this._repository, this._tokenRepository) {
     _controller.stream.listen((user) {
       _user = user;
-      Get.toNamed(user == null ? Routes.LOGIN : Routes.ROOT);
+      Get.offAllNamed(user == null ? Routes.LOGIN : Routes.ROOT);
     });
     _tokenRepository.getToken().listen((event) {
       _updateUser();
@@ -37,7 +37,7 @@ class UserService extends GetxService {
   Future<UserInfoResponse?> _updateUser() async {
     final user = await _fetchUserInfo();
     _controller.add(user);
-    _waitFirst.complete();
+    if (!_waitFirst.isCompleted) _waitFirst.complete();
     return user;
   }
 
