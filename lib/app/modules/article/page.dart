@@ -117,7 +117,8 @@ class ArticlePage extends GetView<ArticleController> {
             child: Hero(
               tag: index,
               child: CachedNetworkImage(
-                imageUrl: article.imagesUrl![index],
+                // imageUrl: article.imagesUrl![index],
+                imageUrl: 'https://picsum.photos/200/300',
                 fit: BoxFit.contain,
                 placeholder: (_, __) =>
                     const CircularProgressIndicator.adaptive(),

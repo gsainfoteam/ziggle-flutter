@@ -42,6 +42,9 @@ abstract class ApiProvider {
     @Query('limit') int? limit,
   ]);
 
+  @GET('/notice/{id}')
+  Future<ArticleResponse> getNotice(@Path() int id);
+
   @POST('/image/upload')
   @MultiPart()
   Future<List<String>> uploadImages(@Part(name: 'images') List<File> images);

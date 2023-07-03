@@ -34,7 +34,8 @@ class ArticleImagePage extends GetView<ArticleImageController> {
                 tag: index,
                 child: InteractiveViewer(
                   child: CachedNetworkImage(
-                    imageUrl: controller.images[index],
+                    // imageUrl: controller.images[index],
+                    imageUrl: 'https://picsum.photos/200/300',
                     fit: BoxFit.contain,
                     placeholder: (_, __) =>
                         const CircularProgressIndicator.adaptive(),

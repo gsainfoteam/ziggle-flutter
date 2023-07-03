@@ -223,6 +223,33 @@ class _ApiProvider implements ApiProvider {
   }
 
   @override
+  Future<ArticleResponse> getNotice(int id) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ArticleResponse>(Options(
+      method: 'GET',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              '/notice/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ArticleResponse.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
   Future<List<String>> uploadImages(List<File> images) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
