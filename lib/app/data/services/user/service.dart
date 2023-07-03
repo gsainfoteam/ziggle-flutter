@@ -35,10 +35,15 @@ class UserService extends GetxService {
   }
 
   Future<UserInfoResponse?> _updateUser() async {
-    final user = await _fetchUserInfo();
-    _controller.add(user);
-    if (!_waitFirst.isCompleted) _waitFirst.complete();
-    return user;
+    try {
+      final user = await _fetchUserInfo();
+      _controller.add(user);
+      if (!_waitFirst.isCompleted) _waitFirst.complete();
+      return user;
+    } catch (_) {
+      _controller.add(null);
+      return null;
+    }
   }
 
   Future<UserInfoResponse?> _fetchUserInfo() async {
