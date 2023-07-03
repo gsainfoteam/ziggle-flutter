@@ -7,6 +7,6 @@ class HomeRepository {
   HomeRepository(this._provider);
 
   Future<List<ArticleSummaryResponse>> getArticles() {
-    return _provider.getNotices();
+    return _provider.getNotices().catchError((_) => <ArticleSummaryResponse>[]);
   }
 }

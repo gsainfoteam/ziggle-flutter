@@ -7,6 +7,6 @@ class SearchRepository {
   SearchRepository(this._provider);
 
   Future<List<ArticleSummaryResponse>> search(String query) {
-    return _provider.getNotices();
+    return _provider.getNotices().catchError((_) => <ArticleSummaryResponse>[]);
   }
 }
