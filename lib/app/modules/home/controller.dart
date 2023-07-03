@@ -19,4 +19,16 @@ class HomeController extends GetxController {
     _repository.getArticles().then((v) => deadlineArticles.value = v);
     _repository.getArticles().then((v) => hotArticles.value = v);
   }
+
+  void goToDeadline() {}
+
+  void goToHot() {}
+
+  void goToEvent() {}
+
+  void goToRecruit() {}
+
+  void goToGeneral() {}
+
+  void goToAcademic() {}
 }

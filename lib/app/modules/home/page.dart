@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/theme/text.dart';
+import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/modules/home/controller.dart';
 import 'package:ziggle/app/routes/pages.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -13,12 +16,44 @@ class HomePage extends GetView<HomeController> {
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: 20),
       children: [
-        const Text('기한 임박').paddingSymmetric(horizontal: 20),
+        _buildSectionHeader('🌟 기한 임박', controller.goToDeadline),
+        const SizedBox(height: 8),
         Obx(_buildDeadlineArticles),
-        const Text('요즘 끓는 공지'),
-        Obx(_buildHotArticles),
+        const SizedBox(height: 30),
+        _buildSectionHeader('🔥 요즘 끓는 공지', controller.goToHot),
+        const SizedBox(height: 8),
+        Obx(() => _buildHotArticles(controller.hotArticles)),
+        const SizedBox(height: 30),
+        _buildSectionHeader('🎈 행사', controller.goToEvent),
+        const SizedBox(height: 8),
+        Obx(() => _buildHotArticles(controller.deadlineArticles)),
+        const SizedBox(height: 30),
+        _buildSectionHeader('🎯 모집', controller.goToRecruit),
+        const SizedBox(height: 8),
+        Obx(() => _buildHotArticles(controller.hotArticles)),
+        const SizedBox(height: 30),
+        _buildSectionHeader('🔔 일반', controller.goToGeneral),
+        const SizedBox(height: 8),
+        Obx(() => _buildHotArticles(controller.deadlineArticles)),
+        const SizedBox(height: 30),
+        _buildSectionHeader('🔔 학사공지', controller.goToAcademic),
+        const SizedBox(height: 8),
+        Obx(() => _buildHotArticles(controller.hotArticles)),
       ],
     );
+  }
+
+  Widget _buildSectionHeader(String label, void Function() onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: TextStyles.articleTitleStyle),
+          Assets.icons.rightArrow.image(width: 18, height: 18),
+        ],
+      ),
+    ).paddingSymmetric(horizontal: 20);
   }
 
   Widget _buildDeadlineArticles() {
@@ -52,8 +87,8 @@ class HomePage extends GetView<HomeController> {
     );
   }
 
-  Widget _buildHotArticles() {
-    if (controller.hotArticles.value == null) {
+  Widget _buildHotArticles(Rxn<List<ArticleSummaryResponse>> articles) {
+    if (articles.value == null) {
       return const SizedBox.shrink();
     }
     return MasonryGridView.count(
@@ -63,11 +98,11 @@ class HomePage extends GetView<HomeController> {
       physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: 20),
       shrinkWrap: true,
-      itemCount: controller.hotArticles.value!.length,
+      itemCount: articles.value!.length,
       itemBuilder: (context, index) => ArticleCard(
-        article: controller.hotArticles.value![index],
+        article: articles.value![index],
         onTap: () => Get.toNamed(Routes.ARTICLE, parameters: {
-          'id': controller.hotArticles.value![index].id.toString(),
+          'id': articles.value![index].id.toString(),
         }),
       ),
     );
