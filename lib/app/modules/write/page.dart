@@ -140,7 +140,7 @@ class WritePage extends GetView<WriteController> {
       return ZiggleButton(
         text: '폰에서 사진 선택하기...',
         onTap: controller.selectPhotos,
-      );
+      ).paddingSymmetric(horizontal: 20);
     }
     return SizedBox(
       height: 144,
