@@ -27,7 +27,7 @@ class ArticleSummaryResponse with _$ArticleSummaryResponse {
         title: '지붕이로 붕붕붕 모두 다 같이 떠나요',
         author: '홍재정',
         views: Random().nextInt(200),
-        deadline: DateTime.now().add(6.days),
+        deadline: Random().nextBool() ? null : DateTime.now().add(6.days),
         createdAt: DateTime.now(),
         imagesUrl: [
           if (Random().nextDouble() < 0.9)
