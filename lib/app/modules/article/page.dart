@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
@@ -107,6 +108,15 @@ class ArticlePage extends GetView<ArticleController> {
             ),
           );
         }),
+        Obx(
+          () => controller.showReminderTooltip.value
+              ? Positioned(
+                  top: 0,
+                  right: 20,
+                  child: _Tooltip(controller.closeTooltip),
+                )
+              : const SizedBox.shrink(),
+        ),
         bottomSheet,
       ],
     );
@@ -140,5 +150,71 @@ class ArticlePage extends GetView<ArticleController> {
         ),
       ),
     );
+  }
+}
+
+class _Tooltip extends StatelessWidget {
+  final void Function()? onClose;
+  const _Tooltip(this.onClose);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          width: 12,
+          height: 12,
+          decoration: _TriangleDecoration(),
+        ),
+        Container(
+          padding: const EdgeInsets.only(right: 18),
+          decoration: BoxDecoration(
+            color: Palette.primaryColor,
+            borderRadius: BorderRadius.circular(10) -
+                const BorderRadius.only(topRight: Radius.circular(10)),
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: onClose,
+                icon: const Icon(Icons.close),
+                iconSize: 20,
+                color: Palette.white,
+                padding: EdgeInsets.zero,
+              ),
+              const Text(
+                '알림 설정하면\n마감일 n일 전에 알려줘요!',
+                style: TextStyles.tooltipStyle,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _TriangleDecoration extends Decoration {
+  @override
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) {
+    return _TrianglePainter();
+  }
+}
+
+class _TrianglePainter extends BoxPainter {
+  @override
+  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
+    final paint = Paint()
+      ..color = Palette.primaryColor
+      ..style = PaintingStyle.fill;
+    final bounds = offset & configuration.size!;
+    final path = Path()
+      ..moveTo(bounds.right, bounds.top)
+      ..lineTo(bounds.right, bounds.bottom)
+      ..lineTo(bounds.left, bounds.bottom)
+      ..close();
+    canvas.drawPath(path, paint);
   }
 }

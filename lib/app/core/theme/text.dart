@@ -56,4 +56,10 @@ abstract class TextStyles {
     fontSize: 10,
     fontWeight: FontWeight.w500,
   );
+
+  static const tooltipStyle = TextStyle(
+    color: Palette.white,
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+  );
 }

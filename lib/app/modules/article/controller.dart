@@ -12,6 +12,7 @@ class ArticleController extends GetxController {
   final pageController = PageController();
   final page = 1.obs;
   final maxPage = 8;
+  final showReminderTooltip = true.obs;
   final ArticleRepository _repository;
 
   ArticleController(this._repository);
@@ -61,5 +62,9 @@ class ArticleController extends GetxController {
     );
     if (result == null) return;
     pageController.jumpToPage(result - 1);
+  }
+
+  void closeTooltip() {
+    showReminderTooltip.value = false;
   }
 }
