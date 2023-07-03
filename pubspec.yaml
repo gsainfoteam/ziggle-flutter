@@ -23,6 +23,7 @@ dependencies:
   json_annotation: ^4.8.1
   markdown: ^7.1.0
   retrofit: ^4.0.1
+  textfield_tags: ^2.0.2
   url_launcher: ^6.1.11
 
 dev_dependencies:

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:markdown/markdown.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
@@ -11,9 +12,33 @@ class WriteController extends GetxController {
   final hasDeadline = false.obs;
   final deadline = DateTime.now().obs;
   final selectedType = Rxn<ArticleType>();
+  final textFieldTagsController = TextfieldTagsController();
+  final _tags = <String>[];
   final body = ''.obs;
   final images = <XFile>[].obs;
   final mainImage = Rxn<XFile>();
+
+  @override
+  void onInit() {
+    super.onInit();
+    textFieldTagsController.addListener(() {
+      final tags = textFieldTagsController.getTags ?? [];
+      _tags.clear();
+      for (final tag in tags) {
+        if (_tags.contains(tag)) {
+          textFieldTagsController.removeTag = tag;
+        } else {
+          _tags.add(tag);
+        }
+      }
+    });
+  }
+
+  @override
+  void onClose() {
+    textFieldTagsController.dispose();
+    super.onClose();
+  }
 
   void selectPhotos() async {
     final result = await ImagePicker().pickMultiImage();
@@ -41,6 +66,7 @@ class WriteController extends GetxController {
           author: '엄준식',
           createdAt: DateTime.now(),
           deadline: hasDeadline.value ? deadline.value : null,
+          tags: _tags,
           views: 0,
         ),
       ),

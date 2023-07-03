@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:textfield_tags/textfield_tags.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
@@ -73,8 +74,45 @@ class WritePage extends GetView<WriteController> {
         const SizedBox(height: 20),
         const _Label(icon: Icons.sell, label: '태그 설정'),
         const SizedBox(height: 10),
-        const ZiggleTextFormField(hintText: '태그를 입력하세요 (띄어쓰기로 구분)')
+        _buildTags()
       ],
+    );
+  }
+
+  LayoutBuilder _buildTags() {
+    return LayoutBuilder(
+      builder: (context, constraints) => TextFieldTags(
+        textSeparators: const [' ', ','],
+        textfieldTagsController: controller.textFieldTagsController,
+        inputfieldBuilder: (context, tec, fn, error, onChanged, onSubmitted) =>
+            (context, sc, tags, onTagDelete) => ZiggleTextFormField(
+                  controller: tec,
+                  focusNode: fn,
+                  onChanged: onChanged,
+                  onSubmitted: onSubmitted,
+                  inputDecoration: InputDecoration(
+                    hintText: '태그를 입력하세요 (띄어쓰기로 구분)',
+                    prefixIconConstraints:
+                        BoxConstraints(maxWidth: constraints.maxWidth * 0.6),
+                    prefixIcon: tags.isNotEmpty
+                        ? SingleChildScrollView(
+                            controller: sc,
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: tags
+                                  .map(
+                                    (tag) => Chip(
+                                      label: Text(tag),
+                                      onDeleted: () => onTagDelete(tag),
+                                    ).marginSymmetric(horizontal: 4),
+                                  )
+                                  .toList(),
+                            ),
+                          )
+                        : null,
+                  ),
+                ),
+      ),
     );
   }
 

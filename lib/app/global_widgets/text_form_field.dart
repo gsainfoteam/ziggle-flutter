@@ -6,15 +6,21 @@ class ZiggleTextFormField extends StatelessWidget {
   final int? minLines;
   final int? maxLines;
   final void Function(String)? onChanged;
+  final void Function(String)? onSubmitted;
   final TextEditingController? controller;
+  final InputDecoration? inputDecoration;
+  final FocusNode? focusNode;
 
   const ZiggleTextFormField({
     super.key,
     this.hintText,
     this.minLines,
-    this.maxLines,
+    this.maxLines = 1,
     this.onChanged,
+    this.onSubmitted,
     this.controller,
+    this.inputDecoration,
+    this.focusNode,
   });
 
   @override
@@ -29,9 +35,11 @@ class ZiggleTextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       onChanged: onChanged,
+      onFieldSubmitted: onSubmitted,
       minLines: minLines,
       maxLines: maxLines,
-      decoration: InputDecoration(
+      focusNode: focusNode,
+      decoration: (inputDecoration ?? const InputDecoration()).copyWith(
         hintText: hintText,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
