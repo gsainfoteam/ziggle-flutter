@@ -47,6 +47,8 @@ class MyPage extends GetView<MyController> {
         const SizedBox(height: 25),
         _buildInfoRow('메일', 'suyeonshim@gm.gist.ac.kr'),
         const SizedBox(height: 30),
+        ZiggleButton(text: '로그아웃', onTap: controller.logout),
+        const SizedBox(height: 30),
       ],
     ).paddingSymmetric(horizontal: 38);
   }
