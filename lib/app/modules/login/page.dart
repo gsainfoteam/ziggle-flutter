@@ -14,10 +14,11 @@ class LoginPage extends GetView<LoginController> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ZiggleButton(
-              text: 'Login with IdP',
-              onTap: controller.login,
-            ),
+            Obx(() => ZiggleButton(
+                  text: 'Login with IdP',
+                  onTap: controller.login,
+                  loading: controller.loading.value,
+                )),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -33,10 +34,11 @@ class LoginPage extends GetView<LoginController> {
                   ),
                 ),
                 const SizedBox(width: 8),
-                ZiggleButton(
-                  text: 'Login with Code',
-                  onTap: controller.loginWithCode,
-                ),
+                Obx(() => ZiggleButton(
+                      text: 'Login with Code',
+                      onTap: controller.loginWithCode,
+                      loading: controller.loading.value,
+                    )),
               ],
             ),
           ],

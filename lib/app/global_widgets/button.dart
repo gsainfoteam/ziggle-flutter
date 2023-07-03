@@ -12,6 +12,7 @@ class ZiggleButton extends StatelessWidget {
   final Color color;
   final TextStyle? textStyle;
   final EdgeInsets? padding;
+  final bool loading;
   bool get _isTransparent => color == Colors.transparent;
 
   const ZiggleButton({
@@ -25,6 +26,7 @@ class ZiggleButton extends StatelessWidget {
     this.color = Palette.primaryColor,
     this.textStyle,
     this.padding,
+    this.loading = false,
   }) : assert(child == null || text == null,
             'Cannot provide both child and text');
 
@@ -32,7 +34,7 @@ class ZiggleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final hover = false.obs;
     return GestureDetector(
-      onTap: onTap,
+      onTap: loading ? null : onTap,
       onTapDown: (_) => hover.value = true,
       onTapCancel: () => hover.value = false,
       onTapUp: (_) => hover.value = false,
@@ -48,7 +50,11 @@ class ZiggleButton extends StatelessWidget {
             color: Color.lerp(
               color,
               Palette.black,
-              hover.value && onTap != null ? 0.1 : 0,
+              loading
+                  ? 0.4
+                  : hover.value && onTap != null
+                      ? 0.1
+                      : 0,
             ),
             borderRadius: borderRadius,
           ),
@@ -66,14 +72,32 @@ class ZiggleButton extends StatelessWidget {
     if (text == null) {
       return child ?? const SizedBox.shrink();
     }
-    return Text(
-      text!,
-      style: textStyle ??
-          TextStyle(
-            fontSize: fontSize,
-            color: _isTransparent ? Palette.black : textColor,
-            fontWeight: _isTransparent ? FontWeight.normal : FontWeight.bold,
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.center,
+      children: [
+        Text(
+          text!,
+          style: textStyle ??
+              TextStyle(
+                fontSize: fontSize,
+                color: _isTransparent ? Palette.black : textColor,
+                fontWeight:
+                    _isTransparent ? FontWeight.normal : FontWeight.bold,
+              ),
+        ),
+        if (loading)
+          Positioned.fill(
+            child: LayoutBuilder(builder: (context, constraints) {
+              return Center(
+                child: SizedBox.square(
+                  dimension: constraints.biggest.shortestSide,
+                  child: const CircularProgressIndicator(),
+                ),
+              );
+            }),
           ),
+      ],
     );
   }
 }

@@ -6,6 +6,7 @@ import 'package:ziggle/app/data/services/user/service.dart';
 class LoginController extends GetxController {
   final code = ''.obs;
   final _userService = UserService.to;
+  final loading = false.obs;
 
   void login() async {
     try {
@@ -26,6 +27,11 @@ class LoginController extends GetxController {
       Get.snackbar('Error', 'Code must be 10 characters long');
       return;
     }
-    _userService.loginWithCode(code);
+    loading.value = true;
+    try {
+      await _userService.loginWithCode(code);
+    } catch (_) {
+      loading.value = false;
+    }
   }
 }
