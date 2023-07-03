@@ -53,6 +53,7 @@ class ZiggleButton extends StatelessWidget {
             borderRadius: borderRadius,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [_buildChild()],
           ),
