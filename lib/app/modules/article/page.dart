@@ -7,6 +7,7 @@ import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
+import 'package:ziggle/app/global_widgets/bottom_sheet.dart';
 import 'package:ziggle/app/modules/article/article_body.dart';
 import 'package:ziggle/app/modules/article/controller.dart';
 import 'package:ziggle/app/modules/article/page_spinner.dart';
@@ -49,38 +50,6 @@ class ArticlePage extends GetView<ArticleController> {
     if (!(article.imagesUrl?.isNotEmpty ?? false)) {
       return SingleChildScrollView(child: child);
     }
-    final bottomSheet = DraggableScrollableSheet(
-      controller: controller.scrollController,
-      initialChildSize: 0.25,
-      builder: (context, scrollController) => SingleChildScrollView(
-        clipBehavior: Clip.none,
-        controller: scrollController,
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Palette.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
-            boxShadow: frameShadows,
-          ),
-          child: Column(
-            children: [
-              const SizedBox(height: 8),
-              Container(
-                width: 68,
-                height: 5,
-                decoration: const BoxDecoration(
-                  color: Palette.placeholder,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-              ),
-              child,
-            ],
-          ),
-        ),
-      ),
-    );
     return Stack(
       children: [
         LayoutBuilder(builder: (context, constraints) {
@@ -117,7 +86,15 @@ class ArticlePage extends GetView<ArticleController> {
                 )
               : const SizedBox.shrink(),
         ),
-        bottomSheet,
+        DraggableScrollableSheet(
+          controller: controller.scrollController,
+          initialChildSize: 0.25,
+          builder: (context, scrollController) => SingleChildScrollView(
+            clipBehavior: Clip.none,
+            controller: scrollController,
+            child: ZiggleBottomSheet(child: child),
+          ),
+        ),
       ],
     );
   }

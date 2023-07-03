@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
 
-class BottomSheet extends StatelessWidget {
+class ZiggleBottomSheet extends StatelessWidget {
   final Widget? child;
-  const BottomSheet({super.key, this.child});
+  const ZiggleBottomSheet({super.key, this.child});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
         color: Palette.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
-        ),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
         boxShadow: frameShadows,
       ),
       child: Column(
