@@ -92,7 +92,7 @@ class ZiggleButton extends StatelessWidget {
               return Center(
                 child: SizedBox.square(
                   dimension: constraints.biggest.shortestSide,
-                  child: const CircularProgressIndicator(),
+                  child: const CircularProgressIndicator.adaptive(),
                 ),
               );
             }),
