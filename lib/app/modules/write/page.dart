@@ -33,7 +33,7 @@ class WritePage extends GetView<WriteController> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextFormField(
-          onChanged: controller.title,
+          controller: controller.titleController,
           style: TextStyles.articleWriterTitleStyle,
           decoration: const InputDecoration.collapsed(
             border: OutlineInputBorder(borderSide: BorderSide.none),
@@ -153,7 +153,7 @@ class WritePage extends GetView<WriteController> {
             const _Label(icon: Icons.menu, label: '본문 내용 입력'),
             const SizedBox(height: 10),
             ZiggleTextFormField(
-              onChanged: controller.body,
+              controller: controller.bodyController,
               hintText: '본문 내용을 입력하세요\n마크다운 문법을 지원합니다.',
               minLines: 11,
               maxLines: 20,
@@ -226,12 +226,13 @@ class WritePage extends GetView<WriteController> {
         SizedBox(
           width: 250,
           height: 50,
-          child: ZiggleButton(
-            text: '공지 제출하기',
-            onTap: controller.submit,
-            borderRadius: const BorderRadius.all(Radius.circular(25)),
-            fontSize: 20,
-          ),
+          child: Obx(() => ZiggleButton(
+                text: '공지 제출하기',
+                onTap: controller.submit,
+                loading: controller.loading.value,
+                borderRadius: const BorderRadius.all(Radius.circular(25)),
+                fontSize: 20,
+              )),
         ),
         const SizedBox(height: 12),
         const Text(
