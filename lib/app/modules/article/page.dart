@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
-import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/global_widgets/bottom_sheet.dart';
 import 'package:ziggle/app/modules/article/article_body.dart';
 import 'package:ziggle/app/modules/article/controller.dart';
@@ -47,7 +46,8 @@ class ArticlePage extends GetView<ArticleController> {
     final article = controller.article.value!;
     final child = SafeArea(child: ArticleBody(article: article));
 
-    if (!(article.imagesUrl?.isNotEmpty ?? false)) {
+    final imagesUrls = article.imagesUrl;
+    if (imagesUrls == null || imagesUrls.isEmpty) {
       return SingleChildScrollView(child: child);
     }
     return Stack(
@@ -66,11 +66,11 @@ class ArticlePage extends GetView<ArticleController> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(child: _buildImageCarousel(article)),
+                    Expanded(child: _buildImageCarousel(imagesUrls)),
                     const SizedBox(height: 20),
                     PageSpinner(
                       currentPage: controller.page.value,
-                      maxPage: controller.maxPage,
+                      maxPage: imagesUrls.length,
                       onPageChanged: controller.onPageChanged,
                     ),
                   ],
@@ -99,11 +99,11 @@ class ArticlePage extends GetView<ArticleController> {
     );
   }
 
-  Widget _buildImageCarousel(ArticleResponse article) {
+  Widget _buildImageCarousel(List<String> imageUrls) {
     return PageView.builder(
       clipBehavior: Clip.none,
       controller: controller.pageController,
-      itemCount: controller.maxPage,
+      itemCount: imageUrls.length,
       itemBuilder: (context, index) => Center(
         child: GestureDetector(
           onTap: () => controller.onImageTap(index),
@@ -117,7 +117,7 @@ class ArticlePage extends GetView<ArticleController> {
             child: Hero(
               tag: index,
               child: CachedNetworkImage(
-                // imageUrl: article.imagesUrl![index],
+                // imageUrl: imagesUrls[index],
                 imageUrl: 'https://picsum.photos/200/300',
                 fit: BoxFit.contain,
                 placeholder: (_, __) =>

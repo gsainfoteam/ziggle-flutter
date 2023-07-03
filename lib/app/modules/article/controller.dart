@@ -11,7 +11,6 @@ class ArticleController extends GetxController {
   final scrollPixel = 0.0.obs;
   final pageController = PageController();
   final page = 1.obs;
-  final maxPage = 8;
   final showReminderTooltip = true.obs;
   final ArticleRepository _repository;
 
