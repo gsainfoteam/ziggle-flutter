@@ -45,72 +45,71 @@ class ArticlePage extends GetView<ArticleController> {
     final article = controller.article.value!;
     final child = SafeArea(child: ArticleBody(article: article));
 
-    if (article.imagesUrl?.isNotEmpty ?? false) {
-      final bottomSheet = DraggableScrollableSheet(
-        controller: controller.scrollController,
-        initialChildSize: 0.25,
-        builder: (context, scrollController) => SingleChildScrollView(
-          clipBehavior: Clip.none,
-          controller: scrollController,
-          child: Container(
-            decoration: const BoxDecoration(
-              color: Palette.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
-              ),
-              boxShadow: frameShadows,
-            ),
-            child: Column(
-              children: [
-                const SizedBox(height: 8),
-                Container(
-                  width: 68,
-                  height: 5,
-                  decoration: const BoxDecoration(
-                    color: Palette.placeholder,
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                ),
-                child,
-              ],
-            ),
-          ),
-        ),
-      );
-      return Stack(
-        children: [
-          LayoutBuilder(builder: (context, constraints) {
-            controller.scrollPixel.value = constraints.maxHeight * 0.25;
-            final minHeight = constraints.maxHeight * 0.25;
-            return Obx(
-              () => Container(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                height: max(
-                  constraints.maxHeight - controller.scrollPixel.value,
-                  minHeight,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Expanded(child: _buildImageCarousel(article)),
-                    const SizedBox(height: 20),
-                    PageSpinner(
-                      currentPage: controller.page.value,
-                      maxPage: controller.maxPage,
-                      onPageChanged: controller.onPageChanged,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
-          bottomSheet,
-        ],
-      );
-    } else {
+    if (!(article.imagesUrl?.isNotEmpty ?? false)) {
       return SingleChildScrollView(child: child);
     }
+    final bottomSheet = DraggableScrollableSheet(
+      controller: controller.scrollController,
+      initialChildSize: 0.25,
+      builder: (context, scrollController) => SingleChildScrollView(
+        clipBehavior: Clip.none,
+        controller: scrollController,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: Palette.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+            boxShadow: frameShadows,
+          ),
+          child: Column(
+            children: [
+              const SizedBox(height: 8),
+              Container(
+                width: 68,
+                height: 5,
+                decoration: const BoxDecoration(
+                  color: Palette.placeholder,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+              ),
+              child,
+            ],
+          ),
+        ),
+      ),
+    );
+    return Stack(
+      children: [
+        LayoutBuilder(builder: (context, constraints) {
+          controller.scrollPixel.value = constraints.maxHeight * 0.25;
+          final minHeight = constraints.maxHeight * 0.25;
+          return Obx(
+            () => Container(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              height: max(
+                constraints.maxHeight - controller.scrollPixel.value,
+                minHeight,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Expanded(child: _buildImageCarousel(article)),
+                  const SizedBox(height: 20),
+                  PageSpinner(
+                    currentPage: controller.page.value,
+                    maxPage: controller.maxPage,
+                    onPageChanged: controller.onPageChanged,
+                  ),
+                ],
+              ),
+            ),
+          );
+        }),
+        bottomSheet,
+      ],
+    );
   }
 
   Widget _buildImageCarousel(ArticleResponse article) {

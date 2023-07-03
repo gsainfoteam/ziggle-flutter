@@ -16,9 +16,8 @@ class UserRepository {
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         throw WrongAuthCodeException();
-      } else {
-        rethrow;
       }
+      rethrow;
     }
   }
 
