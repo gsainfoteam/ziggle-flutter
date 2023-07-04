@@ -11,7 +11,7 @@ class ArticleController extends GetxController {
   final scrollPixel = 0.0.obs;
   final pageController = PageController();
   final page = 1.obs;
-  final showReminderTooltip = true.obs;
+  late final showReminderTooltip = _repository.shouldShowReminderTooltip.obs;
   final ArticleRepository _repository;
 
   ArticleController(this._repository);
@@ -65,5 +65,6 @@ class ArticleController extends GetxController {
 
   void closeTooltip() {
     showReminderTooltip.value = false;
+    _repository.hideReminderTooltip();
   }
 }

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/provider/api.dart';
+import 'package:ziggle/app/data/provider/db.dart';
 import 'package:ziggle/app/data/provider/jwt_interceptor.dart';
 import 'package:ziggle/app/data/services/token/repository.dart';
 import 'package:ziggle/app/data/services/user/repository.dart';
@@ -21,6 +22,7 @@ final initialBinding = BindingsBuilder(() {
         ]),
     ),
   );
+  Get.lazyPut(() => DbProvider(), fenix: true);
 
   Get.lazyPut(
     () => const FlutterSecureStorage(
