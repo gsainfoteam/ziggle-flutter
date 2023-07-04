@@ -95,8 +95,8 @@ class HomePage extends GetView<HomeController> {
     if (articles.value == null) {
       return const SizedBox.shrink();
     }
-    return MasonryGridView.count(
-      crossAxisCount: 2,
+    return MasonryGridView.extent(
+      maxCrossAxisExtent: 300,
       mainAxisSpacing: 15,
       crossAxisSpacing: 15,
       physics: const NeverScrollableScrollPhysics(),
