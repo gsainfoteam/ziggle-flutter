@@ -131,10 +131,8 @@ class WriteController extends GetxController {
       Get.toNamed(Routes.ARTICLE, parameters: {'id': result.id.toString()});
       await Get.defaultTransitionDuration.delay();
       _reset();
+    } finally {
       loading.value = false;
-    } catch (_) {
-      loading.value = false;
-      rethrow;
     }
   }
 
