@@ -29,7 +29,11 @@ class WriteRepository {
   }) async {
     final List<dynamic> tagSearchResult = await Future.wait<dynamic>(
       tags.map(
-          (tag) => _provider.getTag(tag).then((v) => v, onError: (_) => tag)),
+        (tag) => _provider
+            .getTag(tag)
+            .then<dynamic>((v) => v)
+            .catchError((_) => tag),
+      ),
     );
     final existTags = tagSearchResult.whereType<TagResponse>().map((e) => e.id);
     final requireToCreateTags = tagSearchResult.whereType<String>();
