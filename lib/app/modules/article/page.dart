@@ -89,10 +89,9 @@ class ArticlePage extends GetView<ArticleController> {
         DraggableScrollableSheet(
           controller: controller.scrollController,
           initialChildSize: 0.25,
-          builder: (context, scrollController) => SingleChildScrollView(
-            clipBehavior: Clip.none,
-            controller: scrollController,
-            child: ZiggleBottomSheet(child: child),
+          builder: (context, scrollController) => ZiggleBottomSheet(
+            scrollController: scrollController,
+            child: child,
           ),
         ),
       ],
