@@ -13,46 +13,52 @@ class SearchPage extends GetView<SearchController> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      clipBehavior: Clip.none,
-      slivers: [
-        SliverAppBar(
-          toolbarHeight: 132,
-          floating: true,
-          backgroundColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(0),
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.white,
-                    Color(0x00ffffff),
-                  ],
-                  begin: Alignment.center,
-                  end: Alignment.bottomCenter,
+    return RefreshIndicator.adaptive(
+      displacement: 150,
+      onRefresh: controller.search,
+      notificationPredicate: (_) => false,
+      key: controller.refreshIndicatorKey,
+      child: CustomScrollView(
+        clipBehavior: Clip.none,
+        slivers: [
+          SliverAppBar(
+            toolbarHeight: 132,
+            floating: true,
+            backgroundColor: Colors.transparent,
+            surfaceTintColor: Colors.transparent,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.white,
+                      Color(0x00ffffff),
+                    ],
+                    begin: Alignment.center,
+                    end: Alignment.bottomCenter,
+                  ),
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 12),
-                  _buildSearchBox(),
-                  const SizedBox(height: 8),
-                  _buildTypes(),
-                  const SizedBox(height: 28),
-                ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 12),
+                    _buildSearchBox(),
+                    const SizedBox(height: 8),
+                    _buildTypes(),
+                    const SizedBox(height: 28),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        Obx(() => controller.articles.value == null
-            ? _buildEnterQuery()
-            : _buildArticles()),
-      ],
+          Obx(() => controller.articles.value == null
+              ? _buildEnterQuery()
+              : _buildArticles()),
+        ],
+      ),
     );
   }
 
