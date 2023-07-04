@@ -38,11 +38,12 @@ class UserService extends GetxService {
     try {
       final user = await _fetchUserInfo();
       _controller.add(user);
-      if (!_waitFirst.isCompleted) _waitFirst.complete();
       return user;
     } catch (_) {
       _controller.add(null);
       return null;
+    } finally {
+      if (!_waitFirst.isCompleted) _waitFirst.complete();
     }
   }
 
