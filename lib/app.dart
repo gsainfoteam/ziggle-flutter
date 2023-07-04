@@ -16,12 +16,15 @@ class App extends StatelessWidget {
       value: const SystemUiOverlayStyle(
         systemNavigationBarColor: Palette.white,
       ),
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        initialRoute: AppPages.INITIAL,
-        initialBinding: initialBinding,
-        getPages: AppPages.routes,
-        theme: appTheme,
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialRoute: AppPages.INITIAL,
+          initialBinding: initialBinding,
+          getPages: AppPages.routes,
+          theme: appTheme,
+        ),
       ),
     );
   }
