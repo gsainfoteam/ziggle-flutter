@@ -5,6 +5,7 @@ import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
+import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_tags.dart';
 import 'package:ziggle/app/global_widgets/d_day.dart';
@@ -46,8 +47,7 @@ class ArticleCard extends StatelessWidget {
                 bottomLeft: Radius.circular(20),
               ),
               child: CachedNetworkImage(
-                // imageUrl: article.imagesUrl![0],
-                imageUrl: 'https://picsum.photos/140/170',
+                imageUrl: s3BaseUrl + article.imagesUrl![0],
                 width: 140,
                 height: 170,
                 fit: BoxFit.cover,
@@ -75,8 +75,7 @@ class ArticleCard extends StatelessWidget {
               bottomRight: Radius.circular(20),
             ),
             child: CachedNetworkImage(
-              // imageUrl: article.imagesUrl![0],
-              imageUrl: 'https://picsum.photos/140/170',
+              imageUrl: s3BaseUrl + article.imagesUrl![0],
               fit: BoxFit.cover,
               width: double.infinity,
             ),

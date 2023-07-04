@@ -7,3 +7,5 @@ const idpUrl = 'https://gistory-idp-fe.pages.dev/'
     '&scheme=$idpRedirectScheme'
     '&staging=true';
 const placeholderUserName = '엄준식';
+const s3BaseUrl =
+    'https://s3.ap-northeast-2.amazonaws.com/gsainfoteam-ziggle-notice-images/';
