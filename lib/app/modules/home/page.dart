@@ -13,33 +13,37 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      children: [
-        _buildSectionHeader('🌟 기한 임박', controller.goToDeadline),
-        const SizedBox(height: 8),
-        Obx(_buildDeadlineArticles),
-        const SizedBox(height: 30),
-        _buildSectionHeader('🔥 요즘 끓는 공지', controller.goToHot),
-        const SizedBox(height: 8),
-        Obx(() => _buildHotArticles(controller.hotArticles)),
-        const SizedBox(height: 30),
-        _buildSectionHeader('🎈 행사', controller.goToEvent),
-        const SizedBox(height: 8),
-        Obx(() => _buildHotArticles(controller.deadlineArticles)),
-        const SizedBox(height: 30),
-        _buildSectionHeader('🎯 모집', controller.goToRecruit),
-        const SizedBox(height: 8),
-        Obx(() => _buildHotArticles(controller.hotArticles)),
-        const SizedBox(height: 30),
-        _buildSectionHeader('🔔 일반', controller.goToGeneral),
-        const SizedBox(height: 8),
-        Obx(() => _buildHotArticles(controller.deadlineArticles)),
-        const SizedBox(height: 30),
-        _buildSectionHeader('🔔 학사공지', controller.goToAcademic),
-        const SizedBox(height: 8),
-        Obx(() => _buildHotArticles(controller.hotArticles)),
-      ],
+    return RefreshIndicator.adaptive(
+      onRefresh: controller.reload,
+      key: controller.refreshIndicatorKey,
+      child: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        children: [
+          _buildSectionHeader('🌟 기한 임박', controller.goToDeadline),
+          const SizedBox(height: 8),
+          Obx(_buildDeadlineArticles),
+          const SizedBox(height: 30),
+          _buildSectionHeader('🔥 요즘 끓는 공지', controller.goToHot),
+          const SizedBox(height: 8),
+          Obx(() => _buildVerticalArticles(controller.hotArticles)),
+          const SizedBox(height: 30),
+          _buildSectionHeader('🎈 행사', controller.goToEvent),
+          const SizedBox(height: 8),
+          Obx(() => _buildVerticalArticles(controller.deadlineArticles)),
+          const SizedBox(height: 30),
+          _buildSectionHeader('🎯 모집', controller.goToRecruit),
+          const SizedBox(height: 8),
+          Obx(() => _buildVerticalArticles(controller.recruitArticles)),
+          const SizedBox(height: 30),
+          _buildSectionHeader('🔔 일반', controller.goToGeneral),
+          const SizedBox(height: 8),
+          Obx(() => _buildVerticalArticles(controller.generalArticles)),
+          const SizedBox(height: 30),
+          _buildSectionHeader('🔔 학사공지', controller.goToAcademic),
+          const SizedBox(height: 8),
+          Obx(() => _buildVerticalArticles(controller.academicArticles)),
+        ],
+      ),
     );
   }
 
@@ -87,7 +91,7 @@ class HomePage extends GetView<HomeController> {
     );
   }
 
-  Widget _buildHotArticles(Rxn<List<ArticleSummaryResponse>> articles) {
+  Widget _buildVerticalArticles(Rxn<List<ArticleSummaryResponse>> articles) {
     if (articles.value == null) {
       return const SizedBox.shrink();
     }
