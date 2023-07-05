@@ -4,3 +4,8 @@ targets:
       json_serializable:
         options:
           field_rename: snake
+
+global_options:
+  json_serializable:
+    runs_before:
+      - retrofit_generator
