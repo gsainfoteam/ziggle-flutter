@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "343325951427",
+    "project_id": "gsainfoteam-ziggle",
+    "storage_bucket": "gsainfoteam-ziggle.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:343325951427:android:d40a3b153cc58d7de6e976",
+        "android_client_info": {
+          "package_name": "com.example.ziggle_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "343325951427-4ctacuhhhjhc5ceq9dgd8heso674a9rc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYByKidHuSzVrbeT5eBeV24KvN7FFpzHY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "343325951427-4ctacuhhhjhc5ceq9dgd8heso674a9rc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
