@@ -57,7 +57,7 @@ class ArticlePage extends GetView<ArticleController> {
           if (controller.scrollPixel.value == 0) {
             controller.scrollPixel.value = constraints.maxHeight * 0.25;
           }
-          final minHeight = constraints.maxHeight * 0.25;
+          final minHeight = constraints.maxHeight * 0.25 + 15 * 2 + 20 + 43;
           return Obx(() => Container(
                 padding: const EdgeInsets.symmetric(vertical: 15),
                 height: max(
