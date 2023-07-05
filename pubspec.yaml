@@ -9,7 +9,9 @@ environment:
 dependencies:
   cached_network_image: ^3.2.3
   dio: ^5.2.1+1
+  firebase_analytics: ^10.4.3
   firebase_core: ^2.14.0
+  firebase_crashlytics: ^3.3.3
   flutter:
     sdk: flutter
   flutter_html: ^3.0.0-beta.2
