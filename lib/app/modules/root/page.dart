@@ -19,10 +19,7 @@ class RootPage extends GetView<RootController> {
         leadingWidth: 80,
         leading: Assets.logo.icon
             .image(alignment: Alignment.centerLeft)
-            .paddingSymmetric(
-              horizontal: 15,
-              vertical: 10,
-            ),
+            .paddingSymmetric(horizontal: 8),
         actions: [
           ZiggleButton(
             color: Colors.transparent,
