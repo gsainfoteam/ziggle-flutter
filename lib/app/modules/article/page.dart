@@ -21,16 +21,18 @@ class ArticlePage extends GetView<ArticleController> {
       appBar: AppBar(
         title: Obx(() => Text(controller.article.value?.title ?? '')),
         actions: [
-          IconButton(
-            onPressed: controller.isReminder.toggle,
-            icon: Obx(
-              () => Icon(
-                Icons.notifications_active,
-                color: controller.isReminder.value
-                    ? Palette.black
-                    : Palette.deselected,
-              ),
-            ),
+          Obx(
+            () => controller.article.value?.deadline == null
+                ? const SizedBox.shrink()
+                : IconButton(
+                    onPressed: controller.isReminder.toggle,
+                    icon: Icon(
+                      Icons.notifications_active,
+                      color: controller.isReminder.value
+                          ? Palette.black
+                          : Palette.deselected,
+                    ),
+                  ),
           ),
         ],
       ),

@@ -40,7 +40,9 @@ class ArticleController extends GetxController {
     if (id == null) return;
     final intId = int.tryParse(id);
     if (intId == null) return;
-    article.value = await _repository.getArticleById(intId);
+    final data = await _repository.getArticleById(intId);
+    article.value = data;
+    showReminderTooltip.value |= data.deadline != null;
   }
 
   void onPageChanged(int page) {
