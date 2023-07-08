@@ -33,7 +33,7 @@ final initialBinding = BindingsBuilder(() {
 
   Get.lazyPut(() => UserRepository(Get.find()));
   Get.lazyPut(() => TokenRepository(Get.find()));
-  Get.put(UserService(Get.find(), Get.find()));
+  Get.lazyPut(() => UserService(Get.find(), Get.find()));
 
   Get.put(FcmProvider());
 });
