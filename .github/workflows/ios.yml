@@ -18,4 +18,5 @@ jobs:
         run: bundle exec fastlane beta
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_PRIVATE_KEY: ./match_key
+          MATCH_GIT_PRIVATE_KEY: ../match_key
+        working-directory: ./ios
