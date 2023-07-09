@@ -12,7 +12,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: write key
-        run: echo "${{ secrets.MATCH_KEY }}" > ./match_key
+        run: |
+          echo "${{ secrets.MATCH_KEY }}" > ./match_key
+          chmod 400 ./match_key
 
       - name: Run fastlane
         run: |
