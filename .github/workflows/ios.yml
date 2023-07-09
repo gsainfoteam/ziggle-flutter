@@ -8,8 +8,15 @@ jobs:
     name: Build and upload
     runs-on: macos-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.MATCH_KEY }}
+
+      - name: write key
+        run: |
+          echo "${{ secrets.MATCH_KEY }}" > ./match_key
+          chmod 400 ./match_key
 
       - uses: subosito/flutter-action@v2
         with:
@@ -19,16 +26,10 @@ jobs:
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
 
-      - name: write key
-        run: |
-          echo "${{ secrets.MATCH_KEY }}" > ./match_key
-          chmod 400 ./match_key
-
       - name: Run fastlane
         run: |
           bundle install
           bundle exec fastlane internal
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_PRIVATE_KEY: ../match_key
         working-directory: ./ios
