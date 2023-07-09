@@ -24,7 +24,7 @@ platform :ios do
     
     setup_ci if ENV['CI']
     sync_code_signing(type: "appstore", readonly: true)
-    sh("flutter", "build", "ipa", "--obfuscate", "--split-debug-info=debug-info/" + version, "--release")
+    sh("flutter", "build", "ipa", "--obfuscate", "--split-debug-info=debug-info/" + version, "--release", "--no-codesign")
     upload_to_testflight(
       ipa: "../build/ios/ipa/"+name+".ipa"
     )
