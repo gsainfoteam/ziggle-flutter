@@ -21,6 +21,8 @@ platform :ios do
     pubspec = File.read('../../pubspec.yaml')
     name = pubspec.split('name: ')[1].split("\n")[0]
     version = pubspec.split('version: ')[1].split("\n")[0]
+    
+    sync_code_signing(type: "appstore", readonly: true)
     sh("flutter", "build", "ipa", "--obfuscate", "--split-debug-info=debug-info/" + version, "--release")
     upload_to_testflight(
       ipa: "../build/ios/ipa/"+name+".ipa"
