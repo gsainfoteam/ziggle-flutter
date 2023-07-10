@@ -23,7 +23,7 @@ platform :ios do
     version = pubspec.split('version: ')[1].split("\n")[0]
     
     setup_ci if ENV['CI']
-    sync_code_signing(type: "appstore", readonly: true)
+    sync_code_signing(type: "appstore", readonly: true) if ENV['CI']
     sh("flutter", "build", "ipa", "--obfuscate", "--split-debug-info=debug-info/" + version, "--release", "--no-codesign")
     upload_to_testflight(
       ipa: "../build/ios/ipa/"+name+".ipa"
