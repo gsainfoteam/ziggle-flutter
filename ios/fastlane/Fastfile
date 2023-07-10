@@ -50,7 +50,7 @@ platform :ios do
       skip_waiting_for_build_processing: ENV['CI'],
     )
     slack(
-      slack_url: ENV['SLACK_URL'],
+      slack_url: ENV['SLACK_WEBHOOK_URL'],
       payload: {
         "Build Date" => Time.now.to_s,
         "Build Number" => build_number,
