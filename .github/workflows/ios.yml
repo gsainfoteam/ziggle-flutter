@@ -31,4 +31,7 @@ jobs:
           bundle exec fastlane internal
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          SLACK_URL: ${{ secrets.SLACK_URL }}
+          SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         working-directory: ./ios
