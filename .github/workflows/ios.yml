@@ -7,6 +7,9 @@ jobs:
   build-and-upload:
     name: Build and upload
     runs-on: macos-latest
+    concurrency:
+      group: staging
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v2
       - uses: shimataro/ssh-key-action@v2
