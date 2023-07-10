@@ -45,10 +45,10 @@ platform :ios do
         "Build Date" => Time.now.to_s,
         "Build Number" => build_number,
       }
-    )
+    ) if ENV['CI']
     Dir["../../debug-info/*.symbols"].each do |file_path|
       upload(file_path)
-    end
+    end if ENV['CI']
   end
 
   def upload(file_path)
