@@ -55,7 +55,7 @@ platform :ios do
     sh(
       "curl",
       "https://slack.com/api/files.upload",
-      "-F", 'token="' + ENV["SLACK_TOKEN"] + '"',
+      "-F", 'token="' + ENV["SLACK_BOT_TOKEN"] + '"',
       "-F", 'channels="' + ENV["SLACK_CHANNEL"] + '"',
       "-F", 'title="' + File.basename(file_path) + '"',
       "-F", 'filename="' + File.basename(file_path) + '"',
