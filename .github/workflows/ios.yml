@@ -2,6 +2,8 @@ name: build and publish to TestFlight
 
 on:
   push:
+    branches:
+      - development
 
 jobs:
   build-and-upload:
@@ -34,7 +36,19 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           APP_STORE_CONNECT_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          SLACK_URL: ${{ secrets.SLACK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
         working-directory: ./ios
+
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        if: ${{ failure() || cancelled() }}
+        with:
+          status: ${{ job.status }}
+          author_name: Github Action Build
+          mention: ${{ secrets.SLACK_MENTION }}}
+          if_mention: 'failure,cancelled'
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
