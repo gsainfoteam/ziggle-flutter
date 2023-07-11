@@ -45,10 +45,14 @@ platform :android do
       skip_upload_images: true,
       skip_upload_screenshots: true,
     )
+    internal_app_url = upload_to_play_store_internal_app_sharing(
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+    )
     slack(
       payload: {
         "Build Date" => Time.now.to_s,
         "Build Number" => build_number,
+        "Internal App" => "<#{internal_app_url}>",
       }
     ) if ENV['CI']
     Dir["../../debug-info/*.symbols"].each do |file_path|
