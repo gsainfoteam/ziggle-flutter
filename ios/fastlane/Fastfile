@@ -1,29 +1,86 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:ios)
 
 platform :ios do
+  desc "Test build"
+  lane :test do
+    setup_ci if ENV['CI']
+    sync_code_signing(type: "appstore", readonly: true)
+    UI.message("Building for testing")
+    File.delete(ipaPathLocal) if File.exist?(ipaPathLocal)
+
+    sh(
+      "flutter", "build", "ipa",
+      "--release",
+      "--export-options-plist=#{exportOptionsFilePath}",
+    )
+    unless File.exist?(ipaPathLocal)
+      UI.user_error!("Build failed")
+    end
+  end
+
   desc "Push a new beta build to TestFlight"
   lane :internal do
-    pubspec = File.read('../../pubspec.yaml')
-    name = pubspec.split('name: ')[1].split("\n")[0]
-    version = pubspec.split('version: ')[1].split("\n")[0]
-    sh("flutter", "build", "ipa", "--obfuscate", "--split-debug-info=debug-info/" + version, "--release")
-    upload_to_testflight(
-      ipa: "../build/ios/ipa/"+name+".ipa"
+    setup_ci if ENV['CI']
+    sync_code_signing(type: "appstore", readonly: true)
+    app_store_connect_api_key(duration: 1200) if ENV['CI']
+
+    pubspec = YAML.load_file("../../pubspec.yaml")
+    version = pubspec["version"]
+    build_number = latest_testflight_build_number + 1
+    version_string = "#{version} (#{build_number})"
+    UI.message("Building #{pubspec["name"]} #{version_string}")
+
+    sh(
+      "flutter", "build", "ipa",
+      "--obfuscate",
+      "--split-debug-info=debug-info",
+      "--release",
+      "--build-number=#{build_number}",
+      "--export-options-plist=#{exportOptionsFilePath}",
     )
+    upload_to_testflight(
+      ipa: ipaPath,
+      skip_waiting_for_build_processing: ENV['CI'],
+    )
+    slack(
+      payload: {
+        "Build Date" => Time.now.to_s,
+        "Build Number" => build_number,
+      }
+    ) if ENV['CI']
+    Dir["../../debug-info/*.symbols"].each do |file_path|
+      upload(file_path, version_string)
+    end if ENV['CI']
+  end
+
+  def upload(file_path, version_string)
+    sh(
+      "curl",
+      "https://slack.com/api/files.upload",
+      "-F", 'token="' + ENV["SLACK_BOT_TOKEN"] + '"',
+      "-F", 'channels="' + ENV["SLACK_CHANNEL"] + '"',
+      "-F", 'title="' + File.basename(file_path) + ' for ' + version_string + '"',
+      "-F", 'filename="' + File.basename(file_path) + '"',
+      "-F", 'file=@' + file_path,
+    )
+  end
+
+  def exportOptionsFilePath
+    exportOptionsFilePath = "#{Tempfile.new('exportOptions').path}.plist"
+    File.write(exportOptionsFilePath, {
+      method: "app-store",
+      uploadBitcode: false,
+      provisioningProfiles: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING],
+    }.to_plist)
+    return exportOptionsFilePath
+  end
+
+  def ipaPath
+    name = get_info_plist_value(path: "./Runner/Info.plist", key: "CFBundleName")
+    return "../build/ios/ipa/#{name}.ipa"
+  end
+
+  def ipaPathLocal
+    return "../#{ipaPath}"
   end
 end
