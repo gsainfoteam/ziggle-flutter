@@ -41,7 +41,6 @@ platform :ios do
       "--release",
       "--build-number=#{build_number}",
       "--export-options-plist=#{exportOptionsFilePath}",
-      "--verbose",
     )
     upload_to_testflight(
       ipa: ipaPath,
