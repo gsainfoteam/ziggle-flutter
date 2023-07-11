@@ -1,0 +1,19 @@
+name: build test ios
+
+on:
+  pull_request:
+    branches:
+      - main
+      - development
+    paths-ignore:
+      - 'ios/**'
+      - 'lib/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+
+jobs:
+  build-and-test:
+    name: Build iOS App and Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required"'
