@@ -48,7 +48,7 @@ jobs:
         with:
           status: ${{ job.status }}
           author_name: Github Action Build
-          mention: ${{ secrets.SLACK_MENTION }}}
+          mention: ${{ secrets.SLACK_MENTION }}
           if_mention: 'failure,cancelled'
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         env:
