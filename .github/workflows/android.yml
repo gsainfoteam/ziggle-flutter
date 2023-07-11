@@ -1,5 +1,8 @@
 name: build and publish to TestFlight
 
+on:
+  push:
+
 jobs:
   build-and-upload:
     name: Build Android App and Upload
