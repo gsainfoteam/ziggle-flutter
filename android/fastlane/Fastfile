@@ -1,0 +1,38 @@
+default_platform(:android)
+
+platform :android do
+  desc "Deploy a new version to the Google Play"
+  lane :internal do
+    version_codes = google_play_track_version_codes(track: "internal")
+    build_number = version_codes.max + 1
+    pubspec = YAML.load_file("../../pubspec.yaml")
+    version_string = "#{pubspec["version"]} (#{build_number})"
+    UI.message("Building #{pubspec["name"]} #{version_string}")
+
+    sh(
+      "flutter", "build", "appbundle",
+      "--obfuscate",
+      "--split-debug-info=debug-info",
+      "--release",
+      "--build-number=#{build_number}",
+    )
+
+    symbols_path = File.expand_path("../../build/app/intermediates/merged_native_libs/release/out/lib")
+    Dir.chdir(symbols_path) do
+      sh("zip", "-r", "native_symbol.zip", ".")
+    end
+
+    upload_to_play_store(
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      track: "internal",
+      release_status: "draft",  # TODO: change to "completed" when ready
+      version_name: version_string,
+      mapping_paths: [
+        "../build/app/outputs/mapping/release/mapping.txt",
+        "#{symbols_path}/native_symbol.zip",
+      ],
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
+end
