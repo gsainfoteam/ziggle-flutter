@@ -20,12 +20,7 @@ platform :ios do
   lane :internal do
     setup_ci if ENV['CI']
     sync_code_signing(type: "appstore", readonly: true) if ENV['CI']
-    app_store_connect_api_key(
-      key_id: ENV['APP_STORE_CONNECT_KEY_ID'],
-      issuer_id: ENV['APP_STORE_CONNECT_ISSUER_ID'],
-      key_content: ENV['APP_STORE_CONNECT_KEY_CONTENT'],
-      duration: 1200,
-    ) if ENV['CI']
+    app_store_connect_api_key(duration: 1200) if ENV['CI']
 
     pubspec = YAML.load_file("../../pubspec.yaml")
     version = pubspec["version"]
@@ -50,7 +45,6 @@ platform :ios do
       skip_waiting_for_build_processing: ENV['CI'],
     )
     slack(
-      slack_url: ENV['SLACK_WEBHOOK_URL'],
       payload: {
         "Build Date" => Time.now.to_s,
         "Build Number" => build_number,
