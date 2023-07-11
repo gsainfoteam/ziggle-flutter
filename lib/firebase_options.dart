@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '343325951427',
     projectId: 'gsainfoteam-ziggle',
     storageBucket: 'gsainfoteam-ziggle.appspot.com',
-    iosClientId: '343325951427-or72df25mic7p6slr09d1sov9sb24h4s.apps.googleusercontent.com',
+    iosClientId:
+        '343325951427-or72df25mic7p6slr09d1sov9sb24h4s.apps.googleusercontent.com',
     iosBundleId: 'me.gistory.ziggle',
   );
 }
