@@ -22,6 +22,7 @@ final initialBinding = BindingsBuilder(() {
           ),
         ]),
     ),
+    fenix: true,
   );
   Get.lazyPut(() => DbProvider(), fenix: true);
 
@@ -29,10 +30,11 @@ final initialBinding = BindingsBuilder(() {
     () => const FlutterSecureStorage(
       aOptions: AndroidOptions(encryptedSharedPreferences: true),
     ),
+    fenix: true,
   );
 
   Get.lazyPut(() => UserRepository(Get.find()));
-  Get.lazyPut(() => TokenRepository(Get.find()));
+  Get.lazyPut(() => TokenRepository(Get.find()), fenix: true);
   Get.lazyPut(() => UserService(Get.find(), Get.find()));
 
   Get.put(FcmProvider());
