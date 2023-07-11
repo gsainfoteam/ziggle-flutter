@@ -25,7 +25,6 @@ platform :android do
     upload_to_play_store(
       aab: "../build/app/outputs/bundle/release/app-release.aab",
       track: "internal",
-      release_status: "draft",  # TODO: change to "completed" when ready
       version_name: version_string,
       mapping_paths: [
         "../build/app/outputs/mapping/release/mapping.txt",
@@ -34,5 +33,14 @@ platform :android do
       skip_upload_images: true,
       skip_upload_screenshots: true,
     )
+    slack(
+      payload: {
+        "Build Date" => Time.now.to_s,
+        "Build Number" => build_number,
+      }
+    ) if ENV['CI']
+    Dir["../../debug-info/*.symbols"].each do |file_path|
+      upload(file_path, version_string)
+    end if ENV['CI']
   end
 end
