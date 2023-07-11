@@ -23,10 +23,16 @@ platform :ios do
     app_store_connect_api_key(duration: 1200) if ENV['CI']
 
     pubspec = YAML.load_file("../../pubspec.yaml")
-    version = pubspec["version"]
     build_number = latest_testflight_build_number + 1
-    version_string = "#{version} (#{build_number})"
+    version_string = "#{pubspec["version"]} (#{build_number})"
     UI.message("Building #{pubspec["name"]} #{version_string}")
+
+    exportOptionsFilePath = "#{Tempfile.new('exportOptions').path}.plist"
+    File.write(exportOptionsFilePath, {
+      method: "app-store",
+      uploadBitcode: false,
+      provisioningProfiles: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING],
+    }.to_plist)
 
     sh(
       "flutter", "build", "ipa",
@@ -49,6 +55,8 @@ platform :ios do
     Dir["../../debug-info/*.symbols"].each do |file_path|
       upload(file_path, version_string)
     end if ENV['CI']
+  ensure
+    File.delete(exportOptionsFilePath) if File.exist?(exportOptionsFilePath)
   end
 
   def upload(file_path, version_string)
@@ -61,16 +69,6 @@ platform :ios do
       "-F", 'filename="' + File.basename(file_path) + '"',
       "-F", 'file=@' + file_path,
     )
-  end
-
-  def exportOptionsFilePath
-    exportOptionsFilePath = "#{Tempfile.new('exportOptions').path}.plist"
-    File.write(exportOptionsFilePath, {
-      method: "app-store",
-      uploadBitcode: false,
-      provisioningProfiles: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING],
-    }.to_plist)
-    return exportOptionsFilePath
   end
 
   def ipaPath
