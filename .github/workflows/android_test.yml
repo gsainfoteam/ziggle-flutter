@@ -1,0 +1,36 @@
+name: build test ios
+
+on:
+  pull_request:
+    branches:
+      - main
+      - development
+    paths:
+      - 'android/**'
+      - 'lib/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+
+jobs:
+  build-and-test:
+    name: Build Android App and Test
+    runs-on: ubuntu-latest
+    concurrency:
+      group: android-test-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+
+      - name: Run fastlane
+        run: |
+          bundle install
+          bundle exec fastlane test
+        working-directory: ./android
