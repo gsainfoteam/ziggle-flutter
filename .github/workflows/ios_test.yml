@@ -1,0 +1,38 @@
+name: build test
+
+on:
+  pull_request:
+    branches:
+      - main
+      - development
+
+jobs:
+  build-and-test:
+    name: Build and test
+    runs-on: macos-latest
+    concurrency:
+      group: ios-test-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.CERTIFICATION_DEPLOY_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.10.5'
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+
+      - name: Run fastlane
+        run: |
+          bundle install
+          bundle exec fastlane internal
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+        working-directory: ./ios
