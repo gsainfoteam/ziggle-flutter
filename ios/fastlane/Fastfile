@@ -4,7 +4,7 @@ platform :ios do
   desc "Push a new beta build to TestFlight"
   lane :internal do
     setup_ci if ENV['CI']
-    sync_code_signing(type: "appstore", readonly: true) if ENV['CI']
+    sync_code_signing(type: "appstore", readonly: true)
     app_store_connect_api_key(duration: 1200) if ENV['CI']
 
     pubspec = YAML.load_file("../../pubspec.yaml")
@@ -18,8 +18,8 @@ platform :ios do
     File.write(exportOptionsFilePath, {
       method: "app-store",
       uploadBitcode: false,
-      provisioningProfiles: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING],
-    }.to_plist)
+      provisioningProfiles: (lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING] if ENV['CI']),
+    }.compact.to_plist)
 
     sh(
       "flutter", "build", "ipa",
@@ -27,7 +27,7 @@ platform :ios do
       "--split-debug-info=debug-info",
       "--release",
       "--build-number=#{build_number}",
-      "--export-options-plist=#{exportOptionsFilePath}"
+      "--export-options-plist=#{exportOptionsFilePath}",
     )
     upload_to_testflight(
       ipa: "../build/ios/ipa/#{name}.ipa",
