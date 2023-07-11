@@ -3,17 +3,15 @@ default_platform(:ios)
 platform :ios do
   desc "Test build"
   lane :test do
-    setup_ci if ENV['CI']
-    sync_code_signing(type: "appstore", readonly: true)
     UI.message("Building for testing")
-    File.delete(ipaPathLocal) if File.exist?(ipaPathLocal)
+    FileUtils.remove_dir(xcarchivePath) if File.directory?(xcarchivePath)
 
     sh(
       "flutter", "build", "ipa",
       "--release",
-      "--export-options-plist=#{exportOptionsFilePath}",
+      "--no-codesign",
     )
-    unless File.exist?(ipaPathLocal)
+    unless File.exist?(xcarchivePath)
       UI.user_error!("Build failed")
     end
   end
@@ -80,7 +78,7 @@ platform :ios do
     return "../build/ios/ipa/#{name}.ipa"
   end
 
-  def ipaPathLocal
-    return "../#{ipaPath}"
+  def xcarchivePath
+    return "../../build/ios/archive/Runner.xcarchive"
   end
 end
