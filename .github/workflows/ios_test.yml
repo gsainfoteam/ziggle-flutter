@@ -5,6 +5,11 @@ on:
     branches:
       - main
       - development
+    files:
+      - 'ios/**'
+      - 'lib/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
 
 jobs:
   build-and-test:
