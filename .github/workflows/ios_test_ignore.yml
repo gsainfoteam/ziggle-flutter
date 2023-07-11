@@ -1,4 +1,4 @@
-name: build test ios
+name: build test ios - ignore
 
 on:
   pull_request:

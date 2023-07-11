@@ -1,4 +1,4 @@
-name: build test ios
+name: build test android
 
 on:
   pull_request:

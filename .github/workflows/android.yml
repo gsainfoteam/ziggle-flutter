@@ -1,4 +1,4 @@
-name: build and publish to TestFlight
+name: build and publish to Play Store
 
 on:
   push:
