@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-upload:
-    name: Build and upload
+    name: Build iOS App and Upload
     runs-on: macos-latest
     concurrency:
       group: staging
