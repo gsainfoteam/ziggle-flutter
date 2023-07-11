@@ -15,8 +15,5 @@ jobs:
   build-and-test:
     name: Build iOS App and Test
     runs-on: ubuntu-latest
-    concurrency:
-      group: ios-test-${{ github.event.pull_request.number }}
-      cancel-in-progress: true
     steps:
       - run: 'echo "No build required"'
