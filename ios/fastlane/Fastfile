@@ -70,8 +70,8 @@ platform :ios do
     File.write(exportOptionsFilePath, {
       method: "app-store",
       uploadBitcode: false,
-      provisioningProfiles: (lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING] if ENV['CI']),
-    }.compact.to_plist)
+      provisioningProfiles: lane_context[SharedValues::MATCH_PROVISIONING_PROFILE_MAPPING],
+    }.to_plist)
     return exportOptionsFilePath
   end
 
