@@ -1,6 +1,18 @@
 default_platform(:android)
 
 platform :android do
+  desc "Test build"
+  lane :test do
+    UI.message("Building for testing")
+    aabPath = "../../build/app/outputs/bundle/release/app-release.aab"
+    FileUtils.remove_dir(aabPath) if File.directory?(aabPath)
+
+    sh("flutter", "build", "appbundle", "--release")
+    unless File.exist?(aabPath)
+      UI.user_error!("Build failed")
+    end
+  end
+
   desc "Deploy a new version to the Google Play"
   lane :internal do
     version_codes = google_play_track_version_codes(track: "internal")
