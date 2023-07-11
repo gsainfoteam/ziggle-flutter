@@ -29,6 +29,10 @@ jobs:
           KEYSTORE: ${{ secrets.KEYSTORE }}
           KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
 
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.0'
+
       - name: Run fastlane
         run: |
           bundle install
