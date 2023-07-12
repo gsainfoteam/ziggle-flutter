@@ -23,4 +23,6 @@ class UserRepository {
 
   Future<UserInfoResponse> userInfo(String userUuid) =>
       _provider.userInfo(userUuid);
+
+  Future updateFcmToken(String fcmToken) => _provider.updateFcmToken(fcmToken);
 }
