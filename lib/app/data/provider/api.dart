@@ -25,7 +25,7 @@ abstract class ApiProvider {
   Future<UserInfoResponse> userInfo(@Query('user_uuid') String userUuid);
 
   @POST('/user/fcm')
-  Future updateFcmToken(@Query('fcm_token') String fcmToken);
+  Future updateFcmToken(@Field('fcm_token') String fcmToken);
 
   @POST('/tag')
   Future<TagResponse> createTag(@Field() String name);
