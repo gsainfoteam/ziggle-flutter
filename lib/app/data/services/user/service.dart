@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/model/user_info_response.dart';
+import 'package:ziggle/app/data/provider/fcm.dart';
 import 'package:ziggle/app/data/services/token/repository.dart';
 import 'package:ziggle/app/data/services/user/repository.dart';
 import 'package:ziggle/app/routes/pages.dart';
@@ -11,17 +12,24 @@ class UserService extends GetxService {
   static UserService get to => Get.find();
   final UserRepository _repository;
   final TokenRepository _tokenRepository;
+  final FcmProvider _fcmProvider;
   UserInfoResponse? _user;
   final _controller = StreamController<UserInfoResponse?>.broadcast();
   final _waitFirst = Completer<void>();
 
-  UserService(this._repository, this._tokenRepository) {
+  UserService(this._repository, this._tokenRepository, this._fcmProvider) {
     _controller.stream.listen((user) {
       _user = user;
       Get.offAllNamed(user == null ? Routes.LOGIN : Routes.ROOT);
     });
     _tokenRepository.getToken().listen((event) {
       _updateUser();
+    });
+    _fcmProvider.getFcmToken().listen((event) async {
+      if (event == null) return;
+
+      await getUserInfo().firstWhere((user) => user != null);
+      await _repository.updateFcmToken(event);
     });
   }
 
