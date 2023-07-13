@@ -24,7 +24,12 @@ class FcmProvider {
     }
     final fcmToken = await instance.getToken();
     _controller.add(fcmToken);
-    FirebaseMessaging.instance.onTokenRefresh.listen(_controller.add);
+    instance.onTokenRefresh.listen(_controller.add);
+    instance.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   }
 
   Stream<String?> getFcmToken() async* {
