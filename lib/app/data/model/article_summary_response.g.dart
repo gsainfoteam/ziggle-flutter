@@ -11,6 +11,7 @@ _$_ArticleSummaryResponse _$$_ArticleSummaryResponseFromJson(
     _$_ArticleSummaryResponse(
       id: json['id'] as int,
       title: json['title'] as String,
+      body: json['body'] as String,
       author: json['author'] as String,
       views: json['views'] as int,
       deadline: json['deadline'] == null
@@ -29,6 +30,7 @@ Map<String, dynamic> _$$_ArticleSummaryResponseToJson(
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'body': instance.body,
       'author': instance.author,
       'views': instance.views,
       'deadline': instance.deadline?.toIso8601String(),

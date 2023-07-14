@@ -11,6 +11,7 @@ class ArticleSummaryResponse with _$ArticleSummaryResponse {
   const factory ArticleSummaryResponse({
     required int id,
     required String title,
+    required String body,
     required String author,
     required int views,
     required DateTime? deadline,

@@ -23,6 +23,7 @@ ArticleSummaryResponse _$ArticleSummaryResponseFromJson(
 mixin _$ArticleSummaryResponse {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String get body => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
   int get views => throw _privateConstructorUsedError;
   DateTime? get deadline => throw _privateConstructorUsedError;
@@ -45,6 +46,7 @@ abstract class $ArticleSummaryResponseCopyWith<$Res> {
   $Res call(
       {int id,
       String title,
+      String body,
       String author,
       int views,
       DateTime? deadline,
@@ -69,6 +71,7 @@ class _$ArticleSummaryResponseCopyWithImpl<$Res,
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? body = null,
     Object? author = null,
     Object? views = null,
     Object? deadline = freezed,
@@ -84,6 +87,10 @@ class _$ArticleSummaryResponseCopyWithImpl<$Res,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      body: null == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
               as String,
       author: null == author
           ? _value.author
@@ -124,6 +131,7 @@ abstract class _$$_ArticleSummaryResponseCopyWith<$Res>
   $Res call(
       {int id,
       String title,
+      String body,
       String author,
       int views,
       DateTime? deadline,
@@ -146,6 +154,7 @@ class __$$_ArticleSummaryResponseCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? body = null,
     Object? author = null,
     Object? views = null,
     Object? deadline = freezed,
@@ -161,6 +170,10 @@ class __$$_ArticleSummaryResponseCopyWithImpl<$Res>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      body: null == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
               as String,
       author: null == author
           ? _value.author
@@ -197,6 +210,7 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
   const _$_ArticleSummaryResponse(
       {required this.id,
       required this.title,
+      required this.body,
       required this.author,
       required this.views,
       required this.deadline,
@@ -212,6 +226,8 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
   final int id;
   @override
   final String title;
+  @override
+  final String body;
   @override
   final String author;
   @override
@@ -233,7 +249,7 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
 
   @override
   String toString() {
-    return 'ArticleSummaryResponse(id: $id, title: $title, author: $author, views: $views, deadline: $deadline, createdAt: $createdAt, imageUrl: $imageUrl, tags: $tags)';
+    return 'ArticleSummaryResponse(id: $id, title: $title, body: $body, author: $author, views: $views, deadline: $deadline, createdAt: $createdAt, imageUrl: $imageUrl, tags: $tags)';
   }
 
   @override
@@ -243,6 +259,7 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
             other is _$_ArticleSummaryResponse &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.body, body) || other.body == body) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.views, views) || other.views == views) &&
             (identical(other.deadline, deadline) ||
@@ -260,6 +277,7 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
       runtimeType,
       id,
       title,
+      body,
       author,
       views,
       deadline,
@@ -286,6 +304,7 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
   const factory _ArticleSummaryResponse(
       {required final int id,
       required final String title,
+      required final String body,
       required final String author,
       required final int views,
       required final DateTime? deadline,
@@ -300,6 +319,8 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
   int get id;
   @override
   String get title;
+  @override
+  String get body;
   @override
   String get author;
   @override
