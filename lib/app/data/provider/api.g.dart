@@ -23,7 +23,7 @@ class _ApiProvider implements ApiProvider {
   @override
   Future<LoginResponse> login(String authCode) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'auth_code': authCode};
+    final queryParameters = <String, dynamic>{r'code': authCode};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio

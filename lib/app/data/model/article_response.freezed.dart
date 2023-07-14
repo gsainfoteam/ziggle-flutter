@@ -28,7 +28,6 @@ mixin _$ArticleResponse {
   DateTime get createdAt => throw _privateConstructorUsedError;
   List<String>? get imagesUrl => throw _privateConstructorUsedError;
   List<TagResponse> get tags => throw _privateConstructorUsedError;
-  @JsonKey(name: 'notExistKeyTemporary')
   String get author => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -52,7 +51,7 @@ abstract class $ArticleResponseCopyWith<$Res> {
       DateTime createdAt,
       List<String>? imagesUrl,
       List<TagResponse> tags,
-      @JsonKey(name: 'notExistKeyTemporary') String author});
+      String author});
 }
 
 /// @nodoc
@@ -136,7 +135,7 @@ abstract class _$$_ArticleResponseCopyWith<$Res>
       DateTime createdAt,
       List<String>? imagesUrl,
       List<TagResponse> tags,
-      @JsonKey(name: 'notExistKeyTemporary') String author});
+      String author});
 }
 
 /// @nodoc
@@ -214,7 +213,7 @@ class _$_ArticleResponse implements _ArticleResponse {
       required this.createdAt,
       final List<String>? imagesUrl,
       final List<TagResponse> tags = const [],
-      @JsonKey(name: 'notExistKeyTemporary') this.author = placeholderUserName})
+      required this.author})
       : _imagesUrl = imagesUrl,
         _tags = tags;
 
@@ -253,7 +252,6 @@ class _$_ArticleResponse implements _ArticleResponse {
   }
 
   @override
-  @JsonKey(name: 'notExistKeyTemporary')
   final String author;
 
   @override
@@ -310,16 +308,15 @@ class _$_ArticleResponse implements _ArticleResponse {
 
 abstract class _ArticleResponse implements ArticleResponse {
   const factory _ArticleResponse(
-          {required final int id,
-          required final String title,
-          required final int views,
-          required final String body,
-          final DateTime? deadline,
-          required final DateTime createdAt,
-          final List<String>? imagesUrl,
-          final List<TagResponse> tags,
-          @JsonKey(name: 'notExistKeyTemporary') final String author}) =
-      _$_ArticleResponse;
+      {required final int id,
+      required final String title,
+      required final int views,
+      required final String body,
+      final DateTime? deadline,
+      required final DateTime createdAt,
+      final List<String>? imagesUrl,
+      final List<TagResponse> tags,
+      required final String author}) = _$_ArticleResponse;
 
   factory _ArticleResponse.fromJson(Map<String, dynamic> json) =
       _$_ArticleResponse.fromJson;
@@ -341,7 +338,6 @@ abstract class _ArticleResponse implements ArticleResponse {
   @override
   List<TagResponse> get tags;
   @override
-  @JsonKey(name: 'notExistKeyTemporary')
   String get author;
   @override
   @JsonKey(ignore: true)

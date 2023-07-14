@@ -23,12 +23,12 @@ ArticleSummaryResponse _$ArticleSummaryResponseFromJson(
 mixin _$ArticleSummaryResponse {
   int get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
-  @JsonKey(name: 'notExistKeyTemporary')
+  String get body => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
   int get views => throw _privateConstructorUsedError;
   DateTime? get deadline => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
-  List<String>? get imagesUrl => throw _privateConstructorUsedError;
+  String? get imageUrl => throw _privateConstructorUsedError;
   List<TagResponse> get tags => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,11 +46,12 @@ abstract class $ArticleSummaryResponseCopyWith<$Res> {
   $Res call(
       {int id,
       String title,
-      @JsonKey(name: 'notExistKeyTemporary') String author,
+      String body,
+      String author,
       int views,
       DateTime? deadline,
       DateTime createdAt,
-      List<String>? imagesUrl,
+      String? imageUrl,
       List<TagResponse> tags});
 }
 
@@ -70,11 +71,12 @@ class _$ArticleSummaryResponseCopyWithImpl<$Res,
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? body = null,
     Object? author = null,
     Object? views = null,
     Object? deadline = freezed,
     Object? createdAt = null,
-    Object? imagesUrl = freezed,
+    Object? imageUrl = freezed,
     Object? tags = null,
   }) {
     return _then(_value.copyWith(
@@ -85,6 +87,10 @@ class _$ArticleSummaryResponseCopyWithImpl<$Res,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      body: null == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
               as String,
       author: null == author
           ? _value.author
@@ -102,10 +108,10 @@ class _$ArticleSummaryResponseCopyWithImpl<$Res,
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      imagesUrl: freezed == imagesUrl
-          ? _value.imagesUrl
-          : imagesUrl // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       tags: null == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -125,11 +131,12 @@ abstract class _$$_ArticleSummaryResponseCopyWith<$Res>
   $Res call(
       {int id,
       String title,
-      @JsonKey(name: 'notExistKeyTemporary') String author,
+      String body,
+      String author,
       int views,
       DateTime? deadline,
       DateTime createdAt,
-      List<String>? imagesUrl,
+      String? imageUrl,
       List<TagResponse> tags});
 }
 
@@ -147,11 +154,12 @@ class __$$_ArticleSummaryResponseCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? body = null,
     Object? author = null,
     Object? views = null,
     Object? deadline = freezed,
     Object? createdAt = null,
-    Object? imagesUrl = freezed,
+    Object? imageUrl = freezed,
     Object? tags = null,
   }) {
     return _then(_$_ArticleSummaryResponse(
@@ -162,6 +170,10 @@ class __$$_ArticleSummaryResponseCopyWithImpl<$Res>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      body: null == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
               as String,
       author: null == author
           ? _value.author
@@ -179,10 +191,10 @@ class __$$_ArticleSummaryResponseCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
-      imagesUrl: freezed == imagesUrl
-          ? _value._imagesUrl
-          : imagesUrl // ignore: cast_nullable_to_non_nullable
-              as List<String>?,
+      imageUrl: freezed == imageUrl
+          ? _value.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String?,
       tags: null == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -198,14 +210,14 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
   const _$_ArticleSummaryResponse(
       {required this.id,
       required this.title,
-      @JsonKey(name: 'notExistKeyTemporary') this.author = placeholderUserName,
+      required this.body,
+      required this.author,
       required this.views,
       required this.deadline,
       required this.createdAt,
-      required final List<String>? imagesUrl,
+      required this.imageUrl,
       final List<TagResponse> tags = const []})
-      : _imagesUrl = imagesUrl,
-        _tags = tags;
+      : _tags = tags;
 
   factory _$_ArticleSummaryResponse.fromJson(Map<String, dynamic> json) =>
       _$$_ArticleSummaryResponseFromJson(json);
@@ -215,7 +227,8 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
   @override
   final String title;
   @override
-  @JsonKey(name: 'notExistKeyTemporary')
+  final String body;
+  @override
   final String author;
   @override
   final int views;
@@ -223,16 +236,8 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
   final DateTime? deadline;
   @override
   final DateTime createdAt;
-  final List<String>? _imagesUrl;
   @override
-  List<String>? get imagesUrl {
-    final value = _imagesUrl;
-    if (value == null) return null;
-    if (_imagesUrl is EqualUnmodifiableListView) return _imagesUrl;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  final String? imageUrl;
   final List<TagResponse> _tags;
   @override
   @JsonKey()
@@ -244,7 +249,7 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
 
   @override
   String toString() {
-    return 'ArticleSummaryResponse(id: $id, title: $title, author: $author, views: $views, deadline: $deadline, createdAt: $createdAt, imagesUrl: $imagesUrl, tags: $tags)';
+    return 'ArticleSummaryResponse(id: $id, title: $title, body: $body, author: $author, views: $views, deadline: $deadline, createdAt: $createdAt, imageUrl: $imageUrl, tags: $tags)';
   }
 
   @override
@@ -254,14 +259,15 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
             other is _$_ArticleSummaryResponse &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.body, body) || other.body == body) &&
             (identical(other.author, author) || other.author == author) &&
             (identical(other.views, views) || other.views == views) &&
             (identical(other.deadline, deadline) ||
                 other.deadline == deadline) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
-            const DeepCollectionEquality()
-                .equals(other._imagesUrl, _imagesUrl) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
@@ -271,11 +277,12 @@ class _$_ArticleSummaryResponse implements _ArticleSummaryResponse {
       runtimeType,
       id,
       title,
+      body,
       author,
       views,
       deadline,
       createdAt,
-      const DeepCollectionEquality().hash(_imagesUrl),
+      imageUrl,
       const DeepCollectionEquality().hash(_tags));
 
   @JsonKey(ignore: true)
@@ -297,11 +304,12 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
   const factory _ArticleSummaryResponse(
       {required final int id,
       required final String title,
-      @JsonKey(name: 'notExistKeyTemporary') final String author,
+      required final String body,
+      required final String author,
       required final int views,
       required final DateTime? deadline,
       required final DateTime createdAt,
-      required final List<String>? imagesUrl,
+      required final String? imageUrl,
       final List<TagResponse> tags}) = _$_ArticleSummaryResponse;
 
   factory _ArticleSummaryResponse.fromJson(Map<String, dynamic> json) =
@@ -312,7 +320,8 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
   @override
   String get title;
   @override
-  @JsonKey(name: 'notExistKeyTemporary')
+  String get body;
+  @override
   String get author;
   @override
   int get views;
@@ -321,7 +330,7 @@ abstract class _ArticleSummaryResponse implements ArticleSummaryResponse {
   @override
   DateTime get createdAt;
   @override
-  List<String>? get imagesUrl;
+  String? get imageUrl;
   @override
   List<TagResponse> get tags;
   @override

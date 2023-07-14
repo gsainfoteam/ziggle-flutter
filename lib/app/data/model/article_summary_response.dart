@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
 
 part 'article_summary_response.freezed.dart';
@@ -12,13 +11,12 @@ class ArticleSummaryResponse with _$ArticleSummaryResponse {
   const factory ArticleSummaryResponse({
     required int id,
     required String title,
-    @JsonKey(name: 'notExistKeyTemporary')
-    @Default(placeholderUserName)
-    String author,
+    required String body,
+    required String author,
     required int views,
     required DateTime? deadline,
     required DateTime createdAt,
-    required List<String>? imagesUrl,
+    required String? imageUrl,
     @Default([]) List<TagResponse> tags,
   }) = _ArticleSummaryResponse;
 

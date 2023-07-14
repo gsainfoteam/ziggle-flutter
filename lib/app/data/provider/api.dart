@@ -19,7 +19,7 @@ abstract class ApiProvider {
   static ApiProvider get to => Get.find();
 
   @GET('/user/login')
-  Future<LoginResponse> login(@Query('auth_code') String authCode);
+  Future<LoginResponse> login(@Query('code') String authCode);
 
   @GET('/user/info')
   Future<UserInfoResponse> userInfo(@Query('user_uuid') String userUuid);

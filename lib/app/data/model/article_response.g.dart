@@ -23,7 +23,7 @@ _$_ArticleResponse _$$_ArticleResponseFromJson(Map<String, dynamic> json) =>
               ?.map((e) => TagResponse.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      author: json['notExistKeyTemporary'] as String? ?? placeholderUserName,
+      author: json['author'] as String,
     );
 
 Map<String, dynamic> _$$_ArticleResponseToJson(_$_ArticleResponse instance) =>
@@ -36,5 +36,5 @@ Map<String, dynamic> _$$_ArticleResponseToJson(_$_ArticleResponse instance) =>
       'createdAt': instance.createdAt.toIso8601String(),
       'imagesUrl': instance.imagesUrl,
       'tags': instance.tags,
-      'notExistKeyTemporary': instance.author,
+      'author': instance.author,
     };

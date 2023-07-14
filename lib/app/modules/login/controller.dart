@@ -15,7 +15,7 @@ class LoginController extends GetxController {
         callbackUrlScheme: idpRedirectScheme,
       );
       final uri = Uri.parse(result);
-      final authCode = uri.queryParameters['auth_code'];
+      final authCode = uri.queryParameters['code'];
       if (authCode == null) {
         Get.snackbar('Error', 'Failed to get auth code');
         return;
