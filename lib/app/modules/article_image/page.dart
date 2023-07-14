@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/values/colors.dart';
-import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/modules/article/page_spinner.dart';
 import 'package:ziggle/app/modules/article_image/controller.dart';
 
@@ -35,7 +34,7 @@ class ArticleImagePage extends GetView<ArticleImageController> {
                 tag: index,
                 child: InteractiveViewer(
                   child: CachedNetworkImage(
-                    imageUrl: s3BaseUrl + controller.images[index],
+                    imageUrl: controller.images[index],
                     fit: BoxFit.contain,
                     placeholder: (_, __) =>
                         const CircularProgressIndicator.adaptive(),

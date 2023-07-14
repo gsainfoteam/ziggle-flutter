@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
-import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/global_widgets/bottom_sheet.dart';
 import 'package:ziggle/app/modules/article/article_body.dart';
 import 'package:ziggle/app/modules/article/controller.dart';
@@ -119,7 +118,7 @@ class ArticlePage extends GetView<ArticleController> {
             child: Hero(
               tag: index,
               child: CachedNetworkImage(
-                imageUrl: s3BaseUrl + imageUrls[index],
+                imageUrl: imageUrls[index],
                 fit: BoxFit.contain,
                 placeholder: (_, __) =>
                     const CircularProgressIndicator.adaptive(),

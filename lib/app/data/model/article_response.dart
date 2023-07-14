@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
 
 part 'article_response.freezed.dart';
@@ -18,9 +17,7 @@ class ArticleResponse with _$ArticleResponse {
     required DateTime createdAt,
     List<String>? imagesUrl,
     @Default([]) List<TagResponse> tags,
-    @JsonKey(name: 'notExistKeyTemporary')
-    @Default(placeholderUserName)
-    String author,
+    required String author,
   }) = _ArticleResponse;
 
   factory ArticleResponse.fromJson(Map<String, dynamic> json) =>
