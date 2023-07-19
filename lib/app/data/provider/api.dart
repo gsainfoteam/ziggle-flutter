@@ -40,10 +40,13 @@ abstract class ApiProvider {
   Future<ArticleResponse> writeNotice(@Body() ArticleRequest article);
 
   @GET('/notice/all')
-  Future<List<ArticleSummaryResponse>> getNotices([
+  Future<List<ArticleSummaryResponse>> getNotices({
     @Query('offset') int? offset,
     @Query('limit') int? limit,
-  ]);
+    @Query('search') String? search,
+    @Query('tag') List<String>? tag,
+    @Query('orderByDeadline') bool? orderByDeadline,
+  });
 
   @GET('/notice/{id}')
   Future<ArticleResponse> getNotice(@Path() int id);
