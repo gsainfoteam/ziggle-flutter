@@ -52,6 +52,7 @@ flutter:
   assets:
     - assets/logo/icon.png
     - assets/icons/
+    - assets/images/
   fonts:
     - family: NotoSansKR
       fonts:

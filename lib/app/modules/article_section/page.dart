@@ -8,6 +8,7 @@ import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/modules/article_section/controller.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 
 class ArticleSectionPage extends GetView<ArticleSectionController> {
   const ArticleSectionPage({super.key});
@@ -55,6 +56,17 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
       const Center(child: CircularProgressIndicator.adaptive())
           .paddingSymmetric(vertical: 16);
 
+  Widget _noItemsFoundIndicatorBuilder(BuildContext context) => Column(
+        children: [
+          Assets.images.noResult.image(width: 160),
+          const SizedBox(height: 16),
+          const Text(
+            '검색 결과가 존재하지 않습니다.',
+            style: TextStyles.secondaryLabelStyle,
+          ),
+        ],
+      );
+
   Widget _buildDeadlineList() {
     return PagedSliverList<int,
         MapEntry<DateTime, List<ArticleSummaryResponse>>>(
@@ -62,6 +74,7 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
       builderDelegate: PagedChildBuilderDelegate(
         firstPageProgressIndicatorBuilder: _progressIndicatorBuilder,
         newPageProgressIndicatorBuilder: _progressIndicatorBuilder,
+        noItemsFoundIndicatorBuilder: _noItemsFoundIndicatorBuilder,
         itemBuilder: (context, item, index) => Column(
           children: [
             Text(
@@ -99,6 +112,7 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
       builderDelegate: PagedChildBuilderDelegate(
         firstPageProgressIndicatorBuilder: _progressIndicatorBuilder,
         newPageProgressIndicatorBuilder: _progressIndicatorBuilder,
+        noItemsFoundIndicatorBuilder: _noItemsFoundIndicatorBuilder,
         itemBuilder: (context, item, index) => SizedBox(
           height: 170,
           child: ArticleCard(
