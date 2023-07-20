@@ -3,6 +3,8 @@ import 'package:ziggle/app/modules/article/binding.dart';
 import 'package:ziggle/app/modules/article/page.dart';
 import 'package:ziggle/app/modules/article_image/binding.dart';
 import 'package:ziggle/app/modules/article_image/page.dart';
+import 'package:ziggle/app/modules/article_section/binding.dart';
+import 'package:ziggle/app/modules/article_section/page.dart';
 import 'package:ziggle/app/modules/root/binding.dart';
 import 'package:ziggle/app/modules/root/page.dart';
 import 'package:ziggle/app/modules/login/binding.dart';
@@ -53,6 +55,11 @@ class AppPages {
             ),
           ],
         ),
+        GetPage(
+          name: _Paths.ARTICLE_SECTION,
+          page: () => const ArticleSectionPage(),
+          binding: ArticleSectionBinding(),
+        )
       ],
     )
   ];

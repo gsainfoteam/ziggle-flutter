@@ -34,6 +34,7 @@ class HomePage extends GetView<HomeController> {
   Widget _buildSectionHeader(ArticleType type) {
     return GestureDetector(
       onTap: () => controller.goToList(type),
+      behavior: HitTestBehavior.opaque,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

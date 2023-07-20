@@ -31,7 +31,9 @@ class HomeController extends GetxController {
         (e) => _repository.getArticles(e).then((v) => articles[e]!.value = v)));
   }
 
-  goToList(ArticleType type) {}
+  goToList(ArticleType type) {
+    Get.toNamed(Routes.ARTICLE_SECTION, parameters: {'type': type.name});
+  }
 
   goToDetail(int id) {
     Get.toNamed(Routes.ARTICLE, parameters: {'id': id.toString()});
