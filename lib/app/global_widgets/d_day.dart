@@ -14,10 +14,10 @@ class DDay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.all(1),
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
       decoration: BoxDecoration(
         color: Palette.primaryColor,
-        border: Border.all(color: Palette.white, width: 1),
         borderRadius: BorderRadius.circular(5),
       ),
       child: Text(_label, style: TextStyles.ddayStyle),

@@ -8,6 +8,7 @@ import 'package:ziggle/app/core/values/shadows.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_tags.dart';
+import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/d_day.dart';
 
 class ArticleCard extends StatelessWidget {
@@ -23,16 +24,15 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ZiggleButton(
       onTap: onTap,
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Palette.white,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          boxShadow: frameShadows,
-        ),
-        child: _buildInner(),
+      color: Palette.white,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        boxShadow: frameShadows,
       ),
+      padding: EdgeInsets.zero,
+      child: _buildInner(),
     );
   }
 
