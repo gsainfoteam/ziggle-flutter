@@ -16,18 +16,21 @@ class SearchController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    debounce(query, (callback) {
-      if (callback.isEmpty) {
-        articles.value = null;
-        return;
-      }
-      articles.value ??= [];
-      refreshIndicatorKey.currentState?.show();
-    });
+    debounce(query, _debounceHandler);
+    ever(selectedType, _debounceHandler);
+  }
+
+  _debounceHandler(callback) {
+    if (query.value.isEmpty) {
+      articles.value = null;
+      return;
+    }
+    articles.value ??= [];
+    refreshIndicatorKey.currentState?.show();
   }
 
   Future<void> search() async {
-    final result = await _repository.search(query.value);
+    final result = await _repository.search(query.value, selectedType.value);
     articles.value = result;
   }
 }
