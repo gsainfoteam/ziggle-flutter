@@ -1,33 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/modules/search/repository.dart';
+import 'package:ziggle/app/routes/pages.dart';
 
 class SearchController extends GetxController {
   final query = ''.obs;
-  final articles = Rxn<List<ArticleSummaryResponse>>();
-  final selectedType = Rxn<ArticleType>();
+  final selectedType = <ArticleType>{}.obs;
   final SearchRepository _repository;
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  final pagingController =
+      PagingController<int, ArticleSummaryResponse>(firstPageKey: 1);
 
   SearchController(this._repository);
 
   @override
   void onInit() {
     super.onInit();
-    debounce(query, (callback) {
-      if (callback.isEmpty) {
-        articles.value = null;
+    pagingController.addPageRequestListener((pageKey) async {
+      if (query.value.isEmpty) {
+        pagingController.appendLastPage([]);
         return;
       }
-      articles.value ??= [];
-      refreshIndicatorKey.currentState?.show();
+      final articles = await _repository.search(query.value, selectedType);
+      if (articles.isEmpty) {
+        pagingController.appendLastPage(articles);
+        return;
+      }
+      pagingController.appendPage(articles, pageKey + 1);
     });
+    debounce(query, _debounceHandler);
+    ever(selectedType, _debounceHandler);
+  }
+
+  @override
+  void onClose() {
+    pagingController.dispose();
+    super.onClose();
+  }
+
+  _debounceHandler(callback) {
+    refreshIndicatorKey.currentState?.show();
   }
 
   Future<void> search() async {
-    final result = await _repository.search(query.value);
-    articles.value = result;
+    pagingController.refresh();
+  }
+
+  toggleType(ArticleType type) {
+    if (selectedType.contains(type)) {
+      selectedType.remove(type);
+    } else {
+      selectedType.add(type);
+    }
+  }
+
+  goToDetail(int id) {
+    Get.toNamed(Routes.ARTICLE, parameters: {'id': id.toString()});
   }
 }

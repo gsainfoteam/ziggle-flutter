@@ -11,28 +11,36 @@ import 'package:ziggle/app/global_widgets/article_tags.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/d_day.dart';
 
+const kArticleCardHeight = 180.0;
+
 class ArticleCard extends StatelessWidget {
   final ArticleSummaryResponse article;
   final Axis direction;
   final void Function() onTap;
+  final bool showType;
+
   const ArticleCard({
     super.key,
     required this.article,
     this.direction = Axis.vertical,
     required this.onTap,
+    this.showType = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ZiggleButton(
-      onTap: onTap,
-      color: Palette.white,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        boxShadow: frameShadows,
+    return SizedBox(
+      height: direction == Axis.horizontal ? kArticleCardHeight : null,
+      child: ZiggleButton(
+        onTap: onTap,
+        color: Palette.white,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          boxShadow: frameShadows,
+        ),
+        padding: EdgeInsets.zero,
+        child: _buildInner(),
       ),
-      padding: EdgeInsets.zero,
-      child: _buildInner(),
     );
   }
 
@@ -50,7 +58,7 @@ class ArticleCard extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: imageUrl,
                 width: 140,
-                height: 170,
+                height: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
@@ -136,7 +144,10 @@ class ArticleCard extends StatelessWidget {
         ),
         if (direction == Axis.horizontal) ...[
           const SizedBox(height: 9),
-          ArticleTags(tags: article.tags.where((t) => !t.isType).toList()),
+          ArticleTags(
+              tags: showType
+                  ? article.tags.map((e) => e.isType ? e.type : e).toList()
+                  : article.tags.where((t) => !t.isType).toList()),
           const Expanded(child: SizedBox.shrink()),
           Text(
             DateFormat.yMd().format(article.createdAt),

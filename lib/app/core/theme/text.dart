@@ -41,11 +41,6 @@ abstract class TextStyles {
     color: Palette.secondaryText,
   );
 
-  static const tagStyle = TextStyle(
-    color: Palette.primaryColor,
-    fontSize: 12,
-  );
-
   static const ddayStyle = TextStyle(
     color: Palette.white,
     fontSize: 12,

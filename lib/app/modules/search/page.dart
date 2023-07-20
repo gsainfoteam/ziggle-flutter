@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart' hide SearchController;
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
+import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/modules/search/controller.dart';
-import 'package:ziggle/app/routes/pages.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 
 class SearchPage extends GetView<SearchController> {
   const SearchPage({super.key});
@@ -54,9 +56,7 @@ class SearchPage extends GetView<SearchController> {
               ),
             ),
           ),
-          Obx(() => controller.articles.value == null
-              ? _buildEnterQuery()
-              : _buildArticles()),
+          _buildArticles(),
         ],
       ),
     );
@@ -95,13 +95,13 @@ class SearchPage extends GetView<SearchController> {
       children: ArticleType.searchables
           .map(
             (type) => Obx(() => ZiggleButton(
-                  onTap: () => controller.selectedType(type),
+                  onTap: () => controller.toggleType(type),
                   text: type.label,
-                  color: controller.selectedType.value == type
+                  color: controller.selectedType.contains(type)
                       ? Palette.primaryColor
                       : Palette.light,
                   textStyle: TextStyles.defaultStyle.copyWith(
-                    color: controller.selectedType.value == type
+                    color: controller.selectedType.contains(type)
                         ? Palette.white
                         : null,
                   ),
@@ -114,43 +114,48 @@ class SearchPage extends GetView<SearchController> {
   }
 
   Widget _buildEnterQuery() {
-    return const SliverToBoxAdapter(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(height: 32),
-            Icon(
-              Icons.search,
-              size: 100,
-              color: Palette.secondaryText,
-            ),
-            Text(
-              '검색어를 입력해주세요',
-              style: TextStyles.secondaryLabelStyle,
-            ),
-          ],
-        ),
+    return const SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(height: 32),
+          Icon(
+            Icons.search,
+            size: 100,
+            color: Palette.secondaryText,
+          ),
+          Text(
+            '검색어를 입력해주세요',
+            style: TextStyles.secondaryLabelStyle,
+          ),
+        ],
       ),
     );
   }
 
   Widget _buildArticles() {
-    assert(controller.articles.value != null);
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      sliver: SliverList.builder(
-        itemCount: controller.articles.value!.length,
-        itemBuilder: (context, index) => SizedBox(
-          height: 170,
-          child: ArticleCard(
-            article: controller.articles.value![index],
+      sliver: PagedSliverList<int, ArticleSummaryResponse>(
+        pagingController: controller.pagingController,
+        builderDelegate: PagedChildBuilderDelegate(
+          noItemsFoundIndicatorBuilder: (context) => controller.query.isEmpty
+              ? _buildEnterQuery()
+              : Column(children: [
+                  Assets.images.noResult.image(width: 160),
+                  const SizedBox(height: 16),
+                  const Text(
+                    '검색 결과가 존재하지 않습니다.',
+                    style: TextStyles.secondaryLabelStyle,
+                  ),
+                ]),
+          itemBuilder: (context, item, index) => ArticleCard(
+            article: item,
             direction: Axis.horizontal,
-            onTap: () => Get.toNamed(Routes.ARTICLE, parameters: {
-              'id': controller.articles.value![index].id.toString(),
-            }),
-          ),
-        ).paddingOnly(bottom: 18),
+            showType: true,
+            onTap: () => controller.goToDetail(item.id),
+          ).paddingOnly(bottom: 18),
+        ),
       ),
     );
   }
