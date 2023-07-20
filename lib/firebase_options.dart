@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyCYByKidHuSzVrbeT5eBeV24KvN7FFpzHY',
-    appId: '1:343325951427:android:d40a3b153cc58d7de6e976',
+    appId: '1:343325951427:android:7ad83fe8345942b9e6e976',
     messagingSenderId: '343325951427',
     projectId: 'gsainfoteam-ziggle',
     storageBucket: 'gsainfoteam-ziggle.appspot.com',
@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyD_cM7fYZQ5uNAGS3BTQbWqblQIOtej2J8',
-    appId: '1:343325951427:ios:69086d8983766c0de6e976',
+    appId: '1:343325951427:ios:630d75333b29826ee6e976',
     messagingSenderId: '343325951427',
     projectId: 'gsainfoteam-ziggle',
     storageBucket: 'gsainfoteam-ziggle.appspot.com',
-    iosClientId: '343325951427-pubjv16r5k2pda5kgb0393butigf5k9r.apps.googleusercontent.com',
-    iosBundleId: 'com.infoteam.ziggle',
+    iosClientId: '343325951427-or72df25mic7p6slr09d1sov9sb24h4s.apps.googleusercontent.com',
+    iosBundleId: 'me.gistory.ziggle',
   );
 }

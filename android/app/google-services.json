@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:343325951427:android:d40a3b153cc58d7de6e976",
+        "mobilesdk_app_id": "1:343325951427:android:7ad83fe8345942b9e6e976",
         "android_client_info": {
-          "package_name": "com.example.ziggle_flutter"
+          "package_name": "me.gistory.ziggle"
         }
       },
       "oauth_client": [
@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "343325951427-pubjv16r5k2pda5kgb0393butigf5k9r.apps.googleusercontent.com",
+              "client_id": "343325951427-or72df25mic7p6slr09d1sov9sb24h4s.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.infoteam.ziggle"
+                "bundle_id": "me.gistory.ziggle"
               }
             }
           ]
