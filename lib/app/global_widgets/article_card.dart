@@ -63,6 +63,7 @@ class ArticleCard extends StatelessWidget {
       );
     }
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.all(12),
@@ -78,6 +79,22 @@ class ArticleCard extends StatelessWidget {
               imageUrl: imageUrl,
               fit: BoxFit.cover,
               width: double.infinity,
+            ),
+          ),
+        if (imageUrl == null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(color: Palette.black, width: 80, height: 1),
+                const SizedBox(height: 12),
+                Text(
+                  article.body.replaceAll('\n', ' '),
+                  style: TextStyles.articleCardBodyStyle,
+                ),
+                const SizedBox(height: 12),
+              ],
             ),
           ),
       ],
