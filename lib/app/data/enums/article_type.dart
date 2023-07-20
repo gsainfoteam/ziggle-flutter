@@ -28,5 +28,5 @@ enum ArticleType {
 }
 
 extension TagResponseExtention on TagResponse {
-  bool get isCommon => ArticleType.searchables.map((e) => e.id).contains(id);
+  bool get isType => ArticleType.searchables.map((e) => e.id).contains(id);
 }

@@ -23,7 +23,7 @@ class ArticleBody extends StatelessWidget {
         Text(article.title, style: TextStyles.articleTitleStyle),
         const SizedBox(height: 12),
         if (article.tags.isNotEmpty) ...[
-          ArticleTags(tags: article.tags.where((t) => !t.isCommon).toList()),
+          ArticleTags(tags: article.tags.where((t) => !t.isType).toList()),
           const SizedBox(height: 16),
         ],
         Row(

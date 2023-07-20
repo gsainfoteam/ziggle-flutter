@@ -136,7 +136,7 @@ class ArticleCard extends StatelessWidget {
         ),
         if (direction == Axis.horizontal) ...[
           const SizedBox(height: 9),
-          ArticleTags(tags: article.tags.where((t) => !t.isCommon).toList()),
+          ArticleTags(tags: article.tags.where((t) => !t.isType).toList()),
           const Expanded(child: SizedBox.shrink()),
           Text(
             DateFormat.yMd().format(article.createdAt),
