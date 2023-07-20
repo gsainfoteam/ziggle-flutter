@@ -2,16 +2,21 @@ import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/provider/api.dart';
 
-class HomeRepository {
+class ArticleSectionRepository {
   final ApiProvider _provider;
 
-  HomeRepository(this._provider);
+  ArticleSectionRepository(this._provider);
 
-  Future<List<ArticleSummaryResponse>> getArticles(ArticleType type) {
+  Future<List<ArticleSummaryResponse>> getArticles(
+    ArticleType type,
+    int page,
+  ) {
+    const limit = 10;
     return _provider.getNotices(
-      limit: type.isHorizontal ? 10 : 4,
-      orderBy: type.sort,
+      limit: limit,
+      offset: (page - 1) * limit,
       tags: type.isSearchable ? [type.name] : null,
+      orderBy: type.sort,
     );
   }
 }

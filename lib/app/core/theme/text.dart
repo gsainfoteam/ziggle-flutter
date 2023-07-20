@@ -43,7 +43,7 @@ abstract class TextStyles {
 
   static const tagStyle = TextStyle(
     color: Palette.primaryColor,
-    fontSize: 10,
+    fontSize: 12,
   );
 
   static const ddayStyle = TextStyle(
@@ -53,7 +53,7 @@ abstract class TextStyles {
   );
 
   static const articleCardAuthorStyle = TextStyle(
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: FontWeight.w500,
   );
 

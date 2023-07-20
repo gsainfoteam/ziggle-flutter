@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   cached_network_image: ^3.2.3
+  collection: ^1.17.1
   dio: ^5.2.1+1
   firebase_analytics: ^10.4.0
   firebase_core: 2.12.0
@@ -26,6 +27,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   image_picker: ^1.0.0
+  infinite_scroll_pagination: ^3.2.0
   intl: ^0.18.1
   json_annotation: ^4.8.1
   markdown: ^7.1.0
@@ -50,6 +52,7 @@ flutter:
   assets:
     - assets/logo/icon.png
     - assets/icons/
+    - assets/images/
   fonts:
     - family: NotoSansKR
       fonts:

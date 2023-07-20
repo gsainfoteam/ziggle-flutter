@@ -27,6 +27,17 @@ class $AssetsIconsGen {
   List<AssetGenImage> get values => [profile, rightArrow, rightArrowWhite];
 }
 
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
+
+  /// File path: assets/images/no_result.png
+  AssetGenImage get noResult =>
+      const AssetGenImage('assets/images/no_result.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [noResult];
+}
+
 class $AssetsLogoGen {
   const $AssetsLogoGen();
 
@@ -41,6 +52,7 @@ class Assets {
   Assets._();
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsLogoGen logo = $AssetsLogoGen();
 }
 
