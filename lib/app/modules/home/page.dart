@@ -6,7 +6,6 @@ import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/modules/home/controller.dart';
-import 'package:ziggle/app/routes/pages.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -23,26 +22,14 @@ class HomePage extends GetView<HomeController> {
           _buildSectionHeader(ArticleType.deadline),
           const SizedBox(height: 8),
           Obx(_buildDeadlineArticles),
-          const SizedBox(height: 30),
-          _buildSectionHeader(ArticleType.hot),
-          const SizedBox(height: 8),
-          Obx(() => _buildVerticalArticles(controller.hotArticles)),
-          const SizedBox(height: 30),
-          _buildSectionHeader(ArticleType.event),
-          const SizedBox(height: 8),
-          Obx(() => _buildVerticalArticles(controller.eventArticles)),
-          const SizedBox(height: 30),
-          _buildSectionHeader(ArticleType.recruit),
-          const SizedBox(height: 8),
-          Obx(() => _buildVerticalArticles(controller.recruitArticles)),
-          const SizedBox(height: 30),
-          _buildSectionHeader(ArticleType.general),
-          const SizedBox(height: 8),
-          Obx(() => _buildVerticalArticles(controller.generalArticles)),
-          const SizedBox(height: 30),
-          _buildSectionHeader(ArticleType.academic),
-          const SizedBox(height: 8),
-          Obx(() => _buildVerticalArticles(controller.academicArticles)),
+          ...ArticleType.verticals.expand(
+            (e) => [
+              const SizedBox(height: 30),
+              _buildSectionHeader(e),
+              const SizedBox(height: 8),
+              Obx(() => _buildMasonryArticles(controller.articles[e]!))
+            ],
+          ),
         ],
       ),
     );
@@ -62,7 +49,8 @@ class HomePage extends GetView<HomeController> {
   }
 
   Widget _buildDeadlineArticles() {
-    if (controller.deadlineArticles.value == null) {
+    final rxn = controller.articles[ArticleType.deadline]!;
+    if (rxn.value == null) {
       return const SizedBox.shrink();
     }
     return SizedBox(
@@ -74,16 +62,14 @@ class HomePage extends GetView<HomeController> {
             viewportFraction: 1 - (30 / constraints.maxWidth),
           ),
           allowImplicitScrolling: true,
-          itemCount: controller.deadlineArticles.value!.length,
+          itemCount: rxn.value!.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: ArticleCard(
-                article: controller.deadlineArticles.value![index],
+                article: rxn.value![index],
                 direction: Axis.horizontal,
-                onTap: () => Get.toNamed(Routes.ARTICLE, parameters: {
-                  'id': controller.deadlineArticles.value![index].id.toString(),
-                }),
+                onTap: () => controller.goToDetail(rxn.value![index].id),
               ),
             );
           },
@@ -92,7 +78,7 @@ class HomePage extends GetView<HomeController> {
     );
   }
 
-  Widget _buildVerticalArticles(Rxn<List<ArticleSummaryResponse>> articles) {
+  Widget _buildMasonryArticles(Rxn<List<ArticleSummaryResponse>> articles) {
     if (articles.value == null) {
       return const SizedBox.shrink();
     }
@@ -106,9 +92,7 @@ class HomePage extends GetView<HomeController> {
       itemCount: articles.value!.length,
       itemBuilder: (context, index) => ArticleCard(
         article: articles.value![index],
-        onTap: () => Get.toNamed(Routes.ARTICLE, parameters: {
-          'id': articles.value![index].id.toString(),
-        }),
+        onTap: () => controller.goToDetail(articles.value![index].id),
       ),
     );
   }
