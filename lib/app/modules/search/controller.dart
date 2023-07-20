@@ -1,37 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/modules/search/repository.dart';
+import 'package:ziggle/app/routes/pages.dart';
 
 class SearchController extends GetxController {
   final query = ''.obs;
-  final articles = Rxn<List<ArticleSummaryResponse>>();
   final selectedType = <ArticleType>{}.obs;
   final SearchRepository _repository;
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  final pagingController =
+      PagingController<int, ArticleSummaryResponse>(firstPageKey: 1);
 
   SearchController(this._repository);
 
   @override
   void onInit() {
     super.onInit();
+    pagingController.addPageRequestListener((pageKey) async {
+      if (query.value.isEmpty) {
+        pagingController.appendLastPage([]);
+        return;
+      }
+      final articles = await _repository.search(query.value, selectedType);
+      if (articles.isEmpty) {
+        pagingController.appendLastPage(articles);
+        return;
+      }
+      pagingController.appendPage(articles, pageKey + 1);
+    });
     debounce(query, _debounceHandler);
     ever(selectedType, _debounceHandler);
   }
 
+  @override
+  void onClose() {
+    pagingController.dispose();
+    super.onClose();
+  }
+
   _debounceHandler(callback) {
-    if (query.value.isEmpty) {
-      articles.value = null;
-      return;
-    }
-    articles.value ??= [];
     refreshIndicatorKey.currentState?.show();
   }
 
   Future<void> search() async {
-    final result = await _repository.search(query.value, selectedType);
-    articles.value = result;
+    pagingController.refresh();
   }
 
   toggleType(ArticleType type) {
@@ -40,5 +55,9 @@ class SearchController extends GetxController {
     } else {
       selectedType.add(type);
     }
+  }
+
+  goToDetail(int id) {
+    Get.toNamed(Routes.ARTICLE, parameters: {'id': id.toString()});
   }
 }
