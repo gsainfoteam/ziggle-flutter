@@ -29,7 +29,7 @@ class HomePage extends GetView<HomeController> {
           const SizedBox(height: 30),
           _buildSectionHeader('🎈 행사', controller.goToEvent),
           const SizedBox(height: 8),
-          Obx(() => _buildVerticalArticles(controller.deadlineArticles)),
+          Obx(() => _buildVerticalArticles(controller.eventArticles)),
           const SizedBox(height: 30),
           _buildSectionHeader('🎯 모집', controller.goToRecruit),
           const SizedBox(height: 8),

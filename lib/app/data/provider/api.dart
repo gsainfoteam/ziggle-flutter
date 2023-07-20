@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart' show Get, Inst;
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/core/values/strings.dart';
+import 'package:ziggle/app/data/enums/notice_sort.dart';
 import 'package:ziggle/app/data/model/article_request.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
@@ -44,8 +45,8 @@ abstract class ApiProvider {
     @Query('offset') int? offset,
     @Query('limit') int? limit,
     @Query('search') String? search,
-    @Query('tag') List<String>? tag,
-    @Query('orderByDeadline') bool? orderByDeadline,
+    @Query('tags[]') List<String>? tags,
+    @Query('orderBy') NoticeSort? orderBy,
   });
 
   @GET('/notice/{id}')

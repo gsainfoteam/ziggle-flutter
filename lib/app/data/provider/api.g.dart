@@ -216,16 +216,16 @@ class _ApiProvider implements ApiProvider {
     int? offset,
     int? limit,
     String? search,
-    List<String>? tag,
-    bool? orderByDeadline,
+    List<String>? tags,
+    NoticeSort? orderBy,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'offset': offset,
       r'limit': limit,
       r'search': search,
-      r'tag': tag,
-      r'orderByDeadline': orderByDeadline,
+      r'tags[]': tags,
+      r'orderBy': orderBy?.name,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

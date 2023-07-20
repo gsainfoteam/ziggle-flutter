@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/modules/home/repository.dart';
 
@@ -23,12 +24,24 @@ class HomeController extends GetxController {
 
   Future<void> reload() async {
     await Future.wait([
-      _repository.getArticles().then((v) => deadlineArticles.value = v),
-      _repository.getArticles().then((v) => hotArticles.value = v),
-      _repository.getArticles().then((v) => eventArticles.value = v),
-      _repository.getArticles().then((v) => recruitArticles.value = v),
-      _repository.getArticles().then((v) => generalArticles.value = v),
-      _repository.getArticles().then((v) => academicArticles.value = v),
+      _repository
+          .getArticles(ArticleType.deadline)
+          .then((v) => deadlineArticles.value = v),
+      _repository
+          .getArticles(ArticleType.hot)
+          .then((v) => hotArticles.value = v),
+      _repository
+          .getArticles(ArticleType.event)
+          .then((v) => eventArticles.value = v),
+      _repository
+          .getArticles(ArticleType.recruit)
+          .then((v) => recruitArticles.value = v),
+      _repository
+          .getArticles(ArticleType.general)
+          .then((v) => generalArticles.value = v),
+      _repository
+          .getArticles(ArticleType.academic)
+          .then((v) => academicArticles.value = v),
     ]);
   }
 
