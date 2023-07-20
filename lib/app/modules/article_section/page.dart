@@ -18,28 +18,35 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
       appBar: AppBar(
         title: Text(controller.type.title),
       ),
-      body: CustomScrollView(
-        slivers: [
-          Column(
-            children: [
-              Text(controller.type.emoji,
-                  style: const TextStyle(fontSize: 140)),
-              Text(controller.type.title, style: TextStyles.articleTitleStyle),
-              Text(
-                controller.type.description,
-                textAlign: TextAlign.center,
-                style: TextStyles.articleCardAuthorStyle,
-              ),
-              const SizedBox(height: 50),
-            ],
-          ).sliverBox,
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: controller.type == ArticleType.deadline
-                ? _buildDeadlineList()
-                : _buildSimpleList(),
-          ),
-        ],
+      body: RefreshIndicator.adaptive(
+        onRefresh: () => Future.wait([
+          Future.sync(controller.articleController.refresh),
+          Future.sync(controller.groupArticleController.refresh),
+        ]),
+        child: CustomScrollView(
+          slivers: [
+            Column(
+              children: [
+                Text(controller.type.emoji,
+                    style: const TextStyle(fontSize: 140)),
+                Text(controller.type.title,
+                    style: TextStyles.articleTitleStyle),
+                Text(
+                  controller.type.description,
+                  textAlign: TextAlign.center,
+                  style: TextStyles.articleCardAuthorStyle,
+                ),
+                const SizedBox(height: 50),
+              ],
+            ).sliverBox,
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              sliver: controller.type == ArticleType.deadline
+                  ? _buildDeadlineList()
+                  : _buildSimpleList(),
+            ),
+          ],
+        ),
       ),
     );
   }
