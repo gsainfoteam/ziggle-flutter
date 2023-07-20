@@ -45,15 +45,5 @@ class HomeController extends GetxController {
     ]);
   }
 
-  void goToDeadline() {}
-
-  void goToHot() {}
-
-  void goToEvent() {}
-
-  void goToRecruit() {}
-
-  void goToGeneral() {}
-
-  void goToAcademic() {}
+  goToList(ArticleType type) {}
 }

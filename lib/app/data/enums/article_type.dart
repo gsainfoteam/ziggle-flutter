@@ -13,6 +13,7 @@ enum ArticleType {
   final String shortTitle;
   final int id;
   final NoticeSort sort;
+  String get header => '$emoji $title';
   String get label => '$emoji $shortTitle';
 
   static const searchables = [recruit, event, general, academic];
