@@ -11,6 +11,8 @@ import 'package:ziggle/app/global_widgets/article_tags.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/d_day.dart';
 
+const kArticleCardHeight = 180.0;
+
 class ArticleCard extends StatelessWidget {
   final ArticleSummaryResponse article;
   final Axis direction;
@@ -24,15 +26,18 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ZiggleButton(
-      onTap: onTap,
-      color: Palette.white,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(20)),
-        boxShadow: frameShadows,
+    return SizedBox(
+      height: direction == Axis.horizontal ? kArticleCardHeight : null,
+      child: ZiggleButton(
+        onTap: onTap,
+        color: Palette.white,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          boxShadow: frameShadows,
+        ),
+        padding: EdgeInsets.zero,
+        child: _buildInner(),
       ),
-      padding: EdgeInsets.zero,
-      child: _buildInner(),
     );
   }
 
@@ -50,7 +55,7 @@ class ArticleCard extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: imageUrl,
                 width: 140,
-                height: 170,
+                height: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),

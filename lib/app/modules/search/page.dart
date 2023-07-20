@@ -141,15 +141,12 @@ class SearchPage extends GetView<SearchController> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       sliver: SliverList.builder(
         itemCount: controller.articles.value!.length,
-        itemBuilder: (context, index) => SizedBox(
-          height: 170,
-          child: ArticleCard(
-            article: controller.articles.value![index],
-            direction: Axis.horizontal,
-            onTap: () => Get.toNamed(Routes.ARTICLE, parameters: {
-              'id': controller.articles.value![index].id.toString(),
-            }),
-          ),
+        itemBuilder: (context, index) => ArticleCard(
+          article: controller.articles.value![index],
+          direction: Axis.horizontal,
+          onTap: () => Get.toNamed(Routes.ARTICLE, parameters: {
+            'id': controller.articles.value![index].id.toString(),
+          }),
         ).paddingOnly(bottom: 18),
       ),
     );

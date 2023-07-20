@@ -66,7 +66,7 @@ class HomePage extends GetView<HomeController> {
       );
     }
     return SizedBox(
-      height: 170,
+      height: kArticleCardHeight,
       child: LayoutBuilder(builder: (context, constraints) {
         return PageView.builder(
           clipBehavior: Clip.none,

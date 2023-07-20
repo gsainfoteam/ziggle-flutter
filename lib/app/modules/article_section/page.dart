@@ -89,13 +89,10 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               children: item.value
                   .map(
-                    (article) => SizedBox(
-                      height: 170,
-                      child: ArticleCard(
-                        article: article,
-                        direction: Axis.horizontal,
-                        onTap: () => controller.goToDetail(article.id),
-                      ),
+                    (article) => ArticleCard(
+                      article: article,
+                      direction: Axis.horizontal,
+                      onTap: () => controller.goToDetail(article.id),
                     ).marginOnly(bottom: 18),
                   )
                   .toList(),
@@ -113,13 +110,10 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
         firstPageProgressIndicatorBuilder: _progressIndicatorBuilder,
         newPageProgressIndicatorBuilder: _progressIndicatorBuilder,
         noItemsFoundIndicatorBuilder: _noItemsFoundIndicatorBuilder,
-        itemBuilder: (context, item, index) => SizedBox(
-          height: 170,
-          child: ArticleCard(
-            article: item,
-            direction: Axis.horizontal,
-            onTap: () => controller.goToDetail(item.id),
-          ),
+        itemBuilder: (context, item, index) => ArticleCard(
+          article: item,
+          direction: Axis.horizontal,
+          onTap: () => controller.goToDetail(item.id),
         ).marginOnly(bottom: 18),
       ),
     );
