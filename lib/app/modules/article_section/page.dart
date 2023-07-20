@@ -1,11 +1,11 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:ziggle/app/core/theme/text.dart';
-import 'package:ziggle/app/core/utils/extension/date_align.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
+import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/modules/article_section/controller.dart';
 
@@ -33,15 +33,11 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
               const SizedBox(height: 50),
             ],
           ).sliverBox,
-          Obx(
-            () => controller.articles.value == null
-                ? const SizedBox.shrink().sliverBox
-                : SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    sliver: controller.type == ArticleType.deadline
-                        ? Obx(_buildDeadlineList)
-                        : Obx(_buildSimpleList),
-                  ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            sliver: controller.type == ArticleType.deadline
+                ? _buildDeadlineList()
+                : _buildSimpleList(),
           ),
         ],
       ),
@@ -49,17 +45,14 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
   }
 
   Widget _buildDeadlineList() {
-    final articles = groupBy(
-      controller.articles.value!,
-      (article) => article.deadline!.aligned,
-    ).entries.toList();
-    return SliverList.builder(
-      itemCount: articles.length,
-      itemBuilder: (context, index) {
-        return Column(
+    return PagedSliverList<int,
+        MapEntry<DateTime, List<ArticleSummaryResponse>>>(
+      pagingController: controller.groupArticleController,
+      builderDelegate: PagedChildBuilderDelegate(
+        itemBuilder: (context, item, index) => Column(
           children: [
             Text(
-              '${calculateDateDelta(DateTime.now(), articles[index].key)}일 남음',
+              '${calculateDateDelta(DateTime.now(), item.key)}일 남음',
               style: TextStyles.articleCardTitleStyle,
             ),
             const SizedBox(height: 12),
@@ -68,8 +61,7 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(vertical: 16),
-              children: articles[index]
-                  .value
+              children: item.value
                   .map(
                     (article) => SizedBox(
                       height: 170,
@@ -83,25 +75,24 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
                   .toList(),
             )
           ],
-        );
-      },
+        ).marginOnly(bottom: 18),
+      ),
     );
   }
 
   Widget _buildSimpleList() {
-    final articles = controller.articles.value!;
-    return SliverList.builder(
-      itemCount: articles.length,
-      itemBuilder: (context, index) {
-        return SizedBox(
+    return PagedSliverList<int, ArticleSummaryResponse>(
+      pagingController: controller.articleController,
+      builderDelegate: PagedChildBuilderDelegate(
+        itemBuilder: (context, item, index) => SizedBox(
           height: 170,
           child: ArticleCard(
-            article: articles[index],
+            article: item,
             direction: Axis.horizontal,
-            onTap: () => controller.goToDetail(articles[index].id),
+            onTap: () => controller.goToDetail(item.id),
           ),
-        ).marginOnly(bottom: 18);
-      },
+        ).marginOnly(bottom: 18),
+      ),
     );
   }
 }
