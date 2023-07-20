@@ -44,11 +44,17 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
     );
   }
 
+  Widget _progressIndicatorBuilder(BuildContext context) =>
+      const Center(child: CircularProgressIndicator.adaptive())
+          .paddingSymmetric(vertical: 16);
+
   Widget _buildDeadlineList() {
     return PagedSliverList<int,
         MapEntry<DateTime, List<ArticleSummaryResponse>>>(
       pagingController: controller.groupArticleController,
       builderDelegate: PagedChildBuilderDelegate(
+        firstPageProgressIndicatorBuilder: _progressIndicatorBuilder,
+        newPageProgressIndicatorBuilder: _progressIndicatorBuilder,
         itemBuilder: (context, item, index) => Column(
           children: [
             Text(
@@ -84,6 +90,8 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
     return PagedSliverList<int, ArticleSummaryResponse>(
       pagingController: controller.articleController,
       builderDelegate: PagedChildBuilderDelegate(
+        firstPageProgressIndicatorBuilder: _progressIndicatorBuilder,
+        newPageProgressIndicatorBuilder: _progressIndicatorBuilder,
         itemBuilder: (context, item, index) => SizedBox(
           height: 170,
           child: ArticleCard(

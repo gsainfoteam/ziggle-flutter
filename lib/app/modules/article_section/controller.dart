@@ -28,7 +28,7 @@ class ArticleSectionController extends GetxController {
       });
     });
     groupArticleController.addPageRequestListener((pageKey) {
-      _repository.getArticles(type, pageKey).then((value) async {
+      _repository.getArticles(type, pageKey).then((value) {
         if (value.isEmpty) return groupArticleController.appendLastPage([]);
         final articles = groupBy(
           value,
