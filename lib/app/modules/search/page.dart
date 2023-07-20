@@ -95,13 +95,13 @@ class SearchPage extends GetView<SearchController> {
       children: ArticleType.searchables
           .map(
             (type) => Obx(() => ZiggleButton(
-                  onTap: () => controller.selectedType(type),
+                  onTap: () => controller.toggleType(type),
                   text: type.label,
-                  color: controller.selectedType.value == type
+                  color: controller.selectedType.contains(type)
                       ? Palette.primaryColor
                       : Palette.light,
                   textStyle: TextStyles.defaultStyle.copyWith(
-                    color: controller.selectedType.value == type
+                    color: controller.selectedType.contains(type)
                         ? Palette.white
                         : null,
                   ),

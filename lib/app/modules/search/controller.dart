@@ -7,7 +7,7 @@ import 'package:ziggle/app/modules/search/repository.dart';
 class SearchController extends GetxController {
   final query = ''.obs;
   final articles = Rxn<List<ArticleSummaryResponse>>();
-  final selectedType = Rxn<ArticleType>();
+  final selectedType = <ArticleType>{}.obs;
   final SearchRepository _repository;
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
@@ -30,7 +30,15 @@ class SearchController extends GetxController {
   }
 
   Future<void> search() async {
-    final result = await _repository.search(query.value, selectedType.value);
+    final result = await _repository.search(query.value, selectedType);
     articles.value = result;
+  }
+
+  toggleType(ArticleType type) {
+    if (selectedType.contains(type)) {
+      selectedType.remove(type);
+    } else {
+      selectedType.add(type);
+    }
   }
 }

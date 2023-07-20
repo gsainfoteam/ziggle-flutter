@@ -8,13 +8,13 @@ class SearchRepository {
   SearchRepository(this._provider);
 
   Future<List<ArticleSummaryResponse>> search(
-    String query, [
-    ArticleType? type,
-  ]) {
+    String query,
+    Iterable<ArticleType> types,
+  ) {
     return _provider.getNotices(
       limit: 10,
       search: query,
-      tags: type == null ? null : [type.name],
+      tags: types.map((e) => e.name).toList(),
     );
   }
 }
