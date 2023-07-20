@@ -57,6 +57,8 @@ abstract class TextStyles {
     fontWeight: FontWeight.w500,
   );
 
+  static const articleCardBodyStyle = TextStyle(fontSize: 12);
+
   static const tooltipStyle = TextStyle(
     color: Palette.white,
     fontSize: 12,

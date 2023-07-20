@@ -229,7 +229,9 @@ class WritePage extends GetView<WriteController> {
                 text: '공지 제출하기',
                 onTap: controller.submit,
                 loading: controller.loading.value,
-                borderRadius: const BorderRadius.all(Radius.circular(25)),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                ),
                 fontSize: 20,
               )),
         ),

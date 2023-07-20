@@ -5,8 +5,10 @@ import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
+import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_tags.dart';
+import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/d_day.dart';
 
 class ArticleCard extends StatelessWidget {
@@ -22,16 +24,15 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ZiggleButton(
       onTap: onTap,
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Palette.white,
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-          boxShadow: frameShadows,
-        ),
-        child: _buildInner(),
+      color: Palette.white,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        boxShadow: frameShadows,
       ),
+      padding: EdgeInsets.zero,
+      child: _buildInner(),
     );
   }
 
@@ -63,6 +64,7 @@ class ArticleCard extends StatelessWidget {
       );
     }
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.all(12),
@@ -78,6 +80,22 @@ class ArticleCard extends StatelessWidget {
               imageUrl: imageUrl,
               fit: BoxFit.cover,
               width: double.infinity,
+            ),
+          ),
+        if (imageUrl == null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(color: Palette.black, width: 80, height: 1),
+                const SizedBox(height: 12),
+                Text(
+                  article.body.replaceAll('\n', ' '),
+                  style: TextStyles.articleCardBodyStyle,
+                ),
+                const SizedBox(height: 12),
+              ],
             ),
           ),
       ],
@@ -118,7 +136,7 @@ class ArticleCard extends StatelessWidget {
         ),
         if (direction == Axis.horizontal) ...[
           const SizedBox(height: 9),
-          ArticleTags(tags: article.tags),
+          ArticleTags(tags: article.tags.where((t) => !t.isType).toList()),
           const Expanded(child: SizedBox.shrink()),
           Text(
             DateFormat.yMd().format(article.createdAt),

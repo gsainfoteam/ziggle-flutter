@@ -5,7 +5,7 @@ import 'package:ziggle/app/core/values/colors.dart';
 class ZiggleButton extends StatelessWidget {
   final Widget? child;
   final void Function()? onTap;
-  final BorderRadius borderRadius;
+  final BoxDecoration decoration;
   final String? text;
   final Color textColor;
   final double fontSize;
@@ -19,7 +19,7 @@ class ZiggleButton extends StatelessWidget {
     super.key,
     this.child,
     this.onTap,
-    this.borderRadius = const BorderRadius.all(Radius.circular(8)),
+    BoxDecoration? decoration,
     this.text,
     this.textColor = Colors.white,
     this.fontSize = 16,
@@ -27,8 +27,12 @@ class ZiggleButton extends StatelessWidget {
     this.textStyle,
     this.padding,
     this.loading = false,
-  }) : assert(child == null || text == null,
-            'Cannot provide both child and text');
+  })  : assert(child == null || text == null,
+            'Cannot provide both child and text'),
+        decoration = decoration ??
+            const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            );
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +50,7 @@ class ZiggleButton extends StatelessWidget {
                 horizontal: 20,
                 vertical: _isTransparent ? 0 : 10,
               ),
-          decoration: BoxDecoration(
+          decoration: decoration.copyWith(
             color: Color.lerp(
               color,
               Palette.black,
@@ -56,13 +60,8 @@ class ZiggleButton extends StatelessWidget {
                       ? 0.1
                       : 0,
             ),
-            borderRadius: borderRadius,
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [_buildChild()],
-          ),
+          child: _buildChild(),
         ),
       ),
     );
