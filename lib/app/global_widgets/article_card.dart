@@ -5,6 +5,7 @@ import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
+import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_tags.dart';
 import 'package:ziggle/app/global_widgets/d_day.dart';
@@ -135,7 +136,7 @@ class ArticleCard extends StatelessWidget {
         ),
         if (direction == Axis.horizontal) ...[
           const SizedBox(height: 9),
-          ArticleTags(tags: article.tags),
+          ArticleTags(tags: article.tags.where((t) => !t.isCommon).toList()),
           const Expanded(child: SizedBox.shrink()),
           Text(
             DateFormat.yMd().format(article.createdAt),

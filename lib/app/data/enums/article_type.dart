@@ -1,4 +1,5 @@
 import 'package:ziggle/app/data/enums/notice_sort.dart';
+import 'package:ziggle/app/data/model/tag_response.dart';
 
 enum ArticleType {
   deadline('⭐️', '기한 임박', 0, sort: NoticeSort.deadline),
@@ -24,4 +25,8 @@ enum ArticleType {
       {String? shortTitle, NoticeSort? sort})
       : shortTitle = shortTitle ?? title,
         sort = sort ?? NoticeSort.recent;
+}
+
+extension TagResponseExtention on TagResponse {
+  bool get isCommon => ArticleType.searchables.map((e) => e.id).contains(id);
 }
