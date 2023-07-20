@@ -212,14 +212,20 @@ class _ApiProvider implements ApiProvider {
   }
 
   @override
-  Future<List<ArticleSummaryResponse>> getNotices([
+  Future<List<ArticleSummaryResponse>> getNotices({
     int? offset,
     int? limit,
-  ]) async {
+    String? search,
+    List<String>? tags,
+    NoticeSort? orderBy,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'offset': offset,
       r'limit': limit,
+      r'search': search,
+      r'tags[]': tags,
+      r'orderBy': orderBy?.name,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

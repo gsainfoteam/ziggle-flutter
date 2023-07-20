@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/modules/home/repository.dart';
+import 'package:ziggle/app/routes/pages.dart';
 
 class HomeController extends GetxController {
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final HomeRepository _repository;
-  final deadlineArticles = Rxn<List<ArticleSummaryResponse>>();
-  final hotArticles = Rxn<List<ArticleSummaryResponse>>();
-  final eventArticles = Rxn<List<ArticleSummaryResponse>>();
-  final recruitArticles = Rxn<List<ArticleSummaryResponse>>();
-  final generalArticles = Rxn<List<ArticleSummaryResponse>>();
-  final academicArticles = Rxn<List<ArticleSummaryResponse>>();
+
+  final articles = {
+    ArticleType.deadline: Rxn<List<ArticleSummaryResponse>>(),
+    ArticleType.hot: Rxn<List<ArticleSummaryResponse>>(),
+    ArticleType.event: Rxn<List<ArticleSummaryResponse>>(),
+    ArticleType.recruit: Rxn<List<ArticleSummaryResponse>>(),
+    ArticleType.general: Rxn<List<ArticleSummaryResponse>>(),
+    ArticleType.academic: Rxn<List<ArticleSummaryResponse>>(),
+  };
 
   HomeController(this._repository);
 
@@ -22,25 +27,13 @@ class HomeController extends GetxController {
   }
 
   Future<void> reload() async {
-    await Future.wait([
-      _repository.getArticles().then((v) => deadlineArticles.value = v),
-      _repository.getArticles().then((v) => hotArticles.value = v),
-      _repository.getArticles().then((v) => eventArticles.value = v),
-      _repository.getArticles().then((v) => recruitArticles.value = v),
-      _repository.getArticles().then((v) => generalArticles.value = v),
-      _repository.getArticles().then((v) => academicArticles.value = v),
-    ]);
+    await Future.wait(ArticleType.values.map(
+        (e) => _repository.getArticles(e).then((v) => articles[e]!.value = v)));
   }
 
-  void goToDeadline() {}
+  goToList(ArticleType type) {}
 
-  void goToHot() {}
-
-  void goToEvent() {}
-
-  void goToRecruit() {}
-
-  void goToGeneral() {}
-
-  void goToAcademic() {}
+  goToDetail(int id) {
+    Get.toNamed(Routes.ARTICLE, parameters: {'id': id.toString()});
+  }
 }

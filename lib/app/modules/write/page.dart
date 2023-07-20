@@ -119,8 +119,7 @@ class WritePage extends GetView<WriteController> {
   Widget _buildTypes() {
     return Wrap(
       spacing: 8,
-      children: ArticleType.values
-          .sublist(0, 3)
+      children: ArticleType.writables
           .map(
             (type) => Obx(
               () => ZiggleButton(

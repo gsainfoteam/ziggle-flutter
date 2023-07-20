@@ -92,7 +92,7 @@ class SearchPage extends GetView<SearchController> {
   Widget _buildTypes() {
     return Wrap(
       spacing: 8,
-      children: ArticleType.values
+      children: ArticleType.searchables
           .map(
             (type) => Obx(() => ZiggleButton(
                   onTap: () => controller.selectedType(type),
