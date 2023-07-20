@@ -17,11 +17,14 @@ class ArticleCard extends StatelessWidget {
   final ArticleSummaryResponse article;
   final Axis direction;
   final void Function() onTap;
+  final bool showType;
+
   const ArticleCard({
     super.key,
     required this.article,
     this.direction = Axis.vertical,
     required this.onTap,
+    this.showType = false,
   });
 
   @override
@@ -141,7 +144,10 @@ class ArticleCard extends StatelessWidget {
         ),
         if (direction == Axis.horizontal) ...[
           const SizedBox(height: 9),
-          ArticleTags(tags: article.tags.where((t) => !t.isType).toList()),
+          ArticleTags(
+              tags: showType
+                  ? article.tags.map((e) => e.isType ? e.type : e).toList()
+                  : article.tags.where((t) => !t.isType).toList()),
           const Expanded(child: SizedBox.shrink()),
           Text(
             DateFormat.yMd().format(article.createdAt),

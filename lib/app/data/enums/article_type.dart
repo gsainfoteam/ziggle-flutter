@@ -33,4 +33,7 @@ enum ArticleType {
 
 extension TagResponseExtention on TagResponse {
   bool get isType => ArticleType.searchables.map((e) => e.id).contains(id);
+  TagResponse get type => copyWith(
+        name: ArticleType.searchables.firstWhere((e) => e.id == id).shortTitle,
+      );
 }

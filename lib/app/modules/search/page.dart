@@ -144,6 +144,7 @@ class SearchPage extends GetView<SearchController> {
         itemBuilder: (context, index) => ArticleCard(
           article: controller.articles.value![index],
           direction: Axis.horizontal,
+          showType: true,
           onTap: () => Get.toNamed(Routes.ARTICLE, parameters: {
             'id': controller.articles.value![index].id.toString(),
           }),
