@@ -20,6 +20,7 @@ enum ArticleType {
   String get header => '$emoji $title';
   String get label => '$emoji $shortTitle';
   bool get isHorizontal => this == deadline;
+  bool get isSearchable => searchables.contains(this);
 
   static const searchables = [recruit, event, general, academic];
   static const writables = [recruit, event, general];

@@ -11,7 +11,7 @@ class HomeRepository {
     return _provider.getNotices(
       limit: type.isHorizontal ? 10 : 4,
       orderBy: type.sort,
-      tags: ArticleType.searchables.contains(type) ? [type.name] : null,
+      tags: type.isSearchable ? [type.name] : null,
     );
   }
 }
