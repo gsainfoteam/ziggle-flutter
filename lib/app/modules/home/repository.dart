@@ -9,7 +9,7 @@ class HomeRepository {
 
   Future<List<ArticleSummaryResponse>> getArticles(ArticleType type) {
     return _provider.getNotices(
-      limit: type == ArticleType.deadline ? 10 : 4,
+      limit: type.isHorizontal ? 10 : 4,
       orderBy: type.sort,
       tags: ArticleType.searchables.contains(type) ? [type.name] : null,
     );

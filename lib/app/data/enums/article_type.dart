@@ -15,10 +15,10 @@ enum ArticleType {
   final NoticeSort sort;
   String get header => '$emoji $title';
   String get label => '$emoji $shortTitle';
+  bool get isHorizontal => this == deadline;
 
   static const searchables = [recruit, event, general, academic];
   static const writables = [recruit, event, general];
-  static const verticals = [hot, recruit, event, general, academic];
 
   const ArticleType(this.emoji, this.title, this.id,
       {String? shortTitle, NoticeSort? sort})
