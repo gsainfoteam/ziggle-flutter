@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/global_widgets/article_card.dart';
+import 'package:ziggle/app/global_widgets/section_header.dart';
 import 'package:ziggle/app/modules/home/controller.dart';
-import 'package:ziggle/gen/assets.gen.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -20,7 +19,7 @@ class HomePage extends GetView<HomeController> {
         children: ArticleType.values
             .expand(
               (e) => [
-                _buildSectionHeader(e),
+                SectionHeader(type: e, onTap: () => controller.goToList(e)),
                 const SizedBox(height: 8),
                 Obx(() => _buildArticles(e)),
                 const SizedBox(height: 30),
@@ -29,20 +28,6 @@ class HomePage extends GetView<HomeController> {
             .toList(),
       ),
     );
-  }
-
-  Widget _buildSectionHeader(ArticleType type) {
-    return GestureDetector(
-      onTap: () => controller.goToList(type),
-      behavior: HitTestBehavior.opaque,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(type.header, style: TextStyles.articleTitleStyle),
-          Assets.icons.rightArrow.image(width: 18, height: 18),
-        ],
-      ),
-    ).paddingSymmetric(horizontal: 20);
   }
 
   Widget _buildArticles(ArticleType type) {
