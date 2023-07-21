@@ -20,7 +20,9 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    Future.microtask(() => refreshIndicatorKey.currentState?.show());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      refreshIndicatorKey.currentState?.show();
+    });
   }
 
   Future<void> reload() async {
