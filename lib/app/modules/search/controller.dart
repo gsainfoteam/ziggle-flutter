@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
+import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/modules/search/repository.dart';
 import 'package:ziggle/app/routes/pages.dart';
 
@@ -15,6 +16,7 @@ class SearchController extends GetxController {
       PagingController<int, ArticleSummaryResponse>(firstPageKey: 1);
   final toolbarHeight = 0.0.obs;
   final toolbarKey = GlobalKey();
+  final _analyticsService = AnalyticsService.to;
 
   SearchController(this._repository);
 
@@ -55,6 +57,7 @@ class SearchController extends GetxController {
 
   Future<void> search() async {
     pagingController.refresh();
+    _analyticsService.logSearch(query.value, selectedType);
   }
 
   toggleType(ArticleType type) {

@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/theme/app.dart';
 import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/binding.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -29,6 +30,7 @@ class App extends StatelessWidget {
           initialBinding: initialBinding,
           getPages: AppPages.routes,
           theme: appTheme,
+          navigatorObservers: [AnalyticsService.observer],
         ),
       ),
     );
