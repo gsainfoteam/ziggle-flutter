@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
+import 'package:ziggle/app/global_widgets/section_header.dart';
 import 'package:ziggle/app/modules/my/controller.dart';
 
 class MyPage extends GetView<MyController> {
@@ -29,6 +31,7 @@ class MyPage extends GetView<MyController> {
         children: [
           _buildProfile(),
           const Divider(),
+          _buildMyArticles(),
           const Divider(),
           _buildFooter(),
         ],
@@ -70,6 +73,18 @@ class MyPage extends GetView<MyController> {
       ],
     );
   }
+
+  Widget _buildMyArticles() => Column(
+        children: ArticleType.profile
+            .map(
+              (e) => Column(
+                children: [
+                  SectionHeader(type: e, onTap: () => controller.goToList(e)),
+                ],
+              ).paddingSymmetric(horizontal: 20, vertical: 25),
+            )
+            .toList(),
+      );
 
   Widget _buildFooter() => Column(
         crossAxisAlignment: CrossAxisAlignment.start,

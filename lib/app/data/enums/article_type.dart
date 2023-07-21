@@ -27,6 +27,7 @@ enum ArticleType {
   static const writables = [recruit, event, general];
   static const searchables = [...writables, academic];
   static const main = [deadline, hot, ...searchables];
+  static const profile = [my, reminders];
 
   const ArticleType(this.emoji, this.title, this.description,
       {this.id = 0, String? shortTitle, NoticeSort? sort})

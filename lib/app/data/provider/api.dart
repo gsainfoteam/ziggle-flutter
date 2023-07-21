@@ -47,6 +47,8 @@ abstract class ApiProvider {
     @Query('search') String? search,
     @Query('tags[]') List<String>? tags,
     @Query('orderBy') NoticeSort? orderBy,
+    @Query('my') bool? my,
+    @Query('reminders') bool? reminders,
   });
 
   @GET('/notice/{id}')
