@@ -13,6 +13,8 @@ class SearchController extends GetxController {
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final pagingController =
       PagingController<int, ArticleSummaryResponse>(firstPageKey: 1);
+  final toolbarHeight = 0.0.obs;
+  final toolbarKey = GlobalKey();
 
   SearchController(this._repository);
 
@@ -33,6 +35,12 @@ class SearchController extends GetxController {
     });
     debounce(query, _debounceHandler);
     ever(selectedType, _debounceHandler);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      toolbarHeight.value =
+          (toolbarKey.currentContext!.findRenderObject() as RenderBox)
+              .size
+              .height;
+    });
   }
 
   @override

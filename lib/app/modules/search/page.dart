@@ -24,39 +24,41 @@ class SearchPage extends GetView<SearchController> {
       child: CustomScrollView(
         clipBehavior: Clip.none,
         slivers: [
-          SliverAppBar(
-            toolbarHeight: 132,
-            floating: true,
-            backgroundColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(0),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.white,
-                      Color(0x00ffffff),
-                    ],
-                    begin: Alignment.center,
-                    end: Alignment.bottomCenter,
+          Obx(() => SliverAppBar(
+                toolbarHeight: controller.toolbarHeight.value,
+                floating: true,
+                backgroundColor: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(0),
+                  child: Container(
+                    key: controller.toolbarKey,
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.white,
+                          Color(0x00ffffff),
+                        ],
+                        begin: Alignment.center,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 12),
+                        _buildSearchBox(),
+                        const SizedBox(height: 8),
+                        _buildTypes(),
+                        const SizedBox(height: 28),
+                      ],
+                    ),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 12),
-                    _buildSearchBox(),
-                    const SizedBox(height: 8),
-                    _buildTypes(),
-                    const SizedBox(height: 28),
-                  ],
-                ),
-              ),
-            ),
-          ),
+              )),
           _buildArticles(),
         ],
       ),
@@ -93,6 +95,7 @@ class SearchPage extends GetView<SearchController> {
   Widget _buildTypes() {
     return Wrap(
       spacing: 8,
+      runSpacing: 8,
       children: ArticleType.searchables
           .map(
             (type) => Obx(() => ZiggleButton(
