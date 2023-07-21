@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/modules/login/controller.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class LoginPage extends GetView<LoginController> {
   const LoginPage({super.key});
@@ -14,10 +15,10 @@ class LoginPage extends GetView<LoginController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Expanded(
+            Expanded(
               child: Center(
                 child: Text(
-                  '지스트의 모든 공지를 한눈에',
+                  t.login.promotion,
                   textAlign: TextAlign.center,
                   style: TextStyles.articleTitleStyle,
                 ),
@@ -27,7 +28,7 @@ class LoginPage extends GetView<LoginController> {
             Obx(() => SizedBox(
                   height: 50,
                   child: ZiggleButton(
-                    text: 'GSA 통합 계정으로 로그인',
+                    text: t.login.login,
                     onTap: controller.login,
                     loading: controller.loading.value,
                     fontSize: 18,
@@ -35,7 +36,7 @@ class LoginPage extends GetView<LoginController> {
                 )),
             const SizedBox(height: 16),
             ZiggleButton(
-              text: '로그인 없이 시작하기',
+              text: t.login.withoutLogin,
               color: Colors.transparent,
               onTap: controller.skipLogin,
             )

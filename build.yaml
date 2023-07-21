@@ -5,6 +5,7 @@ targets:
         options:
           base_locale: ko
           input_directory: assets/i18n
+          namespaces: true
 
 global_options:
   json_serializable:

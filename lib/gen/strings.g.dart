@@ -6,7 +6,7 @@
 /// Locales: 1
 /// Strings: 3
 ///
-/// Built on 2023-07-21 at 09:25 UTC
+/// Built on 2023-07-21 at 09:29 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -149,6 +149,16 @@ class _StringsKo implements BaseTranslations<AppLocale, _StringsKo> {
 	late final _StringsKo _root = this; // ignore: unused_field
 
 	// Translations
+	late final _StringsLoginKo login = _StringsLoginKo._(_root);
+}
+
+// Path: login
+class _StringsLoginKo {
+	_StringsLoginKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
 	String get promotion => '지스트의 모든 공지를 한눈에';
 	String get login => 'GSA 통합 계정으로 로그인';
 	String get withoutLogin => '로그인 없이 이용하기';
@@ -160,9 +170,9 @@ class _StringsKo implements BaseTranslations<AppLocale, _StringsKo> {
 extension on _StringsKo {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
-			case 'promotion': return '지스트의 모든 공지를 한눈에';
-			case 'login': return 'GSA 통합 계정으로 로그인';
-			case 'withoutLogin': return '로그인 없이 이용하기';
+			case 'login.promotion': return '지스트의 모든 공지를 한눈에';
+			case 'login.login': return 'GSA 통합 계정으로 로그인';
+			case 'login.withoutLogin': return '로그인 없이 이용하기';
 			default: return null;
 		}
 	}
