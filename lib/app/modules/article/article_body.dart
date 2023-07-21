@@ -10,6 +10,7 @@ import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/global_widgets/article_tags.dart';
 import 'package:ziggle/app/global_widgets/d_day.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class ArticleBody extends StatelessWidget {
   final ArticleResponse article;
@@ -28,9 +29,10 @@ class ArticleBody extends StatelessWidget {
         ],
         Row(
           children: [
-            _buildTextRich('글쓴이', article.author),
+            _buildTextRich(t.article.author, article.author),
             const SizedBox(width: 6),
-            _buildTextRich('조회수', article.views.toString(), FontWeight.w500),
+            _buildTextRich(
+                t.article.views, article.views.toString(), FontWeight.w500),
           ],
         ),
         const SizedBox(height: 10),
@@ -38,7 +40,7 @@ class ArticleBody extends StatelessWidget {
           Row(
             children: [
               _buildTextRich(
-                '마감일',
+                t.article.deadline,
                 DateFormat.yMEd().format(article.deadline!),
               ),
               const SizedBox(width: 10),
@@ -49,7 +51,8 @@ class ArticleBody extends StatelessWidget {
           ),
           const SizedBox(height: 10)
         ],
-        _buildTextRich('작성일', DateFormat.yMd().format(article.createdAt)),
+        _buildTextRich(
+            t.article.createdAt, DateFormat.yMd().format(article.createdAt)),
         const Divider(
           thickness: 1,
           height: 30,

@@ -9,6 +9,7 @@ import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/text_form_field.dart';
 import 'package:ziggle/app/modules/write/controller.dart';
 import 'package:ziggle/app/modules/write/gallery_item_button.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class WritePage extends GetView<WriteController> {
   const WritePage({super.key});
@@ -35,9 +36,9 @@ class WritePage extends GetView<WriteController> {
         TextFormField(
           controller: controller.titleController,
           style: TextStyles.articleWriterTitleStyle,
-          decoration: const InputDecoration.collapsed(
-            border: OutlineInputBorder(borderSide: BorderSide.none),
-            hintText: '제목을 입력하세요',
+          decoration: InputDecoration.collapsed(
+            border: const OutlineInputBorder(borderSide: BorderSide.none),
+            hintText: t.write.title.placeholder,
           ),
         ),
         Row(
@@ -46,7 +47,7 @@ class WritePage extends GetView<WriteController> {
                   value: controller.hasDeadline.value,
                   onChanged: controller.hasDeadline,
                 )),
-            const Text('마감일 설정', style: TextStyles.secondaryLabelStyle),
+            Text(t.write.deadline.label, style: TextStyles.secondaryLabelStyle),
           ],
         ),
         const SizedBox(height: 10),
@@ -68,11 +69,11 @@ class WritePage extends GetView<WriteController> {
                 )
               : const SizedBox.shrink(),
         ),
-        const _Label(icon: Icons.sort, label: '분류'),
+        _Label(icon: Icons.sort, label: t.write.type.label),
         const SizedBox(height: 10),
         _buildTypes(),
         const SizedBox(height: 20),
-        const _Label(icon: Icons.sell, label: '태그 설정'),
+        _Label(icon: Icons.sell, label: t.write.tags.label),
         const SizedBox(height: 10),
         _buildTags()
       ],
@@ -91,7 +92,7 @@ class WritePage extends GetView<WriteController> {
                   onChanged: onChanged,
                   onSubmitted: onSubmitted,
                   inputDecoration: InputDecoration(
-                    hintText: '태그를 입력하세요 (띄어쓰기로 구분)',
+                    hintText: t.write.tags.placeholder,
                     prefixIconConstraints:
                         BoxConstraints(maxWidth: constraints.maxWidth * 0.6),
                     prefixIcon: tags.isNotEmpty
@@ -149,20 +150,23 @@ class WritePage extends GetView<WriteController> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const _Label(icon: Icons.menu, label: '본문 내용 입력'),
+            _Label(icon: Icons.menu, label: t.write.body.label),
             const SizedBox(height: 10),
             ZiggleTextFormField(
               controller: controller.bodyController,
-              hintText: '본문 내용을 입력하세요\n마크다운 문법을 지원합니다.',
+              hintText: t.write.body.placeholder,
               minLines: 11,
               maxLines: 20,
             ),
             const SizedBox(height: 32),
-            const _Label(icon: Icons.add_photo_alternate, label: '사진 첨부'),
+            _Label(
+              icon: Icons.add_photo_alternate,
+              label: t.write.images.label,
+            ),
             const SizedBox(height: 2),
-            const Text(
-              '선택 후 클릭하여 대표 사진을 선택해주세요.',
-              style: TextStyle(color: Palette.secondaryText),
+            Text(
+              t.write.images.description,
+              style: const TextStyle(color: Palette.secondaryText),
             ),
             const SizedBox(height: 12),
           ],
@@ -175,7 +179,7 @@ class WritePage extends GetView<WriteController> {
   Widget _buildGallery() {
     if (controller.images.isEmpty) {
       return ZiggleButton(
-        text: '폰에서 사진 선택하기...',
+        text: t.write.images.action,
         onTap: controller.selectPhotos,
       ).paddingSymmetric(horizontal: 20);
     }
@@ -216,7 +220,7 @@ class WritePage extends GetView<WriteController> {
         SizedBox(
           height: 30,
           child: ZiggleButton(
-            text: '공지 미리보기',
+            text: t.write.preview,
             color: Colors.transparent,
             onTap: controller.showPreview,
           ),
@@ -226,7 +230,7 @@ class WritePage extends GetView<WriteController> {
           width: 250,
           height: 50,
           child: Obx(() => ZiggleButton(
-                text: '공지 제출하기',
+                text: t.write.submit,
                 onTap: controller.submit,
                 loading: controller.loading.value,
                 decoration: const BoxDecoration(
@@ -236,9 +240,9 @@ class WritePage extends GetView<WriteController> {
               )),
         ),
         const SizedBox(height: 12),
-        const Text(
-          '공지 제출 시 수정 및 삭제가 불가능합니다.',
-          style: TextStyle(fontSize: 14, color: Palette.secondaryText),
+        Text(
+          t.write.warning,
+          style: const TextStyle(fontSize: 14, color: Palette.secondaryText),
         ),
         const SizedBox(height: 150),
       ],

@@ -7,6 +7,7 @@ import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/section_header.dart';
 import 'package:ziggle/app/modules/profile/controller.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class ProfilePage extends GetView<ProfileController> {
   const ProfilePage({super.key});
@@ -15,12 +16,12 @@ class ProfilePage extends GetView<ProfileController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('마이페이지'),
+        title: Text(t.profile.title),
         actions: [
           SizedBox(
             height: 45,
             child: ZiggleButton(
-              text: '로그아웃',
+              text: t.profile.logout,
               color: Colors.transparent,
               onTap: controller.logout,
             ),
@@ -59,11 +60,12 @@ class ProfilePage extends GetView<ProfileController> {
           backgroundColor: Palette.primaryColor,
         ),
         const SizedBox(height: 30),
-        Obx(() => _buildInfoRow('이름', controller.name.value)),
+        Obx(() => _buildInfoRow(t.profile.name, controller.name.value)),
         const SizedBox(height: 25),
-        Obx(() => _buildInfoRow('학번', controller.studentId.value)),
+        Obx(() =>
+            _buildInfoRow(t.profile.studentId, controller.studentId.value)),
         const SizedBox(height: 25),
-        Obx(() => _buildInfoRow('메일', controller.email.value)),
+        Obx(() => _buildInfoRow(t.profile.mail, controller.email.value)),
         const SizedBox(height: 30),
       ],
     ).paddingSymmetric(horizontal: 38);
@@ -106,7 +108,8 @@ class ProfilePage extends GetView<ProfileController> {
                       height: 60,
                       child: ZiggleButton(
                         color: Palette.light,
-                        text: '외 ${controller.articles.value![e]!.count}개',
+                        text: t.profile.others(
+                            count: controller.articles.value![e]!.count),
                         textColor: Palette.black,
                         textStyle: TextStyles.bigNormal,
                         onTap: () => controller.goToList(e),
@@ -123,7 +126,7 @@ class ProfilePage extends GetView<ProfileController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ZiggleButton(
-            text: '개인정보처리방침',
+            text: t.profile.privacyPolicy,
             color: Colors.transparent,
             textStyle: TextStyles.link,
             padding: EdgeInsets.zero,
@@ -131,7 +134,7 @@ class ProfilePage extends GetView<ProfileController> {
           ),
           const SizedBox(height: 25),
           ZiggleButton(
-            text: '이용약관',
+            text: t.profile.termsOfService,
             color: Colors.transparent,
             textStyle: TextStyles.link,
             padding: EdgeInsets.zero,

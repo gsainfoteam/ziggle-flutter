@@ -233,6 +233,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.17.3"
+  csv:
+    dependency: transitive
+    description:
+      name: csv
+      sha256: "016b31a51a913744a0a1655c74ff13c9379e1200e246a03d96c81c5d9ed297b5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.2"
   dart_style:
     dependency: transitive
     description:
@@ -502,6 +510,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0+1"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_native_splash:
     dependency: "direct main"
     description:
@@ -808,6 +821,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
+  json2yaml:
+    dependency: transitive
+    description:
+      name: json2yaml
+      sha256: da94630fbc56079426fdd167ae58373286f603371075b69bf46d848d63ba3e51
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   json_annotation:
     dependency: "direct main"
     description:
@@ -1061,6 +1082,30 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  slang:
+    dependency: "direct main"
+    description:
+      name: slang
+      sha256: "68162dc10567b44ef39e8c5ed5a066d7c9b078c8b1b10ee49f713faa43e89a07"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.21.0"
+  slang_build_runner:
+    dependency: "direct dev"
+    description:
+      name: slang_build_runner
+      sha256: d7f237b3a5a1b2569c5acacbf2ad18c4384129a83a7c34748b99bfb2749d4db2
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.21.0"
+  slang_flutter:
+    dependency: "direct main"
+    description:
+      name: slang_flutter
+      sha256: b9c63bf4b0088edde5a09264ac86304f0acec9015aea743f9fa08946d08b832f
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.21.0"
   sliver_tools:
     dependency: transitive
     description:

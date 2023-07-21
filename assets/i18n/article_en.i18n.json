@@ -1,0 +1,40 @@
+{
+  "section": {
+    "title(context=ArticleType, param=type)": {
+      "deadline": "Deadline",
+      "hot": "Hot",
+      "my": "My",
+      "reminders": "Reminders",
+      "recruit": "Recruit",
+      "event": "Event",
+      "general": "General",
+      "academic": "Academic"
+    },
+    "description(context=ArticleType, param=type)": {
+      "deadline": "Articles that are about to expire within a week",
+      "hot": "Articles that have been viewed more than 150 times in the last week",
+      "my": "Articles that I wrote",
+      "reminders": "Articles that I set reminders",
+      "recruit": "Opportunities always open to you",
+      "event": "GIST is hot today",
+      "general": "Things GISTers have to do",
+      "academic": "Things GISTers have to do"
+    },
+    "shortTitle(context=ArticleType, param=type)": {
+      "deadline": "Deadline",
+      "hot": "Hot",
+      "my": "My",
+      "reminders": "Reminders",
+      "recruit": "Recruit",
+      "event": "Event",
+      "general": "General",
+      "academic": "Academic"
+    }
+  },
+  "author": "Author",
+  "views": "Views",
+  "deadline": "Deadline",
+  "deadlineDelta": "$n days left",
+  "createdAt": "Created At",
+  "reminderDescription": "If you set a reminder,\nI'll let you know n days before the deadline!"
+}

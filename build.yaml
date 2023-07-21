@@ -1,3 +1,18 @@
+targets:
+  $default:
+    builders:
+      slang_build_runner:
+        options:
+          base_locale: ko
+          input_directory: assets/i18n
+          namespaces: true
+          timestamp: false
+          contexts:
+            ArticleType:
+              generate_enum: false
+          imports:
+            - 'package:ziggle/app/data/enums/article_type.dart'
+
 global_options:
   json_serializable:
     runs_before:

@@ -10,6 +10,7 @@ import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_tags.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/d_day.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 const kArticleCardHeight = 180.0;
 
@@ -131,9 +132,9 @@ class ArticleCard extends StatelessWidget {
             const SizedBox(width: 7),
             Text.rich(
               TextSpan(children: [
-                const TextSpan(
-                  text: '조회수 ',
-                  style: TextStyle(fontWeight: FontWeight.normal),
+                TextSpan(
+                  text: '${t.article.views} ',
+                  style: const TextStyle(fontWeight: FontWeight.normal),
                 ),
                 TextSpan(text: article.views.toString()),
               ]),

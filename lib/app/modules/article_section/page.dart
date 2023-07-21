@@ -9,6 +9,7 @@ import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/modules/article_section/controller.dart';
 import 'package:ziggle/gen/assets.gen.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class ArticleSectionPage extends GetView<ArticleSectionController> {
   const ArticleSectionPage({super.key});
@@ -60,10 +61,7 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
         children: [
           Assets.images.noResult.image(width: 160),
           const SizedBox(height: 16),
-          const Text(
-            '검색 결과가 존재하지 않습니다.',
-            style: TextStyles.secondaryLabelStyle,
-          ),
+          Text(t.search.noResult, style: TextStyles.secondaryLabelStyle),
         ],
       );
 
@@ -78,7 +76,9 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
         itemBuilder: (context, item, index) => Column(
           children: [
             Text(
-              '${calculateDateDelta(DateTime.now(), item.key)}일 남음',
+              t.article.deadlineDelta(
+                n: calculateDateDelta(DateTime.now(), item.key),
+              ),
               style: TextStyles.articleCardTitleStyle,
             ),
             const SizedBox(height: 12),

@@ -4,7 +4,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:markdown/markdown.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 import 'package:ziggle/app/core/values/colors.dart';
-import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
@@ -12,6 +11,7 @@ import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/write/article_preview_sheet.dart';
 import 'package:ziggle/app/modules/write/repository.dart';
 import 'package:ziggle/app/routes/pages.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class WriteController extends GetxController {
   final titleController = TextEditingController();
@@ -44,10 +44,7 @@ class WriteController extends GetxController {
         }
       }
     });
-    UserService.to
-        .getUserInfo()
-        .first
-        .then((value) => _userName = value?.name ?? placeholderUserName);
+    UserService.to.getUserInfo().first.then((value) => _userName = value!.name);
   }
 
   @override
@@ -93,16 +90,16 @@ class WriteController extends GetxController {
 
   submit() async {
     if (titleController.text.isEmpty) {
-      Get.snackbar('제목을 입력해주세요.', '제목을 입력하지 않으면 공지를 제출할 수 없습니다.');
+      Get.snackbar(t.write.title.error.title, t.write.title.error.description);
       return;
     }
     final type = selectedType.value;
     if (type == null) {
-      Get.snackbar('공지 유형을 선택해주세요.', '공지 유형을 선택하지 않으면 공지를 제출할 수 없습니다.');
+      Get.snackbar(t.write.type.error.title, t.write.type.error.description);
       return;
     }
     if (bodyController.text.isEmpty) {
-      Get.snackbar('내용을 입력해주세요.', '내용을 입력하지 않으면 공지를 제출할 수 없습니다.');
+      Get.snackbar(t.write.body.error.title, t.write.body.error.description);
       return;
     }
     if (images.isNotEmpty) {
@@ -110,7 +107,8 @@ class WriteController extends GetxController {
         mainImage.value = images.first;
       }
       if (mainImage.value == null) {
-        Get.snackbar('메인 이미지를 선택해주세요.', '메인 이미지를 선택하지 않으면 공지를 제출할 수 없습니다.');
+        Get.snackbar(
+            t.write.images.error.title, t.write.images.error.description);
         return;
       }
     }

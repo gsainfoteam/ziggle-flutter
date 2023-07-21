@@ -10,6 +10,7 @@ import 'package:ziggle/app/global_widgets/bottom_sheet.dart';
 import 'package:ziggle/app/modules/article/article_body.dart';
 import 'package:ziggle/app/modules/article/controller.dart';
 import 'package:ziggle/app/modules/article/page_spinner.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class ArticlePage extends GetView<ArticleController> {
   const ArticlePage({super.key});
@@ -161,8 +162,8 @@ class _Tooltip extends StatelessWidget {
                 color: Palette.white,
                 padding: EdgeInsets.zero,
               ),
-              const Text(
-                '알림 설정하면\n마감일 n일 전에 알려줘요!',
+              Text(
+                t.article.reminderDescription,
                 style: TextStyles.tooltipStyle,
                 textAlign: TextAlign.center,
               ),

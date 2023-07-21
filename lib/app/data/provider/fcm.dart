@@ -2,18 +2,18 @@ import 'dart:async';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-const _androidNotificationChannel = AndroidNotificationChannel(
-  'ziggle_notification_channel',
-  '지글 알림',
-  importance: Importance.max,
-);
+import 'package:ziggle/gen/strings.g.dart';
 
 class FcmProvider {
   String? _token;
   final _controller = StreamController<String?>.broadcast();
   final _completer = Completer<void>();
   final _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final _androidNotificationChannel = AndroidNotificationChannel(
+    'ziggle_notification_channel',
+    t.root.notificationChannelDescription,
+    importance: Importance.max,
+  );
 
   FcmProvider() {
     _controller.stream.listen((event) {

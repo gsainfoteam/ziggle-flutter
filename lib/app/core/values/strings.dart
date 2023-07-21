@@ -5,7 +5,6 @@ const idpUrl = 'https://idp.gistory.me/'
     '?client_id=$_idpClientId'
     '&redirect_uri=$idpRedirectScheme://'
     '&staging=true';
-const placeholderUserName = '엄준식';
 const privacyPolicyUrl =
     'https://infoteam-rulrudino.notion.site/ceb9340c0b514497b6d916c4a67590a1';
 const termsOfServiceUrl =

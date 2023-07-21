@@ -8,12 +8,14 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:ziggle/app.dart';
 import 'package:ziggle/app/data/provider/db.dart';
 import 'package:ziggle/firebase_options.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 void main() async {
   await initializeDateFormatting('ko_KR', null);
   Intl.defaultLocale = 'ko_KR';
   final widgetsBining = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBining);
+  LocaleSettings.useDeviceLocale();
   await Future.wait([
     DbProvider.init(),
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
@@ -27,5 +29,5 @@ void main() async {
       return true;
     };
   }
-  runApp(const App());
+  runApp(TranslationProvider(child: const App()));
 }

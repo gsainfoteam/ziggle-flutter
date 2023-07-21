@@ -9,6 +9,7 @@ import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/modules/search/controller.dart';
 import 'package:ziggle/gen/assets.gen.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class SearchPage extends GetView<SearchController> {
   const SearchPage({super.key});
@@ -23,39 +24,41 @@ class SearchPage extends GetView<SearchController> {
       child: CustomScrollView(
         clipBehavior: Clip.none,
         slivers: [
-          SliverAppBar(
-            toolbarHeight: 132,
-            floating: true,
-            backgroundColor: Colors.transparent,
-            surfaceTintColor: Colors.transparent,
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(0),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.white,
-                      Color(0x00ffffff),
-                    ],
-                    begin: Alignment.center,
-                    end: Alignment.bottomCenter,
+          Obx(() => SliverAppBar(
+                toolbarHeight: controller.toolbarHeight.value,
+                floating: true,
+                backgroundColor: Colors.transparent,
+                surfaceTintColor: Colors.transparent,
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(0),
+                  child: Container(
+                    key: controller.toolbarKey,
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.white,
+                          Color(0x00ffffff),
+                        ],
+                        begin: Alignment.center,
+                        end: Alignment.bottomCenter,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        const SizedBox(height: 12),
+                        _buildSearchBox(),
+                        const SizedBox(height: 8),
+                        _buildTypes(),
+                        const SizedBox(height: 28),
+                      ],
+                    ),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const SizedBox(height: 12),
-                    _buildSearchBox(),
-                    const SizedBox(height: 8),
-                    _buildTypes(),
-                    const SizedBox(height: 28),
-                  ],
-                ),
-              ),
-            ),
-          ),
+              )),
           _buildArticles(),
         ],
       ),
@@ -66,21 +69,21 @@ class SearchPage extends GetView<SearchController> {
     return TextField(
       style: TextStyles.label.copyWith(color: Palette.primaryColor),
       onChanged: controller.query,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(100)),
           borderSide: BorderSide.none,
         ),
         fillColor: Palette.light,
         filled: true,
-        hintText: '강의명/교수명/과목코드',
+        hintText: t.search.queryHint,
         hintStyle: TextStyles.secondaryLabelStyle,
-        contentPadding: EdgeInsets.symmetric(
+        contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 12,
         ),
         isCollapsed: true,
-        suffixIcon: Icon(
+        suffixIcon: const Icon(
           Icons.search,
           color: Palette.secondaryText,
           size: 30,
@@ -92,6 +95,7 @@ class SearchPage extends GetView<SearchController> {
   Widget _buildTypes() {
     return Wrap(
       spacing: 8,
+      runSpacing: 8,
       children: ArticleType.searchables
           .map(
             (type) => Obx(() => ZiggleButton(
@@ -114,20 +118,13 @@ class SearchPage extends GetView<SearchController> {
   }
 
   Widget _buildEnterQuery() {
-    return const SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(height: 32),
-          Icon(
-            Icons.search,
-            size: 100,
-            color: Palette.secondaryText,
-          ),
-          Text(
-            '검색어를 입력해주세요',
-            style: TextStyles.secondaryLabelStyle,
-          ),
+          const SizedBox(height: 32),
+          const Icon(Icons.search, size: 100, color: Palette.secondaryText),
+          Text(t.search.enter, style: TextStyles.secondaryLabelStyle),
         ],
       ),
     );
@@ -144,8 +141,8 @@ class SearchPage extends GetView<SearchController> {
               : Column(children: [
                   Assets.images.noResult.image(width: 160),
                   const SizedBox(height: 16),
-                  const Text(
-                    '검색 결과가 존재하지 않습니다.',
+                  Text(
+                    t.search.noResult,
                     style: TextStyles.secondaryLabelStyle,
                   ),
                 ]),
