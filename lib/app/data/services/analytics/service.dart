@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 
 class AnalyticsService {
@@ -36,4 +37,10 @@ class AnalyticsService {
   logHideReminderTooltip() => _instance.logEvent(name: 'hide_reminder_tooltip');
   logChangeImageCarousel(int page) => _instance
       .logEvent(name: 'change_image_carousel', parameters: {'page': page});
+
+  logSearch(String query, Iterable<ArticleType> types) =>
+      _instance.logEvent(name: 'search', parameters: {
+        'query': query,
+        'types': types.map((e) => e.name).join(', '),
+      });
 }
