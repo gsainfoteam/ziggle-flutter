@@ -21,7 +21,7 @@ class RootController extends GetxController {
       return;
     }
 
-    name.value = user.userName;
+    name.value = user.name;
   }
 
   @override

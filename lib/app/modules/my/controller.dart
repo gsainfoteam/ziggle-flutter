@@ -28,9 +28,9 @@ class MyController extends GetxController {
       return;
     }
 
-    name.value = user.userName;
+    name.value = user.name;
     studentId.value = user.studentId;
-    email.value = user.userEmailId;
+    email.value = user.email;
     _repository.getArticles().then((value) => articles.value = value);
   }
 

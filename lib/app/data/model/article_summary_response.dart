@@ -6,8 +6,6 @@ part 'article_summary_response.g.dart';
 
 @freezed
 class ArticleSummaryResponse with _$ArticleSummaryResponse {
-  // ignore: invalid_annotation_target
-  @JsonSerializable(fieldRename: FieldRename.none)
   const factory ArticleSummaryResponse({
     required int id,
     required String title,

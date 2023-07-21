@@ -20,10 +20,15 @@ UserInfoResponse _$UserInfoResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$UserInfoResponse {
-  String get userUuid => throw _privateConstructorUsedError;
-  String get userEmailId => throw _privateConstructorUsedError;
-  String get userName => throw _privateConstructorUsedError;
-  String get userPhoneNumber => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_uuid')
+  String get uuid => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_email_id')
+  String get email => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_name')
+  String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_phone_number')
+  String get phoneNumber => throw _privateConstructorUsedError;
+  @JsonKey(name: 'student_id')
   String get studentId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -39,11 +44,11 @@ abstract class $UserInfoResponseCopyWith<$Res> {
       _$UserInfoResponseCopyWithImpl<$Res, UserInfoResponse>;
   @useResult
   $Res call(
-      {String userUuid,
-      String userEmailId,
-      String userName,
-      String userPhoneNumber,
-      String studentId});
+      {@JsonKey(name: 'user_uuid') String uuid,
+      @JsonKey(name: 'user_email_id') String email,
+      @JsonKey(name: 'user_name') String name,
+      @JsonKey(name: 'user_phone_number') String phoneNumber,
+      @JsonKey(name: 'student_id') String studentId});
 }
 
 /// @nodoc
@@ -59,28 +64,28 @@ class _$UserInfoResponseCopyWithImpl<$Res, $Val extends UserInfoResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userUuid = null,
-    Object? userEmailId = null,
-    Object? userName = null,
-    Object? userPhoneNumber = null,
+    Object? uuid = null,
+    Object? email = null,
+    Object? name = null,
+    Object? phoneNumber = null,
     Object? studentId = null,
   }) {
     return _then(_value.copyWith(
-      userUuid: null == userUuid
-          ? _value.userUuid
-          : userUuid // ignore: cast_nullable_to_non_nullable
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
               as String,
-      userEmailId: null == userEmailId
-          ? _value.userEmailId
-          : userEmailId // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      userPhoneNumber: null == userPhoneNumber
-          ? _value.userPhoneNumber
-          : userPhoneNumber // ignore: cast_nullable_to_non_nullable
+      phoneNumber: null == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
       studentId: null == studentId
           ? _value.studentId
@@ -99,11 +104,11 @@ abstract class _$$_UserInfoResponseCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String userUuid,
-      String userEmailId,
-      String userName,
-      String userPhoneNumber,
-      String studentId});
+      {@JsonKey(name: 'user_uuid') String uuid,
+      @JsonKey(name: 'user_email_id') String email,
+      @JsonKey(name: 'user_name') String name,
+      @JsonKey(name: 'user_phone_number') String phoneNumber,
+      @JsonKey(name: 'student_id') String studentId});
 }
 
 /// @nodoc
@@ -117,28 +122,28 @@ class __$$_UserInfoResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userUuid = null,
-    Object? userEmailId = null,
-    Object? userName = null,
-    Object? userPhoneNumber = null,
+    Object? uuid = null,
+    Object? email = null,
+    Object? name = null,
+    Object? phoneNumber = null,
     Object? studentId = null,
   }) {
     return _then(_$_UserInfoResponse(
-      userUuid: null == userUuid
-          ? _value.userUuid
-          : userUuid // ignore: cast_nullable_to_non_nullable
+      uuid: null == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
               as String,
-      userEmailId: null == userEmailId
-          ? _value.userEmailId
-          : userEmailId // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as String,
-      userName: null == userName
-          ? _value.userName
-          : userName // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      userPhoneNumber: null == userPhoneNumber
-          ? _value.userPhoneNumber
-          : userPhoneNumber // ignore: cast_nullable_to_non_nullable
+      phoneNumber: null == phoneNumber
+          ? _value.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
       studentId: null == studentId
           ? _value.studentId
@@ -152,29 +157,34 @@ class __$$_UserInfoResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_UserInfoResponse implements _UserInfoResponse {
   const _$_UserInfoResponse(
-      {required this.userUuid,
-      required this.userEmailId,
-      required this.userName,
-      required this.userPhoneNumber,
-      required this.studentId});
+      {@JsonKey(name: 'user_uuid') required this.uuid,
+      @JsonKey(name: 'user_email_id') required this.email,
+      @JsonKey(name: 'user_name') required this.name,
+      @JsonKey(name: 'user_phone_number') required this.phoneNumber,
+      @JsonKey(name: 'student_id') required this.studentId});
 
   factory _$_UserInfoResponse.fromJson(Map<String, dynamic> json) =>
       _$$_UserInfoResponseFromJson(json);
 
   @override
-  final String userUuid;
+  @JsonKey(name: 'user_uuid')
+  final String uuid;
   @override
-  final String userEmailId;
+  @JsonKey(name: 'user_email_id')
+  final String email;
   @override
-  final String userName;
+  @JsonKey(name: 'user_name')
+  final String name;
   @override
-  final String userPhoneNumber;
+  @JsonKey(name: 'user_phone_number')
+  final String phoneNumber;
   @override
+  @JsonKey(name: 'student_id')
   final String studentId;
 
   @override
   String toString() {
-    return 'UserInfoResponse(userUuid: $userUuid, userEmailId: $userEmailId, userName: $userName, userPhoneNumber: $userPhoneNumber, studentId: $studentId)';
+    return 'UserInfoResponse(uuid: $uuid, email: $email, name: $name, phoneNumber: $phoneNumber, studentId: $studentId)';
   }
 
   @override
@@ -182,22 +192,19 @@ class _$_UserInfoResponse implements _UserInfoResponse {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_UserInfoResponse &&
-            (identical(other.userUuid, userUuid) ||
-                other.userUuid == userUuid) &&
-            (identical(other.userEmailId, userEmailId) ||
-                other.userEmailId == userEmailId) &&
-            (identical(other.userName, userName) ||
-                other.userName == userName) &&
-            (identical(other.userPhoneNumber, userPhoneNumber) ||
-                other.userPhoneNumber == userPhoneNumber) &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
             (identical(other.studentId, studentId) ||
                 other.studentId == studentId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, userUuid, userEmailId, userName, userPhoneNumber, studentId);
+  int get hashCode =>
+      Object.hash(runtimeType, uuid, email, name, phoneNumber, studentId);
 
   @JsonKey(ignore: true)
   @override
@@ -215,24 +222,30 @@ class _$_UserInfoResponse implements _UserInfoResponse {
 
 abstract class _UserInfoResponse implements UserInfoResponse {
   const factory _UserInfoResponse(
-      {required final String userUuid,
-      required final String userEmailId,
-      required final String userName,
-      required final String userPhoneNumber,
-      required final String studentId}) = _$_UserInfoResponse;
+          {@JsonKey(name: 'user_uuid') required final String uuid,
+          @JsonKey(name: 'user_email_id') required final String email,
+          @JsonKey(name: 'user_name') required final String name,
+          @JsonKey(name: 'user_phone_number') required final String phoneNumber,
+          @JsonKey(name: 'student_id') required final String studentId}) =
+      _$_UserInfoResponse;
 
   factory _UserInfoResponse.fromJson(Map<String, dynamic> json) =
       _$_UserInfoResponse.fromJson;
 
   @override
-  String get userUuid;
+  @JsonKey(name: 'user_uuid')
+  String get uuid;
   @override
-  String get userEmailId;
+  @JsonKey(name: 'user_email_id')
+  String get email;
   @override
-  String get userName;
+  @JsonKey(name: 'user_name')
+  String get name;
   @override
-  String get userPhoneNumber;
+  @JsonKey(name: 'user_phone_number')
+  String get phoneNumber;
   @override
+  @JsonKey(name: 'student_id')
   String get studentId;
   @override
   @JsonKey(ignore: true)
