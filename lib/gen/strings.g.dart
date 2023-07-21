@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 78 (39 per locale)
+/// Strings: 94 (47 per locale)
 
 
 // coverage:ignore-file
@@ -151,6 +151,7 @@ class _StringsKo implements BaseTranslations<AppLocale, _StringsKo> {
 
 	// Translations
 	late final _StringsArticleKo article = _StringsArticleKo._(_root);
+	late final _StringsProfileKo profile = _StringsProfileKo._(_root);
 	late final _StringsSearchKo search = _StringsSearchKo._(_root);
 	late final _StringsRootKo root = _StringsRootKo._(_root);
 	late final _StringsLoginKo login = _StringsLoginKo._(_root);
@@ -169,6 +170,23 @@ class _StringsArticleKo {
 	String get deadline => '마감일';
 	String get createdAt => '작성일';
 	String get reminderDescription => '알림 설정하면\n마감일 n일 전에 알려줘요!';
+}
+
+// Path: profile
+class _StringsProfileKo {
+	_StringsProfileKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get title => '마이페이지';
+	String get logout => '로그아웃';
+	String get name => '이름';
+	String get studentId => '학번';
+	String get mail => '메일';
+	String others({required Object count}) => '외 ${count}개';
+	String get privacyPolicy => '개인정보처리방침';
+	String get termsOfService => '이용약관';
 }
 
 // Path: search
@@ -303,6 +321,7 @@ class _StringsEn implements _StringsKo {
 
 	// Translations
 	@override late final _StringsSearchEn search = _StringsSearchEn._(_root);
+	@override late final _StringsProfileEn profile = _StringsProfileEn._(_root);
 	@override late final _StringsRootEn root = _StringsRootEn._(_root);
 	@override late final _StringsArticleEn article = _StringsArticleEn._(_root);
 	@override late final _StringsLoginEn login = _StringsLoginEn._(_root);
@@ -318,6 +337,23 @@ class _StringsSearchEn implements _StringsSearchKo {
 	@override String get enter => 'Please enter a search term';
 	@override String get noResult => 'No results found';
 	@override String get queryHint => 'Search term';
+}
+
+// Path: profile
+class _StringsProfileEn implements _StringsProfileKo {
+	_StringsProfileEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'My Page';
+	@override String get logout => 'Logout';
+	@override String get name => 'Name';
+	@override String get studentId => 'Student ID';
+	@override String get mail => 'Mail';
+	@override String others({required Object count}) => 'and ${count} others';
+	@override String get privacyPolicy => 'Privacy Policy';
+	@override String get termsOfService => 'Terms of Service';
 }
 
 // Path: root
@@ -500,6 +536,14 @@ extension on _StringsKo {
 			case 'article.deadline': return '마감일';
 			case 'article.createdAt': return '작성일';
 			case 'article.reminderDescription': return '알림 설정하면\n마감일 n일 전에 알려줘요!';
+			case 'profile.title': return '마이페이지';
+			case 'profile.logout': return '로그아웃';
+			case 'profile.name': return '이름';
+			case 'profile.studentId': return '학번';
+			case 'profile.mail': return '메일';
+			case 'profile.others': return ({required Object count}) => '외 ${count}개';
+			case 'profile.privacyPolicy': return '개인정보처리방침';
+			case 'profile.termsOfService': return '이용약관';
 			case 'search.enter': return '검색어를 입력해주세요';
 			case 'search.noResult': return '검색 결과가 존재하지 않습니다.';
 			case 'search.queryHint': return '검색어';
@@ -521,6 +565,14 @@ extension on _StringsEn {
 			case 'search.enter': return 'Please enter a search term';
 			case 'search.noResult': return 'No results found';
 			case 'search.queryHint': return 'Search term';
+			case 'profile.title': return 'My Page';
+			case 'profile.logout': return 'Logout';
+			case 'profile.name': return 'Name';
+			case 'profile.studentId': return 'Student ID';
+			case 'profile.mail': return 'Mail';
+			case 'profile.others': return ({required Object count}) => 'and ${count} others';
+			case 'profile.privacyPolicy': return 'Privacy Policy';
+			case 'profile.termsOfService': return 'Terms of Service';
 			case 'root.login': return 'login';
 			case 'root.main': return 'main';
 			case 'root.search': return 'search';
