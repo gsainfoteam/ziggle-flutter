@@ -22,7 +22,7 @@ class RootPage extends GetView<RootController> {
             .paddingSymmetric(horizontal: 8),
         actions: [
           SizedBox(
-            height: 30,
+            height: 45,
             child: ZiggleButton(
               color: Colors.transparent,
               onTap: controller.goToProfile,

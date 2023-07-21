@@ -14,10 +14,13 @@ class MyPage extends GetView<MyController> {
       appBar: AppBar(
         title: const Text('마이페이지'),
         actions: [
-          ZiggleButton(
-            text: '수정',
-            color: Colors.transparent,
-            onTap: () {},
+          SizedBox(
+            height: 45,
+            child: ZiggleButton(
+              text: '수정',
+              color: Colors.transparent,
+              onTap: () {},
+            ),
           )
         ],
       ),
