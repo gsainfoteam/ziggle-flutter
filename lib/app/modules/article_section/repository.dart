@@ -1,4 +1,5 @@
 import 'package:ziggle/app/data/enums/article_type.dart';
+import 'package:ziggle/app/data/enums/notice_my.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/provider/api.dart';
 
@@ -17,6 +18,7 @@ class ArticleSectionRepository {
       offset: (page - 1) * limit,
       tags: type.isSearchable ? [type.name] : null,
       orderBy: type.sort,
+      my: type.my,
     );
     return result.list;
   }
