@@ -1,18 +1,15 @@
+import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/enums/notice_my.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/provider/api.dart';
 
 class ProfileArticleData {
-  ArticleSummaryResponse? my;
-  ArticleSummaryResponse? reminders;
-  int myCount;
-  int remindersCount;
+  ArticleSummaryResponse? article;
+  int counts;
 
   ProfileArticleData({
-    this.my,
-    this.reminders,
-    this.myCount = 0,
-    this.remindersCount = 0,
+    required this.article,
+    required this.counts,
   });
 }
 
@@ -21,14 +18,18 @@ class MyRepository {
 
   MyRepository(this._provider);
 
-  Future<ProfileArticleData> getArticles() async {
-    return ProfileArticleData(
-      my: (await _provider.getNotices(limit: 1, my: NoticeMy.own))
-          .list
-          .elementAtOrNull(0),
-      reminders: (await _provider.getNotices(limit: 1, my: NoticeMy.reminders))
-          .list
-          .elementAtOrNull(0),
+  Future<Map<ArticleType, ProfileArticleData>> getArticles() async {
+    return Map.fromEntries(
+      await (NoticeMy.values.map((e) async {
+        final result = await _provider.getNotices(limit: 1, my: e);
+        return MapEntry(
+          e.type,
+          ProfileArticleData(
+            article: result.list.elementAtOrNull(0),
+            counts: result.total,
+          ),
+        );
+      }).wait),
     );
   }
 }

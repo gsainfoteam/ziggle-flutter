@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
+import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/my/repository.dart';
 import 'package:ziggle/app/routes/pages.dart';
@@ -12,7 +13,7 @@ class MyController extends GetxController {
   final studentId = ''.obs;
   final email = ''.obs;
   final MyRepository _repository;
-  final articles = Rxn<ProfileArticleData>();
+  final articles = Rxn<Map<ArticleType, ProfileArticleData>>();
 
   MyController(this._repository);
 
@@ -48,5 +49,9 @@ class MyController extends GetxController {
 
   goToList(ArticleType e) {
     Get.toNamed(Routes.ARTICLE_SECTION, parameters: {'type': e.name});
+  }
+
+  goToDetail(ArticleSummaryResponse article) {
+    Get.toNamed(Routes.ARTICLE, parameters: {'id': article.id.toString()});
   }
 }

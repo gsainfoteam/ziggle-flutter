@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
+import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/section_header.dart';
 import 'package:ziggle/app/modules/my/controller.dart';
@@ -26,15 +27,17 @@ class MyPage extends GetView<MyController> {
           )
         ],
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          _buildProfile(),
-          const Divider(),
-          _buildMyArticles(),
-          const Divider(),
-          _buildFooter(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildProfile(),
+            const Divider(),
+            _buildMyArticles(),
+            const Divider(),
+            _buildFooter(),
+          ],
+        ),
       ),
     );
   }
@@ -80,6 +83,16 @@ class MyPage extends GetView<MyController> {
               (e) => Column(
                 children: [
                   SectionHeader(type: e, onTap: () => controller.goToList(e)),
+                  const SizedBox(height: 12),
+                  Obx(() {
+                    final article = controller.articles.value?[e]?.article;
+                    if (article == null) return const SizedBox.shrink();
+                    return ArticleCard(
+                      article: article,
+                      direction: Axis.horizontal,
+                      onTap: () => controller.goToDetail(article),
+                    );
+                  }),
                 ],
               ).paddingSymmetric(horizontal: 20, vertical: 25),
             )
