@@ -32,8 +32,8 @@ class HomePage extends GetView<HomeController> {
   }
 
   Widget _buildArticles(ArticleType type) {
-    final articles = controller.articles[type]!;
-    if (articles.value == null) {
+    final articles = controller.articles[type]?.value;
+    if (articles == null) {
       return const SizedBox.shrink();
     }
     if (!type.isHorizontal) {
@@ -44,10 +44,10 @@ class HomePage extends GetView<HomeController> {
         physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         shrinkWrap: true,
-        itemCount: articles.value!.length,
+        itemCount: articles.length,
         itemBuilder: (context, index) => ArticleCard(
-          article: articles.value![index],
-          onTap: () => controller.goToDetail(articles.value![index].id),
+          article: articles[index],
+          onTap: () => controller.goToDetail(articles[index].id),
         ),
       );
     }
@@ -60,14 +60,14 @@ class HomePage extends GetView<HomeController> {
             viewportFraction: 1 - (30 / constraints.maxWidth),
           ),
           allowImplicitScrolling: true,
-          itemCount: articles.value!.length,
+          itemCount: articles.length,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: ArticleCard(
-                article: articles.value![index],
+                article: articles[index],
                 direction: Axis.horizontal,
-                onTap: () => controller.goToDetail(articles.value![index].id),
+                onTap: () => controller.goToDetail(articles[index].id),
               ),
             );
           },
