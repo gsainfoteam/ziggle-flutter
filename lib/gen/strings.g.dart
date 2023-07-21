@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 139 (69 per locale)
+/// Strings: 140 (70 per locale)
 
 
 // coverage:ignore-file
@@ -501,6 +501,7 @@ class _StringsRootEn implements _StringsRootKo {
 	@override String get main => 'main';
 	@override String get search => 'search';
 	@override String get write => 'write';
+	@override String get notificationChannelDescription => 'ziggle notification';
 }
 
 // Path: article
@@ -865,6 +866,7 @@ extension on _StringsEn {
 			case 'root.main': return 'main';
 			case 'root.search': return 'search';
 			case 'root.write': return 'write';
+			case 'root.notificationChannelDescription': return 'ziggle notification';
 			case 'article.section.title': return ({required ArticleType type}) {
 				switch (type) {
 					case ArticleType.deadline:

@@ -2,5 +2,6 @@
   "login": "login",
   "main": "main",
   "search": "search",
-  "write": "write"
+  "write": "write",
+  "notificationChannelDescription": "ziggle notification"
 }
