@@ -39,6 +39,9 @@ class RootController extends GetxController {
       duration: 200.milliseconds,
       curve: Curves.easeOut,
     );
+    _analyticsService.logChangePage(
+      [Routes.HOME, Routes.SEARCH, Routes.WRITE][page],
+    );
   }
 
   void goToProfile() {

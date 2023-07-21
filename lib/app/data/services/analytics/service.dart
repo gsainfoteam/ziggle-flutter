@@ -20,6 +20,9 @@ class AnalyticsService {
   static NavigatorObserver get observer =>
       FirebaseAnalyticsObserver(analytics: _instance);
 
+  logChangePage(String screenName) =>
+      _instance.setCurrentScreen(screenName: screenName);
+
   logTryLogin() => _instance.logEvent(name: 'try_login');
   logLoginCancel(String reason) =>
       _instance.logEvent(name: 'login_cancel', parameters: {'reason': reason});
