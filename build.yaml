@@ -1,3 +1,11 @@
+targets:
+  $default:
+    builders:
+      slang_build_runner:
+        options:
+          base_locale: ko
+          input_directory: assets/i18n
+
 global_options:
   json_serializable:
     runs_before:
