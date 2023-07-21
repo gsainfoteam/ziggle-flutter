@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/values/strings.dart';
@@ -25,6 +26,8 @@ class LoginController extends GetxController {
         return;
       }
       _loginWithCode(authCode);
+    } on PlatformException catch (e) {
+      _analyticsService.logLoginCancel(e.code);
     } catch (_) {
       _analyticsService.logLoginCancel('error while authentication');
     }
