@@ -25,6 +25,8 @@ abstract class TextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static const bigNormal = TextStyle(fontSize: 20);
+
   static const titleTextStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,

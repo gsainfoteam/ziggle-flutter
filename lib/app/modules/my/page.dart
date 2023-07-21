@@ -83,6 +83,7 @@ class MyPage extends GetView<MyController> {
               .where((e) => controller.articles.value?[e]?.article != null)
               .map(
                 (e) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SectionHeader(type: e, onTap: () => controller.goToList(e)),
                     const SizedBox(height: 12),
@@ -92,6 +93,17 @@ class MyPage extends GetView<MyController> {
                       onTap: () => controller
                           .goToDetail(controller.articles.value![e]!.article!),
                     ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      height: 60,
+                      child: ZiggleButton(
+                        color: Palette.light,
+                        text: '외 ${controller.articles.value![e]!.count}개',
+                        textColor: Palette.black,
+                        textStyle: TextStyles.bigNormal,
+                        onTap: () => controller.goToList(e),
+                      ),
+                    )
                   ],
                 ).paddingSymmetric(horizontal: 20, vertical: 25),
               )

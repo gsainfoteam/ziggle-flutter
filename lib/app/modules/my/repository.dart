@@ -5,11 +5,11 @@ import 'package:ziggle/app/data/provider/api.dart';
 
 class ProfileArticleData {
   ArticleSummaryResponse? article;
-  int counts;
+  int count;
 
   ProfileArticleData({
     required this.article,
-    required this.counts,
+    required this.count,
   });
 }
 
@@ -26,7 +26,7 @@ class MyRepository {
           e.type,
           ProfileArticleData(
             article: result.list.elementAtOrNull(0),
-            counts: result.total,
+            count: result.total,
           ),
         );
       }).wait),
