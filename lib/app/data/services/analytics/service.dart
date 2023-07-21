@@ -25,4 +25,6 @@ class AnalyticsService {
       _instance.logEvent(name: 'login_cancel', parameters: {'reason': reason});
   logLogin() => _instance.logLogin(loginMethod: 'IdP');
   logLoginAnonymous() => _instance.logLogin(loginMethod: 'anonymous');
+  logLogout() => _instance.logEvent(name: 'logout');
+  logLogoutAnonymous() => _instance.logEvent(name: 'logout_anonymous');
 }

@@ -39,5 +39,5 @@ final initialBinding = BindingsBuilder(() {
   Get.lazyPut(() => UserService(Get.find(), Get.find(), Get.find()));
 
   Get.lazyPut(() => FcmProvider());
-  Get.lazyPut(() => AnalyticsService(Get.find()));
+  Get.lazyPut(() => AnalyticsService(Get.find()), fenix: true);
 });

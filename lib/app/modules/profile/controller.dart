@@ -4,12 +4,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
+import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/profile/repository.dart';
 import 'package:ziggle/app/routes/pages.dart';
 
 class ProfileController extends GetxController {
   final _userService = UserService.to;
+  final _analyticsService = AnalyticsService.to;
   final name = ''.obs;
   final studentId = ''.obs;
   final email = ''.obs;
@@ -41,6 +43,7 @@ class ProfileController extends GetxController {
 
   void logout() {
     _userService.logout();
+    _analyticsService.logLogout();
   }
 
   void goToPrivacyPolicy() {

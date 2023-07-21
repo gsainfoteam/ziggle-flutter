@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/routes/pages.dart';
 
@@ -7,6 +8,7 @@ class RootController extends GetxController {
   final pageIndex = 0.obs;
   final pageController = PageController();
   final _userService = UserService.to;
+  final _analyticsService = AnalyticsService.to;
   final name = Rxn<String>();
 
   @override
@@ -42,6 +44,7 @@ class RootController extends GetxController {
   void goToProfile() {
     if (name.value == null) {
       _userService.logout();
+      _analyticsService.logLogoutAnonymous();
       return;
     }
     Get.toNamed(Routes.PROFILE);
