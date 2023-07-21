@@ -16,7 +16,7 @@ class HomePage extends GetView<HomeController> {
       key: controller.refreshIndicatorKey,
       child: ListView(
         padding: const EdgeInsets.symmetric(vertical: 20),
-        children: ArticleType.values
+        children: ArticleType.main
             .expand(
               (e) => [
                 SectionHeader(type: e, onTap: () => controller.goToList(e)),

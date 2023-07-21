@@ -9,14 +9,11 @@ class HomeController extends GetxController {
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final HomeRepository _repository;
 
-  final articles = {
-    ArticleType.deadline: Rxn<List<ArticleSummaryResponse>>(),
-    ArticleType.hot: Rxn<List<ArticleSummaryResponse>>(),
-    ArticleType.event: Rxn<List<ArticleSummaryResponse>>(),
-    ArticleType.recruit: Rxn<List<ArticleSummaryResponse>>(),
-    ArticleType.general: Rxn<List<ArticleSummaryResponse>>(),
-    ArticleType.academic: Rxn<List<ArticleSummaryResponse>>(),
-  };
+  final articles =
+      Map<ArticleType, Rxn<List<ArticleSummaryResponse>>>.fromIterable(
+    ArticleType.main,
+    value: (_) => Rxn<List<ArticleSummaryResponse>>(),
+  );
 
   HomeController(this._repository);
 
@@ -27,7 +24,7 @@ class HomeController extends GetxController {
   }
 
   Future<void> reload() async {
-    await Future.wait(ArticleType.values.map(
+    await Future.wait(ArticleType.main.map(
         (e) => _repository.getArticles(e).then((v) => articles[e]!.value = v)));
   }
 

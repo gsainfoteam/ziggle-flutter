@@ -22,8 +22,9 @@ enum ArticleType {
   bool get isHorizontal => this == deadline;
   bool get isSearchable => searchables.contains(this);
 
-  static const searchables = [recruit, event, general, academic];
   static const writables = [recruit, event, general];
+  static const searchables = [...writables, academic];
+  static const main = [deadline, hot, ...searchables];
 
   const ArticleType(this.emoji, this.title, this.description, this.id,
       {String? shortTitle, NoticeSort? sort})
