@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 72 (36 per locale)
+/// Strings: 78 (39 per locale)
 
 
 // coverage:ignore-file
@@ -150,34 +150,10 @@ class _StringsKo implements BaseTranslations<AppLocale, _StringsKo> {
 	late final _StringsKo _root = this; // ignore: unused_field
 
 	// Translations
-	late final _StringsLoginKo login = _StringsLoginKo._(_root);
-	late final _StringsRootKo root = _StringsRootKo._(_root);
 	late final _StringsArticleKo article = _StringsArticleKo._(_root);
-}
-
-// Path: login
-class _StringsLoginKo {
-	_StringsLoginKo._(this._root);
-
-	final _StringsKo _root; // ignore: unused_field
-
-	// Translations
-	String get promotion => '지스트의 모든 공지를 한눈에';
-	String get login => 'GSA 통합 계정으로 로그인';
-	String get withoutLogin => '로그인 없이 이용하기';
-}
-
-// Path: root
-class _StringsRootKo {
-	_StringsRootKo._(this._root);
-
-	final _StringsKo _root; // ignore: unused_field
-
-	// Translations
-	String get login => '로그인';
-	String get main => '메인';
-	String get search => '검색';
-	String get write => '작성';
+	late final _StringsSearchKo search = _StringsSearchKo._(_root);
+	late final _StringsRootKo root = _StringsRootKo._(_root);
+	late final _StringsLoginKo login = _StringsLoginKo._(_root);
 }
 
 // Path: article
@@ -193,6 +169,43 @@ class _StringsArticleKo {
 	String get deadline => '마감일';
 	String get createdAt => '작성일';
 	String get reminderDescription => '알림 설정하면\n마감일 n일 전에 알려줘요!';
+}
+
+// Path: search
+class _StringsSearchKo {
+	_StringsSearchKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get enter => '검색어를 입력해주세요';
+	String get noResult => '검색 결과가 존재하지 않습니다.';
+	String get queryHint => '검색어';
+}
+
+// Path: root
+class _StringsRootKo {
+	_StringsRootKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get login => '로그인';
+	String get main => '메인';
+	String get search => '검색';
+	String get write => '작성';
+}
+
+// Path: login
+class _StringsLoginKo {
+	_StringsLoginKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get promotion => '지스트의 모든 공지를 한눈에';
+	String get login => 'GSA 통합 계정으로 로그인';
+	String get withoutLogin => '로그인 없이 이용하기';
 }
 
 // Path: article.section
@@ -289,21 +302,22 @@ class _StringsEn implements _StringsKo {
 	@override late final _StringsEn _root = this; // ignore: unused_field
 
 	// Translations
-	@override late final _StringsLoginEn login = _StringsLoginEn._(_root);
+	@override late final _StringsSearchEn search = _StringsSearchEn._(_root);
 	@override late final _StringsRootEn root = _StringsRootEn._(_root);
 	@override late final _StringsArticleEn article = _StringsArticleEn._(_root);
+	@override late final _StringsLoginEn login = _StringsLoginEn._(_root);
 }
 
-// Path: login
-class _StringsLoginEn implements _StringsLoginKo {
-	_StringsLoginEn._(this._root);
+// Path: search
+class _StringsSearchEn implements _StringsSearchKo {
+	_StringsSearchEn._(this._root);
 
 	@override final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	@override String get promotion => 'All of GIST\'s announcements at a glance';
-	@override String get login => 'Login with GSA unified account';
-	@override String get withoutLogin => 'Use without login';
+	@override String get enter => 'Please enter a search term';
+	@override String get noResult => 'No results found';
+	@override String get queryHint => 'Search term';
 }
 
 // Path: root
@@ -332,6 +346,18 @@ class _StringsArticleEn implements _StringsArticleKo {
 	@override String get deadline => 'Deadline';
 	@override String get createdAt => 'Created At';
 	@override String get reminderDescription => 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
+}
+
+// Path: login
+class _StringsLoginEn implements _StringsLoginKo {
+	_StringsLoginEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get promotion => 'All of GIST\'s announcements at a glance';
+	@override String get login => 'Login with GSA unified account';
+	@override String get withoutLogin => 'Use without login';
 }
 
 // Path: article.section
@@ -409,13 +435,6 @@ class _StringsArticleSectionEn implements _StringsArticleSectionKo {
 extension on _StringsKo {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
-			case 'login.promotion': return '지스트의 모든 공지를 한눈에';
-			case 'login.login': return 'GSA 통합 계정으로 로그인';
-			case 'login.withoutLogin': return '로그인 없이 이용하기';
-			case 'root.login': return '로그인';
-			case 'root.main': return '메인';
-			case 'root.search': return '검색';
-			case 'root.write': return '작성';
 			case 'article.section.title': return ({required ArticleType type}) {
 				switch (type) {
 					case ArticleType.deadline:
@@ -481,6 +500,16 @@ extension on _StringsKo {
 			case 'article.deadline': return '마감일';
 			case 'article.createdAt': return '작성일';
 			case 'article.reminderDescription': return '알림 설정하면\n마감일 n일 전에 알려줘요!';
+			case 'search.enter': return '검색어를 입력해주세요';
+			case 'search.noResult': return '검색 결과가 존재하지 않습니다.';
+			case 'search.queryHint': return '검색어';
+			case 'root.login': return '로그인';
+			case 'root.main': return '메인';
+			case 'root.search': return '검색';
+			case 'root.write': return '작성';
+			case 'login.promotion': return '지스트의 모든 공지를 한눈에';
+			case 'login.login': return 'GSA 통합 계정으로 로그인';
+			case 'login.withoutLogin': return '로그인 없이 이용하기';
 			default: return null;
 		}
 	}
@@ -489,9 +518,9 @@ extension on _StringsKo {
 extension on _StringsEn {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
-			case 'login.promotion': return 'All of GIST\'s announcements at a glance';
-			case 'login.login': return 'Login with GSA unified account';
-			case 'login.withoutLogin': return 'Use without login';
+			case 'search.enter': return 'Please enter a search term';
+			case 'search.noResult': return 'No results found';
+			case 'search.queryHint': return 'Search term';
 			case 'root.login': return 'login';
 			case 'root.main': return 'main';
 			case 'root.search': return 'search';
@@ -561,6 +590,9 @@ extension on _StringsEn {
 			case 'article.deadline': return 'Deadline';
 			case 'article.createdAt': return 'Created At';
 			case 'article.reminderDescription': return 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
+			case 'login.promotion': return 'All of GIST\'s announcements at a glance';
+			case 'login.login': return 'Login with GSA unified account';
+			case 'login.withoutLogin': return 'Use without login';
 			default: return null;
 		}
 	}
