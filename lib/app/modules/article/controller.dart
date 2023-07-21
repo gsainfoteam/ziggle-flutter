@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
+import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/modules/article/repository.dart';
 import 'package:ziggle/app/routes/pages.dart';
 
@@ -13,6 +14,7 @@ class ArticleController extends GetxController {
   final page = 1.obs;
   late final showReminderTooltip = _repository.shouldShowReminderTooltip.obs;
   final ArticleRepository _repository;
+  final _analyticsService = AnalyticsService.to;
 
   ArticleController(this._repository);
 
@@ -24,7 +26,10 @@ class ArticleController extends GetxController {
       () => scrollPixel.value = scrollController.pixels,
     );
     pageController.addListener(() {
-      page.value = (pageController.page?.toInt() ?? 0) + 1;
+      final newPgae = (pageController.page?.toInt() ?? 0) + 1;
+      if (newPgae == page.value) return;
+      page.value = newPgae;
+      _analyticsService.logChangeImageCarousel(newPgae);
     });
   }
 
@@ -68,5 +73,10 @@ class ArticleController extends GetxController {
   void closeTooltip() {
     showReminderTooltip.value = false;
     _repository.hideReminderTooltip();
+    _analyticsService.logHideReminderTooltip();
+  }
+
+  void toggleReminder() {
+    _analyticsService.logToggleReminder(isReminder.toggle().value);
   }
 }

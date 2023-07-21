@@ -30,4 +30,10 @@ class AnalyticsService {
   logLoginAnonymous() => _instance.logLogin(loginMethod: 'anonymous');
   logLogout() => _instance.logEvent(name: 'logout');
   logLogoutAnonymous() => _instance.logEvent(name: 'logout_anonymous');
+
+  logToggleReminder(bool set) => _instance
+      .logEvent(name: 'toggle_reminder', parameters: {'set': set ? 1 : 0});
+  logHideReminderTooltip() => _instance.logEvent(name: 'hide_reminder_tooltip');
+  logChangeImageCarousel(int page) => _instance
+      .logEvent(name: 'change_image_carousel', parameters: {'page': page});
 }

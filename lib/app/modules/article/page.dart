@@ -25,7 +25,7 @@ class ArticlePage extends GetView<ArticleController> {
             () => controller.article.value?.deadline == null
                 ? const SizedBox.shrink()
                 : IconButton(
-                    onPressed: controller.isReminder.toggle,
+                    onPressed: controller.toggleReminder,
                     icon: Icon(
                       Icons.notifications_active,
                       color: controller.isReminder.value
