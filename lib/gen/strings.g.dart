@@ -3,10 +3,10 @@
 /// Original: assets/i18n
 /// To regenerate, run: `dart run slang`
 ///
-/// Locales: 1
-/// Strings: 3
+/// Locales: 2
+/// Strings: 14 (7 per locale)
 ///
-/// Built on 2023-07-21 at 09:29 UTC
+/// Built on 2023-07-21 at 10:07 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -25,7 +25,8 @@ const AppLocale _baseLocale = AppLocale.ko;
 /// - Locale locale = AppLocale.ko.flutterLocale // get flutter locale from enum
 /// - if (LocaleSettings.currentLocale == AppLocale.ko) // locale check
 enum AppLocale with BaseAppLocale<AppLocale, _StringsKo> {
-	ko(languageCode: 'ko', build: _StringsKo.build);
+	ko(languageCode: 'ko', build: _StringsKo.build),
+	en(languageCode: 'en', build: _StringsEn.build);
 
 	const AppLocale({required this.languageCode, this.scriptCode, this.countryCode, required this.build}); // ignore: unused_element
 
@@ -149,7 +150,21 @@ class _StringsKo implements BaseTranslations<AppLocale, _StringsKo> {
 	late final _StringsKo _root = this; // ignore: unused_field
 
 	// Translations
+	late final _StringsRootKo root = _StringsRootKo._(_root);
 	late final _StringsLoginKo login = _StringsLoginKo._(_root);
+}
+
+// Path: root
+class _StringsRootKo {
+	_StringsRootKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get login => '로그인';
+	String get main => '메인';
+	String get search => '검색';
+	String get write => '작성';
 }
 
 // Path: login
@@ -164,15 +179,88 @@ class _StringsLoginKo {
 	String get withoutLogin => '로그인 없이 이용하기';
 }
 
+// Path: <root>
+class _StringsEn implements _StringsKo {
+
+	/// You can call this constructor and build your own translation instance of this locale.
+	/// Constructing via the enum [AppLocale.build] is preferred.
+	_StringsEn.build({Map<String, Node>? overrides, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver})
+		: assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
+		  $meta = TranslationMetadata(
+		    locale: AppLocale.en,
+		    overrides: overrides ?? {},
+		    cardinalResolver: cardinalResolver,
+		    ordinalResolver: ordinalResolver,
+		  ) {
+		$meta.setFlatMapFunction(_flatMapFunction);
+	}
+
+	/// Metadata for the translations of <en>.
+	@override final TranslationMetadata<AppLocale, _StringsKo> $meta;
+
+	/// Access flat map
+	@override dynamic operator[](String key) => $meta.getTranslation(key);
+
+	@override late final _StringsEn _root = this; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsRootEn root = _StringsRootEn._(_root);
+	@override late final _StringsLoginEn login = _StringsLoginEn._(_root);
+}
+
+// Path: root
+class _StringsRootEn implements _StringsRootKo {
+	_StringsRootEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get login => 'login';
+	@override String get main => 'main';
+	@override String get search => 'search';
+	@override String get write => 'write';
+}
+
+// Path: login
+class _StringsLoginEn implements _StringsLoginKo {
+	_StringsLoginEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get promotion => 'All of GIST\'s announcements at a glance';
+	@override String get login => 'Login with GSA unified account';
+	@override String get withoutLogin => 'Use without login';
+}
+
 /// Flat map(s) containing all translations.
 /// Only for edge cases! For simple maps, use the map function of this library.
 
 extension on _StringsKo {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'root.login': return '로그인';
+			case 'root.main': return '메인';
+			case 'root.search': return '검색';
+			case 'root.write': return '작성';
 			case 'login.promotion': return '지스트의 모든 공지를 한눈에';
 			case 'login.login': return 'GSA 통합 계정으로 로그인';
 			case 'login.withoutLogin': return '로그인 없이 이용하기';
+			default: return null;
+		}
+	}
+}
+
+extension on _StringsEn {
+	dynamic _flatMapFunction(String path) {
+		switch (path) {
+			case 'root.login': return 'login';
+			case 'root.main': return 'main';
+			case 'root.search': return 'search';
+			case 'root.write': return 'write';
+			case 'login.promotion': return 'All of GIST\'s announcements at a glance';
+			case 'login.login': return 'Login with GSA unified account';
+			case 'login.withoutLogin': return 'Use without login';
 			default: return null;
 		}
 	}

@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/root/controller.dart';
 import 'package:ziggle/app/modules/search/page.dart';
 import 'package:ziggle/app/modules/write/page.dart';
 import 'package:ziggle/gen/assets.gen.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class RootPage extends GetView<RootController> {
   const RootPage({super.key});
@@ -29,7 +30,7 @@ class RootPage extends GetView<RootController> {
               child: Obx(() {
                 final name = controller.name.value;
                 if (name == null) {
-                  return const Row(children: [Text('로그인')]);
+                  return Row(children: [Text(t.root.login)]);
                 }
                 return Row(
                   children: [
@@ -61,13 +62,13 @@ class RootPage extends GetView<RootController> {
                 () => BottomNavigationBar(
                   onTap: controller.onChangeIndex,
                   currentIndex: controller.pageIndex.value,
-                  items: const [
+                  items: [
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.home), label: '메인'),
+                        icon: const Icon(Icons.home), label: t.root.main),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.search), label: '검색'),
+                        icon: const Icon(Icons.search), label: t.root.search),
                     BottomNavigationBarItem(
-                        icon: Icon(Icons.edit), label: '작성'),
+                        icon: const Icon(Icons.edit), label: t.root.write),
                   ],
                 ),
               ),
