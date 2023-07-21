@@ -13,10 +13,10 @@ class ProfileArticleData {
   });
 }
 
-class MyRepository {
+class ProfileRepository {
   final ApiProvider _provider;
 
-  MyRepository(this._provider);
+  ProfileRepository(this._provider);
 
   Future<Map<ArticleType, ProfileArticleData>> getArticles() async {
     return Map.fromEntries(

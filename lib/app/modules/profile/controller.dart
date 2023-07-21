@@ -5,19 +5,19 @@ import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
-import 'package:ziggle/app/modules/my/repository.dart';
+import 'package:ziggle/app/modules/profile/repository.dart';
 import 'package:ziggle/app/routes/pages.dart';
 
-class MyController extends GetxController {
+class ProfileController extends GetxController {
   final _userService = UserService.to;
   final name = ''.obs;
   final studentId = ''.obs;
   final email = ''.obs;
-  final MyRepository _repository;
+  final ProfileRepository _repository;
   final articles = Rxn<Map<ArticleType, ProfileArticleData>>();
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
-  MyController(this._repository);
+  ProfileController(this._repository);
 
   @override
   void onInit() {

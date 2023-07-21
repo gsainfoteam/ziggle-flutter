@@ -6,10 +6,10 @@ import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/section_header.dart';
-import 'package:ziggle/app/modules/my/controller.dart';
+import 'package:ziggle/app/modules/profile/controller.dart';
 
-class MyPage extends GetView<MyController> {
-  const MyPage({super.key});
+class ProfilePage extends GetView<ProfileController> {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {

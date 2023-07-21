@@ -44,6 +44,6 @@ class RootController extends GetxController {
       _userService.logout();
       return;
     }
-    Get.toNamed(Routes.MY_PAGE);
+    Get.toNamed(Routes.PROFILE);
   }
 }
