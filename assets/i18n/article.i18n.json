@@ -30,5 +30,10 @@
       "general": "일반",
       "academic": "학사"
     }
-  }
+  },
+  "author": "글쓴이",
+  "views": "조회수",
+  "deadline": "마감일",
+  "createdAt": "작성일",
+  "reminderDescription": "알림 설정하면\n마감일 n일 전에 알려줘요!"
 }

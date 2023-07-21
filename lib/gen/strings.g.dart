@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 38 (19 per locale)
+/// Strings: 72 (36 per locale)
 ///
-/// Built on 2023-07-21 at 10:17 UTC
+/// Built on 2023-07-21 at 10:27 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -164,6 +164,11 @@ class _StringsArticleKo {
 
 	// Translations
 	late final _StringsArticleSectionKo section = _StringsArticleSectionKo._(_root);
+	String get author => '글쓴이';
+	String get views => '조회수';
+	String get deadline => '마감일';
+	String get createdAt => '작성일';
+	String get reminderDescription => '알림 설정하면\n마감일 n일 전에 알려줘요!';
 }
 
 // Path: root
@@ -286,6 +291,7 @@ class _StringsEn implements _StringsKo {
 
 	// Translations
 	@override late final _StringsRootEn root = _StringsRootEn._(_root);
+	@override late final _StringsArticleEn article = _StringsArticleEn._(_root);
 	@override late final _StringsLoginEn login = _StringsLoginEn._(_root);
 }
 
@@ -302,6 +308,21 @@ class _StringsRootEn implements _StringsRootKo {
 	@override String get write => 'write';
 }
 
+// Path: article
+class _StringsArticleEn implements _StringsArticleKo {
+	_StringsArticleEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsArticleSectionEn section = _StringsArticleSectionEn._(_root);
+	@override String get author => 'Author';
+	@override String get views => 'Views';
+	@override String get deadline => 'Deadline';
+	@override String get createdAt => 'Created At';
+	@override String get reminderDescription => 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
+}
+
 // Path: login
 class _StringsLoginEn implements _StringsLoginKo {
 	_StringsLoginEn._(this._root);
@@ -312,6 +333,75 @@ class _StringsLoginEn implements _StringsLoginKo {
 	@override String get promotion => 'All of GIST\'s announcements at a glance';
 	@override String get login => 'Login with GSA unified account';
 	@override String get withoutLogin => 'Use without login';
+}
+
+// Path: article.section
+class _StringsArticleSectionEn implements _StringsArticleSectionKo {
+	_StringsArticleSectionEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String title({required ArticleType type}) {
+		switch (type) {
+			case ArticleType.deadline:
+				return 'Deadline';
+			case ArticleType.hot:
+				return 'Hot';
+			case ArticleType.my:
+				return 'My';
+			case ArticleType.reminders:
+				return 'Reminders';
+			case ArticleType.recruit:
+				return 'Recruit';
+			case ArticleType.event:
+				return 'Event';
+			case ArticleType.general:
+				return 'General';
+			case ArticleType.academic:
+				return 'Academic';
+		}
+	}
+	@override String description({required ArticleType type}) {
+		switch (type) {
+			case ArticleType.deadline:
+				return 'Articles that are about to expire within a week';
+			case ArticleType.hot:
+				return 'Articles that have been viewed more than 150 times in the last week';
+			case ArticleType.my:
+				return 'Articles that I wrote';
+			case ArticleType.reminders:
+				return 'Articles that I set reminders';
+			case ArticleType.recruit:
+				return 'Opportunities always open to you';
+			case ArticleType.event:
+				return 'GIST is hot today';
+			case ArticleType.general:
+				return 'Things GISTers have to do';
+			case ArticleType.academic:
+				return 'Things GISTers have to do';
+		}
+	}
+	@override String shortTitle({required ArticleType type}) {
+		switch (type) {
+			case ArticleType.deadline:
+				return 'Deadline';
+			case ArticleType.hot:
+				return 'Hot';
+			case ArticleType.my:
+				return 'My';
+			case ArticleType.reminders:
+				return 'Reminders';
+			case ArticleType.recruit:
+				return 'Recruit';
+			case ArticleType.event:
+				return 'Event';
+			case ArticleType.general:
+				return 'General';
+			case ArticleType.academic:
+				return 'Academic';
+		}
+	}
 }
 
 /// Flat map(s) containing all translations.
@@ -380,6 +470,11 @@ extension on _StringsKo {
 						return '학사';
 				}
 			};
+			case 'article.author': return '글쓴이';
+			case 'article.views': return '조회수';
+			case 'article.deadline': return '마감일';
+			case 'article.createdAt': return '작성일';
+			case 'article.reminderDescription': return '알림 설정하면\n마감일 n일 전에 알려줘요!';
 			case 'root.login': return '로그인';
 			case 'root.main': return '메인';
 			case 'root.search': return '검색';
@@ -399,6 +494,71 @@ extension on _StringsEn {
 			case 'root.main': return 'main';
 			case 'root.search': return 'search';
 			case 'root.write': return 'write';
+			case 'article.section.title': return ({required ArticleType type}) {
+				switch (type) {
+					case ArticleType.deadline:
+						return 'Deadline';
+					case ArticleType.hot:
+						return 'Hot';
+					case ArticleType.my:
+						return 'My';
+					case ArticleType.reminders:
+						return 'Reminders';
+					case ArticleType.recruit:
+						return 'Recruit';
+					case ArticleType.event:
+						return 'Event';
+					case ArticleType.general:
+						return 'General';
+					case ArticleType.academic:
+						return 'Academic';
+				}
+			};
+			case 'article.section.description': return ({required ArticleType type}) {
+				switch (type) {
+					case ArticleType.deadline:
+						return 'Articles that are about to expire within a week';
+					case ArticleType.hot:
+						return 'Articles that have been viewed more than 150 times in the last week';
+					case ArticleType.my:
+						return 'Articles that I wrote';
+					case ArticleType.reminders:
+						return 'Articles that I set reminders';
+					case ArticleType.recruit:
+						return 'Opportunities always open to you';
+					case ArticleType.event:
+						return 'GIST is hot today';
+					case ArticleType.general:
+						return 'Things GISTers have to do';
+					case ArticleType.academic:
+						return 'Things GISTers have to do';
+				}
+			};
+			case 'article.section.shortTitle': return ({required ArticleType type}) {
+				switch (type) {
+					case ArticleType.deadline:
+						return 'Deadline';
+					case ArticleType.hot:
+						return 'Hot';
+					case ArticleType.my:
+						return 'My';
+					case ArticleType.reminders:
+						return 'Reminders';
+					case ArticleType.recruit:
+						return 'Recruit';
+					case ArticleType.event:
+						return 'Event';
+					case ArticleType.general:
+						return 'General';
+					case ArticleType.academic:
+						return 'Academic';
+				}
+			};
+			case 'article.author': return 'Author';
+			case 'article.views': return 'Views';
+			case 'article.deadline': return 'Deadline';
+			case 'article.createdAt': return 'Created At';
+			case 'article.reminderDescription': return 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
 			case 'login.promotion': return 'All of GIST\'s announcements at a glance';
 			case 'login.login': return 'Login with GSA unified account';
 			case 'login.withoutLogin': return 'Use without login';
