@@ -7,6 +7,7 @@ import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
+import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/write/article_preview_sheet.dart';
 import 'package:ziggle/app/modules/write/repository.dart';
@@ -25,6 +26,7 @@ class WriteController extends GetxController {
   final mainImage = Rxn<XFile>();
   final loading = false.obs;
   late final String _userName;
+  final _analyticsService = AnalyticsService.to;
 
   final WriteRepository _repository;
 
@@ -54,8 +56,10 @@ class WriteController extends GetxController {
   }
 
   void selectPhotos() async {
+    _analyticsService.logTrySelectImage();
     final result = await ImagePicker().pickMultiImage();
     images.addAll(result);
+    _analyticsService.logSelectImage();
   }
 
   removeImage(int index) {
@@ -70,6 +74,7 @@ class WriteController extends GetxController {
   }
 
   showPreview() {
+    _analyticsService.logPreviewArticle();
     Get.bottomSheet(
       ArticlePreviewSheet(
         article: ArticleResponse(
@@ -89,17 +94,21 @@ class WriteController extends GetxController {
   }
 
   submit() async {
+    _analyticsService.logTrySubmitArticle();
     if (titleController.text.isEmpty) {
       Get.snackbar(t.write.title.error.title, t.write.title.error.description);
+      _analyticsService.logSubmitArticleCancel('empty title');
       return;
     }
     final type = selectedType.value;
     if (type == null) {
       Get.snackbar(t.write.type.error.title, t.write.type.error.description);
+      _analyticsService.logSubmitArticleCancel('no type');
       return;
     }
     if (bodyController.text.isEmpty) {
       Get.snackbar(t.write.body.error.title, t.write.body.error.description);
+      _analyticsService.logSubmitArticleCancel('empty body');
       return;
     }
     if (images.isNotEmpty) {
@@ -109,6 +118,7 @@ class WriteController extends GetxController {
       if (mainImage.value == null) {
         Get.snackbar(
             t.write.images.error.title, t.write.images.error.description);
+        _analyticsService.logSubmitArticleCancel('not select main image');
         return;
       }
     }
@@ -129,6 +139,9 @@ class WriteController extends GetxController {
       Get.toNamed(Routes.ARTICLE, parameters: {'id': result.id.toString()});
       await Get.defaultTransitionDuration.delay();
       _reset();
+      _analyticsService.logSubmitArticle();
+    } catch (_) {
+      _analyticsService.logSubmitArticleCancel('unknown error');
     } finally {
       loading.value = false;
     }

@@ -46,4 +46,12 @@ class AnalyticsService {
 
   logOpenPrivacyPolicy() => _instance.logEvent(name: 'open_privacy_policy');
   logOpenTermsOfService() => _instance.logEvent(name: 'open_terms_of_service');
+
+  logPreviewArticle() => _instance.logEvent(name: 'preview_article');
+  logTrySelectImage() => _instance.logEvent(name: 'try_select_image');
+  logSelectImage() => _instance.logEvent(name: 'select_image');
+  logTrySubmitArticle() => _instance.logEvent(name: 'try_submit_article');
+  logSubmitArticle() => _instance.logEvent(name: 'submit_article');
+  logSubmitArticleCancel(String reason) => _instance
+      .logEvent(name: 'submit_article_cancel', parameters: {'reason': reason});
 }
