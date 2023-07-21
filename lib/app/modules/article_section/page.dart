@@ -76,7 +76,9 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
         itemBuilder: (context, item, index) => Column(
           children: [
             Text(
-              '${calculateDateDelta(DateTime.now(), item.key)}일 남음',
+              t.article.deadlineDelta(
+                n: calculateDateDelta(DateTime.now(), item.key),
+              ),
               style: TextStyles.articleCardTitleStyle,
             ),
             const SizedBox(height: 12),

@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 136 (68 per locale)
+/// Strings: 138 (69 per locale)
 
 
 // coverage:ignore-file
@@ -169,6 +169,7 @@ class _StringsArticleKo {
 	String get author => '글쓴이';
 	String get views => '조회수';
 	String get deadline => '마감일';
+	String deadlineDelta({required Object n}) => '${n}일 남음';
 	String get createdAt => '작성일';
 	String get reminderDescription => '알림 설정하면\n마감일 n일 전에 알려줘요!';
 }
@@ -512,6 +513,7 @@ class _StringsArticleEn implements _StringsArticleKo {
 	@override String get author => 'Author';
 	@override String get views => 'Views';
 	@override String get deadline => 'Deadline';
+	@override String deadlineDelta({required Object n}) => '${n} days left';
 	@override String get createdAt => 'Created At';
 	@override String get reminderDescription => 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
 }
@@ -796,6 +798,7 @@ extension on _StringsKo {
 			case 'article.author': return '글쓴이';
 			case 'article.views': return '조회수';
 			case 'article.deadline': return '마감일';
+			case 'article.deadlineDelta': return ({required Object n}) => '${n}일 남음';
 			case 'article.createdAt': return '작성일';
 			case 'article.reminderDescription': return '알림 설정하면\n마감일 n일 전에 알려줘요!';
 			case 'profile.title': return '마이페이지';
@@ -923,6 +926,7 @@ extension on _StringsEn {
 			case 'article.author': return 'Author';
 			case 'article.views': return 'Views';
 			case 'article.deadline': return 'Deadline';
+			case 'article.deadlineDelta': return ({required Object n}) => '${n} days left';
 			case 'article.createdAt': return 'Created At';
 			case 'article.reminderDescription': return 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
 			case 'login.promotion': return 'All of GIST\'s announcements at a glance';

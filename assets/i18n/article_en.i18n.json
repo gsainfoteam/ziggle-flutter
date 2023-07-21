@@ -34,6 +34,7 @@
   "author": "Author",
   "views": "Views",
   "deadline": "Deadline",
+  "deadlineDelta": "$n days left",
   "createdAt": "Created At",
   "reminderDescription": "If you set a reminder,\nI'll let you know n days before the deadline!"
 }
