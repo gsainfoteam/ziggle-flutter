@@ -6,6 +6,7 @@ targets:
           base_locale: ko
           input_directory: assets/i18n
           namespaces: true
+          timestamp: false
           contexts:
             ArticleType:
               generate_enum: false
