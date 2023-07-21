@@ -59,4 +59,16 @@ platform :android do
       upload(file_path, version_string)
     end if ENV['CI']
   end
+
+  def upload(file_path, version_string)
+    sh(
+      "curl",
+      "https://slack.com/api/files.upload",
+      "-F", 'token="' + ENV["SLACK_BOT_TOKEN"] + '"',
+      "-F", 'channels="' + ENV["SLACK_CHANNEL"] + '"',
+      "-F", 'title="' + File.basename(file_path) + ' for ' + version_string + '"',
+      "-F", 'filename="' + File.basename(file_path) + '"',
+      "-F", 'file=@' + file_path,
+    )
+  end
 end
