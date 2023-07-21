@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 94 (47 per locale)
+/// Strings: 136 (68 per locale)
 
 
 // coverage:ignore-file
@@ -155,6 +155,7 @@ class _StringsKo implements BaseTranslations<AppLocale, _StringsKo> {
 	late final _StringsSearchKo search = _StringsSearchKo._(_root);
 	late final _StringsRootKo root = _StringsRootKo._(_root);
 	late final _StringsLoginKo login = _StringsLoginKo._(_root);
+	late final _StringsWriteKo write = _StringsWriteKo._(_root);
 }
 
 // Path: article
@@ -226,6 +227,24 @@ class _StringsLoginKo {
 	String get withoutLogin => '로그인 없이 이용하기';
 }
 
+// Path: write
+class _StringsWriteKo {
+	_StringsWriteKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	late final _StringsWriteTitleKo title = _StringsWriteTitleKo._(_root);
+	late final _StringsWriteDeadlineKo deadline = _StringsWriteDeadlineKo._(_root);
+	late final _StringsWriteTypeKo type = _StringsWriteTypeKo._(_root);
+	late final _StringsWriteTagsKo tags = _StringsWriteTagsKo._(_root);
+	late final _StringsWriteBodyKo body = _StringsWriteBodyKo._(_root);
+	late final _StringsWriteImagesKo images = _StringsWriteImagesKo._(_root);
+	String get preview => '공지 미리보기';
+	String get submit => '공지 제출하기';
+	String get warning => '공지 제출 시 수정이 불가능합니다.';
+}
+
 // Path: article.section
 class _StringsArticleSectionKo {
 	_StringsArticleSectionKo._(this._root);
@@ -295,6 +314,118 @@ class _StringsArticleSectionKo {
 	}
 }
 
+// Path: write.title
+class _StringsWriteTitleKo {
+	_StringsWriteTitleKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get placeholder => '제목을 입력하세요';
+	late final _StringsWriteTitleErrorKo error = _StringsWriteTitleErrorKo._(_root);
+}
+
+// Path: write.deadline
+class _StringsWriteDeadlineKo {
+	_StringsWriteDeadlineKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get label => '마감일 설정';
+}
+
+// Path: write.type
+class _StringsWriteTypeKo {
+	_StringsWriteTypeKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get label => '분류';
+	late final _StringsWriteTypeErrorKo error = _StringsWriteTypeErrorKo._(_root);
+}
+
+// Path: write.tags
+class _StringsWriteTagsKo {
+	_StringsWriteTagsKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get label => '태그 설정';
+	String get placeholder => '태그를 입력하세요 (띄어쓰기로 구분)';
+}
+
+// Path: write.body
+class _StringsWriteBodyKo {
+	_StringsWriteBodyKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get label => '본문 내용 입력';
+	String get placeholder => '본문 내용을 입력하세요\n마크다운 문법을 지원합니다';
+	late final _StringsWriteBodyErrorKo error = _StringsWriteBodyErrorKo._(_root);
+}
+
+// Path: write.images
+class _StringsWriteImagesKo {
+	_StringsWriteImagesKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get label => '사진 첨부';
+	String get description => '선택 후 클릭하여 대표 사진을 선택해주세요.';
+	String get action => '폰에서 사진 선택하기...';
+	late final _StringsWriteImagesErrorKo error = _StringsWriteImagesErrorKo._(_root);
+}
+
+// Path: write.title.error
+class _StringsWriteTitleErrorKo {
+	_StringsWriteTitleErrorKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get title => '제목을 입력해주세요';
+	String get description => '제목을 입력하지 않으면 공지를 제출할 수 없습니다.';
+}
+
+// Path: write.type.error
+class _StringsWriteTypeErrorKo {
+	_StringsWriteTypeErrorKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get title => '분류를 선택해주세요';
+	String get description => '분류를 선택하지 않으면 공지를 제출할 수 없습니다.';
+}
+
+// Path: write.body.error
+class _StringsWriteBodyErrorKo {
+	_StringsWriteBodyErrorKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get title => '본문 내용을 입력해주세요';
+	String get description => '본문 내용을 입력하지 않으면 공지를 제출할 수 없습니다.';
+}
+
+// Path: write.images.error
+class _StringsWriteImagesErrorKo {
+	_StringsWriteImagesErrorKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get title => '대표 사진을 선택해주세요';
+	String get description => '대표 사진을 선택하지 않으면 공지를 제출할 수 없습니다.';
+}
+
 // Path: <root>
 class _StringsEn implements _StringsKo {
 
@@ -325,6 +456,7 @@ class _StringsEn implements _StringsKo {
 	@override late final _StringsRootEn root = _StringsRootEn._(_root);
 	@override late final _StringsArticleEn article = _StringsArticleEn._(_root);
 	@override late final _StringsLoginEn login = _StringsLoginEn._(_root);
+	@override late final _StringsWriteEn write = _StringsWriteEn._(_root);
 }
 
 // Path: search
@@ -396,6 +528,24 @@ class _StringsLoginEn implements _StringsLoginKo {
 	@override String get withoutLogin => 'Use without login';
 }
 
+// Path: write
+class _StringsWriteEn implements _StringsWriteKo {
+	_StringsWriteEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override late final _StringsWriteTitleEn title = _StringsWriteTitleEn._(_root);
+	@override late final _StringsWriteDeadlineEn deadline = _StringsWriteDeadlineEn._(_root);
+	@override late final _StringsWriteTypeEn type = _StringsWriteTypeEn._(_root);
+	@override late final _StringsWriteTagsEn tags = _StringsWriteTagsEn._(_root);
+	@override late final _StringsWriteBodyEn body = _StringsWriteBodyEn._(_root);
+	@override late final _StringsWriteImagesEn images = _StringsWriteImagesEn._(_root);
+	@override String get preview => 'Preview notice';
+	@override String get submit => 'Submit notice';
+	@override String get warning => 'You cannot edit notice after submitting.';
+}
+
 // Path: article.section
 class _StringsArticleSectionEn implements _StringsArticleSectionKo {
 	_StringsArticleSectionEn._(this._root);
@@ -463,6 +613,118 @@ class _StringsArticleSectionEn implements _StringsArticleSectionKo {
 				return 'Academic';
 		}
 	}
+}
+
+// Path: write.title
+class _StringsWriteTitleEn implements _StringsWriteTitleKo {
+	_StringsWriteTitleEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get placeholder => 'Enter title';
+	@override late final _StringsWriteTitleErrorEn error = _StringsWriteTitleErrorEn._(_root);
+}
+
+// Path: write.deadline
+class _StringsWriteDeadlineEn implements _StringsWriteDeadlineKo {
+	_StringsWriteDeadlineEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get label => 'Set deadline';
+}
+
+// Path: write.type
+class _StringsWriteTypeEn implements _StringsWriteTypeKo {
+	_StringsWriteTypeEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get label => 'Type';
+	@override late final _StringsWriteTypeErrorEn error = _StringsWriteTypeErrorEn._(_root);
+}
+
+// Path: write.tags
+class _StringsWriteTagsEn implements _StringsWriteTagsKo {
+	_StringsWriteTagsEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get label => 'Set tags';
+	@override String get placeholder => 'Enter tags (separated by space)';
+}
+
+// Path: write.body
+class _StringsWriteBodyEn implements _StringsWriteBodyKo {
+	_StringsWriteBodyEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get label => 'Enter body';
+	@override String get placeholder => 'Enter body\nMarkdown syntax is supported';
+	@override late final _StringsWriteBodyErrorEn error = _StringsWriteBodyErrorEn._(_root);
+}
+
+// Path: write.images
+class _StringsWriteImagesEn implements _StringsWriteImagesKo {
+	_StringsWriteImagesEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get label => 'Attach images';
+	@override String get description => 'Select representative image by clicking after selecting.';
+	@override String get action => 'Select images from phone...';
+	@override late final _StringsWriteImagesErrorEn error = _StringsWriteImagesErrorEn._(_root);
+}
+
+// Path: write.title.error
+class _StringsWriteTitleErrorEn implements _StringsWriteTitleErrorKo {
+	_StringsWriteTitleErrorEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Please enter title';
+	@override String get description => 'You cannot submit notice without title.';
+}
+
+// Path: write.type.error
+class _StringsWriteTypeErrorEn implements _StringsWriteTypeErrorKo {
+	_StringsWriteTypeErrorEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Please select type';
+	@override String get description => 'You cannot submit notice without type.';
+}
+
+// Path: write.body.error
+class _StringsWriteBodyErrorEn implements _StringsWriteBodyErrorKo {
+	_StringsWriteBodyErrorEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Please enter body';
+	@override String get description => 'You cannot submit notice without body.';
+}
+
+// Path: write.images.error
+class _StringsWriteImagesErrorEn implements _StringsWriteImagesErrorKo {
+	_StringsWriteImagesErrorEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Please select representative image';
+	@override String get description => 'You cannot submit notice without representative image.';
 }
 
 /// Flat map(s) containing all translations.
@@ -554,6 +816,27 @@ extension on _StringsKo {
 			case 'login.promotion': return '지스트의 모든 공지를 한눈에';
 			case 'login.login': return 'GSA 통합 계정으로 로그인';
 			case 'login.withoutLogin': return '로그인 없이 이용하기';
+			case 'write.title.placeholder': return '제목을 입력하세요';
+			case 'write.title.error.title': return '제목을 입력해주세요';
+			case 'write.title.error.description': return '제목을 입력하지 않으면 공지를 제출할 수 없습니다.';
+			case 'write.deadline.label': return '마감일 설정';
+			case 'write.type.label': return '분류';
+			case 'write.type.error.title': return '분류를 선택해주세요';
+			case 'write.type.error.description': return '분류를 선택하지 않으면 공지를 제출할 수 없습니다.';
+			case 'write.tags.label': return '태그 설정';
+			case 'write.tags.placeholder': return '태그를 입력하세요 (띄어쓰기로 구분)';
+			case 'write.body.label': return '본문 내용 입력';
+			case 'write.body.placeholder': return '본문 내용을 입력하세요\n마크다운 문법을 지원합니다';
+			case 'write.body.error.title': return '본문 내용을 입력해주세요';
+			case 'write.body.error.description': return '본문 내용을 입력하지 않으면 공지를 제출할 수 없습니다.';
+			case 'write.images.label': return '사진 첨부';
+			case 'write.images.description': return '선택 후 클릭하여 대표 사진을 선택해주세요.';
+			case 'write.images.action': return '폰에서 사진 선택하기...';
+			case 'write.images.error.title': return '대표 사진을 선택해주세요';
+			case 'write.images.error.description': return '대표 사진을 선택하지 않으면 공지를 제출할 수 없습니다.';
+			case 'write.preview': return '공지 미리보기';
+			case 'write.submit': return '공지 제출하기';
+			case 'write.warning': return '공지 제출 시 수정이 불가능합니다.';
 			default: return null;
 		}
 	}
@@ -645,6 +928,27 @@ extension on _StringsEn {
 			case 'login.promotion': return 'All of GIST\'s announcements at a glance';
 			case 'login.login': return 'Login with GSA unified account';
 			case 'login.withoutLogin': return 'Use without login';
+			case 'write.title.placeholder': return 'Enter title';
+			case 'write.title.error.title': return 'Please enter title';
+			case 'write.title.error.description': return 'You cannot submit notice without title.';
+			case 'write.deadline.label': return 'Set deadline';
+			case 'write.type.label': return 'Type';
+			case 'write.type.error.title': return 'Please select type';
+			case 'write.type.error.description': return 'You cannot submit notice without type.';
+			case 'write.tags.label': return 'Set tags';
+			case 'write.tags.placeholder': return 'Enter tags (separated by space)';
+			case 'write.body.label': return 'Enter body';
+			case 'write.body.placeholder': return 'Enter body\nMarkdown syntax is supported';
+			case 'write.body.error.title': return 'Please enter body';
+			case 'write.body.error.description': return 'You cannot submit notice without body.';
+			case 'write.images.label': return 'Attach images';
+			case 'write.images.description': return 'Select representative image by clicking after selecting.';
+			case 'write.images.action': return 'Select images from phone...';
+			case 'write.images.error.title': return 'Please select representative image';
+			case 'write.images.error.description': return 'You cannot submit notice without representative image.';
+			case 'write.preview': return 'Preview notice';
+			case 'write.submit': return 'Submit notice';
+			case 'write.warning': return 'You cannot edit notice after submitting.';
 			default: return null;
 		}
 	}
