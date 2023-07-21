@@ -19,7 +19,8 @@ class HomePage extends GetView<HomeController> {
         children: ArticleType.main
             .expand(
               (e) => [
-                SectionHeader(type: e, onTap: () => controller.goToList(e)),
+                SectionHeader(type: e, onTap: () => controller.goToList(e))
+                    .paddingSymmetric(horizontal: 20),
                 const SizedBox(height: 8),
                 Obx(() => _buildArticles(e)),
                 const SizedBox(height: 30),
