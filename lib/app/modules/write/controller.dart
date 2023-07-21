@@ -4,7 +4,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:markdown/markdown.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 import 'package:ziggle/app/core/values/colors.dart';
-import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
@@ -45,10 +44,7 @@ class WriteController extends GetxController {
         }
       }
     });
-    UserService.to
-        .getUserInfo()
-        .first
-        .then((value) => _userName = value?.name ?? placeholderUserName);
+    UserService.to.getUserInfo().first.then((value) => _userName = value!.name);
   }
 
   @override
