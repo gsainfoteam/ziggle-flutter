@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ziggle/app/core/values/strings.dart';
@@ -14,16 +15,19 @@ class MyController extends GetxController {
   final email = ''.obs;
   final MyRepository _repository;
   final articles = Rxn<Map<ArticleType, ProfileArticleData>>();
+  final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   MyController(this._repository);
 
   @override
   void onInit() {
     super.onInit();
-    _load();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      refreshIndicatorKey.currentState?.show();
+    });
   }
 
-  _load() async {
+  Future<void> load() async {
     final user = await _userService.getUserInfo().first;
     if (user == null) {
       return;

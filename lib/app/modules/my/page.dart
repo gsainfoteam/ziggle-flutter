@@ -27,20 +27,24 @@ class MyPage extends GetView<MyController> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _buildProfile(),
-            const Divider(),
-            _buildMyArticles(),
-            Obx(() =>
-                controller.articles.value?.values.any((e) => e.count > 0) ??
-                        false
-                    ? const Divider()
-                    : const SizedBox.shrink()),
-            _buildFooter(),
-          ],
+      body: RefreshIndicator.adaptive(
+        key: controller.refreshIndicatorKey,
+        onRefresh: controller.load,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _buildProfile(),
+              const Divider(),
+              _buildMyArticles(),
+              Obx(() =>
+                  controller.articles.value?.values.any((e) => e.count > 0) ??
+                          false
+                      ? const Divider()
+                      : const SizedBox.shrink()),
+              _buildFooter(),
+            ],
+          ),
         ),
       ),
     );
