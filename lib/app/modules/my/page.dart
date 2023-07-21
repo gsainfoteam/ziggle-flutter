@@ -77,26 +77,26 @@ class MyPage extends GetView<MyController> {
     );
   }
 
-  Widget _buildMyArticles() => Column(
-        children: ArticleType.profile
-            .map(
-              (e) => Column(
-                children: [
-                  SectionHeader(type: e, onTap: () => controller.goToList(e)),
-                  const SizedBox(height: 12),
-                  Obx(() {
-                    final article = controller.articles.value?[e]?.article;
-                    if (article == null) return const SizedBox.shrink();
-                    return ArticleCard(
-                      article: article,
+  Widget _buildMyArticles() => Obx(
+        () => Column(
+          children: ArticleType.profile
+              .where((e) => controller.articles.value?[e]?.article != null)
+              .map(
+                (e) => Column(
+                  children: [
+                    SectionHeader(type: e, onTap: () => controller.goToList(e)),
+                    const SizedBox(height: 12),
+                    ArticleCard(
+                      article: controller.articles.value![e]!.article!,
                       direction: Axis.horizontal,
-                      onTap: () => controller.goToDetail(article),
-                    );
-                  }),
-                ],
-              ).paddingSymmetric(horizontal: 20, vertical: 25),
-            )
-            .toList(),
+                      onTap: () => controller
+                          .goToDetail(controller.articles.value![e]!.article!),
+                    ),
+                  ],
+                ).paddingSymmetric(horizontal: 20, vertical: 25),
+              )
+              .toList(),
+        ),
       );
 
   Widget _buildFooter() => Column(

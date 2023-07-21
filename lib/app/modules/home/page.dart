@@ -14,19 +14,22 @@ class HomePage extends GetView<HomeController> {
     return RefreshIndicator.adaptive(
       onRefresh: controller.reload,
       key: controller.refreshIndicatorKey,
-      child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        children: ArticleType.main
-            .expand(
-              (e) => [
-                SectionHeader(type: e, onTap: () => controller.goToList(e))
-                    .paddingSymmetric(horizontal: 20),
-                const SizedBox(height: 8),
-                Obx(() => _buildArticles(e)),
-                const SizedBox(height: 30),
-              ],
-            )
-            .toList(),
+      child: Obx(
+        () => ListView(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          children: ArticleType.main
+              .where((e) => controller.articles[e]?.value?.isNotEmpty ?? false)
+              .expand(
+                (e) => [
+                  SectionHeader(type: e, onTap: () => controller.goToList(e))
+                      .paddingSymmetric(horizontal: 20),
+                  const SizedBox(height: 8),
+                  _buildArticles(e),
+                  const SizedBox(height: 30),
+                ],
+              )
+              .toList(),
+        ),
       ),
     );
   }
