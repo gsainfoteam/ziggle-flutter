@@ -17,8 +17,8 @@ class AnalyticsService {
     });
   }
 
-  static NavigatorObserver get observer =>
-      FirebaseAnalyticsObserver(analytics: _instance);
+  static NavigatorObserver get observer => FirebaseAnalyticsObserver(
+      analytics: _instance, nameExtractor: (_) => Get.currentRoute);
 
   logChangePage(String screenName) =>
       _instance.setCurrentScreen(screenName: screenName);
