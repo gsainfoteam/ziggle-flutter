@@ -34,7 +34,11 @@ class MyPage extends GetView<MyController> {
             _buildProfile(),
             const Divider(),
             _buildMyArticles(),
-            const Divider(),
+            Obx(() =>
+                controller.articles.value?.values.any((e) => e.count > 0) ??
+                        false
+                    ? const Divider()
+                    : const SizedBox.shrink()),
             _buildFooter(),
           ],
         ),
