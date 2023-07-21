@@ -7,7 +7,7 @@ class RootController extends GetxController {
   final pageIndex = 0.obs;
   final pageController = PageController();
   final _userService = UserService.to;
-  final name = ''.obs;
+  final name = Rxn<String>();
 
   @override
   void onInit() {
@@ -39,5 +39,11 @@ class RootController extends GetxController {
     );
   }
 
-  void goToProfile() => Get.toNamed(Routes.MY_PAGE);
+  void goToProfile() {
+    if (name.value == null) {
+      _userService.logout();
+      return;
+    }
+    Get.toNamed(Routes.MY_PAGE);
+  }
 }

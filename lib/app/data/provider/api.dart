@@ -23,7 +23,7 @@ abstract class ApiProvider {
   Future<LoginResponse> login(@Query('code') String authCode);
 
   @GET('/user/info')
-  Future<UserInfoResponse> userInfo(@Query('user_uuid') String userUuid);
+  Future<UserInfoResponse> userInfo();
 
   @POST('/user/fcm')
   Future updateFcmToken(@Field('fcm_token') String fcmToken);

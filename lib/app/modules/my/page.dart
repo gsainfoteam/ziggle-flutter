@@ -14,10 +14,13 @@ class MyPage extends GetView<MyController> {
       appBar: AppBar(
         title: const Text('마이페이지'),
         actions: [
-          ZiggleButton(
-            text: '수정',
-            color: Colors.transparent,
-            onTap: () {},
+          SizedBox(
+            height: 45,
+            child: ZiggleButton(
+              text: '로그아웃',
+              color: Colors.transparent,
+              onTap: controller.logout,
+            ),
           )
         ],
       ),
@@ -46,8 +49,6 @@ class MyPage extends GetView<MyController> {
         Obx(() => _buildInfoRow('학번', controller.studentId.value)),
         const SizedBox(height: 25),
         Obx(() => _buildInfoRow('메일', controller.email.value)),
-        const SizedBox(height: 30),
-        ZiggleButton(text: '로그아웃', onTap: controller.logout),
         const SizedBox(height: 30),
       ],
     ).paddingSymmetric(horizontal: 38);

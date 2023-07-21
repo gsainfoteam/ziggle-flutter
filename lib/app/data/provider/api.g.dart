@@ -48,9 +48,9 @@ class _ApiProvider implements ApiProvider {
   }
 
   @override
-  Future<UserInfoResponse> userInfo(String userUuid) async {
+  Future<UserInfoResponse> userInfo() async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'user_uuid': userUuid};
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio

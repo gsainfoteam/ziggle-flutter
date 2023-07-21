@@ -38,4 +38,8 @@ class LoginController extends GetxController {
       loading.value = false;
     }
   }
+
+  void skipLogin() {
+    _userService.skipLogin();
+  }
 }

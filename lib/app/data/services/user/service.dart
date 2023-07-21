@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/model/user_info_response.dart';
@@ -14,13 +13,16 @@ class UserService extends GetxService {
   final TokenRepository _tokenRepository;
   final FcmProvider _fcmProvider;
   UserInfoResponse? _user;
+  bool _skipLogin = false;
   final _controller = StreamController<UserInfoResponse?>.broadcast();
   final _waitFirst = Completer<void>();
 
   UserService(this._repository, this._tokenRepository, this._fcmProvider) {
     _controller.stream.listen((user) {
       _user = user;
-      Get.offAllNamed(user == null ? Routes.LOGIN : Routes.ROOT);
+      Get.offAllNamed(
+        (user == null && !_skipLogin) ? Routes.LOGIN : Routes.ROOT,
+      );
     });
     _tokenRepository.getToken().listen((event) {
       _updateUser();
@@ -39,6 +41,7 @@ class UserService extends GetxService {
   }
 
   Future<void> logout() async {
+    _skipLogin = false;
     await _tokenRepository.deleteToken();
   }
 
@@ -60,19 +63,18 @@ class UserService extends GetxService {
     if (token == null) {
       return null;
     }
-    final bodyBase64 = token.split('.')[1];
-    final width = (bodyBase64.length / 4).ceil() * 4;
-    final paddedBodyBase64 = bodyBase64.padRight(width, '=');
-    final bodyJson = utf8.fuse(base64Url).decode(paddedBodyBase64);
-    final body = jsonDecode(bodyJson);
-    final userUuid = body['userUUID'];
 
-    return await _repository.userInfo(userUuid);
+    return await _repository.userInfo();
   }
 
   Stream<UserInfoResponse?> getUserInfo() async* {
     await _waitFirst.future;
     yield _user;
     yield* _controller.stream;
+  }
+
+  void skipLogin() {
+    _skipLogin = true;
+    _controller.add(null);
   }
 }
