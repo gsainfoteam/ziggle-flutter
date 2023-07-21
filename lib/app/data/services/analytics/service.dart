@@ -43,4 +43,7 @@ class AnalyticsService {
         'query': query,
         'types': types.map((e) => e.name).join(', '),
       });
+
+  logOpenPrivacyPolicy() => _instance.logEvent(name: 'open_privacy_policy');
+  logOpenTermsOfService() => _instance.logEvent(name: 'open_terms_of_service');
 }

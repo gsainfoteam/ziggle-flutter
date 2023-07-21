@@ -48,10 +48,12 @@ class ProfileController extends GetxController {
 
   void goToPrivacyPolicy() {
     launchUrl(Uri.parse(privacyPolicyUrl));
+    _analyticsService.logOpenPrivacyPolicy();
   }
 
   void goToTermsOfService() {
     launchUrl(Uri.parse(termsOfServiceUrl));
+    _analyticsService.logOpenTermsOfService();
   }
 
   goToList(ArticleType e) {
