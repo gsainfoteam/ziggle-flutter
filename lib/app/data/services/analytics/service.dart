@@ -15,14 +15,11 @@ class AnalyticsService {
         ..setUserProperty(name: 'studentId', value: event?.studentId)
         ..setUserProperty(name: 'email', value: event?.email);
     });
-
-    Get.routerDelegate?.addListener(logChangeScreen);
   }
 
   static NavigatorObserver get observer =>
       FirebaseAnalyticsObserver(analytics: _instance);
 
-  logChangeScreen() => _instance.setCurrentScreen(screenName: Get.currentRoute);
   logTryLogin() => _instance.logEvent(name: 'try_login');
   logLoginCancel(String reason) =>
       _instance.logEvent(name: 'login_cancel', parameters: {'reason': reason});
