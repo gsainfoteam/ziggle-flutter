@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 138 (69 per locale)
+/// Strings: 139 (69 per locale)
 
 
 // coverage:ignore-file
@@ -214,6 +214,7 @@ class _StringsRootKo {
 	String get main => '메인';
 	String get search => '검색';
 	String get write => '작성';
+	String get notificationChannelDescription => '지글 알림';
 }
 
 // Path: login
@@ -816,6 +817,7 @@ extension on _StringsKo {
 			case 'root.main': return '메인';
 			case 'root.search': return '검색';
 			case 'root.write': return '작성';
+			case 'root.notificationChannelDescription': return '지글 알림';
 			case 'login.promotion': return '지스트의 모든 공지를 한눈에';
 			case 'login.login': return 'GSA 통합 계정으로 로그인';
 			case 'login.withoutLogin': return '로그인 없이 이용하기';

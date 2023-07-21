@@ -2,5 +2,6 @@
   "login": "로그인",
   "main": "메인",
   "search": "검색",
-  "write": "작성"
+  "write": "작성",
+  "notificationChannelDescription": "지글 알림"
 }
