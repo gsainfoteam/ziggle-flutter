@@ -13,13 +13,16 @@ class UserService extends GetxService {
   final TokenRepository _tokenRepository;
   final FcmProvider _fcmProvider;
   UserInfoResponse? _user;
+  bool _skipLogin = false;
   final _controller = StreamController<UserInfoResponse?>.broadcast();
   final _waitFirst = Completer<void>();
 
   UserService(this._repository, this._tokenRepository, this._fcmProvider) {
     _controller.stream.listen((user) {
       _user = user;
-      Get.offAllNamed(user == null ? Routes.LOGIN : Routes.ROOT);
+      Get.offAllNamed(
+        (user == null && !_skipLogin) ? Routes.LOGIN : Routes.ROOT,
+      );
     });
     _tokenRepository.getToken().listen((event) {
       _updateUser();
@@ -67,5 +70,10 @@ class UserService extends GetxService {
     await _waitFirst.future;
     yield _user;
     yield* _controller.stream;
+  }
+
+  void skipLogin() {
+    _skipLogin = true;
+    _controller.add(null);
   }
 }
