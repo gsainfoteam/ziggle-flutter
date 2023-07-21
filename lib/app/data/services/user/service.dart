@@ -41,6 +41,7 @@ class UserService extends GetxService {
   }
 
   Future<void> logout() async {
+    _skipLogin = false;
     await _tokenRepository.deleteToken();
   }
 

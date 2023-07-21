@@ -41,7 +41,7 @@ class RootController extends GetxController {
 
   void goToProfile() {
     if (name.value == null) {
-      Get.offAllNamed(Routes.LOGIN);
+      _userService.logout();
       return;
     }
     Get.toNamed(Routes.MY_PAGE);
