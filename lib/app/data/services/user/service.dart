@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/model/user_info_response.dart';
@@ -60,14 +59,8 @@ class UserService extends GetxService {
     if (token == null) {
       return null;
     }
-    final bodyBase64 = token.split('.')[1];
-    final width = (bodyBase64.length / 4).ceil() * 4;
-    final paddedBodyBase64 = bodyBase64.padRight(width, '=');
-    final bodyJson = utf8.fuse(base64Url).decode(paddedBodyBase64);
-    final body = jsonDecode(bodyJson);
-    final userUuid = body['userUUID'];
 
-    return await _repository.userInfo(userUuid);
+    return await _repository.userInfo();
   }
 
   Stream<UserInfoResponse?> getUserInfo() async* {
