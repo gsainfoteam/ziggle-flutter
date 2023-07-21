@@ -24,8 +24,10 @@ class MyRepository {
   Future<ProfileArticleData> getArticles() async {
     return ProfileArticleData(
       my: (await _provider.getNotices(limit: 1, my: NoticeMy.own))
+          .list
           .elementAtOrNull(0),
       reminders: (await _provider.getNotices(limit: 1, my: NoticeMy.reminders))
+          .list
           .elementAtOrNull(0),
     );
   }

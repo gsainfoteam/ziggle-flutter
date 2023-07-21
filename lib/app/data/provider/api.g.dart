@@ -212,7 +212,7 @@ class _ApiProvider implements ApiProvider {
   }
 
   @override
-  Future<List<ArticleSummaryResponse>> getNotices({
+  Future<ArticleListResponse> getNotices({
     int? offset,
     int? limit,
     String? search,
@@ -232,8 +232,8 @@ class _ApiProvider implements ApiProvider {
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<List<dynamic>>(
-        _setStreamType<List<ArticleSummaryResponse>>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ArticleListResponse>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -249,10 +249,7 @@ class _ApiProvider implements ApiProvider {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    var value = _result.data!
-        .map((dynamic i) =>
-            ArticleSummaryResponse.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = ArticleListResponse.fromJson(_result.data!);
     return value;
   }
 

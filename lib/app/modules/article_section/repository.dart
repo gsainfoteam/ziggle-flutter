@@ -10,13 +10,14 @@ class ArticleSectionRepository {
   Future<List<ArticleSummaryResponse>> getArticles(
     ArticleType type,
     int page,
-  ) {
+  ) async {
     const limit = 10;
-    return _provider.getNotices(
+    final result = await _provider.getNotices(
       limit: limit,
       offset: (page - 1) * limit,
       tags: type.isSearchable ? [type.name] : null,
       orderBy: type.sort,
     );
+    return result.list;
   }
 }
