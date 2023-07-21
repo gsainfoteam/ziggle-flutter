@@ -4,9 +4,9 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 14 (7 per locale)
+/// Strings: 38 (19 per locale)
 ///
-/// Built on 2023-07-21 at 10:07 UTC
+/// Built on 2023-07-21 at 10:17 UTC
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
@@ -14,6 +14,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:slang/builder/model/node.dart';
 import 'package:slang_flutter/slang_flutter.dart';
+import 'package:ziggle/app/data/enums/article_type.dart';
 export 'package:slang_flutter/slang_flutter.dart';
 
 const AppLocale _baseLocale = AppLocale.ko;
@@ -150,8 +151,19 @@ class _StringsKo implements BaseTranslations<AppLocale, _StringsKo> {
 	late final _StringsKo _root = this; // ignore: unused_field
 
 	// Translations
+	late final _StringsArticleKo article = _StringsArticleKo._(_root);
 	late final _StringsRootKo root = _StringsRootKo._(_root);
 	late final _StringsLoginKo login = _StringsLoginKo._(_root);
+}
+
+// Path: article
+class _StringsArticleKo {
+	_StringsArticleKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	late final _StringsArticleSectionKo section = _StringsArticleSectionKo._(_root);
 }
 
 // Path: root
@@ -177,6 +189,75 @@ class _StringsLoginKo {
 	String get promotion => '지스트의 모든 공지를 한눈에';
 	String get login => 'GSA 통합 계정으로 로그인';
 	String get withoutLogin => '로그인 없이 이용하기';
+}
+
+// Path: article.section
+class _StringsArticleSectionKo {
+	_StringsArticleSectionKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String title({required ArticleType type}) {
+		switch (type) {
+			case ArticleType.deadline:
+				return '기한 임박';
+			case ArticleType.hot:
+				return '요즘 끓는 공지';
+			case ArticleType.my:
+				return '내가 쓴 공지';
+			case ArticleType.reminders:
+				return '리마인더 설정한 공지';
+			case ArticleType.recruit:
+				return '모집';
+			case ArticleType.event:
+				return '행사';
+			case ArticleType.general:
+				return '일반';
+			case ArticleType.academic:
+				return '학사공지';
+		}
+	}
+	String description({required ArticleType type}) {
+		switch (type) {
+			case ArticleType.deadline:
+				return '마감 시간이 일주일도 안 남은 공지를\n모아서 보여 드려요';
+			case ArticleType.hot:
+				return '지난 일주일 동안 조회수가 150이 넘은 공지들이\n여기서 지글지글 끓고 있어요';
+			case ArticleType.my:
+				return '내가 쓴 공지들을 모아서 보여 드려요';
+			case ArticleType.reminders:
+				return '알림을 설정한 공지들을 모아서 보여 드려요';
+			case ArticleType.recruit:
+				return '언제나 여러분께 열린 기회';
+			case ArticleType.event:
+				return '지스트는 오늘도 뜨겁습니다';
+			case ArticleType.general:
+				return '지스트인들이 해야 하는 일들';
+			case ArticleType.academic:
+				return '지스트인이 해야 하는 일들';
+		}
+	}
+	String shortTitle({required ArticleType type}) {
+		switch (type) {
+			case ArticleType.deadline:
+				return '기한 임박';
+			case ArticleType.hot:
+				return '요즘 끓는 공지';
+			case ArticleType.my:
+				return '내가 쓴 공지';
+			case ArticleType.reminders:
+				return '리마인더 설정한 공지';
+			case ArticleType.recruit:
+				return '모집';
+			case ArticleType.event:
+				return '행사';
+			case ArticleType.general:
+				return '일반';
+			case ArticleType.academic:
+				return '학사';
+		}
+	}
 }
 
 // Path: <root>
@@ -239,6 +320,66 @@ class _StringsLoginEn implements _StringsLoginKo {
 extension on _StringsKo {
 	dynamic _flatMapFunction(String path) {
 		switch (path) {
+			case 'article.section.title': return ({required ArticleType type}) {
+				switch (type) {
+					case ArticleType.deadline:
+						return '기한 임박';
+					case ArticleType.hot:
+						return '요즘 끓는 공지';
+					case ArticleType.my:
+						return '내가 쓴 공지';
+					case ArticleType.reminders:
+						return '리마인더 설정한 공지';
+					case ArticleType.recruit:
+						return '모집';
+					case ArticleType.event:
+						return '행사';
+					case ArticleType.general:
+						return '일반';
+					case ArticleType.academic:
+						return '학사공지';
+				}
+			};
+			case 'article.section.description': return ({required ArticleType type}) {
+				switch (type) {
+					case ArticleType.deadline:
+						return '마감 시간이 일주일도 안 남은 공지를\n모아서 보여 드려요';
+					case ArticleType.hot:
+						return '지난 일주일 동안 조회수가 150이 넘은 공지들이\n여기서 지글지글 끓고 있어요';
+					case ArticleType.my:
+						return '내가 쓴 공지들을 모아서 보여 드려요';
+					case ArticleType.reminders:
+						return '알림을 설정한 공지들을 모아서 보여 드려요';
+					case ArticleType.recruit:
+						return '언제나 여러분께 열린 기회';
+					case ArticleType.event:
+						return '지스트는 오늘도 뜨겁습니다';
+					case ArticleType.general:
+						return '지스트인들이 해야 하는 일들';
+					case ArticleType.academic:
+						return '지스트인이 해야 하는 일들';
+				}
+			};
+			case 'article.section.shortTitle': return ({required ArticleType type}) {
+				switch (type) {
+					case ArticleType.deadline:
+						return '기한 임박';
+					case ArticleType.hot:
+						return '요즘 끓는 공지';
+					case ArticleType.my:
+						return '내가 쓴 공지';
+					case ArticleType.reminders:
+						return '리마인더 설정한 공지';
+					case ArticleType.recruit:
+						return '모집';
+					case ArticleType.event:
+						return '행사';
+					case ArticleType.general:
+						return '일반';
+					case ArticleType.academic:
+						return '학사';
+				}
+			};
 			case 'root.login': return '로그인';
 			case 'root.main': return '메인';
 			case 'root.search': return '검색';

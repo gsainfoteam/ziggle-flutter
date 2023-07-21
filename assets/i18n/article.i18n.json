@@ -1,0 +1,34 @@
+{
+  "section": {
+    "title(context=ArticleType, param=type)": {
+      "deadline": "기한 임박",
+      "hot": "요즘 끓는 공지",
+      "my": "내가 쓴 공지",
+      "reminders": "리마인더 설정한 공지",
+      "recruit": "모집",
+      "event": "행사",
+      "general": "일반",
+      "academic": "학사공지"
+    },
+    "description(context=ArticleType, param=type)": {
+      "deadline": "마감 시간이 일주일도 안 남은 공지를\n모아서 보여 드려요",
+      "hot": "지난 일주일 동안 조회수가 150이 넘은 공지들이\n여기서 지글지글 끓고 있어요",
+      "my": "내가 쓴 공지들을 모아서 보여 드려요",
+      "reminders": "알림을 설정한 공지들을 모아서 보여 드려요",
+      "recruit": "언제나 여러분께 열린 기회",
+      "event": "지스트는 오늘도 뜨겁습니다",
+      "general": "지스트인들이 해야 하는 일들",
+      "academic": "지스트인이 해야 하는 일들"
+    },
+    "shortTitle(context=ArticleType, param=type)": {
+      "deadline": "기한 임박",
+      "hot": "요즘 끓는 공지",
+      "my": "내가 쓴 공지",
+      "reminders": "리마인더 설정한 공지",
+      "recruit": "모집",
+      "event": "행사",
+      "general": "일반",
+      "academic": "학사"
+    }
+  }
+}
