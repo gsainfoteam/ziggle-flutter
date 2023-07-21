@@ -1,8 +1,1 @@
-app_identifier("com.infoteam.ziggle") # The bundle identifier of your app
-apple_id("me@cra1nbow.is") # Your Apple Developer Portal username
-
-itc_team_id("124007244") # App Store Connect Team ID
-team_id("M83ARHJRW9") # Developer Portal Team ID
-
-# For more information about the Appfile, see:
-#     https://docs.fastlane.tools/advanced/#appfile
+app_identifier("me.gistory.ziggle")

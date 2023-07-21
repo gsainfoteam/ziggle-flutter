@@ -1,4 +1,4 @@
-package com.example.ziggle_flutter
+package me.gistory.ziggle
 
 import io.flutter.embedding.android.FlutterActivity
 

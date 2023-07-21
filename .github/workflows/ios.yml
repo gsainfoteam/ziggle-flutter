@@ -13,7 +13,7 @@ jobs:
       group: staging
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.CERTIFICATION_DEPLOY_KEY }}
@@ -21,8 +21,8 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.10.5'
-          channel: 'stable'
+          flutter-version: '3.13.0-0.2.pre'
+          channel: 'beta'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'

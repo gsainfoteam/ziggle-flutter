@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>343325951427-pubjv16r5k2pda5kgb0393butigf5k9r.apps.googleusercontent.com</string>
+	<string>343325951427-or72df25mic7p6slr09d1sov9sb24h4s.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.343325951427-pubjv16r5k2pda5kgb0393butigf5k9r</string>
+	<string>com.googleusercontent.apps.343325951427-or72df25mic7p6slr09d1sov9sb24h4s</string>
 	<key>API_KEY</key>
 	<string>AIzaSyD_cM7fYZQ5uNAGS3BTQbWqblQIOtej2J8</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.infoteam.ziggle</string>
+	<string>me.gistory.ziggle</string>
 	<key>PROJECT_ID</key>
 	<string>gsainfoteam-ziggle</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:343325951427:ios:69086d8983766c0de6e976</string>
+	<string>1:343325951427:ios:630d75333b29826ee6e976</string>
 </dict>
 </plist>
