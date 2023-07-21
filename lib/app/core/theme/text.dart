@@ -35,6 +35,11 @@ abstract class TextStyles {
     fontWeight: FontWeight.w500,
   );
 
+  static const link = TextStyle(
+    fontSize: 16,
+    decoration: TextDecoration.underline,
+  );
+
   static const secondaryLabelStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,

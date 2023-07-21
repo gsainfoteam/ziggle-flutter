@@ -25,10 +25,12 @@ class MyPage extends GetView<MyController> {
         ],
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _buildProfile(),
           const Divider(),
+          const Divider(),
+          _buildFooter(),
         ],
       ),
     );
@@ -36,7 +38,6 @@ class MyPage extends GetView<MyController> {
 
   Widget _buildProfile() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const SizedBox(height: 30),
         const CircleAvatar(
@@ -69,4 +70,25 @@ class MyPage extends GetView<MyController> {
       ],
     );
   }
+
+  Widget _buildFooter() => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ZiggleButton(
+            text: '개인정보처리방침',
+            color: Colors.transparent,
+            textStyle: TextStyles.link,
+            padding: EdgeInsets.zero,
+            onTap: controller.goToPrivacyPolicy,
+          ),
+          const SizedBox(height: 25),
+          ZiggleButton(
+            text: '이용약관',
+            color: Colors.transparent,
+            textStyle: TextStyles.link,
+            padding: EdgeInsets.zero,
+            onTap: controller.goToTermsOfService,
+          ),
+        ],
+      ).paddingSymmetric(horizontal: 38, vertical: 35);
 }

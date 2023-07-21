@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 
 class MyController extends GetxController {
@@ -26,5 +28,13 @@ class MyController extends GetxController {
 
   void logout() {
     _userService.logout();
+  }
+
+  void goToPrivacyPolicy() {
+    launchUrl(Uri.parse(privacyPolicyUrl));
+  }
+
+  void goToTermsOfService() {
+    launchUrl(Uri.parse(termsOfServiceUrl));
   }
 }
