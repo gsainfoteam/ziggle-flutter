@@ -1,3 +1,4 @@
+import 'package:ziggle/app/data/enums/notice_my.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/provider/api.dart';
 
@@ -22,8 +23,9 @@ class MyRepository {
 
   Future<ProfileArticleData> getArticles() async {
     return ProfileArticleData(
-      my: (await _provider.getNotices(limit: 1, my: true)).elementAtOrNull(0),
-      reminders: (await _provider.getNotices(limit: 1, reminders: true))
+      my: (await _provider.getNotices(limit: 1, my: NoticeMy.own))
+          .elementAtOrNull(0),
+      reminders: (await _provider.getNotices(limit: 1, my: NoticeMy.reminders))
           .elementAtOrNull(0),
     );
   }

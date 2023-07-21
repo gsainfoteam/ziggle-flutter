@@ -1,0 +1,1 @@
+enum NoticeMy { own, reminders }

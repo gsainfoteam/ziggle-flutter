@@ -218,8 +218,7 @@ class _ApiProvider implements ApiProvider {
     String? search,
     List<String>? tags,
     NoticeSort? orderBy,
-    bool? my,
-    bool? reminders,
+    NoticeMy? my,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -228,8 +227,7 @@ class _ApiProvider implements ApiProvider {
       r'search': search,
       r'tags[]': tags,
       r'orderBy': orderBy?.name,
-      r'my': my,
-      r'reminders': reminders,
+      r'my': my?.name,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
