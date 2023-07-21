@@ -21,20 +21,29 @@ class RootPage extends GetView<RootController> {
             .image(alignment: Alignment.centerLeft)
             .paddingSymmetric(horizontal: 8),
         actions: [
-          ZiggleButton(
-            color: Colors.transparent,
-            onTap: controller.goToProfile,
-            child: Row(
-              children: [
-                Obx(() => Text(
-                      controller.name.value,
+          SizedBox(
+            height: 30,
+            child: ZiggleButton(
+              color: Colors.transparent,
+              onTap: controller.goToProfile,
+              child: Obx(() {
+                final name = controller.name.value;
+                if (name == null) {
+                  return const Row(children: [Text('로그인')]);
+                }
+                return Row(
+                  children: [
+                    Text(
+                      name,
                       style: TextStyles.titleTextStyle.copyWith(
                         color: Palette.primaryColor,
                       ),
-                    )),
-                const SizedBox(width: 8),
-                Assets.icons.profile.image(),
-              ],
+                    ),
+                    const SizedBox(width: 8),
+                    Assets.icons.profile.image(),
+                  ],
+                );
+              }),
             ),
           )
         ],
