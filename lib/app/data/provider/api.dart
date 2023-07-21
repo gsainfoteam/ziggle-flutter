@@ -4,10 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart' show Get, Inst;
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/core/values/strings.dart';
+import 'package:ziggle/app/data/enums/notice_my.dart';
 import 'package:ziggle/app/data/enums/notice_sort.dart';
+import 'package:ziggle/app/data/model/article_list_response.dart';
 import 'package:ziggle/app/data/model/article_request.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
-import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/model/login_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
 import 'package:ziggle/app/data/model/user_info_response.dart';
@@ -41,12 +42,13 @@ abstract class ApiProvider {
   Future<ArticleResponse> writeNotice(@Body() ArticleRequest article);
 
   @GET('/notice/all')
-  Future<List<ArticleSummaryResponse>> getNotices({
+  Future<ArticleListResponse> getNotices({
     @Query('offset') int? offset,
     @Query('limit') int? limit,
     @Query('search') String? search,
     @Query('tags[]') List<String>? tags,
     @Query('orderBy') NoticeSort? orderBy,
+    @Query('my') NoticeMy? my,
   });
 
   @GET('/notice/{id}')

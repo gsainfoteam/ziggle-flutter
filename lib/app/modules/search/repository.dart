@@ -10,11 +10,12 @@ class SearchRepository {
   Future<List<ArticleSummaryResponse>> search(
     String query,
     Iterable<ArticleType> types,
-  ) {
-    return _provider.getNotices(
+  ) async {
+    final result = await _provider.getNotices(
       limit: 10,
       search: query,
       tags: types.map((e) => e.name).toList(),
     );
+    return result.list;
   }
 }

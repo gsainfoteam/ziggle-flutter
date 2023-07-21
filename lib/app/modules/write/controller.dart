@@ -47,7 +47,7 @@ class WriteController extends GetxController {
     UserService.to
         .getUserInfo()
         .first
-        .then((value) => _userName = value?.userName ?? placeholderUserName);
+        .then((value) => _userName = value?.name ?? placeholderUserName);
   }
 
   @override

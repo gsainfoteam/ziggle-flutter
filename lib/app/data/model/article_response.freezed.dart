@@ -201,8 +201,7 @@ class __$$_ArticleResponseCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
-@JsonSerializable(fieldRename: FieldRename.none)
+@JsonSerializable()
 class _$_ArticleResponse implements _ArticleResponse {
   const _$_ArticleResponse(
       {required this.id,

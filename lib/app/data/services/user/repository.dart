@@ -12,7 +12,7 @@ class UserRepository {
   Future<String> loginWithCode(String code) async {
     try {
       final result = await _provider.login(code);
-      return result.jwtToken;
+      return result.accessToken;
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         throw WrongAuthCodeException();

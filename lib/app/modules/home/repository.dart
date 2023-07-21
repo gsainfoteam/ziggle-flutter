@@ -7,11 +7,12 @@ class HomeRepository {
 
   HomeRepository(this._provider);
 
-  Future<List<ArticleSummaryResponse>> getArticles(ArticleType type) {
-    return _provider.getNotices(
+  Future<List<ArticleSummaryResponse>> getArticles(ArticleType type) async {
+    final result = await _provider.getNotices(
       limit: type.isHorizontal ? 10 : 4,
       orderBy: type.sort,
       tags: type.isSearchable ? [type.name] : null,
     );
+    return result.list;
   }
 }

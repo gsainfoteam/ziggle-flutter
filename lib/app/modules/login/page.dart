@@ -40,7 +40,7 @@ class LoginPage extends GetView<LoginController> {
               onTap: controller.skipLogin,
             )
           ],
-        ).paddingSymmetric(horizontal: 20),
+        ).paddingAll(20),
       ),
     );
   }

@@ -25,6 +25,8 @@ abstract class TextStyles {
     fontWeight: FontWeight.bold,
   );
 
+  static const bigNormal = TextStyle(fontSize: 20);
+
   static const titleTextStyle = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.bold,
@@ -33,6 +35,11 @@ abstract class TextStyles {
   static const label = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w500,
+  );
+
+  static const link = TextStyle(
+    fontSize: 16,
+    decoration: TextDecoration.underline,
   );
 
   static const secondaryLabelStyle = TextStyle(

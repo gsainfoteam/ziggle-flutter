@@ -21,7 +21,7 @@ class RootController extends GetxController {
       return;
     }
 
-    name.value = user.userName;
+    name.value = user.name;
   }
 
   @override
@@ -44,6 +44,6 @@ class RootController extends GetxController {
       _userService.logout();
       return;
     }
-    Get.toNamed(Routes.MY_PAGE);
+    Get.toNamed(Routes.PROFILE);
   }
 }
