@@ -116,7 +116,7 @@ class ArticleCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (article.deadline != null) ...[
-          DDay(dDay: calculateDateDelta(article.createdAt, article.deadline!)),
+          DDay(dDay: calculateDateDelta(DateTime.now(), article.deadline!)),
           const SizedBox(height: 3),
         ],
         Text(
