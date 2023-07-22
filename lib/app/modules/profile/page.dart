@@ -109,7 +109,7 @@ class ProfilePage extends GetView<ProfileController> {
                       child: ZiggleButton(
                         color: Palette.light,
                         text: t.profile.others(
-                            count: controller.articles.value![e]!.count),
+                            count: controller.articles.value![e]!.count - 1),
                         textColor: Palette.black,
                         textStyle: TextStyles.bigNormal,
                         onTap: () => controller.goToList(e),
