@@ -33,7 +33,7 @@ class FcmProvider {
     final fcmToken = await instance.getToken();
     _controller.add(fcmToken);
     instance.onTokenRefresh.listen(_controller.add);
-    instance.setForegroundNotificationPresentationOptions(
+    await instance.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
