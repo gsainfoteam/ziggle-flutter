@@ -9,6 +9,8 @@ class ArticleRepository {
   ArticleRepository(this._provider, this._dbProvider);
 
   Future<ArticleResponse> getArticleById(int id) => _provider.getNotice(id);
+  Future setReminder(int id) => _provider.setReminder(id);
+  Future cancelReminder(int id) => _provider.cancelReminder(id);
 
   static const _shouldShowReminderKey = 'show_reminder_tooltip';
 

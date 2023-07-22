@@ -1,5 +1,3 @@
 storage_mode("git")
-
 type("development")
-
-app_identifier(["me.gistory.ziggle"])
+app_identifier(["me.gistory.ziggle", "me.gistory.ziggle.ImageNotification"])

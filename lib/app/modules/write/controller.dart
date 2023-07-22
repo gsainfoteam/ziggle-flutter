@@ -86,6 +86,7 @@ class WriteController extends GetxController {
           deadline: hasDeadline.value ? deadline.value : null,
           tags: _tags.map((e) => TagResponse(id: 0, name: e)).toList(),
           views: 0,
+          reminder: false,
         ),
       ),
       backgroundColor: Palette.white,

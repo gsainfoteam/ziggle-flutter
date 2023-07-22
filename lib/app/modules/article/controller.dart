@@ -1,9 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
+import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/article/repository.dart';
 import 'package:ziggle/app/routes/pages.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class ArticleController extends GetxController {
   final article = Rxn<ArticleResponse>();
@@ -15,6 +18,7 @@ class ArticleController extends GetxController {
   late final showReminderTooltip = _repository.shouldShowReminderTooltip.obs;
   final ArticleRepository _repository;
   final _analyticsService = AnalyticsService.to;
+  final _userService = UserService.to;
 
   ArticleController(this._repository);
 
@@ -47,7 +51,8 @@ class ArticleController extends GetxController {
     if (intId == null) return;
     final data = await _repository.getArticleById(intId);
     article.value = data;
-    showReminderTooltip.value |= data.deadline != null;
+    isReminder.value = data.reminder;
+    showReminderTooltip.value &= data.deadline != null;
   }
 
   void onPageChanged(int page) {
@@ -76,7 +81,32 @@ class ArticleController extends GetxController {
     _analyticsService.logHideReminderTooltip();
   }
 
-  void toggleReminder() {
+  void toggleReminder() async {
+    if ((await _userService.getUserInfo().first) == null) {
+      _analyticsService.logTryReminder();
+      Get.dialog(CupertinoAlertDialog(
+        title: Text(t.article.reminderLogin.title),
+        content: Text(t.article.reminderLogin.description),
+        actions: [
+          CupertinoDialogAction(
+            child: Text(
+              t.root.login,
+              style: const TextStyle(color: Palette.black),
+            ),
+            onPressed: () {
+              _userService.logout();
+              _analyticsService.logLogoutAnonymous();
+            },
+          )
+        ],
+      ));
+      return;
+    }
     _analyticsService.logToggleReminder(isReminder.toggle().value);
+    if (isReminder.value) {
+      _repository.setReminder(article.value!.id);
+    } else {
+      _repository.cancelReminder(article.value!.id);
+    }
   }
 }

@@ -29,6 +29,7 @@ mixin _$ArticleResponse {
   List<String>? get imagesUrl => throw _privateConstructorUsedError;
   List<TagResponse> get tags => throw _privateConstructorUsedError;
   String get author => throw _privateConstructorUsedError;
+  bool get reminder => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -51,7 +52,8 @@ abstract class $ArticleResponseCopyWith<$Res> {
       DateTime createdAt,
       List<String>? imagesUrl,
       List<TagResponse> tags,
-      String author});
+      String author,
+      bool reminder});
 }
 
 /// @nodoc
@@ -76,6 +78,7 @@ class _$ArticleResponseCopyWithImpl<$Res, $Val extends ArticleResponse>
     Object? imagesUrl = freezed,
     Object? tags = null,
     Object? author = null,
+    Object? reminder = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -114,6 +117,10 @@ class _$ArticleResponseCopyWithImpl<$Res, $Val extends ArticleResponse>
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
               as String,
+      reminder: null == reminder
+          ? _value.reminder
+          : reminder // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -135,7 +142,8 @@ abstract class _$$_ArticleResponseCopyWith<$Res>
       DateTime createdAt,
       List<String>? imagesUrl,
       List<TagResponse> tags,
-      String author});
+      String author,
+      bool reminder});
 }
 
 /// @nodoc
@@ -158,6 +166,7 @@ class __$$_ArticleResponseCopyWithImpl<$Res>
     Object? imagesUrl = freezed,
     Object? tags = null,
     Object? author = null,
+    Object? reminder = null,
   }) {
     return _then(_$_ArticleResponse(
       id: null == id
@@ -196,6 +205,10 @@ class __$$_ArticleResponseCopyWithImpl<$Res>
           ? _value.author
           : author // ignore: cast_nullable_to_non_nullable
               as String,
+      reminder: null == reminder
+          ? _value.reminder
+          : reminder // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -212,7 +225,8 @@ class _$_ArticleResponse implements _ArticleResponse {
       required this.createdAt,
       final List<String>? imagesUrl,
       final List<TagResponse> tags = const [],
-      required this.author})
+      required this.author,
+      required this.reminder})
       : _imagesUrl = imagesUrl,
         _tags = tags;
 
@@ -252,10 +266,12 @@ class _$_ArticleResponse implements _ArticleResponse {
 
   @override
   final String author;
+  @override
+  final bool reminder;
 
   @override
   String toString() {
-    return 'ArticleResponse(id: $id, title: $title, views: $views, body: $body, deadline: $deadline, createdAt: $createdAt, imagesUrl: $imagesUrl, tags: $tags, author: $author)';
+    return 'ArticleResponse(id: $id, title: $title, views: $views, body: $body, deadline: $deadline, createdAt: $createdAt, imagesUrl: $imagesUrl, tags: $tags, author: $author, reminder: $reminder)';
   }
 
   @override
@@ -274,7 +290,9 @@ class _$_ArticleResponse implements _ArticleResponse {
             const DeepCollectionEquality()
                 .equals(other._imagesUrl, _imagesUrl) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
-            (identical(other.author, author) || other.author == author));
+            (identical(other.author, author) || other.author == author) &&
+            (identical(other.reminder, reminder) ||
+                other.reminder == reminder));
   }
 
   @JsonKey(ignore: true)
@@ -289,7 +307,8 @@ class _$_ArticleResponse implements _ArticleResponse {
       createdAt,
       const DeepCollectionEquality().hash(_imagesUrl),
       const DeepCollectionEquality().hash(_tags),
-      author);
+      author,
+      reminder);
 
   @JsonKey(ignore: true)
   @override
@@ -315,7 +334,8 @@ abstract class _ArticleResponse implements ArticleResponse {
       required final DateTime createdAt,
       final List<String>? imagesUrl,
       final List<TagResponse> tags,
-      required final String author}) = _$_ArticleResponse;
+      required final String author,
+      required final bool reminder}) = _$_ArticleResponse;
 
   factory _ArticleResponse.fromJson(Map<String, dynamic> json) =
       _$_ArticleResponse.fromJson;
@@ -338,6 +358,8 @@ abstract class _ArticleResponse implements ArticleResponse {
   List<TagResponse> get tags;
   @override
   String get author;
+  @override
+  bool get reminder;
   @override
   @JsonKey(ignore: true)
   _$$_ArticleResponseCopyWith<_$_ArticleResponse> get copyWith =>

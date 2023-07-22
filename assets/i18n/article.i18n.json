@@ -36,5 +36,9 @@
   "deadline": "마감일",
   "deadlineDelta": "$n일 남음",
   "createdAt": "작성일",
-  "reminderDescription": "알림 설정하면\n마감일 n일 전에 알려줘요!"
+  "reminderDescription": "알림 설정하면\n마감일 n일 전에 알려줘요!",
+  "reminderLogin": {
+    "title": "로그인하면 알림 설정이 가능해요",
+    "description": "로그인하고 n일 전에 마감일 알림을 받으세요!"
+  }
 }

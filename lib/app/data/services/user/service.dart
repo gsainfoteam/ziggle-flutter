@@ -18,20 +18,17 @@ class UserService extends GetxService {
   final _waitFirst = Completer<void>();
 
   UserService(this._repository, this._tokenRepository, this._fcmProvider) {
-    _controller.stream.listen((user) {
+    _controller.stream.listen((user) async {
       _user = user;
       Get.offAllNamed(
         (user == null && !_skipLogin) ? Routes.LOGIN : Routes.ROOT,
       );
+      final fcmToken =
+          await _fcmProvider.getFcmToken().firstWhere((token) => token != null);
+      await _repository.updateFcmToken(fcmToken as String);
     });
     _tokenRepository.getToken().listen((event) {
       _updateUser();
-    });
-    _fcmProvider.getFcmToken().listen((event) async {
-      if (event == null) return;
-
-      await getUserInfo().firstWhere((user) => user != null);
-      await _repository.updateFcmToken(event);
     });
   }
 

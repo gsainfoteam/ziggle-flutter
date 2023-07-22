@@ -51,7 +51,12 @@ class ArticlePage extends GetView<ArticleController> {
 
     final imagesUrls = article.imagesUrl;
     if (imagesUrls == null || imagesUrls.isEmpty) {
-      return SingleChildScrollView(child: child);
+      return Stack(
+        children: [
+          SingleChildScrollView(child: child),
+          Obx(_buildReminderTooltip),
+        ],
+      );
     }
     return Stack(
       children: [
@@ -80,15 +85,7 @@ class ArticlePage extends GetView<ArticleController> {
                 ),
               ));
         }),
-        Obx(
-          () => controller.showReminderTooltip.value
-              ? Positioned(
-                  top: 0,
-                  right: 20,
-                  child: _Tooltip(controller.closeTooltip),
-                )
-              : const SizedBox.shrink(),
-        ),
+        Obx(_buildReminderTooltip),
         DraggableScrollableSheet(
           controller: controller.scrollController,
           initialChildSize: 0.25,
@@ -98,6 +95,15 @@ class ArticlePage extends GetView<ArticleController> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildReminderTooltip() {
+    if (!controller.showReminderTooltip.value) return const SizedBox.shrink();
+    return Positioned(
+      top: 0,
+      right: 20,
+      child: _Tooltip(controller.closeTooltip),
     );
   }
 

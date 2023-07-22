@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -33,7 +34,7 @@ class FcmProvider {
     final fcmToken = await instance.getToken();
     _controller.add(fcmToken);
     instance.onTokenRefresh.listen(_controller.add);
-    instance.setForegroundNotificationPresentationOptions(
+    await instance.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
@@ -51,10 +52,19 @@ class FcmProvider {
     FirebaseMessaging.onMessage.listen(_androidMessageListener);
   }
 
-  void _androidMessageListener(RemoteMessage rm) {
+  void _androidMessageListener(RemoteMessage rm) async {
     final notification = rm.notification;
 
     if (notification != null && notification.android != null) {
+      final imageUrl = notification.android?.imageUrl;
+      final image = imageUrl == null
+          ? null
+          : await Dio(BaseOptions(responseType: ResponseType.bytes))
+              .get(imageUrl)
+              .then((value) => value.data);
+      final styleInformation = image == null
+          ? null
+          : BigPictureStyleInformation(ByteArrayAndroidBitmap(image));
       _flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification.title,
@@ -63,6 +73,7 @@ class FcmProvider {
           android: AndroidNotificationDetails(
             _androidNotificationChannel.id,
             _androidNotificationChannel.name,
+            styleInformation: styleInformation,
           ),
         ),
       );
