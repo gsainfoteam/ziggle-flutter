@@ -45,7 +45,10 @@ class ArticleBody extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               DDay(
-                dDay: calculateDateDelta(DateTime.now(), article.deadline!),
+                dDay: calculateDateDelta(
+                  DateTime.now(),
+                  article.deadline!.toLocal(),
+                ),
               ),
             ],
           ),
