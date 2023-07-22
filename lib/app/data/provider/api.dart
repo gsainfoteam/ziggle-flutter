@@ -54,6 +54,12 @@ abstract class ApiProvider {
   @GET('/notice/{id}')
   Future<ArticleResponse> getNotice(@Path() int id);
 
+  @POST('/notice/{id}/reminder')
+  Future setReminder(@Path() int id);
+
+  @DELETE('/notice/{id}/reminder')
+  Future cancelReminder(@Path() int id);
+
   @POST('/image/upload')
   @MultiPart()
   Future<List<String>> uploadImages(@Part(name: 'images') List<File> images);

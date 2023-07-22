@@ -32,6 +32,7 @@ class AnalyticsService {
   logLogout() => _instance.logEvent(name: 'logout');
   logLogoutAnonymous() => _instance.logEvent(name: 'logout_anonymous');
 
+  logTryReminder() => _instance.logEvent(name: 'try_reminder');
   logToggleReminder(bool set) => _instance
       .logEvent(name: 'toggle_reminder', parameters: {'set': set ? 1 : 0});
   logHideReminderTooltip() => _instance.logEvent(name: 'hide_reminder_tooltip');

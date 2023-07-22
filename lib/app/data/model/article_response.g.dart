@@ -24,6 +24,7 @@ _$_ArticleResponse _$$_ArticleResponseFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const [],
       author: json['author'] as String,
+      reminder: json['reminder'] as bool,
     );
 
 Map<String, dynamic> _$$_ArticleResponseToJson(_$_ArticleResponse instance) =>
@@ -37,4 +38,5 @@ Map<String, dynamic> _$$_ArticleResponseToJson(_$_ArticleResponse instance) =>
       'imagesUrl': instance.imagesUrl,
       'tags': instance.tags,
       'author': instance.author,
+      'reminder': instance.reminder,
     };

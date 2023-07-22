@@ -16,6 +16,7 @@ class ArticleResponse with _$ArticleResponse {
     List<String>? imagesUrl,
     @Default([]) List<TagResponse> tags,
     required String author,
+    required bool reminder,
   }) = _ArticleResponse;
 
   factory ArticleResponse.fromJson(Map<String, dynamic> json) =>

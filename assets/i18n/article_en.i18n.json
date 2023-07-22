@@ -36,5 +36,9 @@
   "deadline": "Deadline",
   "deadlineDelta": "$n days left",
   "createdAt": "Created At",
-  "reminderDescription": "If you set a reminder,\nI'll let you know n days before the deadline!"
+  "reminderDescription": "If you set a reminder,\nI'll let you know n days before the deadline!",
+  "reminderLogin": {
+    "title": "You can set reminders if you log in",
+    "description": "Log in and get a deadline reminder n days in advance!"
+  }
 }

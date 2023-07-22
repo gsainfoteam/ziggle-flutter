@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 140 (70 per locale)
+/// Strings: 144 (72 per locale)
 
 
 // coverage:ignore-file
@@ -172,6 +172,7 @@ class _StringsArticleKo {
 	String deadlineDelta({required Object n}) => '${n}일 남음';
 	String get createdAt => '작성일';
 	String get reminderDescription => '알림 설정하면\n마감일 n일 전에 알려줘요!';
+	late final _StringsArticleReminderLoginKo reminderLogin = _StringsArticleReminderLoginKo._(_root);
 }
 
 // Path: profile
@@ -314,6 +315,17 @@ class _StringsArticleSectionKo {
 				return '학사';
 		}
 	}
+}
+
+// Path: article.reminderLogin
+class _StringsArticleReminderLoginKo {
+	_StringsArticleReminderLoginKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get title => '로그인하면 알림 설정이 가능해요';
+	String get description => '로그인하고 n일 전에 마감일 알림을 받으세요!';
 }
 
 // Path: write.title
@@ -518,6 +530,7 @@ class _StringsArticleEn implements _StringsArticleKo {
 	@override String deadlineDelta({required Object n}) => '${n} days left';
 	@override String get createdAt => 'Created At';
 	@override String get reminderDescription => 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
+	@override late final _StringsArticleReminderLoginEn reminderLogin = _StringsArticleReminderLoginEn._(_root);
 }
 
 // Path: login
@@ -617,6 +630,17 @@ class _StringsArticleSectionEn implements _StringsArticleSectionKo {
 				return 'Academic';
 		}
 	}
+}
+
+// Path: article.reminderLogin
+class _StringsArticleReminderLoginEn implements _StringsArticleReminderLoginKo {
+	_StringsArticleReminderLoginEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'You can set reminders if you log in';
+	@override String get description => 'Log in and get a deadline reminder n days in advance!';
 }
 
 // Path: write.title
@@ -803,6 +827,8 @@ extension on _StringsKo {
 			case 'article.deadlineDelta': return ({required Object n}) => '${n}일 남음';
 			case 'article.createdAt': return '작성일';
 			case 'article.reminderDescription': return '알림 설정하면\n마감일 n일 전에 알려줘요!';
+			case 'article.reminderLogin.title': return '로그인하면 알림 설정이 가능해요';
+			case 'article.reminderLogin.description': return '로그인하고 n일 전에 마감일 알림을 받으세요!';
 			case 'profile.title': return '마이페이지';
 			case 'profile.logout': return '로그아웃';
 			case 'profile.name': return '이름';
@@ -933,6 +959,8 @@ extension on _StringsEn {
 			case 'article.deadlineDelta': return ({required Object n}) => '${n} days left';
 			case 'article.createdAt': return 'Created At';
 			case 'article.reminderDescription': return 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
+			case 'article.reminderLogin.title': return 'You can set reminders if you log in';
+			case 'article.reminderLogin.description': return 'Log in and get a deadline reminder n days in advance!';
 			case 'login.promotion': return 'All of GIST\'s announcements at a glance';
 			case 'login.login': return 'Login with GSA unified account';
 			case 'login.withoutLogin': return 'Use without login';
