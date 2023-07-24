@@ -2,6 +2,8 @@ name: build and publish to Play Store
 
 on:
   push:
+    branches:
+      - development
 
 jobs:
   build-and-upload:
