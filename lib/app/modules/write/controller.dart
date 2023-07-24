@@ -23,7 +23,6 @@ class WriteController extends GetxController {
   final _tags = <String>[];
   final bodyController = TextEditingController();
   final images = <XFile>[].obs;
-  final mainImage = Rxn<XFile>();
   final loading = false.obs;
   late final String _userName;
   final _analyticsService = AnalyticsService.to;
@@ -63,14 +62,12 @@ class WriteController extends GetxController {
   }
 
   removeImage(int index) {
-    if (images[index] == mainImage.value) {
-      mainImage.value = null;
-    }
     images.removeAt(index);
   }
 
   setMainImage(int index) {
-    mainImage.value = images[index];
+    final image = images.removeAt(index);
+    images.insert(0, image);
   }
 
   showPreview() {
@@ -112,17 +109,6 @@ class WriteController extends GetxController {
       _analyticsService.logSubmitArticleCancel('empty body');
       return;
     }
-    if (images.isNotEmpty) {
-      if (images.length == 1) {
-        mainImage.value = images.first;
-      }
-      if (mainImage.value == null) {
-        Get.snackbar(
-            t.write.images.error.title, t.write.images.error.description);
-        _analyticsService.logSubmitArticleCancel('not select main image');
-        return;
-      }
-    }
     loading.value = true;
     try {
       final imageKeys = await _repository.uploadImages(images);
@@ -156,6 +142,5 @@ class WriteController extends GetxController {
     textFieldTagsController.clearTags();
     bodyController.clear();
     images.clear();
-    mainImage.value = null;
   }
 }
