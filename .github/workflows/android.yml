@@ -1,4 +1,4 @@
-name: build and publish to TestFlight
+name: build and publish to Play Store
 
 on:
   push:
@@ -7,17 +7,13 @@ on:
 
 jobs:
   build-and-upload:
-    name: Build iOS App and Upload
-    runs-on: macos-latest
+    name: Build Android App and Upload
+    runs-on: ubuntu-latest
     concurrency:
-      group: ios-staging
+      group: android-staging
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v3
-      - uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.CERTIFICATION_DEPLOY_KEY }}
-          known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
       - uses: subosito/flutter-action@v2
         with:
@@ -27,20 +23,28 @@ jobs:
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
 
+      - name: Write Keystore
+        run: |
+          echo ${{ secrets.KEYSTORE }} | base64 --decode > ./android/app/upload-keystore.jks
+          echo "${{ secrets.KEYSTORE_PROPERTIES }}" > ./android/key.properties
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
+          KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.0'
+
       - name: Run fastlane
         run: |
           bundle install
           bundle exec fastlane internal
         env:
-          APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
-          APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          SUPPLY_JSON_KEY_DATA: ${{ secrets.SUPPLY_JSON_KEY_DATA }}
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL }}
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
-        working-directory: ./ios
+        working-directory: ./android
 
       - name: action-slack
         uses: 8398a7/action-slack@v3

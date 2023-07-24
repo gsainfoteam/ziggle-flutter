@@ -1,0 +1,74 @@
+default_platform(:android)
+
+platform :android do
+  desc "Test build"
+  lane :test do
+    UI.message("Building for testing")
+    aabPath = "../../build/app/outputs/bundle/release/app-release.aab"
+    FileUtils.remove_dir(aabPath) if File.directory?(aabPath)
+
+    sh("flutter", "build", "appbundle", "--release")
+    unless File.exist?(aabPath)
+      UI.user_error!("Build failed")
+    end
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :internal do
+    version_codes = google_play_track_version_codes(track: "internal")
+    build_number = version_codes.max + 1
+    pubspec = YAML.load_file("../../pubspec.yaml")
+    version_string = "#{pubspec["version"]} (#{build_number})"
+    UI.message("Building #{pubspec["name"]} #{version_string}")
+
+    sh(
+      "flutter", "build", "appbundle",
+      "--obfuscate",
+      "--split-debug-info=debug-info",
+      "--release",
+      "--build-number=#{build_number}",
+    )
+
+    symbols_path = File.expand_path("../../build/app/intermediates/merged_native_libs/release/out/lib")
+    Dir.chdir(symbols_path) do
+      sh("zip", "-r", "native_symbol.zip", ".")
+    end
+
+    upload_to_play_store(
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+      track: "internal",
+      version_name: version_string,
+      mapping_paths: [
+        "../build/app/outputs/mapping/release/mapping.txt",
+        "#{symbols_path}/native_symbol.zip",
+      ],
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+    internal_app_url = upload_to_play_store_internal_app_sharing(
+      aab: "../build/app/outputs/bundle/release/app-release.aab",
+    )
+    slack(
+      payload: {
+        "Build Date" => Time.now.to_s,
+        "Build Number" => build_number,
+        "Internal App" => "<#{internal_app_url}>",
+      }
+    ) if ENV['CI']
+    Dir["../../debug-info/*.symbols"].each do |file_path|
+      upload(file_path, version_string)
+    end if ENV['CI']
+  end
+
+  def upload(file_path, version_string)
+    sh(
+      "curl",
+      "https://slack.com/api/files.upload",
+      "-F", 'token="' + ENV["SLACK_BOT_TOKEN"] + '"',
+      "-F", 'channels="' + ENV["SLACK_CHANNEL"] + '"',
+      "-F", 'title="' + File.basename(file_path) + ' for ' + version_string + '"',
+      "-F", 'filename="' + File.basename(file_path) + '"',
+      "-F", 'file=@' + file_path,
+    )
+  end
+end

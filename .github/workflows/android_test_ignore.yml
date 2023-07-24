@@ -1,4 +1,4 @@
-name: build test ios - ignore
+name: build test android - ignore
 
 on:
   pull_request:
@@ -6,14 +6,14 @@ on:
       - main
       - development
     paths-ignore:
-      - 'ios/**'
+      - 'android/**'
       - 'lib/**'
       - 'pubspec.yaml'
       - 'pubspec.lock'
 
 jobs:
   build-and-test:
-    name: Build iOS App and Test
+    name: Build Android App and Test
     runs-on: ubuntu-latest
     steps:
       - run: 'echo "No build required"'
