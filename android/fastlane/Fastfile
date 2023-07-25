@@ -21,6 +21,9 @@ platform :android do
     version_string = "#{pubspec["version"]} (#{build_number})"
     UI.message("Building #{pubspec["name"]} #{version_string}")
 
+    android_app_id = File.open("../../lib/firebase_options.dart").read().match(/appId: '(.*android.*)'/)[1]
+    UI.message("Android App ID: #{android_app_id}")
+
     sh(
       "flutter", "build", "appbundle",
       "--obfuscate",
@@ -48,6 +51,7 @@ platform :android do
     internal_app_url = upload_to_play_store_internal_app_sharing(
       aab: "../build/app/outputs/bundle/release/app-release.aab",
     )
+    sh("firebase", "crashlytics:symbols:upload", "--app=#{android_app_id}", "../../debug-info")
     slack(
       payload: {
         "Build Date" => Time.now.to_s,
