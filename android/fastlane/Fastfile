@@ -21,13 +21,19 @@ platform :android do
     version_string = "#{pubspec["version"]} (#{build_number})"
     UI.message("Building #{pubspec["name"]} #{version_string}")
 
+    android_app_id = File.open("../../lib/firebase_options.dart").read().match(/appId: '(.*android.*)'/)[1]
+    UI.message("Android App ID: #{android_app_id}")
+    debug_info_path = "build/app/outputs/symbols"
+
     sh(
       "flutter", "build", "appbundle",
       "--obfuscate",
-      "--split-debug-info=debug-info",
+      "--split-debug-info=#{debug_info_path}",
       "--release",
       "--build-number=#{build_number}",
     )
+
+    sh("firebase", "crashlytics:symbols:upload", "--app=#{android_app_id}", "../../#{debug_info_path}")
 
     symbols_path = File.expand_path("../../build/app/intermediates/merged_native_libs/release/out/lib")
     Dir.chdir(symbols_path) do
@@ -55,20 +61,5 @@ platform :android do
         "Internal App" => "<#{internal_app_url}>",
       }
     ) if ENV['CI']
-    Dir["../../debug-info/*.symbols"].each do |file_path|
-      upload(file_path, version_string)
-    end if ENV['CI']
-  end
-
-  def upload(file_path, version_string)
-    sh(
-      "curl",
-      "https://slack.com/api/files.upload",
-      "-F", 'token="' + ENV["SLACK_BOT_TOKEN"] + '"',
-      "-F", 'channels="' + ENV["SLACK_CHANNEL"] + '"',
-      "-F", 'title="' + File.basename(file_path) + ' for ' + version_string + '"',
-      "-F", 'filename="' + File.basename(file_path) + '"',
-      "-F", 'file=@' + file_path,
-    )
   end
 end
