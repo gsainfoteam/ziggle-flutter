@@ -31,11 +31,7 @@
   "images": {
     "label": "Attach images",
     "description": "Select representative image by clicking after selecting.",
-    "action": "Select images from phone...",
-    "error": {
-      "title": "Please select representative image",
-      "description": "You cannot submit notice without representative image."
-    }
+    "action": "Select images from phone..."
   },
   "preview": "Preview notice",
   "submit": "Submit notice",

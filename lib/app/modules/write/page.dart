@@ -201,7 +201,7 @@ class WritePage extends GetView<WriteController> {
       return Obx(
         () => GalleryItemButton(
           file: controller.images[index],
-          isMain: controller.images[index] == controller.mainImage.value,
+          isMain: index == 0,
           onTap: () => controller.setMainImage(index),
           onRemove: () => controller.removeImage(index),
         ),
