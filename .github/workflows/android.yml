@@ -35,6 +35,12 @@ jobs:
         with:
           ruby-version: '3.2.0'
 
+      - uses: actions/setup-node@v3
+      - uses: w9jds/setup-firebase@main
+        with:
+          tools-version: 12.4.5
+          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+
       - name: Run fastlane
         run: |
           bundle install
