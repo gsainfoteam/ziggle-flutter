@@ -18,38 +18,7 @@ class LoginPage extends GetView<LoginController> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const Expanded(child: SizedBox.shrink()),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 80,
-                      height: 100,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            right: -20,
-                            child: Assets.logo.icon.image(height: 100),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Assets.logo.text.image(height: 100),
-                  ],
-                ),
-                Text.rich(
-                  t.login.promotion(
-                    red: (text) => TextSpan(
-                      text: text,
-                      style: const TextStyle(color: Palette.primaryColor),
-                    ),
-                  ),
-                  textAlign: TextAlign.center,
-                  style: TextStyles.articleTitleStyle,
-                )
-              ],
-            ),
+            _buildText(),
             const SizedBox(height: 100),
             Obx(() => SizedBox(
                   height: 50,
@@ -70,6 +39,41 @@ class LoginPage extends GetView<LoginController> {
           ],
         ).paddingAll(20),
       ),
+    );
+  }
+
+  Column _buildText() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 80,
+              height: 100,
+              child: Stack(
+                children: [
+                  Positioned(
+                    right: -20,
+                    child: Assets.logo.icon.image(height: 100),
+                  ),
+                ],
+              ),
+            ),
+            Assets.logo.text.image(height: 100),
+          ],
+        ),
+        Text.rich(
+          t.login.promotion(
+            red: (text) => TextSpan(
+              text: text,
+              style: const TextStyle(color: Palette.primaryColor),
+            ),
+          ),
+          textAlign: TextAlign.center,
+          style: TextStyles.articleTitleStyle,
+        )
+      ],
     );
   }
 }
