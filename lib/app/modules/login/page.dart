@@ -23,7 +23,18 @@ class LoginPage extends GetView<LoginController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Assets.logo.icon.image(height: 100),
+                    SizedBox(
+                      width: 80,
+                      height: 100,
+                      child: Stack(
+                        children: [
+                          Positioned(
+                            right: -20,
+                            child: Assets.logo.icon.image(height: 100),
+                          ),
+                        ],
+                      ),
+                    ),
                     Assets.logo.text.image(height: 100),
                   ],
                 ),
