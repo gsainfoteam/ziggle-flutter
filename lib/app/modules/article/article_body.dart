@@ -9,12 +9,18 @@ import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/global_widgets/article_tags.dart';
+import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/d_day.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class ArticleBody extends StatelessWidget {
   final ArticleResponse article;
-  const ArticleBody({super.key, required this.article});
+  final void Function()? reportArticle;
+  const ArticleBody({
+    super.key,
+    required this.article,
+    this.reportArticle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +74,19 @@ class ArticleBody extends StatelessWidget {
           },
           onLinkTap: (url, _, __) => _openUrl(url),
         ),
+        if (reportArticle != null) ...[
+          const Divider(
+            thickness: 1,
+            height: 30,
+            color: Palette.placeholder,
+          ),
+          ZiggleButton(
+            text: t.article.report.action,
+            textStyle: TextStyles.link,
+            color: Colors.transparent,
+            onTap: reportArticle,
+          ),
+        ],
       ],
     ).paddingSymmetric(horizontal: 30, vertical: 10);
   }

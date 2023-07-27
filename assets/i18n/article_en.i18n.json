@@ -40,5 +40,12 @@
   "reminderLogin": {
     "title": "You can set reminders if you log in",
     "description": "Log in and get a deadline reminder n days in advance!"
+  },
+  "report": {
+    "action": "Report Notice",
+    "title": "Do you want to report this notice?",
+    "description": "Once reported, the administrator will review this notice and take action.",
+    "yes": "Report",
+    "no": "Cancel"
   }
 }

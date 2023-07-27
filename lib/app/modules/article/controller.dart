@@ -109,4 +109,28 @@ class ArticleController extends GetxController {
       _repository.cancelReminder(article.value!.id);
     }
   }
+
+  void reportArticle() {
+    _analyticsService.logTryReport();
+    Get.dialog(CupertinoAlertDialog(
+      title: Text(t.article.report.title),
+      content: Text(t.article.report.description),
+      actions: [
+        CupertinoDialogAction(
+          onPressed: Get.back,
+          child: Text(
+            t.article.report.no,
+          ),
+        ),
+        CupertinoDialogAction(
+          isDestructiveAction: true,
+          onPressed: () {
+            _analyticsService.logReport();
+            Get.back();
+          },
+          child: Text(t.article.report.yes),
+        ),
+      ],
+    ));
+  }
 }

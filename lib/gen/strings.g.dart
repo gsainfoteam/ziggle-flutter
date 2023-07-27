@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 140 (70 per locale)
+/// Strings: 150 (75 per locale)
 
 
 // coverage:ignore-file
@@ -173,6 +173,7 @@ class _StringsArticleKo {
 	String get createdAt => '작성일';
 	String get reminderDescription => '알림 설정하면\n마감일 n일 전에 알려줘요!';
 	late final _StringsArticleReminderLoginKo reminderLogin = _StringsArticleReminderLoginKo._(_root);
+	late final _StringsArticleReportKo report = _StringsArticleReportKo._(_root);
 }
 
 // Path: profile
@@ -329,6 +330,20 @@ class _StringsArticleReminderLoginKo {
 	// Translations
 	String get title => '로그인하면 알림 설정이 가능해요';
 	String get description => '로그인하고 n일 전에 마감일 알림을 받으세요!';
+}
+
+// Path: article.report
+class _StringsArticleReportKo {
+	_StringsArticleReportKo._(this._root);
+
+	final _StringsKo _root; // ignore: unused_field
+
+	// Translations
+	String get action => '공지 신고하기';
+	String get title => '이 공지를 신고하시겠습니까?';
+	String get description => '신고가 접수되면 관리자가 이 공지를 살펴보고 조치를 취할 것입니다.';
+	String get yes => '네';
+	String get no => '아니오';
 }
 
 // Path: write.title
@@ -522,6 +537,7 @@ class _StringsArticleEn implements _StringsArticleKo {
 	@override String get createdAt => 'Created At';
 	@override String get reminderDescription => 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
 	@override late final _StringsArticleReminderLoginEn reminderLogin = _StringsArticleReminderLoginEn._(_root);
+	@override late final _StringsArticleReportEn report = _StringsArticleReportEn._(_root);
 }
 
 // Path: login
@@ -636,6 +652,20 @@ class _StringsArticleReminderLoginEn implements _StringsArticleReminderLoginKo {
 	// Translations
 	@override String get title => 'You can set reminders if you log in';
 	@override String get description => 'Log in and get a deadline reminder n days in advance!';
+}
+
+// Path: article.report
+class _StringsArticleReportEn implements _StringsArticleReportKo {
+	_StringsArticleReportEn._(this._root);
+
+	@override final _StringsEn _root; // ignore: unused_field
+
+	// Translations
+	@override String get action => 'Report Notice';
+	@override String get title => 'Do you want to report this notice?';
+	@override String get description => 'Once reported, the administrator will review this notice and take action.';
+	@override String get yes => 'Report';
+	@override String get no => 'Cancel';
 }
 
 // Path: write.title
@@ -812,6 +842,11 @@ extension on _StringsKo {
 			case 'article.reminderDescription': return '알림 설정하면\n마감일 n일 전에 알려줘요!';
 			case 'article.reminderLogin.title': return '로그인하면 알림 설정이 가능해요';
 			case 'article.reminderLogin.description': return '로그인하고 n일 전에 마감일 알림을 받으세요!';
+			case 'article.report.action': return '공지 신고하기';
+			case 'article.report.title': return '이 공지를 신고하시겠습니까?';
+			case 'article.report.description': return '신고가 접수되면 관리자가 이 공지를 살펴보고 조치를 취할 것입니다.';
+			case 'article.report.yes': return '네';
+			case 'article.report.no': return '아니오';
 			case 'profile.title': return '마이페이지';
 			case 'profile.logout': return '로그아웃';
 			case 'profile.name': return '이름';
@@ -945,6 +980,11 @@ extension on _StringsEn {
 			case 'article.reminderDescription': return 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
 			case 'article.reminderLogin.title': return 'You can set reminders if you log in';
 			case 'article.reminderLogin.description': return 'Log in and get a deadline reminder n days in advance!';
+			case 'article.report.action': return 'Report Notice';
+			case 'article.report.title': return 'Do you want to report this notice?';
+			case 'article.report.description': return 'Once reported, the administrator will review this notice and take action.';
+			case 'article.report.yes': return 'Report';
+			case 'article.report.no': return 'Cancel';
 			case 'login.promotion': return ({required InlineSpanBuilder red}) => TextSpan(children: [
 				const TextSpan(text: 'All of '),
 				red('G'),
