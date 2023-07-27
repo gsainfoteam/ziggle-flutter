@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
+import 'package:ziggle/app/modules/login/board_animation.dart';
 import 'package:ziggle/app/modules/login/controller.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -13,31 +14,36 @@ class LoginPage extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const Expanded(child: SizedBox.shrink()),
-            _buildText(),
-            const SizedBox(height: 100),
-            Obx(() => SizedBox(
-                  height: 50,
-                  child: ZiggleButton(
-                    text: t.login.login,
-                    onTap: controller.login,
-                    loading: controller.loading.value,
-                    fontSize: 18,
-                  ),
-                )),
-            const SizedBox(height: 16),
-            ZiggleButton(
-              text: t.login.withoutLogin,
-              color: Colors.transparent,
-              onTap: controller.skipLogin,
-              textStyle: TextStyles.link,
-            )
-          ],
-        ).paddingAll(20),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const Expanded(child: BoardAnimation()),
+          SafeArea(
+            top: false,
+            child: Column(
+              children: [
+                _buildText(),
+                const SizedBox(height: 100),
+                Obx(() => SizedBox(
+                      height: 50,
+                      child: ZiggleButton(
+                        text: t.login.login,
+                        onTap: controller.login,
+                        loading: controller.loading.value,
+                        fontSize: 18,
+                      ),
+                    )),
+                const SizedBox(height: 16),
+                ZiggleButton(
+                  text: t.login.withoutLogin,
+                  color: Colors.transparent,
+                  onTap: controller.skipLogin,
+                  textStyle: TextStyles.link,
+                ),
+              ],
+            ).paddingAll(20),
+          ),
+        ],
       ),
     );
   }
