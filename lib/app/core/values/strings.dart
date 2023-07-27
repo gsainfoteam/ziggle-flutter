@@ -5,10 +5,9 @@ const apiBaseUrl = kDebugMode
     : 'https://api.ziggle.gistory.me';
 const _idpClientId = 'ziggle2023';
 const idpRedirectScheme = 'ziggle-idp-login-redirect';
-const idpUrl = 'https://idp.gistory.me/'
+const idpUrl = 'https://new-idp.gistory.me/'
     '?client_id=$_idpClientId'
-    '&redirect_uri=$idpRedirectScheme://callback'
-    '&staging=true';
+    '&redirect_uri=$idpRedirectScheme://callback';
 const privacyPolicyUrl =
     'https://infoteam-rulrudino.notion.site/ceb9340c0b514497b6d916c4a67590a1';
 const termsOfServiceUrl =
