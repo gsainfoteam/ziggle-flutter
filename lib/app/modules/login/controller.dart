@@ -35,11 +35,6 @@ class LoginController extends GetxController {
   }
 
   void _loginWithCode(String code) async {
-    if (code.length != 10) {
-      Get.snackbar('Error', 'Code must be 10 characters long');
-      _analyticsService.logLoginCancel('wrong code');
-      return;
-    }
     loading.value = true;
     try {
       await _userService.loginWithCode(code);
