@@ -55,7 +55,7 @@ class LoginPage extends GetView<LoginController> {
                   textAlign: TextAlign.center,
                 ),
               ],
-            ).paddingAll(20),
+            ).paddingAll(8),
           ),
         ],
       ),
