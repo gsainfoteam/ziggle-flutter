@@ -20,7 +20,7 @@ LoginResponse _$LoginResponseFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LoginResponse {
-  @JsonKey(name: 'jwt_token')
+  @JsonKey(name: 'access_token')
   String get accessToken => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +35,7 @@ abstract class $LoginResponseCopyWith<$Res> {
           LoginResponse value, $Res Function(LoginResponse) then) =
       _$LoginResponseCopyWithImpl<$Res, LoginResponse>;
   @useResult
-  $Res call({@JsonKey(name: 'jwt_token') String accessToken});
+  $Res call({@JsonKey(name: 'access_token') String accessToken});
 }
 
 /// @nodoc
@@ -70,7 +70,7 @@ abstract class _$$_LoginResponseCopyWith<$Res>
       __$$_LoginResponseCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'jwt_token') String accessToken});
+  $Res call({@JsonKey(name: 'access_token') String accessToken});
 }
 
 /// @nodoc
@@ -99,13 +99,13 @@ class __$$_LoginResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_LoginResponse implements _LoginResponse {
   const _$_LoginResponse(
-      {@JsonKey(name: 'jwt_token') required this.accessToken});
+      {@JsonKey(name: 'access_token') required this.accessToken});
 
   factory _$_LoginResponse.fromJson(Map<String, dynamic> json) =>
       _$$_LoginResponseFromJson(json);
 
   @override
-  @JsonKey(name: 'jwt_token')
+  @JsonKey(name: 'access_token')
   final String accessToken;
 
   @override
@@ -142,14 +142,14 @@ class _$_LoginResponse implements _LoginResponse {
 
 abstract class _LoginResponse implements LoginResponse {
   const factory _LoginResponse(
-          {@JsonKey(name: 'jwt_token') required final String accessToken}) =
+          {@JsonKey(name: 'access_token') required final String accessToken}) =
       _$_LoginResponse;
 
   factory _LoginResponse.fromJson(Map<String, dynamic> json) =
       _$_LoginResponse.fromJson;
 
   @override
-  @JsonKey(name: 'jwt_token')
+  @JsonKey(name: 'access_token')
   String get accessToken;
   @override
   @JsonKey(ignore: true)
