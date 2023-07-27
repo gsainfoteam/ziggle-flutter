@@ -6,5 +6,6 @@
   "mail": "Mail",
   "others": "and $count others",
   "privacyPolicy": "Privacy Policy",
-  "termsOfService": "Terms of Service"
+  "termsOfService": "Terms of Service",
+  "withdrawal": "Withdrawal"
 }

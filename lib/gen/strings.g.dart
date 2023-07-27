@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 150 (75 per locale)
+/// Strings: 152 (76 per locale)
 
 
 // coverage:ignore-file
@@ -191,6 +191,7 @@ class _StringsProfileKo {
 	String others({required Object count}) => '외 ${count}개';
 	String get privacyPolicy => '개인정보처리방침';
 	String get termsOfService => '이용약관';
+	String get withdrawal => '회원탈퇴';
 }
 
 // Path: search
@@ -506,6 +507,7 @@ class _StringsProfileEn implements _StringsProfileKo {
 	@override String others({required Object count}) => 'and ${count} others';
 	@override String get privacyPolicy => 'Privacy Policy';
 	@override String get termsOfService => 'Terms of Service';
+	@override String get withdrawal => 'Withdrawal';
 }
 
 // Path: root
@@ -855,6 +857,7 @@ extension on _StringsKo {
 			case 'profile.others': return ({required Object count}) => '외 ${count}개';
 			case 'profile.privacyPolicy': return '개인정보처리방침';
 			case 'profile.termsOfService': return '이용약관';
+			case 'profile.withdrawal': return '회원탈퇴';
 			case 'search.enter': return '검색어를 입력해주세요';
 			case 'search.noResult': return '검색 결과가 존재하지 않습니다.';
 			case 'search.queryHint': return '검색어';
@@ -907,6 +910,7 @@ extension on _StringsEn {
 			case 'profile.others': return ({required Object count}) => 'and ${count} others';
 			case 'profile.privacyPolicy': return 'Privacy Policy';
 			case 'profile.termsOfService': return 'Terms of Service';
+			case 'profile.withdrawal': return 'Withdrawal';
 			case 'root.login': return 'login';
 			case 'root.main': return 'main';
 			case 'root.search': return 'search';

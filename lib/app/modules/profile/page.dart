@@ -140,6 +140,14 @@ class ProfilePage extends GetView<ProfileController> {
             padding: EdgeInsets.zero,
             onTap: controller.goToTermsOfService,
           ),
+          const SizedBox(height: 25),
+          ZiggleButton(
+            text: t.profile.withdrawal,
+            color: Colors.transparent,
+            textStyle: TextStyles.link,
+            padding: EdgeInsets.zero,
+            onTap: controller.goToWithdrawal,
+          ),
         ],
       ).paddingSymmetric(horizontal: 38, vertical: 35);
 }

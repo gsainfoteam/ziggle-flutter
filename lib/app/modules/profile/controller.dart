@@ -56,6 +56,11 @@ class ProfileController extends GetxController {
     _analyticsService.logOpenTermsOfService();
   }
 
+  void goToWithdrawal() {
+    launchUrl(Uri.parse(withdrawalUrl));
+    _analyticsService.logOpenWithdrawal();
+  }
+
   goToList(ArticleType e) {
     Get.toNamed(Routes.ARTICLE_SECTION, parameters: {'type': e.name});
   }
