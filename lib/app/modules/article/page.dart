@@ -47,7 +47,11 @@ class ArticlePage extends GetView<ArticleController> {
       );
     }
     final article = controller.article.value!;
-    final child = SafeArea(child: ArticleBody(article: article));
+    final child = SafeArea(
+        child: ArticleBody(
+      article: article,
+      reportArticle: controller.reportArticle,
+    ));
 
     final imagesUrls = article.imagesUrl;
     if (imagesUrls == null || imagesUrls.isEmpty) {

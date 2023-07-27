@@ -55,4 +55,6 @@ class AnalyticsService {
   logSubmitArticle() => _instance.logEvent(name: 'submit_article');
   logSubmitArticleCancel(String reason) => _instance
       .logEvent(name: 'submit_article_cancel', parameters: {'reason': reason});
+  logTryReport() => _instance.logEvent(name: 'try_report');
+  logReport() => _instance.logEvent(name: 'report');
 }
