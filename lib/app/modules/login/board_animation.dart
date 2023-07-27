@@ -29,12 +29,14 @@ class _BoardAnimationState extends State<_BoardAnimation> {
   final _width = (Get.width + 108) / 3;
   late final _dx = _width + 12;
   late final _maxHeight = widget.constraints.maxHeight;
+  late final Timer _timer;
 
   final _rects = <Rect>[];
 
   @override
   void initState() {
     super.initState();
+    _timer = Timer.periodic(const Duration(milliseconds: 10), _period);
     _rects.addAll(
       List.generate(
         4,
@@ -42,7 +44,12 @@ class _BoardAnimationState extends State<_BoardAnimation> {
             .translate(-65 + _dx * index, -50.0 * (3 - index)),
       ),
     );
-    Timer.periodic(const Duration(milliseconds: 10), _period);
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   void _period(_) {
