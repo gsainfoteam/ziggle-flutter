@@ -1,9 +1,13 @@
-const apiBaseUrl = 'https://api.stg.ziggle.gistory.me';
+import 'package:flutter/foundation.dart';
+
+const apiBaseUrl = kDebugMode
+    ? 'https://api.stg.ziggle.gistory.me'
+    : 'https://api.ziggle.gistory.me';
 const _idpClientId = 'ziggle2023';
 const idpRedirectScheme = 'ziggle-idp-login-redirect';
 const idpUrl = 'https://idp.gistory.me/'
     '?client_id=$_idpClientId'
-    '&redirect_uri=$idpRedirectScheme://'
+    '&redirect_uri=$idpRedirectScheme://callback'
     '&staging=true';
 const privacyPolicyUrl =
     'https://infoteam-rulrudino.notion.site/ceb9340c0b514497b6d916c4a67590a1';

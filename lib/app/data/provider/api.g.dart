@@ -12,9 +12,7 @@ class _ApiProvider implements ApiProvider {
   _ApiProvider(
     this._dio, {
     this.baseUrl,
-  }) {
-    baseUrl ??= 'https://api.stg.ziggle.gistory.me';
-  }
+  });
 
   final Dio _dio;
 
