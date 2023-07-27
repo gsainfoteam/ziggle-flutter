@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 152 (76 per locale)
+/// Strings: 154 (77 per locale)
 
 
 // coverage:ignore-file
@@ -233,6 +233,11 @@ class _StringsLoginKo {
 	]);
 	String get login => 'GSA 통합 계정으로 로그인';
 	String get withoutLogin => '로그인 없이 이용하기';
+	TextSpan consent({required InlineSpanBuilder terms}) => TextSpan(children: [
+		const TextSpan(text: 'GSA 통합 계정으로 로그인하면,\n'),
+		terms('지글 이용약관'),
+		const TextSpan(text: '에 동의하는 것으로 간주합니다.'),
+	]);
 }
 
 // Path: write
@@ -556,6 +561,11 @@ class _StringsLoginEn implements _StringsLoginKo {
 	]);
 	@override String get login => 'Login with GSA unified account';
 	@override String get withoutLogin => 'Use without login';
+	@override TextSpan consent({required InlineSpanBuilder terms}) => TextSpan(children: [
+		const TextSpan(text: 'By logging in with your GSA unified account,\nyou are deemed to have agreed to the '),
+		terms('지글 이용약관'),
+		const TextSpan(text: '.'),
+	]);
 }
 
 // Path: write
@@ -872,6 +882,11 @@ extension on _StringsKo {
 			]);
 			case 'login.login': return 'GSA 통합 계정으로 로그인';
 			case 'login.withoutLogin': return '로그인 없이 이용하기';
+			case 'login.consent': return ({required InlineSpanBuilder terms}) => TextSpan(children: [
+				const TextSpan(text: 'GSA 통합 계정으로 로그인하면,\n'),
+				terms('지글 이용약관'),
+				const TextSpan(text: '에 동의하는 것으로 간주합니다.'),
+			]);
 			case 'write.title.placeholder': return '제목을 입력하세요';
 			case 'write.title.error.title': return '제목을 입력해주세요';
 			case 'write.title.error.description': return '제목을 입력하지 않으면 공지를 제출할 수 없습니다.';
@@ -996,6 +1011,11 @@ extension on _StringsEn {
 			]);
 			case 'login.login': return 'Login with GSA unified account';
 			case 'login.withoutLogin': return 'Use without login';
+			case 'login.consent': return ({required InlineSpanBuilder terms}) => TextSpan(children: [
+				const TextSpan(text: 'By logging in with your GSA unified account,\nyou are deemed to have agreed to the '),
+				terms('지글 이용약관'),
+				const TextSpan(text: '.'),
+			]);
 			case 'write.title.placeholder': return 'Enter title';
 			case 'write.title.error.title': return 'Please enter title';
 			case 'write.title.error.description': return 'You cannot submit notice without title.';
