@@ -1,5 +1,5 @@
 {
-  "promotion": "All of GIST's announcements at a glance",
+  "promotion(rich)": "All of ${red(G)}IST's announcements at a glance",
   "login": "Login with GSA unified account",
   "withoutLogin": "Use without login"
 }

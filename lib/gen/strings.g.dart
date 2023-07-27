@@ -4,7 +4,7 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 2
-/// Strings: 144 (72 per locale)
+/// Strings: 140 (70 per locale)
 
 
 // coverage:ignore-file
@@ -225,7 +225,10 @@ class _StringsLoginKo {
 	final _StringsKo _root; // ignore: unused_field
 
 	// Translations
-	String get promotion => '지스트의 모든 공지를 한눈에';
+	TextSpan promotion({required InlineSpanBuilder red}) => TextSpan(children: [
+		red('지'),
+		const TextSpan(text: '스트의 모든 공지를 한눈에'),
+	]);
 	String get login => 'GSA 통합 계정으로 로그인';
 	String get withoutLogin => '로그인 없이 이용하기';
 }
@@ -393,7 +396,6 @@ class _StringsWriteImagesKo {
 	String get label => '사진 첨부';
 	String get description => '선택 후 클릭하여 대표 사진을 선택해주세요.';
 	String get action => '폰에서 사진 선택하기...';
-	late final _StringsWriteImagesErrorKo error = _StringsWriteImagesErrorKo._(_root);
 }
 
 // Path: write.title.error
@@ -427,17 +429,6 @@ class _StringsWriteBodyErrorKo {
 	// Translations
 	String get title => '본문 내용을 입력해주세요';
 	String get description => '본문 내용을 입력하지 않으면 공지를 제출할 수 없습니다.';
-}
-
-// Path: write.images.error
-class _StringsWriteImagesErrorKo {
-	_StringsWriteImagesErrorKo._(this._root);
-
-	final _StringsKo _root; // ignore: unused_field
-
-	// Translations
-	String get title => '대표 사진을 선택해주세요';
-	String get description => '대표 사진을 선택하지 않으면 공지를 제출할 수 없습니다.';
 }
 
 // Path: <root>
@@ -540,7 +531,11 @@ class _StringsLoginEn implements _StringsLoginKo {
 	@override final _StringsEn _root; // ignore: unused_field
 
 	// Translations
-	@override String get promotion => 'All of GIST\'s announcements at a glance';
+	@override TextSpan promotion({required InlineSpanBuilder red}) => TextSpan(children: [
+		const TextSpan(text: 'All of '),
+		red('G'),
+		const TextSpan(text: 'IST\'s announcements at a glance'),
+	]);
 	@override String get login => 'Login with GSA unified account';
 	@override String get withoutLogin => 'Use without login';
 }
@@ -708,7 +703,6 @@ class _StringsWriteImagesEn implements _StringsWriteImagesKo {
 	@override String get label => 'Attach images';
 	@override String get description => 'Select representative image by clicking after selecting.';
 	@override String get action => 'Select images from phone...';
-	@override late final _StringsWriteImagesErrorEn error = _StringsWriteImagesErrorEn._(_root);
 }
 
 // Path: write.title.error
@@ -742,17 +736,6 @@ class _StringsWriteBodyErrorEn implements _StringsWriteBodyErrorKo {
 	// Translations
 	@override String get title => 'Please enter body';
 	@override String get description => 'You cannot submit notice without body.';
-}
-
-// Path: write.images.error
-class _StringsWriteImagesErrorEn implements _StringsWriteImagesErrorKo {
-	_StringsWriteImagesErrorEn._(this._root);
-
-	@override final _StringsEn _root; // ignore: unused_field
-
-	// Translations
-	@override String get title => 'Please select representative image';
-	@override String get description => 'You cannot submit notice without representative image.';
 }
 
 /// Flat map(s) containing all translations.
@@ -845,7 +828,10 @@ extension on _StringsKo {
 			case 'root.search': return '검색';
 			case 'root.write': return '작성';
 			case 'root.notificationChannelDescription': return '지글 알림';
-			case 'login.promotion': return '지스트의 모든 공지를 한눈에';
+			case 'login.promotion': return ({required InlineSpanBuilder red}) => TextSpan(children: [
+				red('지'),
+				const TextSpan(text: '스트의 모든 공지를 한눈에'),
+			]);
 			case 'login.login': return 'GSA 통합 계정으로 로그인';
 			case 'login.withoutLogin': return '로그인 없이 이용하기';
 			case 'write.title.placeholder': return '제목을 입력하세요';
@@ -864,8 +850,6 @@ extension on _StringsKo {
 			case 'write.images.label': return '사진 첨부';
 			case 'write.images.description': return '선택 후 클릭하여 대표 사진을 선택해주세요.';
 			case 'write.images.action': return '폰에서 사진 선택하기...';
-			case 'write.images.error.title': return '대표 사진을 선택해주세요';
-			case 'write.images.error.description': return '대표 사진을 선택하지 않으면 공지를 제출할 수 없습니다.';
 			case 'write.preview': return '공지 미리보기';
 			case 'write.submit': return '공지 제출하기';
 			case 'write.warning': return '공지 제출 시 수정이 불가능합니다.';
@@ -961,7 +945,11 @@ extension on _StringsEn {
 			case 'article.reminderDescription': return 'If you set a reminder,\nI\'ll let you know n days before the deadline!';
 			case 'article.reminderLogin.title': return 'You can set reminders if you log in';
 			case 'article.reminderLogin.description': return 'Log in and get a deadline reminder n days in advance!';
-			case 'login.promotion': return 'All of GIST\'s announcements at a glance';
+			case 'login.promotion': return ({required InlineSpanBuilder red}) => TextSpan(children: [
+				const TextSpan(text: 'All of '),
+				red('G'),
+				const TextSpan(text: 'IST\'s announcements at a glance'),
+			]);
 			case 'login.login': return 'Login with GSA unified account';
 			case 'login.withoutLogin': return 'Use without login';
 			case 'write.title.placeholder': return 'Enter title';
@@ -980,8 +968,6 @@ extension on _StringsEn {
 			case 'write.images.label': return 'Attach images';
 			case 'write.images.description': return 'Select representative image by clicking after selecting.';
 			case 'write.images.action': return 'Select images from phone...';
-			case 'write.images.error.title': return 'Please select representative image';
-			case 'write.images.error.description': return 'You cannot submit notice without representative image.';
 			case 'write.preview': return 'Preview notice';
 			case 'write.submit': return 'Submit notice';
 			case 'write.warning': return 'You cannot edit notice after submitting.';

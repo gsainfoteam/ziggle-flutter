@@ -39,6 +39,8 @@ abstract class TextStyles {
 
   static const link = TextStyle(
     fontSize: 16,
+    color: Palette.secondaryText,
+    decorationColor: Palette.secondaryText,
     decoration: TextDecoration.underline,
   );
 
