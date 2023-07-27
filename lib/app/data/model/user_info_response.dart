@@ -11,7 +11,6 @@ class UserInfoResponse with _$UserInfoResponse {
     @JsonKey(name: 'user_uuid') required String uuid,
     @JsonKey(name: 'user_email_id') required String email,
     @JsonKey(name: 'user_name') required String name,
-    @JsonKey(name: 'user_phone_number') required String phoneNumber,
     @JsonKey(name: 'student_id') required String studentId,
   }) = _UserInfoResponse;
 

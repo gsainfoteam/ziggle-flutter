@@ -1,5 +1,6 @@
 {
   "promotion(rich)": "${red(지)}스트의 모든 공지를 한눈에",
   "login": "GSA 통합 계정으로 로그인",
-  "withoutLogin": "로그인 없이 이용하기"
+  "withoutLogin": "로그인 없이 이용하기",
+  "consent(rich)": "GSA 통합 계정으로 로그인하면,\n${terms(지글 이용약관)}에 동의하는 것으로 간주합니다."
 }

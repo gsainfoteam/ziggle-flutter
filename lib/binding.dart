@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/provider/api.dart';
 import 'package:ziggle/app/data/provider/db.dart';
 import 'package:ziggle/app/data/provider/fcm.dart';
@@ -22,6 +23,7 @@ final initialBinding = BindingsBuilder(() {
             responseBody: true,
           ),
         ]),
+      baseUrl: apiBaseUrl,
     ),
     fenix: true,
   );

@@ -26,8 +26,6 @@ mixin _$UserInfoResponse {
   String get email => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_name')
   String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'user_phone_number')
-  String get phoneNumber => throw _privateConstructorUsedError;
   @JsonKey(name: 'student_id')
   String get studentId => throw _privateConstructorUsedError;
 
@@ -47,7 +45,6 @@ abstract class $UserInfoResponseCopyWith<$Res> {
       {@JsonKey(name: 'user_uuid') String uuid,
       @JsonKey(name: 'user_email_id') String email,
       @JsonKey(name: 'user_name') String name,
-      @JsonKey(name: 'user_phone_number') String phoneNumber,
       @JsonKey(name: 'student_id') String studentId});
 }
 
@@ -67,7 +64,6 @@ class _$UserInfoResponseCopyWithImpl<$Res, $Val extends UserInfoResponse>
     Object? uuid = null,
     Object? email = null,
     Object? name = null,
-    Object? phoneNumber = null,
     Object? studentId = null,
   }) {
     return _then(_value.copyWith(
@@ -82,10 +78,6 @@ class _$UserInfoResponseCopyWithImpl<$Res, $Val extends UserInfoResponse>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      phoneNumber: null == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
       studentId: null == studentId
           ? _value.studentId
@@ -107,7 +99,6 @@ abstract class _$$_UserInfoResponseCopyWith<$Res>
       {@JsonKey(name: 'user_uuid') String uuid,
       @JsonKey(name: 'user_email_id') String email,
       @JsonKey(name: 'user_name') String name,
-      @JsonKey(name: 'user_phone_number') String phoneNumber,
       @JsonKey(name: 'student_id') String studentId});
 }
 
@@ -125,7 +116,6 @@ class __$$_UserInfoResponseCopyWithImpl<$Res>
     Object? uuid = null,
     Object? email = null,
     Object? name = null,
-    Object? phoneNumber = null,
     Object? studentId = null,
   }) {
     return _then(_$_UserInfoResponse(
@@ -140,10 +130,6 @@ class __$$_UserInfoResponseCopyWithImpl<$Res>
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      phoneNumber: null == phoneNumber
-          ? _value.phoneNumber
-          : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String,
       studentId: null == studentId
           ? _value.studentId
@@ -160,7 +146,6 @@ class _$_UserInfoResponse implements _UserInfoResponse {
       {@JsonKey(name: 'user_uuid') required this.uuid,
       @JsonKey(name: 'user_email_id') required this.email,
       @JsonKey(name: 'user_name') required this.name,
-      @JsonKey(name: 'user_phone_number') required this.phoneNumber,
       @JsonKey(name: 'student_id') required this.studentId});
 
   factory _$_UserInfoResponse.fromJson(Map<String, dynamic> json) =>
@@ -176,15 +161,12 @@ class _$_UserInfoResponse implements _UserInfoResponse {
   @JsonKey(name: 'user_name')
   final String name;
   @override
-  @JsonKey(name: 'user_phone_number')
-  final String phoneNumber;
-  @override
   @JsonKey(name: 'student_id')
   final String studentId;
 
   @override
   String toString() {
-    return 'UserInfoResponse(uuid: $uuid, email: $email, name: $name, phoneNumber: $phoneNumber, studentId: $studentId)';
+    return 'UserInfoResponse(uuid: $uuid, email: $email, name: $name, studentId: $studentId)';
   }
 
   @override
@@ -195,16 +177,13 @@ class _$_UserInfoResponse implements _UserInfoResponse {
             (identical(other.uuid, uuid) || other.uuid == uuid) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.phoneNumber, phoneNumber) ||
-                other.phoneNumber == phoneNumber) &&
             (identical(other.studentId, studentId) ||
                 other.studentId == studentId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, uuid, email, name, phoneNumber, studentId);
+  int get hashCode => Object.hash(runtimeType, uuid, email, name, studentId);
 
   @JsonKey(ignore: true)
   @override
@@ -225,7 +204,6 @@ abstract class _UserInfoResponse implements UserInfoResponse {
           {@JsonKey(name: 'user_uuid') required final String uuid,
           @JsonKey(name: 'user_email_id') required final String email,
           @JsonKey(name: 'user_name') required final String name,
-          @JsonKey(name: 'user_phone_number') required final String phoneNumber,
           @JsonKey(name: 'student_id') required final String studentId}) =
       _$_UserInfoResponse;
 
@@ -241,9 +219,6 @@ abstract class _UserInfoResponse implements UserInfoResponse {
   @override
   @JsonKey(name: 'user_name')
   String get name;
-  @override
-  @JsonKey(name: 'user_phone_number')
-  String get phoneNumber;
   @override
   @JsonKey(name: 'student_id')
   String get studentId;

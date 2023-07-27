@@ -1,5 +1,6 @@
 {
   "promotion(rich)": "All of ${red(G)}IST's announcements at a glance",
   "login": "Login with GSA unified account",
-  "withoutLogin": "Use without login"
+  "withoutLogin": "Use without login",
+  "consent(rich)": "By logging in with your GSA unified account,\nyou are deemed to have agreed to the ${terms(지글 이용약관)}."
 }

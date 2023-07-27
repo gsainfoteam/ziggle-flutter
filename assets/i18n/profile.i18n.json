@@ -6,5 +6,6 @@
   "mail": "메일",
   "others": "외 $count개",
   "privacyPolicy": "개인정보처리방침",
-  "termsOfService": "이용약관"
+  "termsOfService": "이용약관",
+  "withdrawal": "회원탈퇴"
 }

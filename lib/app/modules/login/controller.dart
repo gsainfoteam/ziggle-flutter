@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
@@ -34,11 +35,6 @@ class LoginController extends GetxController {
   }
 
   void _loginWithCode(String code) async {
-    if (code.length != 10) {
-      Get.snackbar('Error', 'Code must be 10 characters long');
-      _analyticsService.logLoginCancel('wrong code');
-      return;
-    }
     loading.value = true;
     try {
       await _userService.loginWithCode(code);
@@ -52,5 +48,10 @@ class LoginController extends GetxController {
   void skipLogin() {
     _userService.skipLogin();
     _analyticsService.logLoginAnonymous();
+  }
+
+  void openTerms() {
+    _analyticsService.logOpenTermsOfService();
+    launchUrl(Uri.parse(termsOfServiceUrl));
   }
 }

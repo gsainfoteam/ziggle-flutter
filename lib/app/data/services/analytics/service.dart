@@ -47,6 +47,7 @@ class AnalyticsService {
 
   logOpenPrivacyPolicy() => _instance.logEvent(name: 'open_privacy_policy');
   logOpenTermsOfService() => _instance.logEvent(name: 'open_terms_of_service');
+  logOpenWithdrawal() => _instance.logEvent(name: 'open_withdrawal');
 
   logPreviewArticle() => _instance.logEvent(name: 'preview_article');
   logTrySelectImage() => _instance.logEvent(name: 'try_select_image');

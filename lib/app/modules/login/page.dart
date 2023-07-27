@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/theme/text.dart';
@@ -33,15 +34,28 @@ class LoginPage extends GetView<LoginController> {
                         fontSize: 18,
                       ),
                     )),
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 ZiggleButton(
                   text: t.login.withoutLogin,
                   color: Colors.transparent,
                   onTap: controller.skipLogin,
                   textStyle: TextStyles.link,
                 ),
+                const SizedBox(height: 16),
+                Text.rich(
+                  t.login.consent(
+                    terms: (text) => TextSpan(
+                      text: text,
+                      style: const TextStyle(color: Palette.primaryColor),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = controller.openTerms,
+                    ),
+                  ),
+                  style: TextStyles.articleCardBodyStyle,
+                  textAlign: TextAlign.center,
+                ),
               ],
-            ).paddingAll(20),
+            ).paddingAll(8),
           ),
         ],
       ),
