@@ -58,8 +58,8 @@ jobs:
       - name: setup env
         run: |
           echo "run=${{
-              matrix.os == 'Android' && steps.android-changed-files.outputs.any_changed == 'true' ||
-              matrix.os == 'iOS' && steps.ios-changed-files.outputs.any_changed == 'true'
+              matrix.os == 'Android' && jobs.check-test-required.outputs.android-changed == 'true' ||
+              matrix.os == 'iOS' && jobs.check-test-required.outputs.ios-changed == 'true'
             }}" >> $GITHUB_ENV
       - uses: actions/checkout@v3
         if: env.run == 'true'
