@@ -5,9 +5,8 @@ const apiBaseUrl = kDebugMode
     : 'https://api.ziggle.gistory.me';
 const _idpClientId = 'ziggle2023';
 const idpRedirectScheme = 'ziggle-idp-login-redirect';
-const _idpBaseUrl = kDebugMode
-    ? 'https://stg.new-idp.gistory.me'
-    : 'https://new-idp.gistory.me';
+const _idpBaseUrl =
+    kDebugMode ? 'https://stg.new-idp.gistory.me' : 'https://idp.gistory.me';
 const idpUrl = '$_idpBaseUrl/authorize'
     '?client_id=$_idpClientId'
     '&redirect_uri=$idpRedirectScheme://callback'
