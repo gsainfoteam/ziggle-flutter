@@ -69,7 +69,6 @@ class WriteController extends GetxController {
       selectedType.value = savedData.type;
       hasDeadline.value = savedData.deadline != null;
       deadline.value = savedData.deadline ?? DateTime.now();
-      images.addAll(savedData.imagePaths.map((e) => XFile(e)));
       WidgetsBinding.instance.addPostFrameCallback((_) {
         for (var tag in savedData.tags) {
           textFieldTagsController.addTag = tag;
