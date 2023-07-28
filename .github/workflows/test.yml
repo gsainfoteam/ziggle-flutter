@@ -1,0 +1,79 @@
+name: build test (android, iOS)
+
+on:
+  pull_request:
+    branches:
+      - main
+      - development
+
+jobs:
+  check-test-required:
+    name: Check if test is required
+    runs-on: ubuntu-latest
+    outputs:
+      android-changed: ${{ steps.android-changed-files.outputs.any_changed }}
+      ios-changed: ${{ steps.ios-changed-files.outputs.any_changed }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Changed Files (android)
+        uses: tj-actions/changed-files@v37.5.0
+        id: android-changed-files
+        with:
+          files: |
+            pubspec.yaml
+            pubspec.lock
+            android/**
+            lib/**
+
+      - name: Changed Files (iOS)
+        uses: tj-actions/changed-files@v37.5.0
+        id: ios-changed-files
+        with:
+          files: |
+            pubspec.yaml
+            pubspec.lock
+            ios/**
+            lib/**
+
+  build-and-test:
+    name: Build ${{ matrix.os }} App and Test
+    needs: check-test-required
+    strategy:
+      fail-fast: false
+      matrix:
+        build-os: [ubuntu-latest, macos-latest]
+        include:
+          - build-os: ubuntu-latest
+            os: Android
+          - build-os: macos-latest
+            os: iOS
+    runs-on: ${{ matrix.build-os }}
+    concurrency:
+      group: ${{ matrix.os }}-test-${{ github.event.pull_request.number }
+      cancel-in-progress: true
+    if: |
+      matrix.os == 'ubuntu-latest' && needs.check-test-required.outputs.android-changed == 'true' ||
+      matrix.os == 'macos-latest' && needs.check-test-required.outputs.ios-changed == 'true'
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.0-0.2.pre'
+          channel: 'beta'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+          cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.0'
+
+      - name: Run fastlane
+        run: |
+          bundle install
+          bundle exec fastlane test
+        working-directory: ./${{ matrix.os }}
