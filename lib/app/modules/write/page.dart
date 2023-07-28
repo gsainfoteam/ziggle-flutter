@@ -172,9 +172,8 @@ class WritePage extends GetView<WriteController> {
           ],
         ).paddingSymmetric(horizontal: 20),
         Obx(() => ImagesPicker(
-              images: controller.images,
-              onAddImage: controller.selectPhotos,
-              onRemoveImage: controller.removeImage,
+              images: controller.images.toList(),
+              changeImages: controller.images,
             )),
       ],
     );

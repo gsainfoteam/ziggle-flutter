@@ -1,27 +1,33 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/modules/write/gallery_item_button.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class ImagesPicker extends StatelessWidget {
   final List<XFile> images;
-  final void Function() onAddImage;
-  final void Function(int) onRemoveImage;
-  const ImagesPicker({
+  final void Function(List<XFile>) changeImages;
+  final loading = false.obs;
+
+  ImagesPicker({
     super.key,
     required this.images,
-    required this.onAddImage,
-    required this.onRemoveImage,
+    required this.changeImages,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (images.isEmpty) {
+    return Obx(_build);
+  }
+
+  Widget _build() {
+    if (images.isEmpty && !loading.value) {
       return ZiggleButton(
         text: t.write.images.action,
-        onTap: onAddImage,
+        onTap: _selectPhotos,
       ).paddingSymmetric(horizontal: 20);
     }
     return SizedBox(
@@ -39,14 +45,34 @@ class ImagesPicker extends StatelessWidget {
 
   Widget _galleryItemBuilder(BuildContext context, int index) {
     if (index < images.length) {
-      return GalleryItemButton(
-        file: images[index],
-        onRemove: () => onRemoveImage(index),
-      );
+      return Obx(() => GalleryItemButton(
+            file: images[index],
+            onRemove: loading.value ? null : () => _removeImage(index),
+          ));
     }
     return SizedBox(
       width: 144,
-      child: ZiggleButton(text: '+', onTap: onAddImage),
+      child: Obx(() => loading.value
+          ? const ZiggleButton(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : ZiggleButton(text: '+', onTap: _selectPhotos)),
     );
+  }
+
+  void _selectPhotos() async {
+    AnalyticsService.to.logTrySelectImage();
+    final result = await ImagePicker().pickMultiImage();
+    loading.value = true;
+    await 3.seconds.delay();
+    loading.value = false;
+    changeImages([...images, ...result]);
+    AnalyticsService.to.logSelectImage();
+  }
+
+  void _removeImage(int index) {
+    changeImages(images.whereIndexed((i, _) => i != index).toList());
   }
 }

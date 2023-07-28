@@ -54,23 +54,6 @@ class WriteController extends GetxController {
     super.onClose();
   }
 
-  void selectPhotos() async {
-    _analyticsService.logTrySelectImage();
-    final result = await ImagePicker().pickMultiImage();
-    await 3.seconds.delay();
-    images.addAll(result);
-    _analyticsService.logSelectImage();
-  }
-
-  removeImage(int index) {
-    images.removeAt(index);
-  }
-
-  setMainImage(int index) {
-    final image = images.removeAt(index);
-    images.insert(0, image);
-  }
-
   showPreview() {
     _analyticsService.logPreviewArticle();
     Get.bottomSheet(
