@@ -48,19 +48,23 @@ jobs:
         include:
           - build-os: ubuntu-latest
             os: Android
-            run: ${{ needs.check-test-required.outputs.android-changed == 'true' }}
           - build-os: macos-latest
             os: iOS
-            run: ${{ needs.check-test-required.outputs.ios-changed == 'true' }}
     runs-on: ${{ matrix.build-os }}
     concurrency:
       group: ${{ matrix.os }}-test-${{ github.event.pull_request.number }}
       cancel-in-progress: true
-    if: matrix.run
     steps:
+      - name: setup env
+        run: |
+          echo "run=${{
+              matrix.os == 'Android' && steps.android-changed-files.outputs.any_changed == 'true' ||
+              matrix.os == 'iOS' && steps.ios-changed-files.outputs.any_changed == 'true'
+            }}" >> $GITHUB_ENV
       - uses: actions/checkout@v3
-
+        if: env.run == 'true'
       - uses: subosito/flutter-action@v2
+        if: env.run == 'true'
         with:
           flutter-version: '3.13.0-0.2.pre'
           channel: 'beta'
@@ -69,10 +73,12 @@ jobs:
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
 
       - uses: ruby/setup-ruby@v1
+        if: env.run == 'true'
         with:
           ruby-version: '3.2.0'
 
       - name: Run fastlane
+        if: env.run == 'true'
         run: |
           bundle install
           bundle exec fastlane test
