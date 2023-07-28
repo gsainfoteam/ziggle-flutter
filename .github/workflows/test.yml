@@ -48,15 +48,15 @@ jobs:
         include:
           - build-os: ubuntu-latest
             os: Android
+            run: ${{ needs.check-test-required.outputs.android-changed == 'true' }}
           - build-os: macos-latest
             os: iOS
+            run: ${{ needs.check-test-required.outputs.ios-changed == 'true' }}
     runs-on: ${{ matrix.build-os }}
     concurrency:
       group: ${{ matrix.os }}-test-${{ github.event.pull_request.number }}
       cancel-in-progress: true
-    if: |
-      matrix.os == 'ubuntu-latest' && needs.check-test-required.outputs.android-changed == 'true' ||
-      matrix.os == 'macos-latest' && needs.check-test-required.outputs.ios-changed == 'true'
+    if: matrix.run
     steps:
       - uses: actions/checkout@v3
 
