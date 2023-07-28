@@ -61,6 +61,7 @@ jobs:
               matrix.os == 'Android' && needs.check-test-required.outputs.android-changed == 'true' ||
               matrix.os == 'iOS' && needs.check-test-required.outputs.ios-changed == 'true'
             }}" >> $GITHUB_ENV
+          echo "directory=$(echo ${{ matrix.os }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - uses: actions/checkout@v3
         if: env.run == 'true'
       - uses: subosito/flutter-action@v2
@@ -82,4 +83,4 @@ jobs:
         run: |
           bundle install
           bundle exec fastlane test
-        working-directory: ./${{ matrix.os }}
+        working-directory: ${{ env.directory }}

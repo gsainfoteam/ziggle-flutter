@@ -23,6 +23,9 @@ jobs:
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v3
+      - name: setup env
+        run: |
+          echo "directory=$(echo ${{ matrix.os }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - uses: shimataro/ssh-key-action@v2
         if: matrix.os == 'iOS'
@@ -70,7 +73,7 @@ jobs:
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
           SUPPLY_JSON_KEY_DATA: ${{ secrets.SUPPLY_JSON_KEY_DATA }}
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        working-directory: ./${{ matrix.os }}
+        working-directory: ${{ env.directory }}
 
       - name: action-slack
         uses: 8398a7/action-slack@v3
