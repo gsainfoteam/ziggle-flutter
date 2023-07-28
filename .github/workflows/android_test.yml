@@ -20,8 +20,21 @@ jobs:
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Changed Files
+        uses: tj-actions/changed-files@v37.5.0
+        id: changed-files
+        with:
+          files: |
+            pubspec.yaml
+            pubspec.lock
+            android/**
+            lib/**
 
       - uses: subosito/flutter-action@v2
+        if: steps.changed-files.outputs.any_changed == 'true'
         with:
           flutter-version: '3.13.0-0.2.pre'
           channel: 'beta'
@@ -30,10 +43,12 @@ jobs:
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
 
       - uses: ruby/setup-ruby@v1
+        if: steps.changed-files.outputs.any_changed == 'true'
         with:
           ruby-version: '3.2.0'
 
       - name: Run fastlane
+        if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           bundle install
           bundle exec fastlane test
