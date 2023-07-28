@@ -1,15 +1,27 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ziggle/app/data/enums/notice_sort.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+part 'article_type.g.dart';
+
+@HiveType(typeId: 1)
 enum ArticleType {
+  @HiveField(4)
   deadline('⭐️', sort: NoticeSort.deadline),
+  @HiveField(5)
   hot('🔥', sort: NoticeSort.hot),
+  @HiveField(6)
   my('🔥'),
+  @HiveField(7)
   reminders('🔔'),
+  @HiveField(0)
   recruit('🎯', id: 1),
+  @HiveField(1)
   event('🎈', id: 2),
+  @HiveField(2, defaultValue: true)
   general('🔔', id: 3),
+  @HiveField(3)
   academic('📰', id: 4);
 
   final String emoji;

@@ -1,34 +1,29 @@
 import 'dart:io';
 
-import 'package:image_picker/image_picker.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
-import 'package:ziggle/app/data/model/article_request.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
+import 'package:ziggle/app/data/model/write_store.dart';
 import 'package:ziggle/app/data/provider/api.dart';
+import 'package:ziggle/app/data/provider/db.dart';
+
+const _writeStoreKey = 'write_store';
 
 class WriteRepository {
   final ApiProvider _provider;
+  final DbProvider _dbProvider;
 
-  WriteRepository(this._provider);
+  WriteRepository(this._provider, this._dbProvider);
 
-  Future<List<String>> uploadImages(List<XFile> images) async {
+  Future<List<String>> uploadImages(Iterable<String> imagePaths) async {
     final result = await _provider.uploadImages(
-      images.map((e) => File(e.path)).toList(),
+      imagePaths.map((e) => File(e)).toList(),
     );
     return result;
   }
 
-  Future<ArticleResponse> write({
-    required String title,
-    required String body,
-    DateTime? deadline,
-    List<String>? images,
-    List<String> tags = const [],
-    required ArticleType type,
-  }) async {
+  Future<ArticleResponse> write(WriteStore data) async {
     final List<dynamic> tagSearchResult = await Future.wait<dynamic>(
-      tags.map(
+      data.tags.map(
         (tag) => _provider
             .getTag(tag)
             .then<dynamic>((v) => v)
@@ -43,15 +38,30 @@ class WriteRepository {
           .map((e) => e.then((value) => value.id)),
     );
 
+    final imageKeys = await uploadImages(data.imagePaths);
+
     final result = await _provider.writeNotice(
-      ArticleRequest(
-        title: title,
-        body: body,
-        deadline: deadline,
-        tags: [type.id, ...existTags, ...createdTags],
-        images: images,
+      data.toRequest(
+        tags: [...existTags, ...createdTags],
+        imageKeys: imageKeys,
       ),
     );
     return result;
+  }
+
+  Future<void> save(WriteStore data) async {
+    if (data.isEmpty) {
+      await _removeSaved();
+      return;
+    }
+    await _dbProvider.setSetting(_writeStoreKey, data);
+  }
+
+  Future<void> _removeSaved() async {
+    await _dbProvider.removeSetting(_writeStoreKey);
+  }
+
+  WriteStore? getSaved() {
+    return _dbProvider.getSetting<WriteStore?>(_writeStoreKey);
   }
 }

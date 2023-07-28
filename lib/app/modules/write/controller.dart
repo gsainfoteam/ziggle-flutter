@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -7,6 +9,7 @@ import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
+import 'package:ziggle/app/data/model/write_store.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/write/article_preview_sheet.dart';
@@ -27,7 +30,18 @@ class WriteController extends GetxController {
   late final String _userName;
   final _analyticsService = AnalyticsService.to;
 
+  WriteStore get _writeData => WriteStore(
+        title: titleController.text,
+        body: bodyController.text,
+        type: selectedType.value,
+        deadline: hasDeadline.value ? deadline.value : null,
+        imagePaths: images.map((e) => e.path),
+        tags: _tags,
+      );
+
   final WriteRepository _repository;
+
+  late Timer _autoSaver;
 
   WriteController(this._repository);
 
@@ -46,10 +60,31 @@ class WriteController extends GetxController {
       }
     });
     UserService.to.getUserInfo().first.then((value) => _userName = value!.name);
+    _autoSaver = Timer.periodic(const Duration(seconds: 5), _autoSave);
+
+    final savedData = _repository.getSaved();
+    if (savedData != null) {
+      titleController.text = savedData.title;
+      bodyController.text = savedData.body;
+      selectedType.value = savedData.type;
+      hasDeadline.value = savedData.deadline != null;
+      deadline.value = savedData.deadline ?? DateTime.now();
+      images.addAll(savedData.imagePaths.map((e) => XFile(e)));
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        for (var tag in savedData.tags) {
+          textFieldTagsController.addTag = tag;
+        }
+      });
+    }
+  }
+
+  void _autoSave(timer) {
+    _repository.save(_writeData);
   }
 
   @override
   void onClose() {
+    _autoSaver.cancel();
     textFieldTagsController.dispose();
     super.onClose();
   }
@@ -95,17 +130,7 @@ class WriteController extends GetxController {
     }
     loading.value = true;
     try {
-      final imageKeys = await _repository.uploadImages(images);
-      Get.log('$imageKeys');
-
-      final result = await _repository.write(
-        title: titleController.text,
-        body: markdownToHtml(bodyController.text),
-        type: type,
-        deadline: hasDeadline.value ? deadline.value : null,
-        tags: _tags,
-        images: imageKeys,
-      );
+      final result = await _repository.write(_writeData);
 
       Get.toNamed(Routes.ARTICLE, parameters: {'id': result.id.toString()});
       await Get.defaultTransitionDuration.delay();

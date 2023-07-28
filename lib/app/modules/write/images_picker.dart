@@ -24,7 +24,7 @@ class ImagesPicker extends StatelessWidget {
   }
 
   Widget _build() {
-    if (images.isEmpty && !loading.value) {
+    if (!loading.value && images.isEmpty) {
       return ZiggleButton(
         text: t.write.images.action,
         onTap: _selectPhotos,
@@ -64,11 +64,10 @@ class ImagesPicker extends StatelessWidget {
 
   void _selectPhotos() async {
     AnalyticsService.to.logTrySelectImage();
-    final result = await ImagePicker().pickMultiImage();
     loading.value = true;
-    await 3.seconds.delay();
-    loading.value = false;
+    final result = await ImagePicker().pickMultiImage();
     changeImages([...images, ...result]);
+    loading.value = false;
     AnalyticsService.to.logSelectImage();
   }
 
