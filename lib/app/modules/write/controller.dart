@@ -57,6 +57,7 @@ class WriteController extends GetxController {
   void selectPhotos() async {
     _analyticsService.logTrySelectImage();
     final result = await ImagePicker().pickMultiImage();
+    await 3.seconds.delay();
     images.addAll(result);
     _analyticsService.logSelectImage();
   }

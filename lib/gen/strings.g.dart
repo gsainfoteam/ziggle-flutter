@@ -415,7 +415,7 @@ class _StringsWriteImagesKo {
 
 	// Translations
 	String get label => '사진 첨부';
-	String get description => '선택 후 클릭하여 대표 사진을 선택해주세요.';
+	String get description => '첨부된 사진 중 첫 번째 사진이 대표 사진으로 설정됩니다.';
 	String get action => '폰에서 사진 선택하기...';
 }
 
@@ -743,7 +743,7 @@ class _StringsWriteImagesEn implements _StringsWriteImagesKo {
 
 	// Translations
 	@override String get label => 'Attach images';
-	@override String get description => 'Select representative image by clicking after selecting.';
+	@override String get description => 'The first image will be set as the representative image.';
 	@override String get action => 'Select images from phone...';
 }
 
@@ -901,7 +901,7 @@ extension on _StringsKo {
 			case 'write.body.error.title': return '본문 내용을 입력해주세요';
 			case 'write.body.error.description': return '본문 내용을 입력하지 않으면 공지를 제출할 수 없습니다.';
 			case 'write.images.label': return '사진 첨부';
-			case 'write.images.description': return '선택 후 클릭하여 대표 사진을 선택해주세요.';
+			case 'write.images.description': return '첨부된 사진 중 첫 번째 사진이 대표 사진으로 설정됩니다.';
 			case 'write.images.action': return '폰에서 사진 선택하기...';
 			case 'write.preview': return '공지 미리보기';
 			case 'write.submit': return '공지 제출하기';
@@ -1030,7 +1030,7 @@ extension on _StringsEn {
 			case 'write.body.error.title': return 'Please enter body';
 			case 'write.body.error.description': return 'You cannot submit notice without body.';
 			case 'write.images.label': return 'Attach images';
-			case 'write.images.description': return 'Select representative image by clicking after selecting.';
+			case 'write.images.description': return 'The first image will be set as the representative image.';
 			case 'write.images.action': return 'Select images from phone...';
 			case 'write.preview': return 'Preview notice';
 			case 'write.submit': return 'Submit notice';
