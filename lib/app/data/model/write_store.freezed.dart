@@ -27,7 +27,7 @@ mixin _$WriteStore {
   @HiveField(4)
   List<String> get tags => throw _privateConstructorUsedError;
   @HiveField(5)
-  ArticleType? get type => throw _privateConstructorUsedError;
+  int? get typeIndex => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $WriteStoreCopyWith<WriteStore> get copyWith =>
@@ -46,7 +46,7 @@ abstract class $WriteStoreCopyWith<$Res> {
       @HiveField(2) DateTime? deadline,
       @HiveField(3) Iterable<String> imagePaths,
       @HiveField(4) List<String> tags,
-      @HiveField(5) ArticleType? type});
+      @HiveField(5) int? typeIndex});
 }
 
 /// @nodoc
@@ -67,7 +67,7 @@ class _$WriteStoreCopyWithImpl<$Res, $Val extends WriteStore>
     Object? deadline = freezed,
     Object? imagePaths = null,
     Object? tags = null,
-    Object? type = freezed,
+    Object? typeIndex = freezed,
   }) {
     return _then(_value.copyWith(
       title: null == title
@@ -90,10 +90,10 @@ class _$WriteStoreCopyWithImpl<$Res, $Val extends WriteStore>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as ArticleType?,
+      typeIndex: freezed == typeIndex
+          ? _value.typeIndex
+          : typeIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -112,7 +112,7 @@ abstract class _$$_WriteStoreCopyWith<$Res>
       @HiveField(2) DateTime? deadline,
       @HiveField(3) Iterable<String> imagePaths,
       @HiveField(4) List<String> tags,
-      @HiveField(5) ArticleType? type});
+      @HiveField(5) int? typeIndex});
 }
 
 /// @nodoc
@@ -131,7 +131,7 @@ class __$$_WriteStoreCopyWithImpl<$Res>
     Object? deadline = freezed,
     Object? imagePaths = null,
     Object? tags = null,
-    Object? type = freezed,
+    Object? typeIndex = freezed,
   }) {
     return _then(_$_WriteStore(
       title: null == title
@@ -154,10 +154,10 @@ class __$$_WriteStoreCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
-      type: freezed == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as ArticleType?,
+      typeIndex: freezed == typeIndex
+          ? _value.typeIndex
+          : typeIndex // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -172,7 +172,7 @@ class _$_WriteStore extends _WriteStore {
       @HiveField(2) required this.deadline,
       @HiveField(3) required this.imagePaths,
       @HiveField(4) required final List<String> tags,
-      @HiveField(5) required this.type})
+      @HiveField(5) required this.typeIndex})
       : _tags = tags,
         super._();
 
@@ -199,11 +199,11 @@ class _$_WriteStore extends _WriteStore {
 
   @override
   @HiveField(5)
-  final ArticleType? type;
+  final int? typeIndex;
 
   @override
   String toString() {
-    return 'WriteStore(title: $title, body: $body, deadline: $deadline, imagePaths: $imagePaths, tags: $tags, type: $type)';
+    return 'WriteStore(title: $title, body: $body, deadline: $deadline, imagePaths: $imagePaths, tags: $tags, typeIndex: $typeIndex)';
   }
 
   @override
@@ -218,7 +218,8 @@ class _$_WriteStore extends _WriteStore {
             const DeepCollectionEquality()
                 .equals(other.imagePaths, imagePaths) &&
             const DeepCollectionEquality().equals(other._tags, _tags) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.typeIndex, typeIndex) ||
+                other.typeIndex == typeIndex));
   }
 
   @override
@@ -229,7 +230,7 @@ class _$_WriteStore extends _WriteStore {
       deadline,
       const DeepCollectionEquality().hash(imagePaths),
       const DeepCollectionEquality().hash(_tags),
-      type);
+      typeIndex);
 
   @JsonKey(ignore: true)
   @override
@@ -245,7 +246,7 @@ abstract class _WriteStore extends WriteStore {
       @HiveField(2) required final DateTime? deadline,
       @HiveField(3) required final Iterable<String> imagePaths,
       @HiveField(4) required final List<String> tags,
-      @HiveField(5) required final ArticleType? type}) = _$_WriteStore;
+      @HiveField(5) required final int? typeIndex}) = _$_WriteStore;
   const _WriteStore._() : super._();
 
   @override
@@ -265,7 +266,7 @@ abstract class _WriteStore extends WriteStore {
   List<String> get tags;
   @override
   @HiveField(5)
-  ArticleType? get type;
+  int? get typeIndex;
   @override
   @JsonKey(ignore: true)
   _$$_WriteStoreCopyWith<_$_WriteStore> get copyWith =>

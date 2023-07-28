@@ -22,7 +22,7 @@ class WriteStoreAdapter extends TypeAdapter<_$_WriteStore> {
       deadline: fields[2] as DateTime?,
       imagePaths: (fields[3] as List).cast<String>(),
       tags: (fields[4] as List).cast<String>(),
-      type: fields[5] as ArticleType?,
+      typeIndex: fields[5] as int?,
     );
   }
 
@@ -39,7 +39,7 @@ class WriteStoreAdapter extends TypeAdapter<_$_WriteStore> {
       ..writeByte(3)
       ..write(obj.imagePaths.toList())
       ..writeByte(5)
-      ..write(obj.type)
+      ..write(obj.typeIndex)
       ..writeByte(4)
       ..write(obj.tags);
   }

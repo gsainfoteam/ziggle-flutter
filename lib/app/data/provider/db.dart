@@ -1,5 +1,4 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/write_store.dart';
 
 class DbProvider {
@@ -8,9 +7,7 @@ class DbProvider {
 
   static Future<void> init() async {
     await Hive.initFlutter();
-    Hive
-      ..registerAdapter(WriteStoreAdapter())
-      ..registerAdapter(ArticleTypeAdapter());
+    Hive.registerAdapter(WriteStoreAdapter());
     await Future.wait([
       Hive.openBox(_settingBoxName),
     ]);

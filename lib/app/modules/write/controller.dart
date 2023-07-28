@@ -33,7 +33,7 @@ class WriteController extends GetxController {
   WriteStore get _writeData => WriteStore(
         title: titleController.text,
         body: bodyController.text,
-        type: selectedType.value,
+        typeIndex: selectedType.value?.index,
         deadline: hasDeadline.value ? deadline.value : null,
         imagePaths: images.map((e) => e.path),
         tags: _tags,
@@ -66,7 +66,9 @@ class WriteController extends GetxController {
     if (savedData != null) {
       titleController.text = savedData.title;
       bodyController.text = savedData.body;
-      selectedType.value = savedData.type;
+      selectedType.value = savedData.typeIndex != null
+          ? ArticleType.values[savedData.typeIndex!]
+          : null;
       hasDeadline.value = savedData.deadline != null;
       deadline.value = savedData.deadline ?? DateTime.now();
       WidgetsBinding.instance.addPostFrameCallback((_) {

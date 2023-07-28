@@ -20,7 +20,7 @@ class WriteStore with _$WriteStore {
     @HiveField(2) required DateTime? deadline,
     @HiveField(3) required Iterable<String> imagePaths,
     @HiveField(4) required List<String> tags,
-    @HiveField(5) required ArticleType? type,
+    @HiveField(5) required int? typeIndex,
   }) = _WriteStore;
 
   bool get isEmpty =>
@@ -29,16 +29,16 @@ class WriteStore with _$WriteStore {
       deadline == null &&
       imagePaths.isEmpty &&
       tags.isEmpty &&
-      type == null;
+      typeIndex == null;
 
   toRequest({required Iterable<int> tags, required List<String>? imageKeys}) {
-    assert(type != null);
+    assert(typeIndex != null);
     return ArticleRequest(
       title: title,
       body: markdownToHtml(body),
       deadline: deadline,
       images: imageKeys,
-      tags: [type!.id, ...tags],
+      tags: [ArticleType.writables[typeIndex!].id, ...tags],
     );
   }
 
