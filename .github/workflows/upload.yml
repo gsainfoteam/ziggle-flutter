@@ -41,16 +41,17 @@ jobs:
         env:
           KEYSTORE: ${{ secrets.KEYSTORE }}
           KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
+      - uses: actions/setup-node@v3
+        if: matrix.os == 'Android'
+      - uses: w9jds/setup-firebase@main
+        if: matrix.os == 'Android'
+        with:
+          tools-version: 12.4.5
+          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
 
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2.0'
-
-      - uses: actions/setup-node@v3
-      - uses: w9jds/setup-firebase@main
-        with:
-          tools-version: 12.4.5
-          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
 
       - uses: subosito/flutter-action@v2
         with:
