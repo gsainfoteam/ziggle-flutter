@@ -72,7 +72,6 @@ jobs:
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
           SUPPLY_JSON_KEY_DATA: ${{ secrets.SUPPLY_JSON_KEY_DATA }}
-          SLACK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         working-directory: ${{ env.directory }}
 
       - name: action-slack
