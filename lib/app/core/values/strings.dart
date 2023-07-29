@@ -12,6 +12,7 @@ const idpUrl = '$_idpBaseUrl/authorize'
     '&redirect_uri=$idpRedirectScheme://callback'
     '&scope=openid%20profile%20email%20student_id'
     '&response_type=code';
+const reloginIdpUrl = '$idpUrl&prompt=login';
 const privacyPolicyUrl =
     'https://infoteam-rulrudino.notion.site/ceb9340c0b514497b6d916c4a67590a1';
 const termsOfServiceUrl =

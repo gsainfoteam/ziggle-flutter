@@ -31,7 +31,7 @@ final initialBinding = BindingsBuilder(() {
     fenix: true,
   );
 
-  Get.lazyPut(() => UserRepository(Get.find()));
+  Get.lazyPut(() => UserRepository(Get.find(), Get.find()));
   Get.lazyPut(() => TokenRepository(Get.find()), fenix: true);
   Get.lazyPut(() => UserService(Get.find(), Get.find(), Get.find()));
 
