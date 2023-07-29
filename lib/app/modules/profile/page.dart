@@ -7,6 +7,7 @@ import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/section_header.dart';
 import 'package:ziggle/app/modules/profile/controller.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class ProfilePage extends GetView<ProfileController> {
@@ -55,9 +56,10 @@ class ProfilePage extends GetView<ProfileController> {
     return Column(
       children: [
         const SizedBox(height: 30),
-        const CircleAvatar(
+        CircleAvatar(
           radius: 50,
-          backgroundColor: Palette.primaryColor,
+          backgroundColor: Palette.white,
+          child: Assets.icons.avatar.image(),
         ),
         const SizedBox(height: 30),
         Obx(() => _buildInfoRow(t.profile.name, controller.name.value)),

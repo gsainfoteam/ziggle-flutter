@@ -30,7 +30,7 @@
   },
   "images": {
     "label": "Attach images",
-    "description": "Select representative image by clicking after selecting.",
+    "description": "The first image will be set as the representative image.",
     "action": "Select images from phone..."
   },
   "preview": "Preview notice",

@@ -13,6 +13,6 @@ class RootBinding extends Bindings {
     Get.lazyPut(() => RootController());
     Get.lazyPut(() => HomeController(HomeRepository(Get.find())));
     Get.lazyPut(() => SearchController(SearchRepository(Get.find())));
-    Get.lazyPut(() => WriteController(WriteRepository(Get.find())));
+    Get.lazyPut(() => WriteController(WriteRepository(Get.find(), Get.find())));
   }
 }

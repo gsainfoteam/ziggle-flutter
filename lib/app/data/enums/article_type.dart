@@ -3,14 +3,14 @@ import 'package:ziggle/app/data/model/tag_response.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 enum ArticleType {
-  deadline('⭐️', sort: NoticeSort.deadline),
-  hot('🔥', sort: NoticeSort.hot),
-  my('🔥'),
-  reminders('🔔'),
   recruit('🎯', id: 1),
   event('🎈', id: 2),
   general('🔔', id: 3),
-  academic('📰', id: 4);
+  academic('📰', id: 4),
+  deadline('⭐️', sort: NoticeSort.deadline),
+  hot('🔥', sort: NoticeSort.hot),
+  my('🔥'),
+  reminders('🔔');
 
   final String emoji;
   String get title => t.article.section.title(type: this);

@@ -1,4 +1,4 @@
-name: build and publish to TestFlight
+name: build and publish (android, iOS)
 
 on:
   push:
@@ -7,17 +7,50 @@ on:
 
 jobs:
   build-and-upload:
-    name: Build iOS App and Upload
-    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        build-os: [ubuntu-latest, macos-latest]
+        includes:
+          - os: Android
+            build-os: ubuntu-latest
+          - os: iOS
+            build-os: macos-latest
+    name: Build ${{ matrix.os }} App and Upload
+    runs-on: ${{ matrix.build-os }}
     concurrency:
-      group: ios-staging
+      group: ${{ matrix.os }}-staging
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v3
+      - name: setup env
+        run: |
+          echo "directory=$(echo ${{ matrix.os }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+
       - uses: shimataro/ssh-key-action@v2
+        if: matrix.os == 'iOS'
         with:
           key: ${{ secrets.CERTIFICATION_DEPLOY_KEY }}
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
+
+      - name: Write Keystore
+        if: matrix.os == 'Android'
+        run: |
+          echo ${{ secrets.KEYSTORE }} | base64 --decode > ./android/app/upload-keystore.jks
+          echo "${{ secrets.KEYSTORE_PROPERTIES }}" > ./android/key.properties
+        env:
+          KEYSTORE: ${{ secrets.KEYSTORE }}
+          KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.0'
+
+      - uses: actions/setup-node@v3
+      - uses: w9jds/setup-firebase@main
+        with:
+          tools-version: 12.4.5
+          gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
 
       - uses: subosito/flutter-action@v2
         with:
@@ -38,7 +71,9 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
-        working-directory: ./ios
+          SUPPLY_JSON_KEY_DATA: ${{ secrets.SUPPLY_JSON_KEY_DATA }}
+          SLACK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        working-directory: ${{ env.directory }}
 
       - name: action-slack
         uses: 8398a7/action-slack@v3

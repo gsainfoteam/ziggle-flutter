@@ -16,7 +16,7 @@ class LoginController extends GetxController {
     _analyticsService.logTryLogin();
     try {
       final result = await FlutterWebAuth2.authenticate(
-        url: idpUrl,
+        url: _userService.recentLogout ? reloginIdpUrl : idpUrl,
         callbackUrlScheme: idpRedirectScheme,
       );
       final uri = Uri.parse(result);

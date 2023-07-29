@@ -8,7 +8,7 @@ import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/global_widgets/text_form_field.dart';
 import 'package:ziggle/app/modules/write/controller.dart';
-import 'package:ziggle/app/modules/write/gallery_item_button.dart';
+import 'package:ziggle/app/modules/write/images_picker.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class WritePage extends GetView<WriteController> {
@@ -171,45 +171,11 @@ class WritePage extends GetView<WriteController> {
             const SizedBox(height: 12),
           ],
         ).paddingSymmetric(horizontal: 20),
-        Obx(_buildGallery),
+        Obx(() => ImagesPicker(
+              images: controller.images.toList(),
+              changeImages: controller.images,
+            )),
       ],
-    );
-  }
-
-  Widget _buildGallery() {
-    if (controller.images.isEmpty) {
-      return ZiggleButton(
-        text: t.write.images.action,
-        onTap: controller.selectPhotos,
-      ).paddingSymmetric(horizontal: 20);
-    }
-    return SizedBox(
-      height: 144,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        clipBehavior: Clip.none,
-        itemCount: controller.images.length + 1,
-        scrollDirection: Axis.horizontal,
-        separatorBuilder: (context, index) => const SizedBox(width: 4),
-        itemBuilder: _galleryItemBuilder,
-      ),
-    );
-  }
-
-  Widget _galleryItemBuilder(BuildContext context, int index) {
-    if (index < controller.images.length) {
-      return Obx(
-        () => GalleryItemButton(
-          file: controller.images[index],
-          isMain: index == 0,
-          onTap: () => controller.setMainImage(index),
-          onRemove: () => controller.removeImage(index),
-        ),
-      );
-    }
-    return SizedBox(
-      width: 144,
-      child: ZiggleButton(text: '+', onTap: controller.selectPhotos),
     );
   }
 

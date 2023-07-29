@@ -17,11 +17,6 @@ final initialBinding = BindingsBuilder(() {
       Dio()
         ..interceptors.addAll([
           JwtInterceptor(Get.find()),
-          LogInterceptor(
-            logPrint: (obj) => Get.log('dio: $obj'),
-            requestBody: true,
-            responseBody: true,
-          ),
         ]),
       baseUrl: apiBaseUrl,
     ),
@@ -36,7 +31,7 @@ final initialBinding = BindingsBuilder(() {
     fenix: true,
   );
 
-  Get.lazyPut(() => UserRepository(Get.find()));
+  Get.lazyPut(() => UserRepository(Get.find(), Get.find()));
   Get.lazyPut(() => TokenRepository(Get.find()), fenix: true);
   Get.lazyPut(() => UserService(Get.find(), Get.find(), Get.find()));
 
