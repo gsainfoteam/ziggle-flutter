@@ -11,7 +11,7 @@ jobs:
       fail-fast: false
       matrix:
         build-os: [ubuntu-latest, macos-latest]
-        includes:
+        include:
           - os: Android
             build-os: ubuntu-latest
           - os: iOS
