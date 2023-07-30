@@ -73,11 +73,10 @@ class _BoardAnimationState extends State<_BoardAnimation> {
         _rects.addAll(rects);
       }
 
-      if (speed > 0.2) {
-        speed *= 0.95;
-      }
       if (_rects.first.right < widget.constraints.maxWidth) {
         speed /= 0.95;
+      } else if (speed > 0.2) {
+        speed *= 0.95;
       }
       _rects.removeWhere((rect) => rect.left > widget.constraints.maxWidth);
       for (var i = 0; i < _rects.length; i++) {
