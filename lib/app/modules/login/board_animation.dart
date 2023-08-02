@@ -49,6 +49,7 @@ class _BoardAnimationState extends State<_BoardAnimation> {
   void _period([_]) {
     setState(() {
       final maxHeight = widget.constraints.maxHeight;
+      final maxWidth = widget.constraints.maxWidth;
 
       while (_rects.isEmpty || _rects.last.left > 0) {
         final lastLeft = _rects.isEmpty ? 0 : _rects.last.left;
@@ -73,12 +74,12 @@ class _BoardAnimationState extends State<_BoardAnimation> {
         _rects.addAll(rects);
       }
 
-      if (_rects.first.right < widget.constraints.maxWidth) {
+      if (_rects.first.right < maxWidth) {
         speed /= 0.95;
       } else if (speed > 0.2) {
         speed *= 0.95;
       }
-      _rects.removeWhere((rect) => rect.left > widget.constraints.maxWidth);
+      _rects.removeWhere((rect) => rect.left > maxWidth + _kWidth);
       for (var i = 0; i < _rects.length; i++) {
         final rect = _rects[i];
         _rects[i] = rect.translate(speed, 0);
