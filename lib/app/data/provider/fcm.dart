@@ -23,6 +23,9 @@ class FcmProvider {
     _tokenController.stream.listen((event) {
       _token = event;
     });
+    _linkController.stream.listen((event) {
+      _lastLink = event;
+    });
     _load().then((value) {
       _completer.complete();
     });
