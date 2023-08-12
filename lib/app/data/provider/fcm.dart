@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,7 +8,9 @@ import 'package:ziggle/gen/strings.g.dart';
 
 class FcmProvider {
   String? _token;
-  final _controller = StreamController<String?>.broadcast();
+  final _tokenController = StreamController<String?>.broadcast();
+  final _linkController = StreamController<String>.broadcast();
+  String? _lastLink;
   final _completer = Completer<void>();
   final _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   final _androidNotificationChannel = AndroidNotificationChannel(
@@ -17,8 +20,11 @@ class FcmProvider {
   );
 
   FcmProvider() {
-    _controller.stream.listen((event) {
+    _tokenController.stream.listen((event) {
       _token = event;
+    });
+    _linkController.stream.listen((event) {
+      _lastLink = event;
     });
     _load().then((value) {
       _completer.complete();
@@ -32,8 +38,18 @@ class FcmProvider {
       return;
     }
     final fcmToken = await instance.getToken();
-    _controller.add(fcmToken);
-    instance.onTokenRefresh.listen(_controller.add);
+    _tokenController.add(fcmToken);
+    instance.onTokenRefresh.listen(_tokenController.add);
+    instance.getInitialMessage().then((rm) {
+      final path = rm?.data['path'];
+      if (path == null || path is! String || path.isEmpty) return;
+      _linkController.add(path);
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((rm) {
+      final path = rm.data['path'];
+      if (path == null || path is! String || path.isEmpty) return;
+      _linkController.add(path);
+    });
     await instance.setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
@@ -44,7 +60,27 @@ class FcmProvider {
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
         iOS: DarwinInitializationSettings(),
       ),
+      onDidReceiveNotificationResponse: (details) {
+        final payload = details.payload;
+        if (payload == null || payload.isEmpty) return;
+        final json = jsonDecode(payload);
+        final path = json['path'];
+        if (path == null || path is! String || path.isEmpty) return;
+        _linkController.add(path);
+      },
     );
+    _flutterLocalNotificationsPlugin
+        .getNotificationAppLaunchDetails()
+        .then((value) {
+      if (value == null) return;
+      if (!value.didNotificationLaunchApp) return;
+      final payload = value.notificationResponse?.payload;
+      if (payload == null || payload.isEmpty) return;
+      final json = jsonDecode(payload);
+      final path = json['path'];
+      if (path == null || path is! String || path.isEmpty) return;
+      _linkController.add(path);
+    });
     await _flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
@@ -74,8 +110,10 @@ class FcmProvider {
             _androidNotificationChannel.id,
             _androidNotificationChannel.name,
             styleInformation: styleInformation,
+            icon: '@mipmap/ic_launcher',
           ),
         ),
+        payload: jsonEncode(rm.data),
       );
     }
   }
@@ -83,6 +121,14 @@ class FcmProvider {
   Stream<String?> getFcmToken() async* {
     await _completer.future;
     yield _token;
-    yield* _controller.stream;
+    yield* _tokenController.stream;
+  }
+
+  Stream<String> getLink() async* {
+    await _completer.future;
+    if (_lastLink != null) {
+      yield _lastLink!;
+    }
+    yield* _linkController.stream;
   }
 }
