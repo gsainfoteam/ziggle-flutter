@@ -35,5 +35,5 @@
   },
   "preview": "Preview notice",
   "submit": "Submit notice",
-  "warning": "You cannot edit notice after submitting."
+  "warning": "You cannot edit or delete notice after submission."
 }
