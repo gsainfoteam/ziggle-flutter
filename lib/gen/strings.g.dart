@@ -255,7 +255,7 @@ class _StringsWriteKo {
 	late final _StringsWriteImagesKo images = _StringsWriteImagesKo._(_root);
 	String get preview => '공지 미리보기';
 	String get submit => '공지 제출하기';
-	String get warning => '공지 제출 시 수정이 불가능합니다.';
+	String get warning => '공지 제출 시 수정 및 삭제가 불가능합니다.';
 }
 
 // Path: article.section
@@ -583,7 +583,7 @@ class _StringsWriteEn implements _StringsWriteKo {
 	@override late final _StringsWriteImagesEn images = _StringsWriteImagesEn._(_root);
 	@override String get preview => 'Preview notice';
 	@override String get submit => 'Submit notice';
-	@override String get warning => 'You cannot edit notice after submitting.';
+	@override String get warning => 'You cannot edit or delete notice after submission.';
 }
 
 // Path: article.section
@@ -905,7 +905,7 @@ extension on _StringsKo {
 			case 'write.images.action': return '폰에서 사진 선택하기...';
 			case 'write.preview': return '공지 미리보기';
 			case 'write.submit': return '공지 제출하기';
-			case 'write.warning': return '공지 제출 시 수정이 불가능합니다.';
+			case 'write.warning': return '공지 제출 시 수정 및 삭제가 불가능합니다.';
 			default: return null;
 		}
 	}
@@ -1034,7 +1034,7 @@ extension on _StringsEn {
 			case 'write.images.action': return 'Select images from phone...';
 			case 'write.preview': return 'Preview notice';
 			case 'write.submit': return 'Submit notice';
-			case 'write.warning': return 'You cannot edit notice after submitting.';
+			case 'write.warning': return 'You cannot edit or delete notice after submission.';
 			default: return null;
 		}
 	}
