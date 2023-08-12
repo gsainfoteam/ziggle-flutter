@@ -60,7 +60,7 @@ class FcmProvider {
         android: AndroidInitializationSettings('@mipmap/ic_launcher'),
         iOS: DarwinInitializationSettings(),
       ),
-      onDidReceiveBackgroundNotificationResponse: (details) {
+      onDidReceiveNotificationResponse: (details) {
         final payload = details.payload;
         if (payload == null || payload.isEmpty) return;
         final json = jsonDecode(payload);
@@ -110,9 +110,10 @@ class FcmProvider {
             _androidNotificationChannel.id,
             _androidNotificationChannel.name,
             styleInformation: styleInformation,
+            icon: '@mipmap/ic_launcher',
           ),
         ),
-        payload: rm.data.toString(),
+        payload: jsonEncode(rm.data),
       );
     }
   }
