@@ -102,7 +102,7 @@ class _Article extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final opacity = (rect.left / Get.width) / 2.5 + 0.5;
+    final opacity = max(0.0, min((rect.left / Get.width) / 2.5 + 0.5, 1.0));
     return Positioned.fromRect(
       rect: rect,
       child: Container(
