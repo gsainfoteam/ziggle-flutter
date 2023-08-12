@@ -52,7 +52,8 @@ class ArticleController extends GetxController {
     final data = await _repository.getArticleById(intId);
     article.value = data;
     isReminder.value = data.reminder;
-    showReminderTooltip.value &= data.deadline != null;
+    showReminderTooltip.value &=
+        data.deadline != null && data.deadline!.isAfter(DateTime.now());
   }
 
   void onPageChanged(int page) {
