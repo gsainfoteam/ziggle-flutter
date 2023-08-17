@@ -62,4 +62,16 @@ platform :android do
       }
     ) if ENV['CI']
   end
+
+  lane :production do
+    upload_to_play_store(
+      track: "internal",
+      track_promote_to: "production",
+    )
+    slack(
+      payload: {
+        "Promoted At" => Time.now.to_s,
+      }
+    ) if ENV['CI']
+  end
 end
