@@ -1,8 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-const apiBaseUrl = kDebugMode
-    ? 'https://api.stg.ziggle.gistory.me'
-    : 'https://api.ziggle.gistory.me';
 const _idpClientId = 'ziggle2023';
 const idpRedirectScheme = 'ziggle-idp-login-redirect';
 const _idpBaseUrl =
