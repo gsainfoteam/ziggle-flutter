@@ -37,6 +37,7 @@ dependencies:
   slang: ^3.21.0
   slang_flutter: ^3.21.0
   textfield_tags: ^2.0.2
+  upgrader: ^8.1.0
   url_launcher: ^6.1.11
 
 dev_dependencies:
