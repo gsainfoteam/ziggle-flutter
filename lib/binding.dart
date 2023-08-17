@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/provider/api.dart';
+import 'package:ziggle/app/data/provider/api_channel.dart';
 import 'package:ziggle/app/data/provider/db.dart';
 import 'package:ziggle/app/data/provider/fcm.dart';
 import 'package:ziggle/app/data/provider/jwt_interceptor.dart';
@@ -14,15 +14,13 @@ import 'package:ziggle/app/data/services/user/service.dart';
 
 final initialBinding = BindingsBuilder(() {
   Get.lazyPut(
-    () => ApiProvider(
-      Dio()
-        ..interceptors.addAll([
-          JwtInterceptor(Get.find()),
-        ]),
-      baseUrl: apiBaseUrl,
-    ),
+    () => Dio()
+      ..interceptors.addAll([
+        JwtInterceptor(Get.find()),
+      ]),
     fenix: true,
   );
+  Get.lazyPut(() => ApiProvider(Get.find()), fenix: true);
   Get.lazyPut(() => DbProvider(), fenix: true);
 
   Get.lazyPut(
@@ -39,4 +37,5 @@ final initialBinding = BindingsBuilder(() {
   Get.lazyPut(() => FcmProvider());
   Get.put(MessageService(Get.find(), Get.find()));
   Get.lazyPut(() => AnalyticsService(Get.find()), fenix: true);
+  Get.put(ApiChannelProvider());
 });

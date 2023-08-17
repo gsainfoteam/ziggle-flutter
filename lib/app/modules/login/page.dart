@@ -18,7 +18,7 @@ class LoginPage extends GetView<LoginController> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const Expanded(child: BoardAnimation()),
+          Expanded(child: BoardAnimation(openHidden: controller.openHidden)),
           SafeArea(
             top: false,
             child: Column(
