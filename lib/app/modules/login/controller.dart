@@ -15,13 +15,15 @@ class LoginController extends GetxController {
   final code = ''.obs;
   final _userService = UserService.to;
   final _analyticsService = AnalyticsService.to;
+  final _apiChannelProvider = ApiChannelProvider.to;
   final loading = false.obs;
 
   void login() async {
     _analyticsService.logTryLogin();
     try {
       final result = await FlutterWebAuth2.authenticate(
-        url: _userService.recentLogout ? reloginIdpUrl : idpUrl,
+        url: '${_apiChannelProvider.channel.idpBaseUrl}'
+            '${_userService.recentLogout ? reloginIdpPath : idpPath}',
         callbackUrlScheme: idpRedirectScheme,
       );
       final uri = Uri.parse(result);
@@ -73,7 +75,7 @@ class LoginController extends GetxController {
     final bytes = utf8.encode(password);
     final digest = sha1.convert(bytes).toString();
     if (digest != 'bf782aa0b57c80e2b10b2f195327a32f60e250af') return;
-    final channel = Get.find<ApiChannelProvider>().toggleChannel();
+    final channel = ApiChannelProvider.to.toggleChannel();
     Get.showSnackbar(GetSnackBar(
       message: 'current using ${channel.baseUrl}',
       duration: const Duration(seconds: 2),

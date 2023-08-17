@@ -1,15 +1,11 @@
-import 'package:flutter/foundation.dart';
-
 const _idpClientId = 'ziggle2023';
 const idpRedirectScheme = 'ziggle-idp-login-redirect';
-const _idpBaseUrl =
-    kDebugMode ? 'https://stg.new-idp.gistory.me' : 'https://idp.gistory.me';
-const idpUrl = '$_idpBaseUrl/authorize'
+const idpPath = '/authorize'
     '?client_id=$_idpClientId'
     '&redirect_uri=$idpRedirectScheme://callback'
     '&scope=openid%20profile%20email%20student_id'
     '&response_type=code';
-const reloginIdpUrl = '$idpUrl&prompt=login';
+const reloginIdpPath = '$idpPath&prompt=login';
 const privacyPolicyUrl =
     'https://infoteam-rulrudino.notion.site/ceb9340c0b514497b6d916c4a67590a1';
 const termsOfServiceUrl =

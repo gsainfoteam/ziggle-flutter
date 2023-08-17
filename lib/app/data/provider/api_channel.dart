@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:ziggle/app/data/enums/api_channel.dart';
 
 class ApiChannelProvider {
+  static ApiChannelProvider get to => Get.find();
+
   ApiChannel get channel => _channel;
   late ApiChannel _channel;
 
