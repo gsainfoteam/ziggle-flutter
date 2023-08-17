@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:upgrader/upgrader.dart';
 import 'package:ziggle/app/core/theme/app.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
@@ -31,6 +32,15 @@ class App extends StatelessWidget {
           getPages: AppPages.routes,
           theme: appTheme,
           navigatorObservers: [AnalyticsService.observer],
+          builder: (context, child) => UpgradeAlert(
+            upgrader: Upgrader(
+              dialogStyle: UpgradeDialogStyle.cupertino,
+              showIgnore: false,
+              showLater: false,
+            ),
+            navigatorKey: Get.key,
+            child: child,
+          ),
         ),
       ),
     );
