@@ -108,12 +108,12 @@ class _BoardAnimationState extends State<_BoardAnimation> {
   void _checkHidden(opacity) {
     _clicks.add(opacity);
     final zip = IterableZip([
-      _clicks.reversed.take(3),
-      _clicks.reversed.skip(1).take(3),
+      _clicks.reversed.take(2),
+      _clicks.reversed.skip(1).take(2),
     ]);
     final opacityCondition =
         zip.every((element) => element.first - element.last > 0.1);
-    final countCondition = zip.length == 3;
+    final countCondition = zip.length == 2;
     if (!opacityCondition || !countCondition) return;
     widget.openHidden?.call();
   }
