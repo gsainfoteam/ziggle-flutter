@@ -61,6 +61,9 @@ jobs:
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
 
+      - name: Generate files
+        if: env.run == 'true'
+        run: dart run build_runner build --delete-conflicting-outputs
       - name: Run fastlane
         run: |
           bundle install
