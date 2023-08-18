@@ -66,6 +66,7 @@ platform :ios do
   end
 
   lane :production do
+    app_store_connect_api_key(duration: 1200) if ENV['CI']
     deliver(
       submit_for_review: true,
       automatic_release: true,
