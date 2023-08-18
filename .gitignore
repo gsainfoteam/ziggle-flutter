@@ -44,3 +44,8 @@ app.*.map.json
 /android/app/release
 
 */fastlane/report.xml
+
+# generated files
+*.g.dart
+*.freezed.dart
+*.gen.dart
