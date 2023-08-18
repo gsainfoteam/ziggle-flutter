@@ -31,6 +31,14 @@ Test build
 
 Deploy a new version to the Google Play
 
+### android production
+
+```sh
+[bundle exec] fastlane android production
+```
+
+
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

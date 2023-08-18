@@ -31,6 +31,14 @@ Test build
 
 Push a new beta build to TestFlight
 
+### ios production
+
+```sh
+[bundle exec] fastlane ios production
+```
+
+
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.
