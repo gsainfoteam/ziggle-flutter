@@ -72,6 +72,7 @@ platform :ios do
       automatic_release: true,
       force: true,
       skip_binary_upload: true,
+      precheck_include_in_app_purchases: ENV['CI'] ? false : true,
       submission_information: {
         add_id_info_uses_idfa: false,
       }
