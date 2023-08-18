@@ -67,9 +67,7 @@ platform :ios do
 
   lane :production do
     app_store_connect_api_key(duration: 1200) if ENV['CI']
-    latest_testflight_build_number
     deliver(
-      version: lane_context[SharedValues::LATEST_TESTFLIGHT_VERSION],
       submit_for_review: true,
       automatic_release: true,
       force: true,
