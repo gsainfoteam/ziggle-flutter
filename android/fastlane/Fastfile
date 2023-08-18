@@ -48,6 +48,7 @@ platform :android do
         "../build/app/outputs/mapping/release/mapping.txt",
         "#{symbols_path}/native_symbol.zip",
       ],
+      skip_upload_metadata: true,
       skip_upload_images: true,
       skip_upload_screenshots: true,
     )
