@@ -1,0 +1,54 @@
+name: promote to production (android, iOS)
+
+on:
+  create:
+    tags:
+      - v*
+
+jobs:
+  promote:
+    strategy:
+      fail-fast: false
+      matrix:
+        build-os: [ubuntu-latest, macos-latest]
+        include:
+          - os: Android
+            build-os: ubuntu-latest
+          - os: iOS
+            build-os: macos-latest
+    name: Promote ${{ matrix.os }} App to Production
+    runs-on: ${{ matrix.build-os }}
+    concurrency:
+      group: ${{ matrix.os }}-production
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup env
+        run: |
+          echo "directory=$(echo ${{ matrix.os }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.0'
+      - name: Run fastlane
+        run: |
+          bundle install
+          bundle exec fastlane production
+        env:
+          APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_KEY: ${{ secrets.APP_STORE_CONNECT_KEY_CONTENT }}
+          SLACK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SUPPLY_JSON_KEY_DATA: ${{ secrets.SUPPLY_JSON_KEY_DATA }}
+        working-directory: ${{ env.directory }}
+
+      - name: action-slack
+        uses: 8398a7/action-slack@v3
+        if: ${{ failure() || cancelled() }}
+        with:
+          status: ${{ job.status }}
+          author_name: Github Action Build
+          mention: ${{ secrets.SLACK_MENTION }}
+          if_mention: 'failure,cancelled'
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
