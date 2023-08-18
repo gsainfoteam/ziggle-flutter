@@ -78,6 +78,9 @@ jobs:
         with:
           ruby-version: '3.2.0'
 
+      - name: Generate files
+        if: env.run == 'true'
+        run: dart run build_runner build --delete-conflicting-outputs
       - name: Run fastlane
         if: env.run == 'true'
         run: |
