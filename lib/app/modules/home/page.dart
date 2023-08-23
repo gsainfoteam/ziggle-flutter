@@ -25,7 +25,10 @@ class HomePage extends GetView<HomeController> {
                       .paddingSymmetric(horizontal: 20),
                   const SizedBox(height: 8),
                   _buildArticles(e),
-                  const SizedBox(height: 30),
+                  if (e.noPreview)
+                    const SizedBox(height: 16)
+                  else
+                    const SizedBox(height: 30),
                 ],
               )
               .toList(),
