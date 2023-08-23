@@ -36,7 +36,7 @@ class HomePage extends GetView<HomeController> {
 
   Widget _buildArticles(ArticleType type) {
     final articles = controller.articles[type]?.value;
-    if (articles == null) {
+    if (articles == null || type.noPreview) {
       return const SizedBox.shrink();
     }
     if (!type.isHorizontal) {

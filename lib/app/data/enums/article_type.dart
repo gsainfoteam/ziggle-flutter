@@ -7,6 +7,7 @@ enum ArticleType {
   event('🎈', id: 2),
   general('🔔', id: 3),
   academic('📰', id: 4),
+  all('🫧'),
   deadline('⭐️', sort: NoticeSort.deadline),
   hot('🔥', sort: NoticeSort.hot),
   my('🔥'),
@@ -20,13 +21,14 @@ enum ArticleType {
   final NoticeSort sort;
   String get header => '$emoji $title';
   String get label => '$emoji $shortTitle';
+  bool get noPreview => this == all;
   bool get isHorizontal => this == deadline;
   bool get isSearchable => searchables.contains(this);
   bool get isProfile => profile.contains(this);
 
   static const writables = [recruit, event, general];
   static const searchables = [...writables, academic];
-  static const main = [deadline, hot, ...searchables];
+  static const main = [all, deadline, hot, ...searchables];
   static const profile = [my, reminders];
 
   const ArticleType(this.emoji, {this.id = 0, NoticeSort? sort})
