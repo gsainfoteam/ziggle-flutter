@@ -25,7 +25,10 @@ class HomePage extends GetView<HomeController> {
                       .paddingSymmetric(horizontal: 20),
                   const SizedBox(height: 8),
                   _buildArticles(e),
-                  const SizedBox(height: 30),
+                  if (e.noPreview)
+                    const SizedBox(height: 16)
+                  else
+                    const SizedBox(height: 30),
                 ],
               )
               .toList(),
@@ -36,7 +39,7 @@ class HomePage extends GetView<HomeController> {
 
   Widget _buildArticles(ArticleType type) {
     final articles = controller.articles[type]?.value;
-    if (articles == null) {
+    if (articles == null || type.noPreview) {
       return const SizedBox.shrink();
     }
     if (!type.isHorizontal) {

@@ -1,6 +1,7 @@
 {
   "section": {
     "title(context=ArticleType, param=type)": {
+      "all": "전체 공지",
       "deadline": "기한 임박",
       "hot": "요즘 끓는 공지",
       "my": "내가 쓴 공지",
@@ -11,6 +12,7 @@
       "academic": "학사공지"
     },
     "description(context=ArticleType, param=type)": {
+      "all": "전체 공지들을 시간순으로 확인하세요",
       "deadline": "마감 시간이 일주일도 안 남은 공지를\n모아서 보여 드려요",
       "hot": "지난 일주일 동안 조회수가 150이 넘은 공지들이\n여기서 지글지글 끓고 있어요",
       "my": "내가 쓴 공지들을 모아서 보여 드려요",
@@ -21,6 +23,7 @@
       "academic": "지스트인이 해야 하는 일들"
     },
     "shortTitle(context=ArticleType, param=type)": {
+      "all": "전체 공지",
       "deadline": "기한 임박",
       "hot": "요즘 끓는 공지",
       "my": "내가 쓴 공지",
