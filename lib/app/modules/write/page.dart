@@ -16,15 +16,18 @@ class WritePage extends GetView<WriteController> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          _buildMeta().paddingSymmetric(vertical: 30, horizontal: 20),
-          const Divider(),
-          _buildBody().paddingSymmetric(vertical: 30),
-          const Divider(),
-          _buildFooter().paddingSymmetric(vertical: 20),
-        ],
+    return Scaffold(
+      appBar: AppBar(),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildMeta().paddingSymmetric(vertical: 30, horizontal: 20),
+            const Divider(),
+            _buildBody().paddingSymmetric(vertical: 30),
+            const Divider(),
+            _buildFooter().paddingSymmetric(vertical: 20),
+          ],
+        ),
       ),
     );
   }
