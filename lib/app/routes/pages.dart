@@ -13,6 +13,8 @@ import 'package:ziggle/app/modules/profile/binding.dart';
 import 'package:ziggle/app/modules/profile/page.dart';
 import 'package:ziggle/app/modules/splash/binding.dart';
 import 'package:ziggle/app/modules/splash/page.dart';
+import 'package:ziggle/app/modules/write/binding.dart';
+import 'package:ziggle/app/modules/write/page.dart';
 
 part 'routes.dart';
 
@@ -38,6 +40,12 @@ class AppPages {
       page: () => const RootPage(),
       binding: RootBinding(),
       children: [
+        GetPage(
+          name: _Paths.WRITE,
+          page: () => const WritePage(),
+          binding: WriteBinding(),
+          fullscreenDialog: true,
+        ),
         GetPage(
           name: _Paths.PROFILE,
           page: () => const ProfilePage(),

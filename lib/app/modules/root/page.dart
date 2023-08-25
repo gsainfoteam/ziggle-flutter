@@ -6,7 +6,7 @@ import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/modules/home/page.dart';
 import 'package:ziggle/app/modules/root/controller.dart';
 import 'package:ziggle/app/modules/search/page.dart';
-import 'package:ziggle/app/modules/write/page.dart';
+import 'package:ziggle/app/routes/pages.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -49,6 +49,18 @@ class RootPage extends GetView<RootController> {
           )
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Obx(() => controller.name.value == null
+          ? const SizedBox.shrink()
+          : ZiggleButton(
+              color: Palette.primaryColor,
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+              ),
+              onTap: () => Get.toNamed(Routes.WRITE),
+              child: const Icon(Icons.edit, color: Palette.white),
+            )),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: Palette.placeholder)),
@@ -67,8 +79,6 @@ class RootPage extends GetView<RootController> {
                         icon: const Icon(Icons.home), label: t.root.main),
                     BottomNavigationBarItem(
                         icon: const Icon(Icons.search), label: t.root.search),
-                    BottomNavigationBarItem(
-                        icon: const Icon(Icons.edit), label: t.root.write),
                   ],
                 ),
               ),
@@ -81,7 +91,7 @@ class RootPage extends GetView<RootController> {
         child: PageView(
           controller: controller.pageController,
           onPageChanged: controller.pageIndex,
-          children: const [HomePage(), SearchPage(), WritePage()],
+          children: const [HomePage(), SearchPage()],
         ),
       ),
     );
