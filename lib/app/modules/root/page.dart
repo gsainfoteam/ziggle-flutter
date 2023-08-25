@@ -59,7 +59,7 @@ class RootPage extends GetView<RootController> {
                 borderRadius: BorderRadius.all(Radius.circular(100)),
               ),
               onTap: () => Get.toNamed(Routes.WRITE),
-              child: const Icon(Icons.edit),
+              child: const Icon(Icons.edit, color: Palette.white),
             )),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
