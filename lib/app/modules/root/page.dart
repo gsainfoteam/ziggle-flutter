@@ -50,13 +50,17 @@ class RootPage extends GetView<RootController> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Get.toNamed(Routes.WRITE),
-        child: const Icon(
-          Icons.edit,
-          //  label: t.root.write
-        ),
-      ),
+      floatingActionButton: Obx(() => controller.name.value == null
+          ? const SizedBox.shrink()
+          : ZiggleButton(
+              color: Palette.primaryColor,
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(100)),
+              ),
+              onTap: () => Get.toNamed(Routes.WRITE),
+              child: const Icon(Icons.edit),
+            )),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           border: Border(top: BorderSide(color: Palette.placeholder)),
