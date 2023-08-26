@@ -595,6 +595,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
+  flutter_smartlook:
+    dependency: "direct main"
+    description:
+      name: flutter_smartlook
+      sha256: "4323517a7179dba093754ac64501ec703c986e6907607c65aa271cc4c1f41c7d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.8-flutter3.13.0"
   flutter_staggered_grid_view:
     dependency: "direct main"
     description:
@@ -1531,5 +1539,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=3.1.0 <4.0.0"
+  dart: ">=3.1.0 <=3.10.100"
   flutter: ">=3.10.0"
