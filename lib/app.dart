@@ -48,7 +48,7 @@ class _AppState extends State<App> {
             initialBinding: initialBinding,
             getPages: AppPages.routes,
             theme: appTheme,
-            navigatorObservers: [AnalyticsService.observer],
+            navigatorObservers: AnalyticsService.observers,
             builder: (context, child) => UpgradeAlert(
               upgrader: Upgrader(
                 dialogStyle: UpgradeDialogStyle.cupertino,

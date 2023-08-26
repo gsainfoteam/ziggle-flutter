@@ -1,5 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
@@ -7,55 +8,72 @@ import 'package:ziggle/app/data/services/user/service.dart';
 class AnalyticsService {
   static AnalyticsService get to => Get.find();
   final UserService _userService;
-  static final _instance = FirebaseAnalytics.instance;
+  static final _analytics = FirebaseAnalytics.instance;
+  static final _smartlook = Smartlook.instance;
 
   AnalyticsService(this._userService) {
     _userService.getUserInfo().listen((event) {
-      _instance
+      _analytics
         ..setUserId(id: event?.uuid)
         ..setUserProperty(name: 'studentId', value: event?.studentId)
         ..setUserProperty(name: 'email', value: event?.email);
+      if (event != null) {
+        _smartlook.user
+          ..setIdentifier(event.uuid)
+          ..setEmail(event.email);
+      }
     });
   }
 
-  static NavigatorObserver get observer => FirebaseAnalyticsObserver(
-      analytics: _instance, nameExtractor: (_) => Get.currentRoute);
+  static List<NavigatorObserver> get observers => [
+        FirebaseAnalyticsObserver(
+            analytics: _analytics, nameExtractor: (_) => Get.currentRoute),
+        SmartlookObserver(),
+      ];
 
-  logChangePage(String screenName) =>
-      _instance.setCurrentScreen(screenName: screenName);
+  logChangePage(String screenName) {
+    _analytics.setCurrentScreen(screenName: screenName);
+    _smartlook.trackNavigationEnter(screenName);
+  }
 
-  logTryLogin() => _instance.logEvent(name: 'try_login');
-  logLoginCancel(String reason) =>
-      _instance.logEvent(name: 'login_cancel', parameters: {'reason': reason});
-  logLogin() => _instance.logLogin(loginMethod: 'IdP');
-  logLoginAnonymous() => _instance.logLogin(loginMethod: 'anonymous');
-  logLogout() => _instance.logEvent(name: 'logout');
-  logLogoutAnonymous() => _instance.logEvent(name: 'logout_anonymous');
+  _log(String name, [Map<String, dynamic>? parameters]) {
+    _analytics.logEvent(name: name, parameters: parameters);
+    final properties = Properties();
+    parameters?.forEach((key, value) {
+      properties.putString(key, value: value.toString());
+    });
+    _smartlook.trackEvent(name, properties: properties);
+  }
 
-  logTryReminder() => _instance.logEvent(name: 'try_reminder');
-  logToggleReminder(bool set) => _instance
-      .logEvent(name: 'toggle_reminder', parameters: {'set': set ? 1 : 0});
-  logHideReminderTooltip() => _instance.logEvent(name: 'hide_reminder_tooltip');
-  logChangeImageCarousel(int page) => _instance
-      .logEvent(name: 'change_image_carousel', parameters: {'page': page});
+  logTryLogin() => _log('try_login');
+  logLoginCancel(String reason) => _log('login_cancel', {'reason': reason});
+  logLogin() => _log('login', {'method': 'IdP'});
+  logLoginAnonymous() => _log('login', {'method': 'anonymous'});
+  logLogout() => _log('logout');
+  logLogoutAnonymous() => _log('logout_anonymous');
 
-  logSearch(String query, Iterable<ArticleType> types) =>
-      _instance.logEvent(name: 'search', parameters: {
+  logTryReminder() => _log('try_reminder');
+  logToggleReminder(bool set) => _log('toggle_reminder', {'set': set ? 1 : 0});
+  logHideReminderTooltip() => _log('hide_reminder_tooltip');
+  logChangeImageCarousel(int page) =>
+      _log('change_image_carousel', {'page': page});
+
+  logSearch(String query, Iterable<ArticleType> types) => _log('search', {
         'query': query,
         'types': types.map((e) => e.name).join(', '),
       });
 
-  logOpenPrivacyPolicy() => _instance.logEvent(name: 'open_privacy_policy');
-  logOpenTermsOfService() => _instance.logEvent(name: 'open_terms_of_service');
-  logOpenWithdrawal() => _instance.logEvent(name: 'open_withdrawal');
+  logOpenPrivacyPolicy() => _log('open_privacy_policy');
+  logOpenTermsOfService() => _log('open_terms_of_service');
+  logOpenWithdrawal() => _log('open_withdrawal');
 
-  logPreviewArticle() => _instance.logEvent(name: 'preview_article');
-  logTrySelectImage() => _instance.logEvent(name: 'try_select_image');
-  logSelectImage() => _instance.logEvent(name: 'select_image');
-  logTrySubmitArticle() => _instance.logEvent(name: 'try_submit_article');
-  logSubmitArticle() => _instance.logEvent(name: 'submit_article');
-  logSubmitArticleCancel(String reason) => _instance
-      .logEvent(name: 'submit_article_cancel', parameters: {'reason': reason});
-  logTryReport() => _instance.logEvent(name: 'try_report');
-  logReport() => _instance.logEvent(name: 'report');
+  logPreviewArticle() => _log('preview_article');
+  logTrySelectImage() => _log('try_select_image');
+  logSelectImage() => _log('select_image');
+  logTrySubmitArticle() => _log('try_submit_article');
+  logSubmitArticle() => _log('submit_article');
+  logSubmitArticleCancel(String reason) =>
+      _log('submit_article_cancel', {'reason': reason});
+  logTryReport() => _log('try_report');
+  logReport() => _log('report');
 }
