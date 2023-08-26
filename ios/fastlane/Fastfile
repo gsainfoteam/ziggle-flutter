@@ -67,7 +67,9 @@ platform :ios do
 
   lane :production do
     app_store_connect_api_key(duration: 1200) if ENV['CI']
+    latest_testflight_build_number
     deliver(
+      app_version: lane_context[SharedValues::LATEST_TESTFLIGHT_VERSION],
       submit_for_review: true,
       automatic_release: true,
       force: true,
@@ -75,7 +77,8 @@ platform :ios do
       precheck_include_in_app_purchases: ENV['CI'] ? false : true,
       submission_information: {
         add_id_info_uses_idfa: false,
-      }
+      },
+      reject_if_possible: true,
     )
     slack(
       payload: {
