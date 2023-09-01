@@ -110,6 +110,9 @@ class ArticleBody extends StatelessWidget {
     if (urlString == null) return;
     final url = Uri.tryParse(urlString);
     if (url == null) return;
-    launchUrl(url);
+    launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    );
   }
 }
