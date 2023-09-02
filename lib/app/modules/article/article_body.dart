@@ -106,10 +106,18 @@ class ArticleBody extends StatelessWidget {
     );
   }
 
-  _openUrl(String? urlString) {
+  _openUrl(String? urlString) async {
     if (urlString == null) return;
     final url = Uri.tryParse(urlString);
     if (url == null) return;
-    launchUrl(url);
+    try {
+      final result =
+          await launchUrl(url, mode: LaunchMode.externalNonBrowserApplication);
+      if (!result) {
+        await launchUrl(url, mode: LaunchMode.externalApplication);
+      }
+    } catch (_) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    }
   }
 }
