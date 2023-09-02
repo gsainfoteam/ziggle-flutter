@@ -12,8 +12,11 @@ class SplashController extends GetxController {
   }
 
   _init() async {
-    await _userService.getUserInfo().first;
-    await Get.defaultTransitionDuration.delay();
-    FlutterNativeSplash.remove();
+    try {
+      await _userService.getUserInfo().first;
+      await Get.defaultTransitionDuration.delay();
+    } finally {
+      FlutterNativeSplash.remove();
+    }
   }
 }
