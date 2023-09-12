@@ -9,8 +9,10 @@ environment:
 dependencies:
   cached_network_image: ^3.2.3
   collection: ^1.17.1
+  cookie_jar: ^4.0.8
   crypto: ^3.0.3
   dio: ^5.2.1+1
+  dio_cookie_manager: ^3.1.0+1
   firebase_analytics: ^10.4.0
   firebase_core: ^2.15.0
   firebase_crashlytics: ^3.3.4
@@ -35,6 +37,7 @@ dependencies:
   intl: ^0.18.1
   json_annotation: ^4.8.1
   markdown: ^7.1.0
+  path_provider: ^2.1.1
   retrofit: ^4.0.1
   slang: ^3.21.0
   slang_flutter: ^3.21.0

@@ -22,6 +22,12 @@ abstract class ApiProvider {
   @GET('/user/login')
   Future<LoginResponse> login(@Query('code') String authCode);
 
+  @POST('/user/refresh')
+  Future<LoginResponse> refresh();
+
+  @POST('/user/logout')
+  Future logout(@Field('access_token') String accessToken);
+
   @GET('/user/info')
   Future<UserInfoResponse> userInfo();
 

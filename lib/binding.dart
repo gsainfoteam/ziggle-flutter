@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/data/provider/api.dart';
@@ -14,10 +15,7 @@ import 'package:ziggle/app/data/services/user/service.dart';
 
 final initialBinding = BindingsBuilder(() {
   Get.lazyPut(
-    () => Dio()
-      ..interceptors.addAll([
-        JwtInterceptor(Get.find()),
-      ]),
+    () => Dio()..interceptors.add(CookieManager(Get.find())),
     fenix: true,
   );
   Get.lazyPut(() => ApiProvider(Get.find()), fenix: true);
@@ -38,4 +36,8 @@ final initialBinding = BindingsBuilder(() {
   Get.put(MessageService(Get.find(), Get.find()));
   Get.lazyPut(() => AnalyticsService(Get.find()), fenix: true);
   Get.put(ApiChannelProvider());
+
+  Get.find<Dio>().interceptors.add(
+        JwtInterceptor(Get.find(), Get.find(), Get.find()),
+      );
 });
