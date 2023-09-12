@@ -3,8 +3,9 @@ const idpRedirectScheme = 'ziggle-idp-login-redirect';
 const idpPath = '/authorize'
     '?client_id=$_idpClientId'
     '&redirect_uri=$idpRedirectScheme://callback'
-    '&scope=openid%20profile%20email%20student_id'
-    '&response_type=code';
+    '&scope=openid%20profile%20email%20student_id%20offline_access'
+    '&response_type=code'
+    '&prompt=consent';
 const reloginIdpPath = '$idpPath&prompt=login';
 const privacyPolicyUrl =
     'https://infoteam-rulrudino.notion.site/ceb9340c0b514497b6d916c4a67590a1';
