@@ -14,11 +14,11 @@ import 'package:ziggle/firebase_options.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 void main() async {
-  await initializeDateFormatting('ko_KR', null);
-  Intl.defaultLocale = 'ko_KR';
   final widgetsBining = WidgetsFlutterBinding.ensureInitialized();
+  final locale = LocaleSettings.useDeviceLocale();
+  await initializeDateFormatting();
+  Intl.defaultLocale = locale.languageCode;
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBining);
-  LocaleSettings.useDeviceLocale();
   await Future.wait([
     DbProvider.init(),
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),

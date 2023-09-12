@@ -1,5 +1,5 @@
 {
-  "enter": "검색어를 입력해주세요",
-  "noResult": "검색 결과가 존재하지 않습니다.",
-  "queryHint": "검색어"
+  "enter": "Please enter a search term",
+  "noResult": "No results found",
+  "queryHint": "Search term"
 }
