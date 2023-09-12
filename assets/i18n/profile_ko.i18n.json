@@ -1,0 +1,11 @@
+{
+  "title": "마이페이지",
+  "logout": "로그아웃",
+  "name": "이름",
+  "studentId": "학번",
+  "mail": "메일",
+  "others": "외 $count개",
+  "privacyPolicy": "개인정보처리방침",
+  "termsOfService": "이용약관",
+  "withdrawal": "회원탈퇴"
+}
