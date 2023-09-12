@@ -1,0 +1,3 @@
+Zigzag is now live - see all of your GIST announcements at a glance with Ziggle!
+
++ App usability improvements. 
