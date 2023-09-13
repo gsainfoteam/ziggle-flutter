@@ -9,7 +9,10 @@ class DbProvider {
     await Hive.initFlutter();
     Hive.registerAdapter(WriteStoreAdapter());
     await Future.wait([
-      Hive.openBox(_settingBoxName),
+      Hive.openBox(_settingBoxName).catchError((_) async {
+        await Hive.deleteBoxFromDisk(_settingBoxName);
+        return Hive.openBox(_settingBoxName);
+      }),
     ]);
   }
 
