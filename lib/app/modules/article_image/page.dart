@@ -36,8 +36,9 @@ class ArticleImagePage extends GetView<ArticleImageController> {
                   child: CachedNetworkImage(
                     imageUrl: controller.images[index],
                     fit: BoxFit.contain,
-                    placeholder: (_, __) =>
-                        const CircularProgressIndicator.adaptive(),
+                    placeholder: (_, __) => const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
                   ),
                 ),
               ),
