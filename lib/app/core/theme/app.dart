@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/core/theme/font.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
-import 'package:ziggle/gen/fonts.gen.dart';
 
 final appTheme = ThemeData(
-  fontFamily: FontFamily.notoSansKR,
+  fontFamily: Pretendard.fontFamily,
   useMaterial3: true,
   scaffoldBackgroundColor: Palette.white,
   brightness: Brightness.light,
