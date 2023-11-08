@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:ziggle/app.dart';
+import 'package:ziggle/app/core/theme/font.dart';
 import 'package:ziggle/app/data/provider/db.dart';
 import 'package:ziggle/firebase_options.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -19,6 +20,7 @@ void main() async {
   await initializeDateFormatting();
   Intl.defaultLocale = locale.languageCode;
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBining);
+  Pretendard.register();
   await Future.wait([
     DbProvider.init(),
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
