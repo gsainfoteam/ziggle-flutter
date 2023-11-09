@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -11,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:ziggle/app.dart';
 import 'package:ziggle/app/core/theme/font.dart';
 import 'package:ziggle/app/data/provider/db.dart';
+import 'package:ziggle/app_bloc_observer.dart';
 import 'package:ziggle/firebase_options.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -19,6 +21,7 @@ void main() async {
   await _preInit();
   _initCrashlytics();
   _initFont();
+  _initBloc();
   runApp(TranslationProvider(child: const App()));
 }
 
@@ -50,7 +53,7 @@ Future<void> _preInit() async {
 }
 
 void _initCrashlytics() {
-  if (!kDebugMode) {
+  if (kReleaseMode) {
     FlutterError.onError = (errorDetails) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
     };
@@ -63,4 +66,10 @@ void _initCrashlytics() {
 
 void _initFont() {
   Pretendard.register();
+}
+
+void _initBloc() {
+  if (kDebugMode) {
+    Bloc.observer = AppBlocObserver();
+  }
 }
