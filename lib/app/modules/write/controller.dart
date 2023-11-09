@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:markdown/markdown.dart';
 import 'package:textfield_tags/textfield_tags.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
@@ -14,7 +15,6 @@ import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/write/article_preview_sheet.dart';
 import 'package:ziggle/app/modules/write/repository.dart';
-import 'package:ziggle/app/routes/pages.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class WriteController extends GetxController {
@@ -133,7 +133,7 @@ class WriteController extends GetxController {
     try {
       final result = await _repository.write(_writeData);
 
-      Get.toNamed(Routes.ARTICLE, parameters: {'id': result.id.toString()});
+      Get.toNamed(Paths.article, parameters: {'id': result.id.toString()});
       await Get.defaultTransitionDuration.delay();
       _reset();
       _analyticsService.logSubmitArticle();

@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/data/model/user_info_response.dart';
 import 'package:ziggle/app/data/provider/fcm.dart';
 import 'package:ziggle/app/data/services/token/repository.dart';
 import 'package:ziggle/app/data/services/user/repository.dart';
-import 'package:ziggle/app/routes/pages.dart';
 
 class UserService extends GetxService {
   static UserService get to => Get.find();
@@ -23,7 +23,7 @@ class UserService extends GetxService {
     _controller.stream.listen((user) async {
       _user = user;
       Get.offAllNamed(
-        (user == null && !_skipLogin) ? Routes.LOGIN : Routes.ROOT,
+        (user == null && !_skipLogin) ? Paths.login : Paths.root,
       );
       final fcmToken =
           await _fcmProvider.getFcmToken().firstWhere((token) => token != null);

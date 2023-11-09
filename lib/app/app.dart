@@ -4,13 +4,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/theme/app.dart';
 import 'package:ziggle/app/core/values/colors.dart';
-import 'package:ziggle/app/data/services/analytics/service.dart';
-import 'package:ziggle/binding.dart';
 import 'package:ziggle/gen/strings.g.dart';
-
-import 'routes/pages.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -39,16 +36,12 @@ class _AppState extends State<App> {
         ),
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: GetMaterialApp(
+          child: MaterialApp.router(
+            theme: appTheme,
+            routerConfig: Routes.config,
             locale: TranslationProvider.of(context).flutterLocale,
             supportedLocales: AppLocaleUtils.supportedLocales,
             localizationsDelegates: GlobalMaterialLocalizations.delegates,
-            debugShowCheckedModeBanner: false,
-            initialRoute: AppPages.INITIAL,
-            initialBinding: initialBinding,
-            getPages: AppPages.routes,
-            theme: appTheme,
-            navigatorObservers: AnalyticsService.observers,
             builder: (context, child) => UpgradeAlert(
               upgrader: Upgrader(
                 dialogStyle: UpgradeDialogStyle.cupertino,

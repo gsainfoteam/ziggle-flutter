@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/profile/repository.dart';
-import 'package:ziggle/app/routes/pages.dart';
 
 class ProfileController extends GetxController {
   final _userService = UserService.to;
@@ -62,10 +62,10 @@ class ProfileController extends GetxController {
   }
 
   goToList(ArticleType e) {
-    Get.toNamed(Routes.ARTICLE_SECTION, parameters: {'type': e.name});
+    Get.toNamed(Paths.articleSection, parameters: {'type': e.name});
   }
 
   goToDetail(ArticleSummaryResponse article) {
-    Get.toNamed(Routes.ARTICLE, parameters: {'id': article.id.toString()});
+    Get.toNamed(Paths.article, parameters: {'id': article.id.toString()});
   }
 }

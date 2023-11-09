@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/article/repository.dart';
-import 'package:ziggle/app/routes/pages.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class ArticleController extends GetxController {
@@ -66,7 +66,7 @@ class ArticleController extends GetxController {
 
   onImageTap(int index) async {
     final result = await Get.toNamed(
-      Routes.ARTICLE_IMAGE,
+      Paths.articleImage,
       arguments: {
         'page': index + 1,
         'images': article.value?.imagesUrl ?? [],

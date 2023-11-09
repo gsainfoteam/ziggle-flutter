@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/modules/search/repository.dart';
-import 'package:ziggle/app/routes/pages.dart';
 
 class SearchController extends GetxController {
   final query = ''.obs;
@@ -69,6 +69,6 @@ class SearchController extends GetxController {
   }
 
   goToDetail(int id) {
-    Get.toNamed(Routes.ARTICLE, parameters: {'id': id.toString()});
+    Get.toNamed(Paths.article, parameters: {'id': id.toString()});
   }
 }

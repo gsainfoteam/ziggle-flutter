@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
-import 'package:ziggle/app/routes/pages.dart';
 
 class RootController extends GetxController {
   final pageIndex = 0.obs;
@@ -40,7 +40,7 @@ class RootController extends GetxController {
       curve: Curves.easeOut,
     );
     _analyticsService.logChangePage(
-      [Routes.HOME, Routes.SEARCH, Routes.WRITE][page],
+      [Paths.home, Paths.search, Paths.write][page],
     );
   }
 
@@ -50,6 +50,6 @@ class RootController extends GetxController {
       _analyticsService.logLogoutAnonymous();
       return;
     }
-    Get.toNamed(Routes.PROFILE);
+    Get.toNamed(Paths.profile);
   }
 }

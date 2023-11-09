@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/theme/text.dart';
 import 'package:ziggle/app/core/values/colors.dart';
 import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/modules/home/page.dart';
 import 'package:ziggle/app/modules/root/controller.dart';
 import 'package:ziggle/app/modules/search/page.dart';
-import 'package:ziggle/app/routes/pages.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -58,7 +58,7 @@ class RootPage extends GetView<RootController> {
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(100)),
               ),
-              onTap: () => Get.toNamed(Routes.WRITE),
+              onTap: () => Get.toNamed(Paths.write),
               child: const Icon(Icons.edit, color: Palette.white),
             )),
       bottomNavigationBar: Container(
