@@ -15,24 +15,41 @@ import 'package:ziggle/firebase_options.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 void main() async {
+  _initSplash();
+  await _preInit();
+  _initCrashlytics();
+  _initFont();
+  runApp(TranslationProvider(child: const App()));
+}
+
+void _initSplash() {
   final widgetsBining = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBining);
+}
+
+Future<void> _initLocale() async {
   final locale = LocaleSettings.useDeviceLocale();
   await initializeDateFormatting();
   Intl.defaultLocale = locale.languageCode;
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBining);
-  Pretendard.register();
+}
+
+Future<void> _preInit() async {
   await Future.wait([
+    _initLocale(),
     DbProvider.init(),
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    Get.putAsync<CookieJar>(() async {
+      final appDocDir = await getApplicationDocumentsDirectory();
+      final appDocPath = appDocDir.path;
+      return PersistCookieJar(
+        ignoreExpires: true,
+        storage: FileStorage("$appDocPath/.cookies/"),
+      );
+    })
   ]);
-  await Get.putAsync<CookieJar>(() async {
-    final appDocDir = await getApplicationDocumentsDirectory();
-    final appDocPath = appDocDir.path;
-    return PersistCookieJar(
-      ignoreExpires: true,
-      storage: FileStorage("$appDocPath/.cookies/"),
-    );
-  });
+}
+
+void _initCrashlytics() {
   if (!kDebugMode) {
     FlutterError.onError = (errorDetails) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -42,5 +59,8 @@ void main() async {
       return true;
     };
   }
-  runApp(TranslationProvider(child: const App()));
+}
+
+void _initFont() {
+  Pretendard.register();
 }
