@@ -10,7 +10,7 @@ import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/binding.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-import 'app/routes/pages.dart';
+import 'routes/pages.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
