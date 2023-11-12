@@ -2,14 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/auth/domain/entities/user_entity.dart';
-import 'package:ziggle/app/modules/auth/domain/repositories/token_storage.dart';
+import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/user_repository.dart';
 
 part 'auth_bloc.freezed.dart';
 
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final TokenStorage _storage;
+  final TokenRepository _storage;
   final UserRepository _repository;
 
   AuthBloc(this._storage, this._repository) : super(const AuthState.initial()) {
