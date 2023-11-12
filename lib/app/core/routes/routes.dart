@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/splash_page.dart';
@@ -9,6 +10,7 @@ abstract class Routes {
 
   static final config = GoRouter(
     initialLocation: _Paths.splash,
+    debugLogDiagnostics: kDebugMode,
     routes: [
       GoRoute(
         path: _Paths.splash,
