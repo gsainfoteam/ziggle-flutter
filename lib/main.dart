@@ -16,7 +16,7 @@ import 'package:ziggle/gen/strings.g.dart';
 
 void main() async {
   _initSplash();
-  configureDependencies();
+  await configureDependencies();
   await _preInit();
   _initCrashlytics();
   _initFont();

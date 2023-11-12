@@ -15,6 +15,7 @@ abstract class Module {
     ),
   );
 
+  @preResolve
   @singleton
   Future<CookieJar> makeCookieJar() async {
     final appDocDir = await getApplicationDocumentsDirectory();

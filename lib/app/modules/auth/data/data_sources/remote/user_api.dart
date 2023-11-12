@@ -9,7 +9,7 @@ part 'user_api.g.dart';
 @RestApi(baseUrl: 'user/')
 abstract class UserApi {
   @factoryMethod
-  factory UserApi(Dio dio, {String baseUrl}) = _UserApi;
+  factory UserApi(Dio dio) = _UserApi;
 
   // @GET('login')
   // Future<LoginResponse> login(@Query('code') String authCode);
