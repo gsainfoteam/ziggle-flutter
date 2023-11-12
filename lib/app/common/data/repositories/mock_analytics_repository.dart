@@ -38,4 +38,9 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logLogoutAnonymous() {
     debugPrint('Analytics: logout anonymous');
   }
+
+  @override
+  logLogout() {
+    debugPrint('Analytics: logout');
+  }
 }

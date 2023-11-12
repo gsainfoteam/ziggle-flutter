@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/entities/user_entity.dart';
+import 'package:ziggle/app/modules/auth/domain/repositories/auth_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/user_repository.dart';
 
@@ -13,12 +14,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final TokenRepository _storage;
   final UserRepository _repository;
   final AnalyticsRepository _analytics;
+  final AuthRepository _authRepository;
   bool _isAnonymous = false;
 
   AuthBloc(
     this._storage,
     this._repository,
     this._analytics,
+    this._authRepository,
   ) : super(const AuthState.initial()) {
     on<_Load>((event, emit) async {
       return emit.forEach(
@@ -52,6 +55,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _analytics.logLoginAnonymous();
       _isAnonymous = true;
       emit(const AuthState.anonymous());
+    });
+    on<_Logout>((event, emit) {
+      _authRepository.setRecentLogout();
+      if (_isAnonymous) {
+        _analytics.logLogoutAnonymous();
+      } else {
+        _analytics.logLogout();
+      }
+      _isAnonymous = false;
+      _storage.delete();
     });
   }
 }
