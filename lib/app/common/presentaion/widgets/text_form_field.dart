@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 
 class ZiggleTextFormField extends StatelessWidget {
   final String? hintText;

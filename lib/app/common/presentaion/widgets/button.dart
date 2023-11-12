@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 
 class ZiggleButton extends StatelessWidget {
   final Widget? child;

@@ -2,8 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
-import 'package:ziggle/app/global_widgets/button.dart';
 import 'package:ziggle/app/modules/write/gallery_item_button.dart';
 import 'package:ziggle/gen/strings.g.dart';
 

@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:ziggle/app/modules/login/page.dart';
-import 'package:ziggle/app/modules/splash/page.dart';
+import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
+import 'package:ziggle/app/modules/auth/presentation/pages/splash_page.dart';
 
 part 'paths.dart';
 

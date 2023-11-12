@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/modules/article/page_spinner.dart';
 import 'package:ziggle/app/modules/article_image/controller.dart';
 

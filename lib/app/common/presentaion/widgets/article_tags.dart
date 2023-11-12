@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/core/theme/text.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/themes/text.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
 

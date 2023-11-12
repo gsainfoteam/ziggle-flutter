@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 
 abstract class TextStyles {
   TextStyles._();

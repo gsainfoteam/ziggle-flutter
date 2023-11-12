@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/core/theme/font.dart';
-import 'package:ziggle/app/core/theme/text.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/themes/font.dart';
+import 'package:ziggle/app/core/themes/text.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 
 final appTheme = ThemeData(
   fontFamily: Pretendard.fontFamily,

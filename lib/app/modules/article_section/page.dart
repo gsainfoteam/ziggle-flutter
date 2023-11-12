@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:ziggle/app/core/theme/text.dart';
+import 'package:ziggle/app/common/presentaion/widgets/article_card.dart';
+import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
-import 'package:ziggle/app/global_widgets/article_card.dart';
 import 'package:ziggle/app/modules/article_section/controller.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';

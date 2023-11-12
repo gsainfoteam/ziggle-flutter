@@ -10,7 +10,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:ziggle/app/app.dart';
-import 'package:ziggle/app/core/theme/font.dart';
+import 'package:ziggle/app/core/themes/font.dart';
 import 'package:ziggle/app/data/provider/db.dart';
 import 'package:ziggle/app_bloc_observer.dart';
 import 'package:ziggle/firebase_options.dart';

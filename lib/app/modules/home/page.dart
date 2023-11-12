@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:ziggle/app/common/presentaion/widgets/article_card.dart';
+import 'package:ziggle/app/common/presentaion/widgets/section_header.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
-import 'package:ziggle/app/global_widgets/article_card.dart';
-import 'package:ziggle/app/global_widgets/section_header.dart';
 import 'package:ziggle/app/modules/home/controller.dart';
 
 class HomePage extends GetView<HomeController> {

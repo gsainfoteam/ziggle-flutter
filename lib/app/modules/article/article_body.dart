@@ -3,14 +3,14 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:ziggle/app/core/theme/text.dart';
+import 'package:ziggle/app/common/presentaion/widgets/article_tags.dart';
+import 'package:ziggle/app/common/presentaion/widgets/button.dart';
+import 'package:ziggle/app/common/presentaion/widgets/d_day.dart';
+import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
-import 'package:ziggle/app/global_widgets/article_tags.dart';
-import 'package:ziggle/app/global_widgets/button.dart';
-import 'package:ziggle/app/global_widgets/d_day.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class ArticleBody extends StatelessWidget {

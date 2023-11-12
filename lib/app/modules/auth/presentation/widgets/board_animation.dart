@@ -4,8 +4,8 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/core/values/colors.dart';
-import 'package:ziggle/app/global_widgets/button.dart';
+import 'package:ziggle/app/common/presentaion/widgets/button.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 
 const _kGap = 12.0;
 const _kWidth = 160.0;

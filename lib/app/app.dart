@@ -5,8 +5,8 @@ import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
-import 'package:ziggle/app/core/theme/app.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/themes/app.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class App extends StatefulWidget {

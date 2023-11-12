@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/core/theme/text.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/common/presentaion/widgets/article_card.dart';
+import 'package:ziggle/app/common/presentaion/widgets/button.dart';
+import 'package:ziggle/app/common/presentaion/widgets/section_header.dart';
+import 'package:ziggle/app/core/themes/text.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
-import 'package:ziggle/app/global_widgets/article_card.dart';
-import 'package:ziggle/app/global_widgets/button.dart';
-import 'package:ziggle/app/global_widgets/section_header.dart';
 import 'package:ziggle/app/modules/profile/controller.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';

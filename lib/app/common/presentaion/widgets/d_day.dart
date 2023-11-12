@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/core/theme/text.dart';
-import 'package:ziggle/app/core/values/colors.dart';
+import 'package:ziggle/app/core/themes/text.dart';
+import 'package:ziggle/app/core/values/palette.dart';
 
 class DDay extends StatelessWidget {
   final int dDay;

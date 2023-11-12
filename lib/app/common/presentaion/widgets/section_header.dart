@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/core/theme/text.dart';
+import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
