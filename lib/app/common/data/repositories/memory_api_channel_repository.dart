@@ -12,7 +12,9 @@ class MemoryApiChannelRepository implements ApiChannelRepository {
   final _controller = StreamController<ApiChannel>.broadcast();
   final Dio _dio;
 
-  MemoryApiChannelRepository(this._dio);
+  MemoryApiChannelRepository(this._dio) {
+    _dio.options.baseUrl = _channel.baseUrl;
+  }
 
   @override
   void setChannel(ApiChannel channel) {
