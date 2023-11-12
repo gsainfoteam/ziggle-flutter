@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:crypto/crypto.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:get/get.dart';
@@ -63,23 +59,5 @@ class LoginController extends GetxController {
     launchUrl(Uri.parse(termsOfServiceUrl));
   }
 
-  void openHidden() async {
-    final text = TextEditingController();
-    await Get.dialog(
-      CupertinoAlertDialog(
-        title: const Text('enter password'),
-        content: CupertinoTextField(controller: text),
-      ),
-    );
-    final password = text.text;
-    text.dispose();
-    final bytes = utf8.encode(password);
-    final digest = sha1.convert(bytes).toString();
-    if (digest != 'bf782aa0b57c80e2b10b2f195327a32f60e250af') return;
-    // final channel = ApiChannelProvider.to.toggleChannel();
-    // Get.showSnackbar(GetSnackBar(
-    //   message: 'current using ${channel.baseUrl}',
-    //   duration: const Duration(seconds: 2),
-    // ));
-  }
+  void openHidden() async {}
 }
