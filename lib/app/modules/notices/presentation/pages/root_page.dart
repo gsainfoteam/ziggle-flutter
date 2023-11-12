@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -27,9 +26,8 @@ class RootPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimatedBranchContainer(
-        currentIndex: shell.currentIndex,
-        children: children,
+      body: SizedBox.expand(
+        child: _InnerPage(shell: shell, children: children),
       ),
       appBar: AppBar(
         leadingWidth: 80,
@@ -111,41 +109,44 @@ class RootPage extends StatelessWidget {
   }
 }
 
-class AnimatedBranchContainer extends StatelessWidget {
-  /// Creates a AnimatedBranchContainer
-  const AnimatedBranchContainer(
-      {super.key, required this.currentIndex, required this.children});
+class _InnerPage extends StatefulWidget {
+  const _InnerPage({
+    required this.shell,
+    required this.children,
+  });
 
-  /// The index (in [children]) of the branch Navigator to display.
-  final int currentIndex;
-
-  /// The children (branch Navigators) to display in this container.
+  final StatefulNavigationShell shell;
   final List<Widget> children;
 
   @override
-  Widget build(BuildContext context) {
-    print(children);
-    return Stack(
-        children: children.mapIndexed(
-      (int index, Widget navigator) {
-        return AnimatedScale(
-          scale: index == currentIndex ? 1 : 1.5,
-          duration: const Duration(milliseconds: 400),
-          child: AnimatedOpacity(
-            opacity: index == currentIndex ? 1 : 0,
-            duration: const Duration(milliseconds: 400),
-            child: _branchNavigatorWrapper(index, navigator),
-          ),
-        );
-      },
-    ).toList());
+  State<_InnerPage> createState() => _InnerPageState();
+}
+
+class _InnerPageState extends State<_InnerPage> {
+  final _controller = PageController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
-  Widget _branchNavigatorWrapper(int index, Widget navigator) => IgnorePointer(
-        ignoring: index != currentIndex,
-        child: TickerMode(
-          enabled: index == currentIndex,
-          child: navigator,
-        ),
-      );
+  @override
+  void didUpdateWidget(covariant _InnerPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _controller.animateToPage(
+      widget.shell.currentIndex,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView(
+      controller: _controller,
+      onPageChanged: widget.shell.goBranch,
+      children: widget.children,
+    );
+  }
 }

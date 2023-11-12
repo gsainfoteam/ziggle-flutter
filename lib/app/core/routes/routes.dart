@@ -27,6 +27,7 @@ abstract class Routes {
       listener: (context, state) => context.go(Paths.login),
       buildWhen: (previous, current) => previous == const AuthState.initial(),
       builder: (context, state) => state.maybeWhen(
+        anonymous: () => child,
         authenticated: (_) => child,
         orElse: () => const SizedBox.shrink(),
       ),
