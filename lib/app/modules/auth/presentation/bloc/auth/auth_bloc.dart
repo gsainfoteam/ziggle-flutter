@@ -21,7 +21,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     this._analytics,
   ) : super(const AuthState.initial()) {
     on<_Load>((event, emit) async {
-      emit(const AuthState.loading());
       return emit.forEach(
         _storage.read().asyncMap((token) async {
           if (_isAnonymous) return const AuthState.anonymous();
@@ -62,6 +61,7 @@ class AuthEvent with _$AuthEvent {
   const factory AuthEvent.load() = _Load;
   const factory AuthEvent.loginAnonymous() = _LoginAnonymous;
   const factory AuthEvent.login() = _Login;
+  const factory AuthEvent.logout() = _Logout;
 }
 
 @freezed

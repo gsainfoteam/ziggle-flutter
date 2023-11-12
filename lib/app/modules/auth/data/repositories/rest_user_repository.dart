@@ -31,7 +31,7 @@ class RestUserRepository implements UserRepository {
     final auth = await _authRepository.login();
     try {
       final token = await _api.login(auth.authCode);
-      _tokenRepository.save(token.accessToken);
+      await _tokenRepository.save(token.accessToken);
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
         throw WrongAuthCodeException();

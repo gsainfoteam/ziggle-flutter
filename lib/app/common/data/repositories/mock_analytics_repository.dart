@@ -33,4 +33,9 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logTryLogin() {
     debugPrint('Analytics: try login');
   }
+
+  @override
+  logLogoutAnonymous() {
+    debugPrint('Analytics: logout anonymous');
+  }
 }

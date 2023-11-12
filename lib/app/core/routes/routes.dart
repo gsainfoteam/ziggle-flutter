@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
@@ -7,14 +7,18 @@ import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart'
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
-import 'package:ziggle/app/modules/home/page.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/root_page.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 part 'paths.dart';
 
 abstract class Routes {
   Routes._();
 
+  static final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
   static final _authRoutes = ShellRoute(
+    navigatorKey: _rootNavigatorKey,
     builder: (context, state, child) => BlocConsumer<AuthBloc, AuthState>(
       listenWhen: (context, state) => state.maybeWhen(
         unauthenticated: () => true,
@@ -29,15 +33,57 @@ abstract class Routes {
     ),
     routes: [
       GoRoute(
-        path: _Paths.root,
-        redirect: (context, state) => Paths.home,
-        routes: [
-          GoRoute(
-            path: _Paths.home,
-            builder: (_, __) => const HomePage(),
+        parentNavigatorKey: _rootNavigatorKey,
+        path: Paths.profile,
+        builder: (context, state) => Scaffold(
+            appBar: AppBar(),
+            body: Center(
+                child: ElevatedButton(
+                    onPressed: () => context.push(Paths.home),
+                    child: const Text('profile')))),
+      ),
+      StatefulShellRoute(
+        builder: (context, state, navigationShell) => navigationShell,
+        navigatorContainerBuilder: (context, navigationShell, children) =>
+            RootPage(
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.home),
+              label: t.root.main,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.search),
+              label: t.root.search,
+            ),
+          ],
+          shell: navigationShell,
+          children: children,
+        ),
+        branches: [
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Paths.home,
+                builder: (context, state) => Scaffold(
+                    appBar: AppBar(),
+                    body: Center(
+                        child: ElevatedButton(
+                            onPressed: () => context.push(Paths.profile),
+                            child: const Text('home')))),
+              )
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: Paths.search,
+                builder: (context, state) =>
+                    const Center(child: Text('search')),
+              )
+            ],
           ),
         ],
-      )
+      ),
     ],
   );
   static final _unauthRoutes = ShellRoute(

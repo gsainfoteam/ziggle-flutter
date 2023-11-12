@@ -6,4 +6,5 @@ abstract class AnalyticsRepository {
   logTryLogin();
   logLogin();
   logLoginCancel(String reason);
+  logLogoutAnonymous();
 }

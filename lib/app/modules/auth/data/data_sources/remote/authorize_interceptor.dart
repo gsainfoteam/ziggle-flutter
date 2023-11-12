@@ -8,18 +8,14 @@ class AuthorizeInterceptor extends Interceptor {
   final TokenRepository _repository;
   final UserApi _api;
   final Dio _dio;
-  String? _token;
 
-  AuthorizeInterceptor(this._repository, this._api, this._dio) {
-    _repository.read().listen((token) {
-      _token = token;
-    });
-  }
+  AuthorizeInterceptor(this._repository, this._api, this._dio);
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final statusCode = err.response?.statusCode;
-    if (statusCode == 401 && _token != null) {
+    final token = await _repository.read().first;
+    if (statusCode == 401 && token != null) {
       if (err.requestOptions.extra.containsKey('_retried') ||
           err.requestOptions.path.contains('/refresh')) {
         return super.onError(err, handler);
@@ -39,8 +35,9 @@ class AuthorizeInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    if (_token != null) {
-      options.headers['Authorization'] = 'Bearer $_token';
+    final token = await _repository.read().first;
+    if (token != null) {
+      options.headers['Authorization'] = 'Bearer $token';
     }
     handler.next(options);
   }
