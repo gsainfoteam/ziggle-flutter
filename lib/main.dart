@@ -1,14 +1,11 @@
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:get/get.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:ziggle/app/app.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/themes/font.dart';
@@ -43,14 +40,6 @@ Future<void> _preInit() async {
     _initLocale(),
     DbProvider.init(),
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
-    Get.putAsync<CookieJar>(() async {
-      final appDocDir = await getApplicationDocumentsDirectory();
-      final appDocPath = appDocDir.path;
-      return PersistCookieJar(
-        ignoreExpires: true,
-        storage: FileStorage("$appDocPath/.cookies/"),
-      );
-    })
   ]);
 }
 
