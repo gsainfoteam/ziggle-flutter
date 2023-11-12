@@ -10,6 +10,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:ziggle/app/app.dart';
+import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/themes/font.dart';
 import 'package:ziggle/app/data/provider/db.dart';
 import 'package:ziggle/app_bloc_observer.dart';
@@ -18,6 +19,7 @@ import 'package:ziggle/gen/strings.g.dart';
 
 void main() async {
   _initSplash();
+  configureDependencies();
   await _preInit();
   _initCrashlytics();
   _initFont();
