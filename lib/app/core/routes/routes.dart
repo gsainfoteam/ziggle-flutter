@@ -66,7 +66,10 @@ abstract class Routes {
                 initial: () => false,
               ),
               listener: (context, state) {
-                FlutterNativeSplash.remove();
+                Future.delayed(
+                  const Duration(milliseconds: 500),
+                  FlutterNativeSplash.remove,
+                );
               },
               child: child,
             ),
