@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:ziggle/app/modules/login/page.dart';
 import 'package:ziggle/app/modules/splash/page.dart';
 
 part 'paths.dart';
@@ -12,6 +13,10 @@ abstract class Routes {
       GoRoute(
         path: _Paths.splash,
         builder: (_, __) => const SplashPage(),
+      ),
+      GoRoute(
+        path: _Paths.login,
+        builder: (_, __) => const LoginPage(),
       ),
     ],
   );
