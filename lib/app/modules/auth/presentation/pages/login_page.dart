@@ -2,12 +2,18 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/common/domain/repositories/api_channel_repository.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
+import 'package:ziggle/app/core/values/strings.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -59,29 +65,40 @@ class LoginPage extends StatelessWidget {
                   const SizedBox(height: 100),
                   SizedBox(
                     height: 50,
-                    child: ZiggleButton(
-                      text: t.login.login,
-                      // onTap: controller.login,
-                      // loading: controller.loading.value,
-                      fontSize: 18,
+                    child: BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, state) => ZiggleButton(
+                        text: t.login.login,
+                        onTap: () => context
+                            .read<AuthBloc>()
+                            .add(const AuthEvent.login()),
+                        loading: state.maybeWhen(
+                          orElse: () => false,
+                          loading: () => true,
+                        ),
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 8),
                   ZiggleButton(
                     text: t.login.withoutLogin,
                     color: Colors.transparent,
-                    // onTap: controller.skipLogin,
+                    onTap: () => context
+                        .read<AuthBloc>()
+                        .add(const AuthEvent.loginAnonymous()),
                     textStyle: TextStyles.link,
                   ),
                   const SizedBox(height: 16),
                   Text.rich(
                     t.login.consent(
                       terms: (text) => TextSpan(
-                        text: text,
-                        style: const TextStyle(color: Palette.primaryColor),
-                        // recognizer: TapGestureRecognizer()
-                        // ..onTap = controller.openTerms,
-                      ),
+                          text: text,
+                          style: const TextStyle(color: Palette.primaryColor),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              sl<AnalyticsRepository>().logOpenTermsOfService();
+                              launchUrl(Uri.parse(termsOfServiceUrl));
+                            }),
                     ),
                     style: TextStyles.articleCardBodyStyle,
                     textAlign: TextAlign.center,

@@ -17,7 +17,7 @@ class UserService extends GetxService {
   final _controller = StreamController<UserInfoResponse?>.broadcast();
   final _waitFirst = Completer<void>();
 
-  bool get recentLogout => _repository.recentLogout;
+  // bool get recentLogout => _repository.recentLogout;
 
   UserService(this._repository, this._tokenRepository, this._fcmProvider) {
     _controller.stream.listen((user) async {
@@ -35,15 +35,15 @@ class UserService extends GetxService {
   }
 
   Future<void> loginWithCode(String code) async {
-    final token = await _repository.loginWithCode(code);
-    await _tokenRepository.saveToken(token);
-    await _repository.setRecentLogout(false);
+    // final token = await _repository.loginWithCode(code);
+    // await _tokenRepository.saveToken(token);
+    // await _repository.setRecentLogout(false);
   }
 
   Future<void> logout() async {
-    _skipLogin = false;
-    await _tokenRepository.deleteToken();
-    await _repository.setRecentLogout();
+    // _skipLogin = false;
+    // await _tokenRepository.deleteToken();
+    // await _repository.setRecentLogout();
   }
 
   Future<UserInfoResponse?> _updateUser() async {
@@ -65,7 +65,8 @@ class UserService extends GetxService {
       return null;
     }
 
-    return await _repository.userInfo();
+    return null;
+    // return await _repository.userInfo();
   }
 
   Stream<UserInfoResponse?> getUserInfo() async* {

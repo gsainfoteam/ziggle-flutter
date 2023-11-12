@@ -8,4 +8,29 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logScreen(String screenName) {
     debugPrint('Analytics: $screenName');
   }
+
+  @override
+  logOpenTermsOfService() {
+    debugPrint('Analytics: open terms of service');
+  }
+
+  @override
+  logLoginAnonymous() {
+    debugPrint('Analytics: login anonymous');
+  }
+
+  @override
+  logLogin() {
+    debugPrint('Analytics: login');
+  }
+
+  @override
+  logLoginCancel(String reason) {
+    debugPrint('Analytics: login cancel $reason');
+  }
+
+  @override
+  logTryLogin() {
+    debugPrint('Analytics: try login');
+  }
 }

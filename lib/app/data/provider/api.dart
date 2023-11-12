@@ -8,9 +8,7 @@ import 'package:ziggle/app/data/enums/notice_sort.dart';
 import 'package:ziggle/app/data/model/article_list_response.dart';
 import 'package:ziggle/app/data/model/article_request.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
-import 'package:ziggle/app/data/model/login_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
-import 'package:ziggle/app/data/model/user_info_response.dart';
 
 part 'api.g.dart';
 
@@ -19,17 +17,8 @@ abstract class ApiProvider {
   factory ApiProvider(Dio dio, {String baseUrl}) = _ApiProvider;
   static ApiProvider get to => Get.find();
 
-  @GET('/user/login')
-  Future<LoginResponse> login(@Query('code') String authCode);
-
-  @POST('/user/refresh')
-  Future<LoginResponse> refresh();
-
   @POST('/user/logout')
   Future logout(@Field('access_token') String accessToken);
-
-  @GET('/user/info')
-  Future<UserInfoResponse> userInfo();
 
   @POST('/user/fcm')
   Future updateFcmToken(@Field('fcm_token') String fcmToken);

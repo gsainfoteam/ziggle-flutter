@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/auth/data/models/token_model.dart';
 import 'package:ziggle/app/modules/auth/data/models/user_model.dart';
 
 part 'user_api.g.dart';
@@ -11,11 +12,11 @@ abstract class UserApi {
   @factoryMethod
   factory UserApi(Dio dio) = _UserApi;
 
-  // @GET('login')
-  // Future<LoginResponse> login(@Query('code') String authCode);
+  @GET('login')
+  Future<TokenModel> login(@Query('code') String authCode);
 
-  // @POST('refresh')
-  // Future<LoginResponse> refresh();
+  @POST('refresh')
+  Future<TokenModel> refresh();
 
   @POST('logout')
   Future logout(@Field('access_token') String accessToken);

@@ -16,9 +16,11 @@ abstract class Routes {
 
   static final _authRoutes = ShellRoute(
     builder: (context, state, child) => BlocConsumer<AuthBloc, AuthState>(
-      listener: (context, state) => state.whenOrNull(
-        unauthenticated: () => context.go(Paths.login),
+      listenWhen: (context, state) => state.maybeWhen(
+        unauthenticated: () => true,
+        orElse: () => false,
       ),
+      listener: (context, state) => context.go(Paths.login),
       buildWhen: (previous, current) => previous == const AuthState.initial(),
       builder: (context, state) => state.maybeWhen(
         authenticated: (_) => child,
@@ -27,16 +29,25 @@ abstract class Routes {
     ),
     routes: [
       GoRoute(
-        path: _Paths.home,
-        builder: (_, __) => const HomePage(),
-      ),
+        path: _Paths.root,
+        redirect: (context, state) => Paths.home,
+        routes: [
+          GoRoute(
+            path: _Paths.home,
+            builder: (_, __) => const HomePage(),
+          ),
+        ],
+      )
     ],
   );
   static final _unauthRoutes = ShellRoute(
     builder: (context, state, child) => BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) => state.whenOrNull(
-        authenticated: (_) => context.go(Paths.home),
+      listenWhen: (context, state) => state.maybeWhen(
+        anonymous: () => true,
+        authenticated: (_) => true,
+        orElse: () => false,
       ),
+      listener: (context, state) => context.go(Paths.home),
       child: child,
     ),
     routes: [
@@ -48,7 +59,7 @@ abstract class Routes {
   );
 
   static final config = GoRouter(
-    initialLocation: _Paths.home,
+    initialLocation: Paths.home,
     debugLogDiagnostics: kDebugMode,
     routes: [
       ShellRoute(
