@@ -1,15 +1,15 @@
 import 'package:get/get.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 enum NoticeMy {
-  own(ArticleType.my),
-  reminders(ArticleType.reminders);
+  own(NoticeType.my),
+  reminders(NoticeType.reminders);
 
-  final ArticleType type;
+  final NoticeType type;
 
   const NoticeMy(this.type);
 }
 
-extension ArticleTypeMyExtension on ArticleType {
+extension NoticeTypeMyExtension on NoticeType {
   NoticeMy? get my => NoticeMy.values.firstWhereOrNull((e) => e.type == this);
 }

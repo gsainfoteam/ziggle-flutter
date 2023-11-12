@@ -5,7 +5,7 @@ import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/section_header.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/profile/controller.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -91,7 +91,7 @@ class ProfilePage extends GetView<ProfileController> {
 
   Widget _buildMyArticles() => Obx(
         () => Column(
-          children: ArticleType.profile
+          children: NoticeType.profile
               .where((e) => controller.articles.value?[e]?.article != null)
               .map(
                 (e) => Column(

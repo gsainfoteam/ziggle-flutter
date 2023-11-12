@@ -7,12 +7,12 @@ import 'package:markdown/markdown.dart';
 import 'package:textfield_tags/textfield_tags.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
 import 'package:ziggle/app/data/model/write_store.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/write/article_preview_sheet.dart';
 import 'package:ziggle/app/modules/write/repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -21,7 +21,7 @@ class WriteController extends GetxController {
   final titleController = TextEditingController();
   final hasDeadline = false.obs;
   final deadline = DateTime.now().obs;
-  final selectedType = Rxn<ArticleType>();
+  final selectedType = Rxn<NoticeType>();
   final textFieldTagsController = TextfieldTagsController();
   final _tags = <String>[];
   final bodyController = TextEditingController();
@@ -67,7 +67,7 @@ class WriteController extends GetxController {
       titleController.text = savedData.title;
       bodyController.text = savedData.body;
       selectedType.value = savedData.typeIndex != null
-          ? ArticleType.values[savedData.typeIndex!]
+          ? NoticeType.values[savedData.typeIndex!]
           : null;
       hasDeadline.value = savedData.deadline != null;
       deadline.value = savedData.deadline ?? DateTime.now();

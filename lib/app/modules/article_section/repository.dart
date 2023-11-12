@@ -1,7 +1,7 @@
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/enums/notice_my.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/provider/api.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 class ArticleSectionRepository {
   final ApiProvider _provider;
@@ -9,7 +9,7 @@ class ArticleSectionRepository {
   ArticleSectionRepository(this._provider);
 
   Future<List<ArticleSummaryResponse>> getArticles(
-    ArticleType type,
+    NoticeType type,
     int page,
   ) async {
     const limit = 10;

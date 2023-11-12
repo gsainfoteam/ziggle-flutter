@@ -8,8 +8,8 @@ import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 const kArticleCardHeight = 180.0;

@@ -2,7 +2,7 @@ import 'package:ziggle/app/data/enums/notice_sort.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-enum ArticleType {
+enum NoticeType {
   recruit('🎯', id: 1),
   event('🎈', id: 2),
   general('🔔', id: 3),
@@ -31,13 +31,13 @@ enum ArticleType {
   static const main = [all, deadline, hot, ...searchables];
   static const profile = [my, reminders];
 
-  const ArticleType(this.emoji, {this.id = 0, NoticeSort? sort})
+  const NoticeType(this.emoji, {this.id = 0, NoticeSort? sort})
       : sort = sort ?? NoticeSort.recent;
 }
 
 extension TagResponseExtention on TagResponse {
-  bool get isType => ArticleType.searchables.map((e) => e.id).contains(id);
+  bool get isType => NoticeType.searchables.map((e) => e.id).contains(id);
   TagResponse get type => copyWith(
-        name: ArticleType.searchables.firstWhere((e) => e.id == id).shortTitle,
+        name: NoticeType.searchables.firstWhere((e) => e.id == id).shortTitle,
       );
 }

@@ -3,8 +3,8 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/common/presentaion/widgets/article_card.dart';
 import 'package:ziggle/app/common/presentaion/widgets/section_header.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/modules/home/controller.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
@@ -17,7 +17,7 @@ class HomePage extends GetView<HomeController> {
       child: Obx(
         () => ListView(
           padding: const EdgeInsets.symmetric(vertical: 20),
-          children: ArticleType.main
+          children: NoticeType.main
               .where((e) => controller.articles[e]?.value?.isNotEmpty ?? false)
               .expand(
                 (e) => [
@@ -37,7 +37,7 @@ class HomePage extends GetView<HomeController> {
     );
   }
 
-  Widget _buildArticles(ArticleType type) {
+  Widget _buildArticles(NoticeType type) {
     final articles = controller.articles[type]?.value;
     if (articles == null || type.noPreview) {
       return const SizedBox.shrink();

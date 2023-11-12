@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 class ArticleTags extends StatelessWidget {
   final List<TagResponse> tags;

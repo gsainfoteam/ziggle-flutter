@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/search/repository.dart';
 
 class SearchController extends GetxController {
   final query = ''.obs;
-  final selectedType = <ArticleType>{}.obs;
+  final selectedType = <NoticeType>{}.obs;
   final SearchRepository _repository;
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final pagingController =
@@ -60,7 +60,7 @@ class SearchController extends GetxController {
     _analyticsService.logSearch(query.value, selectedType);
   }
 
-  toggleType(ArticleType type) {
+  toggleType(NoticeType type) {
     if (selectedType.contains(type)) {
       selectedType.remove(type);
     } else {

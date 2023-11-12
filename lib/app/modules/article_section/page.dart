@@ -5,9 +5,9 @@ import 'package:ziggle/app/common/presentaion/widgets/article_card.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/modules/article_section/controller.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -43,7 +43,7 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
             ).sliverBox,
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              sliver: controller.type == ArticleType.deadline
+              sliver: controller.type == NoticeType.deadline
                   ? _buildDeadlineList()
                   : _buildSimpleList(),
             ),

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/modules/home/repository.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 class HomeController extends GetxController {
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   final HomeRepository _repository;
 
   final articles =
-      Map<ArticleType, Rxn<List<ArticleSummaryResponse>>>.fromIterable(
-    ArticleType.main,
+      Map<NoticeType, Rxn<List<ArticleSummaryResponse>>>.fromIterable(
+    NoticeType.main,
     value: (_) => Rxn<List<ArticleSummaryResponse>>(),
   );
 
@@ -26,11 +26,11 @@ class HomeController extends GetxController {
   }
 
   Future<void> reload() async {
-    await Future.wait(ArticleType.main.map(
+    await Future.wait(NoticeType.main.map(
         (e) => _repository.getArticles(e).then((v) => articles[e]!.value = v)));
   }
 
-  goToList(ArticleType type) {
+  goToList(NoticeType type) {
     Get.toNamed(Paths.articleSection, parameters: {'type': type.name});
   }
 

@@ -2,8 +2,8 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 class AnalyticsService {
   static AnalyticsService get to => Get.find();
@@ -58,7 +58,7 @@ class AnalyticsService {
   logChangeImageCarousel(int page) =>
       _log('change_image_carousel', {'page': page});
 
-  logSearch(String query, Iterable<ArticleType> types) => _log('search', {
+  logSearch(String query, Iterable<NoticeType> types) => _log('search', {
         'query': query,
         'types': types.map((e) => e.name).join(', '),
       });

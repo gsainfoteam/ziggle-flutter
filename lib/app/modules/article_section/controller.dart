@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/utils/extension/date_align.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/modules/article_section/repository.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 class ArticleSectionController extends GetxController {
-  final type = ArticleType.values.byName(Get.parameters['type']!);
+  final type = NoticeType.values.byName(Get.parameters['type']!);
   final articleController =
       PagingController<int, ArticleSummaryResponse>(firstPageKey: 1);
   final groupArticleController =

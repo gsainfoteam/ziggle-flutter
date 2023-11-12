@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/values/strings.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/profile/repository.dart';
 
 class ProfileController extends GetxController {
@@ -16,7 +16,7 @@ class ProfileController extends GetxController {
   final studentId = ''.obs;
   final email = ''.obs;
   final ProfileRepository _repository;
-  final articles = Rxn<Map<ArticleType, ProfileArticleData>>();
+  final articles = Rxn<Map<NoticeType, ProfileArticleData>>();
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   ProfileController(this._repository);
@@ -61,7 +61,7 @@ class ProfileController extends GetxController {
     _analyticsService.logOpenWithdrawal();
   }
 
-  goToList(ArticleType e) {
+  goToList(NoticeType e) {
     Get.toNamed(Paths.articleSection, parameters: {'type': e.name});
   }
 

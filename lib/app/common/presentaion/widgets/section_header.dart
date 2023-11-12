@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/core/themes/text.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
 class SectionHeader extends StatelessWidget {
-  final ArticleType type;
+  final NoticeType type;
   final void Function() onTap;
   const SectionHeader({super.key, required this.type, required this.onTap});
 

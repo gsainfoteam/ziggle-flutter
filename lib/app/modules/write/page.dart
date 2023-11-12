@@ -6,7 +6,7 @@ import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/text_form_field.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/write/controller.dart';
 import 'package:ziggle/app/modules/write/images_picker.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -123,7 +123,7 @@ class WritePage extends GetView<WriteController> {
   Widget _buildTypes() {
     return Wrap(
       spacing: 8,
-      children: ArticleType.writables
+      children: NoticeType.writables
           .map(
             (type) => Obx(
               () => ZiggleButton(
