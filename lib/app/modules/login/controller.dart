@@ -7,7 +7,7 @@ import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ziggle/app/core/values/strings.dart';
-import 'package:ziggle/app/data/provider/api_channel.dart';
+// import 'package:ziggle/app/data/provider/api_channel.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 
@@ -15,15 +15,16 @@ class LoginController extends GetxController {
   final code = ''.obs;
   final _userService = UserService.to;
   final _analyticsService = AnalyticsService.to;
-  final _apiChannelProvider = ApiChannelProvider.to;
+  // final _apiChannelProvider = ApiChannelProvider.to;
   final loading = false.obs;
 
   void login() async {
     _analyticsService.logTryLogin();
     try {
       final result = await FlutterWebAuth2.authenticate(
-        url: '${_apiChannelProvider.channel.idpBaseUrl}'
-            '${_userService.recentLogout ? reloginIdpPath : idpPath}',
+        url: '',
+        // url: '${_apiChannelProvider.channel.idpBaseUrl}'
+        //     '${_userService.recentLogout ? reloginIdpPath : idpPath}',
         callbackUrlScheme: idpRedirectScheme,
       );
       final uri = Uri.parse(result);
@@ -75,10 +76,10 @@ class LoginController extends GetxController {
     final bytes = utf8.encode(password);
     final digest = sha1.convert(bytes).toString();
     if (digest != 'bf782aa0b57c80e2b10b2f195327a32f60e250af') return;
-    final channel = ApiChannelProvider.to.toggleChannel();
-    Get.showSnackbar(GetSnackBar(
-      message: 'current using ${channel.baseUrl}',
-      duration: const Duration(seconds: 2),
-    ));
+    // final channel = ApiChannelProvider.to.toggleChannel();
+    // Get.showSnackbar(GetSnackBar(
+    //   message: 'current using ${channel.baseUrl}',
+    //   duration: const Duration(seconds: 2),
+    // ));
   }
 }

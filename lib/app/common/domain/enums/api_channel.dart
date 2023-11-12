@@ -9,6 +9,6 @@ enum ApiChannel {
   final String idpBaseUrl;
   const ApiChannel(this.baseUrl, this.idpBaseUrl);
 
-  static ApiChannel get byMode => kDebugMode ? staging : production;
+  factory ApiChannel.byMode() => kDebugMode ? staging : production;
   ApiChannel get oppose => this == staging ? production : staging;
 }
