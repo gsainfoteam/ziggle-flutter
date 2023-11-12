@@ -7,15 +7,48 @@ import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart'
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
-import 'package:ziggle/app/modules/auth/presentation/pages/splash_page.dart';
+import 'package:ziggle/app/modules/home/page.dart';
 
 part 'paths.dart';
 
 abstract class Routes {
   Routes._();
 
+  static final _authRoutes = ShellRoute(
+    builder: (context, state, child) => BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) => state.whenOrNull(
+        unauthenticated: () => context.go(Paths.login),
+      ),
+      buildWhen: (previous, current) => previous == const AuthState.initial(),
+      builder: (context, state) => state.maybeWhen(
+        authenticated: (_) => child,
+        orElse: () => const SizedBox.shrink(),
+      ),
+    ),
+    routes: [
+      GoRoute(
+        path: _Paths.home,
+        builder: (_, __) => const HomePage(),
+      ),
+    ],
+  );
+  static final _unauthRoutes = ShellRoute(
+    builder: (context, state, child) => BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) => state.whenOrNull(
+        authenticated: (_) => context.go(Paths.home),
+      ),
+      child: child,
+    ),
+    routes: [
+      GoRoute(
+        path: _Paths.login,
+        builder: (_, __) => const LoginPage(),
+      ),
+    ],
+  );
+
   static final config = GoRouter(
-    initialLocation: _Paths.splash,
+    initialLocation: _Paths.home,
     debugLogDiagnostics: kDebugMode,
     routes: [
       ShellRoute(
@@ -39,16 +72,7 @@ abstract class Routes {
             ),
           ),
         ),
-        routes: [
-          GoRoute(
-            path: _Paths.splash,
-            builder: (_, __) => const SplashPage(),
-          ),
-          GoRoute(
-            path: _Paths.login,
-            builder: (_, __) => const LoginPage(),
-          ),
-        ],
+        routes: [_authRoutes, _unauthRoutes],
       ),
     ],
   );
