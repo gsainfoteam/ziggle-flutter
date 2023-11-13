@@ -10,6 +10,7 @@ import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/home_page.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/notice_image_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/root_page.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -43,6 +44,16 @@ abstract class Routes {
         builder: (context, state) => NoticePage(
           notice: state.extra as NoticeSummaryEntity,
         ),
+        routes: [
+          GoRoute(
+            path: _Paths.image,
+            parentNavigatorKey: _rootNavigatorKey,
+            builder: (context, state) => NoticeImagePage(
+              page: int.tryParse(state.uri.queryParameters['page'] ?? '') ?? 1,
+              images: state.extra as List<String>,
+            ),
+          ),
+        ],
       ),
       GoRoute(
         path: Paths.profile,

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
@@ -64,17 +63,7 @@ class ArticleController extends GetxController {
     );
   }
 
-  onImageTap(int index) async {
-    final result = await Get.toNamed(
-      Paths.articleImage,
-      arguments: {
-        'page': index + 1,
-        'images': article.value?.imagesUrl ?? [],
-      },
-    );
-    if (result == null) return;
-    pageController.jumpToPage(result - 1);
-  }
+  onImageTap(int index) async {}
 
   void closeTooltip() {
     showReminderTooltip.value = false;

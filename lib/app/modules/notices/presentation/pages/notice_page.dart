@@ -3,8 +3,10 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/common/presentaion/widgets/bottom_sheet.dart';
 import 'package:ziggle/app/core/di/locator.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
@@ -190,8 +192,14 @@ class _ScrollableDraggableContentState
       itemCount: imageUrls.length,
       itemBuilder: (context, index) => Center(
         child: GestureDetector(
-          onTap: () {},
-          // onTap: () => controller.onImageTap(index),
+          onTap: () async {
+            final result = await context.push<int>(
+              Paths.articleImage(index + 1),
+              extra: imageUrls,
+            );
+            if (!mounted || result == null) return;
+            pageController.jumpToPage(result - 1);
+          },
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 50),
             child: Container(
