@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/app/modules/article/page_spinner.dart';
 import 'package:ziggle/app/modules/article_image/controller.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/page_spinner.dart';
 
 class ArticleImagePage extends GetView<ArticleImageController> {
   const ArticleImagePage({super.key});

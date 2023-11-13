@@ -8,13 +8,13 @@ import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
-import 'package:ziggle/app/modules/article/page_spinner.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notices/notices_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/reminder/reminder_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/report/report_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/article_body.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/page_spinner.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class NoticePage extends StatelessWidget {

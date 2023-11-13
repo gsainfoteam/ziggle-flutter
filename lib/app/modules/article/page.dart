@@ -8,7 +8,7 @@ import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
 import 'package:ziggle/app/modules/article/controller.dart';
-import 'package:ziggle/app/modules/article/page_spinner.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/page_spinner.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class ArticlePage extends GetView<ArticleController> {
