@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/utils/extension/date_align.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/modules/article_section/repository.dart';
@@ -54,7 +53,5 @@ class ArticleSectionController extends GetxController {
     super.onClose();
   }
 
-  goToDetail(int id) {
-    Get.toNamed(Paths.article, parameters: {'id': id.toString()});
-  }
+  goToDetail(int id) {}
 }

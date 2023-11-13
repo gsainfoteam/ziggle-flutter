@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:markdown/markdown.dart';
 import 'package:textfield_tags/textfield_tags.dart';
-import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
@@ -133,7 +132,7 @@ class WriteController extends GetxController {
     try {
       final result = await _repository.write(_writeData);
 
-      Get.toNamed(Paths.article, parameters: {'id': result.id.toString()});
+      // Get.toNamed(Paths.article, parameters: {'id': result.id.toString()});
       await Get.defaultTransitionDuration.delay();
       _reset();
       _analyticsService.logSubmitArticle();

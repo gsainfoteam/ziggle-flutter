@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
@@ -61,11 +60,7 @@ class ProfileController extends GetxController {
     _analyticsService.logOpenWithdrawal();
   }
 
-  goToList(NoticeType e) {
-    Get.toNamed(Paths.articleSection, parameters: {'type': e.name});
-  }
+  goToList(NoticeType e) {}
 
-  goToDetail(ArticleSummaryResponse article) {
-    Get.toNamed(Paths.article, parameters: {'id': article.id.toString()});
-  }
+  goToDetail(ArticleSummaryResponse article) {}
 }
