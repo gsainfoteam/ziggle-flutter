@@ -17,7 +17,7 @@ class AuthorizeInterceptor extends Interceptor {
     final token = await _repository.read().first;
     if (statusCode == 401 && token != null) {
       if (err.requestOptions.extra.containsKey('_retried') ||
-          err.requestOptions.path.contains('/refresh')) {
+          err.requestOptions.uri.path.contains('/refresh')) {
         return super.onError(err, handler);
       }
       err.requestOptions.extra['_retried'] = true;
