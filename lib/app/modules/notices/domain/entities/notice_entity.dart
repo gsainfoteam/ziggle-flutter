@@ -1,6 +1,6 @@
 import 'tag_entity.dart';
 
-class ArticleEntity {
+class NoticeEntity {
   final int id;
   final String title;
   final int views;
@@ -12,7 +12,7 @@ class ArticleEntity {
   final String author;
   final bool reminder;
 
-  ArticleEntity({
+  NoticeEntity({
     required this.id,
     required this.title,
     required this.views,

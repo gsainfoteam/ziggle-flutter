@@ -1,14 +1,14 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../domain/entities/article_entity.dart';
+import '../../domain/entities/notice_entity.dart';
 import 'tag_model.dart';
 
-part 'article_model.freezed.dart';
-part 'article_model.g.dart';
+part 'notice_model.freezed.dart';
+part 'notice_model.g.dart';
 
 @freezed
-class ArticleModel with _$ArticleModel implements ArticleEntity {
-  const factory ArticleModel({
+class NoticeModel with _$NoticeModel implements NoticeEntity {
+  const factory NoticeModel({
     required int id,
     required String title,
     required int views,
@@ -19,8 +19,8 @@ class ArticleModel with _$ArticleModel implements ArticleEntity {
     @Default([]) List<TagModel> tags,
     required String author,
     required bool reminder,
-  }) = _ArticleModel;
+  }) = _NoticeModel;
 
-  factory ArticleModel.fromJson(Map<String, dynamic> json) =>
-      _$ArticleModelFromJson(json);
+  factory NoticeModel.fromJson(Map<String, dynamic> json) =>
+      _$NoticeModelFromJson(json);
 }

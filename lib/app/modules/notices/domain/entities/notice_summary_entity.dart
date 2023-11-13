@@ -1,6 +1,6 @@
 import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
 
-class ArticleSummaryEntity {
+class NoticeSummaryEntity {
   final int id;
   final String title;
   final String body;
@@ -11,7 +11,7 @@ class ArticleSummaryEntity {
   final String? imageUrl;
   final List<TagEntity> tags;
 
-  ArticleSummaryEntity({
+  NoticeSummaryEntity({
     required this.id,
     required this.title,
     required this.body,
