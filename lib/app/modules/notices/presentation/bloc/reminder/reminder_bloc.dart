@@ -51,6 +51,8 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
         _analyticsRepository.logToggleReminder(_notice!.reminder);
         emit(ReminderState.value(_notice!.reminder, false));
       } catch (_) {
+        _analyticsRepository.logTryReminder();
+        emit(ReminderState.loginRequired(_tooltip));
         emit(ReminderState.value(_notice!.reminder, _tooltip));
       }
     });
@@ -78,4 +80,6 @@ sealed class ReminderState with _$ReminderState {
   ]) = _Initial;
   const factory ReminderState.loading(bool value, bool showTooltip) = _Loading;
   const factory ReminderState.value(bool value, bool showTooltip) = _Value;
+  const factory ReminderState.loginRequired(bool showTooltip,
+      [@Default(false) bool value]) = _LoginRequired;
 }

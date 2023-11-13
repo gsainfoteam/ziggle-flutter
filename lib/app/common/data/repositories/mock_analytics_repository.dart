@@ -58,4 +58,9 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logToggleReminder(bool set) {
     debugPrint('Analytics: toggle reminder $set');
   }
+
+  @override
+  logTryReminder() {
+    debugPrint('Analytics: try reminder');
+  }
 }

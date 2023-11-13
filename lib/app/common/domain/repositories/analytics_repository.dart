@@ -11,5 +11,6 @@ abstract class AnalyticsRepository {
 
   logChangeImageCarousel(int page);
   logHideReminderTooltip();
+  logTryReminder();
   logToggleReminder(bool set);
 }

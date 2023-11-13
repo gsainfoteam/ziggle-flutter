@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -11,6 +12,7 @@ import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notices/notices_bloc.dart';
@@ -36,7 +38,35 @@ class NoticePage extends StatelessWidget {
         ),
         BlocProvider(create: (_) => sl<ReportBloc>()),
       ],
-      child: const _Layout(),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<ReminderBloc, ReminderState>(
+            listenWhen: (previous, current) =>
+                current.mapOrNull(loginRequired: (m) => true) ?? false,
+            listener: (context, state) => showCupertinoDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (dialogContext) => CupertinoAlertDialog(
+                title: Text(t.article.reminderLogin.title),
+                content: Text(t.article.reminderLogin.description),
+                actions: [
+                  CupertinoDialogAction(
+                    child: Text(
+                      t.root.login,
+                      style: const TextStyle(color: Palette.black),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(dialogContext);
+                      context.read<AuthBloc>().add(const AuthEvent.logout());
+                    },
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+        child: const _Layout(),
+      ),
     );
   }
 }
