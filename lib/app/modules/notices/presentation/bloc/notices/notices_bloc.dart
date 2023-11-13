@@ -39,14 +39,14 @@ class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
 }
 
 @freezed
-class NoticesEvent with _$NoticesEvent {
+sealed class NoticesEvent with _$NoticesEvent {
   const factory NoticesEvent.fetch(NoticeSearchQueryEntity query) = _Fetch;
   const factory NoticesEvent.loadMore() = _LoadMore;
 }
 
 @freezed
-class NoticesState with _$NoticesState {
-  NoticesState._();
+sealed class NoticesState with _$NoticesState {
+  const NoticesState._();
   const factory NoticesState.initial() = _Initial;
   const factory NoticesState.loading([
     @Default([]) List<NoticeSummaryEntity>? notices,

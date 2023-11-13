@@ -70,7 +70,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 }
 
 @freezed
-class AuthEvent with _$AuthEvent {
+sealed class AuthEvent with _$AuthEvent {
   const factory AuthEvent.load() = _Load;
   const factory AuthEvent.loginAnonymous() = _LoginAnonymous;
   const factory AuthEvent.login() = _Login;
@@ -78,7 +78,7 @@ class AuthEvent with _$AuthEvent {
 }
 
 @freezed
-class AuthState with _$AuthState {
+sealed class AuthState with _$AuthState {
   const AuthState._();
   const factory AuthState.initial() = _Initial;
   const factory AuthState.loading() = _Loading;
