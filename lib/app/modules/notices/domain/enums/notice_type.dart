@@ -1,5 +1,5 @@
-import 'package:ziggle/app/data/enums/notice_sort.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 enum NoticeType {

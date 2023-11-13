@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' show Get, Inst;
 import 'package:retrofit/retrofit.dart';
-import 'package:ziggle/app/data/enums/notice_my.dart';
-import 'package:ziggle/app/data/enums/notice_sort.dart';
 import 'package:ziggle/app/data/model/article_list_response.dart';
 import 'package:ziggle/app/data/model/article_request.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_my.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 
 part 'api.g.dart';
 
