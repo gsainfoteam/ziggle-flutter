@@ -7,6 +7,7 @@ import 'package:ziggle/app/common/presentaion/widgets/section_header.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_search_query_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notices/notices_bloc.dart';
 
 import '../../domain/enums/notice_type.dart';
@@ -18,7 +19,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<NoticesBloc>(create: (_) => sl<NoticesBloc>()),
+        BlocProvider(create: (_) => sl<NoticesBloc>()),
       ],
       child: const _Layout(),
     );
@@ -37,7 +38,9 @@ class _Layout extends StatelessWidget {
     return RefreshIndicator.adaptive(
       key: refreshIndicatorKey,
       onRefresh: () async {
-        context.read<NoticesBloc>().add(const NoticesEvent.fetch());
+        context
+            .read<NoticesBloc>()
+            .add(NoticesEvent.fetch(NoticeSearchQueryEntity()));
         // await context
         //     .read<NoticesBloc>()
         //     .stream

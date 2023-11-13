@@ -1,11 +1,9 @@
-import 'package:ziggle/app/modules/notices/data/data_sources/notice_api.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_list_entity.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
-import 'package:ziggle/app/modules/notices/domain/enums/notice_my.dart';
-import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
-
+import '../../domain/entities/notice_entity.dart';
+import '../../domain/entities/notice_list_entity.dart';
+import '../../domain/entities/notice_search_query_entity.dart';
+import '../../domain/entities/notice_summary_entity.dart';
 import '../../domain/repositories/notices_repository.dart';
+import '../data_sources/notice_api.dart';
 
 class RestNoticesRepository implements NoticesRepository {
   final NoticeApi _api;
@@ -22,21 +20,14 @@ class RestNoticesRepository implements NoticesRepository {
   }
 
   @override
-  Future<NoticeListEntity> getNotices({
-    int? offset,
-    int? limit,
-    String? search,
-    List<String>? tags,
-    NoticeSort? orderBy,
-    NoticeMy? my,
-  }) {
+  Future<NoticeListEntity> getNotices(NoticeSearchQueryEntity query) {
     return _api.getNotices(
-      offset: offset,
-      limit: limit,
-      search: search,
-      tags: tags,
-      orderBy: orderBy,
-      my: my,
+      offset: query.offset,
+      limit: query.limit,
+      search: query.search,
+      tags: query.tags,
+      orderBy: query.orderBy,
+      my: query.my,
     );
   }
 
