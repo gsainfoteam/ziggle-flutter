@@ -231,16 +231,23 @@ class _ReminderTooltip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ReminderBloc, ReminderState>(
-      builder: (context, state) => !state.showTooltip
-          ? const SizedBox.shrink()
-          : Positioned(
-              top: 0,
-              right: 20,
-              child: _Tooltip(() => context
-                  .read<ReminderBloc>()
-                  .add(const ReminderEvent.dismiss())),
-            ),
+    return Builder(
+      builder: (context) {
+        final notice = context.watch<NoticesBloc>().state.single;
+        final reminderState = context.watch<ReminderBloc>().state;
+        return notice == null ||
+                notice.reminder ||
+                notice.deadline == null ||
+                !reminderState.showTooltip
+            ? const SizedBox.shrink()
+            : Positioned(
+                top: 0,
+                right: 20,
+                child: _Tooltip(() => context
+                    .read<ReminderBloc>()
+                    .add(const ReminderEvent.dismiss())),
+              );
+      },
     );
   }
 }
