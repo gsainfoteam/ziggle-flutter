@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 
-import '../article/article_body.dart';
-
 class ArticlePreviewSheet extends StatelessWidget {
   final ArticleResponse article;
   const ArticlePreviewSheet({super.key, required this.article});
@@ -15,7 +13,7 @@ class ArticlePreviewSheet extends StatelessWidget {
       minChildSize: 0.75,
       builder: (context, controller) => SingleChildScrollView(
         controller: controller,
-        child: ArticleBody(article: article),
+        // child: ArticleBody(notice: article),
       ),
     );
   }

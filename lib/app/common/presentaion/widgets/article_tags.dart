@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/app/data/model/tag_response.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
-class ArticleTags extends StatelessWidget {
-  final List<TagResponse> tags;
-  const ArticleTags({super.key, required this.tags});
+class NoticeTags extends StatelessWidget {
+  final List<TagEntity> tags;
+  const NoticeTags({super.key, required this.tags});
 
   @override
   Widget build(BuildContext context) {

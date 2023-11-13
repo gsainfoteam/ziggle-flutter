@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart' hide SearchController;
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:ziggle/app/common/presentaion/widgets/article_card.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
@@ -146,12 +145,13 @@ class SearchPage extends GetView<SearchController> {
                     style: TextStyles.secondaryLabelStyle,
                   ),
                 ]),
-          itemBuilder: (context, item, index) => ArticleCard(
-            article: item,
-            direction: Axis.horizontal,
-            showType: true,
-            onTap: () => controller.goToDetail(item.id),
-          ).paddingOnly(bottom: 18),
+          itemBuilder: (context, item, index) => const SizedBox.shrink(),
+          // itemBuilder: (context, item, index) => NoticeCard(
+          //   notice: item,
+          //   direction: Axis.horizontal,
+          //   showType: true,
+          //   onTap: () => controller.goToDetail(item.id),
+          // ).paddingOnly(bottom: 18),
         ),
       ),
     );

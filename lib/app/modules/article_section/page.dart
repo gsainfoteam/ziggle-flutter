@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:ziggle/app/common/presentaion/widgets/article_card.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
@@ -87,15 +86,15 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(vertical: 16),
-              children: item.value
-                  .map(
-                    (article) => ArticleCard(
-                      article: article,
-                      direction: Axis.horizontal,
-                      onTap: () => controller.goToDetail(article.id),
-                    ).marginOnly(bottom: 18),
-                  )
-                  .toList(),
+              // children: item.value
+              //     .map(
+              //       (article) => NoticeCard(
+              //         notice: article,
+              //         direction: Axis.horizontal,
+              //         onTap: () => controller.goToDetail(article.id),
+              //       ).marginOnly(bottom: 18),
+              //     )
+              //     .toList(),
             )
           ],
         ).marginOnly(bottom: 18),
@@ -110,11 +109,12 @@ class ArticleSectionPage extends GetView<ArticleSectionController> {
         firstPageProgressIndicatorBuilder: _progressIndicatorBuilder,
         newPageProgressIndicatorBuilder: _progressIndicatorBuilder,
         noItemsFoundIndicatorBuilder: _noItemsFoundIndicatorBuilder,
-        itemBuilder: (context, item, index) => ArticleCard(
-          article: item,
-          direction: Axis.horizontal,
-          onTap: () => controller.goToDetail(item.id),
-        ).marginOnly(bottom: 18),
+        itemBuilder: (context, item, index) => const SizedBox.shrink(),
+        // itemBuilder: (context, item, index) => NoticeCard(
+        //   notice: item,
+        //   direction: Axis.horizontal,
+        //   onTap: () => controller.goToDetail(item.id),
+        // ).marginOnly(bottom: 18),
       ),
     );
   }

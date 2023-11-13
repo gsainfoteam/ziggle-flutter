@@ -9,16 +9,16 @@ import 'package:ziggle/app/common/presentaion/widgets/d_day.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/app/data/model/article_response.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class ArticleBody extends StatelessWidget {
-  final ArticleResponse article;
+  final NoticeEntity notice;
   final void Function()? reportArticle;
   const ArticleBody({
     super.key,
-    required this.article,
+    required this.notice,
     this.reportArticle,
   });
 
@@ -27,33 +27,33 @@ class ArticleBody extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(article.title, style: TextStyles.articleTitleStyle),
+        Text(notice.title, style: TextStyles.articleTitleStyle),
         const SizedBox(height: 12),
-        if (article.tags.isNotEmpty) ...[
-          ArticleTags(tags: article.tags.where((t) => !t.isType).toList()),
+        if (notice.tags.isNotEmpty) ...[
+          NoticeTags(tags: notice.tags.where((t) => !t.isType).toList()),
           const SizedBox(height: 16),
         ],
         Row(
           children: [
-            _buildTextRich(t.article.author, article.author),
+            _buildTextRich(t.article.author, notice.author),
             const SizedBox(width: 6),
             _buildTextRich(
-                t.article.views, article.views.toString(), FontWeight.w500),
+                t.article.views, notice.views.toString(), FontWeight.w500),
           ],
         ),
         const SizedBox(height: 10),
-        if (article.deadline != null) ...[
+        if (notice.deadline != null) ...[
           Row(
             children: [
               _buildTextRich(
                 t.article.deadline,
-                DateFormat.yMEd().format(article.deadline!),
+                DateFormat.yMEd().format(notice.deadline!),
               ),
               const SizedBox(width: 10),
               DDay(
                 dDay: calculateDateDelta(
                   DateTime.now(),
-                  article.deadline!.toLocal(),
+                  notice.deadline!.toLocal(),
                 ),
               ),
             ],
@@ -61,14 +61,14 @@ class ArticleBody extends StatelessWidget {
           const SizedBox(height: 10)
         ],
         _buildTextRich(
-            t.article.createdAt, DateFormat.yMd().format(article.createdAt)),
+            t.article.createdAt, DateFormat.yMd().format(notice.createdAt)),
         const Divider(
           thickness: 1,
           height: 30,
           color: Palette.placeholder,
         ),
         Html(
-          data: article.body,
+          data: notice.body,
           style: {
             'body': Style(margin: Margins.zero),
           },

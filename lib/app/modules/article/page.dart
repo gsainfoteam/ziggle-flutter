@@ -7,7 +7,6 @@ import 'package:ziggle/app/common/presentaion/widgets/bottom_sheet.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
-import 'package:ziggle/app/modules/article/article_body.dart';
 import 'package:ziggle/app/modules/article/controller.dart';
 import 'package:ziggle/app/modules/article/page_spinner.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -47,17 +46,19 @@ class ArticlePage extends GetView<ArticleController> {
       );
     }
     final article = controller.article.value!;
-    final child = SafeArea(
-        child: ArticleBody(
-      article: article,
-      reportArticle: controller.reportArticle,
-    ));
+    const child = SafeArea(
+      child: SizedBox.shrink(),
+      //   child: ArticleBody(
+      // notice: article,
+      // reportArticle: controller.reportArticle,
+      // )
+    );
 
     final imagesUrls = article.imagesUrl;
     if (imagesUrls == null || imagesUrls.isEmpty) {
       return Stack(
         children: [
-          SingleChildScrollView(child: child),
+          const SingleChildScrollView(child: child),
           Obx(_buildReminderTooltip),
         ],
       );

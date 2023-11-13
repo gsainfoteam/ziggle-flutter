@@ -1,4 +1,4 @@
-import 'package:ziggle/app/data/model/tag_response.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -35,9 +35,9 @@ enum NoticeType {
       : sort = sort ?? NoticeSort.recent;
 }
 
-extension TagResponseExtention on TagResponse {
+extension TagEntityExtention on TagEntity {
   bool get isType => NoticeType.searchables.map((e) => e.id).contains(id);
-  TagResponse get type => copyWith(
+  TagEntity get type => copyWith(
         name: NoticeType.searchables.firstWhere((e) => e.id == id).shortTitle,
       );
 }

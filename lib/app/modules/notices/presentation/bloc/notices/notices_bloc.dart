@@ -49,7 +49,7 @@ sealed class NoticesState with _$NoticesState {
   const NoticesState._();
   const factory NoticesState.initial() = _Initial;
   const factory NoticesState.loading([
-    @Default([]) List<NoticeSummaryEntity>? notices,
+    @Default([]) List<NoticeSummaryEntity> notices,
   ]) = _Loading;
   const factory NoticesState.loaded(
     List<NoticeSummaryEntity> notices,
@@ -58,4 +58,6 @@ sealed class NoticesState with _$NoticesState {
   ) = _Loaded;
 
   bool get loaded => mapOrNull(loaded: (_) => true) ?? false;
+  List<NoticeSummaryEntity> get notices =>
+      mapOrNull(loading: (m) => m.notices, loaded: (m) => m.notices) ?? [];
 }

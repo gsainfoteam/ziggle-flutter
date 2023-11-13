@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/common/presentaion/widgets/article_card.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/section_header.dart';
 import 'package:ziggle/app/core/themes/text.dart';
@@ -99,12 +98,12 @@ class ProfilePage extends GetView<ProfileController> {
                   children: [
                     SectionHeader(type: e, onTap: () => controller.goToList(e)),
                     const SizedBox(height: 12),
-                    ArticleCard(
-                      article: controller.articles.value![e]!.article!,
-                      direction: Axis.horizontal,
-                      onTap: () => controller
-                          .goToDetail(controller.articles.value![e]!.article!),
-                    ),
+                    // NoticeCard(
+                    //   notice: controller.articles.value![e]!.article!,
+                    //   direction: Axis.horizontal,
+                    //   onTap: () => controller
+                    //       .goToDetail(controller.articles.value![e]!.article!),
+                    // ),
                     const SizedBox(height: 12),
                     SizedBox(
                       height: 60,

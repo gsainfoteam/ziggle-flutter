@@ -8,21 +8,21 @@ import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
-import 'package:ziggle/app/data/model/article_summary_response.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-const kArticleCardHeight = 180.0;
+const kNoticeCardHeight = 180.0;
 
-class ArticleCard extends StatelessWidget {
-  final ArticleSummaryResponse article;
+class NoticeCard extends StatelessWidget {
+  final NoticeSummaryEntity notice;
   final Axis direction;
   final void Function() onTap;
   final bool showType;
 
-  const ArticleCard({
+  const NoticeCard({
     super.key,
-    required this.article,
+    required this.notice,
     this.direction = Axis.vertical,
     required this.onTap,
     this.showType = false,
@@ -31,7 +31,7 @@ class ArticleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: direction == Axis.horizontal ? kArticleCardHeight : null,
+      height: direction == Axis.horizontal ? kNoticeCardHeight : null,
       child: ZiggleButton(
         onTap: onTap,
         color: Palette.white,
@@ -46,7 +46,7 @@ class ArticleCard extends StatelessWidget {
   }
 
   Widget _buildInner() {
-    final imageUrl = article.imageUrl;
+    final imageUrl = notice.imageUrl;
     if (direction == Axis.horizontal) {
       return Row(
         children: [
@@ -100,7 +100,7 @@ class ArticleCard extends StatelessWidget {
                 Container(color: Palette.black, width: 80, height: 1),
                 const SizedBox(height: 12),
                 Text(
-                  article.body.replaceAll('\n', ' '),
+                  notice.body.replaceAll('\n', ' '),
                   style: TextStyles.articleCardBodyStyle,
                 ),
                 const SizedBox(height: 12),
@@ -115,17 +115,17 @@ class ArticleCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (article.deadline != null) ...[
+        if (notice.deadline != null) ...[
           DDay(
             dDay: calculateDateDelta(
               DateTime.now(),
-              article.deadline!.toLocal(),
+              notice.deadline!.toLocal(),
             ),
           ),
           const SizedBox(height: 3),
         ],
         Text(
-          article.title,
+          notice.title,
           style: TextStyles.articleCardTitleStyle,
           maxLines: direction == Axis.horizontal ? 2 : null,
           overflow: direction == Axis.horizontal ? TextOverflow.ellipsis : null,
@@ -133,7 +133,7 @@ class ArticleCard extends StatelessWidget {
         const SizedBox(height: 2),
         Row(
           children: [
-            Text(article.author, style: TextStyles.articleCardAuthorStyle),
+            Text(notice.author, style: TextStyles.articleCardAuthorStyle),
             const SizedBox(width: 7),
             Text.rich(
               TextSpan(children: [
@@ -141,7 +141,7 @@ class ArticleCard extends StatelessWidget {
                   text: '${t.article.views} ',
                   style: const TextStyle(fontWeight: FontWeight.normal),
                 ),
-                TextSpan(text: article.views.toString()),
+                TextSpan(text: notice.views.toString()),
               ]),
               style: TextStyles.articleCardAuthorStyle
                   .copyWith(color: Palette.secondaryText),
@@ -150,13 +150,13 @@ class ArticleCard extends StatelessWidget {
         ),
         if (direction == Axis.horizontal) ...[
           const SizedBox(height: 9),
-          ArticleTags(
+          NoticeTags(
               tags: showType
-                  ? article.tags.map((e) => e.isType ? e.type : e).toList()
-                  : article.tags.where((t) => !t.isType).toList()),
+                  ? notice.tags.map((e) => e.isType ? e.type : e).toList()
+                  : notice.tags.where((t) => !t.isType).toList()),
           const Expanded(child: SizedBox.shrink()),
           Text(
-            DateFormat.yMd().format(article.createdAt),
+            DateFormat.yMd().format(notice.createdAt),
             style: TextStyles.articleCardAuthorStyle
                 .copyWith(color: Palette.secondaryText),
           ),
