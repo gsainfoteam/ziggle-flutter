@@ -12,75 +12,81 @@ import 'package:ziggle/app/modules/notices/presentation/bloc/notices/notices_blo
 
 import '../../domain/enums/notice_type.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => sl<NoticesBloc>()),
-      ],
-      child: const _Layout(),
-    );
-  }
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _Layout extends StatelessWidget {
-  const _Layout();
+class _HomePageState extends State<HomePage> {
+  final _blocs = Map.fromEntries(
+      NoticeType.main.map((e) => MapEntry(e, sl<NoticesBloc>())));
+  final _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _refreshIndicatorKey.currentState?.show());
+  }
 
   @override
   Widget build(BuildContext context) {
-    final blocs = Map.fromEntries(
-        NoticeType.main.map((e) => MapEntry(e, sl<NoticesBloc>())));
-    final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => refreshIndicatorKey.currentState?.show());
-
     return RefreshIndicator.adaptive(
-      key: refreshIndicatorKey,
+      key: _refreshIndicatorKey,
       onRefresh: () async {
-        blocs.forEach((key, value) => value.add(
+        _blocs.forEach((key, value) => value.add(
               NoticesEvent.fetch(NoticeSearchQueryEntity(
                 limit: key.isHorizontal ? 10 : 4,
                 orderBy: key.sort,
                 tags: key.isSearchable ? [key.name] : null,
               )),
             ));
-        await Future.wait(blocs.entries.map(
+        await Future.wait(_blocs.entries.map(
           (e) => e.value.stream.where((event) => event.loaded).first,
         ));
       },
-      child: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        children: blocs.entries
-            .map(
-              (e) => BlocBuilder<NoticesBloc, NoticesState>(
-                bloc: e.value,
-                builder: (context, state) => state.notices.isEmpty
-                    ? const SizedBox.shrink()
-                    : Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: SectionHeader(
-                              type: e.key,
-                              onTap: () =>
-                                  context.push(Paths.articleSection(e.key)),
-                            ),
+      child: _Layout(_blocs),
+    );
+  }
+}
+
+class _Layout extends StatelessWidget {
+  final Map<NoticeType, NoticesBloc> _blocs;
+  const _Layout(this._blocs);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      children: _blocs.entries
+          .map(
+            (e) => BlocBuilder<NoticesBloc, NoticesState>(
+              bloc: e.value,
+              builder: (context, state) => state.notices.isEmpty
+                  ? const SizedBox.shrink()
+                  : Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: SectionHeader(
+                            type: e.key,
+                            onTap: () =>
+                                context.push(Paths.articleSection(e.key)),
                           ),
-                          const SizedBox(height: 8),
-                          _buildArticles(e.key, state.notices),
-                          if (e.key.noPreview)
-                            const SizedBox(height: 16)
-                          else
-                            const SizedBox(height: 30),
-                        ],
-                      ),
-              ),
-            )
-            .toList(),
-      ),
+                        ),
+                        const SizedBox(height: 8),
+                        _buildArticles(e.key, state.notices),
+                        if (e.key.noPreview)
+                          const SizedBox(height: 16)
+                        else
+                          const SizedBox(height: 30),
+                      ],
+                    ),
+            ),
+          )
+          .toList(),
     );
   }
 
