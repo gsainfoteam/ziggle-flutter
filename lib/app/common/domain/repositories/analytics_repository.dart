@@ -13,4 +13,6 @@ abstract class AnalyticsRepository {
   logHideReminderTooltip();
   logTryReminder();
   logToggleReminder(bool set);
+  logTryReport();
+  logReport();
 }

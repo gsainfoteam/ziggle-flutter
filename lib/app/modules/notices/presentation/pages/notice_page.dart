@@ -64,6 +64,34 @@ class NoticePage extends StatelessWidget {
               ),
             ),
           ),
+          BlocListener<ReportBloc, ReportState>(
+            listenWhen: (previous, current) =>
+                current.mapOrNull(confirm: (m) => true) ?? false,
+            listener: (context, state) => showCupertinoDialog(
+              context: context,
+              barrierDismissible: true,
+              builder: (dialogContext) => CupertinoAlertDialog(
+                title: Text(t.article.report.title),
+                content: Text(t.article.report.description),
+                actions: [
+                  CupertinoDialogAction(
+                    onPressed: () => Navigator.pop(dialogContext),
+                    child: Text(t.article.report.no),
+                  ),
+                  CupertinoDialogAction(
+                    isDestructiveAction: true,
+                    onPressed: () {
+                      context
+                          .read<ReportBloc>()
+                          .add(ReportEvent.report(notice, true));
+                      Navigator.pop(dialogContext);
+                    },
+                    child: Text(t.article.report.yes),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
         child: const _Layout(),
       ),

@@ -63,4 +63,14 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logTryReminder() {
     debugPrint('Analytics: try reminder');
   }
+
+  @override
+  logReport() {
+    debugPrint('Analytics: report');
+  }
+
+  @override
+  logTryReport() {
+    debugPrint('Analytics: try report');
+  }
 }

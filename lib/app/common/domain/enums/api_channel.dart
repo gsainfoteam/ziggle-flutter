@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 enum ApiChannel {
-  staging(
-      'https://api.stg.ziggle.gistory.me', 'https://stg.new-idp.gistory.me'),
+  staging('https://api.ziggle.gistory.me', 'https://stg.new-idp.gistory.me'),
   production('https://api.ziggle.gistory.me', 'https://idp.gistory.me');
 
   final String baseUrl;
