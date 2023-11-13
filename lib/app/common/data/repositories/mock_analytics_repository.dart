@@ -43,4 +43,9 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logLogout() {
     debugPrint('Analytics: logout');
   }
+
+  @override
+  logChangeImageCarousel(int page) {
+    debugPrint('Analytics: change image carousel $page');
+  }
 }

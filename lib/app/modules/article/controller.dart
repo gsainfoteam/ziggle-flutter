@@ -22,21 +22,6 @@ class ArticleController extends GetxController {
   ArticleController(this._repository);
 
   @override
-  void onInit() {
-    super.onInit();
-    _load();
-    scrollController.addListener(
-      () => scrollPixel.value = scrollController.pixels,
-    );
-    pageController.addListener(() {
-      final newPgae = (pageController.page?.toInt() ?? 0) + 1;
-      if (newPgae == page.value) return;
-      page.value = newPgae;
-      _analyticsService.logChangeImageCarousel(newPgae);
-    });
-  }
-
-  @override
   void onClose() {
     scrollController.dispose();
     pageController.dispose();
@@ -55,13 +40,7 @@ class ArticleController extends GetxController {
         data.deadline != null && data.deadline!.isAfter(DateTime.now());
   }
 
-  void onPageChanged(int page) {
-    pageController.animateToPage(
-      page - 1,
-      duration: 300.milliseconds,
-      curve: Curves.easeOut,
-    );
-  }
+  void onPageChanged(int page) {}
 
   onImageTap(int index) async {}
 

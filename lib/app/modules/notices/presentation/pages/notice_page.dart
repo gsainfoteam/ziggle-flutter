@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/common/presentaion/widgets/bottom_sheet.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
@@ -184,7 +185,10 @@ class _ScrollableDraggableContentState
     return PageView.builder(
       clipBehavior: Clip.none,
       controller: pageController,
-      onPageChanged: (p) => setState(() => page = p + 1),
+      onPageChanged: (p) {
+        setState(() => page = p + 1);
+        sl<AnalyticsRepository>().logChangeImageCarousel(p);
+      },
       itemCount: imageUrls.length,
       itemBuilder: (context, index) => Center(
         child: GestureDetector(

@@ -8,4 +8,6 @@ abstract class AnalyticsRepository {
   logLoginCancel(String reason);
   logLogoutAnonymous();
   logLogout();
+
+  logChangeImageCarousel(int page);
 }
