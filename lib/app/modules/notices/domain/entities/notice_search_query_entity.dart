@@ -2,19 +2,37 @@ import '../enums/notice_my.dart';
 import '../enums/notice_sort.dart';
 
 class NoticeSearchQueryEntity {
-  final int? offset;
-  final int? limit;
+  final int offset;
+  final int limit;
   final String? search;
   final List<String>? tags;
   final NoticeSort? orderBy;
   final NoticeMy? my;
 
   NoticeSearchQueryEntity({
-    this.offset,
-    this.limit,
+    this.offset = 0,
+    this.limit = 10,
     this.search,
     this.tags,
     this.orderBy,
     this.my,
   });
+
+  NoticeSearchQueryEntity copyWith({
+    int? offset,
+    int? limit,
+    String? search,
+    List<String>? tags,
+    NoticeSort? orderBy,
+    NoticeMy? my,
+  }) {
+    return NoticeSearchQueryEntity(
+      offset: offset ?? this.offset,
+      limit: limit ?? this.limit,
+      search: search ?? this.search,
+      tags: tags ?? this.tags,
+      orderBy: orderBy ?? this.orderBy,
+      my: my ?? this.my,
+    );
+  }
 }

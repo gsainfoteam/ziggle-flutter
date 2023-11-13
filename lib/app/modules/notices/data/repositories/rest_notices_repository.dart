@@ -1,3 +1,5 @@
+import 'package:injectable/injectable.dart';
+
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/entities/notice_list_entity.dart';
 import '../../domain/entities/notice_search_query_entity.dart';
@@ -5,6 +7,7 @@ import '../../domain/entities/notice_summary_entity.dart';
 import '../../domain/repositories/notices_repository.dart';
 import '../data_sources/notice_api.dart';
 
+@Injectable(as: NoticesRepository)
 class RestNoticesRepository implements NoticesRepository {
   final NoticeApi _api;
   RestNoticesRepository(this._api);
