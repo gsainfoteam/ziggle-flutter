@@ -136,6 +136,7 @@ class _ScrollableDraggableContentState
   @override
   void dispose() {
     scrollController.dispose();
+    pageController.dispose();
     super.dispose();
   }
 
