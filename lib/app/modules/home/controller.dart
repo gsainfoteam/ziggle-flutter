@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/modules/home/repository.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
@@ -30,11 +29,7 @@ class HomeController extends GetxController {
         (e) => _repository.getArticles(e).then((v) => articles[e]!.value = v)));
   }
 
-  goToList(NoticeType type) {
-    Get.toNamed(Paths.articleSection, parameters: {'type': type.name});
-  }
+  goToList(NoticeType type) {}
 
-  goToDetail(int id) {
-    Get.toNamed(Paths.article, parameters: {'id': id.toString()});
-  }
+  goToDetail(int id) {}
 }

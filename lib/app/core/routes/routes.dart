@@ -7,6 +7,8 @@ import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart'
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/home_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/root_page.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -65,13 +67,8 @@ abstract class Routes {
             routes: [
               GoRoute(
                 path: Paths.home,
-                builder: (context, state) => Scaffold(
-                    appBar: AppBar(),
-                    body: Center(
-                        child: ElevatedButton(
-                            onPressed: () => context.push(Paths.profile),
-                            child: const Text('home')))),
-              )
+                builder: (context, state) => const HomePage(),
+              ),
             ],
           ),
           StatefulShellBranch(

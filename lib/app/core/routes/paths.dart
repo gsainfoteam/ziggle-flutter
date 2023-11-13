@@ -23,8 +23,9 @@ abstract class Paths {
   static const search = '${_Paths.root}/${_Paths.search}';
   static const write = '${_Paths.root}/${_Paths.write}';
   static const profile = '${_Paths.root}/${_Paths.profile}';
-  static const article = '${_Paths.root}/${_Paths.article}';
+  static String articleDetail(int id) => '${_Paths.root}/${_Paths.article}/$id';
   static const articleImage =
       '${_Paths.root}/${_Paths.article}/${_Paths.image}';
-  static const articleSection = '${_Paths.root}/${_Paths.articleSection}';
+  static String articleSection(NoticeType type) =>
+      '${_Paths.root}/${_Paths.articleSection}?type=${type.name}';
 }
