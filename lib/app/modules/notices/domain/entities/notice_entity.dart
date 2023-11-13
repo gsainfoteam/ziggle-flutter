@@ -7,7 +7,7 @@ class NoticeEntity {
   final String body;
   final DateTime? deadline;
   final DateTime createdAt;
-  final List<String>? imagesUrl;
+  final List<String> imagesUrl;
   final List<TagEntity> tags;
   final String author;
   final bool reminder;
@@ -19,7 +19,7 @@ class NoticeEntity {
     required this.body,
     this.deadline,
     required this.createdAt,
-    this.imagesUrl,
+    this.imagesUrl = const [],
     this.tags = const [],
     required this.author,
     required this.reminder,

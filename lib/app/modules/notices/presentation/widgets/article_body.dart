@@ -13,14 +13,10 @@ import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-class ArticleBody extends StatelessWidget {
+class NoticeBody extends StatelessWidget {
   final NoticeEntity notice;
-  final void Function()? reportArticle;
-  const ArticleBody({
-    super.key,
-    required this.notice,
-    this.reportArticle,
-  });
+  final void Function()? report;
+  const NoticeBody({super.key, required this.notice, this.report});
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +70,7 @@ class ArticleBody extends StatelessWidget {
           },
           onLinkTap: (url, _, __) => _openUrl(url),
         ),
-        if (reportArticle != null) ...[
+        if (report != null) ...[
           const Divider(
             thickness: 1,
             height: 30,
@@ -84,7 +80,7 @@ class ArticleBody extends StatelessWidget {
             text: t.article.report.action,
             textStyle: TextStyles.link,
             color: Colors.transparent,
-            onTap: reportArticle,
+            onTap: report,
           ),
         ],
       ],

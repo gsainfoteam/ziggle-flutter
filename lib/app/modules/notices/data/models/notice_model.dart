@@ -15,7 +15,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     required String body,
     DateTime? deadline,
     required DateTime createdAt,
-    List<String>? imagesUrl,
+    @Default([]) List<String> imagesUrl,
     @Default([]) List<TagModel> tags,
     required String author,
     required bool reminder,

@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notices_repository.dart';
 
 import '../../../domain/entities/notice_search_query_entity.dart';
@@ -35,12 +36,18 @@ class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
         newQuery,
       ));
     });
+    on<_FetchOne>((event, emit) async {
+      emit(NoticesState.loading([event.summary]));
+      final notice = await _repository.getNotice(event.summary);
+      emit(NoticesState.single(event.summary, notice));
+    });
   }
 }
 
 @freezed
 sealed class NoticesEvent with _$NoticesEvent {
   const factory NoticesEvent.fetch(NoticeSearchQueryEntity query) = _Fetch;
+  const factory NoticesEvent.fetchOne(NoticeSummaryEntity summary) = _FetchOne;
   const factory NoticesEvent.loadMore() = _LoadMore;
 }
 
@@ -56,8 +63,13 @@ sealed class NoticesState with _$NoticesState {
     bool more,
     NoticeSearchQueryEntity lastQuery,
   ) = _Loaded;
+  const factory NoticesState.single(
+      NoticeSummaryEntity summary, NoticeEntity notice) = _Single;
 
   bool get loaded => mapOrNull(loaded: (_) => true) ?? false;
   List<NoticeSummaryEntity> get notices =>
       mapOrNull(loading: (m) => m.notices, loaded: (m) => m.notices) ?? [];
+  NoticeSummaryEntity? get partial =>
+      mapOrNull(loading: (m) => m.notices.single, single: (m) => m.summary);
+  NoticeEntity? get single => mapOrNull(single: (m) => m.notice);
 }

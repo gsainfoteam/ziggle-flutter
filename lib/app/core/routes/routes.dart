@@ -7,8 +7,10 @@ import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart'
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/home_page.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/notice_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/root_page.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -36,8 +38,15 @@ abstract class Routes {
     ),
     routes: [
       GoRoute(
+        path: Paths.articleDetail,
         parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => NoticePage(
+          notice: state.extra as NoticeSummaryEntity,
+        ),
+      ),
+      GoRoute(
         path: Paths.profile,
+        parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) => Scaffold(
             appBar: AppBar(),
             body: Center(
