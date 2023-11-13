@@ -128,11 +128,6 @@ class _ScrollableDraggableContentState
     scrollController.addListener(
       () => setState(() => scrollPixel = scrollController.pixels),
     );
-    pageController.addListener(() {
-      final newPage = (pageController.page?.toInt() ?? 0) + 1;
-      if (newPage == page) return;
-      setState(() => page = newPage);
-    });
   }
 
   @override
@@ -189,6 +184,7 @@ class _ScrollableDraggableContentState
     return PageView.builder(
       clipBehavior: Clip.none,
       controller: pageController,
+      onPageChanged: (p) => setState(() => page = p + 1),
       itemCount: imageUrls.length,
       itemBuilder: (context, index) => Center(
         child: GestureDetector(

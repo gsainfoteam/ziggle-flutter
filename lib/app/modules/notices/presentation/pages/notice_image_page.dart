@@ -19,14 +19,6 @@ class _NoticeImagePageState extends State<NoticeImagePage> {
   late final _pageController = PageController(initialPage: widget.page - 1);
 
   @override
-  void initState() {
-    super.initState();
-    _pageController.addListener(() {
-      setState(() => _page = (_pageController.page?.toInt() ?? 0) + 1);
-    });
-  }
-
-  @override
   void dispose() {
     _pageController.dispose();
     super.dispose();
@@ -50,6 +42,7 @@ class _NoticeImagePageState extends State<NoticeImagePage> {
           children: [
             PageView.builder(
               controller: _pageController,
+              onPageChanged: (p) => setState(() => _page = p + 1),
               itemCount: widget.images.length,
               itemBuilder: (context, index) => Hero(
                 tag: index,
