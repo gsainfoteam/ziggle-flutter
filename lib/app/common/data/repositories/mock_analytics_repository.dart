@@ -48,4 +48,14 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logChangeImageCarousel(int page) {
     debugPrint('Analytics: change image carousel $page');
   }
+
+  @override
+  logHideReminderTooltip() {
+    debugPrint('Analytics: hide reminder tooltip');
+  }
+
+  @override
+  logToggleReminder(bool set) {
+    debugPrint('Analytics: toggle reminder $set');
+  }
 }

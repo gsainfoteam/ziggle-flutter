@@ -10,4 +10,6 @@ abstract class AnalyticsRepository {
   logLogout();
 
   logChangeImageCarousel(int page);
+  logHideReminderTooltip();
+  logToggleReminder(bool set);
 }

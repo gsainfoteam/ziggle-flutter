@@ -28,27 +28,11 @@ class ArticleController extends GetxController {
     super.onClose();
   }
 
-  Future<void> _load() async {
-    final id = Get.parameters['id'];
-    if (id == null) return;
-    final intId = int.tryParse(id);
-    if (intId == null) return;
-    final data = await _repository.getArticleById(intId);
-    article.value = data;
-    isReminder.value = data.reminder;
-    showReminderTooltip.value &=
-        data.deadline != null && data.deadline!.isAfter(DateTime.now());
-  }
-
   void onPageChanged(int page) {}
 
   onImageTap(int index) async {}
 
-  void closeTooltip() {
-    showReminderTooltip.value = false;
-    _repository.hideReminderTooltip();
-    _analyticsService.logHideReminderTooltip();
-  }
+  void closeTooltip() {}
 
   void toggleReminder() async {
     if ((await _userService.getUserInfo().first) == null) {
@@ -70,12 +54,6 @@ class ArticleController extends GetxController {
         ],
       ));
       return;
-    }
-    _analyticsService.logToggleReminder(isReminder.toggle().value);
-    if (isReminder.value) {
-      _repository.setReminder(article.value!.id);
-    } else {
-      _repository.cancelReminder(article.value!.id);
     }
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/user_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
@@ -14,14 +15,20 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
   final NoticesRepository _repository;
   final UserRepository _userRepository;
   final ReminderRepository _reminderRepository;
+  final AnalyticsRepository _analyticsRepository;
   late NoticeSummaryEntity _summary;
   NoticeEntity? _notice;
-  bool get _tooltip => _reminderRepository.shouldShowReminderTooltip;
+  bool get _tooltip =>
+      _reminderRepository.shouldShowReminderTooltip &&
+      _notice != null &&
+      _notice!.deadline != null &&
+      _notice!.deadline!.isAfter(DateTime.now());
 
   ReminderBloc(
     this._repository,
     this._userRepository,
     this._reminderRepository,
+    this._analyticsRepository,
   ) : super(const ReminderState.initial()) {
     on<_Fetch>((event, emit) async {
       _summary = event.notice;
@@ -41,12 +48,14 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
         }
         _notice = await _repository.getNotice(_summary);
         await _reminderRepository.hideReminderTooltip();
+        _analyticsRepository.logToggleReminder(_notice!.reminder);
         emit(ReminderState.value(_notice!.reminder, false));
       } catch (_) {
         emit(ReminderState.value(_notice!.reminder, _tooltip));
       }
     });
     on<_Dismiss>((event, emit) async {
+      _analyticsRepository.logHideReminderTooltip();
       await _reminderRepository.hideReminderTooltip();
       emit(ReminderState.value(_notice!.reminder, false));
     });
