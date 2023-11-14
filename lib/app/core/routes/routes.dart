@@ -12,6 +12,7 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/home_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_image_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_page.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/notice_section_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/root_page.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -39,18 +40,33 @@ abstract class Routes {
     ),
     routes: [
       GoRoute(
-        path: Paths.articleDetail,
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => NoticePage(
-          notice: state.extra as NoticeSummaryEntity,
-        ),
+        path: _Paths.root,
+        builder: (context, state) => const SizedBox.shrink(),
         routes: [
           GoRoute(
-            path: _Paths.image,
+            path: _Paths.article,
             parentNavigatorKey: _rootNavigatorKey,
-            builder: (context, state) => NoticeImagePage(
-              page: int.tryParse(state.uri.queryParameters['page'] ?? '') ?? 1,
-              images: state.extra as List<String>,
+            builder: (context, state) => NoticePage(
+              notice: state.extra as NoticeSummaryEntity,
+            ),
+            routes: [
+              GoRoute(
+                path: _Paths.image,
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) => NoticeImagePage(
+                  page: int.tryParse(state.uri.queryParameters['page'] ?? '') ??
+                      1,
+                  images: state.extra as List<String>,
+                ),
+              ),
+            ],
+          ),
+          GoRoute(
+            path: _Paths.articleSection,
+            parentNavigatorKey: _rootNavigatorKey,
+            builder: (context, state) => NoticeSectionPage(
+              type: NoticeType.values
+                  .byName(state.uri.queryParameters['type'] ?? ''),
             ),
           ),
         ],
