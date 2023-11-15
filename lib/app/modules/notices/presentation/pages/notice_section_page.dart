@@ -117,6 +117,7 @@ class _LayoutState extends State<_Layout> {
               my: widget.type.mine,
             ),
           ));
+          await bloc.stream.firstWhere((e) => e.loaded);
         },
         child: CustomScrollView(
           controller: _scrollController,
