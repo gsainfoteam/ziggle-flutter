@@ -93,7 +93,7 @@ class RootPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(width: 100),
+            const SizedBox(width: 50),
             Expanded(
               child: BottomNavigationBar(
                 items: items,
@@ -101,7 +101,7 @@ class RootPage extends StatelessWidget {
                 onTap: (index) => shell.goBranch(index),
               ),
             ),
-            const SizedBox(width: 100),
+            const SizedBox(width: 50),
           ],
         ),
       ),
