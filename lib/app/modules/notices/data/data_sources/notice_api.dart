@@ -15,7 +15,7 @@ abstract class NoticeApi {
   @factoryMethod
   factory NoticeApi(Dio dio) = _NoticeApi;
 
-  @GET('all')
+  @GET('')
   Future<NoticeListModel> getNotices({
     @Query('offset') int? offset,
     @Query('limit') int? limit,
