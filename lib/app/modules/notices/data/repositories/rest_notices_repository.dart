@@ -1,4 +1,10 @@
+import 'dart:io';
+
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/notices/data/data_sources/image_api.dart';
+import 'package:ziggle/app/modules/notices/data/data_sources/tag_api.dart';
+import 'package:ziggle/app/modules/notices/data/models/tag_model.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_write_entity.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/entities/notice_list_entity.dart';
@@ -10,7 +16,10 @@ import '../data_sources/notice_api.dart';
 @Injectable(as: NoticesRepository)
 class RestNoticesRepository implements NoticesRepository {
   final NoticeApi _api;
-  RestNoticesRepository(this._api);
+  final TagApi _tagApi;
+  final ImageApi _imageApi;
+
+  RestNoticesRepository(this._api, this._tagApi, this._imageApi);
 
   @override
   Future<void> cancelReminder(NoticeEntity notice) {
@@ -37,5 +46,48 @@ class RestNoticesRepository implements NoticesRepository {
   @override
   Future<void> setReminder(NoticeEntity notice) {
     return _api.setReminder(notice.id);
+  }
+
+  Future<TagModel?> _findTag(String tag) async {
+    try {
+      return await _tagApi.findTag(tag);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<List<String>> _uploadImages(Iterable<String> imagePaths) async {
+    if (imagePaths.isEmpty) return const [];
+    final result = await _imageApi.uploadImages(
+      imagePaths.map((e) => File(e)).toList(),
+    );
+    return result;
+  }
+
+  @override
+  Future<NoticeEntity> writeNotice(NoticeWriteEntity writing) async {
+    final tagSearchResult = await Future.wait(
+      writing.tags.map((e) async => MapEntry(e, await _findTag(e))),
+    );
+    final existTags =
+        tagSearchResult.where((e) => e.value != null).map((e) => e.value!.id);
+    final requireToCreateTags =
+        tagSearchResult.where((e) => e.value == null).map((e) => e.key);
+    final createdTags = await Future.wait(
+      requireToCreateTags
+          .map(_tagApi.createTag)
+          .map((e) => e.then((value) => value.id)),
+    );
+
+    final imageKeys = await _uploadImages(writing.imagePaths);
+    final result = await _api.writeNotice(
+      title: writing.title,
+      body: writing.body,
+      deadline: writing.deadline,
+      images: imageKeys,
+      tags: [writing.type!.id, ...existTags, ...createdTags],
+    );
+
+    return result;
   }
 }

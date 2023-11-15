@@ -7,14 +7,17 @@ import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart'
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/repositories/notices_repository.dart';
 
 part 'write_bloc.freezed.dart';
 
 @injectable
 class WriteBloc extends Bloc<WriteEvent, WriteState> {
   final AnalyticsRepository _analyticsRepository;
+  final NoticesRepository _noticesRepository;
 
-  WriteBloc(this._analyticsRepository) : super(const WriteState.initial()) {
+  WriteBloc(this._analyticsRepository, this._noticesRepository)
+      : super(const WriteState.initial()) {
     on<_Init>(_init);
     on<_Write>(_write);
   }
@@ -32,10 +35,8 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
     emit(const WriteState.writing());
     try {
       _analyticsRepository.logSubmitArticle();
-      emit(WriteState.success(NoticeEntity(
-        id: 66,
-        createdAt: DateTime.now(),
-      )));
+      final result = await _noticesRepository.writeNotice(notice);
+      emit(WriteState.success(result));
     } catch (e) {
       _analyticsRepository.logSubmitArticleCancel('unknown error');
       emit(WriteState.error(e.toString()));
@@ -70,6 +71,7 @@ sealed class WriteState with _$WriteState {
         bodyMissing: () => true,
       ) ??
       false;
+  bool get error => whenOrNull(error: (_) => true) ?? false;
   bool get success => whenOrNull(success: (_) => true) ?? false;
   NoticeSummaryEntity? get resultSummary => NoticeSummaryEntity(
         id: whenOrNull(success: (result) => result.id) ?? 0,
