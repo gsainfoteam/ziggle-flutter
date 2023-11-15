@@ -1,3 +1,5 @@
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+
 abstract class AnalyticsRepository {
   logScreen(String screenName);
 
@@ -17,4 +19,6 @@ abstract class AnalyticsRepository {
   logToggleReminder(bool set);
   logTryReport();
   logReport();
+
+  logSearch(String value, Set<NoticeType> selectedType);
 }

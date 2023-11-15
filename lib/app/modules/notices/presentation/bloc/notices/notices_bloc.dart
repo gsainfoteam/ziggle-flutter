@@ -12,18 +12,20 @@ import '../../../domain/entities/notice_summary_entity.dart';
 
 part 'notices_bloc.freezed.dart';
 
+const _throttleTime = Duration(milliseconds: 500);
+
 @injectable
 class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
   final NoticesRepository _repository;
 
   NoticesBloc(this._repository) : super(const NoticesState.initial()) {
     on<_Fetch>(_fetch);
-    on<_LoadMore>(_loadMore);
-    on<_FetchOne>(
-      _fetchOne,
+    on<_LoadMore>(
+      _loadMore,
       transformer: (events, mapper) =>
-          events.throttleTime(const Duration(milliseconds: 500)),
+          events.throttleTime(_throttleTime).switchMap(mapper),
     );
+    on<_FetchOne>(_fetchOne);
   }
 
   FutureOr<void> _fetchOne(_FetchOne event, Emitter<NoticesState> emit) async {

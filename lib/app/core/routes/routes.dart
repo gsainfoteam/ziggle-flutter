@@ -15,6 +15,7 @@ import 'package:ziggle/app/modules/notices/presentation/pages/notice_image_page.
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_section_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/root_page.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/search_page.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 part 'paths.dart';
@@ -107,8 +108,7 @@ abstract class Routes {
             routes: [
               GoRoute(
                 path: Paths.search,
-                builder: (context, state) =>
-                    const Center(child: Text('search')),
+                builder: (context, state) => const SearchPage(),
               )
             ],
           ),
