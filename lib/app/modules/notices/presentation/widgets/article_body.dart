@@ -43,7 +43,7 @@ class NoticeBody extends StatelessWidget {
             children: [
               _buildTextRich(
                 t.article.deadline,
-                DateFormat.yMEd().format(notice.deadline!),
+                DateFormat.yMEd().format(notice.deadline!.toLocal()),
               ),
               const SizedBox(width: 10),
               DDay(

@@ -26,6 +26,7 @@ class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
     on<_LoadMore>((event, emit) async {
       final query = state.mapOrNull(loaded: (m) => m.lastQuery);
       if (query == null) return;
+      if (!(state.mapOrNull(loaded: (m) => m.more) ?? false)) return;
       final oldList = state.mapOrNull(loaded: (m) => m.notices) ?? [];
       emit(NoticesState.loading(oldList));
       final newQuery = query.copyWith(offset: query.offset + query.limit);
