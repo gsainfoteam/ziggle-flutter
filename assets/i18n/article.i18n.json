@@ -1,6 +1,6 @@
 {
   "section": {
-    "title(context=ArticleType, param=type)": {
+    "title(context=NoticeType, param=type)": {
       "all": "All",
       "deadline": "Deadline",
       "hot": "Hot",
@@ -11,7 +11,7 @@
       "general": "General",
       "academic": "Academic"
     },
-    "description(context=ArticleType, param=type)": {
+    "description(context=NoticeType, param=type)": {
       "all": "Check all notices in chronological order",
       "deadline": "Articles that are about to expire within a week",
       "hot": "Articles that have been viewed more than 150 times in the last week",
@@ -22,7 +22,7 @@
       "general": "Things GISTers have to do",
       "academic": "Things GISTers have to do"
     },
-    "shortTitle(context=ArticleType, param=type)": {
+    "shortTitle(context=NoticeType, param=type)": {
       "all": "All",
       "deadline": "Deadline",
       "hot": "Hot",

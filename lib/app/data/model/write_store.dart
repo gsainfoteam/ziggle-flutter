@@ -1,10 +1,10 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:markdown/markdown.dart';
-import 'package:ziggle/app/data/enums/article_type.dart';
 import 'package:ziggle/app/data/model/article_request.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 part 'write_store.freezed.dart';
 part 'write_store.g.dart';
@@ -38,7 +38,7 @@ class WriteStore with _$WriteStore {
       body: markdownToHtml(body),
       deadline: deadline,
       images: imageKeys,
-      tags: [ArticleType.writables[typeIndex!].id, ...tags],
+      tags: [NoticeType.writables[typeIndex!].id, ...tags],
     );
   }
 
