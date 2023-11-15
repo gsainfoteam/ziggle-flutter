@@ -89,4 +89,9 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logSearch(String value, Set<NoticeType> selectedType) {
     debugPrint('Analytics: search $value $selectedType');
   }
+
+  @override
+  logPreviewArticle() {
+    debugPrint('Analytics: preview article');
+  }
 }

@@ -21,4 +21,6 @@ abstract class AnalyticsRepository {
   logReport();
 
   logSearch(String value, Set<NoticeType> selectedType);
+
+  logPreviewArticle();
 }

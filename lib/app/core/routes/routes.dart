@@ -14,6 +14,7 @@ import 'package:ziggle/app/modules/notices/presentation/pages/home_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_image_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_section_page.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/notice_write_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/root_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/search_page.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -71,12 +72,20 @@ abstract class Routes {
                   .byName(state.uri.queryParameters['type'] ?? ''),
             ),
           ),
+          GoRoute(
+            path: _Paths.write,
+            parentNavigatorKey: _rootNavigatorKey,
+            pageBuilder: (context, state) => const MaterialPage(
+              fullscreenDialog: true,
+              child: NoticeWritePage(),
+            ),
+          ),
+          GoRoute(
+            path: _Paths.profile,
+            parentNavigatorKey: _rootNavigatorKey,
+            builder: (context, state) => const ProfilePage(),
+          ),
         ],
-      ),
-      GoRoute(
-        path: Paths.profile,
-        parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => const ProfilePage(),
       ),
       StatefulShellRoute(
         builder: (context, state, navigationShell) => navigationShell,
@@ -166,54 +175,6 @@ abstract class Routes {
       ),
     ],
   );
-
-  // static final routes = [
-  //   GetPage(
-  //     name: _Paths.SPLASH,
-  //     page: () => const SplashPage(),
-  //     binding: SplashBinding(),
-  //   ),
-  //   GetPage(
-  //     name: _Paths.LOGIN,
-  //     page: () => const LoginPage(),
-  //     binding: LoginBinding(),
-  //   ),
-  //   GetPage(
-  //     name: _Paths.ROOT,
-  //     page: () => const RootPage(),
-  //     binding: RootBinding(),
-  //     children: [
-  //       GetPage(
-  //         name: _Paths.WRITE,
-  //         page: () => const WritePage(),
-  //         binding: WriteBinding(),
-  //         fullscreenDialog: true,
-  //       ),
-  //       GetPage(
-  //         name: _Paths.PROFILE,
-  //         page: () => const ProfilePage(),
-  //         binding: ProfileBinding(),
-  //       ),
-  //       GetPage(
-  //         name: _Paths.ARTICLE,
-  //         page: () => const ArticlePage(),
-  //         binding: ArticleBinding(),
-  //         children: [
-  //           GetPage(
-  //             name: _Paths.IMAGE,
-  //             page: () => const ArticleImagePage(),
-  //             binding: ArticleImageBinding(),
-  //           ),
-  //         ],
-  //       ),
-  //       GetPage(
-  //         name: _Paths.ARTICLE_SECTION,
-  //         page: () => const ArticleSectionPage(),
-  //         binding: ArticleSectionBinding(),
-  //       )
-  //     ],
-  //   )
-  // ];
 }
 
 class _Observer extends StatefulWidget {

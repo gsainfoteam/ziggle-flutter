@@ -3,16 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:markdown/markdown.dart';
 import 'package:textfield_tags/textfield_tags.dart';
-import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/app/data/model/article_response.dart';
-import 'package:ziggle/app/data/model/tag_response.dart';
 import 'package:ziggle/app/data/model/write_store.dart';
 import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/data/services/user/service.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
-import 'package:ziggle/app/modules/write/article_preview_sheet.dart';
 import 'package:ziggle/app/modules/write/repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -89,26 +84,7 @@ class WriteController extends GetxController {
     super.onClose();
   }
 
-  showPreview() {
-    _analyticsService.logPreviewArticle();
-    Get.bottomSheet(
-      ArticlePreviewSheet(
-        article: ArticleResponse(
-          id: 0,
-          title: titleController.text,
-          body: markdownToHtml(bodyController.text),
-          author: _userName,
-          createdAt: DateTime.now(),
-          deadline: hasDeadline.value ? deadline.value : null,
-          tags: _tags.map((e) => TagResponse(id: 0, name: e)).toList(),
-          views: 0,
-          reminder: false,
-        ),
-      ),
-      backgroundColor: Palette.white,
-      isScrollControlled: true,
-    );
-  }
+  showPreview() {}
 
   submit() async {
     _analyticsService.logTrySubmitArticle();

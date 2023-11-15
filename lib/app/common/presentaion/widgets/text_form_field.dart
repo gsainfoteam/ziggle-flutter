@@ -10,6 +10,7 @@ class ZiggleTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final InputDecoration? inputDecoration;
   final FocusNode? focusNode;
+  final String? initialValue;
 
   const ZiggleTextFormField({
     super.key,
@@ -21,6 +22,7 @@ class ZiggleTextFormField extends StatelessWidget {
     this.controller,
     this.inputDecoration,
     this.focusNode,
+    this.initialValue,
   });
 
   @override
@@ -35,6 +37,7 @@ class ZiggleTextFormField extends StatelessWidget {
     return TextFormField(
       controller: controller,
       onChanged: onChanged,
+      initialValue: initialValue,
       onFieldSubmitted: onSubmitted,
       minLines: minLines,
       maxLines: maxLines,

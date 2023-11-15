@@ -1,0 +1,329 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:markdown/markdown.dart' hide Text;
+import 'package:textfield_tags/textfield_tags.dart';
+import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
+import 'package:ziggle/app/common/presentaion/widgets/button.dart';
+import 'package:ziggle/app/common/presentaion/widgets/text_form_field.dart';
+import 'package:ziggle/app/core/di/locator.dart';
+import 'package:ziggle/app/core/themes/text.dart';
+import 'package:ziggle/app/core/values/palette.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/notice_preview_sheet.dart';
+import 'package:ziggle/app/modules/write/images_picker.dart';
+import 'package:ziggle/gen/strings.g.dart';
+
+class NoticeWritePage extends StatelessWidget {
+  const NoticeWritePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: const _Layout(),
+    );
+  }
+}
+
+class _Label extends StatelessWidget {
+  const _Label({required this.icon, required this.label});
+
+  final IconData? icon;
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon),
+        const SizedBox(width: 4),
+        Text(label, style: TextStyles.label),
+      ],
+    );
+  }
+}
+
+class _Layout extends StatefulWidget {
+  const _Layout();
+
+  @override
+  State<_Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<_Layout> {
+  String _title = "";
+  bool _hasDeadline = false;
+  DateTime _deadline = DateTime.now();
+  List<XFile> _images = [];
+  NoticeType? _type;
+  String _body = "";
+  final _textFieldTagsController = TextfieldTagsController();
+  final _tags = <String>[];
+
+  @override
+  void initState() {
+    super.initState();
+    _textFieldTagsController.addListener(_tagListener);
+  }
+
+  void _tagListener() {
+    final tags = _textFieldTagsController.getTags ?? [];
+    _tags.clear();
+    for (final tag in tags) {
+      if (tag.startsWith('#')) {
+        _textFieldTagsController.removeTag = tag;
+        _textFieldTagsController.addTag = tag.substring(1);
+        continue;
+      }
+      if (_tags.contains(tag)) {
+        _textFieldTagsController.removeTag = tag;
+      } else {
+        _tags.add(tag);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _textFieldTagsController
+      ..removeListener(_tagListener)
+      ..dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+            child: _buildMeta(),
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            child: _buildBody(),
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: _buildFooter(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Column _buildMeta() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TextFormField(
+          initialValue: _title,
+          onChanged: (value) => _title = value,
+          style: TextStyles.articleWriterTitleStyle,
+          decoration: InputDecoration.collapsed(
+            border: const OutlineInputBorder(borderSide: BorderSide.none),
+            hintText: t.write.title.placeholder,
+          ),
+        ),
+        Row(
+          children: [
+            Checkbox.adaptive(
+              value: _hasDeadline,
+              onChanged: (v) => setState(() => _hasDeadline = v ?? false),
+            ),
+            Text(t.write.deadline.label, style: TextStyles.secondaryLabelStyle),
+          ],
+        ),
+        const SizedBox(height: 10),
+        _hasDeadline
+            ? Column(
+                children: [
+                  SizedBox(
+                    height: 144,
+                    child: CupertinoDatePicker(
+                      minimumDate: DateTime.now(),
+                      onDateTimeChanged: (v) => _deadline = v,
+                      mode: CupertinoDatePickerMode.date,
+                      dateOrder: DatePickerDateOrder.ymd,
+                    ),
+                  ),
+                  const SizedBox(height: 18),
+                ],
+              )
+            : const SizedBox.shrink(),
+        _Label(icon: Icons.sort, label: t.write.type.label),
+        const SizedBox(height: 10),
+        _buildTypes(),
+        const SizedBox(height: 20),
+        _Label(icon: Icons.sell, label: t.write.tags.label),
+        const SizedBox(height: 10),
+        _buildTags()
+      ],
+    );
+  }
+
+  LayoutBuilder _buildTags() {
+    return LayoutBuilder(
+      builder: (context, constraints) => TextFieldTags(
+        textSeparators: const [' ', ','],
+        textfieldTagsController: _textFieldTagsController,
+        inputfieldBuilder: (context, tec, fn, error, onChanged, onSubmitted) =>
+            (context, sc, tags, onTagDelete) => ZiggleTextFormField(
+                  controller: tec,
+                  focusNode: fn,
+                  onChanged: onChanged,
+                  onSubmitted: onSubmitted,
+                  inputDecoration: InputDecoration(
+                    hintText: t.write.tags.placeholder,
+                    prefixIconConstraints:
+                        BoxConstraints(maxWidth: constraints.maxWidth * 0.6),
+                    prefixIcon: tags.isNotEmpty
+                        ? SingleChildScrollView(
+                            controller: sc,
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: tags
+                                  .map(
+                                    (tag) => Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 4),
+                                      child: Chip(
+                                        label: Text(tag),
+                                        onDeleted: () => onTagDelete(tag),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          )
+                        : null,
+                  ),
+                ),
+      ),
+    );
+  }
+
+  Widget _buildTypes() {
+    return Wrap(
+      spacing: 8,
+      children: NoticeType.writables
+          .map(
+            (type) => ZiggleButton(
+              onTap: () => setState(() => _type = type),
+              text: type.label,
+              color: _type == type ? Palette.primaryColor : Palette.light,
+              textStyle: TextStyles.defaultStyle.copyWith(
+                color: _type == type ? Palette.white : null,
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            ),
+          )
+          .toList(),
+    );
+  }
+
+  Widget _buildBody() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _Label(icon: Icons.menu, label: t.write.body.label),
+              const SizedBox(height: 10),
+              ZiggleTextFormField(
+                initialValue: _body,
+                onChanged: (v) => _body = v,
+                hintText: t.write.body.placeholder,
+                minLines: 11,
+                maxLines: 20,
+              ),
+              const SizedBox(height: 32),
+              _Label(
+                icon: Icons.add_photo_alternate,
+                label: t.write.images.label,
+              ),
+              const SizedBox(height: 2),
+              Text(
+                t.write.images.description,
+                style: const TextStyle(color: Palette.secondaryText),
+              ),
+              const SizedBox(height: 12),
+            ],
+          ),
+        ),
+        ImagesPicker(
+          images: _images,
+          changeImages: (v) => setState(() => _images = v),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFooter() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 30,
+          child: ZiggleButton(
+            text: t.write.preview,
+            color: Colors.transparent,
+            onTap: () {
+              sl<AnalyticsRepository>().logPreviewArticle();
+              showModalBottomSheet(
+                context: context,
+                enableDrag: false,
+                backgroundColor: Palette.white,
+                isScrollControlled: true,
+                builder: (context) => NoticePreviewSheet(
+                  notice: NoticeEntity(
+                    id: 0,
+                    title: _title,
+                    body: markdownToHtml(_body),
+                    author: context.read<AuthBloc>().state.user!.name,
+                    createdAt: DateTime.now(),
+                    deadline: _hasDeadline ? _deadline : null,
+                    tags: _tags.map((e) => TagEntity(0, e)).toList(),
+                    views: 0,
+                    reminder: false,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 12),
+        SizedBox(
+          width: 250,
+          height: 50,
+          child: ZiggleButton(
+            text: t.write.submit,
+            // onTap: controller.submit,
+            // loading: controller.loading.value,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(25)),
+            ),
+            fontSize: 20,
+          ),
+        ),
+        const SizedBox(height: 12),
+        Text(
+          t.write.warning,
+          style: const TextStyle(fontSize: 14, color: Palette.secondaryText),
+        ),
+        const SizedBox(height: 150),
+      ],
+    );
+  }
+}
