@@ -37,13 +37,13 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
     on<_Dismiss>(_dismiss);
   }
 
-  FutureOr<void> _dismiss(event, emit) async {
+  FutureOr<void> _dismiss(_Dismiss event, Emitter<ReminderState> emit) async {
     _analyticsRepository.logHideReminderTooltip();
     await _reminderRepository.hideReminderTooltip();
     emit(ReminderState.value(_notice!.reminder, false));
   }
 
-  FutureOr<void> _toggle(event, emit) async {
+  FutureOr<void> _toggle(_Toggle event, Emitter<ReminderState> emit) async {
     if (_notice == null) return;
     try {
       await _userRepository.userInfo();
@@ -64,7 +64,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
     }
   }
 
-  FutureOr<void> _fetch(event, emit) async {
+  FutureOr<void> _fetch(_Fetch event, Emitter<ReminderState> emit) async {
     _summary = event.notice;
     emit(ReminderState.loading(false, _tooltip));
     _notice = await _repository.getNotice(_summary);

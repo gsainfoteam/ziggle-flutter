@@ -31,7 +31,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<_Logout>(_logout);
   }
 
-  FutureOr<void> _logout(event, emit) {
+  FutureOr<void> _logout(_Logout event, Emitter<AuthState> emit) {
     _authRepository.setRecentLogout();
     if (_isAnonymous) {
       _analytics.logLogoutAnonymous();
@@ -42,13 +42,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     _storage.delete();
   }
 
-  FutureOr<void> _loginAnonymous(event, emit) {
+  FutureOr<void> _loginAnonymous(
+    _LoginAnonymous event,
+    Emitter<AuthState> emit,
+  ) {
     _analytics.logLoginAnonymous();
     _isAnonymous = true;
     emit(const AuthState.anonymous());
   }
 
-  FutureOr<void> _login(event, emit) async {
+  FutureOr<void> _login(_Login event, Emitter<AuthState> emit) async {
     emit(const AuthState.loading());
     _analytics.logTryLogin();
     try {
@@ -61,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
   }
 
-  FutureOr<void> _load(event, emit) async {
+  FutureOr<void> _load(_Load event, Emitter<AuthState> emit) async {
     return emit.forEach(
       _storage.read().asyncMap((token) async {
         if (_isAnonymous) return const AuthState.anonymous();

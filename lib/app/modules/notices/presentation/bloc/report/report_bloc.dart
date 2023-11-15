@@ -16,7 +16,7 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
     on<_Report>(_report);
   }
 
-  FutureOr<void> _report(event, emit) {
+  FutureOr<void> _report(_Report event, Emitter<ReportState> emit) {
     if (event.confirm) {
       _analyticsRepository.logReport();
       emit(const ReportState.done());

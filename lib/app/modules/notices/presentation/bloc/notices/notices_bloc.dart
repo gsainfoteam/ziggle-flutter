@@ -26,13 +26,13 @@ class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
     );
   }
 
-  FutureOr<void> _fetchOne(event, emit) async {
+  FutureOr<void> _fetchOne(_FetchOne event, Emitter<NoticesState> emit) async {
     emit(NoticesState.loading([event.summary]));
     final notice = await _repository.getNotice(event.summary);
     emit(NoticesState.single(event.summary, notice));
   }
 
-  FutureOr<void> _loadMore(event, emit) async {
+  FutureOr<void> _loadMore(_LoadMore event, Emitter<NoticesState> emit) async {
     final query = state.mapOrNull(loaded: (m) => m.lastQuery);
     if (query == null) return;
     if (!(state.mapOrNull(
@@ -50,7 +50,7 @@ class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
     ));
   }
 
-  FutureOr<void> _fetch(event, emit) async {
+  FutureOr<void> _fetch(_Fetch event, Emitter<NoticesState> emit) async {
     emit(const NoticesState.loading());
     final notices = await _repository.getNotices(event.query);
     emit(NoticesState.loaded(
