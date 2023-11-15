@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
-import 'package:get/get.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/app.dart';
@@ -48,7 +47,7 @@ class _AppState extends State<App> {
                 showIgnore: false,
                 showLater: false,
               ),
-              navigatorKey: Get.key,
+              navigatorKey: Routes.config.configuration.navigatorKey,
               child: child,
             ),
           ),
