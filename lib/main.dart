@@ -9,7 +9,6 @@ import 'package:intl/intl.dart';
 import 'package:ziggle/app/app.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/themes/font.dart';
-import 'package:ziggle/app/data/provider/db.dart';
 import 'package:ziggle/app_bloc_observer.dart';
 import 'package:ziggle/firebase_options.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -38,7 +37,6 @@ Future<void> _initLocale() async {
 Future<void> _preInit() async {
   await Future.wait([
     _initLocale(),
-    DbProvider.init(),
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
   ]);
 }
