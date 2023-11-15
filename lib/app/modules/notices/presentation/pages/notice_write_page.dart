@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -122,6 +124,7 @@ class _LayoutState extends State<_Layout> {
   late String _body = _saved.body;
   final _textFieldTagsController = TextfieldTagsController();
   final _tags = <String>[];
+  late final Timer _saveTimer;
 
   NoticeWriteEntity get writing => NoticeWriteEntity(
         title: _title,
@@ -136,9 +139,12 @@ class _LayoutState extends State<_Layout> {
   void initState() {
     super.initState();
     _textFieldTagsController.addListener(_tagListener);
-    for (final tag in _saved.tags) {
-      _textFieldTagsController.addTag = tag;
-    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      for (final tag in _saved.tags) {
+        _textFieldTagsController.addTag = tag;
+      }
+    });
+    _saveTimer = Timer.periodic(const Duration(seconds: 5), _autoSave);
   }
 
   void _tagListener() {
@@ -158,11 +164,16 @@ class _LayoutState extends State<_Layout> {
     }
   }
 
+  void _autoSave(Timer timer) {
+    context.read<WriteBloc>().add(WriteEvent.save(writing));
+  }
+
   @override
   void dispose() {
     _textFieldTagsController
       ..removeListener(_tagListener)
       ..dispose();
+    _saveTimer.cancel();
     super.dispose();
   }
 
@@ -219,6 +230,7 @@ class _LayoutState extends State<_Layout> {
                   SizedBox(
                     height: 144,
                     child: CupertinoDatePicker(
+                      initialDateTime: _deadline,
                       minimumDate: DateTime.now(),
                       onDateTimeChanged: (v) => _deadline = v,
                       mode: CupertinoDatePickerMode.date,

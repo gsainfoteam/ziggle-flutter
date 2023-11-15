@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:injectable/injectable.dart';
 import 'package:markdown/markdown.dart';
+import 'package:ziggle/app/common/domain/repositories/settings_repository.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/image_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/tag_api.dart';
+import 'package:ziggle/app/modules/notices/data/models/notice_write_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/rest_write_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/tag_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_entity.dart';
@@ -15,13 +17,21 @@ import '../../domain/entities/notice_summary_entity.dart';
 import '../../domain/repositories/notices_repository.dart';
 import '../data_sources/notice_api.dart';
 
+const _draftKey = 'notice_write_draft';
+
 @Injectable(as: NoticesRepository)
 class RestNoticesRepository implements NoticesRepository {
   final NoticeApi _api;
   final TagApi _tagApi;
   final ImageApi _imageApi;
+  final SettingsRepository _settingsRepository;
 
-  RestNoticesRepository(this._api, this._tagApi, this._imageApi);
+  RestNoticesRepository(
+    this._api,
+    this._tagApi,
+    this._imageApi,
+    this._settingsRepository,
+  );
 
   @override
   Future<void> cancelReminder(NoticeEntity notice) {
@@ -90,6 +100,27 @@ class RestNoticesRepository implements NoticesRepository {
       tags: [writing.type!.id, ...existTags, ...createdTags],
     ));
 
+    await _settingsRepository.removeSetting(_draftKey);
+
     return result;
+  }
+
+  @override
+  Future<NoticeWriteModel?> loadDraft() async {
+    return _settingsRepository.getSetting(_draftKey);
+  }
+
+  @override
+  Future<void> saveDraft(NoticeWriteEntity writing) {
+    return _settingsRepository.setSetting(
+      _draftKey,
+      NoticeWriteModel(
+        title: writing.title,
+        body: writing.body,
+        deadline: writing.deadline,
+        tags: writing.tags,
+        typeIndex: writing.type?.index,
+      ),
+    );
   }
 }

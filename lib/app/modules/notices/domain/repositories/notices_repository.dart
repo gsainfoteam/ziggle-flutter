@@ -11,4 +11,6 @@ abstract class NoticesRepository {
   Future<void> setReminder(NoticeEntity notice);
   Future<void> cancelReminder(NoticeEntity notice);
   Future<NoticeEntity> writeNotice(NoticeWriteEntity writing);
+  Future<void> saveDraft(NoticeWriteEntity writing);
+  Future<NoticeWriteEntity?> loadDraft();
 }

@@ -19,11 +19,17 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
   WriteBloc(this._analyticsRepository, this._noticesRepository)
       : super(const WriteState.initial()) {
     on<_Init>(_init);
+    on<_Save>(_save);
     on<_Write>(_write);
   }
 
-  FutureOr<void> _init(_Init event, Emitter<WriteState> emit) {
-    emit(const WriteState.saved(NoticeWriteEntity()));
+  FutureOr<void> _init(_Init event, Emitter<WriteState> emit) async {
+    final draft = await _noticesRepository.loadDraft();
+    emit(WriteState.saved(draft ?? const NoticeWriteEntity()));
+  }
+
+  FutureOr<void> _save(_Save event, Emitter<WriteState> emit) {
+    _noticesRepository.saveDraft(event.notice);
   }
 
   FutureOr<void> _write(_Write event, Emitter<WriteState> emit) async {
@@ -47,6 +53,7 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
 @freezed
 sealed class WriteEvent with _$WriteEvent {
   const factory WriteEvent.init() = _Init;
+  const factory WriteEvent.save(NoticeWriteEntity notice) = _Save;
   const factory WriteEvent.write(NoticeWriteEntity notice) = _Write;
 }
 
