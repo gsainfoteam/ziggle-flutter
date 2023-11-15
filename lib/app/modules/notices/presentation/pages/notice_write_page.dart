@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:markdown/markdown.dart' hide Text;
 import 'package:textfield_tags/textfield_tags.dart';
@@ -8,6 +9,7 @@ import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart'
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/text_form_field.dart';
 import 'package:ziggle/app/core/di/locator.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
@@ -53,6 +55,14 @@ class NoticeWritePage extends StatelessWidget {
                     content: Column(children: [Text(title), Text(description)]),
                   ),
                 );
+              },
+            ),
+            BlocListener<WriteBloc, WriteState>(
+              listenWhen: (_, current) => current.success,
+              listener: (context, state) {
+                context
+                  ..pop()
+                  ..push(Paths.articleDetail, extra: state.resultSummary);
               },
             ),
           ],

@@ -5,6 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_entity.dart';
 
 part 'write_bloc.freezed.dart';
@@ -68,4 +69,9 @@ sealed class WriteState with _$WriteState {
         bodyMissing: () => true,
       ) ??
       false;
+  bool get success => whenOrNull(success: (_) => true) ?? false;
+  NoticeSummaryEntity? get resultSummary => NoticeSummaryEntity(
+        id: whenOrNull(success: (result) => result.id) ?? 0,
+        createdAt: DateTime.now(),
+      );
 }

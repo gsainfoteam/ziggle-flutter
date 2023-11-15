@@ -13,13 +13,13 @@ class NoticeSummaryEntity {
 
   NoticeSummaryEntity({
     required this.id,
-    required this.title,
-    required this.body,
-    required this.author,
-    required this.views,
-    required this.deadline,
+    this.title = "",
+    this.body = "",
+    this.author = "",
+    this.views = 0,
+    this.deadline,
     required this.createdAt,
-    required this.imageUrl,
-    required this.tags,
+    this.imageUrl,
+    this.tags = const [],
   });
 }
