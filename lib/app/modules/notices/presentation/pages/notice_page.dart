@@ -111,7 +111,7 @@ class _Layout extends StatelessWidget {
         ),
         actions: [
           BlocBuilder<NoticesBloc, NoticesState>(
-            builder: (context, state) => state.partial?.deadline == null
+            builder: (context, state) => state.partial?.currentDeadline == null
                 ? const SizedBox.shrink()
                 : IconButton(
                     onPressed: () => context

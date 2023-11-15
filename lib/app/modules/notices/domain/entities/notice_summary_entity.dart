@@ -6,7 +6,7 @@ class NoticeSummaryEntity {
   final String body;
   final String author;
   final int views;
-  final DateTime? deadline;
+  final DateTime? currentDeadline;
   final DateTime createdAt;
   final String? imageUrl;
   final List<TagEntity> tags;
@@ -17,7 +17,7 @@ class NoticeSummaryEntity {
     this.body = "",
     this.author = "",
     this.views = 0,
-    this.deadline,
+    this.currentDeadline,
     required this.createdAt,
     this.imageUrl,
     this.tags = const [],

@@ -16,7 +16,7 @@ class NoticeSummaryModel
     required String body,
     required String author,
     required int views,
-    required DateTime? deadline,
+    required DateTime? currentDeadline,
     required DateTime createdAt,
     required String? imageUrl,
     @Default([]) List<TagModel> tags,

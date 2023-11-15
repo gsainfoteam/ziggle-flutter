@@ -181,7 +181,7 @@ class _LayoutState extends State<_Layout> {
       builder: (context, state) {
         final groups = groupBy(
           state.notices,
-          (notice) => notice.deadline!.toLocal().aligned,
+          (notice) => notice.currentDeadline!.toLocal().aligned,
         ).entries.toList();
         return SliverList.separated(
           itemCount: groups.length,

@@ -115,11 +115,11 @@ class NoticeCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (notice.deadline != null) ...[
+        if (notice.currentDeadline != null) ...[
           DDay(
             dDay: calculateDateDelta(
               DateTime.now(),
-              notice.deadline!.toLocal(),
+              notice.currentDeadline!.toLocal(),
             ),
           ),
           const SizedBox(height: 3),
