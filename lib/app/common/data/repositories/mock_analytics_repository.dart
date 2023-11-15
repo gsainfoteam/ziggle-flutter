@@ -73,4 +73,14 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logTryReport() {
     debugPrint('Analytics: try report');
   }
+
+  @override
+  logOpenPrivacyPolicy() {
+    debugPrint('Analytics: open privacy policy');
+  }
+
+  @override
+  logOpenWithdrawal() {
+    debugPrint('Analytics: open withdrawal');
+  }
 }

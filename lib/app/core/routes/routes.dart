@@ -7,6 +7,7 @@ import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart'
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
+import 'package:ziggle/app/modules/auth/presentation/pages/profile_page.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/home_page.dart';
@@ -74,12 +75,7 @@ abstract class Routes {
       GoRoute(
         path: Paths.profile,
         parentNavigatorKey: _rootNavigatorKey,
-        builder: (context, state) => Scaffold(
-            appBar: AppBar(),
-            body: Center(
-                child: ElevatedButton(
-                    onPressed: () => context.push(Paths.home),
-                    child: const Text('profile')))),
+        builder: (context, state) => const ProfilePage(),
       ),
       StatefulShellRoute(
         builder: (context, state, navigationShell) => navigationShell,

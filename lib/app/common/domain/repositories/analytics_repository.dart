@@ -1,7 +1,9 @@
 abstract class AnalyticsRepository {
   logScreen(String screenName);
 
+  logOpenPrivacyPolicy();
   logOpenTermsOfService();
+  logOpenWithdrawal();
   logLoginAnonymous();
   logTryLogin();
   logLogin();

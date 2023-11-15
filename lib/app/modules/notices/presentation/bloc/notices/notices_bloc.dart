@@ -19,21 +19,24 @@ class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
       final notices = await _repository.getNotices(event.query);
       emit(NoticesState.loaded(
         notices.list,
-        notices.total > event.query.offset + event.query.limit,
+        notices.total,
         event.query,
       ));
     });
     on<_LoadMore>((event, emit) async {
       final query = state.mapOrNull(loaded: (m) => m.lastQuery);
       if (query == null) return;
-      if (!(state.mapOrNull(loaded: (m) => m.more) ?? false)) return;
+      if (!(state.mapOrNull(
+            loaded: (m) => m.total > m.lastQuery.offset + m.lastQuery.limit,
+          ) ??
+          false)) return;
       final oldList = state.mapOrNull(loaded: (m) => m.notices) ?? [];
       emit(NoticesState.loading(oldList));
       final newQuery = query.copyWith(offset: query.offset + query.limit);
       final notices = await _repository.getNotices(newQuery);
       emit(NoticesState.loaded(
         [...oldList, ...notices.list],
-        notices.total > newQuery.offset + newQuery.limit,
+        notices.total,
         newQuery,
       ));
     });
@@ -61,7 +64,7 @@ sealed class NoticesState with _$NoticesState {
   ]) = _Loading;
   const factory NoticesState.loaded(
     List<NoticeSummaryEntity> notices,
-    bool more,
+    int total,
     NoticeSearchQueryEntity lastQuery,
   ) = _Loaded;
   const factory NoticesState.single(
@@ -73,4 +76,5 @@ sealed class NoticesState with _$NoticesState {
   NoticeSummaryEntity? get partial =>
       mapOrNull(loading: (m) => m.notices.single, single: (m) => m.summary);
   NoticeEntity? get single => mapOrNull(single: (m) => m.notice);
+  int get total => mapOrNull(loaded: (m) => m.total) ?? 0;
 }
