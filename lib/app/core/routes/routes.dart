@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
+import 'package:ziggle/app/common/presentaion/bloc/messages/messages_bloc.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
@@ -50,19 +51,15 @@ abstract class Routes {
             path: _Paths.article,
             parentNavigatorKey: _rootNavigatorKey,
             builder: (context, state) => NoticePage(
-              notice: state.extra as NoticeSummaryEntity,
+              notice: state.extra != null
+                  ? state.extra as NoticeSummaryEntity
+                  : NoticeSummaryEntity(
+                      id: int.tryParse(state.uri.queryParameters['id'] ?? '') ??
+                          0,
+                      createdAt: DateTime.now(),
+                    ),
             ),
             routes: [
-              GoRoute(
-                path: ':id',
-                parentNavigatorKey: _rootNavigatorKey,
-                builder: (context, state) => NoticePage(
-                  notice: NoticeSummaryEntity(
-                    id: int.tryParse(state.pathParameters['id'] ?? '') ?? 0,
-                    createdAt: DateTime.now(),
-                  ),
-                ),
-              ),
               GoRoute(
                 path: _Paths.image,
                 parentNavigatorKey: _rootNavigatorKey,
@@ -164,19 +161,41 @@ abstract class Routes {
             providers: [
               BlocProvider(
                   create: (_) => sl<AuthBloc>()..add(const AuthEvent.load())),
-            ],
-            child: BlocListener<AuthBloc, AuthState>(
-              listenWhen: (context, state) => state.maybeWhen(
-                orElse: () => true,
-                loading: () => false,
-                initial: () => false,
+              BlocProvider(
+                create: (_) =>
+                    sl<MessagesBloc>()..add(const MessagesEvent.init()),
               ),
-              listener: (context, state) {
-                Future.delayed(
-                  const Duration(milliseconds: 500),
-                  FlutterNativeSplash.remove,
-                );
-              },
+            ],
+            child: MultiBlocListener(
+              listeners: [
+                BlocListener<AuthBloc, AuthState>(
+                  listenWhen: (context, state) => state.maybeWhen(
+                    orElse: () => true,
+                    loading: () => false,
+                    initial: () => false,
+                  ),
+                  listener: (context, state) {
+                    Future.delayed(
+                      const Duration(milliseconds: 500),
+                      FlutterNativeSplash.remove,
+                    );
+                  },
+                ),
+                BlocListener<MessagesBloc, MessagesState>(
+                  listener: (context, state) => state.whenOrNull(
+                    link: (link) async {
+                      final authBloc = context.read<AuthBloc>();
+                      if (!authBloc.state.isLoggined) {
+                        authBloc.add(const AuthEvent.loginAnonymous());
+                        await authBloc.stream.firstWhere((s) => s.isLoggined);
+                      }
+                      if (!context.mounted) return;
+                      context.push(link);
+                      return;
+                    },
+                  ),
+                ),
+              ],
               child: child,
             ),
           ),

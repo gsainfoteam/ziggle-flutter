@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
-import 'package:go_router/go_router.dart';
 import 'package:upgrader/upgrader.dart';
-import 'package:ziggle/app/common/presentaion/bloc/messages/messages_bloc.dart';
-import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/app.dart';
 import 'package:ziggle/app/core/values/palette.dart';
@@ -52,21 +48,7 @@ class _AppState extends State<App> {
                 showLater: false,
               ),
               navigatorKey: Routes.config.configuration.navigatorKey,
-              child: MultiBlocProvider(
-                providers: [
-                  BlocProvider(create: (_) => sl<MessagesBloc>()),
-                ],
-                child: MultiBlocListener(
-                  listeners: [
-                    BlocListener<MessagesBloc, MessagesState>(
-                      listener: (context, state) => state.whenOrNull(
-                        link: (link) => context.push(link),
-                      ),
-                    ),
-                  ],
-                  child: child ?? const SizedBox(),
-                ),
-              ),
+              child: child,
             ),
           ),
         ),
