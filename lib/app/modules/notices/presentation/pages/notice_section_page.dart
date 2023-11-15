@@ -17,48 +17,6 @@ import '../../domain/entities/notice_search_query_entity.dart';
 import '../../domain/enums/notice_mine.dart';
 import '../../domain/enums/notice_type.dart';
 
-//   Widget _buildDeadlineList() {
-//     return PagedSliverList<int, _GroupNotice>.separated(
-//       pagingController: groupArticleController,
-//       separatorBuilder: (context, index) => const SizedBox(height: 18),
-//       builderDelegate: PagedChildBuilderDelegate(
-//         firstPageProgressIndicatorBuilder: (_) => const _ProgressIndicator(),
-//         newPageProgressIndicatorBuilder: (_) => const _ProgressIndicator(),
-//         noItemsFoundIndicatorBuilder: (_) => const _NoItemsFoundIndicator(),
-//         itemBuilder: (context, item, index) => Column(
-//           children: [
-//             Text(
-//               t.article.deadlineDelta(
-//                 n: calculateDateDelta(DateTime.now(), item.key),
-//               ),
-//               style: TextStyles.articleCardTitleStyle,
-//             ),
-//             const SizedBox(height: 12),
-//             Container(width: 80, height: 1, color: Palette.black),
-//             ListView(
-//               shrinkWrap: true,
-//               physics: const NeverScrollableScrollPhysics(),
-//               padding: const EdgeInsets.symmetric(vertical: 16),
-//               children: item.value
-//                   .map(
-//                     (article) => Padding(
-//                       padding: const EdgeInsets.only(bottom: 18),
-//                       child: NoticeCard(
-//                         notice: article,
-//                         direction: Axis.horizontal,
-//                         onTap: () =>
-//                             context.push(Paths.articleDetail, extra: article),
-//                       ),
-//                     ),
-//                   )
-//                   .toList(),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-
 class _NoItemsFoundIndicator extends StatelessWidget {
   const _NoItemsFoundIndicator();
 
@@ -218,34 +176,6 @@ class _LayoutState extends State<_Layout> {
   }
 
   Widget _buildDeadlineList() {
-// [
-//             Text(
-//               t.article.deadlineDelta(
-//                 n: calculateDateDelta(DateTime.now(), item.key),
-//               ),
-//               style: TextStyles.articleCardTitleStyle,
-//             ),
-//             const SizedBox(height: 12),
-//             Container(width: 80, height: 1, color: Palette.black),
-//             ListView(
-//               shrinkWrap: true,
-//               physics: const NeverScrollableScrollPhysics(),
-//               padding: const EdgeInsets.symmetric(vertical: 16),
-//               children: item.value
-//                   .map(
-//                     (article) => Padding(
-//                       padding: const EdgeInsets.only(bottom: 18),
-//                       child: NoticeCard(
-//                         notice: article,
-//                         direction: Axis.horizontal,
-//                         onTap: () =>
-//                             context.push(Paths.articleDetail, extra: article),
-//                       ),
-//                     ),
-//                   )
-//                   .toList(),
-//             )
-//           ]
     return BlocBuilder<NoticesBloc, NoticesState>(
       builder: (context, state) {
         final groups = groupBy(
