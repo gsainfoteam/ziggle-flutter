@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notices_repository.dart';
 
@@ -44,7 +45,9 @@ class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
       emit(NoticesState.loading([event.summary]));
       final notice = await _repository.getNotice(event.summary);
       emit(NoticesState.single(event.summary, notice));
-    });
+    },
+        transformer: (events, mapper) =>
+            events.throttleTime(const Duration(milliseconds: 500)));
   }
 }
 
