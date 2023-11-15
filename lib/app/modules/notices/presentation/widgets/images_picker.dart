@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
@@ -29,10 +28,13 @@ class _ImagesPickerState extends State<ImagesPicker> {
   @override
   Widget build(BuildContext context) {
     if (!_loading && widget.images.isEmpty) {
-      return ZiggleButton(
-        text: t.write.images.action,
-        onTap: _selectPhotos,
-      ).paddingSymmetric(horizontal: 20);
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: ZiggleButton(
+          text: t.write.images.action,
+          onTap: _selectPhotos,
+        ),
+      );
     }
     return SizedBox(
       height: 144,

@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 enum NoticeMine {
@@ -12,5 +11,5 @@ enum NoticeMine {
 
 extension NoticeTypeMyExtension on NoticeType {
   NoticeMine? get mine =>
-      NoticeMine.values.firstWhereOrNull((e) => e.type == this);
+      NoticeMine.values.where((e) => e.type == this).firstOrNull;
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 
 class ZiggleButton extends StatefulWidget {
@@ -48,7 +47,7 @@ class _ZiggleButtonState extends State<ZiggleButton> {
       onTapCancel: () => setState(() => _hover = false),
       onTapUp: (_) => setState(() => _hover = false),
       child: AnimatedContainer(
-        duration: 100.milliseconds,
+        duration: const Duration(milliseconds: 100),
         padding: widget.padding ??
             EdgeInsets.symmetric(
               horizontal: 20,

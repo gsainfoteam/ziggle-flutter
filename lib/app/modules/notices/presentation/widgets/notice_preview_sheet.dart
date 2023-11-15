@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/article_body.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
 
 class NoticePreviewSheet extends StatelessWidget {
   final NoticeEntity notice;

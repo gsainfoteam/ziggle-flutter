@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 
@@ -127,7 +126,8 @@ class _Article extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final opacity = max(0.0, min((rect.left / Get.width) / 2.5 + 0.5, 1.0));
+    final width = MediaQuery.of(context).size.width;
+    final opacity = max(0.0, min((rect.left / width) / 2.5 + 0.5, 1.0));
     return Positioned.fromRect(
       rect: rect,
       child: ZiggleButton(
