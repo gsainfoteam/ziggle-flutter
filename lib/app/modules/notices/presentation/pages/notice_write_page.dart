@@ -18,8 +18,8 @@ import 'package:ziggle/app/modules/notices/domain/entities/notice_write_entity.d
 import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/write/write_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/images_picker.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_preview_sheet.dart';
-import 'package:ziggle/app/modules/write/images_picker.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class NoticeWritePage extends StatelessWidget {

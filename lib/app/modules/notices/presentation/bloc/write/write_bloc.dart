@@ -37,6 +37,7 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
         createdAt: DateTime.now(),
       )));
     } catch (e) {
+      _analyticsRepository.logSubmitArticleCancel('unknown error');
       emit(WriteState.error(e.toString()));
     }
   }

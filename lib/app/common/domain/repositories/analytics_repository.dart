@@ -26,4 +26,6 @@ abstract class AnalyticsRepository {
   logTrySubmitArticle();
   logSubmitArticleCancel(String reason);
   logSubmitArticle();
+  logTrySelectImage();
+  logSelectImage();
 }

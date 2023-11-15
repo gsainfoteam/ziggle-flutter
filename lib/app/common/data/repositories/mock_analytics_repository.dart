@@ -109,4 +109,14 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logTrySubmitArticle() {
     debugPrint('Analytics: try submit article');
   }
+
+  @override
+  logSelectImage() {
+    debugPrint('Analytics: select image');
+  }
+
+  @override
+  logTrySelectImage() {
+    debugPrint('Analytics: try select image');
+  }
 }
