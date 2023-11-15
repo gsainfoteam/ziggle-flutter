@@ -46,7 +46,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
   FutureOr<void> _toggle(_Toggle event, Emitter<ReminderState> emit) async {
     if (_notice == null) return;
     try {
-      await _userRepository.userInfo();
+      await _userRepository.userInfo().first;
       emit(ReminderState.loading(!_notice!.reminder, false));
       if (_notice!.reminder) {
         await _repository.cancelReminder(_notice!);

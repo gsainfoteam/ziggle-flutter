@@ -54,6 +54,16 @@ abstract class Routes {
             ),
             routes: [
               GoRoute(
+                path: ':id',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) => NoticePage(
+                  notice: NoticeSummaryEntity(
+                    id: int.tryParse(state.pathParameters['id'] ?? '') ?? 0,
+                    createdAt: DateTime.now(),
+                  ),
+                ),
+              ),
+              GoRoute(
                 path: _Paths.image,
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) => NoticeImagePage(

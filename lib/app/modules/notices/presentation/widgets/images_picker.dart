@@ -4,7 +4,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/core/di/locator.dart';
-import 'package:ziggle/app/data/services/analytics/service.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/gallery_item_button.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -70,7 +69,6 @@ class _ImagesPickerState extends State<ImagesPicker> {
 
   void _selectPhotos() async {
     sl<AnalyticsRepository>().logTrySelectImage();
-    AnalyticsService.to.logTrySelectImage();
     setState(() => _loading = true);
     final result = await ImagePicker().pickMultiImage();
     widget.changeImages([...widget.images, ...result]);

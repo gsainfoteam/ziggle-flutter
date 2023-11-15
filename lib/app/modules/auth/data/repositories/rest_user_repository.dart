@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/common/domain/repositories/messaging_repository.dart';
 
 import '../../data/data_sources/remote/user_api.dart';
 import '../../domain/entities/user_entity.dart';
@@ -14,16 +17,34 @@ class RestUserRepository implements UserRepository {
   final UserApi _api;
   final AuthRepository _authRepository;
   final TokenRepository _tokenRepository;
+  final MessagingRepository _messagingRepository;
+  final _controller = StreamController<UserEntity?>.broadcast();
 
-  RestUserRepository(this._api, this._authRepository, this._tokenRepository);
+  RestUserRepository(this._api, this._authRepository, this._tokenRepository,
+      this._messagingRepository) {
+    _messagingRepository.getToken().listen((token) {
+      if (token != null) {
+        _api.updateFcmToken(token);
+      }
+    });
+    _tokenRepository.read().listen((event) => _updateUser());
+  }
 
-  @override
-  Future<UserEntity?> userInfo() async {
+  Future<UserEntity?> _updateUser() async {
     try {
-      return _api.userInfo();
+      final user = await _api.userInfo();
+      _controller.add(user);
+      return user;
     } catch (_) {
+      _controller.add(null);
       return null;
     }
+  }
+
+  @override
+  Stream<UserEntity?> userInfo() async* {
+    yield await _updateUser();
+    yield* _controller.stream;
   }
 
   @override

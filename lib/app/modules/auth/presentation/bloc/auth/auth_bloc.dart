@@ -70,7 +70,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (_isAnonymous) return const AuthState.anonymous();
         try {
           if (token == null) return const AuthState.unauthenticated();
-          final user = await _repository.userInfo();
+          final user = await _repository.userInfo().first;
           if (user == null) return const AuthState.unauthenticated();
           return AuthState.authenticated(user);
         } catch (_) {
