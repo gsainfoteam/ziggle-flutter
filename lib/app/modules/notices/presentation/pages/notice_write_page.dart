@@ -12,8 +12,10 @@ import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_write_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+import 'package:ziggle/app/modules/notices/presentation/bloc/write/write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_preview_sheet.dart';
 import 'package:ziggle/app/modules/write/images_picker.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -25,7 +27,19 @@ class NoticeWritePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const _Layout(),
+      body: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => sl<WriteBloc>()..add(const WriteEvent.init()),
+          ),
+        ],
+        child: BlocBuilder<WriteBloc, WriteState>(
+          builder: (context, state) => state.maybeMap(
+            initial: (_) => const SizedBox.shrink(),
+            orElse: () => const _Layout(),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -56,12 +70,13 @@ class _Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<_Layout> {
-  String _title = "";
-  bool _hasDeadline = false;
-  DateTime _deadline = DateTime.now();
+  late final NoticeWriteEntity _saved = context.read<WriteBloc>().state.notice;
+  late String _title = _saved.title;
+  late bool _hasDeadline = _saved.deadline != null;
+  late DateTime _deadline = _saved.deadline ?? DateTime.now();
   List<XFile> _images = [];
-  NoticeType? _type;
-  String _body = "";
+  late NoticeType? _type = _saved.type;
+  late String _body = _saved.body;
   final _textFieldTagsController = TextfieldTagsController();
   final _tags = <String>[];
 
@@ -69,6 +84,9 @@ class _LayoutState extends State<_Layout> {
   void initState() {
     super.initState();
     _textFieldTagsController.addListener(_tagListener);
+    for (final tag in _saved.tags) {
+      _textFieldTagsController.addTag = tag;
+    }
   }
 
   void _tagListener() {

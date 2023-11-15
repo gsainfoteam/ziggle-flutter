@@ -23,4 +23,7 @@ abstract class AnalyticsRepository {
   logSearch(String value, Set<NoticeType> selectedType);
 
   logPreviewArticle();
+  logTrySubmitArticle();
+  logSubmitArticleCancel(String reason);
+  logSubmitArticle();
 }

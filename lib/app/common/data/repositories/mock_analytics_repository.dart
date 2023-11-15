@@ -94,4 +94,19 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   logPreviewArticle() {
     debugPrint('Analytics: preview article');
   }
+
+  @override
+  logSubmitArticle() {
+    debugPrint('Analytics: submit article');
+  }
+
+  @override
+  logSubmitArticleCancel(String reason) {
+    debugPrint('Analytics: submit article cancel $reason');
+  }
+
+  @override
+  logTrySubmitArticle() {
+    debugPrint('Analytics: try submit article');
+  }
 }
