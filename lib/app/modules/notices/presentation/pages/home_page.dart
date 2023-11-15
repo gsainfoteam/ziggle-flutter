@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
               )),
             ));
         await Future.wait(_blocs.entries.map(
-          (e) => e.value.stream.where((event) => event.loaded).first,
+          (e) => e.value.stream.firstWhere((event) => event.loaded),
         ));
       },
       child: _Layout(_blocs),
