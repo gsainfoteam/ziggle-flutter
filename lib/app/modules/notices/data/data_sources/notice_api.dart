@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
 
-import '../../domain/enums/notice_my.dart';
+import '../../domain/enums/notice_mine.dart';
 import '../../domain/enums/notice_sort.dart';
 import '../models/notice_list_model.dart';
 
@@ -22,7 +22,7 @@ abstract class NoticeApi {
     @Query('search') String? search,
     @Query('tags[]') List<String>? tags,
     @Query('orderBy') NoticeSort? orderBy,
-    @Query('my') NoticeMy? my,
+    @Query('my') NoticeMine? my,
   });
 
   @GET('{id}')

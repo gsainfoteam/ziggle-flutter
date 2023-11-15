@@ -5,7 +5,7 @@ import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notices/notices_bloc.dart';
 
 import '../../domain/entities/notice_search_query_entity.dart';
-import '../../domain/enums/notice_my.dart';
+import '../../domain/enums/notice_mine.dart';
 import '../../domain/enums/notice_type.dart';
 
 // class NoticeSectionPage extends StatefulWidget {
@@ -203,7 +203,7 @@ class _LayoutState extends State<_Layout> {
             NoticeSearchQueryEntity(
               tags: widget.type.isSearchable ? [widget.type.name] : null,
               orderBy: widget.type.sort,
-              my: widget.type.my,
+              my: widget.type.mine,
             ),
           ));
         },

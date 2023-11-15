@@ -1,6 +1,6 @@
 import 'package:ziggle/app/data/model/article_summary_response.dart';
 import 'package:ziggle/app/data/provider/api.dart';
-import 'package:ziggle/app/modules/notices/domain/enums/notice_my.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_mine.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 class ProfileArticleData {
@@ -20,7 +20,7 @@ class ProfileRepository {
 
   Future<Map<NoticeType, ProfileArticleData>> getArticles() async {
     return Map.fromEntries(
-      await (NoticeMy.values.map((e) async {
+      await (NoticeMine.values.map((e) async {
         final result = await _provider.getNotices(limit: 1, my: e);
         return MapEntry(
           e.type,

@@ -7,7 +7,7 @@ import 'package:ziggle/app/data/model/article_list_response.dart';
 import 'package:ziggle/app/data/model/article_request.dart';
 import 'package:ziggle/app/data/model/article_response.dart';
 import 'package:ziggle/app/data/model/tag_response.dart';
-import 'package:ziggle/app/modules/notices/domain/enums/notice_my.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_mine.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 
 part 'api.g.dart';
@@ -42,7 +42,7 @@ abstract class ApiProvider {
     @Query('search') String? search,
     @Query('tags[]') List<String>? tags,
     @Query('orderBy') NoticeSort? orderBy,
-    @Query('my') NoticeMy? my,
+    @Query('my') NoticeMine? my,
   });
 
   @GET('/notice/{id}')
