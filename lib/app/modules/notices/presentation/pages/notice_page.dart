@@ -295,7 +295,7 @@ class _ReminderTooltip extends StatelessWidget {
         final reminderState = context.watch<ReminderBloc>().state;
         return notice == null ||
                 notice.reminder ||
-                notice.deadline == null ||
+                notice.currentDeadline == null ||
                 !reminderState.showTooltip
             ? const SizedBox.shrink()
             : Positioned(

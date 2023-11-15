@@ -23,8 +23,8 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
   bool get _tooltip =>
       _reminderRepository.shouldShowReminderTooltip &&
       _notice != null &&
-      _notice!.deadline != null &&
-      _notice!.deadline!.isAfter(DateTime.now());
+      _notice!.currentDeadline != null &&
+      _notice!.currentDeadline!.isAfter(DateTime.now());
 
   ReminderBloc(
     this._repository,

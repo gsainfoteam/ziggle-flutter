@@ -19,12 +19,13 @@ class NoticeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final content = notice.contents.first;
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(notice.title, style: TextStyles.articleTitleStyle),
+            Text(content.title, style: TextStyles.articleTitleStyle),
             const SizedBox(height: 12),
             if (notice.tags.isNotEmpty) ...[
               NoticeTags(tags: notice.tags.where((t) => !t.isType).toList()),
@@ -39,18 +40,18 @@ class NoticeBody extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            if (notice.deadline != null) ...[
+            if (notice.currentDeadline != null) ...[
               Row(
                 children: [
                   _buildTextRich(
                     t.article.deadline,
-                    DateFormat.yMEd().format(notice.deadline!.toLocal()),
+                    DateFormat.yMEd().format(notice.currentDeadline!.toLocal()),
                   ),
                   const SizedBox(width: 10),
                   DDay(
                     dDay: calculateDateDelta(
                       DateTime.now(),
-                      notice.deadline!.toLocal(),
+                      notice.currentDeadline!.toLocal(),
                     ),
                   ),
                 ],
@@ -65,10 +66,8 @@ class NoticeBody extends StatelessWidget {
               color: Palette.placeholder,
             ),
             Html(
-              data: notice.body,
-              style: {
-                'body': Style(margin: Margins.zero),
-              },
+              data: content.body,
+              style: {'body': Style(margin: Margins.zero)},
               onLinkTap: (url, _, __) => _openUrl(url),
             ),
             if (report != null) ...[

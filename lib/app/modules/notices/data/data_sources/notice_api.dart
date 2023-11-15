@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/notices/data/models/rest_write_notice_model.dart';
 
 import '../../domain/enums/notice_mine.dart';
 import '../../domain/enums/notice_sort.dart';
@@ -26,13 +27,7 @@ abstract class NoticeApi {
   });
 
   @POST('')
-  Future<NoticeModel> writeNotice({
-    @Field('title') required String title,
-    @Field('body') required String body,
-    @Field('deadline') required DateTime? deadline,
-    @Field('images') required List<String>? images,
-    @Field('tags') required List<int>? tags,
-  });
+  Future<NoticeModel> writeNotice(@Body() RestWriteNoticeModel body);
 
   @GET('{id}')
   Future<NoticeModel> getNotice(@Path() int id);

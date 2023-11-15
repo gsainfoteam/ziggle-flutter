@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ziggle/app/modules/notices/data/models/content_model.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import 'tag_model.dart';
@@ -10,11 +11,10 @@ part 'notice_model.g.dart';
 class NoticeModel with _$NoticeModel implements NoticeEntity {
   const factory NoticeModel({
     required int id,
-    required String title,
     required int views,
-    required String body,
-    DateTime? deadline,
+    DateTime? currentDeadline,
     required DateTime createdAt,
+    required List<ContentModel> contents,
     @Default([]) List<String> imagesUrl,
     @Default([]) List<TagModel> tags,
     required String author,
