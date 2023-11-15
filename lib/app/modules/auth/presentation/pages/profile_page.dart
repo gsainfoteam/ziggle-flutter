@@ -187,7 +187,7 @@ class _MyArticles extends StatelessWidget {
             height: 60,
             child: ZiggleButton(
               color: Palette.light,
-              text: t.profile.others(count: total),
+              text: t.profile.others(count: total - 1),
               textColor: Palette.black,
               textStyle: TextStyles.bigNormal,
               onTap: () => context.push(Paths.articleSection(type)),
