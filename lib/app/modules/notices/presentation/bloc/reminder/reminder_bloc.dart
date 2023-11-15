@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -30,37 +32,43 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
     this._reminderRepository,
     this._analyticsRepository,
   ) : super(const ReminderState.initial()) {
-    on<_Fetch>((event, emit) async {
-      _summary = event.notice;
-      emit(ReminderState.loading(false, _tooltip));
-      _notice = await _repository.getNotice(_summary);
-      emit(ReminderState.value(_notice!.reminder, _tooltip));
-    });
-    on<_Toggle>((event, emit) async {
-      if (_notice == null) return;
-      try {
-        await _userRepository.userInfo();
-        emit(ReminderState.loading(!_notice!.reminder, false));
-        if (_notice!.reminder) {
-          await _repository.cancelReminder(_notice!);
-        } else {
-          await _repository.setReminder(_notice!);
-        }
-        _notice = await _repository.getNotice(_summary);
-        await _reminderRepository.hideReminderTooltip();
-        _analyticsRepository.logToggleReminder(_notice!.reminder);
-        emit(ReminderState.value(_notice!.reminder, false));
-      } catch (_) {
-        _analyticsRepository.logTryReminder();
-        emit(ReminderState.loginRequired(_tooltip));
-        emit(ReminderState.value(_notice!.reminder, _tooltip));
+    on<_Fetch>(_fetch);
+    on<_Toggle>(_toggle);
+    on<_Dismiss>(_dismiss);
+  }
+
+  FutureOr<void> _dismiss(event, emit) async {
+    _analyticsRepository.logHideReminderTooltip();
+    await _reminderRepository.hideReminderTooltip();
+    emit(ReminderState.value(_notice!.reminder, false));
+  }
+
+  FutureOr<void> _toggle(event, emit) async {
+    if (_notice == null) return;
+    try {
+      await _userRepository.userInfo();
+      emit(ReminderState.loading(!_notice!.reminder, false));
+      if (_notice!.reminder) {
+        await _repository.cancelReminder(_notice!);
+      } else {
+        await _repository.setReminder(_notice!);
       }
-    });
-    on<_Dismiss>((event, emit) async {
-      _analyticsRepository.logHideReminderTooltip();
+      _notice = await _repository.getNotice(_summary);
       await _reminderRepository.hideReminderTooltip();
+      _analyticsRepository.logToggleReminder(_notice!.reminder);
       emit(ReminderState.value(_notice!.reminder, false));
-    });
+    } catch (_) {
+      _analyticsRepository.logTryReminder();
+      emit(ReminderState.loginRequired(_tooltip));
+      emit(ReminderState.value(_notice!.reminder, _tooltip));
+    }
+  }
+
+  FutureOr<void> _fetch(event, emit) async {
+    _summary = event.notice;
+    emit(ReminderState.loading(false, _tooltip));
+    _notice = await _repository.getNotice(_summary);
+    emit(ReminderState.value(_notice!.reminder, _tooltip));
   }
 }
 

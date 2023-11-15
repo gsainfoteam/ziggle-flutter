@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -11,16 +13,18 @@ class ReportBloc extends Bloc<ReportEvent, ReportState> {
   final AnalyticsRepository _analyticsRepository;
 
   ReportBloc(this._analyticsRepository) : super(const ReportState.initial()) {
-    on<_Report>((event, emit) {
-      if (event.confirm) {
-        _analyticsRepository.logReport();
-        emit(const ReportState.done());
-      } else {
-        _analyticsRepository.logTryReport();
-        emit(const ReportState.confirm());
-      }
-      emit(const ReportState.initial());
-    });
+    on<_Report>(_report);
+  }
+
+  FutureOr<void> _report(event, emit) {
+    if (event.confirm) {
+      _analyticsRepository.logReport();
+      emit(const ReportState.done());
+    } else {
+      _analyticsRepository.logTryReport();
+      emit(const ReportState.confirm());
+    }
+    emit(const ReportState.initial());
   }
 }
 

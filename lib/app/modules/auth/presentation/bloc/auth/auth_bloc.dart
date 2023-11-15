@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -23,49 +25,57 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     this._analytics,
     this._authRepository,
   ) : super(const AuthState.initial()) {
-    on<_Load>((event, emit) async {
-      return emit.forEach(
-        _storage.read().asyncMap((token) async {
-          if (_isAnonymous) return const AuthState.anonymous();
-          try {
-            if (token == null) return const AuthState.unauthenticated();
-            final user = await _repository.userInfo();
-            if (user == null) return const AuthState.unauthenticated();
-            return AuthState.authenticated(user);
-          } catch (_) {
-            return const AuthState.unauthenticated();
-          }
-        }),
-        onData: (state) => state,
-      );
-    });
-    on<_Login>((event, emit) async {
-      emit(const AuthState.loading());
-      _analytics.logTryLogin();
-      try {
-        final user = await _repository.login();
-        _analytics.logLogin();
-        return emit(AuthState.authenticated(user));
-      } catch (e) {
-        _analytics.logLoginCancel(e.toString());
-        return emit(AuthState.error(e.toString()));
-      }
-    });
-    on<_LoginAnonymous>((event, emit) {
-      _analytics.logLoginAnonymous();
-      _isAnonymous = true;
-      emit(const AuthState.anonymous());
-    });
-    on<_Logout>((event, emit) {
-      _authRepository.setRecentLogout();
-      if (_isAnonymous) {
-        _analytics.logLogoutAnonymous();
-      } else {
-        _analytics.logLogout();
-      }
-      _isAnonymous = false;
-      _storage.delete();
-    });
+    on<_Load>(_load);
+    on<_Login>(_login);
+    on<_LoginAnonymous>(_loginAnonymous);
+    on<_Logout>(_logout);
+  }
+
+  FutureOr<void> _logout(event, emit) {
+    _authRepository.setRecentLogout();
+    if (_isAnonymous) {
+      _analytics.logLogoutAnonymous();
+    } else {
+      _analytics.logLogout();
+    }
+    _isAnonymous = false;
+    _storage.delete();
+  }
+
+  FutureOr<void> _loginAnonymous(event, emit) {
+    _analytics.logLoginAnonymous();
+    _isAnonymous = true;
+    emit(const AuthState.anonymous());
+  }
+
+  FutureOr<void> _login(event, emit) async {
+    emit(const AuthState.loading());
+    _analytics.logTryLogin();
+    try {
+      final user = await _repository.login();
+      _analytics.logLogin();
+      return emit(AuthState.authenticated(user));
+    } catch (e) {
+      _analytics.logLoginCancel(e.toString());
+      return emit(AuthState.error(e.toString()));
+    }
+  }
+
+  FutureOr<void> _load(event, emit) async {
+    return emit.forEach(
+      _storage.read().asyncMap((token) async {
+        if (_isAnonymous) return const AuthState.anonymous();
+        try {
+          if (token == null) return const AuthState.unauthenticated();
+          final user = await _repository.userInfo();
+          if (user == null) return const AuthState.unauthenticated();
+          return AuthState.authenticated(user);
+        } catch (_) {
+          return const AuthState.unauthenticated();
+        }
+      }),
+      onData: (state) => state,
+    );
   }
 }
 

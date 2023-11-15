@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -15,39 +17,47 @@ class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
   final NoticesRepository _repository;
 
   NoticesBloc(this._repository) : super(const NoticesState.initial()) {
-    on<_Fetch>((event, emit) async {
-      emit(const NoticesState.loading());
-      final notices = await _repository.getNotices(event.query);
-      emit(NoticesState.loaded(
-        notices.list,
-        notices.total,
-        event.query,
-      ));
-    });
-    on<_LoadMore>((event, emit) async {
-      final query = state.mapOrNull(loaded: (m) => m.lastQuery);
-      if (query == null) return;
-      if (!(state.mapOrNull(
-            loaded: (m) => m.total > m.lastQuery.offset + m.lastQuery.limit,
-          ) ??
-          false)) return;
-      final oldList = state.mapOrNull(loaded: (m) => m.notices) ?? [];
-      emit(NoticesState.loading(oldList));
-      final newQuery = query.copyWith(offset: query.offset + query.limit);
-      final notices = await _repository.getNotices(newQuery);
-      emit(NoticesState.loaded(
-        [...oldList, ...notices.list],
-        notices.total,
-        newQuery,
-      ));
-    });
-    on<_FetchOne>((event, emit) async {
-      emit(NoticesState.loading([event.summary]));
-      final notice = await _repository.getNotice(event.summary);
-      emit(NoticesState.single(event.summary, notice));
-    },
-        transformer: (events, mapper) =>
-            events.throttleTime(const Duration(milliseconds: 500)));
+    on<_Fetch>(_fetch);
+    on<_LoadMore>(_loadMore);
+    on<_FetchOne>(
+      _fetchOne,
+      transformer: (events, mapper) =>
+          events.throttleTime(const Duration(milliseconds: 500)),
+    );
+  }
+
+  FutureOr<void> _fetchOne(event, emit) async {
+    emit(NoticesState.loading([event.summary]));
+    final notice = await _repository.getNotice(event.summary);
+    emit(NoticesState.single(event.summary, notice));
+  }
+
+  FutureOr<void> _loadMore(event, emit) async {
+    final query = state.mapOrNull(loaded: (m) => m.lastQuery);
+    if (query == null) return;
+    if (!(state.mapOrNull(
+          loaded: (m) => m.total > m.lastQuery.offset + m.lastQuery.limit,
+        ) ??
+        false)) return;
+    final oldList = state.mapOrNull(loaded: (m) => m.notices) ?? [];
+    emit(NoticesState.loading(oldList));
+    final newQuery = query.copyWith(offset: query.offset + query.limit);
+    final notices = await _repository.getNotices(newQuery);
+    emit(NoticesState.loaded(
+      [...oldList, ...notices.list],
+      notices.total,
+      newQuery,
+    ));
+  }
+
+  FutureOr<void> _fetch(event, emit) async {
+    emit(const NoticesState.loading());
+    final notices = await _repository.getNotices(event.query);
+    emit(NoticesState.loaded(
+      notices.list,
+      notices.total,
+      event.query,
+    ));
   }
 }
 
