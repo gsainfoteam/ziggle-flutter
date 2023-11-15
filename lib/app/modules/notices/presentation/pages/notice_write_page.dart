@@ -33,10 +33,34 @@ class NoticeWritePage extends StatelessWidget {
             create: (_) => sl<WriteBloc>()..add(const WriteEvent.init()),
           ),
         ],
-        child: BlocBuilder<WriteBloc, WriteState>(
-          builder: (context, state) => state.maybeMap(
-            initial: (_) => const SizedBox.shrink(),
-            orElse: () => const _Layout(),
+        child: MultiBlocListener(
+          listeners: [
+            BlocListener<WriteBloc, WriteState>(
+              listenWhen: (_, current) => current.missing,
+              listener: (context, state) {
+                final title = state.mapOrNull(
+                  titleMissing: (_) => t.write.title.error.title,
+                  typeMissing: (_) => t.write.type.error.title,
+                  bodyMissing: (_) => t.write.body.error.title,
+                )!;
+                final description = state.mapOrNull(
+                  titleMissing: (_) => t.write.title.error.description,
+                  typeMissing: (_) => t.write.type.error.description,
+                  bodyMissing: (_) => t.write.body.error.description,
+                )!;
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Column(children: [Text(title), Text(description)]),
+                  ),
+                );
+              },
+            ),
+          ],
+          child: BlocBuilder<WriteBloc, WriteState>(
+            builder: (context, state) => state.maybeMap(
+              initial: (_) => const SizedBox.shrink(),
+              orElse: () => const _Layout(),
+            ),
           ),
         ),
       ),
@@ -79,6 +103,15 @@ class _LayoutState extends State<_Layout> {
   late String _body = _saved.body;
   final _textFieldTagsController = TextfieldTagsController();
   final _tags = <String>[];
+
+  NoticeWriteEntity get writing => NoticeWriteEntity(
+        title: _title,
+        body: _body,
+        type: _type,
+        deadline: _hasDeadline ? _deadline : null,
+        tags: _tags,
+        imagePaths: _images.map((e) => e.path).toList(),
+      );
 
   @override
   void initState() {
@@ -325,14 +358,17 @@ class _LayoutState extends State<_Layout> {
         SizedBox(
           width: 250,
           height: 50,
-          child: ZiggleButton(
-            text: t.write.submit,
-            // onTap: controller.submit,
-            // loading: controller.loading.value,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(25)),
+          child: BlocBuilder<WriteBloc, WriteState>(
+            builder: (context, state) => ZiggleButton(
+              text: t.write.submit,
+              onTap: () =>
+                  context.read<WriteBloc>().add(WriteEvent.write(writing)),
+              loading: state.whenOrNull(writing: () => true) ?? false,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(25)),
+              ),
+              fontSize: 20,
             ),
-            fontSize: 20,
           ),
         ),
         const SizedBox(height: 12),

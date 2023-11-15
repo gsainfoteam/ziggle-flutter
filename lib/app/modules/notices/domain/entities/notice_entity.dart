@@ -14,14 +14,14 @@ class NoticeEntity {
 
   NoticeEntity({
     required this.id,
-    required this.title,
-    required this.views,
-    required this.body,
+    this.title = "",
+    this.views = 0,
+    this.body = "",
     this.deadline,
     required this.createdAt,
     this.imagesUrl = const [],
     this.tags = const [],
-    required this.author,
-    required this.reminder,
+    this.author = "",
+    this.reminder = false,
   });
 }
