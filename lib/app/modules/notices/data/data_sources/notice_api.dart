@@ -32,6 +32,9 @@ abstract class NoticeApi {
   @GET('{id}')
   Future<NoticeModel> getNotice(@Path() int id);
 
+  @DELETE('{id}')
+  Future<void> deleteNotice(@Path() int id);
+
   @POST('{id}/reminder')
   Future setReminder(@Path() int id);
 

@@ -26,6 +26,7 @@ class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
           events.throttleTime(_throttleTime).switchMap(mapper),
     );
     on<_FetchOne>(_fetchOne);
+    on<_Delete>(_delete);
   }
 
   FutureOr<void> _fetchOne(_FetchOne event, Emitter<NoticesState> emit) async {
@@ -61,6 +62,12 @@ class NoticesBloc extends Bloc<NoticesEvent, NoticesState> {
       event.query,
     ));
   }
+
+  FutureOr<void> _delete(_Delete event, Emitter<NoticesState> emit) async {
+    emit(NoticesState.loading([event.summary]));
+    await _repository.deleteNotice(event.summary);
+    emit(const NoticesState.initial());
+  }
 }
 
 @freezed
@@ -68,6 +75,7 @@ sealed class NoticesEvent with _$NoticesEvent {
   const factory NoticesEvent.fetch(NoticeSearchQueryEntity query) = _Fetch;
   const factory NoticesEvent.fetchOne(NoticeSummaryEntity summary) = _FetchOne;
   const factory NoticesEvent.loadMore() = _LoadMore;
+  const factory NoticesEvent.delete(NoticeSummaryEntity summary) = _Delete;
 }
 
 @freezed

@@ -50,5 +50,17 @@
     "description": "Once reported, the administrator will review this notice and take action.",
     "yes": "Report",
     "no": "Cancel"
+  },
+  "settings": {
+    "title": "Settings",
+    "delete": {
+      "action": "Delete this notice",
+      "title": "Are you sure you want to delete this notice?",
+      "description": "Once deleted, it cannot be restored.",
+      "yes": "Delete",
+      "no": "Cancel"
+    },
+    "writeTranslation": "Add english translation",
+    "additional": "Write additional notice"
   }
 }

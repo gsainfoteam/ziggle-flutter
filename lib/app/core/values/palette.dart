@@ -9,4 +9,5 @@ abstract class Palette {
   static const deselected = Color(0xffd6d6d6);
   static const placeholder = Color(0xffe3e3e3);
   static const light = Color(0xfff5f5f5);
+  static const settings = Color(0xff344fae);
 }

@@ -17,6 +17,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     required List<ContentModel> contents,
     @Default([]) List<String> imagesUrl,
     @Default([]) List<TagModel> tags,
+    required String authorId,
     required String author,
     required bool reminder,
   }) = _NoticeModel;

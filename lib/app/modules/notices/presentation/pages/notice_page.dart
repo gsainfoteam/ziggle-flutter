@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/common/presentaion/widgets/bottom_sheet.dart';
+import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
@@ -127,6 +128,35 @@ class _Layout extends StatelessWidget {
           ),
         ],
       ),
+      floatingActionButton: BlocBuilder<NoticesBloc, NoticesState>(
+        builder: (context, state) => state.single == null ||
+                context.read<AuthBloc>().state.user?.id !=
+                    state.single!.authorId
+            ? const SizedBox.shrink()
+            : FloatingActionButton.extended(
+                foregroundColor: Palette.white,
+                backgroundColor: Palette.settings,
+                icon: const Icon(Icons.settings),
+                label: Text(t.article.settings.title),
+                onPressed: () => showModalBottomSheet(
+                  context: context,
+                  builder: (modelConext) => _SettingSheet(
+                    onDelete: () async {
+                      final bloc = context.read<NoticesBloc>();
+                      bloc.add(
+                        NoticesEvent.delete(
+                          context.read<NoticesBloc>().state.partial!,
+                        ),
+                      );
+                      await bloc.stream.firstWhere(
+                          (s) => s.mapOrNull(initial: (_) => true) ?? false);
+                      if (!context.mounted) return;
+                      context.go(Paths.home);
+                    },
+                  ),
+                ),
+              ),
+      ),
       body: BlocBuilder<NoticesBloc, NoticesState>(
         builder: (context, state) => state.partial == null
             ? const Center(child: CircularProgressIndicator.adaptive())
@@ -158,6 +188,71 @@ class _Layout extends StatelessWidget {
       );
     }
     return _ScrollableDraggableContent(notice: notice, child: child);
+  }
+}
+
+class _SettingSheet extends StatelessWidget {
+  final VoidCallback onDelete;
+  const _SettingSheet({required this.onDelete});
+
+  @override
+  Widget build(BuildContext context) {
+    return ZiggleBottomSheet(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 12),
+              _buildButton(
+                Icons.delete,
+                t.article.settings.delete.action,
+                () async {
+                  final result = await showCupertinoDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (dialogContext) => CupertinoAlertDialog(
+                      title: Text(t.article.settings.delete.title),
+                      content: Text(t.article.settings.delete.title),
+                      actions: [
+                        CupertinoActionSheetAction(
+                          isDestructiveAction: true,
+                          onPressed: () => Navigator.pop(dialogContext, true),
+                          child: Text(t.article.settings.delete.yes),
+                        ),
+                        CupertinoActionSheetAction(
+                          isDefaultAction: true,
+                          onPressed: () => Navigator.pop(dialogContext),
+                          child: Text(t.article.settings.delete.no),
+                        ),
+                      ],
+                    ),
+                  );
+                  if (result == null || !result) return;
+                  onDelete();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButton(IconData icon, String label, VoidCallback onTap) {
+    return ZiggleButton(
+      onTap: onTap,
+      color: Colors.transparent,
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        children: [
+          Icon(icon),
+          const SizedBox(width: 4),
+          Text(label, style: TextStyles.label),
+        ],
+      ),
+    );
   }
 }
 

@@ -10,6 +10,7 @@ class NoticeEntity {
   final List<ContentEntity> contents;
   final List<String> imagesUrl;
   final List<TagEntity> tags;
+  final String authorId;
   final String author;
   final bool reminder;
 
@@ -21,6 +22,7 @@ class NoticeEntity {
     required this.contents,
     this.imagesUrl = const [],
     this.tags = const [],
+    this.authorId = "",
     this.author = "",
     this.reminder = false,
   }) : assert(contents.isNotEmpty);
