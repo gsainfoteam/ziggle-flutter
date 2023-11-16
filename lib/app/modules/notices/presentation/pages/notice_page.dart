@@ -233,18 +233,6 @@ class _SettingSheet extends StatelessWidget {
                   onDelete();
                 },
               ),
-              const SizedBox(height: 12),
-              _buildButton(
-                Icons.language,
-                t.article.settings.writeTranslation,
-                () {},
-              ),
-              const SizedBox(height: 12),
-              _buildButton(
-                Icons.add,
-                t.article.settings.additional,
-                () {},
-              ),
             ],
           ),
         ),
