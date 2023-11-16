@@ -50,5 +50,11 @@
     "description": "Once reported, the administrator will review this notice and take action.",
     "yes": "Report",
     "no": "Cancel"
+  },
+  "settings": {
+    "title": "Settings",
+    "delete": "Delete this notice",
+    "writeTranslation": "Add english translation",
+    "additional": "Write additional notice"
   }
 }

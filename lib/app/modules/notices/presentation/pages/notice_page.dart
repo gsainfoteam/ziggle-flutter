@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/common/presentaion/widgets/bottom_sheet.dart';
+import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
@@ -127,6 +128,22 @@ class _Layout extends StatelessWidget {
           ),
         ],
       ),
+      floatingActionButton: BlocBuilder<NoticesBloc, NoticesState>(
+        builder: (context, state) => state.single == null ||
+                context.read<AuthBloc>().state.user?.id !=
+                    state.single!.authorId
+            ? const SizedBox.shrink()
+            : FloatingActionButton.extended(
+                foregroundColor: Palette.white,
+                backgroundColor: Palette.settings,
+                icon: const Icon(Icons.settings),
+                label: Text(t.article.settings.title),
+                onPressed: () => showModalBottomSheet(
+                  context: context,
+                  builder: (context) => const _SettingSheet(),
+                ),
+              ),
+      ),
       body: BlocBuilder<NoticesBloc, NoticesState>(
         builder: (context, state) => state.partial == null
             ? const Center(child: CircularProgressIndicator.adaptive())
@@ -158,6 +175,47 @@ class _Layout extends StatelessWidget {
       );
     }
     return _ScrollableDraggableContent(notice: notice, child: child);
+  }
+}
+
+class _SettingSheet extends StatelessWidget {
+  const _SettingSheet();
+
+  @override
+  Widget build(BuildContext context) {
+    return ZiggleBottomSheet(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 12),
+              _buildButton(Icons.delete, t.article.settings.delete),
+              const SizedBox(height: 12),
+              _buildButton(Icons.language, t.article.settings.writeTranslation),
+              const SizedBox(height: 12),
+              _buildButton(Icons.add, t.article.settings.additional),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButton(IconData icon, String label) {
+    return ZiggleButton(
+      onTap: () {},
+      color: Colors.transparent,
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        children: [
+          Icon(icon),
+          const SizedBox(width: 4),
+          Text(label, style: TextStyles.label),
+        ],
+      ),
+    );
   }
 }
 

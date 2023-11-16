@@ -50,5 +50,11 @@
     "description": "신고가 접수되면 관리자가 이 공지를 살펴보고 조치를 취할 것입니다.",
     "yes": "네",
     "no": "아니오"
+  },
+  "settings": {
+    "title": "작성자 설정",
+    "delete": "이 공지 삭제하기",
+    "writeTranslation": "영어 공지 작성하기",
+    "additional": "추가 공지 작성하기"
   }
 }
