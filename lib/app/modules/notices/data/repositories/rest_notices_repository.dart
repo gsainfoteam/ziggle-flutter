@@ -56,6 +56,11 @@ class RestNoticesRepository implements NoticesRepository {
   }
 
   @override
+  Future<void> deleteNotice(NoticeSummaryEntity summary) {
+    return _api.deleteNotice(summary.id);
+  }
+
+  @override
   Future<void> setReminder(NoticeEntity notice) {
     return _api.setReminder(notice.id);
   }

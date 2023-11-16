@@ -140,7 +140,20 @@ class _Layout extends StatelessWidget {
                 label: Text(t.article.settings.title),
                 onPressed: () => showModalBottomSheet(
                   context: context,
-                  builder: (context) => const _SettingSheet(),
+                  builder: (modelConext) => _SettingSheet(
+                    onDelete: () async {
+                      final bloc = context.read<NoticesBloc>();
+                      bloc.add(
+                        NoticesEvent.delete(
+                          context.read<NoticesBloc>().state.partial!,
+                        ),
+                      );
+                      await bloc.stream.firstWhere(
+                          (s) => s.mapOrNull(initial: (_) => true) ?? false);
+                      if (!context.mounted) return;
+                      context.go(Paths.home);
+                    },
+                  ),
                 ),
               ),
       ),
@@ -179,7 +192,8 @@ class _Layout extends StatelessWidget {
 }
 
 class _SettingSheet extends StatelessWidget {
-  const _SettingSheet();
+  final VoidCallback onDelete;
+  const _SettingSheet({required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -191,11 +205,46 @@ class _SettingSheet extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 12),
-              _buildButton(Icons.delete, t.article.settings.delete),
+              _buildButton(
+                Icons.delete,
+                t.article.settings.delete.action,
+                () async {
+                  final result = await showCupertinoDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (dialogContext) => CupertinoAlertDialog(
+                      title: Text(t.article.settings.delete.title),
+                      content: Text(t.article.settings.delete.title),
+                      actions: [
+                        CupertinoActionSheetAction(
+                          isDestructiveAction: true,
+                          onPressed: () => Navigator.pop(dialogContext, true),
+                          child: Text(t.article.settings.delete.yes),
+                        ),
+                        CupertinoActionSheetAction(
+                          isDefaultAction: true,
+                          onPressed: () => Navigator.pop(dialogContext),
+                          child: Text(t.article.settings.delete.no),
+                        ),
+                      ],
+                    ),
+                  );
+                  if (result == null || !result) return;
+                  onDelete();
+                },
+              ),
               const SizedBox(height: 12),
-              _buildButton(Icons.language, t.article.settings.writeTranslation),
+              _buildButton(
+                Icons.language,
+                t.article.settings.writeTranslation,
+                () {},
+              ),
               const SizedBox(height: 12),
-              _buildButton(Icons.add, t.article.settings.additional),
+              _buildButton(
+                Icons.add,
+                t.article.settings.additional,
+                () {},
+              ),
             ],
           ),
         ),
@@ -203,9 +252,9 @@ class _SettingSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildButton(IconData icon, String label) {
+  Widget _buildButton(IconData icon, String label, VoidCallback onTap) {
     return ZiggleButton(
-      onTap: () {},
+      onTap: onTap,
       color: Colors.transparent,
       padding: const EdgeInsets.all(8),
       child: Row(
