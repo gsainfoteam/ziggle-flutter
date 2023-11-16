@@ -65,10 +65,12 @@ class NoticeBody extends StatelessWidget {
               height: 30,
               color: Palette.placeholder,
             ),
-            Html(
-              data: content.body,
-              style: {'body': Style(margin: Margins.zero)},
-              onLinkTap: (url, _, __) => _openUrl(url),
+            SelectionArea(
+              child: Html(
+                data: content.body,
+                style: {'body': Style(margin: Margins.zero)},
+                onLinkTap: (url, _, __) => _openUrl(url),
+              ),
             ),
             if (report != null) ...[
               const Divider(
