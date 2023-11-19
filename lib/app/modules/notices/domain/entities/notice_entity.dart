@@ -1,4 +1,5 @@
 import 'package:ziggle/app/modules/notices/domain/entities/content_entity.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 import 'tag_entity.dart';
 
@@ -26,4 +27,10 @@ class NoticeEntity {
     this.author = "",
     this.reminder = false,
   }) : assert(contents.isNotEmpty);
+}
+
+extension ContentEntityListExtension on List<ContentEntity> {
+  Iterable<ContentEntity> get localeds => where(
+      (content) => content.lang == LocaleSettings.currentLocale.languageCode);
+  ContentEntity get localed => localeds.firstOrNull ?? first;
 }

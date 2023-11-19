@@ -19,7 +19,7 @@ class NoticeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = notice.contents.first;
+    final content = notice.contents.localed;
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         child: Column(

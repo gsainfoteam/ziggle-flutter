@@ -136,9 +136,9 @@ class RestNoticesRepository implements NoticesRepository {
   ) async {
     return _api.translateNotice(
       id: notice.id,
-      contentIndex: notice.contents.first.id,
+      contentIndex: notice.contents.single.id,
       body: RestTranslationWriteModel(
-        title: notice.contents.first.title,
+        title: notice.contents.single.title,
         body: content,
       ),
     );

@@ -84,7 +84,7 @@ class _LayoutState extends State<_Layout> {
         Label(icon: Icons.menu, label: t.write.body.korean),
         SelectionArea(
           child: Html(
-            data: widget.notice.contents.first.body,
+            data: widget.notice.contents.localed.body,
             style: {'body': Style(margin: Margins.zero)},
           ),
         ),
@@ -95,7 +95,7 @@ class _LayoutState extends State<_Layout> {
         const SizedBox(height: 10),
         Row(
           children: [
-            _TranslateButton(content: widget.notice.contents.first.body),
+            _TranslateButton(content: widget.notice.contents.localed.body),
           ],
         ),
         const SizedBox(height: 10),
