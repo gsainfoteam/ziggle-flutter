@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:injectable/injectable.dart';
-import 'package:markdown/markdown.dart';
 import 'package:ziggle/app/common/domain/repositories/settings_repository.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/image_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/tag_api.dart';
@@ -100,7 +99,7 @@ class RestNoticesRepository implements NoticesRepository {
     final imageKeys = await _uploadImages(writing.imagePaths);
     final result = await _api.writeNotice(RestWriteNoticeModel(
       title: writing.title,
-      body: markdownToHtml(writing.body),
+      body: writing.body,
       deadline: writing.deadline,
       images: imageKeys,
       tags: [writing.type!.id, ...existTags, ...createdTags],

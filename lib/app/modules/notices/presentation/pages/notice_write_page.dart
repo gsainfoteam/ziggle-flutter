@@ -113,7 +113,7 @@ class _LayoutState extends State<_Layout> {
 
   NoticeWriteEntity get writing => NoticeWriteEntity(
         title: _title,
-        body: _body,
+        body: markdownToHtml(_body),
         type: _type,
         deadline: _hasDeadline ? _deadline : null,
         tags: _tags,
