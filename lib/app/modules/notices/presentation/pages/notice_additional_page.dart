@@ -108,6 +108,7 @@ class _LayoutState extends State<_Layout> {
               initialDateTime: _deadline,
               minimumDate: _minDeadline,
               mode: CupertinoDatePickerMode.dateAndTime,
+              dateOrder: DatePickerDateOrder.ymd,
               onDateTimeChanged: (v) => _deadline = v,
             ),
           ),
