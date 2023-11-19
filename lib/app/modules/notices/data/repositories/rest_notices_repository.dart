@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/common/domain/repositories/settings_repository.dart';
 
@@ -144,10 +145,16 @@ class RestNoticesRepository implements NoticesRepository {
 
   @override
   Future<NoticeEntity> additionalNotice(
-      NoticeEntity notice, String content, DateTime? deadline) {
-    return _api.additionalNotice(
+      NoticeEntity notice, String content, DateTime? deadline) async {
+    final result = await _api.additionalNotice(
       id: notice.id,
       body: RestAdditionalWriteModel(body: content, deadline: deadline),
+    );
+    final lastId = result.contents.map((e) => e.id).max;
+    return _api.translateNotice(
+      id: notice.id,
+      contentIndex: lastId,
+      body: RestTranslationWriteModel(body: content),
     );
   }
 }

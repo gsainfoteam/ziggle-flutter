@@ -29,10 +29,12 @@ class NoticeEntity {
   }) : assert(contents.isNotEmpty);
 }
 
-extension ContentEntityListExtension on List<ContentEntity> {
+extension ContentEntityListExtension on Iterable<ContentEntity> {
   Iterable<ContentEntity> get localeds => where(
       (content) => content.lang == LocaleSettings.currentLocale.languageCode);
   ContentEntity get localed => localeds.firstOrNull ?? first;
+  Iterable<ContentEntity> get additionals =>
+      where((content) => content.id != 1);
   Iterable<ContentEntity> get koreans =>
       where((content) => content.lang == "ko");
   ContentEntity get korean => koreans.firstOrNull ?? first;
