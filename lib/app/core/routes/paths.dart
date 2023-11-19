@@ -13,6 +13,7 @@ abstract class _Paths {
   static const articleSection = 'section';
   static const image = 'image';
   static const translation = 'translation';
+  static const additional = 'additional';
 }
 
 abstract class Paths {
@@ -29,6 +30,8 @@ abstract class Paths {
       '${Paths.articleDetail}/${_Paths.image}?page=$page';
   static String articleTranslation =
       '${Paths.articleDetail}/${_Paths.translation}';
+  static String articleAdditional =
+      '${Paths.articleDetail}/${_Paths.additional}';
   static String articleSection(NoticeType type) =>
       '${_Paths.root}/${_Paths.articleSection}?type=${type.name}';
 }

@@ -13,6 +13,7 @@ import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/home_page.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/notice_additional_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_image_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_section_page.dart';
@@ -75,6 +76,13 @@ abstract class Routes {
                 path: _Paths.translation,
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) => NoticeTranslationPage(
+                  notice: state.extra as NoticeEntity,
+                ),
+              ),
+              GoRoute(
+                path: _Paths.additional,
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) => NoticeAdditionalPage(
                   notice: state.extra as NoticeEntity,
                 ),
               ),

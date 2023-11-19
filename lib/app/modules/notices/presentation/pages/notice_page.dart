@@ -163,7 +163,16 @@ class _Layout extends StatelessWidget {
                       final bloc = context.read<NoticesBloc>();
                       bloc.add(NoticesEvent.fetchOne(bloc.state.partial!));
                     },
-                    onAdditional: () {},
+                    onAdditional: () async {
+                      Navigator.pop(modalContext);
+                      await context.push(
+                        Paths.articleAdditional,
+                        extra: state.single,
+                      );
+                      if (!context.mounted) return;
+                      final bloc = context.read<NoticesBloc>();
+                      bloc.add(NoticesEvent.fetchOne(bloc.state.partial!));
+                    },
                   ),
                 ),
               ),
