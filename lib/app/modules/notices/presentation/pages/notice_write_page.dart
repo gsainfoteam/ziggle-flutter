@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -118,7 +119,8 @@ class _LayoutState extends State<_Layout> {
   late final NoticeWriteEntity _saved = context.read<WriteBloc>().state.notice;
   late String _title = _saved.title;
   late bool _hasDeadline = _saved.deadline != null;
-  late DateTime _deadline = _saved.deadline ?? DateTime.now();
+  late final DateTime _now = DateTime.now();
+  late DateTime _deadline = [_saved.deadline ?? _now, _now].max;
   List<XFile> _images = [];
   late NoticeType? _type = _saved.type;
   late String _body = _saved.body;
@@ -231,7 +233,7 @@ class _LayoutState extends State<_Layout> {
                     height: 144,
                     child: CupertinoDatePicker(
                       initialDateTime: _deadline,
-                      minimumDate: DateTime.now(),
+                      minimumDate: _now,
                       onDateTimeChanged: (v) => _deadline = v,
                       mode: CupertinoDatePickerMode.date,
                       dateOrder: DatePickerDateOrder.ymd,
