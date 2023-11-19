@@ -36,7 +36,7 @@ abstract class NoticeApi {
   @DELETE('{id}')
   Future<void> deleteNotice(@Path() int id);
 
-  @POST('{id}/{contentIndex}/forign')
+  @POST('{id}/{contentIndex}/foreign')
   Future<NoticeModel> translateNotice({
     @Path() required int id,
     @Path() required int contentIndex,
