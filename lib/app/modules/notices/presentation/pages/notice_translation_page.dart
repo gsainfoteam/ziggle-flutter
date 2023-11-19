@@ -35,14 +35,17 @@ class _NoticeTranslationPageState extends State<NoticeTranslationPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Label(icon: Icons.menu, label: '한글 본문'),
+                Label(icon: Icons.menu, label: t.write.body.korean),
                 SelectionArea(
                   child: Html(
                     data: widget.notice.contents.first.body,
                     style: {'body': Style(margin: Margins.zero)},
                   ),
                 ),
-                const Label(icon: Icons.menu, label: '영어 본문 입력'),
+                Label(
+                  icon: Icons.menu,
+                  label: t.write.body.write(language: t.write.body.english),
+                ),
                 const SizedBox(height: 10),
                 Row(
                   children: [
@@ -68,7 +71,7 @@ class _NoticeTranslationPageState extends State<NoticeTranslationPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        text: '제출하기',
+                        text: t.write.additional.submit,
                       ),
                     ),
                   ],
@@ -85,7 +88,7 @@ class _NoticeTranslationPageState extends State<NoticeTranslationPage> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
                         ),
-                        text: '취소하기',
+                        text: t.write.additional.cancel,
                       ),
                     ),
                   ],
@@ -109,30 +112,24 @@ class _TranslateButton extends StatelessWidget {
     final body = content.replaceAll('/', '\\/');
     return ZiggleButton(
       color: const Color(0xff042b48),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 50,
-            child: Transform.scale(
-              scale: 2,
-              child: SvgPicture.asset(
-                Assets.images.deepl,
-                height: 24,
-                colorFilter:
-                    const ColorFilter.mode(Palette.white, BlendMode.srcIn),
+      child: Text.rich(
+        t.write.body.translate(
+          deepl: WidgetSpan(
+            alignment: PlaceholderAlignment.middle,
+            child: SizedBox(
+              width: 50,
+              child: Transform.scale(
+                scale: 2,
+                child: SvgPicture.asset(
+                  Assets.images.deepl,
+                  height: 24,
+                  colorFilter:
+                      const ColorFilter.mode(Palette.white, BlendMode.srcIn),
+                ),
               ),
             ),
           ),
-          const SizedBox(width: 10),
-          const Text(
-            '번역하기',
-            style: TextStyle(
-              color: Palette.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ],
+        ),
       ),
       onTap: () =>
           launchUrlString('https://www.deepl.com/translator#ko/en/$body'),

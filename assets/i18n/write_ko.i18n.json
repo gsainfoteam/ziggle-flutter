@@ -21,7 +21,10 @@
     "placeholder": "태그를 입력하세요 (띄어쓰기로 구분)"
   },
   "body": {
-    "label": "본문 내용 입력",
+    "korean": "한글 본문",
+    "english": "영어 본문",
+    "write": "${language} 입력",
+    "translate(rich)": "${deepl} 번역하기",
     "placeholder": "본문 내용을 입력하세요\n마크다운 문법을 지원합니다",
     "error": {
       "title": "본문 내용을 입력해주세요",
@@ -35,5 +38,9 @@
   },
   "preview": "공지 미리보기",
   "submit": "공지 제출하기",
-  "warning": "공지 제출 시 수정 및 삭제가 불가능합니다."
+  "warning": "공지 제출 시 수정 및 삭제가 불가능합니다.",
+  "additional": {
+    "submit": "제출하기",
+    "cancel": "취소하기"
+  }
 }

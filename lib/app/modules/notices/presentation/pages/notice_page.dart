@@ -270,14 +270,9 @@ class _SettingSheet extends StatelessWidget {
     return ZiggleButton(
       onTap: onTap,
       color: Colors.transparent,
+      textColor: Palette.black,
       padding: const EdgeInsets.all(8),
-      child: Row(
-        children: [
-          Icon(icon),
-          const SizedBox(width: 4),
-          Text(label, style: TextStyles.label),
-        ],
-      ),
+      child: Row(children: [Icon(icon), const SizedBox(width: 4), Text(label)]),
     );
   }
 }

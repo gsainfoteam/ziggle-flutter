@@ -21,7 +21,10 @@
     "placeholder": "Enter tags (separated by space)"
   },
   "body": {
-    "label": "Enter body",
+    "korean": "Korean body",
+    "english": "English body",
+    "write": "Enter ${language}",
+    "translate(rich)": "Translate with ${deepl}",
     "placeholder": "Enter body\nMarkdown syntax is supported",
     "error": {
       "title": "Please enter body",
@@ -35,5 +38,9 @@
   },
   "preview": "Preview notice",
   "submit": "Submit notice",
-  "warning": "You cannot edit or delete notice after submission."
+  "warning": "You cannot edit or delete notice after submission.",
+  "additional": {
+    "submit": "Submit",
+    "cancel": "Cancel"
+  }
 }

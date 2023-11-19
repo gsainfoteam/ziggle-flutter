@@ -306,7 +306,10 @@ class _LayoutState extends State<_Layout> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Label(icon: Icons.menu, label: t.write.body.label),
+              Label(
+                icon: Icons.menu,
+                label: t.write.body.write(language: t.write.body.korean),
+              ),
               const SizedBox(height: 10),
               ZiggleTextFormField(
                 initialValue: _body,
