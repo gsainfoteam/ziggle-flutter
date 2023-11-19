@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/notices/data/models/rest_additional_write_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/rest_translation_write_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/rest_write_notice_model.dart';
 
@@ -41,6 +42,12 @@ abstract class NoticeApi {
     @Path() required int id,
     @Path() required int contentIndex,
     @Body() required RestTranslationWriteModel body,
+  });
+
+  @POST('{id}/additional')
+  Future<NoticeModel> additionalNotice({
+    @Path() required int id,
+    @Body() required RestAdditionalWriteModel body,
   });
 
   @POST('{id}/reminder')

@@ -1,16 +1,16 @@
+import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:markdown/markdown.dart' hide Text;
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
+import 'package:ziggle/app/common/presentaion/widgets/checkbox_label.dart';
 import 'package:ziggle/app/common/presentaion/widgets/label.dart';
 import 'package:ziggle/app/common/presentaion/widgets/text_form_field.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
@@ -49,7 +49,7 @@ class NoticeAdditionalPage extends StatelessWidget {
         ],
         child: Scaffold(
           appBar: AppBar(
-            title: Text(t.article.settings.writeTranslation),
+            title: Text(t.article.settings.additional),
           ),
           body: SingleChildScrollView(
             child: SafeArea(
@@ -75,6 +75,11 @@ class _Layout extends StatefulWidget {
 
 class _LayoutState extends State<_Layout> {
   String _body = '';
+  DateTime? _deadline;
+  late final DateTime _minDeadline = [
+    if (widget.notice.currentDeadline != null) widget.notice.currentDeadline!,
+    DateTime.now()
+  ].max;
 
   @override
   Widget build(BuildContext context) {
@@ -84,24 +89,33 @@ class _LayoutState extends State<_Layout> {
         Label(icon: Icons.menu, label: t.write.body.korean),
         SelectionArea(
           child: Html(
-            data: widget.notice.contents.localed.body,
+            data: widget.notice.contents.korean.body,
             style: {'body': Style(margin: Margins.zero)},
           ),
         ),
-        Label(
-          icon: Icons.menu,
-          label: t.write.body.write(language: t.write.body.english),
-        ),
-        const SizedBox(height: 10),
-        Row(
-          children: [
-            _TranslateButton(content: widget.notice.contents.localed.body),
-          ],
-        ),
+        if (widget.notice.currentDeadline != null)
+          CheckboxLabel(
+            label: t.write.deadline.delay,
+            checked: _deadline != null,
+            onChanged: (v) => setState(
+              () => _deadline = v ? _minDeadline : null,
+            ),
+          ),
+        if (_deadline != null)
+          SizedBox(
+            height: 144,
+            child: CupertinoDatePicker(
+              initialDateTime: _deadline,
+              minimumDate: _minDeadline,
+              mode: CupertinoDatePickerMode.dateAndTime,
+              onDateTimeChanged: (v) => _deadline = v,
+            ),
+          ),
+        Label(icon: Icons.menu, label: t.write.additional.body),
         const SizedBox(height: 10),
         ZiggleTextFormField(
           onChanged: (v) => _body = v,
-          hintText: t.write.body.placeholder,
+          hintText: t.write.additional.placeholder,
           minLines: 11,
           maxLines: 20,
         ),
@@ -116,9 +130,10 @@ class _LayoutState extends State<_Layout> {
                 builder: (context, state) => ZiggleButton(
                   loading: state.whenOrNull(writing: () => true) ?? false,
                   onTap: () => context.read<WriteBloc>().add(
-                        WriteEvent.translate(
+                        WriteEvent.additional(
                           widget.notice,
                           markdownToHtml(_body),
+                          _deadline,
                         ),
                       ),
                   decoration: BoxDecoration(
@@ -152,40 +167,6 @@ class _LayoutState extends State<_Layout> {
         ),
         const SizedBox(height: 10),
       ],
-    );
-  }
-}
-
-class _TranslateButton extends StatelessWidget {
-  final String content;
-  const _TranslateButton({required this.content});
-
-  @override
-  Widget build(BuildContext context) {
-    final body = content.replaceAll('/', '\\/');
-    return ZiggleButton(
-      color: const Color(0xff042b48),
-      child: Text.rich(
-        t.write.body.translate(
-          deepl: WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: SizedBox(
-              width: 50,
-              child: Transform.scale(
-                scale: 2,
-                child: SvgPicture.asset(
-                  Assets.images.deepl,
-                  height: 24,
-                  colorFilter:
-                      const ColorFilter.mode(Palette.white, BlendMode.srcIn),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-      onTap: () =>
-          launchUrlString('https://www.deepl.com/translator#ko/en/$body'),
     );
   }
 }

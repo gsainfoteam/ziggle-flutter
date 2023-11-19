@@ -7,7 +7,8 @@
     }
   },
   "deadline": {
-    "label": "Set deadline"
+    "label": "Set deadline",
+    "delay": "Delay deadline"
   },
   "type": {
     "label": "Type",
@@ -40,6 +41,8 @@
   "submit": "Submit notice",
   "warning": "You cannot edit or delete notice after submission.",
   "additional": {
+    "body": "Enter additional notice",
+    "placeholder": "Please write about what needs to be corrected in the existing announcement or what you'd like us to know about.",
     "submit": "Submit",
     "cancel": "Cancel"
   }
