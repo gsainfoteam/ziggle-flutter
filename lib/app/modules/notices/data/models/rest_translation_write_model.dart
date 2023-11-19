@@ -10,7 +10,7 @@ class RestTranslationWriteModel
     implements TranslationWriteEntity {
   const factory RestTranslationWriteModel({
     @Default('en') String lang,
-    required String title,
+    String? title,
     required String body,
     DateTime? deadline,
   }) = _RestTranslationWriteModel;
