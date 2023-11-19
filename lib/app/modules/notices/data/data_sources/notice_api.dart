@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/notices/data/models/rest_translation_write_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/rest_write_notice_model.dart';
 
 import '../../domain/enums/notice_mine.dart';
@@ -34,6 +35,13 @@ abstract class NoticeApi {
 
   @DELETE('{id}')
   Future<void> deleteNotice(@Path() int id);
+
+  @POST('{id}/{contentIndex}/forign')
+  Future<NoticeModel> translateNotice({
+    @Path() required int id,
+    @Path() required int contentIndex,
+    @Body() required RestTranslationWriteModel body,
+  });
 
   @POST('{id}/reminder')
   Future setReminder(@Path() int id);

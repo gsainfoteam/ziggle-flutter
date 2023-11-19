@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -6,99 +7,147 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/label.dart';
 import 'package:ziggle/app/common/presentaion/widgets/text_form_field.dart';
+import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/values/palette.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-class NoticeTranslationPage extends StatefulWidget {
+import '../../domain/entities/notice_entity.dart';
+import '../bloc/write/write_bloc.dart';
+
+class NoticeTranslationPage extends StatelessWidget {
   final NoticeEntity notice;
   const NoticeTranslationPage({super.key, required this.notice});
 
   @override
-  State<NoticeTranslationPage> createState() => _NoticeTranslationPageState();
-}
-
-class _NoticeTranslationPageState extends State<NoticeTranslationPage> {
-  String _body = '';
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(t.article.settings.writeTranslation),
-      ),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Label(icon: Icons.menu, label: t.write.body.korean),
-                SelectionArea(
-                  child: Html(
-                    data: widget.notice.contents.first.body,
-                    style: {'body': Style(margin: Margins.zero)},
-                  ),
+    return BlocProvider(
+      create: (_) => sl<WriteBloc>(),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<WriteBloc, WriteState>(
+            listenWhen: (_, current) => current.missing,
+            listener: (context, state) {
+              final title = state.mapOrNull(
+                bodyMissing: (_) => t.write.body.error.title,
+              )!;
+              final description = state.mapOrNull(
+                bodyMissing: (_) => t.write.body.error.description,
+              )!;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Column(children: [Text(title), Text(description)]),
                 ),
-                Label(
-                  icon: Icons.menu,
-                  label: t.write.body.write(language: t.write.body.english),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    _TranslateButton(
-                        content: widget.notice.contents.first.body),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                ZiggleTextFormField(
-                  onChanged: (v) => _body = v,
-                  hintText: t.write.body.placeholder,
-                  minLines: 11,
-                  maxLines: 20,
-                ),
-                const SizedBox(height: 32),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 250,
-                      height: 50,
-                      child: ZiggleButton(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        text: t.write.additional.submit,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 150,
-                      child: ZiggleButton(
-                        onTap: () => context.pop(),
-                        color: Palette.secondaryText,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        text: t.write.additional.cancel,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-              ],
+              );
+            },
+          ),
+          BlocListener<WriteBloc, WriteState>(
+            listenWhen: (_, current) => current.success,
+            listener: (context, state) => context.pop(),
+          ),
+        ],
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(t.article.settings.writeTranslation),
+          ),
+          body: SingleChildScrollView(
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: _Layout(notice: notice),
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Layout extends StatefulWidget {
+  final NoticeEntity notice;
+  const _Layout({required this.notice});
+
+  @override
+  State<_Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<_Layout> {
+  String _body = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Label(icon: Icons.menu, label: t.write.body.korean),
+        SelectionArea(
+          child: Html(
+            data: widget.notice.contents.first.body,
+            style: {'body': Style(margin: Margins.zero)},
+          ),
+        ),
+        Label(
+          icon: Icons.menu,
+          label: t.write.body.write(language: t.write.body.english),
+        ),
+        const SizedBox(height: 10),
+        Row(
+          children: [
+            _TranslateButton(content: widget.notice.contents.first.body),
+          ],
+        ),
+        const SizedBox(height: 10),
+        ZiggleTextFormField(
+          onChanged: (v) => _body = v,
+          hintText: t.write.body.placeholder,
+          minLines: 11,
+          maxLines: 20,
+        ),
+        const SizedBox(height: 32),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 250,
+              height: 50,
+              child: BlocBuilder<WriteBloc, WriteState>(
+                builder: (context, state) => ZiggleButton(
+                  loading: state.whenOrNull(writing: () => true) ?? false,
+                  onTap: () => context.read<WriteBloc>().add(
+                        WriteEvent.translate(widget.notice, _body),
+                      ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  text: t.write.additional.submit,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 150,
+              child: BlocBuilder<WriteBloc, WriteState>(
+                builder: (context, state) => ZiggleButton(
+                  loading: state.whenOrNull(writing: () => true) ?? false,
+                  onTap: () => context.pop(),
+                  color: Palette.secondaryText,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  text: t.write.additional.cancel,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+      ],
     );
   }
 }

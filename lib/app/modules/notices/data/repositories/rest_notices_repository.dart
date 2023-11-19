@@ -6,6 +6,7 @@ import 'package:ziggle/app/common/domain/repositories/settings_repository.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/image_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/tag_api.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_write_model.dart';
+import 'package:ziggle/app/modules/notices/data/models/rest_translation_write_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/rest_write_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/tag_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_entity.dart';
@@ -125,6 +126,21 @@ class RestNoticesRepository implements NoticesRepository {
         deadline: writing.deadline,
         tags: writing.tags,
         typeIndex: writing.type?.index,
+      ),
+    );
+  }
+
+  @override
+  Future<NoticeEntity> translateNotice(
+    NoticeEntity notice,
+    String content,
+  ) async {
+    return _api.translateNotice(
+      id: notice.id,
+      contentIndex: notice.contents.first.id,
+      body: RestTranslationWriteModel(
+        title: notice.contents.first.title,
+        body: content,
       ),
     );
   }
