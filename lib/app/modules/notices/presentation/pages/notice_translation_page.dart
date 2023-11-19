@@ -84,7 +84,7 @@ class _LayoutState extends State<_Layout> {
         Label(icon: Icons.menu, label: t.write.body.korean),
         SelectionArea(
           child: Html(
-            data: widget.notice.contents.localed.body,
+            data: widget.notice.contents.korean.body,
             style: {'body': Style(margin: Margins.zero)},
           ),
         ),
