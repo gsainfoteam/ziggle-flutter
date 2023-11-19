@@ -153,16 +153,19 @@ class _Layout extends StatelessWidget {
                       if (!context.mounted) return;
                       context.go(Paths.home);
                     },
-                    onTranslation: () async {
-                      Navigator.pop(modalContext);
-                      await context.push(
-                        Paths.articleTranslation,
-                        extra: state.single,
-                      );
-                      if (!context.mounted) return;
-                      final bloc = context.read<NoticesBloc>();
-                      bloc.add(NoticesEvent.fetchOne(bloc.state.partial!));
-                    },
+                    onTranslation: state.single!.contents.englishes.isNotEmpty
+                        ? null
+                        : () async {
+                            Navigator.pop(modalContext);
+                            await context.push(
+                              Paths.articleTranslation,
+                              extra: state.single,
+                            );
+                            if (!context.mounted) return;
+                            final bloc = context.read<NoticesBloc>();
+                            bloc.add(
+                                NoticesEvent.fetchOne(bloc.state.partial!));
+                          },
                     onAdditional: () async {
                       Navigator.pop(modalContext);
                       await context.push(
@@ -213,7 +216,7 @@ class _Layout extends StatelessWidget {
 
 class _SettingSheet extends StatelessWidget {
   final VoidCallback onDelete;
-  final VoidCallback onTranslation;
+  final VoidCallback? onTranslation;
   final VoidCallback onAdditional;
   const _SettingSheet({
     required this.onDelete,
@@ -259,12 +262,14 @@ class _SettingSheet extends StatelessWidget {
                   onDelete();
                 },
               ),
-              const SizedBox(height: 12),
-              _buildButton(
-                Icons.language,
-                t.article.settings.writeTranslation,
-                onTranslation,
-              ),
+              if (onTranslation != null) ...[
+                const SizedBox(height: 12),
+                _buildButton(
+                  Icons.language,
+                  t.article.settings.writeTranslation,
+                  onTranslation!,
+                ),
+              ],
               const SizedBox(height: 12),
               _buildButton(
                 Icons.add,
