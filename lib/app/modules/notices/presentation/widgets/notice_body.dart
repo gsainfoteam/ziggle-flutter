@@ -19,7 +19,7 @@ class NoticeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = notice.contents.first;
+    final content = notice.contents.localed;
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         child: Column(
@@ -72,6 +72,20 @@ class NoticeBody extends StatelessWidget {
                 onLinkTap: (url, _, __) => _openUrl(url),
               ),
             ),
+            for (final additional in notice.contents.localeds.additionals) ...[
+              const Divider(
+                thickness: 1,
+                height: 30,
+                color: Palette.placeholder,
+              ),
+              SelectionArea(
+                child: Html(
+                  data: additional.body,
+                  style: {'body': Style(margin: Margins.zero)},
+                  onLinkTap: (url, _, __) => _openUrl(url),
+                ),
+              ),
+            ],
             if (report != null) ...[
               const Divider(
                 thickness: 1,

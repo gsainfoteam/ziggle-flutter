@@ -70,23 +70,30 @@ class _ZiggleButtonState extends State<ZiggleButton> {
   }
 
   _buildChild() {
+    final textStyle = widget.textStyle ??
+        TextStyle(
+          fontSize: widget.fontSize,
+          color: _isTransparent ? Palette.black : widget.textColor,
+          fontWeight: _isTransparent ? FontWeight.normal : FontWeight.bold,
+        );
     if (widget.text == null) {
-      return widget.child ?? const SizedBox.shrink();
+      return Theme(
+        data: Theme.of(context).copyWith(
+          iconTheme: Theme.of(context).iconTheme.copyWith(
+                color: widget.textColor,
+              ),
+        ),
+        child: DefaultTextStyle(
+          style: textStyle,
+          child: widget.child ?? const SizedBox.shrink(),
+        ),
+      );
     }
     return Stack(
       clipBehavior: Clip.none,
       alignment: Alignment.center,
       children: [
-        Text(
-          widget.text!,
-          style: widget.textStyle ??
-              TextStyle(
-                fontSize: widget.fontSize,
-                color: _isTransparent ? Palette.black : widget.textColor,
-                fontWeight:
-                    _isTransparent ? FontWeight.normal : FontWeight.bold,
-              ),
-        ),
+        Text(widget.text!, style: textStyle),
         if (widget.loading)
           Positioned.fill(
             child: LayoutBuilder(builder: (context, constraints) {

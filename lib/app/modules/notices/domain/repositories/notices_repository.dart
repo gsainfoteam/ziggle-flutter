@@ -14,4 +14,10 @@ abstract class NoticesRepository {
   Future<NoticeEntity> writeNotice(NoticeWriteEntity writing);
   Future<void> saveDraft(NoticeWriteEntity writing);
   Future<NoticeWriteEntity?> loadDraft();
+  Future<NoticeEntity> translateNotice(NoticeEntity notice, String content);
+  Future<NoticeEntity> additionalNotice(
+    NoticeEntity notice,
+    String content,
+    DateTime? deadline,
+  );
 }

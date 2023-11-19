@@ -39,6 +39,9 @@ class RootPage extends StatelessWidget {
           SizedBox(
             height: 45,
             child: ZiggleButton(
+              textStyle: TextStyles.titleTextStyle.copyWith(
+                color: Palette.primaryColor,
+              ),
               color: Colors.transparent,
               onTap: () {
                 final userBloc = context.read<AuthBloc>();
@@ -55,12 +58,7 @@ class RootPage extends StatelessWidget {
                   if (name == null) return Row(children: [Text(t.root.login)]);
                   return Row(
                     children: [
-                      Text(
-                        name,
-                        style: TextStyles.titleTextStyle.copyWith(
-                          color: Palette.primaryColor,
-                        ),
-                      ),
+                      Text(name),
                       const SizedBox(width: 8),
                       Assets.icons.profile.image(),
                     ],
@@ -82,7 +80,7 @@ class RootPage extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(100)),
             ),
             onTap: () => context.push(Paths.write),
-            child: const Icon(Icons.edit, color: Palette.white),
+            child: const Icon(Icons.edit),
           );
         },
       ),

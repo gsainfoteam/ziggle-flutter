@@ -9,7 +9,7 @@ class ContentModel with _$ContentModel implements ContentEntity {
   const factory ContentModel({
     required int id,
     required String lang,
-    required String title,
+    @Default('') String title,
     required String body,
     DateTime? deadline,
     required DateTime createdAt,

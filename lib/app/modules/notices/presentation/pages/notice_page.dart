@@ -140,7 +140,7 @@ class _Layout extends StatelessWidget {
                 label: Text(t.article.settings.title),
                 onPressed: () => showModalBottomSheet(
                   context: context,
-                  builder: (modelConext) => _SettingSheet(
+                  builder: (modalContext) => _SettingSheet(
                     onDelete: () async {
                       final bloc = context.read<NoticesBloc>();
                       bloc.add(
@@ -152,6 +152,29 @@ class _Layout extends StatelessWidget {
                           (s) => s.mapOrNull(initial: (_) => true) ?? false);
                       if (!context.mounted) return;
                       context.go(Paths.home);
+                    },
+                    onTranslation: state.single!.contents.englishes.isNotEmpty
+                        ? null
+                        : () async {
+                            Navigator.pop(modalContext);
+                            await context.push(
+                              Paths.articleTranslation,
+                              extra: state.single,
+                            );
+                            if (!context.mounted) return;
+                            final bloc = context.read<NoticesBloc>();
+                            bloc.add(
+                                NoticesEvent.fetchOne(bloc.state.partial!));
+                          },
+                    onAdditional: () async {
+                      Navigator.pop(modalContext);
+                      await context.push(
+                        Paths.articleAdditional,
+                        extra: state.single,
+                      );
+                      if (!context.mounted) return;
+                      final bloc = context.read<NoticesBloc>();
+                      bloc.add(NoticesEvent.fetchOne(bloc.state.partial!));
                     },
                   ),
                 ),
@@ -193,7 +216,13 @@ class _Layout extends StatelessWidget {
 
 class _SettingSheet extends StatelessWidget {
   final VoidCallback onDelete;
-  const _SettingSheet({required this.onDelete});
+  final VoidCallback? onTranslation;
+  final VoidCallback onAdditional;
+  const _SettingSheet({
+    required this.onDelete,
+    required this.onTranslation,
+    required this.onAdditional,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -233,6 +262,20 @@ class _SettingSheet extends StatelessWidget {
                   onDelete();
                 },
               ),
+              if (onTranslation != null) ...[
+                const SizedBox(height: 12),
+                _buildButton(
+                  Icons.language,
+                  t.article.settings.writeTranslation,
+                  onTranslation!,
+                ),
+              ],
+              const SizedBox(height: 12),
+              _buildButton(
+                Icons.add,
+                t.article.settings.additional,
+                onAdditional,
+              ),
             ],
           ),
         ),
@@ -244,14 +287,9 @@ class _SettingSheet extends StatelessWidget {
     return ZiggleButton(
       onTap: onTap,
       color: Colors.transparent,
+      textColor: Palette.black,
       padding: const EdgeInsets.all(8),
-      child: Row(
-        children: [
-          Icon(icon),
-          const SizedBox(width: 4),
-          Text(label, style: TextStyles.label),
-        ],
-      ),
+      child: Row(children: [Icon(icon), const SizedBox(width: 4), Text(label)]),
     );
   }
 }

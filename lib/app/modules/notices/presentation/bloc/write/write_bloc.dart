@@ -21,6 +21,8 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
     on<_Init>(_init);
     on<_Save>(_save);
     on<_Write>(_write);
+    on<_Translate>(_translate);
+    on<_Additional>(_additional);
   }
 
   FutureOr<void> _init(_Init event, Emitter<WriteState> emit) async {
@@ -48,6 +50,36 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
       emit(WriteState.error(e.toString()));
     }
   }
+
+  FutureOr<void> _translate(_Translate event, Emitter<WriteState> emit) async {
+    if (event.content.isEmpty) return emit(const WriteState.bodyMissing());
+    emit(const WriteState.writing());
+    try {
+      final result = await _noticesRepository.translateNotice(
+        event.notice,
+        event.content,
+      );
+      emit(WriteState.success(result));
+    } catch (e) {
+      emit(WriteState.error(e.toString()));
+    }
+  }
+
+  FutureOr<void> _additional(
+      _Additional event, Emitter<WriteState> emit) async {
+    if (event.content.isEmpty) return emit(const WriteState.bodyMissing());
+    emit(const WriteState.writing());
+    try {
+      final result = await _noticesRepository.additionalNotice(
+        event.notice,
+        event.content,
+        event.deadline,
+      );
+      emit(WriteState.success(result));
+    } catch (e) {
+      emit(WriteState.error(e.toString()));
+    }
+  }
 }
 
 @freezed
@@ -55,6 +87,10 @@ sealed class WriteEvent with _$WriteEvent {
   const factory WriteEvent.init() = _Init;
   const factory WriteEvent.save(NoticeWriteEntity notice) = _Save;
   const factory WriteEvent.write(NoticeWriteEntity notice) = _Write;
+  const factory WriteEvent.translate(NoticeEntity notice, String content) =
+      _Translate;
+  const factory WriteEvent.additional(
+      NoticeEntity notice, String content, DateTime? deadline) = _Additional;
 }
 
 @freezed

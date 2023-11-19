@@ -10,6 +10,8 @@ import 'package:markdown/markdown.dart' hide Text;
 import 'package:textfield_tags/textfield_tags.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
+import 'package:ziggle/app/common/presentaion/widgets/checkbox_label.dart';
+import 'package:ziggle/app/common/presentaion/widgets/label.dart';
 import 'package:ziggle/app/common/presentaion/widgets/text_form_field.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
@@ -90,24 +92,6 @@ class NoticeWritePage extends StatelessWidget {
   }
 }
 
-class _Label extends StatelessWidget {
-  const _Label({required this.icon, required this.label});
-
-  final IconData? icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon),
-        const SizedBox(width: 4),
-        Text(label, style: TextStyles.label),
-      ],
-    );
-  }
-}
-
 class _Layout extends StatefulWidget {
   const _Layout();
 
@@ -130,7 +114,7 @@ class _LayoutState extends State<_Layout> {
 
   NoticeWriteEntity get writing => NoticeWriteEntity(
         title: _title,
-        body: _body,
+        body: markdownToHtml(_body),
         type: _type,
         deadline: _hasDeadline ? _deadline : null,
         tags: _tags,
@@ -216,14 +200,10 @@ class _LayoutState extends State<_Layout> {
             hintText: t.write.title.placeholder,
           ),
         ),
-        Row(
-          children: [
-            Checkbox.adaptive(
-              value: _hasDeadline,
-              onChanged: (v) => setState(() => _hasDeadline = v ?? false),
-            ),
-            Text(t.write.deadline.label, style: TextStyles.secondaryLabelStyle),
-          ],
+        CheckboxLabel(
+          label: t.write.deadline.label,
+          checked: _hasDeadline,
+          onChanged: (v) => setState(() => _hasDeadline = v),
         ),
         const SizedBox(height: 10),
         _hasDeadline
@@ -235,7 +215,7 @@ class _LayoutState extends State<_Layout> {
                       initialDateTime: _deadline,
                       minimumDate: _now,
                       onDateTimeChanged: (v) => _deadline = v,
-                      mode: CupertinoDatePickerMode.date,
+                      mode: CupertinoDatePickerMode.dateAndTime,
                       dateOrder: DatePickerDateOrder.ymd,
                     ),
                   ),
@@ -243,11 +223,11 @@ class _LayoutState extends State<_Layout> {
                 ],
               )
             : const SizedBox.shrink(),
-        _Label(icon: Icons.sort, label: t.write.type.label),
+        Label(icon: Icons.sort, label: t.write.type.label),
         const SizedBox(height: 10),
         _buildTypes(),
         const SizedBox(height: 20),
-        _Label(icon: Icons.sell, label: t.write.tags.label),
+        Label(icon: Icons.sell, label: t.write.tags.label),
         const SizedBox(height: 10),
         _buildTags()
       ],
@@ -323,7 +303,10 @@ class _LayoutState extends State<_Layout> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _Label(icon: Icons.menu, label: t.write.body.label),
+              Label(
+                icon: Icons.menu,
+                label: t.write.body.write(language: t.write.body.korean),
+              ),
               const SizedBox(height: 10),
               ZiggleTextFormField(
                 initialValue: _body,
@@ -333,7 +316,7 @@ class _LayoutState extends State<_Layout> {
                 maxLines: 20,
               ),
               const SizedBox(height: 32),
-              _Label(
+              Label(
                 icon: Icons.add_photo_alternate,
                 label: t.write.images.label,
               ),

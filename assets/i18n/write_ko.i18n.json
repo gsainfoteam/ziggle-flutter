@@ -7,7 +7,8 @@
     }
   },
   "deadline": {
-    "label": "마감일 설정"
+    "label": "마감시간 설정",
+    "delay": "마감시간 늦추기"
   },
   "type": {
     "label": "분류",
@@ -21,7 +22,10 @@
     "placeholder": "태그를 입력하세요 (띄어쓰기로 구분)"
   },
   "body": {
-    "label": "본문 내용 입력",
+    "korean": "한글 본문",
+    "english": "영어 본문",
+    "write": "${language} 입력",
+    "translate(rich)": "${deepl} 번역하기",
     "placeholder": "본문 내용을 입력하세요\n마크다운 문법을 지원합니다",
     "error": {
       "title": "본문 내용을 입력해주세요",
@@ -35,5 +39,11 @@
   },
   "preview": "공지 미리보기",
   "submit": "공지 제출하기",
-  "warning": "공지 제출 시 수정 및 삭제가 불가능합니다."
+  "warning": "공지 제출 시 수정 및 삭제가 불가능합니다.",
+  "additional": {
+    "body": "추가 공지 입력",
+    "placeholder": "기존 공지사항에서 정정해야 할 부분이나 새로 알려줄 부분에 대해 작성해 주세요.",
+    "submit": "제출하기",
+    "cancel": "취소하기"
+  }
 }

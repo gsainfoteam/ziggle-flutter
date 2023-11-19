@@ -1,21 +1,23 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:injectable/injectable.dart';
-import 'package:markdown/markdown.dart';
 import 'package:ziggle/app/common/domain/repositories/settings_repository.dart';
-import 'package:ziggle/app/modules/notices/data/data_sources/image_api.dart';
-import 'package:ziggle/app/modules/notices/data/data_sources/tag_api.dart';
-import 'package:ziggle/app/modules/notices/data/models/notice_write_model.dart';
-import 'package:ziggle/app/modules/notices/data/models/rest_write_notice_model.dart';
-import 'package:ziggle/app/modules/notices/data/models/tag_model.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_write_entity.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/entities/notice_list_entity.dart';
 import '../../domain/entities/notice_search_query_entity.dart';
 import '../../domain/entities/notice_summary_entity.dart';
+import '../../domain/entities/notice_write_entity.dart';
 import '../../domain/repositories/notices_repository.dart';
+import '../data_sources/image_api.dart';
 import '../data_sources/notice_api.dart';
+import '../data_sources/tag_api.dart';
+import '../models/notice_write_model.dart';
+import '../models/rest_additional_write_model.dart';
+import '../models/rest_translation_write_model.dart';
+import '../models/rest_write_notice_model.dart';
+import '../models/tag_model.dart';
 
 const _draftKey = 'notice_write_draft';
 
@@ -99,7 +101,7 @@ class RestNoticesRepository implements NoticesRepository {
     final imageKeys = await _uploadImages(writing.imagePaths);
     final result = await _api.writeNotice(RestWriteNoticeModel(
       title: writing.title,
-      body: markdownToHtml(writing.body),
+      body: writing.body,
       deadline: writing.deadline,
       images: imageKeys,
       tags: [writing.type!.id, ...existTags, ...createdTags],
@@ -126,6 +128,33 @@ class RestNoticesRepository implements NoticesRepository {
         tags: writing.tags,
         typeIndex: writing.type?.index,
       ),
+    );
+  }
+
+  @override
+  Future<NoticeEntity> translateNotice(
+    NoticeEntity notice,
+    String content,
+  ) async {
+    return _api.translateNotice(
+      id: notice.id,
+      contentIndex: notice.contents.single.id,
+      body: RestTranslationWriteModel(body: content),
+    );
+  }
+
+  @override
+  Future<NoticeEntity> additionalNotice(
+      NoticeEntity notice, String content, DateTime? deadline) async {
+    final result = await _api.additionalNotice(
+      id: notice.id,
+      body: RestAdditionalWriteModel(body: content, deadline: deadline),
+    );
+    final lastId = result.contents.map((e) => e.id).max;
+    return _api.translateNotice(
+      id: notice.id,
+      contentIndex: lastId,
+      body: RestTranslationWriteModel(body: content),
     );
   }
 }

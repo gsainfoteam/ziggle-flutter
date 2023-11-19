@@ -35,6 +35,7 @@ class NoticeCard extends StatelessWidget {
       child: ZiggleButton(
         onTap: onTap,
         color: Palette.white,
+        textStyle: const TextStyle(color: Palette.black, height: 1.4),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(20)),
           boxShadow: frameShadows,
