@@ -110,8 +110,9 @@ class _Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 38),
-      child: BlocBuilder<AuthBloc, AuthState>(builder: (context, state) {
-        return Column(
+      child: BlocBuilder<AuthBloc, AuthState>(
+        buildWhen: (previous, current) => current.user != null,
+        builder: (context, state) => Column(
           children: [
             const SizedBox(height: 30),
             CircleAvatar(
@@ -127,8 +128,8 @@ class _Profile extends StatelessWidget {
             _Info(title: t.profile.mail, content: state.user!.email),
             const SizedBox(height: 30),
           ],
-        );
-      }),
+        ),
+      ),
     );
   }
 }
