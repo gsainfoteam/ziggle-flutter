@@ -10,6 +10,7 @@ import 'package:markdown/markdown.dart' hide Text;
 import 'package:textfield_tags/textfield_tags.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
+import 'package:ziggle/app/common/presentaion/widgets/checkbox_label.dart';
 import 'package:ziggle/app/common/presentaion/widgets/label.dart';
 import 'package:ziggle/app/common/presentaion/widgets/text_form_field.dart';
 import 'package:ziggle/app/core/di/locator.dart';
@@ -199,14 +200,10 @@ class _LayoutState extends State<_Layout> {
             hintText: t.write.title.placeholder,
           ),
         ),
-        Row(
-          children: [
-            Checkbox.adaptive(
-              value: _hasDeadline,
-              onChanged: (v) => setState(() => _hasDeadline = v ?? false),
-            ),
-            Text(t.write.deadline.label, style: TextStyles.secondaryLabelStyle),
-          ],
+        CheckboxLabel(
+          label: t.write.deadline.label,
+          checked: _hasDeadline,
+          onChanged: (v) => setState(() => _hasDeadline = v),
         ),
         const SizedBox(height: 10),
         _hasDeadline
