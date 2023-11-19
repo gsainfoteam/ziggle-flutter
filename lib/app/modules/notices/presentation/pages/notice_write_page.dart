@@ -10,6 +10,7 @@ import 'package:markdown/markdown.dart' hide Text;
 import 'package:textfield_tags/textfield_tags.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
+import 'package:ziggle/app/common/presentaion/widgets/label.dart';
 import 'package:ziggle/app/common/presentaion/widgets/text_form_field.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
@@ -86,24 +87,6 @@ class NoticeWritePage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _Label extends StatelessWidget {
-  const _Label({required this.icon, required this.label});
-
-  final IconData? icon;
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon),
-        const SizedBox(width: 4),
-        Text(label, style: TextStyles.label),
-      ],
     );
   }
 }
@@ -243,11 +226,11 @@ class _LayoutState extends State<_Layout> {
                 ],
               )
             : const SizedBox.shrink(),
-        _Label(icon: Icons.sort, label: t.write.type.label),
+        Label(icon: Icons.sort, label: t.write.type.label),
         const SizedBox(height: 10),
         _buildTypes(),
         const SizedBox(height: 20),
-        _Label(icon: Icons.sell, label: t.write.tags.label),
+        Label(icon: Icons.sell, label: t.write.tags.label),
         const SizedBox(height: 10),
         _buildTags()
       ],
@@ -323,7 +306,7 @@ class _LayoutState extends State<_Layout> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _Label(icon: Icons.menu, label: t.write.body.label),
+              Label(icon: Icons.menu, label: t.write.body.label),
               const SizedBox(height: 10),
               ZiggleTextFormField(
                 initialValue: _body,
@@ -333,7 +316,7 @@ class _LayoutState extends State<_Layout> {
                 maxLines: 20,
               ),
               const SizedBox(height: 32),
-              _Label(
+              Label(
                 icon: Icons.add_photo_alternate,
                 label: t.write.images.label,
               ),

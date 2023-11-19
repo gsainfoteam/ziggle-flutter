@@ -12,6 +12,7 @@ abstract class _Paths {
   static const article = 'article';
   static const articleSection = 'section';
   static const image = 'image';
+  static const translation = 'translation';
 }
 
 abstract class Paths {
@@ -25,7 +26,9 @@ abstract class Paths {
   static const profile = '${_Paths.root}/${_Paths.profile}';
   static const articleDetail = '${_Paths.root}/${_Paths.article}';
   static String articleImage(int page) =>
-      '${_Paths.root}/${_Paths.article}/${_Paths.image}?page=$page';
+      '${Paths.articleDetail}/${_Paths.image}?page=$page';
+  static String articleTranslation =
+      '${Paths.articleDetail}/${_Paths.translation}';
   static String articleSection(NoticeType type) =>
       '${_Paths.root}/${_Paths.articleSection}?type=${type.name}';
 }

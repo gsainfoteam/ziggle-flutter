@@ -140,7 +140,7 @@ class _Layout extends StatelessWidget {
                 label: Text(t.article.settings.title),
                 onPressed: () => showModalBottomSheet(
                   context: context,
-                  builder: (modelConext) => _SettingSheet(
+                  builder: (modalContext) => _SettingSheet(
                     onDelete: () async {
                       final bloc = context.read<NoticesBloc>();
                       bloc.add(
@@ -153,6 +153,14 @@ class _Layout extends StatelessWidget {
                       if (!context.mounted) return;
                       context.go(Paths.home);
                     },
+                    onTranslation: () {
+                      Navigator.pop(modalContext);
+                      context.push(
+                        Paths.articleTranslation,
+                        extra: state.single,
+                      );
+                    },
+                    onAdditional: () {},
                   ),
                 ),
               ),
@@ -193,7 +201,13 @@ class _Layout extends StatelessWidget {
 
 class _SettingSheet extends StatelessWidget {
   final VoidCallback onDelete;
-  const _SettingSheet({required this.onDelete});
+  final VoidCallback onTranslation;
+  final VoidCallback onAdditional;
+  const _SettingSheet({
+    required this.onDelete,
+    required this.onTranslation,
+    required this.onAdditional,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -232,6 +246,18 @@ class _SettingSheet extends StatelessWidget {
                   if (result == null || !result) return;
                   onDelete();
                 },
+              ),
+              const SizedBox(height: 12),
+              _buildButton(
+                Icons.language,
+                t.article.settings.writeTranslation,
+                onTranslation,
+              ),
+              const SizedBox(height: 12),
+              _buildButton(
+                Icons.add,
+                t.article.settings.additional,
+                onAdditional,
               ),
             ],
           ),
