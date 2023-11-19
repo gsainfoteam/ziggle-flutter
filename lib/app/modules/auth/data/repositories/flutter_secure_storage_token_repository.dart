@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../domain/repositories/token_repository.dart';
 
-@Injectable(as: TokenRepository)
+@LazySingleton(as: TokenRepository)
 class FlutterSecureStorageTokenRepository implements TokenRepository {
   final FlutterSecureStorage _storage;
   static const _tokenKey = '_token';

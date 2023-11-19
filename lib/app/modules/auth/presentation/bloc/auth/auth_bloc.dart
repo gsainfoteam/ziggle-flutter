@@ -55,9 +55,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthState.loading());
     _analytics.logTryLogin();
     try {
-      final user = await _repository.login();
+      await _repository.login();
       _analytics.logLogin();
-      return emit(AuthState.authenticated(user));
     } catch (e) {
       _analytics.logLoginCancel(e.toString());
       return emit(AuthState.error(e.toString()));
