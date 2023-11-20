@@ -15,8 +15,9 @@ import 'package:ziggle/gen/strings.g.dart';
 
 void main() async {
   _initSplash();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await configureDependencies();
-  await _preInit();
+  await _initLocale();
   _initCrashlytics();
   _initFont();
   _initBloc();
@@ -32,13 +33,6 @@ Future<void> _initLocale() async {
   final locale = LocaleSettings.useDeviceLocale();
   await initializeDateFormatting();
   Intl.defaultLocale = locale.languageCode;
-}
-
-Future<void> _preInit() async {
-  await Future.wait([
-    _initLocale(),
-    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
-  ]);
 }
 
 void _initCrashlytics() {

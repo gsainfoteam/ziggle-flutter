@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/common/domain/repositories/messaging_repository.dart';
 
 import '../../data/data_sources/remote/user_api.dart';
@@ -12,7 +13,7 @@ import '../../domain/repositories/user_repository.dart';
 
 class WrongAuthCodeException implements Exception {}
 
-@Injectable(as: UserRepository)
+@Singleton(as: UserRepository)
 class RestUserRepository implements UserRepository {
   final UserApi _api;
   final AuthRepository _authRepository;
@@ -22,12 +23,16 @@ class RestUserRepository implements UserRepository {
 
   RestUserRepository(this._api, this._authRepository, this._tokenRepository,
       this._messagingRepository) {
-    _messagingRepository.getToken().listen((token) {
-      if (token != null) {
-        _api.updateFcmToken(token);
-      }
+    CombineLatestStream(
+      [
+        _messagingRepository.getToken(),
+        _tokenRepository.read(),
+      ],
+      (values) => values[0],
+    ).listen((token) async {
+      if (token == null) return;
+      await _api.updateFcmToken(token);
     });
-    _tokenRepository.read().listen((event) => _updateUser());
   }
 
   Future<UserEntity?> _updateUser() async {
