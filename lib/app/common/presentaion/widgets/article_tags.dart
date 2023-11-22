@@ -10,17 +10,24 @@ class NoticeTags extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 4,
-      runSpacing: 4,
-      children: tags
-          .map(
-            (e) => _ArticleTag(
-              text: '#${e.name}',
-              color: e.isType ? Colors.purple : Palette.primaryColor,
-            ),
-          )
-          .toList(),
+    return Text.rich(
+      TextSpan(
+        children: tags
+            .expand(
+              (e) => [
+                WidgetSpan(
+                  child: _ArticleTag(
+                    text: '#${e.name}',
+                    color: e.isType ? Colors.purple : Palette.primaryColor,
+                  ),
+                ),
+                const WidgetSpan(child: SizedBox(width: 4)),
+              ],
+            )
+            .toList(),
+      ),
+      maxLines: 2,
+      style: const TextStyle(height: 2),
     );
   }
 }
