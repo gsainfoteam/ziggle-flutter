@@ -6,7 +6,8 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 class NoticeTags extends StatelessWidget {
   final List<TagEntity> tags;
-  const NoticeTags({super.key, required this.tags});
+  final bool showAll;
+  const NoticeTags({super.key, required this.tags, this.showAll = false});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class NoticeTags extends StatelessWidget {
             )
             .toList(),
       ),
-      maxLines: 2,
+      maxLines: showAll ? null : 1,
       style: const TextStyle(height: 2),
     );
   }
