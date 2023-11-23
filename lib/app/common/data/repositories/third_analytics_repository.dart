@@ -1,9 +1,11 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/user_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
+@Singleton(as: AnalyticsRepository)
 class ThirdAnalyticsRepository implements AnalyticsRepository {
   final UserRepository _userRepository;
   static final _analytics = FirebaseAnalytics.instance;
