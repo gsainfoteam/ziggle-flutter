@@ -154,7 +154,7 @@ class NoticeCard extends StatelessWidget {
           NoticeTags(
               tags: showType
                   ? notice.tags.map((e) => e.isType ? e.type : e).toList()
-                  : notice.tags.where((t) => !t.isType).toList()),
+                  : notice.tags),
           const Expanded(child: SizedBox.shrink()),
           Text(
             DateFormat.yMd().format(notice.createdAt),

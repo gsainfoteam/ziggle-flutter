@@ -9,7 +9,6 @@ import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
-import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class NoticeBody extends StatelessWidget {
@@ -28,7 +27,7 @@ class NoticeBody extends StatelessWidget {
             Text(content.title, style: TextStyles.articleTitleStyle),
             const SizedBox(height: 12),
             if (notice.tags.isNotEmpty) ...[
-              NoticeTags(tags: notice.tags.where((t) => !t.isType).toList()),
+              NoticeTags(tags: notice.tags, showAll: true),
               const SizedBox(height: 16),
             ],
             Row(
