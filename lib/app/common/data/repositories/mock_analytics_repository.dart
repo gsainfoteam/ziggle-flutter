@@ -3,7 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
-@Injectable(as: AnalyticsRepository)
+@Injectable(as: AnalyticsRepository, env: [Environment.dev])
 class MockAnalyticsRepository implements AnalyticsRepository {
   @override
   logScreen(String screenName) {
