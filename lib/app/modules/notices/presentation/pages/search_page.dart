@@ -9,6 +9,7 @@ import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_search_query_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notices/notices_bloc.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -69,6 +70,7 @@ class _LayoutState extends State<_Layout> {
           NoticesEvent.fetch(
             NoticeSearchQueryEntity(
               search: _query.value,
+              orderBy: NoticeSort.recent,
               tags: _types.value.map((e) => e.name).toList(),
             ),
           ),
