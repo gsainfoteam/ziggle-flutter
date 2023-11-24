@@ -9,6 +9,8 @@ import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/profile_page.dart';
+import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
+import 'package:ziggle/app/modules/notices/data/models/notice_summary_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
@@ -27,6 +29,11 @@ part 'paths.dart';
 
 abstract class Routes {
   Routes._();
+
+  static T _deserializeEntity<T>(
+      dynamic extra, T Function(Map<String, dynamic> extra) deserializer) {
+    return extra is T ? extra : deserializer(extra as Map<String, dynamic>);
+  }
 
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -55,7 +62,8 @@ abstract class Routes {
             parentNavigatorKey: _rootNavigatorKey,
             builder: (context, state) => NoticePage(
               notice: state.extra != null
-                  ? state.extra as NoticeSummaryEntity
+                  ? _deserializeEntity<NoticeSummaryEntity>(
+                      state.extra, NoticeSummaryModel.fromJson)
                   : NoticeSummaryEntity(
                       id: int.tryParse(state.uri.queryParameters['id'] ?? '') ??
                           0,
@@ -76,14 +84,16 @@ abstract class Routes {
                 path: _Paths.translation,
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) => NoticeTranslationPage(
-                  notice: state.extra as NoticeEntity,
+                  notice: _deserializeEntity<NoticeEntity>(
+                      state.extra, NoticeModel.fromJson),
                 ),
               ),
               GoRoute(
                 path: _Paths.additional,
                 parentNavigatorKey: _rootNavigatorKey,
                 builder: (context, state) => NoticeAdditionalPage(
-                  notice: state.extra as NoticeEntity,
+                  notice: _deserializeEntity<NoticeEntity>(
+                      state.extra, NoticeModel.fromJson),
                 ),
               ),
             ],
@@ -247,7 +257,6 @@ class _ObserverState extends State<_Observer> {
   }
 
   _listener() {
-    GoRouter.of(context).routeInformationProvider.value.uri;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final matchList = await GoRouter.of(context)
           .routeInformationParser
