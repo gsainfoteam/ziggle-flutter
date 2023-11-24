@@ -14,6 +14,9 @@ class BodyRenderer extends StatelessWidget {
         data: content,
         style: {'body': Style(margin: Margins.zero)},
         onLinkTap: (url, _, __) => _openUrl(url),
+        extensions: const [
+          TableHtmlExtension(),
+        ],
       ),
     );
   }
