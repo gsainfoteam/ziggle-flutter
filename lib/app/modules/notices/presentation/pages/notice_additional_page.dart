@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:go_router/go_router.dart';
 import 'package:markdown/markdown.dart' hide Text;
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
@@ -11,6 +10,7 @@ import 'package:ziggle/app/common/presentaion/widgets/label.dart';
 import 'package:ziggle/app/common/presentaion/widgets/text_form_field.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/core/values/palette.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/body_renderer.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
@@ -87,12 +87,7 @@ class _LayoutState extends State<_Layout> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Label(icon: Icons.menu, label: t.write.body.korean),
-        SelectionArea(
-          child: Html(
-            data: widget.notice.contents.korean.body,
-            style: {'body': Style(margin: Margins.zero)},
-          ),
-        ),
+        BodyRenderer(content: widget.notice.contents.korean.body),
         if (widget.notice.currentDeadline != null)
           CheckboxLabel(
             label: t.write.deadline.delay,

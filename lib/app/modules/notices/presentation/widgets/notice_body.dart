@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:ziggle/app/common/presentaion/widgets/article_tags.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/d_day.dart';
@@ -9,6 +7,7 @@ import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/body_renderer.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class NoticeBody extends StatelessWidget {
@@ -64,26 +63,14 @@ class NoticeBody extends StatelessWidget {
               height: 30,
               color: Palette.placeholder,
             ),
-            SelectionArea(
-              child: Html(
-                data: content.body,
-                style: {'body': Style(margin: Margins.zero)},
-                onLinkTap: (url, _, __) => _openUrl(url),
-              ),
-            ),
+            BodyRenderer(content: content.body),
             for (final additional in notice.contents.localeds.additionals) ...[
               const Divider(
                 thickness: 1,
                 height: 30,
                 color: Palette.placeholder,
               ),
-              SelectionArea(
-                child: Html(
-                  data: additional.body,
-                  style: {'body': Style(margin: Margins.zero)},
-                  onLinkTap: (url, _, __) => _openUrl(url),
-                ),
-              ),
+              BodyRenderer(content: additional.body),
             ],
             if (report != null) ...[
               const Divider(
@@ -115,20 +102,5 @@ class NoticeBody extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  _openUrl(String? urlString) async {
-    if (urlString == null) return;
-    final url = Uri.tryParse(urlString);
-    if (url == null) return;
-    try {
-      final result =
-          await launchUrl(url, mode: LaunchMode.externalNonBrowserApplication);
-      if (!result) {
-        await launchUrl(url, mode: LaunchMode.externalApplication);
-      }
-    } catch (_) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    }
   }
 }
