@@ -32,5 +32,5 @@ class NoticeSummaryModel
   String get body => contents.localed.body;
 
   @override
-  String get title => contents.localed.title;
+  String get title => contents.localed.title ?? contents.korean.title!;
 }

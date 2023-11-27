@@ -31,5 +31,5 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
   String get body => contents.localed.body;
 
   @override
-  String get title => contents.localed.title;
+  String get title => contents.localed.title ?? contents.korean.title!;
 }
