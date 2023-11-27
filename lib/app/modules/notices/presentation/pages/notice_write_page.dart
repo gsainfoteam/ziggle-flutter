@@ -18,7 +18,6 @@ import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/content_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
@@ -356,15 +355,10 @@ class _LayoutState extends State<_Layout> {
                 builder: (context) => NoticePreviewSheet(
                   notice: NoticeEntity(
                     id: 0,
-                    contents: [
-                      ContentEntity(
-                        id: 0,
-                        createdAt: DateTime.now(),
-                        title: _title,
-                        body: markdownToHtml(_body),
-                        deadline: _hasDeadline ? _deadline : null,
-                      ),
-                    ],
+                    title: _title,
+                    body: markdownToHtml(_body),
+                    currentDeadline: _hasDeadline ? _deadline : null,
+                    contents: [],
                     author: context.read<AuthBloc>().state.user!.name,
                     createdAt: DateTime.now(),
                     tags: _tags.map((e) => TagEntity(0, e)).toList(),

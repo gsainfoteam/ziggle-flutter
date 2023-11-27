@@ -18,13 +18,12 @@ class NoticeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final content = notice.contents.localed;
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(content.title, style: TextStyles.articleTitleStyle),
+            Text(notice.title, style: TextStyles.articleTitleStyle),
             const SizedBox(height: 12),
             if (notice.tags.isNotEmpty) ...[
               NoticeTags(tags: notice.tags, showAll: true),
@@ -66,7 +65,7 @@ class NoticeBody extends StatelessWidget {
             ),
             SelectionArea(
               child: Html(
-                data: content.body,
+                data: notice.body,
                 style: {'body': Style(margin: Margins.zero)},
                 onLinkTap: (url, _, __) => _openUrl(url),
               ),

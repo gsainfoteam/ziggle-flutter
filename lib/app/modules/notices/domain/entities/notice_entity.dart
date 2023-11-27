@@ -8,6 +8,8 @@ class NoticeEntity {
   final int views;
   final DateTime? currentDeadline;
   final DateTime createdAt;
+  final String title;
+  final String body;
   final List<ContentEntity> contents;
   final List<String> imagesUrl;
   final List<TagEntity> tags;
@@ -20,6 +22,8 @@ class NoticeEntity {
     this.views = 0,
     this.currentDeadline,
     required this.createdAt,
+    required this.title,
+    required this.body,
     required this.contents,
     this.imagesUrl = const [],
     this.tags = const [],
@@ -32,13 +36,14 @@ class NoticeEntity {
 extension ContentEntityListExtension on Iterable<ContentEntity> {
   Iterable<ContentEntity> get localeds => where(
       (content) => content.lang == LocaleSettings.currentLocale.languageCode);
-  ContentEntity get localed => localeds.firstOrNull ?? first;
+  ContentEntity get localed => localeds.mains.firstOrNull ?? first;
+  Iterable<ContentEntity> get mains => where((content) => content.id == 1);
   Iterable<ContentEntity> get additionals =>
       where((content) => content.id != 1);
   Iterable<ContentEntity> get koreans =>
       where((content) => content.lang == "ko");
-  ContentEntity get korean => koreans.firstOrNull ?? first;
+  ContentEntity get korean => mains.koreans.firstOrNull ?? first;
   Iterable<ContentEntity> get englishes =>
       where((content) => content.lang == "en");
-  ContentEntity get english => englishes.firstOrNull ?? first;
+  ContentEntity get english => mains.englishes.firstOrNull ?? first;
 }

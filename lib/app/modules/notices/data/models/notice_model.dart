@@ -9,6 +9,8 @@ part 'notice_model.g.dart';
 
 @freezed
 class NoticeModel with _$NoticeModel implements NoticeEntity {
+  const NoticeModel._();
+
   const factory NoticeModel({
     required int id,
     required int views,
@@ -24,4 +26,10 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>
       _$NoticeModelFromJson(json);
+
+  @override
+  String get body => contents.localed.body;
+
+  @override
+  String get title => contents.localed.title;
 }
