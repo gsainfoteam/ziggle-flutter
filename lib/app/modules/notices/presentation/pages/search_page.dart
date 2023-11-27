@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/common/presentaion/widgets/article_card.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/core/di/locator.dart';
-import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_search_query_entity.dart';
@@ -214,10 +212,6 @@ class _LayoutState extends State<_Layout> {
             notice: state.notices[index],
             direction: Axis.horizontal,
             showType: true,
-            onTap: () => context.push(
-              Paths.articleDetail,
-              extra: state.notices[index],
-            ),
           ),
         ),
       ),

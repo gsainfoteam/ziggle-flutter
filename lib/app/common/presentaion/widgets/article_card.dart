@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/common/presentaion/widgets/article_tags.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/d_day.dart';
+import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
@@ -17,14 +19,12 @@ const kNoticeCardHeight = 180.0;
 class NoticeCard extends StatelessWidget {
   final NoticeSummaryEntity notice;
   final Axis direction;
-  final void Function() onTap;
   final bool showType;
 
   const NoticeCard({
     super.key,
     required this.notice,
     this.direction = Axis.vertical,
-    required this.onTap,
     this.showType = false,
   });
 
@@ -33,7 +33,10 @@ class NoticeCard extends StatelessWidget {
     return SizedBox(
       height: direction == Axis.horizontal ? kNoticeCardHeight : null,
       child: ZiggleButton(
-        onTap: onTap,
+        onTap: () => context.push(
+          Paths.articleDetail(notice.id),
+          extra: notice,
+        ),
         color: Palette.white,
         textStyle: const TextStyle(color: Palette.black, height: 1.4),
         decoration: const BoxDecoration(

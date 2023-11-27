@@ -249,12 +249,10 @@ class _ObserverState extends State<_Observer> {
   _listener() {
     GoRouter.of(context).routeInformationProvider.value.uri;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final matchList = await GoRouter.of(context)
-          .routeInformationParser
-          .parseRouteInformationWithDependencies(
-            GoRouter.of(context).routeInformationProvider.value,
-            context,
-          );
+      final parser = GoRouter.of(context).routeInformationParser;
+      final provider = GoRouter.of(context).routeInformationProvider;
+      final matchList = await parser.parseRouteInformationWithDependencies(
+          provider.value, context);
       widget._repository.logScreen(matchList.matches.last.matchedLocation);
     });
   }

@@ -75,7 +75,8 @@ class NoticeWritePage extends StatelessWidget {
               listener: (context, state) {
                 context
                   ..pop()
-                  ..push(Paths.articleDetail, extra: state.resultSummary);
+                  ..push(Paths.articleDetail(state.resultSummary!.id),
+                      extra: state.resultSummary);
               },
             ),
           ],
