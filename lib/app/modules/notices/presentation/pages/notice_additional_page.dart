@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:go_router/go_router.dart';
-import 'package:markdown/markdown.dart' hide Text;
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/checkbox_label.dart';
 import 'package:ziggle/app/common/presentaion/widgets/label.dart';
@@ -139,11 +138,7 @@ class _LayoutState extends State<_Layout> {
                 builder: (context, state) => ZiggleButton(
                   loading: state.whenOrNull(writing: () => true) ?? false,
                   onTap: () => context.read<WriteBloc>().add(
-                        WriteEvent.additional(
-                          widget.notice,
-                          markdownToHtml(_body),
-                          _deadline,
-                        ),
+                        WriteEvent.additional(widget.notice, _body, _deadline),
                       ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
