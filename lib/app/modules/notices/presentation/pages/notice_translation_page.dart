@@ -43,6 +43,14 @@ class NoticeTranslationPage extends StatelessWidget {
             },
           ),
           BlocListener<WriteBloc, WriteState>(
+            listenWhen: (_, current) => current.error,
+            listener: (context, state) => state.whenOrNull(
+              error: (reason) => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(reason)),
+              ),
+            ),
+          ),
+          BlocListener<WriteBloc, WriteState>(
             listenWhen: (_, current) => current.success,
             listener: (context, state) => context.pop(),
           ),
