@@ -48,6 +48,7 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
     } catch (e) {
       _analyticsRepository.logSubmitArticleCancel('unknown error');
       emit(WriteState.error(e.toString()));
+      rethrow;
     }
   }
 
@@ -62,6 +63,7 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
       emit(WriteState.success(result));
     } catch (e) {
       emit(WriteState.error(e.toString()));
+      rethrow;
     }
   }
 
@@ -78,6 +80,7 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
       emit(WriteState.success(result));
     } catch (e) {
       emit(WriteState.error(e.toString()));
+      rethrow;
     }
   }
 }
