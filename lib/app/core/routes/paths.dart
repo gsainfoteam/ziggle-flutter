@@ -28,11 +28,11 @@ abstract class Paths {
   static String articleDetail(int id) =>
       '${_Paths.root}/${_Paths.article}?id=$id';
   static String articleImage(int id, int page) =>
-      '${Paths.articleDetail}/${_Paths.image}?id=$id&page=$page';
+      '${_Paths.root}/${_Paths.article}/${_Paths.image}?id=$id&page=$page';
   static String articleTranslation(int id) =>
-      '${Paths.articleDetail}/${_Paths.translation}?id=$id';
+      '${_Paths.root}/${_Paths.article}/${_Paths.translation}?id=$id';
   static String articleAdditional(int id) =>
-      '${Paths.articleDetail}/${_Paths.additional}?id=$id';
+      '${_Paths.root}/${_Paths.article}/${_Paths.additional}?id=$id';
   static String articleSection(NoticeType type) =>
       '${_Paths.root}/${_Paths.articleSection}?type=${type.name}';
 }
