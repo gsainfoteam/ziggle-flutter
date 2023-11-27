@@ -43,7 +43,9 @@ class NoticeBody extends StatelessWidget {
                 children: [
                   _buildTextRich(
                     t.article.deadline,
-                    DateFormat.yMEd().format(notice.currentDeadline!.toLocal()),
+                    DateFormat.yMMMd()
+                        .add_jm()
+                        .format(notice.currentDeadline!.toLocal()),
                   ),
                   const SizedBox(width: 10),
                   DDay(
@@ -57,7 +59,9 @@ class NoticeBody extends StatelessWidget {
               const SizedBox(height: 10)
             ],
             _buildTextRich(
-                t.article.createdAt, DateFormat.yMd().format(notice.createdAt)),
+              t.article.createdAt,
+              DateFormat.yMMMd().add_jm().format(notice.createdAt.toLocal()),
+            ),
             const Divider(
               thickness: 1,
               height: 30,

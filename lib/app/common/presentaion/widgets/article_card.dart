@@ -160,7 +160,7 @@ class NoticeCard extends StatelessWidget {
                   : notice.tags),
           const Expanded(child: SizedBox.shrink()),
           Text(
-            DateFormat.yMd().format(notice.createdAt),
+            DateFormat.yMd().format(notice.createdAt.toLocal()),
             style: TextStyles.articleCardAuthorStyle
                 .copyWith(color: Palette.secondaryText),
           ),
