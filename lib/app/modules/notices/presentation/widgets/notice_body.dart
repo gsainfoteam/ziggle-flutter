@@ -69,8 +69,8 @@ class NoticeBody extends StatelessWidget {
               ),
             ),
             for (final [prev, additional] in IterableZip([
+              notice.contents.localeds,
               notice.contents.localeds.additionals,
-              notice.contents.localeds.additionals.skip(1)
             ])) ...[
               const Divider(
                 thickness: 1,
