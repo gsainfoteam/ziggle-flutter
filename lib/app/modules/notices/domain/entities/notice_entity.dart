@@ -49,5 +49,5 @@ extension ContentEntityListExtension on Iterable<ContentEntity> {
   ContentEntity get korean => mains.koreans.firstOrNull ?? first;
   Iterable<ContentEntity> get englishes =>
       where((content) => content.lang == "en");
-  ContentEntity get english => mains.englishes.firstOrNull ?? first;
+  ContentEntity? get english => mains.englishes.firstOrNull;
 }

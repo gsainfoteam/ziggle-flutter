@@ -43,7 +43,8 @@
   "submit": "Submit notice",
   "warning": "You cannot edit or delete notice after submission.",
   "additional": {
-    "body": "Enter additional notice",
+    "korean": "Enter korean additional notice",
+    "english": "Enter english additional notice",
     "placeholder": "Please write about what needs to be corrected in the existing announcement or what you'd like us to know about.",
     "submit": "Submit",
     "cancel": "Cancel"

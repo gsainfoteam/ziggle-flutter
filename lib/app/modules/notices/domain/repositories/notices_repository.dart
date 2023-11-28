@@ -19,6 +19,7 @@ abstract class NoticesRepository {
   Future<NoticeEntity> additionalNotice(
     NoticeEntity notice,
     String content,
+    String? englishContent,
     DateTime? deadline,
   );
 }

@@ -82,6 +82,7 @@ class _Layout extends StatefulWidget {
 
 class _LayoutState extends State<_Layout> {
   String _body = '';
+  String _englishBody = '';
   DateTime? _deadline;
   late final DateTime _minDeadline = [
     if (widget.notice.currentDeadline != null) widget.notice.currentDeadline!,
@@ -100,6 +101,15 @@ class _LayoutState extends State<_Layout> {
             style: {'body': Style(margin: Margins.zero)},
           ),
         ),
+        if (widget.notice.contents.english != null) ...[
+          Label(icon: Icons.menu, label: t.write.body.english),
+          SelectionArea(
+            child: Html(
+              data: widget.notice.contents.english!.body,
+              style: {'body': Style(margin: Margins.zero)},
+            ),
+          ),
+        ],
         if (widget.notice.currentDeadline != null)
           CheckboxLabel(
             label: t.write.deadline.delay,
@@ -119,7 +129,7 @@ class _LayoutState extends State<_Layout> {
               onDateTimeChanged: (v) => _deadline = v,
             ),
           ),
-        Label(icon: Icons.menu, label: t.write.additional.body),
+        Label(icon: Icons.menu, label: t.write.additional.korean),
         const SizedBox(height: 10),
         ZiggleTextFormField(
           onChanged: (v) => _body = v,
@@ -127,6 +137,17 @@ class _LayoutState extends State<_Layout> {
           minLines: 11,
           maxLines: 20,
         ),
+        if (widget.notice.contents.english != null) ...[
+          const SizedBox(height: 10),
+          Label(icon: Icons.menu, label: t.write.additional.english),
+          const SizedBox(height: 10),
+          ZiggleTextFormField(
+            onChanged: (v) => _englishBody = v,
+            hintText: t.write.additional.placeholder,
+            minLines: 11,
+            maxLines: 20,
+          ),
+        ],
         const SizedBox(height: 32),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -138,7 +159,13 @@ class _LayoutState extends State<_Layout> {
                 builder: (context, state) => ZiggleButton(
                   loading: state.whenOrNull(writing: () => true) ?? false,
                   onTap: () => context.read<WriteBloc>().add(
-                        WriteEvent.additional(widget.notice, _body, _deadline),
+                        WriteEvent.additional(
+                            widget.notice,
+                            _body,
+                            widget.notice.contents.english != null
+                                ? _englishBody
+                                : null,
+                            _deadline ?? widget.notice.currentDeadline),
                       ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
