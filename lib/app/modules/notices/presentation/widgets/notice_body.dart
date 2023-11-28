@@ -99,13 +99,7 @@ class NoticeBody extends StatelessWidget {
                     ),
                   ],
                 ),
-              SelectionArea(
-                child: Html(
-                  data: additional.body,
-                  style: {'body': Style(margin: Margins.zero)},
-                  onLinkTap: (url, _, __) => _openUrl(url),
-                ),
-              ),
+              SelectionArea(child: Text(additional.body)),
             ],
             if (report != null) ...[
               const Divider(
