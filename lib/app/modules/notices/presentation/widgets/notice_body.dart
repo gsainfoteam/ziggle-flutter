@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:intl/intl.dart';
@@ -74,12 +75,30 @@ class NoticeBody extends StatelessWidget {
                 onLinkTap: (url, _, __) => _openUrl(url),
               ),
             ),
-            for (final additional in notice.contents.localeds.additionals) ...[
+            for (final [prev, additional] in IterableZip([
+              notice.contents.localeds.additionals,
+              notice.contents.localeds.additionals.skip(1)
+            ])) ...[
               const Divider(
                 thickness: 1,
                 height: 30,
                 color: Palette.placeholder,
               ),
+              Text(t.article.additional, style: TextStyles.titleTextStyle),
+              Text(DateFormat.yMMMd()
+                  .add_jm()
+                  .format(additional.createdAt.toLocal())),
+              if (additional.deadline != prev.deadline)
+                Row(
+                  children: [
+                    _buildTextRich(
+                      t.article.deadlineDelay,
+                      DateFormat.yMMMd()
+                          .add_jm()
+                          .format(additional.deadline!.toLocal()),
+                    ),
+                  ],
+                ),
               SelectionArea(
                 child: Html(
                   data: additional.body,

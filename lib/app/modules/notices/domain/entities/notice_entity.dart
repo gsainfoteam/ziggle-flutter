@@ -33,10 +33,14 @@ class NoticeEntity {
   }) : assert(contents.isNotEmpty);
 }
 
-extension ContentEntityListExtension on Iterable<ContentEntity> {
-  Iterable<ContentEntity> get localeds => where(
+extension _ContentEntityListExtension on Iterable<ContentEntity> {
+  Iterable<ContentEntity> get _localeds => where(
       (content) => content.lang == LocaleSettings.currentLocale.languageCode);
-  ContentEntity get localed => localeds.mains.firstOrNull ?? first;
+}
+
+extension ContentEntityListExtension on Iterable<ContentEntity> {
+  Iterable<ContentEntity> get localeds => [localed, ..._localeds.additionals];
+  ContentEntity get localed => _localeds.mains.firstOrNull ?? first;
   Iterable<ContentEntity> get mains => where((content) => content.id == 1);
   Iterable<ContentEntity> get additionals =>
       where((content) => content.id != 1);

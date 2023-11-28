@@ -8,7 +8,7 @@
   },
   "deadline": {
     "label": "Set deadline",
-    "delay": "Delay deadline"
+    "delay": "Change deadline"
   },
   "type": {
     "label": "Type",
