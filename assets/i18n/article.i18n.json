@@ -38,6 +38,7 @@
   "views": "Views",
   "deadline": "Deadline",
   "deadlineDelta": "$n days left",
+  "deadlineOverdue": "overdue",
   "createdAt": "Created At",
   "additional": "Additional Notice",
   "deadlineDelay": "Deadline Changed",
