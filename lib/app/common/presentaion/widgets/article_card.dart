@@ -7,7 +7,6 @@ import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/d_day.dart';
 import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
-import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
@@ -120,12 +119,7 @@ class NoticeCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (notice.currentDeadline != null) ...[
-          DDay(
-            dDay: calculateDateDelta(
-              DateTime.now(),
-              notice.currentDeadline!.toLocal(),
-            ),
-          ),
+          DDay(date: notice.currentDeadline!.toLocal()),
           const SizedBox(height: 3),
         ],
         Text(

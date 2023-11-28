@@ -7,7 +7,6 @@ import 'package:ziggle/app/common/presentaion/widgets/article_tags.dart';
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/d_day.dart';
 import 'package:ziggle/app/core/themes/text.dart';
-import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -19,6 +18,7 @@ class NoticeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final deadline = notice.currentDeadline;
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
         child: Column(
@@ -39,22 +39,15 @@ class NoticeBody extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            if (notice.currentDeadline != null) ...[
+            if (deadline != null) ...[
               Row(
                 children: [
                   _buildTextRich(
                     t.article.deadline,
-                    DateFormat.yMMMd()
-                        .add_jm()
-                        .format(notice.currentDeadline!.toLocal()),
+                    DateFormat.yMMMd().add_jm().format(deadline.toLocal()),
                   ),
                   const SizedBox(width: 10),
-                  DDay(
-                    dDay: calculateDateDelta(
-                      DateTime.now(),
-                      notice.currentDeadline!.toLocal(),
-                    ),
-                  ),
+                  DDay(date: deadline.toLocal()),
                 ],
               ),
               const SizedBox(height: 10)
