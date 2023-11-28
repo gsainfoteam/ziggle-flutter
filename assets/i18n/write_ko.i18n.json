@@ -1,6 +1,6 @@
 {
   "title": {
-    "korean": "한글 제목",
+    "korean": "한국어 제목",
     "english": "영어 제목",
     "placeholder": "${language}을 입력하세요",
     "error": {
@@ -24,7 +24,7 @@
     "placeholder": "태그를 입력하세요 (띄어쓰기로 구분)"
   },
   "body": {
-    "korean": "한글 본문",
+    "korean": "한국어 본문",
     "english": "영어 본문",
     "write": "${language} 입력",
     "translate(rich)": "${deepl} 번역하기",
@@ -43,7 +43,7 @@
   "submit": "공지 제출하기",
   "warning": "공지 제출 시 수정 및 삭제가 불가능합니다.",
   "additional": {
-    "korean": "한글 추가 공지 입력",
+    "korean": "한국어 추가 공지 입력",
     "english": "영어 추가 공지 입력",
     "placeholder": "기존 공지사항에서 정정해야 할 부분이나 새로 알려줄 부분에 대해 작성해 주세요.",
     "submit": "제출하기",
