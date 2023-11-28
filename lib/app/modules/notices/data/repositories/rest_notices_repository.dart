@@ -134,12 +134,13 @@ class RestNoticesRepository implements NoticesRepository {
   @override
   Future<NoticeEntity> translateNotice(
     NoticeEntity notice,
+    String title,
     String content,
   ) async {
     return _api.translateNotice(
       id: notice.id,
       contentIndex: 1,
-      body: RestTranslationWriteModel(body: content),
+      body: RestTranslationWriteModel(title: title, body: content),
     );
   }
 

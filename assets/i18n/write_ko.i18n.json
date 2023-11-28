@@ -1,6 +1,8 @@
 {
   "title": {
-    "placeholder": "제목을 입력하세요",
+    "korean": "한글 제목",
+    "english": "영어 제목",
+    "placeholder": "${language}을 입력하세요",
     "error": {
       "title": "제목을 입력해주세요",
       "description": "제목을 입력하지 않으면 공지를 제출할 수 없습니다."

@@ -1,6 +1,8 @@
 {
   "title": {
-    "placeholder": "Enter title",
+    "korean": "Korean title",
+    "english": "English title",
+    "placeholder": "Enter ${language}",
     "error": {
       "title": "Please enter title",
       "description": "You cannot submit notice without title."

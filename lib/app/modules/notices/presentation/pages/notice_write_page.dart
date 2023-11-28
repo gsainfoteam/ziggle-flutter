@@ -197,7 +197,7 @@ class _LayoutState extends State<_Layout> {
           style: TextStyles.articleWriterTitleStyle,
           decoration: InputDecoration.collapsed(
             border: const OutlineInputBorder(borderSide: BorderSide.none),
-            hintText: t.write.title.placeholder,
+            hintText: t.write.title.placeholder(language: t.write.title.korean),
           ),
         ),
         CheckboxLabel(

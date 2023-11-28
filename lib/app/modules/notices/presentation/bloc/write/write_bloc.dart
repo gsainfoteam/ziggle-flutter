@@ -58,6 +58,7 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
     try {
       final result = await _noticesRepository.translateNotice(
         event.notice,
+        event.title,
         event.content,
       );
       emit(WriteState.success(result));
@@ -90,8 +91,8 @@ sealed class WriteEvent with _$WriteEvent {
   const factory WriteEvent.init() = _Init;
   const factory WriteEvent.save(NoticeWriteEntity notice) = _Save;
   const factory WriteEvent.write(NoticeWriteEntity notice) = _Write;
-  const factory WriteEvent.translate(NoticeEntity notice, String content) =
-      _Translate;
+  const factory WriteEvent.translate(
+      NoticeEntity notice, String title, String content) = _Translate;
   const factory WriteEvent.additional(
       NoticeEntity notice, String content, DateTime? deadline) = _Additional;
 }
