@@ -140,7 +140,11 @@ class RestNoticesRepository implements NoticesRepository {
     return _api.translateNotice(
       id: notice.id,
       contentIndex: 1,
-      body: RestTranslationWriteModel(title: title, body: content),
+      body: RestTranslationWriteModel(
+        title: title,
+        body: content,
+        deadline: notice.currentDeadline,
+      ),
     );
   }
 
@@ -149,13 +153,19 @@ class RestNoticesRepository implements NoticesRepository {
       String? englishContent, DateTime? deadline) async {
     final result = await _api.additionalNotice(
       id: notice.id,
-      body: RestAdditionalWriteModel(body: content, deadline: deadline),
+      body: RestAdditionalWriteModel(
+        body: content,
+        deadline: deadline ?? notice.currentDeadline,
+      ),
     );
     final lastId = result.contents.map((e) => e.id).max;
     return _api.translateNotice(
       id: notice.id,
       contentIndex: lastId,
-      body: RestTranslationWriteModel(body: englishContent ?? content),
+      body: RestTranslationWriteModel(
+        body: englishContent ?? content,
+        deadline: deadline ?? notice.currentDeadline,
+      ),
     );
   }
 }
