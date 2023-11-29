@@ -25,13 +25,14 @@ abstract class Paths {
   static const search = '${_Paths.root}/${_Paths.search}';
   static const write = '${_Paths.root}/${_Paths.write}';
   static const profile = '${_Paths.root}/${_Paths.profile}';
-  static const articleDetail = '${_Paths.root}/${_Paths.article}';
-  static String articleImage(int page) =>
-      '${Paths.articleDetail}/${_Paths.image}?page=$page';
-  static String articleTranslation =
-      '${Paths.articleDetail}/${_Paths.translation}';
-  static String articleAdditional =
-      '${Paths.articleDetail}/${_Paths.additional}';
+  static String articleDetail(int id) =>
+      '${_Paths.root}/${_Paths.article}?id=$id';
+  static String articleImage(int id, int page) =>
+      '${_Paths.root}/${_Paths.article}/${_Paths.image}?id=$id&page=$page';
+  static String articleTranslation(int id) =>
+      '${_Paths.root}/${_Paths.article}/${_Paths.translation}?id=$id';
+  static String articleAdditional(int id) =>
+      '${_Paths.root}/${_Paths.article}/${_Paths.additional}?id=$id';
   static String articleSection(NoticeType type) =>
       '${_Paths.root}/${_Paths.articleSection}?type=${type.name}';
 }

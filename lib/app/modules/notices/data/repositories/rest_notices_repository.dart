@@ -134,27 +134,38 @@ class RestNoticesRepository implements NoticesRepository {
   @override
   Future<NoticeEntity> translateNotice(
     NoticeEntity notice,
+    String title,
     String content,
   ) async {
     return _api.translateNotice(
       id: notice.id,
-      contentIndex: notice.contents.single.id,
-      body: RestTranslationWriteModel(body: content),
+      contentIndex: 1,
+      body: RestTranslationWriteModel(
+        title: title,
+        body: content,
+        deadline: notice.currentDeadline,
+      ),
     );
   }
 
   @override
-  Future<NoticeEntity> additionalNotice(
-      NoticeEntity notice, String content, DateTime? deadline) async {
+  Future<NoticeEntity> additionalNotice(NoticeEntity notice, String content,
+      String? englishContent, DateTime? deadline) async {
     final result = await _api.additionalNotice(
       id: notice.id,
-      body: RestAdditionalWriteModel(body: content, deadline: deadline),
+      body: RestAdditionalWriteModel(
+        body: content,
+        deadline: deadline ?? notice.currentDeadline,
+      ),
     );
     final lastId = result.contents.map((e) => e.id).max;
     return _api.translateNotice(
       id: notice.id,
       contentIndex: lastId,
-      body: RestTranslationWriteModel(body: content),
+      body: RestTranslationWriteModel(
+        body: englishContent ?? content,
+        deadline: deadline ?? notice.currentDeadline,
+      ),
     );
   }
 }

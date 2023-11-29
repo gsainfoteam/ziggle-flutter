@@ -43,6 +43,14 @@ class NoticeTranslationPage extends StatelessWidget {
             },
           ),
           BlocListener<WriteBloc, WriteState>(
+            listenWhen: (_, current) => current.error,
+            listener: (context, state) => state.whenOrNull(
+              error: (reason) => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(reason)),
+              ),
+            ),
+          ),
+          BlocListener<WriteBloc, WriteState>(
             listenWhen: (_, current) => current.success,
             listener: (context, state) => context.pop(),
           ),
@@ -74,6 +82,7 @@ class _Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<_Layout> {
+  String _title = '';
   String _body = '';
 
   @override
@@ -81,6 +90,10 @@ class _LayoutState extends State<_Layout> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Label(icon: Icons.menu, label: t.write.title.korean),
+        const SizedBox(height: 10),
+        Text(widget.notice.contents.korean.title!),
+        const SizedBox(height: 10),
         Label(icon: Icons.menu, label: t.write.body.korean),
         SelectionArea(
           child: Html(
@@ -88,6 +101,17 @@ class _LayoutState extends State<_Layout> {
             style: {'body': Style(margin: Margins.zero)},
           ),
         ),
+        Label(
+          icon: Icons.menu,
+          label: t.write.title.placeholder(language: t.write.title.english),
+        ),
+        const SizedBox(height: 10),
+        ZiggleTextFormField(
+          initialValue: _title,
+          onChanged: (v) => _title = v,
+          hintText: t.write.title.placeholder(language: t.write.title.english),
+        ),
+        const SizedBox(height: 10),
         Label(
           icon: Icons.menu,
           label: t.write.body.write(language: t.write.body.english),
@@ -118,6 +142,7 @@ class _LayoutState extends State<_Layout> {
                   onTap: () => context.read<WriteBloc>().add(
                         WriteEvent.translate(
                           widget.notice,
+                          _title,
                           markdownToHtml(_body),
                         ),
                       ),

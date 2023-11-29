@@ -38,7 +38,10 @@
   "views": "Views",
   "deadline": "Deadline",
   "deadlineDelta": "$n days left",
+  "deadlineOverdue": "overdue",
   "createdAt": "Created At",
+  "additional": "Additional Notice",
+  "deadlineDelay": "Deadline Changed",
   "reminderDescription": "If you set a reminder,\nI'll let you know n days before the deadline!",
   "reminderLogin": {
     "title": "You can set reminders if you log in",

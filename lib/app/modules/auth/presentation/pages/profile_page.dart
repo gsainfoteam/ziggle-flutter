@@ -181,7 +181,6 @@ class _MyArticles extends StatelessWidget {
           NoticeCard(
             notice: notice,
             direction: Axis.horizontal,
-            onTap: () => context.push(Paths.articleDetail, extra: notice),
           ),
           const SizedBox(height: 12),
           SizedBox(
