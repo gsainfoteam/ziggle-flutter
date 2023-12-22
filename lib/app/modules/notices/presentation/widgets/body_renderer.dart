@@ -11,11 +11,27 @@ class BodyRenderer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SelectionArea(
       child: Html(
-        data: content,
+        data: content.replaceAll('font-feature-settings: inherit; ', ''),
         style: {'body': Style(margin: Margins.zero)},
         onLinkTap: (url, _, __) => _openUrl(url),
-        extensions: const [
-          TableHtmlExtension(),
+        onCssParseError: (_, __) => 'context',
+        shrinkWrap: true,
+        extensions: [
+          TagExtension.inline(
+            tagsToExtend: {"span"},
+            builder: (context) => TextSpan(
+              text: context.element?.text,
+              style: context.style?.generateTextStyle(),
+            ),
+          ),
+          ImageExtension(),
+          TagExtension(
+            tagsToExtend: {"p"},
+            builder: (context) => Text.rich(
+              TextSpan(children: context.inlineSpanChildren),
+            ),
+          ),
+          const TableHtmlExtension(),
         ],
       ),
     );
