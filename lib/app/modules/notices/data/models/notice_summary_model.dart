@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ziggle/app/modules/notices/data/models/content_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/tag_model.dart';
 
 import '../../domain/entities/notice_summary_entity.dart';
@@ -19,6 +20,7 @@ class NoticeSummaryModel
     required DateTime? currentDeadline,
     required DateTime createdAt,
     required String? imageUrl,
+    required List<ContentModel> contents,
     @Default([]) List<TagModel> tags,
   }) = _NoticeSummaryModel;
 

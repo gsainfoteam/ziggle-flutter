@@ -1,3 +1,4 @@
+import 'package:ziggle/app/modules/notices/domain/entities/content_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
 
 class NoticeSummaryEntity {
@@ -10,6 +11,7 @@ class NoticeSummaryEntity {
   final DateTime createdAt;
   final String? imageUrl;
   final List<TagEntity> tags;
+  final List<ContentEntity> contents;
 
   NoticeSummaryEntity({
     required this.id,
@@ -21,5 +23,6 @@ class NoticeSummaryEntity {
     required this.createdAt,
     this.imageUrl,
     this.tags = const [],
+    this.contents = const [],
   });
 }

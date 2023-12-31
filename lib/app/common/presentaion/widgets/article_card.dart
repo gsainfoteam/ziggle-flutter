@@ -8,6 +8,7 @@ import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/core/values/shadows.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_summary_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -126,7 +127,7 @@ class NoticeCard extends StatelessWidget {
           const SizedBox(height: 3),
         ],
         Text(
-          notice.title,
+          notice.contents.localed.title,
           style: TextStyles.articleCardTitleStyle,
           maxLines: direction == Axis.horizontal ? 2 : null,
           overflow: direction == Axis.horizontal ? TextOverflow.ellipsis : null,
