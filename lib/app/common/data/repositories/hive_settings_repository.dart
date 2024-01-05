@@ -11,7 +11,7 @@ class HiveSettingsRepository implements SettingsRepository {
   @PostConstruct(preResolve: true)
   Future<void> init() async {
     await Hive.initFlutter();
-    Hive.registerAdapter(NoticeWriteModelAdapter());
+    Hive.registerAdapter(NoticeWriteModelImplAdapter());
     await Future.wait([
       Hive.openBox(_settingBoxName).catchError((_) async {
         await Hive.deleteBoxFromDisk(_settingBoxName);
