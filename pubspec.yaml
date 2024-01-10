@@ -22,6 +22,7 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.3
   flutter_html: ^3.0.0-beta.2
+  flutter_inappwebview: ^6.0.0
   flutter_local_notifications: ^15.1.0+1
   flutter_localizations:
     sdk: flutter
@@ -49,6 +50,7 @@ dependencies:
   textfield_tags: ^2.0.2
   upgrader: ^8.1.0
   url_launcher: ^6.1.11
+  webview_flutter: ^4.4.2
 
 dev_dependencies:
   flutter_test:

@@ -114,7 +114,7 @@ class _LayoutState extends State<_Layout> {
 
   NoticeWriteEntity get writing => NoticeWriteEntity(
         title: _title,
-        body: markdownToHtml(_body),
+        body: _wrapLinkWithAnchor(markdownToHtml(_body)),
         type: _type,
         deadline: _hasDeadline ? _deadline : null,
         tags: _tags,
@@ -131,6 +131,25 @@ class _LayoutState extends State<_Layout> {
       }
     });
     _saveTimer = Timer.periodic(const Duration(seconds: 5), _autoSave);
+  }
+
+  String _wrapLinkWithAnchor(String text) {
+    debugPrint(text);
+
+    // RegExp to match URLs
+    final matcher =
+        RegExp(r"(http|https):\/\/[a-zA-Z0-9\-\.]+\.[a-z]{2,6}(\/\S*)?");
+
+    final matches = matcher.allMatches(text);
+    for (final match in matches) {
+      // Capture the whole URL
+      final url = match.group(0)!;
+      // Replace the plain URL with an anchor tag
+      text = text.replaceFirst(url, '<a href="$url" target="_blank">$url</a>');
+    }
+
+    debugPrint(text);
+    return text;
   }
 
   void _tagListener() {
