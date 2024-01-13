@@ -143,12 +143,21 @@ class _ImageActionState extends State<_ImageAction> {
                   onPressed: () {},
                   icon: Assets.icons.shareAndroid.image(),
                   padding: EdgeInsets.zero,
+                  visualDensity:
+                      const VisualDensity(horizontal: -4, vertical: -4),
+                  constraints:
+                      const BoxConstraints.tightFor(width: 48, height: 48),
                 ),
                 IconButton(
                   onPressed: () {},
                   icon: Assets.icons.bell.image(),
                   padding: EdgeInsets.zero,
+                  visualDensity:
+                      const VisualDensity(horizontal: -4, vertical: -4),
+                  constraints:
+                      const BoxConstraints.tightFor(width: 48, height: 48),
                 ),
+                const SizedBox(width: 8),
               ],
             ),
           ],
