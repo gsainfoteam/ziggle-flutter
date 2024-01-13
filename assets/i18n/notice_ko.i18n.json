@@ -1,0 +1,19 @@
+{
+  "type(context=NoticeType, param=type)": {
+    "all": "최신",
+    "hot": "지글픽",
+    "recruit": "모집",
+    "event": "행사",
+    "general": "일반",
+    "academic": "학사"
+  },
+  "calendar": {
+    "minutesAgo": "$minutes분 전"
+  },
+  "dday": {
+    "daysLeft(rich)": {
+      "other": "$n일 남음"
+    }
+  },
+  "viewMore(rich)": "... ${more(더 보기)}"
+}

@@ -1,0 +1,20 @@
+{
+  "type(context=NoticeType, param=type)": {
+    "all": "Recent",
+    "hot": "Ziggle Pick",
+    "recruit": "Recruit",
+    "event": "Event",
+    "general": "General",
+    "academic": "Academic"
+  },
+  "calendar": {
+    "minutesAgo": "$minutes minutes ago"
+  },
+  "dday": {
+    "daysLeft(rich)": {
+      "one": "$n day left",
+      "other": "$n days left"
+    }
+  },
+  "viewMore(rich)": "... ${more(more)}"
+}
