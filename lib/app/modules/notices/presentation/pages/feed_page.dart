@@ -14,6 +14,7 @@ class FeedPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            toolbarHeight: Theme.of(context).appBarTheme.toolbarHeight!,
             floating: true,
             leading: Center(
               child: Assets.logo.black.image(height: 48),

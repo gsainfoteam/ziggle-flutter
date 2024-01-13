@@ -5,10 +5,14 @@ import 'package:ziggle/app/values/palette.dart';
 abstract class AppTheme {
   static final theme = ThemeData(
     fontFamily: Pretendard.fontFamily,
+    appBarTheme: const AppBarTheme(toolbarHeight: 40),
     chipTheme: const ChipThemeData(
       elevation: 0,
       pressElevation: 0,
       backgroundColor: Palette.background200,
+      padding: EdgeInsets.zero,
+      labelPadding: EdgeInsets.only(right: 8),
+      // labelStyle: TextStyle(fontSize: 14, color: null),
     ),
   );
 }
