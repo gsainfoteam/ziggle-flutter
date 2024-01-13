@@ -69,7 +69,12 @@ class Pretendard extends DynamicFontsFile {
   static const licenseUrl = '$_fontBaseUrl/LICENSE.txt';
 
   static void register() {
-    DynamicFonts.register(Pretendard.fontFamily, Pretendard.fontsMap);
+    DynamicFonts.register(
+      Pretendard.fontFamily,
+      Pretendard.fontsMap,
+      eager: true,
+    );
+    DynamicFonts.getFont(Pretendard.fontFamily);
     LicenseRegistry.addLicense(() async* {
       final data = await Dio().get(licenseUrl);
       yield LicenseEntryWithLineBreaks([Pretendard.fontFamily], data.data);
