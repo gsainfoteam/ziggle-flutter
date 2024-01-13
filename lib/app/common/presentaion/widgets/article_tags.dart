@@ -19,7 +19,7 @@ class NoticeTags extends StatelessWidget {
                 WidgetSpan(
                   child: _ArticleTag(
                     text: '#${e.name}',
-                    color: e.isType ? Colors.purple : Palette.primaryColor,
+                    color: e.isType ? Colors.purple : Palette.primary100,
                   ),
                 ),
                 const WidgetSpan(child: SizedBox(width: 4)),

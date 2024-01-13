@@ -154,7 +154,7 @@ class _LayoutState extends State<_Layout> {
 
   Widget _buildSearchBox() {
     return TextField(
-      style: TextStyles.label.copyWith(color: Palette.primaryColor),
+      style: TextStyles.label.copyWith(color: Palette.primary100),
       onChanged: (v) => _query.value = v,
       decoration: InputDecoration(
         border: const OutlineInputBorder(
@@ -189,7 +189,7 @@ class _LayoutState extends State<_Layout> {
               onTap: () => setState(() => _types.toggle(type)),
               text: type.label,
               color: _types.value.contains(type)
-                  ? Palette.primaryColor
+                  ? Palette.primary100
                   : Palette.light,
               textStyle: TextStyles.defaultStyle.copyWith(
                 color: _types.value.contains(type) ? Palette.white : null,

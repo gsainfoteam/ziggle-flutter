@@ -466,7 +466,7 @@ class _Tooltip extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(right: 18),
           decoration: BoxDecoration(
-            color: Palette.primaryColor,
+            color: Palette.primary100,
             borderRadius: BorderRadius.circular(10) -
                 const BorderRadius.only(topRight: Radius.circular(10)),
           ),
@@ -503,7 +503,7 @@ class _TrianglePainter extends BoxPainter {
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
     final paint = Paint()
-      ..color = Palette.primaryColor
+      ..color = Palette.primary100
       ..style = PaintingStyle.fill;
     final bounds = offset & configuration.size!;
     final path = Path()

@@ -133,7 +133,7 @@ class _Article extends StatelessWidget {
       child: ZiggleButton(
         onTap: () => onTap?.call(opacity),
         padding: EdgeInsets.zero,
-        color: Palette.primaryColor.withOpacity(opacity),
+        color: Palette.primary100.withOpacity(opacity),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),

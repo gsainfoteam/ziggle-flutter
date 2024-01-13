@@ -283,7 +283,7 @@ class _LayoutState extends State<_Layout> {
             (type) => ZiggleButton(
               onTap: () => setState(() => _type = type),
               text: type.label,
-              color: _type == type ? Palette.primaryColor : Palette.light,
+              color: _type == type ? Palette.primary100 : Palette.light,
               textStyle: TextStyles.defaultStyle.copyWith(
                 color: _type == type ? Palette.white : null,
               ),

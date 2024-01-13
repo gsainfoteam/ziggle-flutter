@@ -14,7 +14,7 @@ class DDay extends StatelessWidget {
       margin: const EdgeInsets.all(1),
       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 1),
       decoration: BoxDecoration(
-        color: Palette.primaryColor,
+        color: Palette.primary100,
         borderRadius: BorderRadius.circular(5),
       ),
       child: Text(label, style: TextStyles.ddayStyle),

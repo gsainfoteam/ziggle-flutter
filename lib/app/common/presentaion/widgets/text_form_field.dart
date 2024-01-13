@@ -30,7 +30,7 @@ class ZiggleTextFormField extends StatelessWidget {
     const border = OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(10)),
       borderSide: BorderSide(
-        color: Palette.primaryColor,
+        color: Palette.primary100,
         width: 1.5,
       ),
     );

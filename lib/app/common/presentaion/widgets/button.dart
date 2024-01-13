@@ -20,7 +20,7 @@ class ZiggleButton extends StatefulWidget {
     this.text,
     this.textColor = Colors.white,
     this.fontSize = 16,
-    this.color = Palette.primaryColor,
+    this.color = Palette.primary100,
     this.textStyle,
     this.padding,
     this.loading = false,

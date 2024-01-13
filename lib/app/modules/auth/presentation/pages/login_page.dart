@@ -92,7 +92,7 @@ class LoginPage extends StatelessWidget {
                     t.login.consent(
                       terms: (text) => TextSpan(
                           text: text,
-                          style: const TextStyle(color: Palette.primaryColor),
+                          style: const TextStyle(color: Palette.primary100),
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
                               sl<AnalyticsRepository>().logOpenTermsOfService();
@@ -118,7 +118,7 @@ class LoginPage extends StatelessWidget {
           t.login.promotion(
             red: (text) => TextSpan(
               text: text,
-              style: const TextStyle(color: Palette.primaryColor),
+              style: const TextStyle(color: Palette.primary100),
             ),
           ),
           textAlign: TextAlign.center,

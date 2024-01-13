@@ -40,7 +40,7 @@ class RootPage extends StatelessWidget {
             height: 45,
             child: ZiggleButton(
               textStyle: TextStyles.titleTextStyle.copyWith(
-                color: Palette.primaryColor,
+                color: Palette.primary100,
               ),
               color: Colors.transparent,
               onTap: () {
@@ -74,7 +74,7 @@ class RootPage extends StatelessWidget {
         builder: (context, state) {
           if (state.user == null) return const SizedBox.shrink();
           return ZiggleButton(
-            color: Palette.primaryColor,
+            color: Palette.primary100,
             padding: const EdgeInsets.all(16),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(100)),

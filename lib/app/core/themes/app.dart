@@ -8,10 +8,10 @@ final appTheme = ThemeData(
   useMaterial3: true,
   scaffoldBackgroundColor: Palette.white,
   brightness: Brightness.light,
-  primaryColor: Palette.primaryColor,
+  primaryColor: Palette.primary100,
   splashFactory: NoSplash.splashFactory,
   hintColor: Palette.placeholder,
-  colorScheme: ColorScheme.fromSeed(seedColor: Palette.primaryColor),
+  colorScheme: ColorScheme.fromSeed(seedColor: Palette.primary100),
   textTheme: const TextTheme(
     bodyMedium: TextStyles.defaultStyle,
     titleLarge: TextStyles.titleTextStyle,
@@ -30,7 +30,7 @@ final appTheme = ThemeData(
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: Palette.white,
     elevation: 0,
-    selectedItemColor: Palette.primaryColor,
+    selectedItemColor: Palette.primary100,
     unselectedItemColor: Palette.secondaryText,
     selectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
     unselectedLabelStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
