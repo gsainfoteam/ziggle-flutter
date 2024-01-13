@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -49,7 +50,9 @@ class FeedPage extends StatelessWidget {
                                 : null,
                           ),
                           label: Text(t.notice.type(type: e)),
-                          onPressed: () {},
+                          onPressed: () {
+                            HapticFeedback.lightImpact();
+                          },
                           labelStyle: TextStyle(
                             color: e == NoticeType.all
                                 ? Palette.background100
