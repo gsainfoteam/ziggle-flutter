@@ -43,6 +43,7 @@
 
         <data android:scheme="https" />
         <data android:host="ziggle.gistory.me" />
+        <data android:pathPrefix="/app" />
       </intent-filter>
     </activity>
     <activity
