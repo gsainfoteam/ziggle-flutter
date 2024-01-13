@@ -33,7 +33,7 @@ class RootPage extends StatelessWidget {
         leadingWidth: 80,
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Assets.logo.icon.image(alignment: Alignment.centerLeft),
+          child: Assets.logo.black.image(alignment: Alignment.centerLeft),
         ),
         actions: [
           SizedBox(

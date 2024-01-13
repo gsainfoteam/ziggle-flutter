@@ -14,7 +14,6 @@ import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/values/palette.dart';
 import 'package:ziggle/app/core/values/strings.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
-import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../widgets/board_animation.dart';
@@ -115,24 +114,6 @@ class LoginPage extends StatelessWidget {
   Column _buildText() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 80,
-              height: 100,
-              child: Stack(
-                children: [
-                  Positioned(
-                    right: -20,
-                    child: Assets.logo.icon.image(height: 100),
-                  ),
-                ],
-              ),
-            ),
-            Assets.logo.text.image(height: 100),
-          ],
-        ),
         Text.rich(
           t.login.promotion(
             red: (text) => TextSpan(
