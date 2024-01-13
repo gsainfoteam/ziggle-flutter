@@ -5,7 +5,6 @@ import 'package:ziggle/app/core/values/palette.dart';
 
 final appTheme = ThemeData(
   fontFamily: Pretendard.fontFamily,
-  useMaterial3: true,
   scaffoldBackgroundColor: Palette.white,
   brightness: Brightness.light,
   primaryColor: Palette.primary100,
