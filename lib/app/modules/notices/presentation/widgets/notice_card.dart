@@ -1,3 +1,4 @@
+import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -157,11 +158,53 @@ class _ImageActionState extends State<_ImageAction> {
   }
 }
 
-class _Content extends StatelessWidget {
+class _Content extends StatefulWidget {
   const _Content();
 
   @override
+  State<_Content> createState() => _ContentState();
+}
+
+class _ContentState extends State<_Content> {
+  bool _isExpanded = false;
+
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    const content =
+        "보세 옷을 걸쳐도 브랜드 묻는 DM이 와 I'm too sexy 헌 집 주고 새집 프리미엄이 붙어 두 배 세 배 네 배 yeah 나는 새삥 모든 게 다 새삥 보세 옷을 걸쳐도 브랜드 묻는 DM이 와 I'm too sexy 헌 집 주고 새집 프리미엄이 붙어 두 배 세 배 네 배 yeah 나는 새삥 모든 게 다 새삥";
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          DefaultTextStyle(
+            style: const TextStyle(color: Palette.primary100),
+            child: Wrap(
+              spacing: 4,
+              children: ['모집', '집행위원회'].map((e) => Text('#$e')).toList(),
+            ),
+          ),
+          _isExpanded
+              ? const Text(content)
+              : InkWell(
+                  onTap: () => setState(() => _isExpanded = true),
+                  child: ExtendedText(
+                    content,
+                    maxLines: 2,
+                    overflowWidget: TextOverflowWidget(
+                      child: Text.rich(
+                        t.notice.viewMore(
+                          more: (more) => TextSpan(
+                            text: more,
+                            style: const TextStyle(color: Palette.textGrey),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+        ],
+      ),
+    );
   }
 }

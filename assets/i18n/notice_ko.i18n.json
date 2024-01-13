@@ -14,5 +14,6 @@
     "daysLeft(rich)": {
       "other": "$n일 남음"
     }
-  }
+  },
+  "viewMore(rich)": "... ${more(더 보기)}"
 }

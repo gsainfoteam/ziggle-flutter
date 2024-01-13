@@ -15,5 +15,6 @@
       "one": "$n day left",
       "other": "$n days left"
     }
-  }
+  },
+  "viewMore(rich)": "... ${more(more)}"
 }
