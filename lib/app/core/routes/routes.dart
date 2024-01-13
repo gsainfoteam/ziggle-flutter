@@ -179,8 +179,7 @@ abstract class Routes {
               BlocProvider(
                   create: (_) => sl<AuthBloc>()..add(const AuthEvent.load())),
               BlocProvider(
-                create: (_) =>
-                    sl<MessagesBloc>()..add(const MessagesEvent.init()),
+                create: (_) => sl<LinkBloc>()..add(const MessagesEvent.init()),
               ),
             ],
             child: MultiBlocListener(
@@ -198,7 +197,7 @@ abstract class Routes {
                     );
                   },
                 ),
-                BlocListener<MessagesBloc, MessagesState>(
+                BlocListener<LinkBloc, LinkState>(
                   listener: (context, state) => state.whenOrNull(
                     link: (link) async {
                       final authBloc = context.read<AuthBloc>();
