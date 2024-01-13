@@ -5,6 +5,7 @@ import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/app/values/theme.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -22,8 +23,7 @@ class _AppState extends State<App> {
   void initState() {
     super.initState();
     smartlook.start();
-    smartlook.preferences
-        .setProjectKey('559177df225fb6be8f57ab026bcd071f18c172cc');
+    smartlook.preferences.setProjectKey(Strings.smartlookKey);
   }
 
   @override
