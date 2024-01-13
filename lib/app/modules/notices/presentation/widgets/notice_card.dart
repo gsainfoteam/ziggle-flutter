@@ -25,48 +25,60 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: Row(
+      child: Column(
         children: [
-          Assets.icons.profileCircle.image(height: 24),
-          const SizedBox(width: 8),
-          const Text(
-            '양태규',
-            style: TextStyle(fontWeight: FontWeight.w500),
-          ),
-          const SizedBox(width: 5),
-          const Text(
-            '·',
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              color: Palette.text300,
-            ),
-          ),
-          const SizedBox(width: 5),
-          Text(
-            t.notice.calendar.minutesAgo(minutes: 32),
-            style: const TextStyle(
-              fontWeight: FontWeight.w500,
-              color: Palette.text300,
-            ),
-          ),
-          const Spacer(),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Palette.primary100,
-            ),
-            child: Text.rich(
-              t.notice.dday.daysLeft(
-                n: 12,
-                nBuilder: (n) => TextSpan(
-                  text: n.toString(),
-                  style: const TextStyle(fontWeight: FontWeight.w700),
+          Row(
+            children: [
+              Assets.icons.profileCircle.image(height: 24),
+              const SizedBox(width: 8),
+              const Text(
+                '양태규',
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(width: 5),
+              const Text(
+                '·',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: Palette.text300,
                 ),
               ),
-              style: const TextStyle(color: Palette.white),
-            ),
+              const SizedBox(width: 5),
+              Text(
+                t.notice.calendar.minutesAgo(minutes: 32),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  color: Palette.text300,
+                ),
+              ),
+              const Spacer(),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Palette.primary100,
+                ),
+                child: Text.rich(
+                  t.notice.dday.daysLeft(
+                    n: 12,
+                    nBuilder: (n) => TextSpan(
+                      text: n.toString(),
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  style: const TextStyle(color: Palette.white),
+                ),
+              ),
+            ],
           ),
+          const SizedBox(height: 8),
+          const Text(
+            '2024학년도 신규 집행국원을 모집합니다! 레게노 2024학년도 신규 집행국원을 모집합니다! 레게노 2024학년도 신규 집행국원을 모집합니다! 제목 이렇게 겁나길게쓰면 안이뻐지긴하네',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          )
         ],
       ),
     );
