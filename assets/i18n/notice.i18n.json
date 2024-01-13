@@ -1,0 +1,10 @@
+{
+  "type(context=NoticeType, param=type)": {
+    "all": "Recent",
+    "hot": "Ziggle Pick",
+    "recruit": "Recruit",
+    "event": "Event",
+    "general": "General",
+    "academic": "Academic"
+  }
+}
