@@ -24,6 +24,7 @@ class Pretendard extends DynamicFontsFile {
         [
           Pretendard.regular(),
           Pretendard.medium(),
+          Pretendard.semiBold(),
           Pretendard.bold(),
         ],
         key: (element) => element.variant,
@@ -36,25 +37,30 @@ class Pretendard extends DynamicFontsFile {
   Pretendard.regular()
       : weight = FontWeight.normal,
         super(
-          '8bcbe0d9cb2d0f929b7f8477a67b1b6d221a3aff9fb964e987c48210a05a2d7c',
-          1577404,
+          '3ffbacde6ab8411f1d2db54bb9b1f0b3ee2a738932033722cf0388c06aed1c93',
+          1574352,
         );
-
   Pretendard.medium()
       : weight = FontWeight.w500,
         super(
-          '357df8311e78f3970d488f0c06ed15447ec3e2e5afa750bfa09d1e9574f06f28',
-          1587368,
+          'd39e50e4bb52b4993b6a4eeb821a171254745bd824446af01e1f616b89fface0',
+          1584068,
+        );
+  Pretendard.semiBold()
+      : weight = FontWeight.w600,
+        super(
+          'c89bc43027dc7cde5726e96223376f8eec09302b2fc1f8147fd5b57cfc376118',
+          1583704,
         );
   Pretendard.bold()
       : weight = FontWeight.w700,
         super(
-          '5723aee38eba20d9a126d0c6d0483e3296199768b270f8c5daeb10caf7a81ed2',
-          1581456,
+          '2e91915fab54df71cc9598ebf608b2bdb54c6fe3c066ac61dff0bc44fca71cc7',
+          1576660,
         );
 
   static const _fontBaseUrl = 'https://github.com/orioncactus/pretendard/raw/'
-      'be7e9c3755918a97faca17085aefbefadc5b9df3/packages/'
+      '82b96cc92998eb1f5e60e40beb6d52cd136957a6/packages/'
       'pretendard/dist';
 
   @override
