@@ -6,5 +6,13 @@
     "event": "행사",
     "general": "일반",
     "academic": "학사"
+  },
+  "calendar": {
+    "minutesAgo": "$minutes분 전"
+  },
+  "dday": {
+    "daysLeft(rich)": {
+      "other": "$n일 남음"
+    }
   }
 }

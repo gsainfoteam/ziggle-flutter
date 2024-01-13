@@ -14,8 +14,6 @@ abstract class AppTheme {
       pressElevation: 0,
       backgroundColor: Palette.background200,
       padding: EdgeInsets.zero,
-      labelPadding: EdgeInsets.only(right: 8),
-      // labelStyle: TextStyle(fontSize: 14, color: null),
     ),
   );
 }

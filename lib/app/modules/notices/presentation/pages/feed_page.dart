@@ -54,6 +54,7 @@ class FeedPage extends StatelessWidget {
                       children: NoticeType.sections
                           .map(
                             (e) => ActionChip.elevated(
+                              labelPadding: const EdgeInsets.only(right: 8),
                               avatar: e.icon.image(
                                 width: 16,
                                 color: e == NoticeType.all
@@ -81,7 +82,7 @@ class FeedPage extends StatelessWidget {
             ),
             SliverList.separated(
               itemBuilder: (context, index) => const NoticeCard(),
-              separatorBuilder: (context, index) => const Divider(),
+              separatorBuilder: (context, index) => const SizedBox(height: 8),
             ),
           ],
         ),
