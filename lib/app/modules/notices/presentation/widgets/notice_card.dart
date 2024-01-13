@@ -88,7 +88,34 @@ class _Action extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Stack(
+      children: [
+        Row(
+          children: [
+            IconButton(
+              onPressed: () {},
+              icon: Assets.icons.fireFlame.image(
+                height: 32,
+                fit: BoxFit.contain,
+              ),
+              padding: EdgeInsets.zero,
+            ),
+            const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
+            const Spacer(),
+            IconButton(
+              onPressed: () {},
+              icon: Assets.icons.shareAndroid.image(),
+              padding: EdgeInsets.zero,
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Assets.icons.bell.image(),
+              padding: EdgeInsets.zero,
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }
 
