@@ -25,7 +25,7 @@ class FeedPage extends StatelessWidget {
                 onPressed: () {},
               ),
               IconButton(
-                icon: Assets.icons.bell.image(),
+                icon: Assets.icons.editPencil.image(),
                 onPressed: () {},
               ),
               IconButton(
