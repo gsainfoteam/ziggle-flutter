@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class FeedPage extends StatelessWidget {
   const FeedPage({super.key});
@@ -29,30 +32,34 @@ class FeedPage extends StatelessWidget {
               ),
             ],
           ),
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18),
+                padding: const EdgeInsets.symmetric(horizontal: 18),
                 child: Wrap(
                   spacing: 8,
-                  children: [
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                    Chip(label: Text('최신')),
-                  ],
+                  children: NoticeType.sections
+                      .map(
+                        (e) => ActionChip.elevated(
+                          avatar: e.icon.image(
+                            width: 16,
+                            color: e == NoticeType.all
+                                ? Palette.background100
+                                : null,
+                          ),
+                          label: Text(t.notice.type(type: e)),
+                          onPressed: () {},
+                          labelStyle: TextStyle(
+                            color: e == NoticeType.all
+                                ? Palette.background100
+                                : null,
+                          ),
+                          backgroundColor:
+                              e == NoticeType.all ? Palette.text100 : null,
+                        ),
+                      )
+                      .toList(),
                 ),
               ),
             ),
