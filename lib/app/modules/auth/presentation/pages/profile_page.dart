@@ -118,7 +118,7 @@ class _Profile extends StatelessWidget {
             CircleAvatar(
               radius: 50,
               backgroundColor: Palette.white,
-              child: Assets.icons.avatar.image(),
+              child: Assets.icons.profileCircle.image(),
             ),
             const SizedBox(height: 30),
             _Info(title: t.profile.name, content: state.user!.name),

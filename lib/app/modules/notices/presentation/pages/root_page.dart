@@ -60,7 +60,7 @@ class RootPage extends StatelessWidget {
                     children: [
                       Text(name),
                       const SizedBox(width: 8),
-                      Assets.icons.profile.image(),
+                      Assets.icons.profileCircle.image(),
                     ],
                   );
                 },

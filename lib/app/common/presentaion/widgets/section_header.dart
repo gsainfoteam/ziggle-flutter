@@ -17,7 +17,7 @@ class SectionHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(type.header, style: TextStyles.articleTitleStyle),
-          Assets.icons.rightArrow.image(width: 18, height: 18),
+          Assets.icons.plus.image(width: 18, height: 18),
         ],
       ),
     );

@@ -23,8 +23,8 @@ class PageSpinner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final image = isLight
-        ? Assets.icons.rightArrow.image(width: 20)
-        : Assets.icons.rightArrowWhite.image(width: 20);
+        ? Assets.icons.plus.image(width: 20)
+        : Assets.icons.plus.image(width: 20);
     return Container(
       width: 160,
       padding: const EdgeInsets.all(10),
