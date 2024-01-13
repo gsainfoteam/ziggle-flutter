@@ -82,7 +82,7 @@ class FeedPage extends StatelessWidget {
             ),
             SliverList.separated(
               itemBuilder: (context, index) => const NoticeCard(),
-              separatorBuilder: (context, index) => const SizedBox(height: 8),
+              separatorBuilder: (context, index) => const Divider(),
             ),
           ],
         ),
