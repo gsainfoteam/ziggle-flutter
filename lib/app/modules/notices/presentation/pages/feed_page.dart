@@ -29,6 +29,34 @@ class FeedPage extends StatelessWidget {
               ),
             ],
           ),
+          const SliverToBoxAdapter(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 18),
+                child: Wrap(
+                  spacing: 8,
+                  children: [
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                    Chip(label: Text('최신')),
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
