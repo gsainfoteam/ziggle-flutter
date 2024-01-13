@@ -11,8 +11,7 @@ class NoticeCard extends StatelessWidget {
     return const Column(
       children: [
         _Title(),
-        _Image(),
-        _Action(),
+        _ImageAction(),
         _Content(),
       ],
     );
@@ -74,43 +73,70 @@ class _Title extends StatelessWidget {
   }
 }
 
-class _Image extends StatelessWidget {
-  const _Image();
+class _ImageAction extends StatefulWidget {
+  const _ImageAction();
 
   @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+  State<_ImageAction> createState() => _ImageActionState();
 }
 
-class _Action extends StatelessWidget {
-  const _Action();
+class _ImageActionState extends State<_ImageAction> {
+  final _pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {});
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
       children: [
-        Row(
+        AspectRatio(
+          aspectRatio: 1,
+          child: PageView.builder(
+            controller: _pageController,
+            itemBuilder: (context, index) => const Placeholder(),
+          ),
+        ),
+        Stack(
+          alignment: Alignment.center,
           children: [
-            IconButton(
-              onPressed: () {},
-              icon: Assets.icons.fireFlame.image(
-                height: 32,
-                fit: BoxFit.contain,
-              ),
-              padding: EdgeInsets.zero,
+            Container(
+              width: 10,
+              height: 10,
+              color: Colors.red,
             ),
-            const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
-            const Spacer(),
-            IconButton(
-              onPressed: () {},
-              icon: Assets.icons.shareAndroid.image(),
-              padding: EdgeInsets.zero,
-            ),
-            IconButton(
-              onPressed: () {},
-              icon: Assets.icons.bell.image(),
-              padding: EdgeInsets.zero,
+            Row(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Assets.icons.fireFlame.image(
+                    height: 32,
+                    fit: BoxFit.contain,
+                  ),
+                  padding: EdgeInsets.zero,
+                ),
+                const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {},
+                  icon: Assets.icons.shareAndroid.image(),
+                  padding: EdgeInsets.zero,
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Assets.icons.bell.image(),
+                  padding: EdgeInsets.zero,
+                ),
+              ],
             ),
           ],
         ),
