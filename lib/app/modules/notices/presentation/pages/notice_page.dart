@@ -153,23 +153,24 @@ class _Layout extends StatelessWidget {
                       if (!context.mounted) return;
                       context.go(Paths.home);
                     },
-                    onTranslation: state.single!.contents.englishes.isNotEmpty
-                        ? null
-                        : () async {
-                            Navigator.pop(modalContext);
-                            await context.push(
-                              Paths.articleTranslation,
-                              extra: state.single,
-                            );
-                            if (!context.mounted) return;
-                            final bloc = context.read<NoticesBloc>();
-                            bloc.add(
-                                NoticesEvent.fetchOne(bloc.state.partial!));
-                          },
+                    onTranslation:
+                        state.single!.contents.englishes.mains.isNotEmpty
+                            ? null
+                            : () async {
+                                Navigator.pop(modalContext);
+                                await context.push(
+                                  Paths.articleTranslation(state.partial!.id),
+                                  extra: state.single,
+                                );
+                                if (!context.mounted) return;
+                                final bloc = context.read<NoticesBloc>();
+                                bloc.add(
+                                    NoticesEvent.fetchOne(bloc.state.partial!));
+                              },
                     onAdditional: () async {
                       Navigator.pop(modalContext);
                       await context.push(
-                        Paths.articleAdditional,
+                        Paths.articleAdditional(state.partial!.id),
                         extra: state.single,
                       );
                       if (!context.mounted) return;
@@ -344,7 +345,12 @@ class _ScrollableDraggableContentState
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(child: _buildImageCarousel(widget.notice.imagesUrl)),
+                Expanded(
+                  child: _buildImageCarousel(
+                    widget.notice.id,
+                    widget.notice.imagesUrl,
+                  ),
+                ),
                 const SizedBox(height: 20),
                 PageSpinner(
                   currentPage: page,
@@ -372,7 +378,7 @@ class _ScrollableDraggableContentState
     );
   }
 
-  Widget _buildImageCarousel(List<String> imageUrls) {
+  Widget _buildImageCarousel(int noticeId, List<String> imageUrls) {
     return PageView.builder(
       clipBehavior: Clip.none,
       controller: pageController,
@@ -385,7 +391,7 @@ class _ScrollableDraggableContentState
         child: GestureDetector(
           onTap: () async {
             final result = await context.push<int>(
-              Paths.articleImage(index + 1),
+              Paths.articleImage(noticeId, index + 1),
               extra: imageUrls,
             );
             if (!mounted || result == null) return;

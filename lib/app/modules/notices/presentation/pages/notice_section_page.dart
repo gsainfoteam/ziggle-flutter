@@ -1,10 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/common/presentaion/widgets/article_card.dart';
 import 'package:ziggle/app/core/di/locator.dart';
-import 'package:ziggle/app/core/routes/routes.dart';
 import 'package:ziggle/app/core/themes/text.dart';
 import 'package:ziggle/app/core/utils/extension/date_align.dart';
 import 'package:ziggle/app/core/utils/functions/calculate_date_delta.dart';
@@ -167,10 +165,6 @@ class _LayoutState extends State<_Layout> {
         itemBuilder: (context, index) => NoticeCard(
           notice: state.notices[index],
           direction: Axis.horizontal,
-          onTap: () => context.push(
-            Paths.articleDetail,
-            extra: state.notices[index],
-          ),
         ),
       ),
     );
@@ -208,8 +202,6 @@ class _LayoutState extends State<_Layout> {
                         child: NoticeCard(
                           notice: notice,
                           direction: Axis.horizontal,
-                          onTap: () =>
-                              context.push(Paths.articleDetail, extra: notice),
                         ),
                       ),
                     )

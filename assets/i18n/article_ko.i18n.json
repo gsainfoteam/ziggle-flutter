@@ -36,9 +36,12 @@
   },
   "author": "글쓴이",
   "views": "조회수",
-  "deadline": "마감일",
+  "deadline": "마감시간",
   "deadlineDelta": "$n일 남음",
+  "deadlineOverdue": "기한 지남",
   "createdAt": "작성일",
+  "additional": "추가 공지",
+  "deadlineDelay": "마감시간 변경",
   "reminderDescription": "알림 설정하면\n마감일 n일 전에 알려줘요!",
   "reminderLogin": {
     "title": "로그인하면 알림 설정이 가능해요",

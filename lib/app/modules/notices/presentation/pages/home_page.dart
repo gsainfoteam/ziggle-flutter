@@ -103,10 +103,7 @@ class _Layout extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         shrinkWrap: true,
         itemCount: notices.length,
-        itemBuilder: (context, index) => NoticeCard(
-          notice: notices[index],
-          onTap: () => context.push(Paths.articleDetail, extra: notices[index]),
-        ),
+        itemBuilder: (context, index) => NoticeCard(notice: notices[index]),
       );
     }
     return SizedBox(
@@ -124,10 +121,6 @@ class _Layout extends StatelessWidget {
             child: NoticeCard(
               notice: notices[index],
               direction: Axis.horizontal,
-              onTap: () => context.push(
-                Paths.articleDetail,
-                extra: notices[index],
-              ),
             ),
           ),
         ),

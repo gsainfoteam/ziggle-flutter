@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:go_router/go_router.dart';
-import 'package:markdown/markdown.dart' hide Text;
 import 'package:ziggle/app/common/presentaion/widgets/button.dart';
 import 'package:ziggle/app/common/presentaion/widgets/checkbox_label.dart';
 import 'package:ziggle/app/common/presentaion/widgets/label.dart';
@@ -43,6 +42,14 @@ class NoticeAdditionalPage extends StatelessWidget {
             },
           ),
           BlocListener<WriteBloc, WriteState>(
+            listenWhen: (_, current) => current.error,
+            listener: (context, state) => state.whenOrNull(
+              error: (reason) => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(reason)),
+              ),
+            ),
+          ),
+          BlocListener<WriteBloc, WriteState>(
             listenWhen: (_, current) => current.success,
             listener: (context, state) => context.pop(),
           ),
@@ -75,6 +82,7 @@ class _Layout extends StatefulWidget {
 
 class _LayoutState extends State<_Layout> {
   String _body = '';
+  String _englishBody = '';
   DateTime? _deadline;
   late final DateTime _minDeadline = [
     if (widget.notice.currentDeadline != null) widget.notice.currentDeadline!,
@@ -93,6 +101,15 @@ class _LayoutState extends State<_Layout> {
             style: {'body': Style(margin: Margins.zero)},
           ),
         ),
+        if (widget.notice.contents.english != null) ...[
+          Label(icon: Icons.menu, label: t.write.body.english),
+          SelectionArea(
+            child: Html(
+              data: widget.notice.contents.english!.body,
+              style: {'body': Style(margin: Margins.zero)},
+            ),
+          ),
+        ],
         if (widget.notice.currentDeadline != null)
           CheckboxLabel(
             label: t.write.deadline.delay,
@@ -112,7 +129,7 @@ class _LayoutState extends State<_Layout> {
               onDateTimeChanged: (v) => _deadline = v,
             ),
           ),
-        Label(icon: Icons.menu, label: t.write.additional.body),
+        Label(icon: Icons.menu, label: t.write.additional.korean),
         const SizedBox(height: 10),
         ZiggleTextFormField(
           onChanged: (v) => _body = v,
@@ -120,6 +137,17 @@ class _LayoutState extends State<_Layout> {
           minLines: 11,
           maxLines: 20,
         ),
+        if (widget.notice.contents.english != null) ...[
+          const SizedBox(height: 10),
+          Label(icon: Icons.menu, label: t.write.additional.english),
+          const SizedBox(height: 10),
+          ZiggleTextFormField(
+            onChanged: (v) => _englishBody = v,
+            hintText: t.write.additional.placeholder,
+            minLines: 11,
+            maxLines: 20,
+          ),
+        ],
         const SizedBox(height: 32),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -132,10 +160,12 @@ class _LayoutState extends State<_Layout> {
                   loading: state.whenOrNull(writing: () => true) ?? false,
                   onTap: () => context.read<WriteBloc>().add(
                         WriteEvent.additional(
-                          widget.notice,
-                          markdownToHtml(_body),
-                          _deadline,
-                        ),
+                            widget.notice,
+                            _body,
+                            widget.notice.contents.english != null
+                                ? _englishBody
+                                : null,
+                            _deadline ?? widget.notice.currentDeadline),
                       ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
