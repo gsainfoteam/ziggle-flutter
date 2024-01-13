@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/common/domain/repositories/analytics_repository.dart';
-import 'package:ziggle/app/common/presentaion/bloc/messages/messages_bloc.dart';
+import 'package:ziggle/app/common/presentaion/bloc/link/link_bloc.dart';
 import 'package:ziggle/app/core/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
@@ -63,6 +63,16 @@ abstract class Routes {
                     ),
             ),
             routes: [
+              GoRoute(
+                path: ':id',
+                parentNavigatorKey: _rootNavigatorKey,
+                builder: (context, state) => NoticePage(
+                  notice: NoticeSummaryEntity(
+                    id: int.parse(state.pathParameters['id'] ?? ''),
+                    createdAt: DateTime.now(),
+                  ),
+                ),
+              ),
               GoRoute(
                 path: _Paths.image,
                 parentNavigatorKey: _rootNavigatorKey,
@@ -179,8 +189,7 @@ abstract class Routes {
               BlocProvider(
                   create: (_) => sl<AuthBloc>()..add(const AuthEvent.load())),
               BlocProvider(
-                create: (_) =>
-                    sl<MessagesBloc>()..add(const MessagesEvent.init()),
+                create: (_) => sl<LinkBloc>()..add(const LinkEvent.init()),
               ),
             ],
             child: MultiBlocListener(
@@ -198,7 +207,7 @@ abstract class Routes {
                     );
                   },
                 ),
-                BlocListener<MessagesBloc, MessagesState>(
+                BlocListener<LinkBloc, LinkState>(
                   listener: (context, state) => state.whenOrNull(
                     link: (link) async {
                       final authBloc = context.read<AuthBloc>();
