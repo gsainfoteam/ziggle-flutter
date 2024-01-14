@@ -39,6 +39,7 @@ class ScrollingPageIndicator extends StatefulWidget {
 
 class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator> {
   int? _skimmingFirstPage;
+  int? _prevSkimmingPage;
 
   @override
   void initState() {
@@ -79,7 +80,12 @@ class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator> {
             (widget.reverse ? -1 : 1) *
                 details.localPosition.dx ~/
                 widget.dotSpacing;
-        widget.controller.jumpToPage(max(0, min(page, widget.itemCount - 1)));
+        final clampPage = max(0, min(page, widget.itemCount - 1));
+        if (clampPage != _prevSkimmingPage) {
+          _prevSkimmingPage = clampPage;
+          HapticFeedback.lightImpact();
+          widget.controller.jumpToPage(clampPage);
+        }
       },
       child: Container(
         padding: const EdgeInsets.all(12),
