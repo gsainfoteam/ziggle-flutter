@@ -1,5 +1,6 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/scrolling_page_indicator.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -115,6 +116,7 @@ class _ImageActionState extends State<_ImageAction> {
         AspectRatio(
           aspectRatio: 1,
           child: PageView.builder(
+            itemCount: 10,
             controller: _pageController,
             itemBuilder: (context, index) => const Placeholder(),
           ),
@@ -122,10 +124,11 @@ class _ImageActionState extends State<_ImageAction> {
         Stack(
           alignment: Alignment.center,
           children: [
-            Container(
-              width: 10,
-              height: 10,
-              color: Colors.red,
+            ScrollingPageIndicator(
+              itemCount: 10,
+              controller: _pageController,
+              dotColor: Palette.textGrey,
+              dotSelectedColor: Palette.primary100,
             ),
             Row(
               children: [
