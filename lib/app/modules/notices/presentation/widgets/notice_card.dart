@@ -118,7 +118,10 @@ class _ImageActionState extends State<_ImageAction> {
           child: PageView.builder(
             itemCount: 10,
             controller: _pageController,
-            itemBuilder: (context, index) => const Placeholder(),
+            itemBuilder: (context, index) => Image.network(
+              'https://picsum.photos/seed/index$index/300/300',
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         Stack(
