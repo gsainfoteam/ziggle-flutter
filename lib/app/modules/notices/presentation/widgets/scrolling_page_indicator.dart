@@ -37,9 +37,15 @@ class ScrollingPageIndicator extends StatefulWidget {
   State<StatefulWidget> createState() => _ScrollingPageIndicatorState();
 }
 
-class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator> {
+class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator>
+    with SingleTickerProviderStateMixin {
   int? _skimmingFirstPage;
   int? _prevSkimmingPage;
+  int? _lastPage;
+  late final _animation = AnimationController(
+    vsync: this,
+    upperBound: widget.itemCount.toDouble() - 1,
+  );
 
   @override
   void initState() {
@@ -59,6 +65,7 @@ class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator> {
   @override
   void dispose() {
     widget.controller.removeListener(_onController);
+    _animation.dispose();
     super.dispose();
   }
 
@@ -72,7 +79,7 @@ class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator> {
       behavior: HitTestBehavior.opaque,
       onLongPressStart: (details) {
         HapticFeedback.mediumImpact();
-        setState(() => _skimmingFirstPage = currentPage.floor());
+        setState(() => _skimmingFirstPage = _currentPage);
       },
       onLongPressEnd: (details) => setState(() => _skimmingFirstPage = null),
       onLongPressMoveUpdate: (details) {
@@ -98,21 +105,36 @@ class _ScrollingPageIndicatorState extends State<ScrollingPageIndicator> {
         child: SizedBox(
           width: widget.orientation == Axis.horizontal ? width : height,
           height: widget.orientation == Axis.vertical ? width : height,
-          child: CustomPaint(painter: _Painter(widget, currentPage)),
+          child: AnimatedBuilder(
+            animation: _animation,
+            builder: (context, child) => CustomPaint(
+              painter: _Painter(widget, _animation.value),
+            ),
+          ),
         ),
       ),
     );
   }
 
-  double get currentPage {
+  int get _currentPage {
     try {
-      return widget.controller.page ?? 0.0;
+      return widget.controller.page?.round() ?? 0;
     } catch (exception) {
-      return 0.0;
+      return 0;
     }
   }
 
-  void _onController() => setState(() {});
+  void _onController() {
+    if (_lastPage != _currentPage) {
+      _lastPage = _currentPage;
+      _animation.animateTo(
+        _currentPage.toDouble(),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.linear,
+      );
+    }
+    setState(() {});
+  }
 }
 
 class _Painter extends CustomPainter {
