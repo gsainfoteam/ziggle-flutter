@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../../domain/enums/notice_sort.dart';
 import '../../models/notice_list_model.dart';
 
 part 'notice_api.g.dart';
@@ -20,6 +21,6 @@ abstract class NoticeApi {
     @Query('lang') AppLocale? lang,
     @Query('search') String? search,
     @Query('tags[]') List<String>? tags,
-    @Query('orderBy') String? orderBy = 'recent',
+    @Query('orderBy') NoticeSort? orderBy,
   });
 }

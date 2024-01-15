@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_list_entity.dart';
@@ -24,6 +25,7 @@ class RemoteNoticeRepository implements NoticeRepository {
       search: search,
       tags: tags,
       lang: LocaleSettings.currentLocale,
+      orderBy: NoticeSort.recent,
     );
   }
 }
