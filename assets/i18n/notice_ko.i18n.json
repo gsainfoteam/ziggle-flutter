@@ -8,7 +8,21 @@
     "academic": "학사"
   },
   "calendar": {
-    "minutesAgo": "$minutes분 전"
+    "weeksAgo": {
+      "other": "$n주 전"
+    },
+    "daysAgo": {
+      "other": "$n일 전"
+    },
+    "hoursAgo": {
+      "other": "$n시간 전"
+    },
+    "minutesAgo": {
+      "other": "$n분 전"
+    },
+    "secondsAgo": {
+      "other": "$n초 전"
+    }
   },
   "dday": {
     "daysLeft(rich)": {

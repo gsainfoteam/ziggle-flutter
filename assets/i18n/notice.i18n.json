@@ -8,7 +8,26 @@
     "academic": "Academic"
   },
   "calendar": {
-    "minutesAgo": "$minutes minutes ago"
+    "weeksAgo": {
+      "one": "$n week ago",
+      "other": "$n weeks ago"
+    },
+    "daysAgo": {
+      "one": "$n day ago",
+      "other": "$n days ago"
+    },
+    "hoursAgo": {
+      "one": "$n hour ago",
+      "other": "$n hours ago"
+    },
+    "minutesAgo": {
+      "one": "$n minute ago",
+      "other": "$n minutes ago"
+    },
+    "secondsAgo": {
+      "one": "$n second ago",
+      "other": "$n seconds ago"
+    }
   },
   "dday": {
     "daysLeft(rich)": {
