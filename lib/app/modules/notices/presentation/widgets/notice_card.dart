@@ -17,17 +17,20 @@ class NoticeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _Title(
-          title: notice.contents.first['title'],
-          author: notice.author,
-          createdAt: notice.createdAt,
-          deadline: notice.currentDeadline,
-        ),
-        const _ImageAction(),
-        const _Content(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        children: [
+          _Title(
+            title: notice.contents.first['title'],
+            author: notice.author,
+            createdAt: notice.createdAt,
+            deadline: notice.currentDeadline,
+          ),
+          _ImageAction(imagesUrl: notice.imagesUrl),
+          const _Content(),
+        ],
+      ),
     );
   }
 }
@@ -48,7 +51,7 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -139,7 +142,9 @@ class _CreatedAtState extends State<_CreatedAt> {
 }
 
 class _ImageAction extends StatefulWidget {
-  const _ImageAction();
+  const _ImageAction({required this.imagesUrl});
+
+  final List<String> imagesUrl;
 
   @override
   State<_ImageAction> createState() => _ImageActionState();
@@ -164,26 +169,28 @@ class _ImageActionState extends State<_ImageAction> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AspectRatio(
-          aspectRatio: 1,
-          child: PageView.builder(
-            itemCount: 10,
-            controller: _pageController,
-            itemBuilder: (context, index) => Image.network(
-              'https://picsum.photos/seed/index$index/300/300',
-              fit: BoxFit.cover,
+        if (widget.imagesUrl.isNotEmpty)
+          AspectRatio(
+            aspectRatio: 1,
+            child: PageView.builder(
+              itemCount: widget.imagesUrl.length,
+              controller: _pageController,
+              itemBuilder: (context, index) => Image.network(
+                widget.imagesUrl[index],
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
         Stack(
           alignment: Alignment.center,
           children: [
-            ScrollingPageIndicator(
-              itemCount: 10,
-              controller: _pageController,
-              dotColor: Palette.textGrey,
-              dotSelectedColor: Palette.primary100,
-            ),
+            if (widget.imagesUrl.isNotEmpty)
+              ScrollingPageIndicator(
+                itemCount: widget.imagesUrl.length,
+                controller: _pageController,
+                dotColor: Palette.textGrey,
+                dotSelectedColor: Palette.primary100,
+              ),
             Row(
               children: [
                 IconButton(
