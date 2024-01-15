@@ -28,7 +28,7 @@ class NoticeCard extends StatelessWidget {
             deadline: notice.currentDeadline,
           ),
           _ImageAction(imagesUrl: notice.imagesUrl),
-          const _Content(),
+          _Content(content: notice.contents.first['body']),
         ],
       ),
     );
@@ -232,7 +232,9 @@ class _ImageActionState extends State<_ImageAction> {
 }
 
 class _Content extends StatefulWidget {
-  const _Content();
+  const _Content({required this.content});
+
+  final String content;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -243,8 +245,6 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) {
-    const content =
-        "보세 옷을 걸쳐도 브랜드 묻는 DM이 와 I'm too sexy 헌 집 주고 새집 프리미엄이 붙어 두 배 세 배 네 배 yeah 나는 새삥 모든 게 다 새삥 보세 옷을 걸쳐도 브랜드 묻는 DM이 와 I'm too sexy 헌 집 주고 새집 프리미엄이 붙어 두 배 세 배 네 배 yeah 나는 새삥 모든 게 다 새삥";
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18),
       child: Column(
@@ -258,11 +258,11 @@ class _ContentState extends State<_Content> {
             ),
           ),
           _isExpanded
-              ? const Text(content)
+              ? Text(widget.content)
               : InkWell(
                   onTap: () => setState(() => _isExpanded = true),
                   child: ExtendedText(
-                    content,
+                    widget.content,
                     maxLines: 2,
                     overflowWidget: TextOverflowWidget(
                       child: Text.rich(
