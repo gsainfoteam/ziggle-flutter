@@ -20,5 +20,6 @@ abstract class NoticeApi {
     @Query('lang') AppLocale? lang,
     @Query('search') String? search,
     @Query('tags[]') List<String>? tags,
+    @Query('orderBy') String? orderBy = 'recent',
   });
 }
