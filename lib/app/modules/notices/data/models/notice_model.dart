@@ -22,8 +22,8 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     required String author,
     String? imageUrl,
     String? documentUrl,
-    List<String>? imagesUrl,
-    List<String>? documentsUrl,
+    @Default([]) List<String> imagesUrl,
+    @Default([]) List<String> documentsUrl,
     required String title,
     required String body,
   }) = _NoticeModel;
@@ -33,9 +33,9 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
 
   @override
   List<String> get documentsUrl =>
-      super.documentsUrl ?? [if (documentUrl != null) documentUrl!];
+      [...super.documentsUrl, if (documentUrl != null) documentUrl!];
 
   @override
   List<String> get imagesUrl =>
-      super.documentsUrl ?? [if (imageUrl != null) imageUrl!];
+      [...super.documentsUrl, if (imageUrl != null) imageUrl!];
 }
