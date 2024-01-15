@@ -39,9 +39,11 @@ class _Layout extends StatelessWidget {
     return Scaffold(
       body: RefreshIndicator(
         edgeOffset: mediaQueryPadding.top + toolbarHeight + bottomHeight,
-        onRefresh: () {
+        onRefresh: () async {
           HapticFeedback.mediumImpact();
-          return Future.delayed(const Duration(seconds: 1));
+          final bloc = context.read<NoticeListBloc>()
+            ..add(const NoticeListEvent.load());
+          await bloc.stream.firstWhere((state) => state.loaded);
         },
         child: CustomScrollView(
           slivers: [

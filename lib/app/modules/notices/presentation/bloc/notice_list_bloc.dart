@@ -27,6 +27,7 @@ class NoticeListEvent with _$NoticeListEvent {
 
 @freezed
 class NoticeListState with _$NoticeListState {
+  const NoticeListState._();
   const factory NoticeListState.initial({
     @Default(0) int total,
     @Default([]) List<NoticeEntity> list,
@@ -39,4 +40,6 @@ class NoticeListState with _$NoticeListState {
     required int total,
     required List<NoticeEntity> list,
   }) = _Loaded;
+
+  bool get loaded => this is _Loaded;
 }
