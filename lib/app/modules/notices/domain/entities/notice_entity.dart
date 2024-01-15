@@ -12,11 +12,6 @@ class NoticeEntity {
   final List<String> imagesUrl;
   final List<String> documentsUrl;
 
-  @Deprecated('use contents')
-  final String title;
-  @Deprecated('use contents')
-  final String body;
-
   NoticeEntity({
     required this.id,
     required this.views,
@@ -30,7 +25,5 @@ class NoticeEntity {
     required this.author,
     required this.imagesUrl,
     required this.documentsUrl,
-    required this.title,
-    required this.body,
   });
 }

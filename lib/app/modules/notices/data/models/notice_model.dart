@@ -22,8 +22,6 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     required String author,
     @Default([]) List<String> imagesUrl,
     @Default([]) List<String> documentsUrl,
-    required String title,
-    required String body,
   }) = _NoticeModel;
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>
