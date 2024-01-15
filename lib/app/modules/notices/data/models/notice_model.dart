@@ -20,8 +20,6 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     required List contents,
     required List reactions,
     required String author,
-    String? imageUrl,
-    String? documentUrl,
     @Default([]) List<String> imagesUrl,
     @Default([]) List<String> documentsUrl,
     required String title,
@@ -30,12 +28,4 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>
       _$NoticeModelFromJson(json);
-
-  @override
-  List<String> get documentsUrl =>
-      [...super.documentsUrl, if (documentUrl != null) documentUrl!];
-
-  @override
-  List<String> get imagesUrl =>
-      [...super.documentsUrl, if (imageUrl != null) imageUrl!];
 }
