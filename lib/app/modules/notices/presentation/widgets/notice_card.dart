@@ -1,42 +1,56 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/scrolling_page_indicator.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/notice_entity.dart';
+import 'scrolling_page_indicator.dart';
+
 class NoticeCard extends StatelessWidget {
-  const NoticeCard({super.key});
+  const NoticeCard({super.key, required this.notice});
+
+  final NoticeEntity notice;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        _Title(),
-        _ImageAction(),
-        _Content(),
+        _Title(
+          title: notice.title,
+          author: notice.author,
+          createdAt: notice.createdAt,
+        ),
+        const _ImageAction(),
+        const _Content(),
       ],
     );
   }
 }
 
 class _Title extends StatelessWidget {
-  const _Title();
+  const _Title({
+    required this.title,
+    required this.author,
+    required this.createdAt,
+  });
+
+  final String title;
+  final String author;
+  final DateTime createdAt;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
               Assets.icons.profileCircle.image(height: 24),
               const SizedBox(width: 8),
-              const Text(
-                '양태규',
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
+              Text(author, style: const TextStyle(fontWeight: FontWeight.w500)),
               const SizedBox(width: 5),
               const Text(
                 '·',
@@ -75,9 +89,9 @@ class _Title extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            '2024학년도 신규 집행국원을 모집합니다! 레게노 2024학년도 신규 집행국원을 모집합니다! 레게노 2024학년도 신규 집행국원을 모집합니다! 제목 이렇게 겁나길게쓰면 안이뻐지긴하네',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           )

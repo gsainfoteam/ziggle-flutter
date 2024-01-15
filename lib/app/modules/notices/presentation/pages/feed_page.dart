@@ -17,7 +17,10 @@ class FeedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<NoticeListBloc>()),
+        BlocProvider(
+          create: (context) =>
+              sl<NoticeListBloc>()..add(const NoticeListEvent.load()),
+        ),
       ],
       child: const _Layout(),
     );
@@ -99,9 +102,14 @@ class _Layout extends StatelessWidget {
                 ),
               ),
             ),
-            SliverList.separated(
-              itemBuilder: (context, index) => const NoticeCard(),
-              separatorBuilder: (context, index) => const Divider(),
+            BlocBuilder<NoticeListBloc, NoticeListState>(
+              builder: (context, state) => SliverList.separated(
+                itemCount: state.list.length,
+                itemBuilder: (context, index) => NoticeCard(
+                  notice: state.list[index],
+                ),
+                separatorBuilder: (context, index) => const Divider(),
+              ),
             ),
           ],
         ),
