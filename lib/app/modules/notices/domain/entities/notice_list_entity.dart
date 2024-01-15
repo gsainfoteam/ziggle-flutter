@@ -1,4 +1,4 @@
-import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'notice_entity.dart';
 
 class NoticeListEntity {
   final int total;

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/splash/presentation/bloc/splash_bloc.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
+
+import '../bloc/splash_bloc.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});

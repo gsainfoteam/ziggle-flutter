@@ -1,8 +1,9 @@
 import 'package:injectable/injectable.dart';
-import 'package:ziggle/app/modules/notices/data/data_sources/remote/notice_api.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_list_entity.dart';
-import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
+
+import '../../domain/entities/notice_list_entity.dart';
+import '../../domain/repositories/notice_repository.dart';
+import '../data_sources/remote/notice_api.dart';
 
 @Injectable(as: NoticeRepository)
 class RemoteNoticeRepository implements NoticeRepository {

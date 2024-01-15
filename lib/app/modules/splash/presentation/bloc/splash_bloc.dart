@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ziggle/app/modules/splash/domain/repositories/splash_repository.dart';
+
+import '../../domain/repositories/splash_repository.dart';
 
 part 'splash_bloc.freezed.dart';
 
