@@ -1,19 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
+
+import '../../domain/enums/notice_type.dart';
+import '../bloc/notice_list_bloc.dart';
+import '../widgets/notice_card.dart';
 
 class FeedPage extends StatelessWidget {
   const FeedPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<NoticeListBloc>()),
+      ],
+      child: const _Layout(),
+    );
+  }
+}
+
+class _Layout extends StatelessWidget {
+  const _Layout();
+
+  @override
+  Widget build(BuildContext context) {
     final mediaQueryPadding = MediaQuery.paddingOf(context);
     final toolbarHeight = Theme.of(context).appBarTheme.toolbarHeight!;
     final bottomHeight = toolbarHeight + 8;
+
     return Scaffold(
       body: RefreshIndicator(
         edgeOffset: mediaQueryPadding.top + toolbarHeight + bottomHeight,
