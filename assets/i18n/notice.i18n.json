@@ -14,7 +14,20 @@
     "daysLeft(rich)": {
       "one": "$n day left",
       "other": "$n days left"
-    }
+    },
+    "hoursLeft(rich)": {
+      "one": "$n hour left",
+      "other": "$n hours left"
+    },
+    "minutesLeft(rich)": {
+      "one": "$n minute left",
+      "other": "$n minutes left"
+    },
+    "secondsLeft(rich)": {
+      "one": "$n second left",
+      "other": "$n seconds left"
+    },
+    "overdue": "OVERDUE"
   },
   "viewMore(rich)": "... ${more(more)}"
 }

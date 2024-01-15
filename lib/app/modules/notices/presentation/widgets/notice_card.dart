@@ -5,6 +5,7 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
+import 'd_day.dart';
 import 'scrolling_page_indicator.dart';
 
 class NoticeCard extends StatelessWidget {
@@ -20,6 +21,7 @@ class NoticeCard extends StatelessWidget {
           title: notice.contents.first['title'],
           author: notice.author,
           createdAt: notice.createdAt,
+          deadline: notice.currentDeadline,
         ),
         const _ImageAction(),
         const _Content(),
@@ -33,11 +35,13 @@ class _Title extends StatelessWidget {
     required this.title,
     required this.author,
     required this.createdAt,
+    required this.deadline,
   });
 
   final String title;
   final String author;
   final DateTime createdAt;
+  final DateTime? deadline;
 
   @override
   Widget build(BuildContext context) {
@@ -68,24 +72,7 @@ class _Title extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Palette.primary100,
-                ),
-                child: Text.rich(
-                  t.notice.dday.daysLeft(
-                    n: 12,
-                    nBuilder: (n) => TextSpan(
-                      text: n.toString(),
-                      style: const TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  style: const TextStyle(color: Palette.white),
-                ),
-              ),
+              if (deadline != null) DDay(deadline: deadline!),
             ],
           ),
           const SizedBox(height: 8),
