@@ -102,13 +102,16 @@ class _Layout extends StatelessWidget {
                 ),
               ),
             ),
-            BlocBuilder<NoticeListBloc, NoticeListState>(
-              builder: (context, state) => SliverList.separated(
-                itemCount: state.list.length,
-                itemBuilder: (context, index) => NoticeCard(
-                  notice: state.list[index],
+            SliverSafeArea(
+              top: false,
+              sliver: BlocBuilder<NoticeListBloc, NoticeListState>(
+                builder: (context, state) => SliverList.separated(
+                  itemCount: state.list.length,
+                  itemBuilder: (context, index) => NoticeCard(
+                    notice: state.list[index],
+                  ),
+                  separatorBuilder: (context, index) => const Divider(),
                 ),
-                separatorBuilder: (context, index) => const Divider(),
               ),
             ),
           ],
