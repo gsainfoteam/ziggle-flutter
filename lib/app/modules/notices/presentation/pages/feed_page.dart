@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/enums/notice_type.dart';
 import '../bloc/notice_list_bloc.dart';
@@ -85,7 +84,7 @@ class _Layout extends StatelessWidget {
                                     ? Palette.background100
                                     : null,
                               ),
-                              label: Text(t.notice.type(type: e)),
+                              label: Text(e.label),
                               onPressed: () {
                                 HapticFeedback.lightImpact();
                               },

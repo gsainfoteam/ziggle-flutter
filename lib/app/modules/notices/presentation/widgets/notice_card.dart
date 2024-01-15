@@ -7,6 +7,7 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
+import '../../domain/enums/notice_type.dart';
 import 'd_day.dart';
 import 'scrolling_page_indicator.dart';
 
@@ -28,7 +29,13 @@ class NoticeCard extends StatelessWidget {
             deadline: notice.currentDeadline,
           ),
           _ImageAction(imagesUrl: notice.imagesUrl),
-          _Content(content: notice.contents.first['body']),
+          _Content(
+            tags: notice.tags
+                .map((e) => e['name'] as String)
+                .map((e) => NoticeType.fromTag(e)?.label ?? e)
+                .toList(),
+            content: notice.contents.first['body'],
+          ),
         ],
       ),
     );
@@ -232,8 +239,9 @@ class _ImageActionState extends State<_ImageAction> {
 }
 
 class _Content extends StatefulWidget {
-  const _Content({required this.content});
+  const _Content({required this.tags, required this.content});
 
+  final List<String> tags;
   final String content;
 
   @override
@@ -254,7 +262,7 @@ class _ContentState extends State<_Content> {
             style: const TextStyle(color: Palette.primary100),
             child: Wrap(
               spacing: 4,
-              children: ['모집', '집행위원회'].map((e) => Text('#$e')).toList(),
+              children: widget.tags.map((e) => Text('#$e')).toList(),
             ),
           ),
           _isExpanded
