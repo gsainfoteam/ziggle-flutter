@@ -17,7 +17,7 @@ class NoticeCard extends StatelessWidget {
     return Column(
       children: [
         _Title(
-          title: notice.title,
+          title: notice.contents.first['title'],
           author: notice.author,
           createdAt: notice.createdAt,
         ),
