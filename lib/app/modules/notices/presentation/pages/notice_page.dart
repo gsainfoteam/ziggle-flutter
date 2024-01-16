@@ -76,6 +76,12 @@ class NoticePage extends StatelessWidget {
               ),
             ),
           ),
+          SliverList.separated(
+            itemCount: notice.imagesUrl.length,
+            itemBuilder: (context, index) =>
+                Image.network(notice.imagesUrl[index]),
+            separatorBuilder: (context, index) => const SizedBox(height: 10),
+          ),
         ],
       ),
     );
