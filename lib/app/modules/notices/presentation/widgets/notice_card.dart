@@ -270,7 +270,7 @@ class _ContentState extends State<_Content> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          DefaultTextStyle(
+          DefaultTextStyle.merge(
             style: const TextStyle(color: Palette.primary100),
             child: Wrap(
               spacing: 4,

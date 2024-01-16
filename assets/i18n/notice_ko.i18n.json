@@ -40,5 +40,8 @@
     },
     "overdue": "기한 지남"
   },
-  "viewMore(rich)": "... ${more(더 보기)}"
+  "viewMore(rich)": "... ${more(더 보기)}",
+  "title": "공지",
+  "createdAt": "작성 시각",
+  "deadline": "마감 시각"
 }

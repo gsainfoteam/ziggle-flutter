@@ -30,7 +30,7 @@ void _initSplash() {
 }
 
 Future<void> _initLocale() async {
-  final locale = LocaleSettings.useDeviceLocale();
+  final locale = LocaleSettings.setLocale(AppLocale.ko);
   await initializeDateFormatting();
   Intl.defaultLocale = locale.languageCode;
   LocaleSettings.setPluralResolver(

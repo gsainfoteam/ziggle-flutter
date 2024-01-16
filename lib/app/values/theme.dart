@@ -4,10 +4,19 @@ import 'package:ziggle/app/values/palette.dart';
 
 abstract class AppTheme {
   static final theme = ThemeData(
+    brightness: Brightness.light,
     fontFamily: Pretendard.fontFamily,
+    textTheme: const TextTheme(
+      titleLarge: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+    scaffoldBackgroundColor: Palette.background100,
     appBarTheme: const AppBarTheme(
       toolbarHeight: 40,
       scrolledUnderElevation: 0,
+      backgroundColor: Palette.background100,
     ),
     chipTheme: const ChipThemeData(
       elevation: 0,

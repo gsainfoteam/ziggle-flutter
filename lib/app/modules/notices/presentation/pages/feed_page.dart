@@ -113,8 +113,10 @@ class _Layout extends StatelessWidget {
                     final notice = state.list[index];
                     return NoticeCard(
                       notice: notice,
-                      onTapDetail: () =>
-                          NoticeRoute(id: notice.id).push(context),
+                      onTapDetail: () => NoticeRoute(
+                        id: notice.id,
+                        $extra: notice,
+                      ).push(context),
                     );
                   },
                   separatorBuilder: (context, index) => const Divider(),
