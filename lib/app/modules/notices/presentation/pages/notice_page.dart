@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
@@ -114,7 +115,66 @@ class NoticePage extends StatelessWidget {
                 const SizedBox(width: 8),
               ],
             ),
-          )
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            sliver: SliverToBoxAdapter(
+              child: Text(notice.contents.first['body']),
+            ),
+          ),
+          const SliverToBoxAdapter(child: Divider()),
+          SliverPadding(
+            padding: const EdgeInsets.only(bottom: 20),
+            sliver: SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: DefaultTextStyle.merge(
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(t.notice.views),
+                      Text(
+                        notice.views.toString(),
+                        style: const TextStyle(color: Palette.textGreyDark),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SliverSafeArea(
+            top: false,
+            sliver: SliverToBoxAdapter(
+              child: Center(
+                child: InkWell(
+                  onTap: () {
+                    HapticFeedback.mediumImpact();
+                  },
+                  child: Text(
+                    t.notice.report,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      shadows: [
+                        Shadow(
+                          color: Palette.textGrey,
+                          offset: Offset(0, -1),
+                        ),
+                      ],
+                      color: Colors.transparent,
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline,
+                      decorationColor: Palette.textGrey,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
