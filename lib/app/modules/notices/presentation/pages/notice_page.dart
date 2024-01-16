@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/enums/notice_type.dart';
@@ -82,6 +83,32 @@ class NoticePage extends StatelessWidget {
                 Image.network(notice.imagesUrl[index]),
             separatorBuilder: (context, index) => const SizedBox(height: 10),
           ),
+          SliverToBoxAdapter(
+            child: Row(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Assets.icons.fireFlame.image(
+                    height: 32,
+                    fit: BoxFit.contain,
+                  ),
+                  padding: EdgeInsets.zero,
+                ),
+                const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
+                const Spacer(),
+                IconButton(
+                  onPressed: () {},
+                  icon: Assets.icons.shareAndroid.image(),
+                  padding: EdgeInsets.zero,
+                  visualDensity:
+                      const VisualDensity(horizontal: -4, vertical: -4),
+                  constraints:
+                      const BoxConstraints.tightFor(width: 48, height: 48),
+                ),
+                const SizedBox(width: 8),
+              ],
+            ),
+          )
         ],
       ),
     );
