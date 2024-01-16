@@ -62,7 +62,9 @@ jobs:
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
 
       - name: Generate files
-        run: dart run build_runner build --delete-conflicting-outputs
+        run: |
+          dart run slang
+          dart run build_runner build --delete-conflicting-outputs
       - name: Run fastlane
         run: |
           bundle install
