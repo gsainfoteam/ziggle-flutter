@@ -21,6 +21,14 @@ class NoticePage extends StatelessWidget {
         slivers: [
           SliverAppBar(
             title: Text(t.notice.title),
+            actions: [
+              if (notice.currentDeadline != null &&
+                  notice.currentDeadline!.toLocal().isAfter(DateTime.now()))
+                IconButton(
+                  onPressed: () {},
+                  icon: Assets.icons.bell.image(),
+                ),
+            ],
             pinned: true,
           ),
           if (notice.currentDeadline != null)
