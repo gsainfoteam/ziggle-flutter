@@ -23,33 +23,36 @@ class NoticePage extends StatelessWidget {
             pinned: true,
           ),
           if (notice.currentDeadline != null)
-            SliverPinnedHeader(
-              child: Container(
-                color: Palette.primary100,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                child: DefaultTextStyle.merge(
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Palette.background100,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(t.notice.deadline),
-                      Text(
-                        DateFormat.yMd()
-                            .add_Hm()
-                            .format(notice.currentDeadline!),
-                      )
-                    ],
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: 20),
+              sliver: SliverPinnedHeader(
+                child: Container(
+                  color: Palette.primary100,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                  child: DefaultTextStyle.merge(
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Palette.background100,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(t.notice.deadline),
+                        Text(
+                          DateFormat.yMd()
+                              .add_Hm()
+                              .format(notice.currentDeadline!),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
           SliverPadding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 18),
             sliver: SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,11 +80,14 @@ class NoticePage extends StatelessWidget {
               ),
             ),
           ),
-          SliverList.separated(
+          SliverList.builder(
             itemCount: notice.imagesUrl.length,
-            itemBuilder: (context, index) =>
+            itemBuilder: (context, index) => Column(
+              children: [
+                const SizedBox(height: 10),
                 Image.network(notice.imagesUrl[index]),
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
+              ],
+            ),
           ),
           SliverToBoxAdapter(
             child: Row(
