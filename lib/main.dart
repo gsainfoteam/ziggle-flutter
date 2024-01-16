@@ -33,6 +33,13 @@ Future<void> _initLocale() async {
   final locale = LocaleSettings.useDeviceLocale();
   await initializeDateFormatting();
   Intl.defaultLocale = locale.languageCode;
+  LocaleSettings.setPluralResolver(
+    locale: AppLocale.ko,
+    cardinalResolver: (n, {few, many, one, other, two, zero}) =>
+        other ?? n.toString(),
+    ordinalResolver: (n, {few, many, one, other, two, zero}) =>
+        other ?? n.toString(),
+  );
 }
 
 void _initCrashlytics() {
