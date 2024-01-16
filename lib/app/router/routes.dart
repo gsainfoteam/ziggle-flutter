@@ -19,6 +19,10 @@ abstract class AppRoutes {
         path: _Paths.feed,
         builder: (context, state) => const FeedPage(),
       ),
+      GoRoute(
+        path: _Paths.notice,
+        builder: (context, state) => const FeedPage(),
+      ),
     ],
   );
 }
