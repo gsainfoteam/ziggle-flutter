@@ -5,6 +5,8 @@ import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/enums/notice_type.dart';
+
 class NoticePage extends StatelessWidget {
   const NoticePage({super.key, required this.notice});
 
@@ -45,15 +47,35 @@ class NoticePage extends StatelessWidget {
                 ),
               ),
             ),
-          SliverToBoxAdapter(
-            child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(notice.contents.first['body']),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    notice.contents.first['title'],
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  DefaultTextStyle.merge(
+                    style: const TextStyle(color: Palette.primary100),
+                    child: Wrap(
+                      spacing: 4,
+                      children: notice.tags
+                          .map((e) => e['name'] as String)
+                          .map((e) => NoticeType.fromTag(e)?.label ?? e)
+                          .map((e) => Text('#$e'))
+                          .toList(),
+                    ),
+                  ),
+                ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
