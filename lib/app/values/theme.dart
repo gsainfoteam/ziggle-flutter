@@ -14,6 +14,7 @@ abstract class AppTheme {
     ),
     scaffoldBackgroundColor: Palette.background100,
     appBarTheme: const AppBarTheme(
+      centerTitle: true,
       toolbarHeight: 40,
       scrolledUnderElevation: 0,
       backgroundColor: Palette.background100,
