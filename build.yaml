@@ -17,3 +17,6 @@ global_options:
   json_serializable:
     runs_before:
       - retrofit_generator
+  slang_build_runner:
+    runs_before:
+      - retrofit_generator
