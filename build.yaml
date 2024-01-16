@@ -1,18 +1,3 @@
-targets:
-  $default:
-    builders:
-      slang_build_runner:
-        options:
-          base_locale: en
-          input_directory: assets/i18n
-          namespaces: true
-          timestamp: false
-          contexts:
-            NoticeType:
-              generate_enum: false
-          imports:
-            - 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart'
-
 global_options:
   json_serializable:
     runs_before:

@@ -1,7 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ziggle/app/modules/notices/presentation/pages/feed_page.dart';
-import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
+
+import '../modules/notices/presentation/pages/feed_page.dart';
+import '../modules/splash/presentation/pages/splash_page.dart';
 
 part 'paths.dart';
 

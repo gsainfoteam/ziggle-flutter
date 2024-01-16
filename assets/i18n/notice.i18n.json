@@ -8,13 +8,45 @@
     "academic": "Academic"
   },
   "calendar": {
-    "minutesAgo": "$minutes minutes ago"
+    "weeksAgo": {
+      "one": "$n week ago",
+      "other": "$n weeks ago"
+    },
+    "daysAgo": {
+      "one": "$n day ago",
+      "other": "$n days ago"
+    },
+    "hoursAgo": {
+      "one": "$n hour ago",
+      "other": "$n hours ago"
+    },
+    "minutesAgo": {
+      "one": "$n minute ago",
+      "other": "$n minutes ago"
+    },
+    "secondsAgo": {
+      "one": "$n second ago",
+      "other": "$n seconds ago"
+    }
   },
   "dday": {
     "daysLeft(rich)": {
       "one": "$n day left",
       "other": "$n days left"
-    }
+    },
+    "hoursLeft(rich)": {
+      "one": "$n hour left",
+      "other": "$n hours left"
+    },
+    "minutesLeft(rich)": {
+      "one": "$n minute left",
+      "other": "$n minutes left"
+    },
+    "secondsLeft(rich)": {
+      "one": "$n second left",
+      "other": "$n seconds left"
+    },
+    "overdue": "OVERDUE"
   },
   "viewMore(rich)": "... ${more(more)}"
 }

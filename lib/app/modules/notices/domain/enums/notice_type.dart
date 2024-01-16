@@ -1,4 +1,5 @@
 import 'package:ziggle/gen/assets.gen.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 enum NoticeType {
   all,
@@ -20,4 +21,13 @@ enum NoticeType {
         general: Assets.icons.messageAlert,
         academic: Assets.icons.openBook,
       }[this]!;
+  bool get isTag => tags.contains(this);
+  String get label => t.notice.type(type: this);
+
+  static NoticeType? fromTag(String tag) => {
+        'recruit': recruit,
+        'event': event,
+        'general': general,
+        'academic': academic,
+      }[tag];
 }

@@ -1,6 +1,7 @@
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ziggle/app/modules/splash/domain/repositories/splash_repository.dart';
+
+import '../../domain/repositories/splash_repository.dart';
 
 @Singleton(as: SplashRepository)
 class LoadingSplashRepository implements SplashRepository {

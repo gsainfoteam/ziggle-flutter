@@ -8,12 +8,37 @@
     "academic": "학사"
   },
   "calendar": {
-    "minutesAgo": "$minutes분 전"
+    "weeksAgo": {
+      "other": "$n주 전"
+    },
+    "daysAgo": {
+      "other": "$n일 전"
+    },
+    "hoursAgo": {
+      "other": "$n시간 전"
+    },
+    "minutesAgo": {
+      "other": "$n분 전"
+    },
+    "secondsAgo": {
+      "other": "$n초 전"
+    }
   },
   "dday": {
     "daysLeft(rich)": {
       "other": "$n일 남음"
-    }
+    },
+    "hoursLeft(rich)": {
+      "other": "$n시간 남음"
+    },
+    "minutesLeft(rich)": {
+      "other": "$n분 남음"
+    },
+    "secondsLeft(rich)": {
+      "one": "$n초 left",
+      "other": "$n초 left"
+    },
+    "overdue": "기한 지남"
   },
   "viewMore(rich)": "... ${more(더 보기)}"
 }

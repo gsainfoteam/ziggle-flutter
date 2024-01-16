@@ -1,42 +1,72 @@
+import 'dart:async';
+
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/scrolling_page_indicator.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/notice_entity.dart';
+import '../../domain/enums/notice_type.dart';
+import 'd_day.dart';
+import 'scrolling_page_indicator.dart';
+
 class NoticeCard extends StatelessWidget {
-  const NoticeCard({super.key});
+  const NoticeCard({super.key, required this.notice});
+
+  final NoticeEntity notice;
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        _Title(),
-        _ImageAction(),
-        _Content(),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        children: [
+          _Title(
+            title: notice.contents.first['title'],
+            author: notice.author,
+            createdAt: notice.createdAt,
+            deadline: notice.currentDeadline,
+          ),
+          _ImageAction(imagesUrl: notice.imagesUrl),
+          _Content(
+            tags: notice.tags
+                .map((e) => e['name'] as String)
+                .map((e) => NoticeType.fromTag(e)?.label ?? e)
+                .toList(),
+            content: notice.contents.first['body'],
+          ),
+        ],
+      ),
     );
   }
 }
 
 class _Title extends StatelessWidget {
-  const _Title();
+  const _Title({
+    required this.title,
+    required this.author,
+    required this.createdAt,
+    required this.deadline,
+  });
+
+  final String title;
+  final String author;
+  final DateTime createdAt;
+  final DateTime? deadline;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
               Assets.icons.profileCircle.image(height: 24),
               const SizedBox(width: 8),
-              const Text(
-                '양태규',
-                style: TextStyle(fontWeight: FontWeight.w500),
-              ),
+              Text(author, style: const TextStyle(fontWeight: FontWeight.w500)),
               const SizedBox(width: 5),
               const Text(
                 '·',
@@ -46,38 +76,15 @@ class _Title extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              Text(
-                t.notice.calendar.minutesAgo(minutes: 32),
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  color: Palette.text300,
-                ),
-              ),
+              _CreatedAt(createdAt: createdAt),
               const Spacer(),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Palette.primary100,
-                ),
-                child: Text.rich(
-                  t.notice.dday.daysLeft(
-                    n: 12,
-                    nBuilder: (n) => TextSpan(
-                      text: n.toString(),
-                      style: const TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  style: const TextStyle(color: Palette.white),
-                ),
-              ),
+              if (deadline != null) DDay(deadline: deadline!),
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            '2024학년도 신규 집행국원을 모집합니다! 레게노 2024학년도 신규 집행국원을 모집합니다! 레게노 2024학년도 신규 집행국원을 모집합니다! 제목 이렇게 겁나길게쓰면 안이뻐지긴하네',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           )
@@ -87,8 +94,64 @@ class _Title extends StatelessWidget {
   }
 }
 
+class _CreatedAt extends StatefulWidget {
+  const _CreatedAt({required this.createdAt});
+
+  final DateTime createdAt;
+
+  @override
+  State<_CreatedAt> createState() => _CreatedAtState();
+}
+
+class _CreatedAtState extends State<_CreatedAt> {
+  late final Timer _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  String get _timeAgo {
+    final now = DateTime.now();
+    final diff = now.difference(widget.createdAt);
+    if (diff.inDays > 7) {
+      return t.notice.calendar.weeksAgo(n: diff.inDays ~/ 7);
+    }
+    if (diff.inDays > 0) {
+      return t.notice.calendar.daysAgo(n: diff.inDays);
+    }
+    if (diff.inHours > 0) {
+      return t.notice.calendar.hoursAgo(n: diff.inHours);
+    }
+    if (diff.inMinutes > 0) {
+      return t.notice.calendar.minutesAgo(n: diff.inMinutes);
+    }
+    return t.notice.calendar.secondsAgo(n: diff.inSeconds);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      _timeAgo,
+      style: const TextStyle(
+        fontWeight: FontWeight.w500,
+        color: Palette.text300,
+      ),
+    );
+  }
+}
+
 class _ImageAction extends StatefulWidget {
-  const _ImageAction();
+  const _ImageAction({required this.imagesUrl});
+
+  final List<String> imagesUrl;
 
   @override
   State<_ImageAction> createState() => _ImageActionState();
@@ -113,26 +176,28 @@ class _ImageActionState extends State<_ImageAction> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AspectRatio(
-          aspectRatio: 1,
-          child: PageView.builder(
-            itemCount: 10,
-            controller: _pageController,
-            itemBuilder: (context, index) => Image.network(
-              'https://picsum.photos/seed/index$index/300/300',
-              fit: BoxFit.cover,
+        if (widget.imagesUrl.isNotEmpty)
+          AspectRatio(
+            aspectRatio: 1,
+            child: PageView.builder(
+              itemCount: widget.imagesUrl.length,
+              controller: _pageController,
+              itemBuilder: (context, index) => Image.network(
+                widget.imagesUrl[index],
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
         Stack(
           alignment: Alignment.center,
           children: [
-            ScrollingPageIndicator(
-              itemCount: 10,
-              controller: _pageController,
-              dotColor: Palette.textGrey,
-              dotSelectedColor: Palette.primary100,
-            ),
+            if (widget.imagesUrl.isNotEmpty)
+              ScrollingPageIndicator(
+                itemCount: widget.imagesUrl.length,
+                controller: _pageController,
+                dotColor: Palette.textGrey,
+                dotSelectedColor: Palette.primary100,
+              ),
             Row(
               children: [
                 IconButton(
@@ -174,7 +239,10 @@ class _ImageActionState extends State<_ImageAction> {
 }
 
 class _Content extends StatefulWidget {
-  const _Content();
+  const _Content({required this.tags, required this.content});
+
+  final List<String> tags;
+  final String content;
 
   @override
   State<_Content> createState() => _ContentState();
@@ -185,8 +253,6 @@ class _ContentState extends State<_Content> {
 
   @override
   Widget build(BuildContext context) {
-    const content =
-        "보세 옷을 걸쳐도 브랜드 묻는 DM이 와 I'm too sexy 헌 집 주고 새집 프리미엄이 붙어 두 배 세 배 네 배 yeah 나는 새삥 모든 게 다 새삥 보세 옷을 걸쳐도 브랜드 묻는 DM이 와 I'm too sexy 헌 집 주고 새집 프리미엄이 붙어 두 배 세 배 네 배 yeah 나는 새삥 모든 게 다 새삥";
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18),
       child: Column(
@@ -196,15 +262,15 @@ class _ContentState extends State<_Content> {
             style: const TextStyle(color: Palette.primary100),
             child: Wrap(
               spacing: 4,
-              children: ['모집', '집행위원회'].map((e) => Text('#$e')).toList(),
+              children: widget.tags.map((e) => Text('#$e')).toList(),
             ),
           ),
           _isExpanded
-              ? const Text(content)
+              ? Text(widget.content)
               : InkWell(
                   onTap: () => setState(() => _isExpanded = true),
                   child: ExtendedText(
-                    content,
+                    widget.content,
                     maxLines: 2,
                     overflowWidget: TextOverflowWidget(
                       child: Text.rich(
