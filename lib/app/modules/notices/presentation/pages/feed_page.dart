@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -114,7 +113,8 @@ class _Layout extends StatelessWidget {
                     final notice = state.list[index];
                     return NoticeCard(
                       notice: notice,
-                      onTapDetail: () => context.push(Paths.notice(notice.id)),
+                      onTapDetail: () =>
+                          NoticeRoute(id: notice.id).push(context),
                     );
                   },
                   separatorBuilder: (context, index) => const Divider(),

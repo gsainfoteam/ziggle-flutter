@@ -1,28 +1,38 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/feed_page.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/notice_page.dart';
+import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 
-import '../modules/notices/presentation/pages/feed_page.dart';
-import '../modules/splash/presentation/pages/splash_page.dart';
+part 'routes.g.dart';
 
-part 'paths.dart';
+@TypedGoRoute<SplashRoute>(path: '/splash')
+class SplashRoute extends GoRouteData {
+  const SplashRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const SplashPage();
+}
+
+@TypedGoRoute<FeedRoute>(path: '/')
+class FeedRoute extends GoRouteData {
+  const FeedRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const FeedPage();
+}
+
+@TypedGoRoute<NoticeRoute>(path: '/notice/:id')
+class NoticeRoute extends GoRouteData {
+  const NoticeRoute({required this.id});
+  final int id;
+  @override
+  Widget build(BuildContext context, GoRouterState state) => const NoticePage();
+}
 
 abstract class AppRoutes {
   static final config = GoRouter(
-    initialLocation: _Paths.splash,
+    initialLocation: const SplashRoute().location,
     debugLogDiagnostics: kDebugMode,
-    routes: [
-      GoRoute(
-        path: _Paths.splash,
-        builder: (context, state) => const SplashPage(),
-      ),
-      GoRoute(
-        path: _Paths.feed,
-        builder: (context, state) => const FeedPage(),
-      ),
-      GoRoute(
-        path: _Paths.notice,
-        builder: (context, state) => const FeedPage(),
-      ),
-    ],
+    routes: $appRoutes,
   );
 }
