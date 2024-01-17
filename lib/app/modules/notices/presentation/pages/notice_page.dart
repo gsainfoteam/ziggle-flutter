@@ -76,7 +76,10 @@ class _Layout extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 20),
             sliver: SliverPinnedHeader(
               child: Container(
-                color: Palette.primary100,
+                color:
+                    notice.currentDeadline!.toLocal().isBefore(DateTime.now())
+                        ? Palette.textGreyDark
+                        : Palette.primary100,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 child: DefaultTextStyle.merge(
