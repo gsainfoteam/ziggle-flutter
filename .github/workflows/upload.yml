@@ -81,9 +81,7 @@ jobs:
           dart run slang
           dart run build_runner build --delete-conflicting-outputs
       - name: Run fastlane
-        run: |
-          bundle install
-          bundle exec fastlane internal
+        run: bundle exec fastlane internal
         env:
           APP_STORE_CONNECT_API_KEY_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
           APP_STORE_CONNECT_API_KEY_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
