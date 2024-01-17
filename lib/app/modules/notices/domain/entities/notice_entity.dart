@@ -1,3 +1,5 @@
+import 'notice_content_entity.dart';
+
 class NoticeEntity {
   final int id;
   final int views;
@@ -6,7 +8,7 @@ class NoticeEntity {
   final DateTime updatedAt;
   final DateTime? deletedAt;
   final List tags;
-  final List contents;
+  final List<NoticeContentEntity> contents;
   final List reactions;
   final String author;
   final List<String> imagesUrl;

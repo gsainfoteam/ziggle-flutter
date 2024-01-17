@@ -110,7 +110,7 @@ class _Layout extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  notice.contents.first['title'],
+                  notice.contents.first.title,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -173,9 +173,9 @@ class _Layout extends StatelessWidget {
             child: BlocBuilder<NoticeBloc, NoticeState>(
               builder: (context, state) => state.loaded
                   ? NoticeBody(
-                      body: notice.contents.first['body'],
+                      body: notice.contents.first.body,
                     )
-                  : Text(notice.contents.first['body']),
+                  : Text(notice.contents.first.body),
             ),
           ),
         ),
