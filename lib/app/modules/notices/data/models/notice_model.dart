@@ -26,4 +26,18 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>
       _$NoticeModelFromJson(json);
+  factory NoticeModel.fromEntity(NoticeEntity entity) => NoticeModel(
+        id: entity.id,
+        views: entity.views,
+        currentDeadline: entity.currentDeadline,
+        createdAt: entity.createdAt,
+        updatedAt: entity.updatedAt,
+        deletedAt: entity.deletedAt,
+        tags: entity.tags,
+        contents: entity.contents,
+        reactions: entity.reactions,
+        author: entity.author,
+        imagesUrl: entity.imagesUrl,
+        documentsUrl: entity.documentsUrl,
+      );
 }
