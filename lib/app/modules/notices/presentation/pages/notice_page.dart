@@ -75,7 +75,7 @@ class _Layout extends StatelessWidget {
       slivers: [
         if (notice.currentDeadline != null)
           SliverPadding(
-            padding: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 10),
             sliver: SliverPinnedHeader(
               child: Container(
                 color:
