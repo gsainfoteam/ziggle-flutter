@@ -77,6 +77,13 @@ jobs:
             .dart_tool
             !.dart_tool/**/*.snapshot
           key: ${{ runner.os }}-dart-tool-${{ hashFiles('pubspec.lock') }}
+      - uses: actions/cache@v3
+        if: env.run == 'true' && matrix.os == 'macos-13'
+        with:
+          path: |
+            ~/.cocoapods
+            ~/Library/Caches/CocoaPods
+          key: cocoapods-${{ hashFiles('ios/Podfile.lock') }}
 
       - uses: ruby/setup-ruby@v1
         if: env.run == 'true'
