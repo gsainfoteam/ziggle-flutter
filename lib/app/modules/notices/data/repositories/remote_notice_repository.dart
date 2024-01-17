@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -27,5 +28,10 @@ class RemoteNoticeRepository implements NoticeRepository {
       lang: LocaleSettings.currentLocale,
       orderBy: NoticeSort.recent,
     );
+  }
+
+  @override
+  Future<NoticeEntity> getNotice(int id) {
+    return _api.getNotice(id, isViewed: true);
   }
 }

@@ -48,5 +48,10 @@
     },
     "overdue": "OVERDUE"
   },
-  "viewMore(rich)": "... ${more(more)}"
+  "viewMore(rich)": "... ${more(more)}",
+  "title": "Notice",
+  "createdAt": "Posted at",
+  "deadline": "Deadline",
+  "views": "Views",
+  "report": "Report This Notice"
 }

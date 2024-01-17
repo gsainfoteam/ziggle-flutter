@@ -5,6 +5,7 @@ import 'package:ziggle/gen/strings.g.dart';
 
 import '../../../domain/enums/notice_sort.dart';
 import '../../models/notice_list_model.dart';
+import '../../models/notice_model.dart';
 
 part 'notice_api.g.dart';
 
@@ -22,5 +23,11 @@ abstract class NoticeApi {
     @Query('search') String? search,
     @Query('tags[]') List<String>? tags,
     @Query('orderBy') NoticeSort? orderBy,
+  });
+
+  @GET('{id}')
+  Future<NoticeModel> getNotice(
+    @Path('id') int id, {
+    @Query('isViewed') bool isViewed = false,
   });
 }

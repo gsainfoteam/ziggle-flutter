@@ -12,9 +12,14 @@ import 'd_day.dart';
 import 'scrolling_page_indicator.dart';
 
 class NoticeCard extends StatelessWidget {
-  const NoticeCard({super.key, required this.notice});
+  const NoticeCard({
+    super.key,
+    required this.notice,
+    this.onTapDetail,
+  });
 
   final NoticeEntity notice;
+  final VoidCallback? onTapDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +32,7 @@ class NoticeCard extends StatelessWidget {
             author: notice.author,
             createdAt: notice.createdAt,
             deadline: notice.currentDeadline,
+            onTapDetail: onTapDetail,
           ),
           _ImageAction(imagesUrl: notice.imagesUrl),
           _Content(
@@ -48,12 +54,14 @@ class _Title extends StatelessWidget {
     required this.author,
     required this.createdAt,
     required this.deadline,
+    this.onTapDetail,
   });
 
   final String title;
   final String author;
   final DateTime createdAt;
   final DateTime? deadline;
+  final VoidCallback? onTapDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +84,7 @@ class _Title extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              _CreatedAt(createdAt: createdAt),
+              _CreatedAt(createdAt: createdAt, onTapDetail: onTapDetail),
               const Spacer(),
               if (deadline != null) DDay(deadline: deadline!),
             ],
@@ -95,9 +103,10 @@ class _Title extends StatelessWidget {
 }
 
 class _CreatedAt extends StatefulWidget {
-  const _CreatedAt({required this.createdAt});
+  const _CreatedAt({required this.createdAt, this.onTapDetail});
 
   final DateTime createdAt;
+  final VoidCallback? onTapDetail;
 
   @override
   State<_CreatedAt> createState() => _CreatedAtState();
@@ -138,11 +147,14 @@ class _CreatedAtState extends State<_CreatedAt> {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      _timeAgo,
-      style: const TextStyle(
-        fontWeight: FontWeight.w500,
-        color: Palette.text300,
+    return InkWell(
+      onTap: widget.onTapDetail,
+      child: Text(
+        _timeAgo,
+        style: const TextStyle(
+          fontWeight: FontWeight.w500,
+          color: Palette.text300,
+        ),
       ),
     );
   }
@@ -258,7 +270,7 @@ class _ContentState extends State<_Content> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          DefaultTextStyle(
+          DefaultTextStyle.merge(
             style: const TextStyle(color: Palette.primary100),
             child: Wrap(
               spacing: 4,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
@@ -108,9 +109,14 @@ class _Layout extends StatelessWidget {
               sliver: BlocBuilder<NoticeListBloc, NoticeListState>(
                 builder: (context, state) => SliverList.separated(
                   itemCount: state.list.length,
-                  itemBuilder: (context, index) => NoticeCard(
-                    notice: state.list[index],
-                  ),
+                  itemBuilder: (context, index) {
+                    final notice = state.list[index];
+                    return NoticeCard(
+                      notice: notice,
+                      onTapDetail: () =>
+                          NoticeRoute.fromEntity(notice).push(context),
+                    );
+                  },
                   separatorBuilder: (context, index) => const Divider(),
                 ),
               ),

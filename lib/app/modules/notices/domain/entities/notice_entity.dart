@@ -26,4 +26,19 @@ class NoticeEntity {
     required this.imagesUrl,
     required this.documentsUrl,
   });
+
+  factory NoticeEntity.fromId(int id) => NoticeEntity(
+        id: id,
+        views: 0,
+        currentDeadline: null,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        deletedAt: null,
+        tags: [],
+        contents: [],
+        reactions: [],
+        imagesUrl: [],
+        documentsUrl: [],
+        author: '',
+      );
 }
