@@ -61,7 +61,7 @@ class _Layout extends StatelessWidget {
       body: RefreshIndicator(
         onRefresh: () async {
           final bloc = context.read<NoticeBloc>();
-          bloc.add(NoticeEvent.load(bloc.state.notice));
+          bloc.add(const NoticeEvent.refresh());
           await bloc.stream.firstWhere((state) => state.loaded);
         },
         child: _buildScroll(context),
