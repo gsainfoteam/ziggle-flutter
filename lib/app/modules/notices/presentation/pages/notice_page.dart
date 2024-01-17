@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/additional_notice_content.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -59,7 +61,7 @@ class _Layout extends StatelessWidget {
       body: RefreshIndicator(
         onRefresh: () async {
           final bloc = context.read<NoticeBloc>();
-          bloc.add(NoticeEvent.load(bloc.state.notice));
+          bloc.add(const NoticeEvent.refresh());
           await bloc.stream.firstWhere((state) => state.loaded);
         },
         child: _buildScroll(context),
@@ -73,7 +75,7 @@ class _Layout extends StatelessWidget {
       slivers: [
         if (notice.currentDeadline != null)
           SliverPadding(
-            padding: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: 10),
             sliver: SliverPinnedHeader(
               child: Container(
                 color:
@@ -110,7 +112,7 @@ class _Layout extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  notice.contents.first['title'],
+                  notice.contents.main.title,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -172,12 +174,27 @@ class _Layout extends StatelessWidget {
           sliver: SliverToBoxAdapter(
             child: BlocBuilder<NoticeBloc, NoticeState>(
               builder: (context, state) => state.loaded
-                  ? NoticeBody(
-                      body: notice.contents.first['body'],
-                    )
-                  : Text(notice.contents.first['body']),
+                  ? NoticeBody(body: notice.contents.main.body)
+                  : Text(notice.contents.main.body),
             ),
           ),
+        ),
+        SliverList.separated(
+          itemCount: notice.contents.additionals.length,
+          itemBuilder: (context, index) {
+            final previous = notice.contents.locales.elementAt(index);
+            final additional = notice.contents.additionals.elementAt(index);
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: AdditionalNoticeContent(
+                body: additional.body,
+                previousDeadline: previous.deadline,
+                deadline: additional.deadline,
+                createdAt: additional.createdAt,
+              ),
+            );
+          },
+          separatorBuilder: (context, index) => const Divider(),
         ),
         const SliverToBoxAdapter(child: Divider()),
         SliverPadding(

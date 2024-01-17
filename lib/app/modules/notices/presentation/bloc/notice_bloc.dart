@@ -18,12 +18,18 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
       final data = await _repository.getNotice(event.notice.id);
       emit(_Loaded(data));
     });
+    on<_Refresh>((event, emit) async {
+      emit(_Loading(state.notice));
+      final data = await _repository.getNotice(state.notice.id);
+      emit(_Loaded(data));
+    });
   }
 }
 
 @freezed
 class NoticeEvent with _$NoticeEvent {
   const factory NoticeEvent.load(NoticeEntity notice) = _Load;
+  const factory NoticeEvent.refresh() = _Refresh;
 }
 
 @freezed
