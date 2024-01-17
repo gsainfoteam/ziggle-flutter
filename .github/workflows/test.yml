@@ -48,7 +48,7 @@ jobs:
         include:
           - build-os: ubuntu-latest
             os: Android
-          - build-os: macos-latest
+          - build-os: macos-13
             os: iOS
     runs-on: ${{ matrix.build-os }}
     concurrency:

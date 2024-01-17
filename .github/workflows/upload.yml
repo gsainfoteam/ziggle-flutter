@@ -15,7 +15,7 @@ jobs:
           - os: Android
             build-os: ubuntu-latest
           - os: iOS
-            build-os: macos-latest
+            build-os: macos-13
     name: Build ${{ matrix.os }} App and Upload
     runs-on: ${{ matrix.build-os }}
     concurrency:
