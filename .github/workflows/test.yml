@@ -90,6 +90,7 @@ jobs:
         with:
           ruby-version: '3.2.0'
           bundler-cache: true
+          working-directory: ${{ env.directory }}
 
       - name: Generate files
         if: env.run == 'true'
@@ -98,7 +99,5 @@ jobs:
           dart run build_runner build --delete-conflicting-outputs
       - name: Run fastlane
         if: env.run == 'true'
-        run: |
-          bundle install
-          bundle exec fastlane test
+        run: bundle exec fastlane test
         working-directory: ${{ env.directory }}
