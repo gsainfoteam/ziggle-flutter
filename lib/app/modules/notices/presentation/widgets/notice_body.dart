@@ -76,10 +76,9 @@ class _NoticeBodyState extends State<NoticeBody> {
                     font-weight: 400;
                   }
                   #content {
-                    border: 1px solid transparent;
+                    overflow: auto;
                     user-select: none;
                     -webkit-user-select: none;
-                    
                   }
                   p {
                     margin-top: 1rem;
