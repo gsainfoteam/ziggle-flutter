@@ -64,6 +64,12 @@ jobs:
           echo "directory=$(echo ${{ matrix.os }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - uses: actions/checkout@v3
         if: env.run == 'true'
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        if: matrix.os == 'iOS'
+        with:
+          xcode-version: latest-stable
+
       - uses: subosito/flutter-action@v2
         if: env.run == 'true'
         with:
