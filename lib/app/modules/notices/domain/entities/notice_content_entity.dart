@@ -20,22 +20,13 @@ class NoticeContentEntity {
 }
 
 extension NoticeContentsEntityX on List<NoticeContentEntity> {
-  Iterable<NoticeContentEntity> get _main => where(
-        (element) => element.id == 1,
-      );
-  Iterable<NoticeContentEntity> get _additionals => where(
-        (element) => element.id != 1,
-      );
-  NoticeContentEntity get localed =>
-      _main.firstWhereOrNull(
-        (element) => element.lang == LocaleSettings.currentLocale,
-      ) ??
-      _main.single;
-
-  Iterable<NoticeContentEntity> get additional => _additionals
-      .groupFoldBy<int, NoticeContentEntity>(
+  Iterable<NoticeContentEntity> get locales =>
+      groupFoldBy<int, NoticeContentEntity>(
         (element) => element.id,
         (p, e) => e.lang == LocaleSettings.currentLocale || p == null ? e : p,
-      )
-      .values;
+      ).values;
+  NoticeContentEntity get main => locales.firstWhere((e) => e.id == 1);
+  Iterable<NoticeContentEntity> get additionals => locales.where(
+        (e) => e.id != 1,
+      );
 }

@@ -29,7 +29,7 @@ class NoticeCard extends StatelessWidget {
       child: Column(
         children: [
           _Title(
-            title: notice.contents.localed.title,
+            title: notice.contents.main.title,
             author: notice.author,
             createdAt: notice.createdAt,
             deadline: notice.currentDeadline,
@@ -41,7 +41,7 @@ class NoticeCard extends StatelessWidget {
                 .map((e) => e['name'] as String)
                 .map((e) => NoticeType.fromTag(e)?.label ?? e)
                 .toList(),
-            content: notice.contents.localed.body,
+            content: notice.contents.main.body,
           ),
         ],
       ),

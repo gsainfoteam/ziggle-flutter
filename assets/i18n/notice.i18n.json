@@ -52,6 +52,8 @@
   "title": "Notice",
   "createdAt": "Posted at",
   "deadline": "Deadline",
+  "additional": "Additional Notice",
+  "deadlineChanged(rich)": "Deadline Changed: $previous ▶️ $current",
   "views": "Views",
   "report": "Report This Notice"
 }

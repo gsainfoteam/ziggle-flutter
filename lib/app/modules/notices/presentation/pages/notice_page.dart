@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_heade
 import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/additional_notice_content.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -111,7 +112,7 @@ class _Layout extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  notice.contents.localed.title,
+                  notice.contents.main.title,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -173,16 +174,26 @@ class _Layout extends StatelessWidget {
           sliver: SliverToBoxAdapter(
             child: BlocBuilder<NoticeBloc, NoticeState>(
               builder: (context, state) => state.loaded
-                  ? NoticeBody(body: notice.contents.localed.body)
-                  : Text(notice.contents.localed.body),
+                  ? NoticeBody(body: notice.contents.main.body)
+                  : Text(notice.contents.main.body),
             ),
           ),
         ),
         SliverList.separated(
-          itemCount: notice.contents.additional.length,
-          itemBuilder: (context, index) => Text(
-            notice.contents.additional.elementAt(index).body,
-          ),
+          itemCount: notice.contents.additionals.length,
+          itemBuilder: (context, index) {
+            final previous = notice.contents.locales.elementAt(index);
+            final additional = notice.contents.additionals.elementAt(index);
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: AdditionalNoticeContent(
+                body: additional.body,
+                previousDeadline: previous.deadline,
+                deadline: additional.deadline,
+                createdAt: additional.createdAt,
+              ),
+            );
+          },
           separatorBuilder: (context, index) => const Divider(),
         ),
         const SliverToBoxAdapter(child: Divider()),
