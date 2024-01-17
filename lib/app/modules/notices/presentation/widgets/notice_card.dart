@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -28,7 +29,7 @@ class NoticeCard extends StatelessWidget {
       child: Column(
         children: [
           _Title(
-            title: notice.contents.first.title,
+            title: notice.contents.localed.title,
             author: notice.author,
             createdAt: notice.createdAt,
             deadline: notice.currentDeadline,
@@ -40,7 +41,7 @@ class NoticeCard extends StatelessWidget {
                 .map((e) => e['name'] as String)
                 .map((e) => NoticeType.fromTag(e)?.label ?? e)
                 .toList(),
-            content: notice.contents.first.body,
+            content: notice.contents.localed.body,
           ),
         ],
       ),

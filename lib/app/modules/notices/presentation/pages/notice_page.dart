@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
@@ -110,7 +111,7 @@ class _Layout extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  notice.contents.first.title,
+                  notice.contents.localed.title,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -172,12 +173,17 @@ class _Layout extends StatelessWidget {
           sliver: SliverToBoxAdapter(
             child: BlocBuilder<NoticeBloc, NoticeState>(
               builder: (context, state) => state.loaded
-                  ? NoticeBody(
-                      body: notice.contents.first.body,
-                    )
-                  : Text(notice.contents.first.body),
+                  ? NoticeBody(body: notice.contents.localed.body)
+                  : Text(notice.contents.localed.body),
             ),
           ),
+        ),
+        SliverList.separated(
+          itemCount: notice.contents.additional.length,
+          itemBuilder: (context, index) => Text(
+            notice.contents.additional.elementAt(index).body,
+          ),
+          separatorBuilder: (context, index) => const Divider(),
         ),
         const SliverToBoxAdapter(child: Divider()),
         SliverPadding(
