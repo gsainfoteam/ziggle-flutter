@@ -61,6 +61,19 @@ jobs:
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
           cache-path: '${{ runner.tool_cache }}/flutter/:channel:-:version:-:arch:'
 
+      - uses: actions/cache@v3
+        if: env.run == 'true'
+        with:
+          path: ${{ runner.tool_cache }}/.pub-cache
+          key: ${{ runner.os }}-pub-cache-${{ hashFiles('pubspec.lock') }}
+      - uses: actions/cache@v3
+        if: env.run == 'true'
+        with:
+          path: |
+            .dart_tool
+            !.dart_tool/**/*.snapshot
+          key: ${{ runner.os }}-dart-tool-${{ hashFiles('pubspec.lock') }}
+
       - name: Generate files
         run: |
           dart run slang
