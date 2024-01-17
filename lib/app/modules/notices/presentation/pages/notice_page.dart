@@ -37,145 +37,62 @@ class _Layout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notice = context.select((NoticeBloc bloc) => bloc.state.notice);
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: Text(t.notice.title),
-            actions: [
-              if (notice.currentDeadline != null &&
-                  notice.currentDeadline!.toLocal().isAfter(DateTime.now()))
-                IconButton(
-                  onPressed: () {},
-                  icon: Assets.icons.bell.image(),
-                ),
-            ],
-            pinned: true,
+      appBar: AppBar(
+        title: Text(t.notice.title),
+        actions: [
+          BlocBuilder<NoticeBloc, NoticeState>(
+            builder: (context, state) {
+              final notice = state.notice;
+              if (notice.currentDeadline == null) return const SizedBox();
+              if (notice.currentDeadline!.toLocal().isBefore(DateTime.now())) {
+                return const SizedBox();
+              }
+              return IconButton(
+                onPressed: () {},
+                icon: Assets.icons.bell.image(),
+              );
+            },
           ),
-          if (notice.currentDeadline != null)
-            SliverPadding(
-              padding: const EdgeInsets.only(bottom: 20),
-              sliver: SliverPinnedHeader(
-                child: Container(
-                  color: Palette.primary100,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                  child: DefaultTextStyle.merge(
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Palette.background100,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(t.notice.deadline),
-                        Text(
-                          DateFormat.yMd()
-                              .add_Hm()
-                              .format(notice.currentDeadline!),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            sliver: SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    notice.contents.first['title'],
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  DefaultTextStyle.merge(
-                    style: const TextStyle(color: Palette.primary100),
-                    child: Wrap(
-                      spacing: 4,
-                      children: notice.tags
-                          .map((e) => e['name'] as String)
-                          .map((e) => NoticeType.fromTag(e)?.label ?? e)
-                          .map((e) => Text('#$e'))
-                          .toList(),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SliverList.builder(
-            itemCount: notice.imagesUrl.length,
-            itemBuilder: (context, index) => Column(
-              children: [
-                const SizedBox(height: 10),
-                Image.network(notice.imagesUrl[index]),
-              ],
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Assets.icons.fireFlame.image(
-                    height: 32,
-                    fit: BoxFit.contain,
-                  ),
-                  padding: EdgeInsets.zero,
-                ),
-                const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
-                const Spacer(),
-                IconButton(
-                  onPressed: () {},
-                  icon: Assets.icons.shareAndroid.image(),
-                  padding: EdgeInsets.zero,
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -4),
-                  constraints:
-                      const BoxConstraints.tightFor(width: 48, height: 48),
-                ),
-                const SizedBox(width: 8),
-              ],
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            sliver: SliverToBoxAdapter(
-              child: BlocBuilder<NoticeBloc, NoticeState>(
-                builder: (context, state) => state.loaded
-                    ? NoticeBody(
-                        body: notice.contents.first['body'],
-                      )
-                    : Text(notice.contents.first['body']),
-              ),
-            ),
-          ),
-          const SliverToBoxAdapter(child: Divider()),
+        ],
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          final bloc = context.read<NoticeBloc>();
+          bloc.add(NoticeEvent.load(bloc.state.notice));
+          await bloc.stream.firstWhere((state) => state.loaded);
+        },
+        child: _buildScroll(context),
+      ),
+    );
+  }
+
+  Widget _buildScroll(BuildContext context) {
+    final notice = context.select((NoticeBloc bloc) => bloc.state.notice);
+    return CustomScrollView(
+      slivers: [
+        if (notice.currentDeadline != null)
           SliverPadding(
             padding: const EdgeInsets.only(bottom: 20),
-            sliver: SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
+            sliver: SliverPinnedHeader(
+              child: Container(
+                color: Palette.primary100,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 child: DefaultTextStyle.merge(
                   style: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
+                    color: Palette.background100,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(t.notice.views),
+                      Text(t.notice.deadline),
                       Text(
-                        notice.views.toString(),
-                        style: const TextStyle(color: Palette.textGreyDark),
+                        DateFormat.yMd()
+                            .add_Hm()
+                            .format(notice.currentDeadline!),
                       )
                     ],
                   ),
@@ -183,36 +100,136 @@ class _Layout extends StatelessWidget {
               ),
             ),
           ),
-          SliverSafeArea(
-            top: false,
-            sliver: SliverToBoxAdapter(
-              child: Center(
-                child: InkWell(
-                  onTap: () {
-                    HapticFeedback.mediumImpact();
-                  },
-                  child: Text(
-                    t.notice.report,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      shadows: [
-                        Shadow(
-                          color: Palette.textGrey,
-                          offset: Offset(0, -1),
-                        ),
-                      ],
-                      color: Colors.transparent,
-                      fontWeight: FontWeight.w500,
-                      decoration: TextDecoration.underline,
-                      decorationColor: Palette.textGrey,
-                    ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          sliver: SliverToBoxAdapter(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  notice.contents.first['title'],
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                DefaultTextStyle.merge(
+                  style: const TextStyle(color: Palette.primary100),
+                  child: Wrap(
+                    spacing: 4,
+                    children: notice.tags
+                        .map((e) => e['name'] as String)
+                        .map((e) => NoticeType.fromTag(e)?.label ?? e)
+                        .map((e) => Text('#$e'))
+                        .toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SliverList.builder(
+          itemCount: notice.imagesUrl.length,
+          itemBuilder: (context, index) => Column(
+            children: [
+              const SizedBox(height: 10),
+              Image.network(notice.imagesUrl[index]),
+            ],
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {},
+                icon: Assets.icons.fireFlame.image(
+                  height: 32,
+                  fit: BoxFit.contain,
+                ),
+                padding: EdgeInsets.zero,
+              ),
+              const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
+              const Spacer(),
+              IconButton(
+                onPressed: () {},
+                icon: Assets.icons.shareAndroid.image(),
+                padding: EdgeInsets.zero,
+                visualDensity:
+                    const VisualDensity(horizontal: -4, vertical: -4),
+                constraints:
+                    const BoxConstraints.tightFor(width: 48, height: 48),
+              ),
+              const SizedBox(width: 8),
+            ],
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          sliver: SliverToBoxAdapter(
+            child: BlocBuilder<NoticeBloc, NoticeState>(
+              builder: (context, state) => state.loaded
+                  ? NoticeBody(
+                      body: notice.contents.first['body'],
+                    )
+                  : Text(notice.contents.first['body']),
+            ),
+          ),
+        ),
+        const SliverToBoxAdapter(child: Divider()),
+        SliverPadding(
+          padding: const EdgeInsets.only(bottom: 20),
+          sliver: SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: DefaultTextStyle.merge(
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(t.notice.views),
+                    Text(
+                      notice.views.toString(),
+                      style: const TextStyle(color: Palette.textGreyDark),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        SliverSafeArea(
+          top: false,
+          sliver: SliverToBoxAdapter(
+            child: Center(
+              child: InkWell(
+                onTap: () {
+                  HapticFeedback.mediumImpact();
+                },
+                child: Text(
+                  t.notice.report,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    shadows: [
+                      Shadow(
+                        color: Palette.textGrey,
+                        offset: Offset(0, -1),
+                      ),
+                    ],
+                    color: Colors.transparent,
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.underline,
+                    decorationColor: Palette.textGrey,
                   ),
                 ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
