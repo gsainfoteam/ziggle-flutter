@@ -78,7 +78,7 @@ jobs:
             !.dart_tool/**/*.snapshot
           key: ${{ runner.os }}-dart-tool-${{ hashFiles('pubspec.lock') }}
       - uses: actions/cache@v3
-        if: env.run == 'true' && matrix.os == 'macos-13'
+        if: env.run == 'true' && matrix.os == 'iOS'
         with:
           path: |
             ~/.cocoapods
