@@ -70,7 +70,7 @@ class _NoticeBodyState extends State<NoticeBody> {
                   body {
                     margin: 0;
                     padding: 0;
-                    font-family: Pretendard;
+                    font-family: sans-serif;
                     font-size: 1rem;
                     line-height: 1.5;
                     font-weight: 400;
