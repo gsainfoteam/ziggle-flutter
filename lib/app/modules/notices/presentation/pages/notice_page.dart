@@ -6,6 +6,7 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -148,7 +149,13 @@ class _Layout extends StatelessWidget {
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             sliver: SliverToBoxAdapter(
-              child: Text(notice.contents.first['body']),
+              child: BlocBuilder<NoticeBloc, NoticeState>(
+                builder: (context, state) => state.loaded
+                    ? NoticeBody(
+                        body: notice.contents.first['body'],
+                      )
+                    : Text(notice.contents.first['body']),
+              ),
             ),
           ),
           const SliverToBoxAdapter(child: Divider()),
