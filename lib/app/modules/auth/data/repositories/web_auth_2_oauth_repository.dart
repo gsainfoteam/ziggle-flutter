@@ -4,9 +4,8 @@ import 'package:ziggle/app/values/strings.dart';
 
 import '../../../core/domain/repositories/api_channel_repository.dart';
 import '../../domain/entities/oauth_entity.dart';
+import '../../domain/exceptions/invalid_authorization_code_exception.dart';
 import '../../domain/repositories/oauth_repository.dart';
-
-class InvalidAuthorizationCodeException implements Exception {}
 
 @Singleton(as: OAuthRepository)
 class WebAuth2AOuthRepository implements OAuthRepository {
