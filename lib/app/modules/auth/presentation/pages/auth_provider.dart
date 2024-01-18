@@ -11,6 +11,7 @@ class AuthProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
+      lazy: false,
       create: (_) => sl<AuthBloc>()..add(const AuthEvent.load()),
       child: child,
     );
