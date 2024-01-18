@@ -64,7 +64,7 @@ class _Layout extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Assets.icons.user.image(),
-                  onPressed: () {},
+                  onPressed: () => const MyPageRoute().push(context),
                 ),
               ],
               bottom: PreferredSize(
