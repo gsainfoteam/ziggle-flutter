@@ -25,9 +25,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<_Login>((event, emit) async {
       emit(const _Loading());
-      final data = await _oAuthRepository.getAuthorizationCode();
-      final user = await _authRepository.login(data.authCode);
-      emit(_Authenticated(user));
+      try {
+        final data = await _oAuthRepository.getAuthorizationCode();
+        final user = await _authRepository.login(data.authCode);
+        emit(_Authenticated(user));
+      } catch (e) {
+        emit(_Error(e.toString()));
+      }
     });
   }
 }
@@ -46,7 +50,10 @@ class AuthState with _$AuthState {
   const factory AuthState.loading() = _Loading;
   const factory AuthState.authenticated(UserEntity user) = _Authenticated;
   const factory AuthState.guest() = _Guest;
+  const factory AuthState.error(String message) = _Error;
 
   bool get isLoading => this is _Loading;
   UserEntity get user => (this as _Authenticated).user;
+  bool get hasError => this is _Error;
+  String get message => (this as _Error).message;
 }

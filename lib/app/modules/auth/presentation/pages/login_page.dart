@@ -19,7 +19,16 @@ class LoginPage extends StatelessWidget {
             const Spacer(),
             const Text('Login Page'),
             const Spacer(),
-            BlocBuilder<AuthBloc, AuthState>(
+            BlocConsumer<AuthBloc, AuthState>(
+              listenWhen: (_, c) => c.hasError,
+              listener: (context, state) => ScaffoldMessenger.of(context)
+                ..hideCurrentSnackBar()
+                ..showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.red,
+                  ),
+                ),
               builder: (context, state) => ElevatedButton(
                 onPressed: state.isLoading ? null : () => _login(context),
                 child: const Text('Login'),
