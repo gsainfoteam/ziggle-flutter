@@ -15,9 +15,20 @@ class RemoteAuthRepository implements AuthRepository {
 
   RemoteAuthRepository(this._api, this._tokenRepository) {
     _tokenRepository.token.listen((token) async {
-      if (token == null) return _userController.add(null);
-      _userController.add(await _api.info());
+      _userController.add(await _user);
     });
+  }
+
+  Future<UserEntity?> get _user async {
+    try {
+      if (await _tokenRepository.token.first == null) {
+        return null;
+      } else {
+        return await _api.info();
+      }
+    } catch (_) {
+      return null;
+    }
   }
 
   @override
@@ -38,12 +49,7 @@ class RemoteAuthRepository implements AuthRepository {
 
   @override
   Stream<UserEntity?> get user async* {
-    try {
-      final user = await _api.info();
-      yield user;
-    } catch (_) {
-      yield null;
-    }
+    yield await _user;
     yield* _userController.stream;
   }
 }

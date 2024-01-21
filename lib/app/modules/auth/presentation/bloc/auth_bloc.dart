@@ -15,11 +15,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   AuthBloc(this._oAuthRepository, this._authRepository)
       : super(const _Initial()) {
-    on<_Load>((event, emit) {
+    on<_Load>((event, emit) async {
       emit(const _Loading());
-      return emit.forEach(
+      await emit.forEach(
         _authRepository.user,
         onData: (user) => user == null ? const _Guest() : _Authenticated(user),
+        onError: (_, __) => const _Guest(),
       );
     });
     on<_Login>((event, emit) async {
