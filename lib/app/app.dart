@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:upgrader/upgrader.dart';
+import 'package:ziggle/app/modules/auth/presentation/pages/auth_provider.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/strings.dart';
@@ -41,14 +42,16 @@ class _AppState extends State<App> {
             locale: TranslationProvider.of(context).flutterLocale,
             supportedLocales: AppLocaleUtils.supportedLocales,
             localizationsDelegates: GlobalMaterialLocalizations.delegates,
-            builder: (context, child) => UpgradeAlert(
-              upgrader: Upgrader(
-                dialogStyle: UpgradeDialogStyle.cupertino,
-                showIgnore: false,
-                showLater: false,
+            builder: (context, child) => AuthProvider(
+              child: UpgradeAlert(
+                upgrader: Upgrader(
+                  dialogStyle: UpgradeDialogStyle.cupertino,
+                  showIgnore: false,
+                  showLater: false,
+                ),
+                navigatorKey: AppRoutes.config.configuration.navigatorKey,
+                child: child,
               ),
-              navigatorKey: AppRoutes.config.configuration.navigatorKey,
-              child: child,
             ),
           ),
         ),
