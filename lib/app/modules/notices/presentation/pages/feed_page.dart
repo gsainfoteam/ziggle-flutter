@@ -42,7 +42,7 @@ class _Layout extends StatelessWidget {
         onRefresh: () async {
           HapticFeedback.mediumImpact();
           final bloc = context.read<NoticeListBloc>()
-            ..add(const NoticeListEvent.load());
+            ..add(const NoticeListEvent.refresh());
           await bloc.stream.firstWhere((state) => state.loaded);
         },
         child: CustomScrollView(
@@ -69,39 +69,7 @@ class _Layout extends StatelessWidget {
               ],
               bottom: PreferredSize(
                 preferredSize: Size.fromHeight(bottomHeight),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18),
-                    child: Wrap(
-                      spacing: 8,
-                      children: NoticeType.sections
-                          .map(
-                            (e) => ActionChip.elevated(
-                              labelPadding: const EdgeInsets.only(right: 8),
-                              avatar: e.icon.image(
-                                width: 16,
-                                color: e == NoticeType.all
-                                    ? Palette.background100
-                                    : null,
-                              ),
-                              label: Text(e.label),
-                              onPressed: () {
-                                HapticFeedback.lightImpact();
-                              },
-                              labelStyle: TextStyle(
-                                color: e == NoticeType.all
-                                    ? Palette.background100
-                                    : null,
-                              ),
-                              backgroundColor:
-                                  e == NoticeType.all ? Palette.text100 : null,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
+                child: _buildNoticeTypeChips(),
               ),
             ),
             SliverSafeArea(
@@ -122,6 +90,42 @@ class _Layout extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNoticeTypeChips() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: BlocBuilder<NoticeListBloc, NoticeListState>(
+          builder: (context, state) => Wrap(
+            spacing: 8,
+            children: NoticeType.sections
+                .map(
+                  (e) => ActionChip.elevated(
+                    labelPadding: const EdgeInsets.only(right: 8),
+                    avatar: e.icon.image(
+                      width: 16,
+                      color: e == state.type ? Palette.background100 : null,
+                    ),
+                    label: Text(e.label),
+                    onPressed: () {
+                      HapticFeedback.lightImpact();
+                      context
+                          .read<NoticeListBloc>()
+                          .add(NoticeListEvent.load(e));
+                    },
+                    labelStyle: TextStyle(
+                      color: e == state.type ? Palette.background100 : null,
+                    ),
+                    backgroundColor: e == state.type ? Palette.text100 : null,
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ),
     );
