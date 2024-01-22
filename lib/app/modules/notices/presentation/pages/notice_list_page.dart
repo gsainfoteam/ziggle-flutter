@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/enums/notice_type.dart';
 import '../bloc/notice_list_bloc.dart';
+import '../widgets/notice_card.dart';
 
 class NoticeListPage extends StatelessWidget {
   const NoticeListPage({super.key, required this.type});
@@ -67,6 +69,33 @@ class _LayoutState extends State<_Layout> {
                 isCollapsed: _isCollapsed,
                 onChange: (v) => setState(() => _isCollapsed = v),
               ),
+            ),
+          ),
+          SliverSafeArea(
+            sliver: BlocBuilder<NoticeListBloc, NoticeListState>(
+              builder: (context, state) => state.list.isEmpty
+                  ? SliverPadding(
+                      padding: const EdgeInsets.only(top: 8),
+                      sliver: SliverToBoxAdapter(
+                        child: Center(
+                          child: state.loaded
+                              ? Text(t.notice.noNotice)
+                              : const CircularProgressIndicator(),
+                        ),
+                      ),
+                    )
+                  : SliverList.separated(
+                      itemCount: state.list.length,
+                      itemBuilder: (context, index) {
+                        final notice = state.list[index];
+                        return NoticeCard(
+                          notice: notice,
+                          onTapDetail: () =>
+                              NoticeRoute.fromEntity(notice).push(context),
+                        );
+                      },
+                      separatorBuilder: (context, index) => const Divider(),
+                    ),
             ),
           ),
         ],
