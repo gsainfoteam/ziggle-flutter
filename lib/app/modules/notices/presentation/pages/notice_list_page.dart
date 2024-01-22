@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/assets.gen.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/enums/notice_type.dart';
 
@@ -12,7 +15,143 @@ class NoticeListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(type.label),
+        actions: [
+          IconButton(
+            icon: Assets.icons.search.image(),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Assets.icons.editPencil.image(),
+            onPressed: () {},
+          ),
+        ],
       ),
+      body: const _Layout(),
+    );
+  }
+}
+
+class _Layout extends StatefulWidget {
+  const _Layout();
+
+  @override
+  State<_Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<_Layout> {
+  bool _isCollapsed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5) +
+              const EdgeInsets.only(left: 8),
+          sliver: SliverToBoxAdapter(
+            child: _LayoutSelector(
+              isCollapsed: _isCollapsed,
+              onChange: (v) => setState(() => _isCollapsed = v),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _LayoutSelector extends StatelessWidget {
+  const _LayoutSelector({required this.isCollapsed, required this.onChange});
+
+  final bool isCollapsed;
+  final void Function(bool) onChange;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Text(
+          t.notice.layout.label,
+          style: const TextStyle(fontWeight: FontWeight.w600),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          isCollapsed ? t.notice.layout.collapsed : t.notice.layout.large,
+          style: const TextStyle(color: Palette.textGrey),
+        ),
+        const Spacer(),
+        Container(
+          decoration: const BoxDecoration(
+            color: Palette.background200,
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+          ),
+          child: Stack(
+            fit: StackFit.loose,
+            children: [
+              Positioned.fill(
+                child: AnimatedAlign(
+                  duration: const Duration(milliseconds: 200),
+                  curve: Curves.easeOut,
+                  alignment: isCollapsed
+                      ? Alignment.centerLeft
+                      : Alignment.centerRight,
+                  child: FractionallySizedBox(
+                    widthFactor: 0.5,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        color: Palette.black,
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                children: [
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => onChange(true),
+                      borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(5),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 3.5,
+                        ),
+                        child: Assets.icons.tableRows.image(
+                          width: 24,
+                          color: isCollapsed ? Palette.background100 : null,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () => onChange(false),
+                      borderRadius: const BorderRadius.horizontal(
+                        right: Radius.circular(5),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 3.5,
+                        ),
+                        child: Assets.icons.layoutSquare.image(
+                          width: 24,
+                          color: isCollapsed ? null : Palette.background100,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
