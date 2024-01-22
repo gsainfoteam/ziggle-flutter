@@ -26,24 +26,26 @@ class NoticeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        children: [
-          _Title(
-            title: notice.contents.main.title,
-            author: notice.author,
-            createdAt: notice.createdAt,
-            deadline: notice.currentDeadline,
-            onTapDetail: onTapDetail,
-          ),
-          _ImageAction(imagesUrl: notice.imagesUrl),
-          _Content(
-            tags: notice.tags
-                .map((e) => e['name'] as String)
-                .map((e) => NoticeType.fromTag(e)?.label ?? e)
-                .toList(),
-            content: notice.contents.main.body,
-          ),
-        ],
+      child: InkWell(
+        onTap: onTapDetail,
+        child: Column(
+          children: [
+            _Title(
+              title: notice.contents.main.title,
+              author: notice.author,
+              createdAt: notice.createdAt,
+              deadline: notice.currentDeadline,
+            ),
+            _ImageAction(imagesUrl: notice.imagesUrl),
+            _Content(
+              tags: notice.tags
+                  .map((e) => e['name'] as String)
+                  .map((e) => NoticeType.fromTag(e)?.label ?? e)
+                  .toList(),
+              content: notice.contents.main.body,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -55,14 +57,12 @@ class _Title extends StatelessWidget {
     required this.author,
     required this.createdAt,
     required this.deadline,
-    this.onTapDetail,
   });
 
   final String title;
   final String author;
   final DateTime createdAt;
   final DateTime? deadline;
-  final VoidCallback? onTapDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +85,7 @@ class _Title extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              _CreatedAt(createdAt: createdAt, onTapDetail: onTapDetail),
+              _CreatedAt(createdAt: createdAt),
               const Spacer(),
               if (deadline != null) DDay(deadline: deadline!),
             ],
@@ -104,10 +104,9 @@ class _Title extends StatelessWidget {
 }
 
 class _CreatedAt extends StatefulWidget {
-  const _CreatedAt({required this.createdAt, this.onTapDetail});
+  const _CreatedAt({required this.createdAt});
 
   final DateTime createdAt;
-  final VoidCallback? onTapDetail;
 
   @override
   State<_CreatedAt> createState() => _CreatedAtState();
@@ -148,14 +147,11 @@ class _CreatedAtState extends State<_CreatedAt> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: widget.onTapDetail,
-      child: Text(
-        _timeAgo,
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          color: Palette.text300,
-        ),
+    return Text(
+      _timeAgo,
+      style: const TextStyle(
+        fontWeight: FontWeight.w500,
+        color: Palette.text300,
       ),
     );
   }
