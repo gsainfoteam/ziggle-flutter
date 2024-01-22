@@ -10,6 +10,7 @@ import 'package:ziggle/gen/strings.g.dart';
 import '../../domain/enums/notice_type.dart';
 import '../bloc/notice_list_bloc.dart';
 import '../widgets/notice_card.dart';
+import '../widgets/notice_list_item.dart';
 
 class NoticeListPage extends StatelessWidget {
   const NoticeListPage({super.key, required this.type});
@@ -88,11 +89,17 @@ class _LayoutState extends State<_Layout> {
                       itemCount: state.list.length,
                       itemBuilder: (context, index) {
                         final notice = state.list[index];
-                        return NoticeCard(
-                          notice: notice,
-                          onTapDetail: () =>
-                              NoticeRoute.fromEntity(notice).push(context),
-                        );
+                        onTapDetail() =>
+                            NoticeRoute.fromEntity(notice).push(context);
+                        return _isCollapsed
+                            ? NoticeListItem(
+                                notice: notice,
+                                onTapDetail: onTapDetail,
+                              )
+                            : NoticeCard(
+                                notice: notice,
+                                onTapDetail: onTapDetail,
+                              );
                       },
                       separatorBuilder: (context, index) => const Divider(),
                     ),

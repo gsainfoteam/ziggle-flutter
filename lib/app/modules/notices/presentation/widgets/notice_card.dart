@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
@@ -9,6 +7,7 @@ import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_type.dart';
+import 'created_at.dart';
 import 'd_day.dart';
 import 'scrolling_page_indicator.dart';
 
@@ -85,7 +84,7 @@ class _Title extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              _CreatedAt(createdAt: createdAt),
+              CreatedAt(createdAt: createdAt),
               const Spacer(),
               if (deadline != null) DDay(deadline: deadline!),
             ],
@@ -98,60 +97,6 @@ class _Title extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           )
         ],
-      ),
-    );
-  }
-}
-
-class _CreatedAt extends StatefulWidget {
-  const _CreatedAt({required this.createdAt});
-
-  final DateTime createdAt;
-
-  @override
-  State<_CreatedAt> createState() => _CreatedAtState();
-}
-
-class _CreatedAtState extends State<_CreatedAt> {
-  late final Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  String get _timeAgo {
-    final now = DateTime.now();
-    final diff = now.difference(widget.createdAt);
-    if (diff.inDays > 7) {
-      return t.notice.calendar.weeksAgo(n: diff.inDays ~/ 7);
-    }
-    if (diff.inDays > 0) {
-      return t.notice.calendar.daysAgo(n: diff.inDays);
-    }
-    if (diff.inHours > 0) {
-      return t.notice.calendar.hoursAgo(n: diff.inHours);
-    }
-    if (diff.inMinutes > 0) {
-      return t.notice.calendar.minutesAgo(n: diff.inMinutes);
-    }
-    return t.notice.calendar.secondsAgo(n: diff.inSeconds);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      _timeAgo,
-      style: const TextStyle(
-        fontWeight: FontWeight.w500,
-        color: Palette.text300,
       ),
     );
   }
