@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
-import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/notice_entity.dart';
 import '../../domain/entities/notice_list_entity.dart';
+import '../../domain/enums/notice_type.dart';
 import '../../domain/repositories/notice_repository.dart';
 import '../data_sources/remote/notice_api.dart';
 
@@ -18,15 +18,16 @@ class RemoteNoticeRepository implements NoticeRepository {
     int? offset,
     int? limit,
     String? search,
-    List<String>? tags,
+    List<String> tags = const [],
+    NoticeType type = NoticeType.all,
   }) {
     return _api.getNotices(
       offset: offset,
       limit: limit,
       search: search,
-      tags: tags,
+      tags: [if (type.isTag) type.name, ...tags],
       lang: LocaleSettings.currentLocale,
-      orderBy: NoticeSort.recent,
+      orderBy: type.defaultSort,
     );
   }
 

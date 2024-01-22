@@ -4,16 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
-import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/additional_notice_content.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/notice_content_entity.dart';
+import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_type.dart';
+import '../../presentation/bloc/notice_bloc.dart';
+import '../../presentation/widgets/additional_notice_content.dart';
+import '../../presentation/widgets/notice_body.dart';
 
 class NoticePage extends StatelessWidget {
   const NoticePage({super.key, required this.notice});

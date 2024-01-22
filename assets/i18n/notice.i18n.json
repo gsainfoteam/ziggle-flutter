@@ -55,5 +55,11 @@
   "additional": "Additional Notice",
   "deadlineChanged(rich)": "Deadline: $previous ▶️ $current",
   "views": "Views",
-  "report": "Report This Notice"
+  "report": "Report This Notice",
+  "noNotice": "No Notice",
+  "layout": {
+    "label": "Layout",
+    "large": "Large",
+    "collapsed": "Collapsed"
+  }
 }

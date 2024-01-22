@@ -4,6 +4,7 @@ import 'package:ziggle/app/values/palette.dart';
 
 abstract class AppTheme {
   static final theme = ThemeData(
+    colorSchemeSeed: Palette.primary100,
     brightness: Brightness.light,
     fontFamily: Pretendard.fontFamily,
     textTheme: const TextTheme(

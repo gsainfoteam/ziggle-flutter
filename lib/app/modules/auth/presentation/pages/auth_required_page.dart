@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
-import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
+
+import '../bloc/auth_bloc.dart';
+import 'login_page.dart';
 
 class AuthRequiredPage extends StatelessWidget {
   const AuthRequiredPage({super.key, required this.child});

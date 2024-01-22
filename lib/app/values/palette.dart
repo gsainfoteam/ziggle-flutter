@@ -11,6 +11,7 @@ abstract class Palette {
   static const accent200 = Color(0xff8e3000);
 
   static const text100 = Color(0xff000000);
+  static const black = text100;
   static const text200 = Color(0xff2c2c2c);
   static const text300 = Color(0xff6e6e73);
   static const textGreyDark = text300;
@@ -20,5 +21,6 @@ abstract class Palette {
   static const white = background100;
   static const background100 = Color(0xffffffff);
   static const background200 = Color(0xfff5f5f5);
+  static const backgroundGreyLight = background200;
   static const background300 = Color(0xffcccccc);
 }

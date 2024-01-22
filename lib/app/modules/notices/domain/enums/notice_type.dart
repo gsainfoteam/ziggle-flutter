@@ -1,6 +1,8 @@
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import 'notice_sort.dart';
+
 enum NoticeType {
   all,
   hot,
@@ -23,6 +25,8 @@ enum NoticeType {
       }[this]!;
   bool get isTag => tags.contains(this);
   String get label => t.notice.type(type: this);
+  NoticeSort get defaultSort =>
+      {hot: NoticeSort.hot}[this] ?? NoticeSort.recent;
 
   static NoticeType? fromTag(String tag) => {
         'recruit': recruit,

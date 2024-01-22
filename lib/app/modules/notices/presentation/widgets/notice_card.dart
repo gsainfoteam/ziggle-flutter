@@ -1,14 +1,13 @@
-import 'dart:async';
-
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_type.dart';
+import 'created_at.dart';
 import 'd_day.dart';
 import 'scrolling_page_indicator.dart';
 
@@ -24,26 +23,28 @@ class NoticeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        children: [
-          _Title(
-            title: notice.contents.main.title,
-            author: notice.author,
-            createdAt: notice.createdAt,
-            deadline: notice.currentDeadline,
-            onTapDetail: onTapDetail,
-          ),
-          _ImageAction(imagesUrl: notice.imagesUrl),
-          _Content(
-            tags: notice.tags
-                .map((e) => e['name'] as String)
-                .map((e) => NoticeType.fromTag(e)?.label ?? e)
-                .toList(),
-            content: notice.contents.main.body,
-          ),
-        ],
+    return InkWell(
+      onTap: onTapDetail,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
+          children: [
+            _Title(
+              title: notice.contents.main.title,
+              author: notice.author,
+              createdAt: notice.createdAt,
+              deadline: notice.currentDeadline,
+            ),
+            _ImageAction(imagesUrl: notice.imagesUrl),
+            _Content(
+              tags: notice.tags
+                  .map((e) => e['name'] as String)
+                  .map((e) => NoticeType.fromTag(e)?.label ?? e)
+                  .toList(),
+              content: notice.contents.main.body,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -55,14 +56,12 @@ class _Title extends StatelessWidget {
     required this.author,
     required this.createdAt,
     required this.deadline,
-    this.onTapDetail,
   });
 
   final String title;
   final String author;
   final DateTime createdAt;
   final DateTime? deadline;
-  final VoidCallback? onTapDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +84,7 @@ class _Title extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 5),
-              _CreatedAt(createdAt: createdAt, onTapDetail: onTapDetail),
+              CreatedAt(createdAt: createdAt),
               const Spacer(),
               if (deadline != null) DDay(deadline: deadline!),
             ],
@@ -98,64 +97,6 @@ class _Title extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           )
         ],
-      ),
-    );
-  }
-}
-
-class _CreatedAt extends StatefulWidget {
-  const _CreatedAt({required this.createdAt, this.onTapDetail});
-
-  final DateTime createdAt;
-  final VoidCallback? onTapDetail;
-
-  @override
-  State<_CreatedAt> createState() => _CreatedAtState();
-}
-
-class _CreatedAtState extends State<_CreatedAt> {
-  late final Timer _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-
-  String get _timeAgo {
-    final now = DateTime.now();
-    final diff = now.difference(widget.createdAt);
-    if (diff.inDays > 7) {
-      return t.notice.calendar.weeksAgo(n: diff.inDays ~/ 7);
-    }
-    if (diff.inDays > 0) {
-      return t.notice.calendar.daysAgo(n: diff.inDays);
-    }
-    if (diff.inHours > 0) {
-      return t.notice.calendar.hoursAgo(n: diff.inHours);
-    }
-    if (diff.inMinutes > 0) {
-      return t.notice.calendar.minutesAgo(n: diff.inMinutes);
-    }
-    return t.notice.calendar.secondsAgo(n: diff.inSeconds);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: widget.onTapDetail,
-      child: Text(
-        _timeAgo,
-        style: const TextStyle(
-          fontWeight: FontWeight.w500,
-          color: Palette.text300,
-        ),
       ),
     );
   }

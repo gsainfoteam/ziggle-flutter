@@ -5,6 +5,7 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/enums/notice_type.dart';
 import '../bloc/notice_list_bloc.dart';
@@ -42,7 +43,7 @@ class _Layout extends StatelessWidget {
         onRefresh: () async {
           HapticFeedback.mediumImpact();
           final bloc = context.read<NoticeListBloc>()
-            ..add(const NoticeListEvent.load());
+            ..add(const NoticeListEvent.refresh());
           await bloc.stream.firstWhere((state) => state.loaded);
         },
         child: CustomScrollView(
@@ -69,59 +70,104 @@ class _Layout extends StatelessWidget {
               ],
               bottom: PreferredSize(
                 preferredSize: Size.fromHeight(bottomHeight),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18),
-                    child: Wrap(
-                      spacing: 8,
-                      children: NoticeType.sections
-                          .map(
-                            (e) => ActionChip.elevated(
-                              labelPadding: const EdgeInsets.only(right: 8),
-                              avatar: e.icon.image(
-                                width: 16,
-                                color: e == NoticeType.all
-                                    ? Palette.background100
-                                    : null,
-                              ),
-                              label: Text(e.label),
-                              onPressed: () {
-                                HapticFeedback.lightImpact();
-                              },
-                              labelStyle: TextStyle(
-                                color: e == NoticeType.all
-                                    ? Palette.background100
-                                    : null,
-                              ),
-                              backgroundColor:
-                                  e == NoticeType.all ? Palette.text100 : null,
-                            ),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
+                child: _buildNoticeTypeChips(),
               ),
             ),
             SliverSafeArea(
               top: false,
               sliver: BlocBuilder<NoticeListBloc, NoticeListState>(
-                builder: (context, state) => SliverList.separated(
-                  itemCount: state.list.length,
-                  itemBuilder: (context, index) {
-                    final notice = state.list[index];
-                    return NoticeCard(
-                      notice: notice,
-                      onTapDetail: () =>
-                          NoticeRoute.fromEntity(notice).push(context),
-                    );
-                  },
-                  separatorBuilder: (context, index) => const Divider(),
-                ),
+                builder: (context, state) => state.list.isEmpty
+                    ? SliverPadding(
+                        padding: const EdgeInsets.only(top: 8),
+                        sliver: SliverToBoxAdapter(
+                          child: Center(
+                            child: state.loaded
+                                ? Text(t.notice.noNotice)
+                                : const CircularProgressIndicator(),
+                          ),
+                        ),
+                      )
+                    : SliverList.separated(
+                        itemCount: state.list.length,
+                        itemBuilder: (context, index) {
+                          final notice = state.list[index];
+                          return NoticeCard(
+                            notice: notice,
+                            onTapDetail: () =>
+                                NoticeRoute.fromEntity(notice).push(context),
+                          );
+                        },
+                        separatorBuilder: (context, index) => const Divider(),
+                      ),
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNoticeTypeChips() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: BlocBuilder<NoticeListBloc, NoticeListState>(
+          builder: (context, state) => Wrap(
+            spacing: 8,
+            children: NoticeType.sections
+                .map(
+                  (e) => ActionChip.elevated(
+                    labelPadding: const EdgeInsets.only(right: 8),
+                    avatar: e.icon.image(
+                      width: 16,
+                      color: e == state.type ? Palette.background100 : null,
+                    ),
+                    label: Row(
+                      children: [
+                        Text(e.label),
+                        ClipRect(
+                          child: AnimatedSize(
+                            duration: const Duration(milliseconds: 200),
+                            alignment: Alignment.centerLeft,
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: SizedBox(
+                                width: e != state.type ? 0 : null,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    size: 16,
+                                    color: e == state.type
+                                        ? Palette.background100
+                                        : null,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    onPressed: () {
+                      HapticFeedback.lightImpact();
+                      if (e == state.type) {
+                        SectionRoute(type: e).push(context);
+                        return;
+                      }
+                      context
+                          .read<NoticeListBloc>()
+                          .add(NoticeListEvent.load(e));
+                    },
+                    labelStyle: TextStyle(
+                      color: e == state.type ? Palette.background100 : null,
+                    ),
+                    backgroundColor: e == state.type ? Palette.text100 : null,
+                  ),
+                )
+                .toList(),
+          ),
         ),
       ),
     );
