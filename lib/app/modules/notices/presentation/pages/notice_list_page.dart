@@ -48,7 +48,7 @@ class _Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<_Layout> {
-  bool _isCollapsed = false;
+  bool _isCollapsed = true;
 
   @override
   Widget build(BuildContext context) {
