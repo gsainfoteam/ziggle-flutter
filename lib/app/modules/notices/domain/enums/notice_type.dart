@@ -1,6 +1,7 @@
-import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
+
+import 'notice_sort.dart';
 
 enum NoticeType {
   all,

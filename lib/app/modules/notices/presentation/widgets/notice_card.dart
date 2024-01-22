@@ -1,10 +1,10 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_type.dart';
 import 'created_at.dart';

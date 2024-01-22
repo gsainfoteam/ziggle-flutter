@@ -1,7 +1,6 @@
-import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
-
 import '../entities/notice_entity.dart';
 import '../entities/notice_list_entity.dart';
+import '../enums/notice_type.dart';
 
 abstract class NoticeRepository {
   Future<NoticeListEntity> getNotices({
