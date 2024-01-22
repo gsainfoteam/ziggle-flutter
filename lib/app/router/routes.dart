@@ -5,7 +5,9 @@ import 'package:ziggle/app/modules/auth/presentation/pages/auth_required_page.da
 import 'package:ziggle/app/modules/auth/presentation/pages/profile_page.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/feed_page.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/notice_list_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 
@@ -23,6 +25,15 @@ class FeedRoute extends GoRouteData {
   const FeedRoute();
   @override
   Widget build(BuildContext context, GoRouterState state) => const FeedPage();
+}
+
+@TypedGoRoute<SectionRoute>(path: '/section/:type')
+class SectionRoute extends GoRouteData {
+  const SectionRoute({required this.type});
+  final NoticeType type;
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      NoticeListPage(type: type);
 }
 
 @TypedGoRoute<NoticeRoute>(path: '/notice/:id')

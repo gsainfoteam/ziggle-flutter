@@ -123,9 +123,39 @@ class _Layout extends StatelessWidget {
                       width: 16,
                       color: e == state.type ? Palette.background100 : null,
                     ),
-                    label: Text(e.label),
+                    label: Row(
+                      children: [
+                        Text(e.label),
+                        ClipRect(
+                          child: AnimatedSize(
+                            duration: const Duration(milliseconds: 200),
+                            alignment: Alignment.centerLeft,
+                            child: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              child: SizedBox(
+                                width: e != state.type ? 0 : null,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    size: 16,
+                                    color: e == state.type
+                                        ? Palette.background100
+                                        : null,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     onPressed: () {
                       HapticFeedback.lightImpact();
+                      if (e == state.type) {
+                        SectionRoute(type: e).push(context);
+                        return;
+                      }
                       context
                           .read<NoticeListBloc>()
                           .add(NoticeListEvent.load(e));
