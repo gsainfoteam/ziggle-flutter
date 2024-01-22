@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/enums/notice_type.dart';
+import '../bloc/notice_list_bloc.dart';
 
 class NoticeListPage extends StatelessWidget {
   const NoticeListPage({super.key, required this.type});
@@ -12,21 +16,24 @@ class NoticeListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(type.label),
-        actions: [
-          IconButton(
-            icon: Assets.icons.search.image(),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Assets.icons.editPencil.image(),
-            onPressed: () {},
-          ),
-        ],
+    return BlocProvider(
+      create: (_) => sl<NoticeListBloc>()..add(NoticeListEvent.load(type)),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(type.label),
+          actions: [
+            IconButton(
+              icon: Assets.icons.search.image(),
+              onPressed: () {},
+            ),
+            IconButton(
+              icon: Assets.icons.editPencil.image(),
+              onPressed: () {},
+            ),
+          ],
+        ),
+        body: const _Layout(),
       ),
-      body: const _Layout(),
     );
   }
 }
@@ -43,19 +50,27 @@ class _LayoutState extends State<_Layout> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5) +
-              const EdgeInsets.only(left: 8),
-          sliver: SliverToBoxAdapter(
-            child: _LayoutSelector(
-              isCollapsed: _isCollapsed,
-              onChange: (v) => setState(() => _isCollapsed = v),
+    return RefreshIndicator(
+      onRefresh: () async {
+        HapticFeedback.mediumImpact();
+        final bloc = context.read<NoticeListBloc>()
+          ..add(const NoticeListEvent.refresh());
+        await bloc.stream.firstWhere((state) => state.loaded);
+      },
+      child: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5) +
+                const EdgeInsets.only(left: 8),
+            sliver: SliverToBoxAdapter(
+              child: _LayoutSelector(
+                isCollapsed: _isCollapsed,
+                onChange: (v) => setState(() => _isCollapsed = v),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
