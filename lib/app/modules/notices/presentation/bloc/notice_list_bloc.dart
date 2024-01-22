@@ -18,6 +18,20 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       final data = await _repository.getNotices(type: event.type);
       emit(_Loaded(total: data.total, list: data.list, type: event.type));
     });
+    on<_LoadMore>((event, emit) async {
+      if (state is! _Loaded) return;
+      if (state.list.length >= state.total) return;
+      emit(_Loading(total: state.total, list: state.list, type: state.type));
+      final data = await _repository.getNotices(
+        offset: state.list.length,
+        type: state.type,
+      );
+      emit(_Loaded(
+        total: data.total,
+        list: [...state.list, ...data.list],
+        type: state.type,
+      ));
+    });
     on<_Refresh>((event, emit) async {
       emit(_Loading(type: state.type));
       final data = await _repository.getNotices(type: state.type);
@@ -31,6 +45,7 @@ class NoticeListEvent with _$NoticeListEvent {
   const factory NoticeListEvent.load([
     @Default(NoticeType.all) NoticeType type,
   ]) = _Load;
+  const factory NoticeListEvent.loadMore() = _LoadMore;
   const factory NoticeListEvent.refresh() = _Refresh;
 }
 
