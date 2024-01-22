@@ -47,5 +47,6 @@
   "additional": "추가공지",
   "deadlineChanged(rich)": "마감 시각: $previous ▶️ $current",
   "views": "조회수",
-  "report": "공지 신고하기"
+  "report": "공지 신고하기",
+  "noNotice": "공지가 없습니다."
 }
