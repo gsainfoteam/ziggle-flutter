@@ -24,10 +24,10 @@ class NoticeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: InkWell(
-        onTap: onTapDetail,
+    return InkWell(
+      onTap: onTapDetail,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Column(
           children: [
             _Title(
