@@ -3,6 +3,7 @@ part of 'routes.dart';
 @TypedGoRoute<SettingRoute>(
   path: '/setting',
   routes: [
+    TypedGoRoute<NotificationSettingRoute>(path: 'notifications'),
     TypedGoRoute<AboutRoute>(
       path: 'about',
       routes: [
@@ -19,6 +20,12 @@ class SettingRoute extends GoRouteData {
   const SettingRoute();
   @override
   Widget build(context, state) => const SettingPage();
+}
+
+class NotificationSettingRoute extends GoRouteData {
+  const NotificationSettingRoute();
+  @override
+  Widget build(context, state) => const NotificationSettingPage();
 }
 
 class AboutRoute extends GoRouteData {

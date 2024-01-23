@@ -1,6 +1,14 @@
 {
   "ziggle": "지글",
   "title": "설정",
+  "notifications": {
+    "label": "알림",
+    "disabled": {
+      "title": "알림이 꺼져있습니다.",
+      "description": "기기 설정에서 알림을 켜주세요.",
+      "action": "켜기"
+    }
+  },
   "about": "정보",
   "feedback": {
     "label": "피드백",

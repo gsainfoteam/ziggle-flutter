@@ -15,6 +15,10 @@ class SettingPage extends StatelessWidget {
         child: ListBody(
           children: [
             ListTile(
+              title: Text(t.setting.notifications.label),
+              onTap: () => const NotificationSettingRoute().push(context),
+            ),
+            ListTile(
               title: Text(t.setting.about),
               onTap: () => const AboutRoute().push(context),
             ),

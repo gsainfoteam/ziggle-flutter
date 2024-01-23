@@ -1,6 +1,14 @@
 {
   "ziggle": "Ziggle",
   "title": "Setting",
+  "notifications": {
+    "label": "Notifications",
+    "disabled": {
+      "title": "Notifications are turned off",
+      "description": "Visit your device settings to turn on notifications.",
+      "action": "Turn on"
+    }
+  },
   "about": "About",
   "feedback": {
     "label": "Feedback",
