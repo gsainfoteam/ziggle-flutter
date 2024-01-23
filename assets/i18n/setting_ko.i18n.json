@@ -1,0 +1,14 @@
+{
+  "ziggle": "지글",
+  "title": "설정",
+  "about": "정보",
+  "feedback": {
+    "label": "피드백",
+    "title": "피드백 보내기"
+  },
+  "termsOfService": "지글 서비스 약관",
+  "privacyPolicy": "개인정보 보호정책",
+  "openSourceLicenses": "오픈소스 라이선스",
+  "version": "버전",
+  "infoteam": "학생회 정보국, 인포팀"
+}

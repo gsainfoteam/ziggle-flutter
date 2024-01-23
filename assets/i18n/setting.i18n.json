@@ -1,0 +1,14 @@
+{
+  "ziggle": "Ziggle",
+  "title": "Setting",
+  "about": "About",
+  "feedback": {
+    "label": "Feedback",
+    "title": "Send Feedback"
+  },
+  "termsOfService": "Ziggle Terms of Service",
+  "privacyPolicy": "Privacy Policy",
+  "openSourceLicenses": "Open source licenses",
+  "version": "Version",
+  "infoteam": "GSA Infoteam"
+}

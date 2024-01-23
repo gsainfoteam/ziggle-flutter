@@ -1,3 +1,5 @@
+library routes;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -9,67 +11,18 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/feed_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_list_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_page.dart';
+import 'package:ziggle/app/modules/setting/presentation/pages/about_page.dart';
+import 'package:ziggle/app/modules/setting/presentation/pages/feedback_page.dart';
+import 'package:ziggle/app/modules/setting/presentation/pages/license_page.dart';
+import 'package:ziggle/app/modules/setting/presentation/pages/packages_page.dart';
 import 'package:ziggle/app/modules/setting/presentation/pages/setting_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 
+part 'auth_routes.dart';
+part 'notice_routes.dart';
 part 'routes.g.dart';
-
-@TypedGoRoute<SplashRoute>(path: '/splash')
-class SplashRoute extends GoRouteData {
-  const SplashRoute();
-  @override
-  Widget build(BuildContext context, GoRouterState state) => const SplashPage();
-}
-
-@TypedGoRoute<FeedRoute>(path: '/')
-class FeedRoute extends GoRouteData {
-  const FeedRoute();
-  @override
-  Widget build(BuildContext context, GoRouterState state) => const FeedPage();
-}
-
-@TypedGoRoute<SectionRoute>(path: '/section/:type')
-class SectionRoute extends GoRouteData {
-  const SectionRoute({required this.type});
-  final NoticeType type;
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      NoticeListPage(type: type);
-}
-
-@TypedGoRoute<NoticeRoute>(path: '/notice/:id')
-class NoticeRoute extends GoRouteData {
-  const NoticeRoute({required this.id, this.$extra});
-  factory NoticeRoute.fromEntity(NoticeEntity notice) => NoticeRoute(
-        id: notice.id,
-        $extra: NoticeModel.fromEntity(notice).toJson(),
-      );
-  final int id;
-  final Map<String, dynamic>? $extra;
-
-  @override
-  Widget build(BuildContext context, GoRouterState state) => NoticePage(
-        notice: $extra != null
-            ? NoticeModel.fromJson($extra!)
-            : NoticeEntity.fromId(id),
-      );
-}
-
-@TypedGoRoute<MyPageRoute>(path: '/mypage')
-class MyPageRoute extends GoRouteData {
-  const MyPageRoute();
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const AuthRequiredPage(child: ProfilePage());
-}
-
-@TypedGoRoute<SettingRoute>(path: '/setting')
-class SettingRoute extends GoRouteData {
-  const SettingRoute();
-  @override
-  Widget build(BuildContext context, GoRouterState state) =>
-      const SettingPage();
-}
+part 'setting_routes.dart';
+part 'splash_routes.dart';
 
 abstract class AppRoutes {
   static final config = GoRouter(
