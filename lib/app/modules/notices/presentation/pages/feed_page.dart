@@ -9,6 +9,7 @@ import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/enums/notice_type.dart';
 import '../bloc/notice_list_bloc.dart';
+import '../widgets/infinite_scroll.dart';
 import '../widgets/notice_card.dart';
 
 class FeedPage extends StatelessWidget {
@@ -46,7 +47,9 @@ class _Layout extends StatelessWidget {
             ..add(const NoticeListEvent.refresh());
           await bloc.stream.firstWhere((state) => state.loaded);
         },
-        child: CustomScrollView(
+        child: InfiniteScroll(
+          onLoadMore: () => context.read<NoticeListBloc>()
+            ..add(const NoticeListEvent.loadMore()),
           slivers: [
             SliverAppBar(
               toolbarHeight: toolbarHeight,
@@ -88,8 +91,16 @@ class _Layout extends StatelessWidget {
                         ),
                       )
                     : SliverList.separated(
-                        itemCount: state.list.length,
+                        itemCount: state.list.length + (state.loaded ? 0 : 1),
                         itemBuilder: (context, index) {
+                          if (index == state.list.length) {
+                            return const Padding(
+                              padding: EdgeInsets.all(8),
+                              child: Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          }
                           final notice = state.list[index];
                           return NoticeCard(
                             notice: notice,
