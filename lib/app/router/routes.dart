@@ -9,6 +9,7 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/feed_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_list_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_page.dart';
+import 'package:ziggle/app/modules/setting/presentation/pages/setting_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 
 part 'routes.g.dart';
@@ -60,6 +61,14 @@ class MyPageRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) =>
       const AuthRequiredPage(child: ProfilePage());
+}
+
+@TypedGoRoute<SettingRoute>(path: '/setting')
+class SettingRoute extends GoRouteData {
+  const SettingRoute();
+  @override
+  Widget build(BuildContext context, GoRouterState state) =>
+      const SettingPage();
 }
 
 abstract class AppRoutes {
