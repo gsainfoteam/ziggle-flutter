@@ -1,4 +1,7 @@
 {
+  "name": "이름",
+  "studentId": "학번",
+  "email": "메일",
   "ziggle": "지글",
   "title": "설정",
   "notifications": {

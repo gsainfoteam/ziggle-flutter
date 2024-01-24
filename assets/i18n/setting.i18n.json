@@ -1,4 +1,7 @@
 {
+  "name": "Name",
+  "studentId": "Student ID",
+  "email": "Email",
   "ziggle": "Ziggle",
   "title": "Setting",
   "notifications": {
