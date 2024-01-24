@@ -18,6 +18,16 @@ class SettingPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: ListBody(
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              child: Text(
+                t.setting.account.label,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             ListTile(
               title: Text(t.setting.account.logout),
               onTap: () {
@@ -30,10 +40,21 @@ class SettingPage extends StatelessWidget {
               onTap: () => launchUrlString(Strings.withdrawalUrl),
             ),
             const Divider(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              child: Text(
+                t.setting.notifications.label,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             ListTile(
               title: Text(t.setting.notifications.label),
               onTap: () => const NotificationSettingRoute().push(context),
             ),
+            const Divider(),
             ListTile(
               title: Text(t.setting.about),
               onTap: () => const AboutRoute().push(context),
