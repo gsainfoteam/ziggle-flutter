@@ -4,6 +4,11 @@
   "email": "메일",
   "ziggle": "지글",
   "title": "설정",
+  "account": {
+    "label": "계정",
+    "logout": "로그아웃",
+    "withdraw": "회원 탈퇴"
+  },
   "notifications": {
     "label": "알림",
     "disabled": {

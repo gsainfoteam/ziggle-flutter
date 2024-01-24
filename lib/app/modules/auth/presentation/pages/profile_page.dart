@@ -38,37 +38,41 @@ class _Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = context.select((AuthBloc bloc) => bloc.state.user);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Palette.textGreyDark,
-              borderRadius: BorderRadius.circular(80),
-            ),
-            child: ClipOval(
-              child: Transform.scale(
-                alignment: const Alignment(0, -0.5),
-                scale: 1.3,
-                child: const Icon(
-                  Icons.person,
-                  size: 120,
-                  color: Palette.white,
+    return BlocBuilder<AuthBloc, AuthState>(
+      buildWhen: (_, c) => c.hasUser,
+      builder: (context, state) => Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Palette.textGreyDark,
+                  borderRadius: BorderRadius.circular(80),
+                ),
+                child: ClipOval(
+                  child: Transform.scale(
+                    alignment: const Alignment(0, -0.5),
+                    scale: 1.3,
+                    child: const Icon(
+                      Icons.person,
+                      size: 120,
+                      color: Palette.white,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const SizedBox(height: 30),
+              _buildInfo(t.setting.name, state.user.name),
+              const SizedBox(height: 10),
+              _buildInfo(t.setting.studentId, state.user.studentId),
+              const SizedBox(height: 10),
+              _buildInfo(t.setting.email, state.user.email),
+            ],
           ),
-          const SizedBox(height: 30),
-          _buildInfo(t.setting.name, user.name),
-          const SizedBox(height: 10),
-          _buildInfo(t.setting.studentId, user.studentId),
-          const SizedBox(height: 10),
-          _buildInfo(t.setting.email, user.email),
-        ],
+        ),
       ),
     );
   }

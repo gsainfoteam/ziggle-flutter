@@ -4,6 +4,11 @@
   "email": "Email",
   "ziggle": "Ziggle",
   "title": "Setting",
+  "account": {
+    "label": "Account",
+    "logout": "Logout",
+    "withdraw": "Withdraw"
+  },
   "notifications": {
     "label": "Notifications",
     "disabled": {
