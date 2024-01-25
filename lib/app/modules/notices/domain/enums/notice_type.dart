@@ -9,7 +9,9 @@ enum NoticeType {
   recruit,
   event,
   general,
-  academic;
+  academic,
+  written,
+  reminded;
 
   static const writable = [recruit, event, general];
   static const tags = [...writable, academic];
@@ -22,6 +24,8 @@ enum NoticeType {
         event: Assets.icons.flower,
         general: Assets.icons.messageAlert,
         academic: Assets.icons.openBook,
+        written: Assets.icons.editPencil,
+        reminded: Assets.icons.bell,
       }[this]!;
   bool get isTag => tags.contains(this);
   String get label => t.notice.type(type: this);

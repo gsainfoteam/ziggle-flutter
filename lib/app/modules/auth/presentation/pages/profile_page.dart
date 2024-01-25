@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -26,6 +27,8 @@ class ProfilePage extends StatelessWidget {
           children: [
             _Profile(),
             Divider(),
+            _NoticeSectionButton(NoticeType.written),
+            _NoticeSectionButton(NoticeType.reminded),
           ],
         ),
       ),
@@ -65,11 +68,18 @@ class _Profile extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30),
-              _buildInfo(t.setting.name, state.user.name),
-              const SizedBox(height: 10),
-              _buildInfo(t.setting.studentId, state.user.studentId),
-              const SizedBox(height: 10),
-              _buildInfo(t.setting.email, state.user.email),
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Column(
+                  children: [
+                    _buildInfo(t.setting.name, state.user.name),
+                    const SizedBox(height: 10),
+                    _buildInfo(t.setting.studentId, state.user.studentId),
+                    const SizedBox(height: 10),
+                    _buildInfo(t.setting.email, state.user.email),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -96,6 +106,30 @@ class _Profile extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _NoticeSectionButton extends StatelessWidget {
+  const _NoticeSectionButton(this.type);
+  final NoticeType type;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: type.icon.image(),
+      title: Text(type.label),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            t.notice.viewList,
+            style: const TextStyle(fontSize: 14, color: Palette.textGrey),
+          ),
+          const Icon(Icons.chevron_right, color: Palette.textGrey),
+        ],
+      ),
+      onTap: () => SectionRoute(type: type).push(context),
     );
   }
 }
