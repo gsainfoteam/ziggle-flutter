@@ -15,7 +15,8 @@
       "title": "Notifications are turned off",
       "description": "Visit your device settings to turn on notifications.",
       "action": "Turn on"
-    }
+    },
+    "enabled": "Notifications are turned on"
   },
   "about": "About",
   "feedback": {
