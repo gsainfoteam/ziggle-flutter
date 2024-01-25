@@ -43,7 +43,9 @@ dependencies:
   intl: ^0.18.1
   json_annotation: ^4.8.1
   markdown: ^7.1.0
+  package_info_plus: ^5.0.1
   path_provider: ^2.1.1
+  permission_handler: ^11.2.0
   retrofit: ^4.0.1
   rxdart: ^0.27.7
   slang: ^3.21.0
@@ -71,5 +73,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/logo/black.png
+    - assets/logo/transparent.png
     - assets/icons/
     - assets/images/

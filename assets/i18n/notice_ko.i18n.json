@@ -5,7 +5,9 @@
     "recruit": "모집",
     "event": "행사",
     "general": "일반",
-    "academic": "학사"
+    "academic": "학사",
+    "written": "내가 쓴 공지들",
+    "reminded": "리마인드한 공지들"
   },
   "calendar": {
     "weeksAgo": {
@@ -40,6 +42,7 @@
     },
     "overdue": "기한 지남"
   },
+  "viewList": "보기",
   "viewMore(rich)": "... ${more(더 보기)}",
   "title": "공지",
   "createdAt": "작성 시각",

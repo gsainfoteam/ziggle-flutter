@@ -5,7 +5,9 @@
     "recruit": "Recruit",
     "event": "Event",
     "general": "General",
-    "academic": "Academic"
+    "academic": "Academic",
+    "written": "My Notices",
+    "reminded": "Reminded Notices"
   },
   "calendar": {
     "weeksAgo": {
@@ -29,6 +31,7 @@
       "other": "$n seconds ago"
     }
   },
+  "viewList": "View",
   "dday": {
     "daysLeft(rich)": {
       "one": "$n day left",

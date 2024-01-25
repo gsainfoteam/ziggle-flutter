@@ -1,0 +1,31 @@
+{
+  "name": "이름",
+  "studentId": "학번",
+  "email": "메일",
+  "ziggle": "지글",
+  "title": "설정",
+  "account": {
+    "label": "계정",
+    "logout": "로그아웃",
+    "withdraw": "회원 탈퇴"
+  },
+  "notifications": {
+    "label": "알림",
+    "disabled": {
+      "title": "알림이 꺼져있습니다.",
+      "description": "기기 설정에서 알림을 켜주세요.",
+      "action": "켜기"
+    },
+    "enabled": "알림이 켜져있습니다."
+  },
+  "about": "정보",
+  "feedback": {
+    "label": "피드백",
+    "title": "피드백 보내기"
+  },
+  "termsOfService": "지글 서비스 약관",
+  "privacyPolicy": "개인정보 보호정책",
+  "openSourceLicenses": "오픈소스 라이선스",
+  "version": "버전",
+  "infoteam": "학생회 정보국, 인포팀"
+}

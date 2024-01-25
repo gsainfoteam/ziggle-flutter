@@ -33,6 +33,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(_Error(e.toString()));
       }
     });
+    on<_Logout>((event, emit) async {
+      emit(const _Loading());
+      await _oAuthRepository.setRecentLogout();
+      await _authRepository.logout();
+      emit(const _Guest());
+    });
   }
 }
 
@@ -40,6 +46,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 class AuthEvent with _$AuthEvent {
   const factory AuthEvent.load() = _Load;
   const factory AuthEvent.login() = _Login;
+  const factory AuthEvent.logout() = _Logout;
 }
 
 @freezed
@@ -54,6 +61,7 @@ class AuthState with _$AuthState {
 
   bool get isLoading => this is _Loading;
   UserEntity get user => (this as _Authenticated).user;
+  bool get hasUser => this is _Authenticated;
   bool get hasError => this is _Error;
   String get message => (this as _Error).message;
 }

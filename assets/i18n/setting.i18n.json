@@ -1,0 +1,31 @@
+{
+  "name": "Name",
+  "studentId": "Student ID",
+  "email": "Email",
+  "ziggle": "Ziggle",
+  "title": "Setting",
+  "account": {
+    "label": "Account",
+    "logout": "Logout",
+    "withdraw": "Withdraw"
+  },
+  "notifications": {
+    "label": "Notifications",
+    "disabled": {
+      "title": "Notifications are turned off",
+      "description": "Visit your device settings to turn on notifications.",
+      "action": "Turn on"
+    },
+    "enabled": "Notifications are turned on"
+  },
+  "about": "About",
+  "feedback": {
+    "label": "Feedback",
+    "title": "Send Feedback"
+  },
+  "termsOfService": "Ziggle Terms of Service",
+  "privacyPolicy": "Privacy Policy",
+  "openSourceLicenses": "Open source licenses",
+  "version": "Version",
+  "infoteam": "GSA Infoteam"
+}

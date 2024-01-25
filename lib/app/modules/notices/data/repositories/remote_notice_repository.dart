@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/notices/data/enums/notice_my.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
@@ -28,6 +29,7 @@ class RemoteNoticeRepository implements NoticeRepository {
       tags: [if (type.isTag) type.name, ...tags],
       lang: LocaleSettings.currentLocale,
       orderBy: type.defaultSort,
+      my: NoticeMy.fromType(type),
     );
   }
 
