@@ -9,6 +9,7 @@ import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/enums/notice_type.dart';
 import '../bloc/notice_list_bloc.dart';
+import '../widgets/infinite_scroll.dart';
 import '../widgets/notice_card.dart';
 import '../widgets/notice_list_item.dart';
 
@@ -60,7 +61,9 @@ class _LayoutState extends State<_Layout> {
           ..add(const NoticeListEvent.refresh());
         await bloc.stream.firstWhere((state) => state.loaded);
       },
-      child: CustomScrollView(
+      child: InfiniteScroll(
+        onLoadMore: () => context.read<NoticeListBloc>()
+          ..add(const NoticeListEvent.loadMore()),
         slivers: [
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5) +
@@ -86,8 +89,16 @@ class _LayoutState extends State<_Layout> {
                       ),
                     )
                   : SliverList.separated(
-                      itemCount: state.list.length,
+                      itemCount: state.list.length + (state.loaded ? 0 : 1),
                       itemBuilder: (context, index) {
+                        if (index == state.list.length) {
+                          return const Padding(
+                            padding: EdgeInsets.all(8),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        }
                         final notice = state.list[index];
                         onTapDetail() =>
                             NoticeRoute.fromEntity(notice).push(context);
