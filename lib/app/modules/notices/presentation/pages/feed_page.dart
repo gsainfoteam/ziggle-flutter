@@ -60,7 +60,7 @@ class _Layout extends StatelessWidget {
               actions: [
                 IconButton(
                   icon: Assets.icons.search.image(),
-                  onPressed: () {},
+                  onPressed: () => const SearchRoute().push(context),
                 ),
                 IconButton(
                   icon: Assets.icons.editPencil.image(),
@@ -169,7 +169,7 @@ class _Layout extends StatelessWidget {
                       }
                       context
                           .read<NoticeListBloc>()
-                          .add(NoticeListEvent.load(e));
+                          .add(NoticeListEvent.load(type: e));
                     },
                     labelStyle: TextStyle(
                       color: e == state.type ? Palette.background100 : null,

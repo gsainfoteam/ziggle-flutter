@@ -56,5 +56,6 @@
     "label": "레이아웃",
     "large": "크게",
     "collapsed": "작게"
-  }
+  },
+  "searchHint": "검색어를 입력하세요"
 }

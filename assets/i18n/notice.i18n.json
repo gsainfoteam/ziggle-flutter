@@ -64,5 +64,6 @@
     "label": "Layout",
     "large": "Large",
     "collapsed": "Collapsed"
-  }
+  },
+  "searchHint": "Enter search keyword"
 }

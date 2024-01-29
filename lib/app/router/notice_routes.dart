@@ -32,3 +32,10 @@ class NoticeRoute extends GoRouteData {
             : NoticeEntity.fromId(id),
       );
 }
+
+@TypedGoRoute<SearchRoute>(path: '/search')
+class SearchRoute extends GoRouteData {
+  const SearchRoute();
+  @override
+  Widget build(context, state) => const SearchPage();
+}
