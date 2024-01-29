@@ -42,6 +42,7 @@ class _Layout extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(t.notice.title),
+        leadingWidth: Theme.of(context).appBarTheme.toolbarHeight!,
         actions: [
           BlocBuilder<NoticeBloc, NoticeState>(
             builder: (context, state) {
