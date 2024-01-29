@@ -9,11 +9,9 @@ import '../../domain/repositories/notice_repository.dart';
 
 part 'notice_list_bloc.freezed.dart';
 
-Stream<T> _debouncer<T>(Stream<T> events, Stream<T> Function(T) mapper) =>
-    ConcatStream([
-      events.take(1),
-      events.debounceTime(const Duration(milliseconds: 500)),
-    ]).switchMap(mapper);
+Stream<T> _thottle<T>(Stream<T> events, Stream<T> Function(T) mapper) => events
+    .throttleTime(const Duration(milliseconds: 500), trailing: true)
+    .switchMap(mapper);
 
 @injectable
 class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
@@ -22,6 +20,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
 
   NoticeListBloc(this._repository) : super(const _Initial()) {
     on<_Load>((event, emit) async {
+      if (event.query != null && _query == event.query) return;
       emit(_Loading(type: event.type));
       final data = await _repository.getNotices(
         type: event.type,
@@ -29,7 +28,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       );
       _query = event.query;
       emit(_Loaded(total: data.total, list: data.list, type: event.type));
-    }, transformer: _debouncer);
+    }, transformer: _thottle);
     on<_LoadMore>((event, emit) async {
       if (state is! _Loaded) return;
       if (state.list.length >= state.total) return;
@@ -50,7 +49,10 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       );
       emit(_Loaded(total: data.total, list: data.list, type: state.type));
     });
-    on<_Reset>((event, emit) => emit(const _Initial()));
+    on<_Reset>((event, emit) {
+      _query = null;
+      emit(const _Initial());
+    });
   }
 }
 
