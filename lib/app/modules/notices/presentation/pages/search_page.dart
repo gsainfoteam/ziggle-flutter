@@ -89,8 +89,14 @@ class _LayoutState extends State<_Layout> {
                     borderSide: BorderSide.none,
                   ),
                   contentPadding: const EdgeInsets.all(10),
-                  prefixIcon: Assets.icons.search.image(
-                    color: Palette.textGreyDark,
+                  prefixIcon: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Assets.icons.search.svg(
+                      colorFilter: const ColorFilter.mode(
+                        Palette.textGreyDark,
+                        BlendMode.srcIn,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -103,10 +109,13 @@ class _LayoutState extends State<_Layout> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Assets.icons.search.image(
+                    Assets.icons.search.svg(
                       width: 100,
                       height: 100,
-                      color: Palette.textGrey,
+                      colorFilter: const ColorFilter.mode(
+                        Palette.textGreyDark,
+                        BlendMode.srcIn,
+                      ),
                       fit: BoxFit.contain,
                     ),
                     const SizedBox(height: 8),

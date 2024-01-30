@@ -72,7 +72,7 @@ class _Title extends StatelessWidget {
         children: [
           Row(
             children: [
-              Assets.icons.profileCircle.image(height: 24),
+              Assets.icons.profileCircle.svg(height: 24),
               const SizedBox(width: 8),
               Text(author, style: const TextStyle(fontWeight: FontWeight.w500)),
               const SizedBox(width: 5),
@@ -156,7 +156,7 @@ class _ImageActionState extends State<_ImageAction> {
               children: [
                 IconButton(
                   onPressed: () {},
-                  icon: Assets.icons.fireFlame.image(
+                  icon: Assets.icons.fireFlame.svg(
                     height: 32,
                     fit: BoxFit.contain,
                   ),
@@ -166,7 +166,7 @@ class _ImageActionState extends State<_ImageAction> {
                 const Spacer(),
                 IconButton(
                   onPressed: () {},
-                  icon: Assets.icons.shareAndroid.image(),
+                  icon: Assets.icons.shareAndroid.svg(),
                   padding: EdgeInsets.zero,
                   visualDensity:
                       const VisualDensity(horizontal: -4, vertical: -4),
@@ -175,7 +175,7 @@ class _ImageActionState extends State<_ImageAction> {
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Assets.icons.bell.image(),
+                  icon: Assets.icons.bell.svg(),
                   padding: EdgeInsets.zero,
                   visualDensity:
                       const VisualDensity(horizontal: -4, vertical: -4),

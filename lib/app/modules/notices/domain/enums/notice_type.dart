@@ -17,7 +17,7 @@ enum NoticeType {
   static const tags = [...writable, academic];
   static const sections = [all, hot, ...tags];
 
-  AssetGenImage get icon => {
+  SvgGenImage get icon => {
         all: Assets.icons.clock,
         hot: Assets.icons.fireFlame,
         recruit: Assets.icons.community,

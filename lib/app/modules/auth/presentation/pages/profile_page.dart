@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () => const SettingRoute().push(context),
-            icon: Assets.icons.settings.image(),
+            icon: Assets.icons.settings.svg(),
           ),
         ],
       ),
@@ -117,7 +117,7 @@ class _NoticeSectionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: type.icon.image(),
+      leading: type.icon.svg(),
       title: Text(type.label),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

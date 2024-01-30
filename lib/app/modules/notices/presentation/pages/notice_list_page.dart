@@ -29,11 +29,11 @@ class NoticeListPage extends StatelessWidget {
           leadingWidth: Theme.of(context).appBarTheme.toolbarHeight!,
           actions: [
             IconButton(
-              icon: Assets.icons.search.image(),
+              icon: Assets.icons.search.svg(),
               onPressed: () => const SearchRoute().push(context),
             ),
             IconButton(
-              icon: Assets.icons.editPencil.image(),
+              icon: Assets.icons.editPencil.svg(),
               onPressed: () {},
             ),
           ],
@@ -184,9 +184,12 @@ class _LayoutSelector extends StatelessWidget {
                           horizontal: 10,
                           vertical: 3.5,
                         ),
-                        child: Assets.icons.tableRows.image(
+                        child: Assets.icons.tableRows.svg(
                           width: 24,
-                          color: isCollapsed ? Palette.background100 : null,
+                          colorFilter: isCollapsed
+                              ? const ColorFilter.mode(
+                                  Palette.background100, BlendMode.srcIn)
+                              : null,
                         ),
                       ),
                     ),
@@ -203,9 +206,12 @@ class _LayoutSelector extends StatelessWidget {
                           horizontal: 10,
                           vertical: 3.5,
                         ),
-                        child: Assets.icons.layoutSquare.image(
+                        child: Assets.icons.layoutSquare.svg(
                           width: 24,
-                          color: isCollapsed ? null : Palette.background100,
+                          colorFilter: isCollapsed
+                              ? null
+                              : const ColorFilter.mode(
+                                  Palette.background100, BlendMode.srcIn),
                         ),
                       ),
                     ),
