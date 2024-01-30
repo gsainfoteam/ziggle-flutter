@@ -11,6 +11,7 @@ part 'notice_list_bloc.freezed.dart';
 
 Stream<T> _thottle<T>(Stream<T> events, Stream<T> Function(T) mapper) => events
     .throttleTime(const Duration(milliseconds: 500), trailing: true)
+    .distinct()
     .switchMap(mapper);
 
 @injectable
@@ -19,15 +20,19 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
   String? _query;
 
   NoticeListBloc(this._repository) : super(const _Initial()) {
-    on<_Load>((event, emit) async {
-      if (event.query != null && _query == event.query) return;
-      emit(_Loading(type: event.type));
-      final data = await _repository.getNotices(
-        type: event.type,
-        search: event.query,
-      );
-      _query = event.query;
-      emit(_Loaded(total: data.total, list: data.list, type: event.type));
+    on<_Droppable>((event, emit) async {
+      if (event is _Load) {
+        emit(_Loading(type: event.type));
+        final data = await _repository.getNotices(
+          type: event.type,
+          search: event.query,
+        );
+        _query = event.query;
+        emit(_Loaded(total: data.total, list: data.list, type: event.type));
+      } else if (event is _Reset) {
+        _query = null;
+        emit(_Initial(type: state.type));
+      }
     }, transformer: _thottle);
     on<_LoadMore>((event, emit) async {
       if (state is! _Loaded) return;
@@ -49,23 +54,23 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       );
       emit(_Loaded(total: data.total, list: data.list, type: state.type));
     });
-    on<_Reset>((event, emit) {
-      _query = null;
-      emit(const _Initial());
-    });
   }
 }
 
 @freezed
 class NoticeListEvent with _$NoticeListEvent {
+  @Implements<_Droppable>()
   const factory NoticeListEvent.load({
     @Default(NoticeType.all) NoticeType type,
     String? query,
   }) = _Load;
   const factory NoticeListEvent.loadMore() = _LoadMore;
   const factory NoticeListEvent.refresh() = _Refresh;
+  @Implements<_Droppable>()
   const factory NoticeListEvent.reset() = _Reset;
 }
+
+mixin _Droppable on NoticeListEvent {}
 
 @freezed
 class NoticeListState with _$NoticeListState {
