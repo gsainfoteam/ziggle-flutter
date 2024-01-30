@@ -53,7 +53,7 @@ class _Layout extends StatelessWidget {
               }
               return IconButton(
                 onPressed: () {},
-                icon: Assets.icons.bell.image(),
+                icon: Assets.icons.bell.svg(),
               );
             },
           ),
@@ -149,7 +149,7 @@ class _Layout extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {},
-                icon: Assets.icons.fireFlame.image(
+                icon: Assets.icons.fireFlame.svg(
                   height: 32,
                   fit: BoxFit.contain,
                 ),
@@ -159,7 +159,7 @@ class _Layout extends StatelessWidget {
               const Spacer(),
               IconButton(
                 onPressed: () {},
-                icon: Assets.icons.shareAndroid.image(),
+                icon: Assets.icons.shareAndroid.svg(),
                 padding: EdgeInsets.zero,
                 visualDensity:
                     const VisualDensity(horizontal: -4, vertical: -4),

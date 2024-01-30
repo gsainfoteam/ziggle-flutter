@@ -51,7 +51,7 @@ class NoticeListItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Assets.icons.fireFlame.image(height: 24),
+                Assets.icons.fireFlame.svg(height: 24),
                 const SizedBox(width: 4),
                 const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
                 const SizedBox(width: 5),

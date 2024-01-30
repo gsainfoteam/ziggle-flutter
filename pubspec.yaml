@@ -76,3 +76,7 @@ flutter:
     - assets/logo/transparent.png
     - assets/icons/
     - assets/images/
+  
+flutter_gen:
+  integrations:
+    flutter_svg: true

@@ -59,15 +59,15 @@ class _Layout extends StatelessWidget {
               ),
               actions: [
                 IconButton(
-                  icon: Assets.icons.search.image(),
+                  icon: Assets.icons.search.svg(),
                   onPressed: () => const SearchRoute().push(context),
                 ),
                 IconButton(
-                  icon: Assets.icons.editPencil.image(),
+                  icon: Assets.icons.editPencil.svg(),
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Assets.icons.user.image(),
+                  icon: Assets.icons.user.svg(),
                   onPressed: () => const MyPageRoute().push(context),
                 ),
               ],
@@ -130,9 +130,12 @@ class _Layout extends StatelessWidget {
                 .map(
                   (e) => ActionChip.elevated(
                     labelPadding: const EdgeInsets.only(right: 8),
-                    avatar: e.icon.image(
+                    avatar: e.icon.svg(
                       width: 16,
-                      color: e == state.type ? Palette.background100 : null,
+                      colorFilter: e == state.type
+                          ? const ColorFilter.mode(
+                              Palette.background100, BlendMode.srcIn)
+                          : null,
                     ),
                     label: Row(
                       children: [
