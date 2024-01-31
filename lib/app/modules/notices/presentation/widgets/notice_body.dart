@@ -81,8 +81,9 @@ class _NoticeBodyState extends State<NoticeBody> {
                     user-select: none;
                     -webkit-user-select: none;
                   }
-                  #content * {
-                    max-width: 100%;
+                  #content *[style*="width"] {
+                    width: auto !important;
+                    word-break: break-all;
                   }
                   p {
                     margin-top: 1rem;
