@@ -48,7 +48,7 @@
   "createdAt": "작성 시각",
   "deadline": "마감 시각",
   "additional": "추가공지",
-  "deadlineChanged(rich)": "마감 시각: $previous ▶️ $current",
+  "deadlineChanged": "마감 시각 변경 :",
   "views": "조회수",
   "report": "공지 신고하기",
   "noNotice": "공지가 없습니다.",

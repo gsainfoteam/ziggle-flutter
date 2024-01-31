@@ -207,7 +207,7 @@ class _Layout extends StatelessWidget {
             ),
           ),
         ),
-        SliverList.separated(
+        SliverList.builder(
           itemCount: notice.contents.additionals.length,
           itemBuilder: (context, index) {
             final previous = notice.contents.locales.elementAt(index);
@@ -222,7 +222,6 @@ class _Layout extends StatelessWidget {
               ),
             );
           },
-          separatorBuilder: (context, index) => const Divider(),
         ),
         const SliverToBoxAdapter(child: Divider()),
         SliverPadding(

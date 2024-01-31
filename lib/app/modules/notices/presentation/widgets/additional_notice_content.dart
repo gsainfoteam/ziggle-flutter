@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class AdditionalNoticeContent extends StatelessWidget {
@@ -21,31 +22,46 @@ class AdditionalNoticeContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          t.notice.additional,
-          style: const TextStyle(fontWeight: FontWeight.w500),
+        Row(
+          children: [
+            Text(
+              t.notice.additional,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Palette.textGreyDark,
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Expanded(child: Divider()),
+          ],
         ),
         if (previousDeadline != deadline)
-          Row(
-            children: [
-              Text.rich(
-                t.notice.deadlineChanged(
-                  previous: TextSpan(
-                    text: DateFormat.yMd()
+          DefaultTextStyle.merge(
+            style: const TextStyle(color: Palette.primary100),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(t.notice.deadlineChanged),
+                Row(
+                  children: [
+                    Text(DateFormat.yMd()
                         .add_Hm()
-                        .format(previousDeadline!.toLocal()),
-                  ),
-                  current: TextSpan(
-                    text: DateFormat.yMd().add_Hm().format(deadline!.toLocal()),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                        .format(previousDeadline!.toLocal())),
+                    const Text(' ▶ ️'),
+                    Text(
+                      DateFormat.yMd()
+                          .add_Hm()
+                          .format(previousDeadline!.toLocal()),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-                style: const TextStyle(color: Colors.red),
-              ),
-              const SizedBox(width: 4),
-            ],
+              ],
+            ),
           ),
         Text(body),
+        const SizedBox(height: 20),
       ],
     );
   }
