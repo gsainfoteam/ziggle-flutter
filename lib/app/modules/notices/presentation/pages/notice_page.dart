@@ -200,6 +200,26 @@ class _Layout extends StatelessWidget {
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           sliver: SliverToBoxAdapter(
+            child: DefaultTextStyle.merge(
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Palette.textGreyDark,
+              ),
+              child: Text.rich(
+                t.notice.views(
+                  views: TextSpan(
+                    text: notice.views.toString(),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          sliver: SliverToBoxAdapter(
             child: BlocBuilder<NoticeBloc, NoticeState>(
               builder: (context, state) => state.loaded
                   ? NoticeBody(body: notice.contents.main.body)
@@ -222,31 +242,6 @@ class _Layout extends StatelessWidget {
               ),
             );
           },
-        ),
-        const SliverToBoxAdapter(child: Divider()),
-        SliverPadding(
-          padding: const EdgeInsets.only(bottom: 20),
-          sliver: SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: DefaultTextStyle.merge(
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(t.notice.views),
-                    Text(
-                      notice.views.toString(),
-                      style: const TextStyle(color: Palette.textGreyDark),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
         ),
         SliverSafeArea(
           top: false,

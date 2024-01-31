@@ -49,7 +49,7 @@
   "deadline": "마감 시각",
   "additional": "추가공지",
   "deadlineChanged": "마감 시각 변경 :",
-  "views": "조회수",
+  "views(rich)": "조회수 ${views}",
   "report": "공지 신고하기",
   "noNotice": "공지가 없습니다.",
   "layout": {

@@ -57,7 +57,7 @@
   "deadline": "Deadline",
   "additional": "Additional Notice",
   "deadlineChanged": "Deadline Changed :",
-  "views": "Views",
+  "views(rich)": "Views ${views}",
   "report": "Report This Notice",
   "noNotice": "No Notice",
   "layout": {
