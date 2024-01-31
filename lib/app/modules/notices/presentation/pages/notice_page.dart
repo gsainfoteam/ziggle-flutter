@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
+import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -247,7 +248,8 @@ class _Layout extends StatelessWidget {
           top: false,
           sliver: SliverToBoxAdapter(
             child: Center(
-              child: InkWell(
+              child: ZiggleButton(
+                color: Colors.transparent,
                 onTap: () {
                   HapticFeedback.mediumImpact();
                 },
