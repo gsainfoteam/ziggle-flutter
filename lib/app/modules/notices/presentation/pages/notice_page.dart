@@ -112,12 +112,39 @@ class _Layout extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    Assets.icons.profileCircle.svg(height: 24),
+                    const SizedBox(width: 8),
+                    Text(
+                      notice.author,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(width: 5),
+                    const Text(
+                      '·',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Palette.text300,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      DateFormat.yMd().add_Hm().format(notice.createdAt),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Palette.text300,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
                 Text(
                   notice.contents.main.title,
                   style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+                      fontWeight: FontWeight.w600, fontSize: 16),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 10),
                 DefaultTextStyle.merge(
