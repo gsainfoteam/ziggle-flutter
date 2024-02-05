@@ -41,4 +41,9 @@ class RemoteNoticeRepository implements NoticeRepository {
   Future<NoticeEntity> addReaction(int id, String emoji) {
     return _api.addReaction(id, emoji);
   }
+
+  @override
+  Future<NoticeEntity> removeReaction(int id, String emoji) {
+    return _api.removeReaction(id, emoji);
+  }
 }

@@ -28,6 +28,12 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
       final data = await _repository.addReaction(state.notice.id, event.emoji);
       emit(_Loaded(data));
     });
+    on<_RemoveReaction>((event, emit) async {
+      emit(_Loading(state.notice));
+      final data =
+          await _repository.removeReaction(state.notice.id, event.emoji);
+      emit(_Loaded(data));
+    });
   }
 }
 
@@ -36,6 +42,7 @@ class NoticeEvent with _$NoticeEvent {
   const factory NoticeEvent.load(NoticeEntity notice) = _Load;
   const factory NoticeEvent.refresh() = _Refresh;
   const factory NoticeEvent.addReaction(String emoji) = _AddReaction;
+  const factory NoticeEvent.removeReaction(String emoji) = _RemoveReaction;
 }
 
 @freezed

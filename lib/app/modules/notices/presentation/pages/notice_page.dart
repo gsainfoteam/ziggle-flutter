@@ -212,9 +212,11 @@ class _Layout extends StatelessWidget {
                     selected: selected,
                     count: notice.reactionsBy(reaction),
                     onTap: userId != null
-                        ? () => context
-                            .read<NoticeBloc>()
-                            .add(NoticeEvent.addReaction(reaction.emoji))
+                        ? () => context.read<NoticeBloc>().add(
+                              selected
+                                  ? NoticeEvent.removeReaction(reaction.emoji)
+                                  : NoticeEvent.addReaction(reaction.emoji),
+                            )
                         : () => const LoginRoute().push(context),
                   );
                 },
