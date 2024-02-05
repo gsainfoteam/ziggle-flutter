@@ -11,6 +11,7 @@ import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
+import '../../domain/enums/notice_reaction.dart';
 import '../../domain/enums/notice_type.dart';
 import '../../presentation/bloc/notice_bloc.dart';
 import '../../presentation/widgets/additional_notice_content.dart';
@@ -172,30 +173,41 @@ class _Layout extends StatelessWidget {
             ],
           ),
         ),
-        SliverToBoxAdapter(
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Assets.icons.fireFlame.svg(
-                  height: 32,
-                  fit: BoxFit.contain,
-                ),
-                padding: EdgeInsets.zero,
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          sliver: SliverToBoxAdapter(
+            child: SizedBox(
+              height: 30,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) =>
+                    index == NoticeReation.values.length
+                        ? _ChipButton(
+                            onTap: () {},
+                            selected: false,
+                            child: Row(
+                              children: [
+                                Assets.icons.shareAndroid.svg(width: 20),
+                                Text(
+                                  t.notice.share,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : _ReactionButton(
+                            icon: NoticeReation.values[index].icon,
+                            selected: false,
+                            onTap: () {},
+                          ),
+                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                itemCount: NoticeReation.values.length + 1,
               ),
-              const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
-              const Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: Assets.icons.shareAndroid.svg(),
-                padding: EdgeInsets.zero,
-                visualDensity:
-                    const VisualDensity(horizontal: -4, vertical: -4),
-                constraints:
-                    const BoxConstraints.tightFor(width: 48, height: 48),
-              ),
-              const SizedBox(width: 8),
-            ],
+            ),
           ),
         ),
         SliverPadding(
@@ -276,4 +288,55 @@ class _Layout extends StatelessWidget {
       ],
     );
   }
+}
+
+class _ChipButton extends ZiggleButton {
+  _ChipButton({
+    super.child,
+    super.onTap,
+    bool selected = false,
+  }) : super(
+          color: selected ? Palette.primary100 : Palette.backgroundGreyLight,
+          textColor: selected ? Palette.background100 : Palette.black,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        );
+}
+
+class _ReactionButton extends _ChipButton {
+  _ReactionButton({
+    required Widget icon,
+    super.onTap,
+    super.selected,
+  }) : super(
+          child: Center(
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  WidgetSpan(
+                    child: IconTheme(
+                      data: const IconThemeData(size: 20),
+                      child: SizedBox(
+                        width: 20,
+                        child: icon,
+                      ),
+                    ),
+                    alignment: PlaceholderAlignment.middle,
+                  ),
+                  const WidgetSpan(child: SizedBox(width: 8)),
+                  const TextSpan(
+                    text: '3',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+              strutStyle: const StrutStyle(forceStrutHeight: true),
+            ),
+          ),
+        );
 }
