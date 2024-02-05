@@ -6,6 +6,7 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -212,9 +213,11 @@ class _Layout extends StatelessWidget {
                     count: notice.reactions
                         .where((e) => e.emoji == reaction.emoji)
                         .length,
-                    onTap: () => context
-                        .read<NoticeBloc>()
-                        .add(NoticeEvent.addReaction(reaction.emoji)),
+                    onTap: userId != null
+                        ? () => context
+                            .read<NoticeBloc>()
+                            .add(NoticeEvent.addReaction(reaction.emoji))
+                        : () => const LoginRoute().push(context),
                   );
                 },
                 separatorBuilder: (_, __) => const SizedBox(width: 8),
