@@ -6,6 +6,7 @@ import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
+import '../../domain/enums/notice_reaction.dart';
 import '../../presentation/widgets/created_at.dart';
 
 class NoticeListItem extends StatelessWidget {
@@ -53,7 +54,13 @@ class NoticeListItem extends StatelessWidget {
               children: [
                 Assets.icons.fireFlame.svg(height: 24),
                 const SizedBox(width: 4),
-                const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text(
+                  notice.reactions
+                      .where((e) => e.emoji == NoticeReation.like.emoji)
+                      .length
+                      .toString(),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
                 const SizedBox(width: 5),
                 const Text(
                   '·',
