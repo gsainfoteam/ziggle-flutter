@@ -56,7 +56,7 @@ class NoticeListItem extends StatelessWidget {
                 const SizedBox(width: 4),
                 Text(
                   notice.reactions
-                      .where((e) => e.emoji == NoticeReation.like.emoji)
+                      .where((e) => e.emoji == NoticeReaction.like.emoji)
                       .length
                       .toString(),
                   style: const TextStyle(fontWeight: FontWeight.w600),

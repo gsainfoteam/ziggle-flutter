@@ -184,7 +184,7 @@ class _Layout extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  if (index == NoticeReation.values.length) {
+                  if (index == NoticeReaction.values.length) {
                     return _ChipButton(
                       onTap: () {},
                       selected: false,
@@ -202,7 +202,7 @@ class _Layout extends StatelessWidget {
                       ),
                     );
                   }
-                  final reaction = NoticeReation.values[index];
+                  final reaction = NoticeReaction.values[index];
                   final userId = AuthBloc.userOrNull(context)?.uuid;
                   final selected = notice.reactions.any(
                       (e) => e.emoji == reaction.emoji && e.userId == userId);
@@ -220,7 +220,7 @@ class _Layout extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (_, __) => const SizedBox(width: 8),
-                itemCount: NoticeReation.values.length + 1,
+                itemCount: NoticeReaction.values.length + 1,
               ),
             ),
           ),

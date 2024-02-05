@@ -39,7 +39,7 @@ class NoticeCard extends StatelessWidget {
             _ImageAction(
               imagesUrl: notice.imagesUrl,
               likes: notice.reactions
-                  .where((e) => e.emoji == NoticeReation.like.emoji)
+                  .where((e) => e.emoji == NoticeReaction.like.emoji)
                   .length,
             ),
             _Content(
