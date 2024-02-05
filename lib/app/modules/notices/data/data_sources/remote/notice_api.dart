@@ -32,4 +32,16 @@ abstract class NoticeApi {
     @Path('id') int id, {
     @Query('isViewed') bool isViewed = false,
   });
+
+  @POST('{id}/reaction')
+  Future<NoticeModel> addReaction(
+    @Path('id') int id,
+    @Field('emoji') String emoji,
+  );
+
+  @DELETE('{id}/reaction')
+  Future<NoticeModel> removeReaction(
+    @Path('id') int id,
+    @Field('emoji') String emoji,
+  );
 }

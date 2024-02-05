@@ -12,4 +12,6 @@ abstract class NoticeRepository {
   });
 
   Future<NoticeEntity> getNotice(int id);
+
+  Future<NoticeEntity> addReaction(int id, String emoji);
 }
