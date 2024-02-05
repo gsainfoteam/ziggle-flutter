@@ -6,7 +6,6 @@ import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
-import '../../domain/enums/notice_reaction.dart';
 import '../../domain/enums/notice_type.dart';
 import 'created_at.dart';
 import 'd_day.dart';
@@ -38,9 +37,7 @@ class NoticeCard extends StatelessWidget {
             ),
             _ImageAction(
               imagesUrl: notice.imagesUrl,
-              likes: notice.reactions
-                  .where((e) => e.emoji == NoticeReaction.like.emoji)
-                  .length,
+              likes: notice.likes,
             ),
             _Content(
               tags: notice.tags

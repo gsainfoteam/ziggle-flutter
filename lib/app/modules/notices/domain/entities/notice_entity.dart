@@ -1,3 +1,4 @@
+import '../enums/notice_reaction.dart';
 import 'notice_content_entity.dart';
 import 'notice_reaction_entity.dart';
 
@@ -44,4 +45,10 @@ class NoticeEntity {
         documentsUrl: [],
         author: '',
       );
+}
+
+extension NoticeEntityExtension on NoticeEntity {
+  int reactionsBy(NoticeReaction reaction) =>
+      reactions.where((e) => e.emoji == reaction.emoji).length;
+  int get likes => reactionsBy(NoticeReaction.like);
 }

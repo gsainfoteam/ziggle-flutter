@@ -209,9 +209,7 @@ class _Layout extends StatelessWidget {
                   return _ReactionButton(
                     icon: reaction.icon(selected),
                     selected: selected,
-                    count: notice.reactions
-                        .where((e) => e.emoji == reaction.emoji)
-                        .length,
+                    count: notice.reactionsBy(reaction),
                     onTap: userId != null
                         ? () => context
                             .read<NoticeBloc>()
