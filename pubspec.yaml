@@ -76,6 +76,10 @@ flutter:
     - assets/logo/transparent.png
     - assets/icons/
     - assets/images/
+  fonts:
+    - family: TossFace
+      fonts:
+        - asset: assets/fonts/TossFace/TossFaceFontWeb.otf
   
 flutter_gen:
   integrations:
