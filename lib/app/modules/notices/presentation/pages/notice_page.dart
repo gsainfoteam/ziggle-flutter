@@ -202,7 +202,11 @@ class _Layout extends StatelessWidget {
                         : _ReactionButton(
                             icon: NoticeReation.values[index].icon,
                             selected: false,
-                            onTap: () {},
+                            onTap: () => context
+                                .read<NoticeBloc>()
+                                .add(NoticeEvent.addReaction(
+                                  NoticeReation.values[index].emoji,
+                                )),
                           ),
                 separatorBuilder: (_, __) => const SizedBox(width: 8),
                 itemCount: NoticeReation.values.length + 1,
@@ -234,9 +238,8 @@ class _Layout extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18),
           sliver: SliverToBoxAdapter(
             child: BlocBuilder<NoticeBloc, NoticeState>(
-              builder: (context, state) => state.loaded
-                  ? NoticeBody(body: notice.contents.main.body)
-                  : Text(notice.contents.main.body),
+              builder: (context, state) =>
+                  NoticeBody(body: notice.contents.main.body),
             ),
           ),
         ),
