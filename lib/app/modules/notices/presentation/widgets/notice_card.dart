@@ -1,11 +1,13 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
+import '../../domain/enums/notice_reaction.dart';
 import '../../domain/enums/notice_type.dart';
 import 'created_at.dart';
 import 'd_day.dart';
@@ -38,6 +40,10 @@ class NoticeCard extends StatelessWidget {
             _ImageAction(
               imagesUrl: notice.imagesUrl,
               likes: notice.likes,
+              isLiked: switch (AuthBloc.userOrNull(context)) {
+                null => false,
+                final user => notice.reactedBy(user.uuid, NoticeReaction.like),
+              },
             ),
             _Content(
               tags: notice.tags
@@ -106,10 +112,15 @@ class _Title extends StatelessWidget {
 }
 
 class _ImageAction extends StatefulWidget {
-  const _ImageAction({required this.imagesUrl, required this.likes});
+  const _ImageAction({
+    required this.imagesUrl,
+    required this.likes,
+    required this.isLiked,
+  });
 
   final List<String> imagesUrl;
   final int likes;
+  final bool isLiked;
 
   @override
   State<_ImageAction> createState() => _ImageActionState();
@@ -160,7 +171,10 @@ class _ImageActionState extends State<_ImageAction> {
               children: [
                 IconButton(
                   onPressed: () {},
-                  icon: Assets.icons.fireFlame.svg(
+                  icon: (widget.isLiked
+                          ? Assets.icons.fireFlameActive
+                          : Assets.icons.fireFlame)
+                      .svg(
                     height: 32,
                     fit: BoxFit.contain,
                   ),
