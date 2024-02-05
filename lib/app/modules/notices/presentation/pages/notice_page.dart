@@ -204,8 +204,9 @@ class _Layout extends StatelessWidget {
                   }
                   final reaction = NoticeReaction.values[index];
                   final userId = AuthBloc.userOrNull(context)?.uuid;
-                  final selected = notice.reactions.any(
-                      (e) => e.emoji == reaction.emoji && e.userId == userId);
+                  final selected = userId == null
+                      ? false
+                      : notice.reactedBy(userId, reaction);
                   return _ReactionButton(
                     icon: reaction.icon(selected),
                     selected: selected,
