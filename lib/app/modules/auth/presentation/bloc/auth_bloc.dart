@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -40,6 +41,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const _Guest());
     });
   }
+
+  static UserEntity? userOrNull(BuildContext context) => context
+      .read<AuthBloc>()
+      .state
+      .maybeMap(authenticated: (s) => s.user, orElse: () => null);
 }
 
 @freezed
@@ -61,8 +67,6 @@ class AuthState with _$AuthState {
 
   bool get isLoading => this is _Loading;
   UserEntity get user => (this as _Authenticated).user;
-  UserEntity? get userOrNull =>
-      this is _Authenticated ? (this as _Authenticated).user : null;
   bool get hasUser => this is _Authenticated;
   bool get hasError => this is _Error;
   String get message => (this as _Error).message;

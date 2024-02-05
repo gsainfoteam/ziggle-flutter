@@ -203,8 +203,7 @@ class _Layout extends StatelessWidget {
                     );
                   }
                   final reaction = NoticeReation.values[index];
-                  final userId =
-                      context.read<AuthBloc>().state.userOrNull?.uuid;
+                  final userId = AuthBloc.userOrNull(context)?.uuid;
                   final selected = notice.reactions.any(
                       (e) => e.emoji == reaction.emoji && e.userId == userId);
                   return _ReactionButton(
