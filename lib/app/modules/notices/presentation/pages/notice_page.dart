@@ -181,33 +181,37 @@ class _Layout extends StatelessWidget {
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(horizontal: 18),
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) =>
-                    index == NoticeReation.values.length
-                        ? _ChipButton(
-                            onTap: () {},
-                            selected: false,
-                            child: Row(
-                              children: [
-                                Assets.icons.shareAndroid.svg(width: 20),
-                                Text(
-                                  t.notice.share,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ),
-                              ],
+                itemBuilder: (context, index) {
+                  if (index == NoticeReation.values.length) {
+                    return _ChipButton(
+                      onTap: () {},
+                      selected: false,
+                      child: Row(
+                        children: [
+                          Assets.icons.shareAndroid.svg(width: 20),
+                          Text(
+                            t.notice.share,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
                             ),
-                          )
-                        : _ReactionButton(
-                            icon: NoticeReation.values[index].icon,
-                            selected: false,
-                            onTap: () => context
-                                .read<NoticeBloc>()
-                                .add(NoticeEvent.addReaction(
-                                  NoticeReation.values[index].emoji,
-                                )),
                           ),
+                        ],
+                      ),
+                    );
+                  }
+                  final reaction = NoticeReation.values[index];
+                  return _ReactionButton(
+                    icon: reaction.icon,
+                    selected: false,
+                    count: notice.reactions
+                        .where((e) => e.emoji == reaction.emoji)
+                        .length,
+                    onTap: () => context
+                        .read<NoticeBloc>()
+                        .add(NoticeEvent.addReaction(reaction.emoji)),
+                  );
+                },
                 separatorBuilder: (_, __) => const SizedBox(width: 8),
                 itemCount: NoticeReation.values.length + 1,
               ),
@@ -313,6 +317,7 @@ class _ReactionButton extends _ChipButton {
     required Widget icon,
     super.onTap,
     super.selected,
+    required int count,
   }) : super(
           child: Center(
             child: Text.rich(
@@ -329,9 +334,9 @@ class _ReactionButton extends _ChipButton {
                     alignment: PlaceholderAlignment.middle,
                   ),
                   const WidgetSpan(child: SizedBox(width: 8)),
-                  const TextSpan(
-                    text: '3',
-                    style: TextStyle(
+                  TextSpan(
+                    text: '$count',
+                    style: const TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
                     ),

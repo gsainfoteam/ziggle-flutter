@@ -1,4 +1,5 @@
 import 'notice_content_entity.dart';
+import 'notice_reaction_entity.dart';
 
 class NoticeEntity {
   final int id;
@@ -9,7 +10,7 @@ class NoticeEntity {
   final DateTime? deletedAt;
   final List tags;
   final List<NoticeContentEntity> contents;
-  final List reactions;
+  final List<NoticeReactionEntity> reactions;
   final String author;
   final List<String> imagesUrl;
   final List<String> documentsUrl;
