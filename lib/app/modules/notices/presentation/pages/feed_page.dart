@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/notice_entity.dart';
+import '../../domain/enums/notice_reaction.dart';
 import '../../domain/enums/notice_type.dart';
 import '../bloc/notice_list_bloc.dart';
 import '../widgets/infinite_scroll.dart';
@@ -90,31 +93,47 @@ class _Layout extends StatelessWidget {
                           ),
                         ),
                       )
-                    : SliverList.separated(
-                        itemCount: state.list.length + (state.loaded ? 0 : 1),
-                        itemBuilder: (context, index) {
-                          if (index == state.list.length) {
-                            return const Padding(
-                              padding: EdgeInsets.all(8),
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                          }
-                          final notice = state.list[index];
-                          return NoticeCard(
-                            notice: notice,
-                            onTapDetail: () =>
-                                NoticeRoute.fromEntity(notice).push(context),
-                          );
-                        },
-                        separatorBuilder: (context, index) => const Divider(),
-                      ),
+                    : _buildList(state),
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  SliverList _buildList(NoticeListState state) {
+    return SliverList.separated(
+      itemCount: state.list.length + (state.loaded ? 0 : 1),
+      itemBuilder: (context, index) {
+        if (index == state.list.length) {
+          return const Padding(
+            padding: EdgeInsets.all(8),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        final notice = state.list[index];
+        return NoticeCard(
+          notice: notice,
+          onTapDetail: () => NoticeRoute.fromEntity(notice).push(context),
+          onTapLike: () {
+            HapticFeedback.lightImpact();
+            final userId = AuthBloc.userOrNull(context)?.uuid;
+            if (userId == null) {
+              const LoginRoute().push(context);
+              return;
+            }
+            const like = NoticeReaction.like;
+            final liked = notice.reactedBy(userId, like);
+            context.read<NoticeListBloc>().add(liked
+                ? NoticeListEvent.removeReaction(notice.id, like.emoji)
+                : NoticeListEvent.addReaction(notice.id, like.emoji));
+          },
+        );
+      },
+      separatorBuilder: (context, index) => const Divider(),
     );
   }
 

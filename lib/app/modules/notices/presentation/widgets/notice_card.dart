@@ -18,10 +18,12 @@ class NoticeCard extends StatelessWidget {
     super.key,
     required this.notice,
     this.onTapDetail,
+    this.onTapLike,
   });
 
   final NoticeEntity notice;
   final VoidCallback? onTapDetail;
+  final VoidCallback? onTapLike;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class NoticeCard extends StatelessWidget {
                 null => false,
                 final user => notice.reactedBy(user.uuid, NoticeReaction.like),
               },
+              onTapLike: onTapLike,
             ),
             _Content(
               tags: notice.tags
@@ -116,11 +119,13 @@ class _ImageAction extends StatefulWidget {
     required this.imagesUrl,
     required this.likes,
     required this.isLiked,
+    required this.onTapLike,
   });
 
   final List<String> imagesUrl;
   final int likes;
   final bool isLiked;
+  final VoidCallback? onTapLike;
 
   @override
   State<_ImageAction> createState() => _ImageActionState();
@@ -170,7 +175,7 @@ class _ImageActionState extends State<_ImageAction> {
             Row(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: widget.onTapLike,
                   icon: (widget.isLiked
                           ? Assets.icons.fireFlameActive
                           : Assets.icons.fireFlame)
