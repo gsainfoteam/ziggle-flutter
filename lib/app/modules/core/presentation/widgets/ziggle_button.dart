@@ -28,7 +28,7 @@ class ZiggleButton extends StatefulWidget {
             'Cannot provide both child and text'),
         decoration = decoration ??
             const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
             );
 
   @override
