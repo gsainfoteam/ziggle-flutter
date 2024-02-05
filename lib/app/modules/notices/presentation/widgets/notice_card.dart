@@ -1,11 +1,13 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
+import '../../domain/enums/notice_reaction.dart';
 import '../../domain/enums/notice_type.dart';
 import 'created_at.dart';
 import 'd_day.dart';
@@ -16,10 +18,12 @@ class NoticeCard extends StatelessWidget {
     super.key,
     required this.notice,
     this.onTapDetail,
+    this.onTapLike,
   });
 
   final NoticeEntity notice;
   final VoidCallback? onTapDetail;
+  final VoidCallback? onTapLike;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +39,15 @@ class NoticeCard extends StatelessWidget {
               createdAt: notice.createdAt,
               deadline: notice.currentDeadline,
             ),
-            _ImageAction(imagesUrl: notice.imagesUrl),
+            _ImageAction(
+              imagesUrl: notice.imagesUrl,
+              likes: notice.likes,
+              isLiked: switch (AuthBloc.userOrNull(context)) {
+                null => false,
+                final user => notice.reactedBy(user.uuid, NoticeReaction.like),
+              },
+              onTapLike: onTapLike,
+            ),
             _Content(
               tags: notice.tags
                   .map((e) => e['name'] as String)
@@ -103,9 +115,17 @@ class _Title extends StatelessWidget {
 }
 
 class _ImageAction extends StatefulWidget {
-  const _ImageAction({required this.imagesUrl});
+  const _ImageAction({
+    required this.imagesUrl,
+    required this.likes,
+    required this.isLiked,
+    required this.onTapLike,
+  });
 
   final List<String> imagesUrl;
+  final int likes;
+  final bool isLiked;
+  final VoidCallback? onTapLike;
 
   @override
   State<_ImageAction> createState() => _ImageActionState();
@@ -155,14 +175,20 @@ class _ImageActionState extends State<_ImageAction> {
             Row(
               children: [
                 IconButton(
-                  onPressed: () {},
-                  icon: Assets.icons.fireFlame.svg(
+                  onPressed: widget.onTapLike,
+                  icon: (widget.isLiked
+                          ? Assets.icons.fireFlameActive
+                          : Assets.icons.fireFlame)
+                      .svg(
                     height: 32,
                     fit: BoxFit.contain,
                   ),
                   padding: EdgeInsets.zero,
                 ),
-                const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text(
+                  '${widget.likes}',
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
                 const Spacer(),
                 IconButton(
                   onPressed: () {},

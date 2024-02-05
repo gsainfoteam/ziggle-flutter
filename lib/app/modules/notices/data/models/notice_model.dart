@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import 'notice_content_model.dart';
+import 'notice_reaction_model.dart';
 
 part 'notice_model.freezed.dart';
 part 'notice_model.g.dart';
@@ -19,7 +20,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     DateTime? deletedAt,
     @Default([]) List tags,
     required List<NoticeContentModel> contents,
-    required List reactions,
+    required List<NoticeReactionModel> reactions,
     required String author,
     @Default([]) List<String> imagesUrl,
     @Default([]) List<String> documentsUrl,
@@ -36,7 +37,8 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
         deletedAt: entity.deletedAt,
         tags: entity.tags,
         contents: entity.contents.map(NoticeContentModel.fromEntity).toList(),
-        reactions: entity.reactions,
+        reactions:
+            entity.reactions.map(NoticeReactionModel.fromEntity).toList(),
         author: entity.author,
         imagesUrl: entity.imagesUrl,
         documentsUrl: entity.documentsUrl,

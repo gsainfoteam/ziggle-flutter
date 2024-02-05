@@ -28,7 +28,7 @@ class ZiggleButton extends StatefulWidget {
             'Cannot provide both child and text'),
         decoration = decoration ??
             const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderRadius: BorderRadius.all(Radius.circular(10)),
             );
 
   @override
@@ -38,17 +38,22 @@ class ZiggleButton extends StatefulWidget {
 class _ZiggleButtonState extends State<ZiggleButton> {
   bool get _isTransparent => widget.color == Colors.transparent;
   bool _hover = false;
+  bool _small = false;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.loading ? null : widget.onTap,
-      onTapDown: (_) => setState(() => _hover = true),
+      onTapDown: (_) => setState(() {
+        _hover = true;
+        _small = true;
+      }),
       onTapCancel: () => setState(() => _hover = false),
       onTapUp: (_) => setState(() => _hover = false),
       child: AnimatedScale(
         duration: const Duration(milliseconds: 100),
-        scale: _hover && widget.onTap != null ? 0.95 : 1,
+        scale: (_hover || _small) && widget.onTap != null ? 0.95 : 1,
+        onEnd: () => setState(() => _small = false),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 100),
           padding: widget.padding ??

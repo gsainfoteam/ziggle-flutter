@@ -8,6 +8,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/app.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/values/emojis.dart';
 import 'package:ziggle/app/values/fonts.dart';
 import 'package:ziggle/app_bloc_observer.dart';
 import 'package:ziggle/firebase_options.dart';
@@ -56,6 +57,7 @@ void _initCrashlytics() {
 
 void _initFont() {
   Pretendard.register();
+  Emojis.register();
 }
 
 void _initBloc() {

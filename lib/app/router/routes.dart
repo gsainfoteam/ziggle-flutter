@@ -2,8 +2,11 @@ library routes;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/auth_required_page.dart';
+import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/profile_page.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';

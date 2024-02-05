@@ -1,11 +1,13 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
+import '../../domain/enums/notice_reaction.dart';
 import '../../presentation/widgets/created_at.dart';
 
 class NoticeListItem extends StatelessWidget {
@@ -51,9 +53,19 @@ class NoticeListItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Assets.icons.fireFlame.svg(height: 24),
+                (switch (AuthBloc.userOrNull(context)) {
+                  null => false,
+                  final user =>
+                    notice.reactedBy(user.uuid, NoticeReaction.like),
+                }
+                        ? Assets.icons.fireFlameActive
+                        : Assets.icons.fireFlame)
+                    .svg(height: 24),
                 const SizedBox(width: 4),
-                const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
+                Text(
+                  notice.likes.toString(),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                ),
                 const SizedBox(width: 5),
                 const Text(
                   '·',

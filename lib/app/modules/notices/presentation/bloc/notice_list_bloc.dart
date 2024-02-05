@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../data/models/notice_model.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_type.dart';
 import '../../domain/repositories/notice_repository.dart';
@@ -54,6 +55,32 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       );
       emit(_Loaded(total: data.total, list: data.list, type: state.type));
     });
+    on<_AddReaction>((event, emit) async {
+      if (state is! _Loaded) return;
+      emit(_Loading(total: state.total, list: state.list, type: state.type));
+      final data = await _repository.addReaction(event.id, event.emoji);
+      final index = state.list.indexWhere((e) => e.id == event.id);
+      if (index != -1) {
+        final list = state.list.toList();
+        list[index] = NoticeModel.fromEntity(data).copyWith(
+          contents: NoticeModel.fromEntity(list[index]).contents,
+        );
+        emit(_Loaded(total: state.total, list: list, type: state.type));
+      }
+    });
+    on<_RemoveReaction>((event, emit) async {
+      if (state is! _Loaded) return;
+      emit(_Loading(total: state.total, list: state.list, type: state.type));
+      final data = await _repository.removeReaction(event.id, event.emoji);
+      final index = state.list.indexWhere((e) => e.id == event.id);
+      if (index != -1) {
+        final list = state.list.toList();
+        list[index] = NoticeModel.fromEntity(data).copyWith(
+          contents: NoticeModel.fromEntity(list[index]).contents,
+        );
+        emit(_Loaded(total: state.total, list: list, type: state.type));
+      }
+    });
   }
 }
 
@@ -68,6 +95,11 @@ class NoticeListEvent with _$NoticeListEvent {
   const factory NoticeListEvent.refresh() = _Refresh;
   @Implements<_Droppable>()
   const factory NoticeListEvent.reset() = _Reset;
+
+  const factory NoticeListEvent.addReaction(int id, String emoji) =
+      _AddReaction;
+  const factory NoticeListEvent.removeReaction(int id, String emoji) =
+      _RemoveReaction;
 }
 
 mixin _Droppable on NoticeListEvent {}

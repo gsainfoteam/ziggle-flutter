@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -18,6 +20,20 @@ class NoticeBody extends StatefulWidget {
 class _NoticeBodyState extends State<NoticeBody> {
   double _height = 0;
   bool _initial = true;
+  final _completer = Completer<void>();
+  late final InAppWebViewController _controller;
+
+  @override
+  void didUpdateWidget(covariant NoticeBody oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _completer.future.then((_) => _updateBody());
+  }
+
+  Future<void> _updateBody() async {
+    _controller.callAsyncJavaScript(functionBody: '''
+      content.innerHTML = JSON.parse('${jsonEncode(_body)}');
+    ''');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,11 +58,13 @@ class _NoticeBodyState extends State<NoticeBody> {
           return NavigationActionPolicy.CANCEL;
         },
         onWebViewCreated: (controller) async {
+          _controller = controller;
           controller.addJavaScriptHandler(
             handlerName: 'Resize',
-            callback: (arguments) => setState(
-              () => _height = arguments.first.toDouble(),
-            ),
+            callback: (arguments) {
+              setState(() => _height = arguments.first.toDouble());
+              if (!_completer.isCompleted) _completer.complete();
+            },
           );
         },
         initialUserScripts: UnmodifiableListView([
@@ -81,8 +99,9 @@ class _NoticeBodyState extends State<NoticeBody> {
                     user-select: none;
                     -webkit-user-select: none;
                   }
-                  #content * {
-                    max-width: 100%;
+                  #content *[style*="width"] {
+                    width: auto !important;
+                    word-break: break-all;
                   }
                   p {
                     margin-top: 1rem;
@@ -99,7 +118,7 @@ class _NoticeBodyState extends State<NoticeBody> {
               </head>
               <body>
                 <div id="content">
-                  ${widget.body.replaceAll('src="//', 'src="https://')}
+                  $_body
                 </div>
               </body>
             </html>
@@ -108,4 +127,6 @@ class _NoticeBodyState extends State<NoticeBody> {
       ),
     );
   }
+
+  String get _body => widget.body.replaceAll('src="//', 'src="https://');
 }

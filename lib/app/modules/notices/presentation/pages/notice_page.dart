@@ -3,13 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
+import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
+import '../../domain/enums/notice_reaction.dart';
 import '../../domain/enums/notice_type.dart';
 import '../../presentation/bloc/notice_bloc.dart';
 import '../../presentation/widgets/additional_notice_content.dart';
@@ -112,12 +116,39 @@ class _Layout extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Row(
+                  children: [
+                    Assets.icons.profileCircle.svg(height: 24),
+                    const SizedBox(width: 8),
+                    Text(
+                      notice.author,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(width: 5),
+                    const Text(
+                      '·',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Palette.text300,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      DateFormat.yMd().add_Hm().format(notice.createdAt),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        color: Palette.text300,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
                 Text(
                   notice.contents.main.title,
                   style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
+                      fontWeight: FontWeight.w600, fontSize: 16),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 10),
                 DefaultTextStyle.merge(
@@ -144,43 +175,87 @@ class _Layout extends StatelessWidget {
             ],
           ),
         ),
-        SliverToBoxAdapter(
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: Assets.icons.fireFlame.svg(
-                  height: 32,
-                  fit: BoxFit.contain,
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          sliver: SliverToBoxAdapter(
+            child: SizedBox(
+              height: 30,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  if (index == NoticeReaction.values.length) {
+                    return _ChipButton(
+                      onTap: () {},
+                      selected: false,
+                      child: Row(
+                        children: [
+                          Assets.icons.shareAndroid.svg(width: 20),
+                          Text(
+                            t.notice.share,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                  final reaction = NoticeReaction.values[index];
+                  final userId = AuthBloc.userOrNull(context)?.uuid;
+                  final selected = userId == null
+                      ? false
+                      : notice.reactedBy(userId, reaction);
+                  return _ReactionButton(
+                    icon: reaction.icon(selected),
+                    selected: selected,
+                    count: notice.reactionsBy(reaction),
+                    onTap: userId != null
+                        ? () => context.read<NoticeBloc>().add(
+                              selected
+                                  ? NoticeEvent.removeReaction(reaction.emoji)
+                                  : NoticeEvent.addReaction(reaction.emoji),
+                            )
+                        : () => const LoginRoute().push(context),
+                  );
+                },
+                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                itemCount: NoticeReaction.values.length + 1,
+              ),
+            ),
+          ),
+        ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          sliver: SliverToBoxAdapter(
+            child: DefaultTextStyle.merge(
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Palette.textGreyDark,
+              ),
+              child: Text.rich(
+                t.notice.views(
+                  views: TextSpan(
+                    text: notice.views.toString(),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ),
-                padding: EdgeInsets.zero,
               ),
-              const Text('67', style: TextStyle(fontWeight: FontWeight.w600)),
-              const Spacer(),
-              IconButton(
-                onPressed: () {},
-                icon: Assets.icons.shareAndroid.svg(),
-                padding: EdgeInsets.zero,
-                visualDensity:
-                    const VisualDensity(horizontal: -4, vertical: -4),
-                constraints:
-                    const BoxConstraints.tightFor(width: 48, height: 48),
-              ),
-              const SizedBox(width: 8),
-            ],
+            ),
           ),
         ),
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           sliver: SliverToBoxAdapter(
             child: BlocBuilder<NoticeBloc, NoticeState>(
-              builder: (context, state) => state.loaded
-                  ? NoticeBody(body: notice.contents.main.body)
-                  : Text(notice.contents.main.body),
+              builder: (context, state) =>
+                  NoticeBody(body: notice.contents.main.body),
             ),
           ),
         ),
-        SliverList.separated(
+        SliverList.builder(
           itemCount: notice.contents.additionals.length,
           itemBuilder: (context, index) {
             final previous = notice.contents.locales.elementAt(index);
@@ -195,38 +270,13 @@ class _Layout extends StatelessWidget {
               ),
             );
           },
-          separatorBuilder: (context, index) => const Divider(),
-        ),
-        const SliverToBoxAdapter(child: Divider()),
-        SliverPadding(
-          padding: const EdgeInsets.only(bottom: 20),
-          sliver: SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: DefaultTextStyle.merge(
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(t.notice.views),
-                    Text(
-                      notice.views.toString(),
-                      style: const TextStyle(color: Palette.textGreyDark),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
         ),
         SliverSafeArea(
           top: false,
           sliver: SliverToBoxAdapter(
             child: Center(
-              child: InkWell(
+              child: ZiggleButton(
+                color: Colors.transparent,
                 onTap: () {
                   HapticFeedback.mediumImpact();
                 },
@@ -253,4 +303,57 @@ class _Layout extends StatelessWidget {
       ],
     );
   }
+}
+
+class _ChipButton extends ZiggleButton {
+  _ChipButton({
+    super.child,
+    super.onTap,
+    bool selected = false,
+  }) : super(
+          color: selected ? Palette.black : Palette.backgroundGreyLight,
+          textColor: selected ? Palette.background100 : Palette.black,
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        );
+}
+
+class _ReactionButton extends _ChipButton {
+  _ReactionButton({
+    required Widget icon,
+    super.onTap,
+    super.selected,
+    required int count,
+  }) : super(
+          child: Center(
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  WidgetSpan(
+                    child: IconTheme(
+                      data: const IconThemeData(size: 20),
+                      child: SizedBox(
+                        width: 20,
+                        child: icon,
+                      ),
+                    ),
+                    alignment: PlaceholderAlignment.middle,
+                  ),
+                  const WidgetSpan(child: SizedBox(width: 8)),
+                  TextSpan(
+                    text: '$count',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight:
+                          selected ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  ),
+                ],
+              ),
+              strutStyle: const StrutStyle(forceStrutHeight: true),
+            ),
+          ),
+        );
 }

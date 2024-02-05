@@ -1,4 +1,6 @@
+import '../enums/notice_reaction.dart';
 import 'notice_content_entity.dart';
+import 'notice_reaction_entity.dart';
 
 class NoticeEntity {
   final int id;
@@ -9,7 +11,7 @@ class NoticeEntity {
   final DateTime? deletedAt;
   final List tags;
   final List<NoticeContentEntity> contents;
-  final List reactions;
+  final List<NoticeReactionEntity> reactions;
   final String author;
   final List<String> imagesUrl;
   final List<String> documentsUrl;
@@ -43,4 +45,12 @@ class NoticeEntity {
         documentsUrl: [],
         author: '',
       );
+}
+
+extension NoticeEntityExtension on NoticeEntity {
+  int reactionsBy(NoticeReaction reaction) =>
+      reactions.where((e) => e.emoji == reaction.emoji).length;
+  int get likes => reactionsBy(NoticeReaction.like);
+  bool reactedBy(String userId, NoticeReaction reaction) =>
+      reactions.any((e) => e.userId == userId && e.emoji == reaction.emoji);
 }

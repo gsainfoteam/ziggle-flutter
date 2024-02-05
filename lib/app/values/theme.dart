@@ -26,5 +26,6 @@ abstract class AppTheme {
       backgroundColor: Palette.background200,
       padding: EdgeInsets.zero,
     ),
+    dividerColor: Palette.borderGreyLight,
   );
 }
