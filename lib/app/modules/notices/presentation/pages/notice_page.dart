@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -201,9 +202,13 @@ class _Layout extends StatelessWidget {
                     );
                   }
                   final reaction = NoticeReation.values[index];
+                  final userId =
+                      context.read<AuthBloc>().state.userOrNull?.uuid;
+                  final selected = notice.reactions.any(
+                      (e) => e.emoji == reaction.emoji && e.userId == userId);
                   return _ReactionButton(
-                    icon: reaction.icon,
-                    selected: false,
+                    icon: reaction.icon(selected),
+                    selected: selected,
                     count: notice.reactions
                         .where((e) => e.emoji == reaction.emoji)
                         .length,
@@ -303,7 +308,7 @@ class _ChipButton extends ZiggleButton {
     super.onTap,
     bool selected = false,
   }) : super(
-          color: selected ? Palette.primary100 : Palette.backgroundGreyLight,
+          color: selected ? Palette.black : Palette.backgroundGreyLight,
           textColor: selected ? Palette.background100 : Palette.black,
           padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
@@ -336,9 +341,10 @@ class _ReactionButton extends _ChipButton {
                   const WidgetSpan(child: SizedBox(width: 8)),
                   TextSpan(
                     text: '$count',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14,
-                      fontWeight: FontWeight.normal,
+                      fontWeight:
+                          selected ? FontWeight.bold : FontWeight.normal,
                     ),
                   ),
                 ],

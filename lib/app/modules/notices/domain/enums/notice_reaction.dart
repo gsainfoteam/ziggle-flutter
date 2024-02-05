@@ -12,10 +12,14 @@ enum NoticeReation {
   const NoticeReation(this.emoji);
   final String emoji;
 
-  Widget get icon {
+  Widget icon([bool isSelected = false]) {
     switch (this) {
       case NoticeReation.like:
-        return Assets.icons.fireFlame.svg();
+        return Assets.icons.fireFlame.svg(
+          colorFilter: isSelected
+              ? const ColorFilter.mode(Colors.white, BlendMode.srcIn)
+              : null,
+        );
       case NoticeReation.crying:
         return const Icon(Emojis.crying);
       case NoticeReation.surprised:
