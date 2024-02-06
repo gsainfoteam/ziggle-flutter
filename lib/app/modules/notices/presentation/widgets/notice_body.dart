@@ -30,8 +30,9 @@ class _NoticeBodyState extends State<NoticeBody> {
   }
 
   Future<void> _updateBody() async {
-    _controller.callAsyncJavaScript(functionBody: '''
-      content.innerHTML = JSON.parse('${jsonEncode(_body)}');
+    final json = jsonEncode(_body);
+    await _controller.callAsyncJavaScript(functionBody: '''
+      content.innerHTML = $json;
     ''');
   }
 
