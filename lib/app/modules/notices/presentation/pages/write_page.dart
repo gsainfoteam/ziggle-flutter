@@ -208,6 +208,7 @@ class _LayoutState extends State<_Layout> {
                 _WriteArticleButton(
                   onTap: () => WriteArticleRoute(
                     title: t.notice.write.writeKorean,
+                    hint: t.notice.write.enterKorean,
                     $extra: _korean ?? '',
                   ).push<String>(context).then((value) {
                     if (!mounted) return;
@@ -222,6 +223,7 @@ class _LayoutState extends State<_Layout> {
                 _WriteArticleButton(
                   onTap: () => WriteArticleRoute(
                     title: t.notice.write.writeEnglish,
+                    hint: t.notice.write.enterEnglish,
                     $extra: _english ?? '',
                   ).push<String>(context).then((value) {
                     if (!mounted) return;

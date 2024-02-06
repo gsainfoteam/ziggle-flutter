@@ -74,6 +74,13 @@
     "write": "작성하기",
     "writeKorean": "한글 본문 작성",
     "writeEnglish": "영어 본문 작성",
+    "enterKorean": "한글 본문 입력",
+    "enterEnglish": "영어 본문 입력",
+    "unsaved": {
+      "title": "There is changed",
+      "discard": "Discard",
+      "preserve": "Cancel"
+    },
     "edit": "편집하기",
     "action": "완료"
   }

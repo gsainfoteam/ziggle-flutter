@@ -51,11 +51,20 @@ class WriteRoute extends GoRouteData {
 }
 
 class WriteArticleRoute extends GoRouteData {
-  const WriteArticleRoute({required this.title, required this.$extra});
+  const WriteArticleRoute({
+    required this.title,
+    required this.hint,
+    required this.$extra,
+  });
   final String title;
+  final String hint;
   final String $extra;
   @override
   Widget build(context, state) => AuthRequiredPage(
-        child: WriteArticlePage(title: title, initialContent: $extra),
+        child: WriteArticlePage(
+          title: title,
+          hintText: hint,
+          initialContent: $extra,
+        ),
       );
 }
