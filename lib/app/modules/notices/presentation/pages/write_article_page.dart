@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -22,7 +23,14 @@ class WriteArticlePage extends StatefulWidget {
 }
 
 class _WriteArticlePageState extends State<WriteArticlePage> {
-  late String _content = widget.initialContent;
+  late final _controller = TextEditingController(text: widget.initialContent);
+  final _focusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   Widget _adaptiveAction({
     required BuildContext context,
@@ -45,7 +53,7 @@ class _WriteArticlePageState extends State<WriteArticlePage> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: widget.initialContent == _content,
+      canPop: widget.initialContent == _controller.text,
       onPopInvoked: (didPop) => showAdaptiveDialog(
         context: context,
         builder: (dialogContext) => AlertDialog.adaptive(
@@ -71,7 +79,7 @@ class _WriteArticlePageState extends State<WriteArticlePage> {
           title: Text(widget.title),
           actions: [
             ZiggleButton(
-              onTap: () => context.pop(_content),
+              onTap: () => context.pop(_controller.text),
               color: Colors.transparent,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Text(
@@ -85,18 +93,48 @@ class _WriteArticlePageState extends State<WriteArticlePage> {
           slivers: [
             SliverSafeArea(
               sliver: SliverFillRemaining(
-                hasScrollBody: false,
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-                  child: TextFormField(
-                    autofocus: true,
-                    maxLines: null,
-                    initialValue: _content,
-                    onChanged: (value) => setState(() => _content = value),
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: widget.hintText,
+                  child: KeyboardActions(
+                    config: KeyboardActionsConfig(actions: [
+                      KeyboardActionsItem(
+                          focusNode: _focusNode,
+                          displayArrows: false,
+                          toolbarAlignment: MainAxisAlignment.start,
+                          toolbarButtons: [
+                            (node) => TextButton(
+                                  onPressed: () {},
+                                  child: const Text('test'),
+                                ),
+                            (node) => TextButton(
+                                  onPressed: () {},
+                                  child: const Text('test'),
+                                ),
+                            (node) => TextButton(
+                                  onPressed: () {},
+                                  child: const Text('test'),
+                                ),
+                            (node) => TextButton(
+                                  onPressed: () {},
+                                  child: const Text('test'),
+                                ),
+                            (node) => TextButton(
+                                  onPressed: () {},
+                                  child: const Text('test'),
+                                ),
+                          ]),
+                    ]),
+                    child: TextFormField(
+                      focusNode: _focusNode,
+                      autofocus: true,
+                      maxLines: null,
+                      controller: _controller,
+                      onChanged: (value) => setState(() {}),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: widget.hintText,
+                      ),
                     ),
                   ),
                 ),
