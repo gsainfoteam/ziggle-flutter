@@ -66,5 +66,12 @@
     "large": "Large",
     "collapsed": "Collapsed"
   },
-  "searchHint": "Enter search keyword"
+  "searchHint": "Enter search keyword",
+  "write": {
+    "title": "Write Notice",
+    "titleHint": "Title",
+    "deadline": "Set Deadline",
+    "type": "Type",
+    "action": "Done"
+  }
 }

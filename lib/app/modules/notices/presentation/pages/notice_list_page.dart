@@ -34,7 +34,7 @@ class NoticeListPage extends StatelessWidget {
             ),
             IconButton(
               icon: Assets.icons.editPencil.svg(),
-              onPressed: () {},
+              onPressed: () => const WriteRoute().push(context),
             ),
           ],
         ),

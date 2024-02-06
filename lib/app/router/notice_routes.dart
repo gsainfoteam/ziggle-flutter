@@ -39,3 +39,10 @@ class SearchRoute extends GoRouteData {
   @override
   Widget build(context, state) => const SearchPage();
 }
+
+@TypedGoRoute<WriteRoute>(path: '/write')
+class WriteRoute extends GoRouteData {
+  const WriteRoute();
+  @override
+  Widget build(context, state) => const AuthRequiredPage(child: WritePage());
+}
