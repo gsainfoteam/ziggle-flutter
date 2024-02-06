@@ -64,6 +64,11 @@
     "titleHint": "제목",
     "deadline": "마감일 설정",
     "type": "분류",
+    "optional": "(선택)",
+    "tag": {
+      "title(rich)": "태그 설정 ${optional(@:notice.write.optional)}",
+      "hint": "태그 입력"
+    },
     "action": "완료"
   }
 }

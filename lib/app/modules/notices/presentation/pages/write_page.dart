@@ -1,20 +1,40 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/tag_entity.dart';
 import '../../domain/enums/notice_type.dart';
+import '../bloc/tag_bloc.dart';
 
-class WritePage extends StatefulWidget {
+class WritePage extends StatelessWidget {
   const WritePage({super.key});
 
   @override
-  State<WritePage> createState() => _WritePageState();
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => sl<TagBloc>()),
+      ],
+      child: const _Layout(),
+    );
+  }
 }
 
-class _WritePageState extends State<WritePage> {
+class _Layout extends StatefulWidget {
+  const _Layout();
+
+  @override
+  State<_Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<_Layout> {
   DateTime? _deadline;
   NoticeType? _type;
   bool get _done => _type != null;
@@ -154,10 +174,223 @@ class _WritePageState extends State<WritePage> {
                 itemCount: NoticeType.writable.length,
               ),
             ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: Row(
+                children: [
+                  Assets.icons.tag.svg(),
+                  const SizedBox(width: 6),
+                  Text.rich(
+                    t.notice.write.tag.title(
+                      optional: (v) => TextSpan(
+                        text: v,
+                        style: const TextStyle(color: Palette.textGrey),
+                      ),
+                    ),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+              child: _Tag(),
+            ),
             const Divider(indent: 18, endIndent: 18, height: 40),
           ],
         ),
       ),
     );
+  }
+}
+
+class _Tag extends StatefulWidget {
+  const _Tag();
+
+  @override
+  State<_Tag> createState() => _TagState();
+}
+
+class _TagState extends State<_Tag> {
+  final _controller = TextEditingController();
+  final _focus = FocusNode();
+  String _text = '';
+  String? _currentQuery;
+  int? _currentCursor;
+  bool _hasFocus = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_onChange);
+    _focus.addListener(_onChange);
+  }
+
+  @override
+  void dispose() {
+    _controller
+      ..removeListener(_onChange)
+      ..dispose();
+    _focus
+      ..removeListener(_onChange)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onChange() {
+    final text = _controller.text;
+    // if newly focused, add a hash
+    if (_focus.hasFocus && !_hasFocus) {
+      _hasFocus = true;
+      _controller.text = '$text #'.trim();
+      return;
+    }
+    _hasFocus = _focus.hasFocus;
+
+    // if focused and empty, add a hash
+    if (text.isEmpty && _focus.hasFocus) {
+      _controller.text = '#';
+      return;
+    }
+
+    // when unfocused, remove the last hash and the space / add missing hash
+    if (!_focus.hasFocus) {
+      _controller.text = text
+          .removeSuffix('#')
+          .trim()
+          .splitMapJoin(RegExp(' (#?)'), onMatch: (m) => ' #')
+          .trim();
+      return;
+    }
+
+    // check selection is collapsed
+    final offset = switch (_controller.selection) {
+      TextSelection(isCollapsed: true, baseOffset: final v, isValid: true) => v,
+      _ => null,
+    };
+    if (offset == null) return;
+
+    final edited = text != _text;
+    final prevText = _text;
+    _text = text;
+    if (!edited) return;
+
+    // if tried to add new tag(space) without complete previous one, remove the space
+    if (text.substring(max(offset - 2, 0), offset).contains('# ')) {
+      _controller.value = _controller.value
+          .replaced(TextRange(start: offset - 1, end: offset), '');
+      return;
+    }
+
+    // if tried to add new space, add a hash after the space
+    if (text.safeSubstring(offset - 1, offset).contains(' ') &&
+        prevText.safeSubstring(offset - 1, offset) != ' ') {
+      _controller.value = _controller.value
+          .replaced(TextRange(start: offset, end: offset), '#');
+      return;
+    }
+
+    // remove the second hash or space
+    if (text.contains('##') || text.contains('  ')) {
+      _controller.value = _controller.value.copyWith(
+        composing: TextRange.empty,
+        text: text.replaceAll('##', '#').replaceAll('  ', ' '),
+        selection: TextSelection.collapsed(offset: offset - 1),
+      );
+      return;
+    }
+
+    final word = text.substring(0, offset).split(' ').last;
+    final query = word.split('#').last;
+    if (query == _currentQuery) return;
+    _currentQuery = query;
+    _currentCursor = offset;
+    context
+        .read<TagBloc>()
+        .add(query.isEmpty ? const TagEvent.reset() : TagEvent.search(query));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RawAutocomplete<TagEntity>(
+      textEditingController: _controller,
+      focusNode: _focus,
+      optionsBuilder: (_) async {
+        if (_currentQuery == null) return [];
+        final bloc = context.read<TagBloc>();
+        try {
+          await bloc.stream.firstWhere((s) => s.loaded);
+          return bloc.state.tags;
+        } on StateError {
+          return [];
+        }
+      },
+      displayStringForOption: (v) =>
+          '${_text.substring(0, _currentCursor! - _currentQuery!.length)}${v.name} ${_text.substring(_currentCursor!).trim()}'
+              .trim()
+              .splitMapJoin(RegExp(' (#?)'), onMatch: (m) => ' #')
+              .trim(),
+      optionsViewBuilder: (context, onSelected, options) => Align(
+        alignment: Alignment.topLeft,
+        child: Material(
+          elevation: 4,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxHeight: 200),
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: options.length,
+              itemBuilder: (context, index) {
+                final tag = options.elementAt(index);
+                return ListTile(
+                  title: Text(tag.name),
+                  onTap: () {
+                    onSelected(tag);
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+      fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) =>
+          TextFormField(
+        controller: controller,
+        focusNode: focusNode,
+        onFieldSubmitted: (_) => onFieldSubmitted(),
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            borderSide: BorderSide(
+              color: Palette.primary100,
+              width: 1.5,
+            ),
+          ),
+          hintText: t.notice.write.tag.hint,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+          hintStyle: const TextStyle(color: Palette.textGrey),
+        ),
+      ),
+    );
+    // return ;
+  }
+}
+
+extension on String {
+  String safeSubstring(int start, int end) {
+    return substring(max(start, 0), min(end, length));
+  }
+
+  String removeSuffix(String suffix) {
+    return endsWith(suffix)
+        ? substring(0, length - 1).removeSuffix(suffix)
+        : this;
   }
 }

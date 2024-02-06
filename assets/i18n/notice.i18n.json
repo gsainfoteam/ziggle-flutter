@@ -72,6 +72,11 @@
     "titleHint": "Title",
     "deadline": "Set Deadline",
     "type": "Type",
+    "optional": "(Optional)",
+    "tag": {
+      "title(rich)": "Set Tag ${optional(@:notice.write.optional)}",
+      "hint": "Enter tag"
+    },
     "action": "Done"
   }
 }
