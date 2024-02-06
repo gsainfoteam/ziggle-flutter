@@ -326,63 +326,80 @@ class _TagState extends State<_Tag> {
 
   @override
   Widget build(BuildContext context) {
-    return RawAutocomplete<TagEntity>(
-      textEditingController: _controller,
-      focusNode: _focus,
-      optionsBuilder: (_) async {
-        if (_currentQuery == null) return [];
-        final bloc = context.read<TagBloc>();
-        try {
-          await bloc.stream.firstWhere((s) => s.loaded);
-          return bloc.state.tags;
-        } on StateError {
-          return [];
-        }
-      },
-      displayStringForOption: (v) =>
-          '${_text.substring(0, _currentCursor! - _currentQuery!.length)}'
-                  '${v.name} '
-                  '${_text.substring(_currentCursor!)}'
-              .cleanupTags(),
-      optionsViewBuilder: (context, onSelected, options) => Align(
-        alignment: Alignment.topLeft,
-        child: Material(
-          elevation: 4,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxHeight: 200),
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              itemCount: options.length,
-              itemBuilder: (context, index) {
-                final tag = options.elementAt(index);
-                return ListTile(
-                  title: Text(tag.name),
-                  onTap: () => onSelected(tag),
-                );
-              },
+    return LayoutBuilder(
+      builder: (context, constraints) => RawAutocomplete<TagEntity>(
+        textEditingController: _controller,
+        focusNode: _focus,
+        optionsBuilder: (_) async {
+          if (_currentQuery == null) return [];
+          final bloc = context.read<TagBloc>();
+          try {
+            await bloc.stream.firstWhere((s) => s.loaded);
+            return bloc.state.tags;
+          } on StateError {
+            return [];
+          }
+        },
+        displayStringForOption: (v) =>
+            '${_text.substring(0, _currentCursor! - _currentQuery!.length)}'
+                    '${v.name} '
+                    '${_text.substring(_currentCursor!)}'
+                .cleanupTags(),
+        optionsViewBuilder: (context, onSelected, options) => Align(
+          alignment: Alignment.topLeft,
+          child: Material(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            color: Palette.backgroundGreyLight,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxHeight: 200,
+                maxWidth: constraints.maxWidth,
+              ),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: options.length,
+                itemBuilder: (context, index) {
+                  final tag = options.elementAt(index);
+                  return ListTile(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: index == 0
+                            ? const Radius.circular(10)
+                            : Radius.zero,
+                        bottom: index == options.length - 1
+                            ? const Radius.circular(10)
+                            : Radius.zero,
+                      ),
+                    ),
+                    leading: Assets.icons.hashtag.svg(),
+                    title: Text(tag.name),
+                    onTap: () => onSelected(tag),
+                  );
+                },
+              ),
             ),
           ),
         ),
-      ),
-      fieldViewBuilder: (_, c, fn, ofs) => TextFormField(
-        controller: c,
-        focusNode: fn,
-        onFieldSubmitted: (_) => ofs(),
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(
-              color: Palette.primary100,
-              width: 1.5,
+        fieldViewBuilder: (_, c, fn, ofs) => TextFormField(
+          controller: c,
+          focusNode: fn,
+          onFieldSubmitted: (_) => ofs(),
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
+            focusedBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(
+                color: Palette.primary100,
+                width: 1.5,
+              ),
+            ),
+            hintText: t.notice.write.tag.hint,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+            hintStyle: const TextStyle(color: Palette.textGrey),
           ),
-          hintText: t.notice.write.tag.hint,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-          hintStyle: const TextStyle(color: Palette.textGrey),
         ),
       ),
     );
