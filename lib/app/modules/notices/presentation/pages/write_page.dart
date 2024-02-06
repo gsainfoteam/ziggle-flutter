@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -37,7 +38,9 @@ class _Layout extends StatefulWidget {
 class _LayoutState extends State<_Layout> {
   DateTime? _deadline;
   NoticeType? _type;
-  bool get _done => _type != null;
+  String? _korean;
+  String? _english;
+  bool get _done => _type != null && _korean != null;
 
   @override
   Widget build(BuildContext context) {
@@ -199,9 +202,87 @@ class _LayoutState extends State<_Layout> {
               padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
               child: _Tag(),
             ),
-            const Divider(indent: 18, endIndent: 18, height: 40),
+            const Divider(indent: 18, endIndent: 18),
+            Column(
+              children: [
+                _WriteArticleButton(
+                  onTap: () => WriteArticleRoute(
+                    title: t.notice.write.writeKorean,
+                    $extra: _korean ?? '',
+                  ).push<String>(context).then((value) {
+                    if (!mounted) return;
+                    setState(() => _korean = value ?? _korean);
+                  }),
+                  title: Text(
+                    t.notice.write.korean,
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  isFilled: _korean != null,
+                ),
+                _WriteArticleButton(
+                  onTap: () => WriteArticleRoute(
+                    title: t.notice.write.writeEnglish,
+                    $extra: _english ?? '',
+                  ).push<String>(context).then((value) {
+                    if (!mounted) return;
+                    setState(() => _english = value ?? _english);
+                  }),
+                  title: Text.rich(
+                    t.notice.write.english(
+                      optional: (v) => TextSpan(
+                        text: v,
+                        style: const TextStyle(color: Palette.textGrey),
+                      ),
+                    ),
+                    style: const TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  isFilled: _english != null,
+                ),
+              ],
+            ),
+            const Divider(indent: 18, endIndent: 18),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _WriteArticleButton extends StatelessWidget {
+  const _WriteArticleButton({
+    required this.onTap,
+    required this.title,
+    required this.isFilled,
+  });
+
+  final VoidCallback onTap;
+  final Widget title;
+  final bool isFilled;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 18),
+      leading: Assets.icons.docs.svg(),
+      title: title,
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            isFilled ? t.notice.write.edit : t.notice.write.write,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Palette.textGrey,
+            ),
+          ),
+          const SizedBox(width: 2),
+          const Icon(
+            Icons.arrow_forward_ios,
+            size: 16,
+            color: Palette.textGrey,
+          ),
+        ],
       ),
     );
   }

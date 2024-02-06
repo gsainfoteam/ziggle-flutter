@@ -77,6 +77,12 @@
       "title(rich)": "Set Tag ${optional(@:notice.write.optional)}",
       "hint": "Enter tag"
     },
+    "korean": "Korean Article",
+    "english(rich)": "English Article ${optional(@:notice.write.optional)}",
+    "write": "Write",
+    "writeKorean": "@:notice.write.write @:notice.write.korean",
+    "writeEnglish": "@:notice.write.write English Article",
+    "edit": "Edit",
     "action": "Done"
   }
 }
