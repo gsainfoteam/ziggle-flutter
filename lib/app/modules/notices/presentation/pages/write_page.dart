@@ -144,9 +144,8 @@ class _LayoutState extends State<_Layout> {
                   final type = NoticeType.writable[index];
                   final selected = _type == type;
                   return ZiggleButton(
-                    color: selected
-                        ? Palette.primary100
-                        : Palette.backgroundGreyLight,
+                    color:
+                        selected ? Palette.black : Palette.backgroundGreyLight,
                     onTap: () => setState(() => _type = type),
                     padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Row(children: [
