@@ -263,6 +263,20 @@ class _TagState extends State<_Tag> {
       return;
     }
 
+    // remove prefix space
+    if (text.startsWith(' ')) {
+      _controller.value =
+          _controller.value.replaced(const TextRange(start: 0, end: 1), '');
+      return;
+    }
+
+    // add prefix hash
+    if (!text.startsWith('#') && _hasFocus) {
+      _controller.value =
+          _controller.value.replaced(const TextRange(start: 0, end: 0), '#');
+      return;
+    }
+
     // check selection is collapsed
     final offset = switch (_controller.selection) {
       TextSelection(isCollapsed: true, baseOffset: final v, isValid: true) => v,
