@@ -133,7 +133,7 @@ class _LayoutState extends State<_Layout> {
               ),
             ),
             SizedBox(
-              height: 60,
+              height: 52,
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 18,
@@ -147,7 +147,7 @@ class _LayoutState extends State<_Layout> {
                     color:
                         selected ? Palette.black : Palette.backgroundGreyLight,
                     onTap: () => setState(() => _type = type),
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(children: [
                       type.icon.svg(
                         colorFilter: selected
@@ -162,7 +162,7 @@ class _LayoutState extends State<_Layout> {
                         type.name,
                         style: TextStyle(
                           color: selected ? Palette.white : Palette.black,
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.normal,
                         ),
                       ),
