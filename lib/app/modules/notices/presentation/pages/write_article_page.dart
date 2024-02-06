@@ -81,20 +81,28 @@ class _WriteArticlePageState extends State<WriteArticlePage> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-              child: TextFormField(
-                initialValue: _content,
-                onChanged: (value) => setState(() => _content = value),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: widget.hintText,
+        body: CustomScrollView(
+          slivers: [
+            SliverSafeArea(
+              sliver: SliverFillRemaining(
+                hasScrollBody: false,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+                  child: TextFormField(
+                    autofocus: true,
+                    maxLines: null,
+                    initialValue: _content,
+                    onChanged: (value) => setState(() => _content = value),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: widget.hintText,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
