@@ -259,11 +259,7 @@ class _TagState extends State<_Tag> {
 
     // when unfocused, remove the last hash and the space / add missing hash
     if (!_focus.hasFocus) {
-      _controller.text = text
-          .removeSuffix('#')
-          .trim()
-          .splitMapJoin(RegExp(' (#?)'), onMatch: (m) => ' #')
-          .trim();
+      _controller.text = text.removeSuffix('#').cleanupTags();
       return;
     }
 
@@ -330,10 +326,10 @@ class _TagState extends State<_Tag> {
         }
       },
       displayStringForOption: (v) =>
-          '${_text.substring(0, _currentCursor! - _currentQuery!.length)}${v.name} ${_text.substring(_currentCursor!).trim()}'
-              .trim()
-              .splitMapJoin(RegExp(' (#?)'), onMatch: (m) => ' #')
-              .trim(),
+          '${_text.substring(0, _currentCursor! - _currentQuery!.length)}'
+                  '${v.name} '
+                  '${_text.substring(_currentCursor!)}'
+              .cleanupTags(),
       optionsViewBuilder: (context, onSelected, options) => Align(
         alignment: Alignment.topLeft,
         child: Material(
@@ -390,4 +386,7 @@ extension on String {
         ? substring(0, length - 1).removeSuffix(suffix)
         : this;
   }
+
+  String cleanupTags() =>
+      trim().splitMapJoin(RegExp(' (#?)'), onMatch: (m) => ' #').trim();
 }
