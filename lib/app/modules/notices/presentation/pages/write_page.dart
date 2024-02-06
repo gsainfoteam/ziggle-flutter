@@ -133,7 +133,7 @@ class _LayoutState extends State<_Layout> {
               ),
             ),
             SizedBox(
-              height: 52,
+              height: 60,
               child: ListView.separated(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 18,
