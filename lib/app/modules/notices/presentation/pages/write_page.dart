@@ -348,20 +348,17 @@ class _TagState extends State<_Tag> {
                 final tag = options.elementAt(index);
                 return ListTile(
                   title: Text(tag.name),
-                  onTap: () {
-                    onSelected(tag);
-                  },
+                  onTap: () => onSelected(tag),
                 );
               },
             ),
           ),
         ),
       ),
-      fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) =>
-          TextFormField(
-        controller: controller,
-        focusNode: focusNode,
-        onFieldSubmitted: (_) => onFieldSubmitted(),
+      fieldViewBuilder: (_, c, fn, ofs) => TextFormField(
+        controller: c,
+        focusNode: fn,
+        onFieldSubmitted: (_) => ofs(),
         decoration: InputDecoration(
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(10)),
