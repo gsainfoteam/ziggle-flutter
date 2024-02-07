@@ -36,14 +36,14 @@ class _AppState extends State<App> {
         ),
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: MaterialApp.router(
-            theme: AppTheme.theme,
-            routerConfig: AppRoutes.config,
-            locale: TranslationProvider.of(context).flutterLocale,
-            supportedLocales: AppLocaleUtils.supportedLocales,
-            localizationsDelegates: GlobalMaterialLocalizations.delegates,
-            builder: (context, child) => AuthProvider(
-              child: UpgradeAlert(
+          child: AuthProvider(
+            child: MaterialApp.router(
+              theme: AppTheme.theme,
+              routerConfig: AppRoutes.config,
+              locale: TranslationProvider.of(context).flutterLocale,
+              supportedLocales: AppLocaleUtils.supportedLocales,
+              localizationsDelegates: GlobalMaterialLocalizations.delegates,
+              builder: (context, child) => UpgradeAlert(
                 upgrader: Upgrader(
                   dialogStyle: UpgradeDialogStyle.cupertino,
                   showIgnore: false,
