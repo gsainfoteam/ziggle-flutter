@@ -206,10 +206,10 @@ class _LayoutState extends State<_Layout> {
             Column(
               children: [
                 _WriteArticleButton(
-                  onTap: () => WriteArticleRoute(
+                  onTap: () => WriteArticleRoute.create(
                     title: t.notice.write.writeKorean,
                     hint: t.notice.write.enterKorean,
-                    $extra: _korean ?? '',
+                    body: _korean,
                   ).push<String>(context).then((value) {
                     if (!mounted) return;
                     setState(() => _korean = value ?? _korean);
@@ -221,10 +221,10 @@ class _LayoutState extends State<_Layout> {
                   isFilled: _korean != null,
                 ),
                 _WriteArticleButton(
-                  onTap: () => WriteArticleRoute(
+                  onTap: () => WriteArticleRoute.create(
                     title: t.notice.write.writeEnglish,
                     hint: t.notice.write.enterEnglish,
-                    $extra: _english ?? '',
+                    body: _korean,
                   ).push<String>(context).then((value) {
                     if (!mounted) return;
                     setState(() => _english = value ?? _english);
