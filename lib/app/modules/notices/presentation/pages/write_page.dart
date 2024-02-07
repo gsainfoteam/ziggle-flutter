@@ -243,6 +243,28 @@ class _LayoutState extends State<_Layout> {
               ],
             ),
             const Divider(indent: 18, endIndent: 18),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: Row(
+                children: [
+                  Assets.icons.mediaImagePlus.svg(),
+                  const SizedBox(width: 6),
+                  Text.rich(
+                    t.notice.write.images(
+                      optional: (v) => TextSpan(
+                        text: v,
+                        style: const TextStyle(color: Palette.textGrey),
+                      ),
+                    ),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -267,6 +289,7 @@ class _WriteArticleButton extends StatelessWidget {
       onTap: onTap,
       contentPadding: const EdgeInsets.symmetric(horizontal: 18),
       leading: Assets.icons.docs.svg(),
+      horizontalTitleGap: 6,
       title: title,
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

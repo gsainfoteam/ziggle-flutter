@@ -90,6 +90,8 @@
       "preserve": "Cancel"
     },
     "edit": "Edit",
+    "images(rich)": "Attach Images ${optional(@:notice.write.optional)}",
+    "select": "Select",
     "action": "Done"
   }
 }
