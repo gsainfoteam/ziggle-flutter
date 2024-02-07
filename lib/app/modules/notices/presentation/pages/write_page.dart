@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/router/routes.dart';
@@ -40,6 +42,7 @@ class _LayoutState extends State<_Layout> {
   NoticeType? _type;
   String? _korean;
   String? _english;
+  List<File> _images = [];
   bool get _done => _type != null && _korean != null;
 
   @override
@@ -64,6 +67,7 @@ class _LayoutState extends State<_Layout> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -265,6 +269,21 @@ class _LayoutState extends State<_Layout> {
                 ],
               ),
             ),
+            if (_images.isEmpty)
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                child: ZiggleButton(
+                  onTap: () async {
+                    final result = await ImagePicker().pickMultiImage();
+                    if (!mounted) return;
+                    setState(() {
+                      _images.addAll(result.map((e) => File(e.path)).toList());
+                    });
+                  },
+                  text: t.notice.write.selectImage,
+                ),
+              ),
           ],
         ),
       ),

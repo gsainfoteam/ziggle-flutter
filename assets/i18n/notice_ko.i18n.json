@@ -83,7 +83,7 @@
     },
     "edit": "편집하기",
     "images(rich)": "사진 첨부 ${optional(@:notice.write.optional)}",
-    "select": "선택하기",
+    "selectImage": "사진 선택하기",
     "action": "완료"
   }
 }

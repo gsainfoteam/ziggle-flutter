@@ -91,7 +91,7 @@
     },
     "edit": "Edit",
     "images(rich)": "Attach Images ${optional(@:notice.write.optional)}",
-    "select": "Select",
+    "selectImage": "Select Image(s)",
     "action": "Done"
   }
 }
