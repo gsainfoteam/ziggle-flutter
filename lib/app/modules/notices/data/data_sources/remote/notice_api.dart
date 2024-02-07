@@ -27,6 +27,16 @@ abstract class NoticeApi {
     @Query('my') NoticeMy? my,
   });
 
+  @POST('')
+  Future<NoticeModel> createNotice({
+    @Field('title') String title,
+    @Field('content') String body,
+    @Field('type') DateTime? deadline,
+    @Field('tags') List<int> tagIds = const [],
+    @Field('images') List<String> images = const [],
+    @Field('documents') List<String> documents = const [],
+  });
+
   @GET('{id}')
   Future<NoticeModel> getNotice(
     @Path('id') int id, {
