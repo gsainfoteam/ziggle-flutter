@@ -84,6 +84,7 @@
     "edit": "편집하기",
     "images(rich)": "사진 첨부 ${optional(@:notice.write.optional)}",
     "selectImage": "사진 선택하기",
+    "addImage": "사진 추가",
     "action": "완료"
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -274,20 +275,123 @@ class _LayoutState extends State<_Layout> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
                 child: ZiggleButton(
-                  onTap: () async {
-                    final result = await ImagePicker().pickMultiImage();
-                    if (!mounted) return;
-                    setState(() {
-                      _images.addAll(result.map((e) => File(e.path)).toList());
-                    });
-                  },
+                  onTap: _addImages,
                   text: t.notice.write.selectImage,
                 ),
-              ),
+              )
+            else
+              SizedBox(
+                height: 170,
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 18),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    if (index == _images.length) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: SizedBox(
+                          width: 130,
+                          child: ZiggleButton(
+                            onTap: _addImages,
+                            color: Colors.transparent,
+                            padding: EdgeInsets.zero,
+                            child: DottedBorder(
+                              borderType: BorderType.RRect,
+                              radius: const Radius.circular(10),
+                              color: Palette.textGrey,
+                              strokeWidth: 2,
+                              dashPattern: const [10, 4],
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Assets.icons.mediaImagePlus.svg(
+                                      width: 60,
+                                      colorFilter: const ColorFilter.mode(
+                                        Palette.textGrey,
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                    Text(
+                                      t.notice.write.addImage,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }
+                    final file = _images[index];
+                    return Stack(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20) +
+                              const EdgeInsets.only(right: 16),
+                          child: Image.file(
+                            file,
+                            width: 130,
+                            height: 130,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned(
+                          top: 4,
+                          right: 0,
+                          child: Stack(
+                            children: [
+                              SizedBox(
+                                width: 32,
+                                height: 32,
+                                child: ZiggleButton(
+                                  onTap: () {
+                                    if (!mounted) return;
+                                    setState(() => _images.removeAt(index));
+                                  },
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: EdgeInsets.zero,
+                                  color: Colors.transparent,
+                                  child: Center(
+                                    child: Container(
+                                      width: 16,
+                                      height: 16,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Palette.textGreyDark,
+                                      ),
+                                      child: const Icon(Icons.close, size: 12),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                  itemCount: _images.length + 1,
+                ),
+              )
           ],
         ),
       ),
     );
+  }
+
+  void _addImages() async {
+    final result = await ImagePicker().pickMultiImage();
+    if (!mounted) return;
+    setState(() {
+      _images.addAll(result.map((e) => File(e.path)).toList());
+    });
   }
 }
 
