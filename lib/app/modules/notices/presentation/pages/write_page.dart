@@ -39,12 +39,13 @@ class _Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<_Layout> {
+  String _title = '';
   DateTime? _deadline;
   NoticeType? _type;
   String? _korean;
   String? _english;
-  List<File> _images = [];
-  bool get _done => _type != null && _korean != null;
+  final List<File> _images = [];
+  bool get _done => _title.isNotEmpty && _type != null && _korean != null;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +74,7 @@ class _LayoutState extends State<_Layout> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: TextFormField(
+                onChanged: (v) => setState(() => _title = v),
                 style: const TextStyle(fontWeight: FontWeight.bold),
                 decoration: InputDecoration(
                   border: InputBorder.none,
