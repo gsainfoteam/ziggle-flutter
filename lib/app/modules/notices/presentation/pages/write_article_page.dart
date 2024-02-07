@@ -146,14 +146,9 @@ class _WriteArticlePageState extends State<WriteArticlePage> {
                   icon: Assets.icons.list.svg(),
                 ),
             (node) => IconButton(
-                  onPressed: () =>
-                      _controller.value = _controller.value._wrapWith('~~'),
-                  icon: Assets.icons.strikethrough.svg(),
-                ),
-            (node) => IconButton(
                   onPressed: () => _controller.value =
                       _controller.value._wrapWith('<u>', '</u>'),
-                  icon: Assets.icons.strikethrough.svg(),
+                  icon: Assets.icons.underline.svg(),
                 ),
           ],
         ),
