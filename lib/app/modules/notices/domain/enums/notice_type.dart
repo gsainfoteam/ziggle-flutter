@@ -6,12 +6,16 @@ import 'notice_sort.dart';
 enum NoticeType {
   all,
   hot,
-  recruit,
-  event,
-  general,
+  recruit(1),
+  event(2),
+  general(3),
   academic,
   written,
   reminded;
+
+  const NoticeType([this._tagId]);
+  final int? _tagId;
+  int get tagId => _tagId!;
 
   static const writable = [recruit, event, general];
   static const tags = [...writable, academic];

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import '../entities/notice_entity.dart';
 import '../entities/notice_list_entity.dart';
 import '../enums/notice_type.dart';
@@ -15,4 +17,14 @@ abstract class NoticeRepository {
 
   Future<NoticeEntity> addReaction(int id, String emoji);
   Future<NoticeEntity> removeReaction(int id, String emoji);
+
+  Future<NoticeEntity> write({
+    required String title,
+    required String content,
+    DateTime? deadline,
+    required NoticeType type,
+    List<String> tags = const [],
+    List<File> images = const [],
+    List<File> documents = const [],
+  });
 }
