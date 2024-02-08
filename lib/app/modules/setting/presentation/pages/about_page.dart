@@ -19,7 +19,7 @@ class AboutPage extends StatelessWidget {
           children: [
             ListTile(
               title: Text(t.setting.feedback.label),
-              onTap: () => const FeedbackRoute().push(context),
+              onTap: () => launchUrlString(Strings.heyDeveloperUrl),
             ),
             ListTile(
               title: Text(t.setting.termsOfService),

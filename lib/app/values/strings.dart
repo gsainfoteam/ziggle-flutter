@@ -17,4 +17,5 @@ abstract class Strings {
   static const withdrawalUrl = 'https://idp.gistory.me';
 
   static const smartlookKey = '559177df225fb6be8f57ab026bcd071f18c172cc';
+  static const heyDeveloperUrl = 'https://cs.gistory.me/?service=Ziggle';
 }

@@ -6,7 +6,6 @@ part of 'routes.dart';
     TypedGoRoute<AboutRoute>(
       path: 'about',
       routes: [
-        TypedGoRoute<FeedbackRoute>(path: 'feedback'),
         TypedGoRoute<PackagesRoute>(
           path: 'license',
           routes: [TypedGoRoute<LicenseRoute>(path: ':package')],
@@ -25,15 +24,6 @@ class AboutRoute extends GoRouteData {
   const AboutRoute();
   @override
   Widget build(context, state) => const AboutPage();
-}
-
-class FeedbackRoute extends GoRouteData {
-  const FeedbackRoute();
-  @override
-  Page<void> buildPage(context, state) => const MaterialPage(
-        fullscreenDialog: true,
-        child: FeedbackPage(),
-      );
 }
 
 class PackagesRoute extends GoRouteData {
