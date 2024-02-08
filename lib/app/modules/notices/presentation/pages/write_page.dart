@@ -45,7 +45,7 @@ class _LayoutState extends State<_Layout> {
   String _title = '';
   DateTime? _deadline;
   NoticeType? _type;
-  final List<String> _tags = [];
+  List<String> _tags = [];
   String? _korean;
   String? _english;
   final List<File> _images = [];
@@ -227,11 +227,7 @@ class _LayoutState extends State<_Layout> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-              child: _Tag(
-                onChanged: (tags) => _tags
-                  ..clear()
-                  ..addAll(tags),
-              ),
+              child: _Tag(onChanged: (tags) => _tags = tags.sublist(0)),
             ),
             const Divider(indent: 18, endIndent: 18),
             Column(
