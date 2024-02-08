@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_type.dart';
@@ -9,6 +10,7 @@ import '../../domain/repositories/notice_repository.dart';
 
 part 'write_bloc.freezed.dart';
 
+@injectable
 class WriteBloc extends Bloc<WriteEvent, WriteState> {
   final NoticeRepository _repository;
 
@@ -50,6 +52,7 @@ class WriteState with _$WriteState {
   const factory WriteState.loading() = _Loading;
   const factory WriteState.loaded(NoticeEntity notice) = _Loaded;
 
+  bool get isLoading => this is _Loading;
   bool get isLoaded => this is _Loaded;
   NoticeEntity get notice => (this as _Loaded).notice;
 }
