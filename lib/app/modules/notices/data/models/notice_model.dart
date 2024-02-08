@@ -43,5 +43,6 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
         author: entity.author,
         imagesUrl: entity.imagesUrl,
         documentsUrl: entity.documentsUrl,
+        reminder: entity.reminder,
       );
 }

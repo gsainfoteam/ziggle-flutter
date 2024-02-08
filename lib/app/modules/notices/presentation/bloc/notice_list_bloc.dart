@@ -59,27 +59,29 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       if (state is! _Loaded) return;
       emit(_Loading(total: state.total, list: state.list, type: state.type));
       final data = await _repository.addReaction(event.id, event.emoji);
-      final index = state.list.indexWhere((e) => e.id == event.id);
-      if (index != -1) {
-        final list = state.list.toList();
-        list[index] = NoticeModel.fromEntity(data).copyWith(
-          contents: NoticeModel.fromEntity(list[index]).contents,
-        );
-        emit(_Loaded(total: state.total, list: list, type: state.type));
-      }
+      final list = state.list.replaceWithPersistContent(data);
+      emit(_Loaded(total: state.total, list: list, type: state.type));
     });
     on<_RemoveReaction>((event, emit) async {
       if (state is! _Loaded) return;
       emit(_Loading(total: state.total, list: state.list, type: state.type));
       final data = await _repository.removeReaction(event.id, event.emoji);
-      final index = state.list.indexWhere((e) => e.id == event.id);
-      if (index != -1) {
-        final list = state.list.toList();
-        list[index] = NoticeModel.fromEntity(data).copyWith(
-          contents: NoticeModel.fromEntity(list[index]).contents,
-        );
-        emit(_Loaded(total: state.total, list: list, type: state.type));
-      }
+      final list = state.list.replaceWithPersistContent(data);
+      emit(_Loaded(total: state.total, list: list, type: state.type));
+    });
+    on<_AddReminder>((event, emit) async {
+      if (state is! _Loaded) return;
+      emit(_Loading(total: state.total, list: state.list, type: state.type));
+      final data = await _repository.addReminder(event.id);
+      final list = state.list.replaceWithPersistContent(data);
+      emit(_Loaded(total: state.total, list: list, type: state.type));
+    });
+    on<_RemoveReminder>((event, emit) async {
+      if (state is! _Loaded) return;
+      emit(_Loading(total: state.total, list: state.list, type: state.type));
+      final data = await _repository.removeReminder(event.id);
+      final list = state.list.replaceWithPersistContent(data);
+      emit(_Loaded(total: state.total, list: list, type: state.type));
     });
   }
 }
@@ -100,6 +102,8 @@ class NoticeListEvent with _$NoticeListEvent {
       _AddReaction;
   const factory NoticeListEvent.removeReaction(int id, String emoji) =
       _RemoveReaction;
+  const factory NoticeListEvent.addReminder(int id) = _AddReminder;
+  const factory NoticeListEvent.removeReminder(int id) = _RemoveReminder;
 }
 
 mixin _Droppable on NoticeListEvent {}
@@ -124,4 +128,16 @@ class NoticeListState with _$NoticeListState {
   }) = _Loaded;
 
   bool get loaded => this is _Loaded;
+}
+
+extension on List<NoticeEntity> {
+  List<NoticeEntity> replaceWithPersistContent(NoticeEntity notice) {
+    final index = indexWhere((e) => e.id == notice.id);
+    if (index == -1) return this;
+    final list = toList();
+    list[index] = NoticeModel.fromEntity(notice).copyWith(
+      contents: NoticeModel.fromEntity(list[index]).contents,
+    );
+    return list;
+  }
 }

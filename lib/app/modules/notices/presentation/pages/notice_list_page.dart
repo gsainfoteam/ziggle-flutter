@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -96,36 +97,52 @@ class _LayoutState extends State<_Layout> {
                         ),
                       ),
                     )
-                  : SliverList.separated(
-                      itemCount: state.list.length + (state.loaded ? 0 : 1),
-                      itemBuilder: (context, index) {
-                        if (index == state.list.length) {
-                          return const Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          );
-                        }
-                        final notice = state.list[index];
-                        onTapDetail() =>
-                            NoticeRoute.fromEntity(notice).push(context);
-                        return _isCollapsed
-                            ? NoticeListItem(
-                                notice: notice,
-                                onTapDetail: onTapDetail,
-                              )
-                            : NoticeCard(
-                                notice: notice,
-                                onTapDetail: onTapDetail,
-                              );
-                      },
-                      separatorBuilder: (context, index) => const Divider(),
-                    ),
+                  : _buildList(state),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  SliverList _buildList(NoticeListState state) {
+    return SliverList.separated(
+      itemCount: state.list.length + (state.loaded ? 0 : 1),
+      itemBuilder: (context, index) {
+        if (index == state.list.length) {
+          return const Padding(
+            padding: EdgeInsets.all(8),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        final notice = state.list[index];
+        onTapDetail() => NoticeRoute.fromEntity(notice).push(context);
+        return _isCollapsed
+            ? NoticeListItem(
+                notice: notice,
+                onTapDetail: onTapDetail,
+              )
+            : NoticeCard(
+                notice: notice,
+                onTapDetail: onTapDetail,
+                onTapShare: () => context.read<ShareCubit>().share(notice),
+                onTapReminder: () {
+                  if (AuthBloc.userOrNull(context) == null) {
+                    const LoginRoute().push(context);
+                    return;
+                  }
+                  HapticFeedback.lightImpact();
+                  context.read<NoticeListBloc>().add(
+                        notice.reminder
+                            ? NoticeListEvent.removeReminder(notice.id)
+                            : NoticeListEvent.addReminder(notice.id),
+                      );
+                },
+              );
+      },
+      separatorBuilder: (context, index) => const Divider(),
     );
   }
 }
