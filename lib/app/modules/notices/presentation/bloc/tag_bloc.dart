@@ -1,23 +1,32 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../domain/entities/tag_entity.dart';
 import '../../domain/repositories/tag_repository.dart';
 
 part 'tag_bloc.freezed.dart';
 
+Stream<T> _thottle<T>(Stream<T> events, Stream<T> Function(T) mapper) => events
+    .throttleTime(const Duration(milliseconds: 500), trailing: true)
+    .distinct()
+    .switchMap(mapper);
+
 @injectable
 class TagBloc extends Bloc<TagEvent, TagState> {
   final TagRepository _repository;
 
   TagBloc(this._repository) : super(const _Initial()) {
-    on<_Search>((event, emit) async {
-      emit(const TagState.loading());
-      final tags = await _repository.searchTags(event.query);
-      emit(TagState.loaded(tags));
-    });
-    on<_Reset>((event, emit) => emit(const TagState.loaded([])));
+    on<TagEvent>((event, emit) async {
+      if (event is _Search) {
+        emit(const TagState.loading());
+        final tags = await _repository.searchTags(event.query);
+        emit(TagState.loaded(tags));
+      } else if (event is _Reset) {
+        emit(const TagState.loaded([]));
+      }
+    }, transformer: _thottle);
   }
 }
 
