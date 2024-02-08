@@ -39,7 +39,10 @@ class WritePage extends StatelessWidget {
             ),
             IgnorePointer(
               child: TweenAnimationBuilder(
-                tween: Tween(begin: 0.0, end: state.isLoading ? 1.0 : 0.0),
+                tween: Tween(
+                  begin: state.isLoading ? 0.0 : 1.0,
+                  end: state.isLoading ? 1.0 : 0.0,
+                ),
                 builder: (context, value, child) => Opacity(
                   opacity: value,
                   child: child,
