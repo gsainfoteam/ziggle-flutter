@@ -56,6 +56,7 @@
   "createdAt": "Posted at",
   "deadline": "Deadline",
   "share": "Share",
+  "shareContent": "$title\n\nCheck the notice in Ziggle!\n$link",
   "additional": "Additional Notice",
   "deadlineChanged": "Deadline Changed :",
   "views(rich)": "Views ${views}",
