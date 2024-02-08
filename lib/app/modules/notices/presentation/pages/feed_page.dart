@@ -67,7 +67,7 @@ class _Layout extends StatelessWidget {
                 ),
                 IconButton(
                   icon: Assets.icons.editPencil.svg(),
-                  onPressed: () {},
+                  onPressed: () => const WriteRoute().push(context),
                 ),
                 IconButton(
                   icon: Assets.icons.user.svg(),

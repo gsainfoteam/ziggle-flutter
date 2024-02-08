@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../../domain/enums/notice_sort.dart';
@@ -26,6 +27,9 @@ abstract class NoticeApi {
     @Query('orderBy') NoticeSort? orderBy,
     @Query('my') NoticeMy? my,
   });
+
+  @POST('')
+  Future<NoticeModel> createNotice(@Body() CreateNoticeModel model);
 
   @GET('{id}')
   Future<NoticeModel> getNotice(

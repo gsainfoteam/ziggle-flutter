@@ -66,5 +66,33 @@
     "large": "Large",
     "collapsed": "Collapsed"
   },
-  "searchHint": "Enter search keyword"
+  "searchHint": "Enter search keyword",
+  "write": {
+    "title": "Write Notice",
+    "titleHint": "Title",
+    "deadline": "Set Deadline",
+    "type": "Type",
+    "optional": "(Optional)",
+    "tag": {
+      "title(rich)": "Set Tag ${optional(@:notice.write.optional)}",
+      "hint": "Enter tag"
+    },
+    "korean": "Korean Article",
+    "english(rich)": "English Article ${optional(@:notice.write.optional)}",
+    "write": "Write",
+    "writeKorean": "Write Korean Article",
+    "writeEnglish": "Write English Article",
+    "enterKorean": "Enter Korean Article",
+    "enterEnglish": "Enter English Article",
+    "unsaved": {
+      "title": "There is changed",
+      "discard": "Discard",
+      "preserve": "Cancel"
+    },
+    "edit": "Edit",
+    "images(rich)": "Attach Images ${optional(@:notice.write.optional)}",
+    "selectImage": "Select Image(s)",
+    "addImage": "Add Image(s)",
+    "action": "Done"
+  }
 }

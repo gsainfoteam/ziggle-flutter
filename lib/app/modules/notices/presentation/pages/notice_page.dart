@@ -134,7 +134,9 @@ class _Layout extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      DateFormat.yMd().add_Hm().format(notice.createdAt),
+                      DateFormat.yMd()
+                          .add_Hm()
+                          .format(notice.createdAt.toLocal()),
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Palette.text300,

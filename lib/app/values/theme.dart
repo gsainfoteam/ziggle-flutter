@@ -27,5 +27,8 @@ abstract class AppTheme {
       padding: EdgeInsets.zero,
     ),
     dividerColor: Palette.borderGreyLight,
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: Palette.primary100,
+    ),
   );
 }

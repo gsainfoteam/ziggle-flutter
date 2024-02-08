@@ -39,3 +39,37 @@ class SearchRoute extends GoRouteData {
   @override
   Widget build(context, state) => const SearchPage();
 }
+
+@TypedGoRoute<WriteRoute>(
+  path: '/write',
+  routes: [TypedGoRoute<WriteArticleRoute>(path: 'article')],
+)
+class WriteRoute extends GoRouteData {
+  const WriteRoute();
+  @override
+  Widget build(context, state) => const AuthRequiredPage(child: WritePage());
+}
+
+class WriteArticleRoute extends GoRouteData {
+  @Deprecated('Use WriteArticleRoute.create instead')
+  const WriteArticleRoute({required this.$extra});
+  factory WriteArticleRoute.create({
+    required String title,
+    required String hint,
+    required String? body,
+  }) {
+    // ignore: deprecated_member_use_from_same_package
+    return WriteArticleRoute(
+      $extra: {'title': title, 'hint': hint, 'body': body ?? ''},
+    );
+  }
+  final Map<String, dynamic> $extra;
+  @override
+  Widget build(context, state) => AuthRequiredPage(
+        child: WriteArticlePage(
+          title: $extra['title'],
+          hintText: $extra['hint'],
+          initialContent: $extra['body'],
+        ),
+      );
+}

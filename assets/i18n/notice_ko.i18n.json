@@ -58,5 +58,33 @@
     "large": "크게",
     "collapsed": "작게"
   },
-  "searchHint": "검색어를 입력하세요"
+  "searchHint": "검색어를 입력하세요",
+  "write": {
+    "title": "공지 작성하기",
+    "titleHint": "제목",
+    "deadline": "마감일 설정",
+    "type": "분류",
+    "optional": "(선택)",
+    "tag": {
+      "title(rich)": "태그 설정 ${optional(@:notice.write.optional)}",
+      "hint": "태그 입력"
+    },
+    "korean": "한글 본문",
+    "english(rich)": "영어 본문 ${optional(@:notice.write.optional)}",
+    "write": "작성하기",
+    "writeKorean": "한글 본문 작성",
+    "writeEnglish": "영어 본문 작성",
+    "enterKorean": "한글 본문 입력",
+    "enterEnglish": "영어 본문 입력",
+    "unsaved": {
+      "title": "There is changed",
+      "discard": "Discard",
+      "preserve": "Cancel"
+    },
+    "edit": "편집하기",
+    "images(rich)": "사진 첨부 ${optional(@:notice.write.optional)}",
+    "selectImage": "사진 선택하기",
+    "addImage": "사진 추가",
+    "action": "완료"
+  }
 }

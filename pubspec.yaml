@@ -13,6 +13,7 @@ dependencies:
   crypto: ^3.0.3
   dio: ^5.2.1+1
   dio_cookie_manager: ^3.1.0+1
+  dotted_border: ^2.1.0
   dynamic_fonts: ^2.2.0
   extended_text: ^12.0.1
   firebase_analytics: ^10.4.0
@@ -42,6 +43,7 @@ dependencies:
   injectable: ^2.3.2
   intl: ^0.18.1
   json_annotation: ^4.8.1
+  keyboard_actions: ^4.2.0
   markdown: ^7.1.0
   package_info_plus: ^5.0.1
   path_provider: ^2.1.1
