@@ -18,6 +18,7 @@ import '../../domain/enums/notice_type.dart';
 import '../../presentation/bloc/notice_bloc.dart';
 import '../../presentation/widgets/additional_notice_content.dart';
 import '../../presentation/widgets/notice_body.dart';
+import '../cubit/share_cubit.dart';
 
 class NoticePage extends StatelessWidget {
   const NoticePage({super.key, required this.notice});
@@ -32,6 +33,7 @@ class NoticePage extends StatelessWidget {
           create: (_) =>
               sl<NoticeBloc>(param1: notice)..add(NoticeEvent.load(notice)),
         ),
+        BlocProvider(create: (_) => sl<ShareCubit>()),
       ],
       child: const _Layout(),
     );
@@ -188,7 +190,7 @@ class _Layout extends StatelessWidget {
                 itemBuilder: (context, index) {
                   if (index == NoticeReaction.values.length) {
                     return _ChipButton(
-                      onTap: () {},
+                      onTap: () => context.read<ShareCubit>().share(notice),
                       selected: false,
                       child: Row(
                         children: [
