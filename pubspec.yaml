@@ -50,6 +50,7 @@ dependencies:
   permission_handler: ^11.2.0
   retrofit: ^4.0.1
   rxdart: ^0.27.7
+  share_plus: ^7.2.2
   slang: ^3.21.0
   slang_flutter: ^3.21.0
   textfield_tags: ^2.0.2

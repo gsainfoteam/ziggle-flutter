@@ -12,6 +12,7 @@ import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_reaction.dart';
 import '../../domain/enums/notice_type.dart';
 import '../bloc/notice_list_bloc.dart';
+import '../cubit/share_cubit.dart';
 import '../widgets/infinite_scroll.dart';
 import '../widgets/notice_card.dart';
 
@@ -26,6 +27,7 @@ class FeedPage extends StatelessWidget {
           create: (context) =>
               sl<NoticeListBloc>()..add(const NoticeListEvent.load()),
         ),
+        BlocProvider(create: (_) => sl<ShareCubit>()),
       ],
       child: const _Layout(),
     );

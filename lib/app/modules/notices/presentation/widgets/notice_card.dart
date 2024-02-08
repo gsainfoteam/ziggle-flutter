@@ -1,6 +1,8 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -40,8 +42,7 @@ class NoticeCard extends StatelessWidget {
               deadline: notice.currentDeadline,
             ),
             _ImageAction(
-              imagesUrl: notice.imagesUrl,
-              likes: notice.likes,
+              notice: notice,
               isLiked: switch (AuthBloc.userOrNull(context)) {
                 null => false,
                 final user => notice.reactedBy(user.uuid, NoticeReaction.like),
@@ -116,14 +117,12 @@ class _Title extends StatelessWidget {
 
 class _ImageAction extends StatefulWidget {
   const _ImageAction({
-    required this.imagesUrl,
-    required this.likes,
+    required this.notice,
     required this.isLiked,
     required this.onTapLike,
   });
 
-  final List<String> imagesUrl;
-  final int likes;
+  final NoticeEntity notice;
   final bool isLiked;
   final VoidCallback? onTapLike;
 
@@ -133,6 +132,10 @@ class _ImageAction extends StatefulWidget {
 
 class _ImageActionState extends State<_ImageAction> {
   final _pageController = PageController();
+
+  NoticeEntity get notice => widget.notice;
+  int get likes => notice.likes;
+  List<String> get imagesUrl => notice.imagesUrl;
 
   @override
   void initState() {
@@ -150,14 +153,14 @@ class _ImageActionState extends State<_ImageAction> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (widget.imagesUrl.isNotEmpty)
+        if (imagesUrl.isNotEmpty)
           AspectRatio(
             aspectRatio: 1,
             child: PageView.builder(
-              itemCount: widget.imagesUrl.length,
+              itemCount: imagesUrl.length,
               controller: _pageController,
               itemBuilder: (context, index) => Image.network(
-                widget.imagesUrl[index],
+                imagesUrl[index],
                 fit: BoxFit.cover,
               ),
             ),
@@ -165,9 +168,9 @@ class _ImageActionState extends State<_ImageAction> {
         Stack(
           alignment: Alignment.center,
           children: [
-            if (widget.imagesUrl.isNotEmpty)
+            if (imagesUrl.isNotEmpty)
               ScrollingPageIndicator(
-                itemCount: widget.imagesUrl.length,
+                itemCount: imagesUrl.length,
                 controller: _pageController,
                 dotColor: Palette.textGrey,
                 dotSelectedColor: Palette.primary100,
@@ -186,12 +189,12 @@ class _ImageActionState extends State<_ImageAction> {
                   padding: EdgeInsets.zero,
                 ),
                 Text(
-                  '${widget.likes}',
+                  '$likes',
                   style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () => context.read<ShareCubit>().share(notice),
                   icon: Assets.icons.shareAndroid.svg(),
                   padding: EdgeInsets.zero,
                   visualDensity:
