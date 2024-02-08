@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/notices/data/enums/notice_my.dart';
+import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/entities/notice_list_entity.dart';
@@ -97,12 +98,14 @@ class RemoteNoticeRepository implements NoticeRepository {
         ? <String>[]
         : await _documentApi.uploadDocuments(documents);
     return _api.createNotice(
-      title: title,
-      body: content,
-      deadline: deadline,
-      tagIds: [type.tagId, ...uploadedTags.map((tag) => tag.id)],
-      images: uploadedImages,
-      documents: uploadedDocuments,
+      CreateNoticeModel(
+        title: title,
+        body: content,
+        deadline: deadline,
+        tagIds: [type.tagId, ...uploadedTags.map((tag) => tag.id)],
+        images: uploadedImages,
+        documents: uploadedDocuments,
+      ),
     );
   }
 }
