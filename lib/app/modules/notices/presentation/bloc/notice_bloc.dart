@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/repositories/notice_repository.dart';
@@ -34,6 +35,20 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
           await _repository.removeReaction(state.notice.id, event.emoji);
       emit(_Loaded(data));
     });
+    on<_AddReminder>((event, emit) async {
+      emit(_Loading(
+        NoticeModel.fromEntity(state.notice).copyWith(reminder: true),
+      ));
+      final data = await _repository.addReminder(state.notice.id);
+      emit(_Loaded(data));
+    });
+    on<_RemoveReminder>((event, emit) async {
+      emit(_Loading(
+        NoticeModel.fromEntity(state.notice).copyWith(reminder: false),
+      ));
+      final data = await _repository.removeReminder(state.notice.id);
+      emit(_Loaded(data));
+    });
   }
 }
 
@@ -43,6 +58,8 @@ class NoticeEvent with _$NoticeEvent {
   const factory NoticeEvent.refresh() = _Refresh;
   const factory NoticeEvent.addReaction(String emoji) = _AddReaction;
   const factory NoticeEvent.removeReaction(String emoji) = _RemoveReaction;
+  const factory NoticeEvent.addReminder() = _AddReminder;
+  const factory NoticeEvent.removeReminder() = _RemoveReminder;
 }
 
 @freezed
