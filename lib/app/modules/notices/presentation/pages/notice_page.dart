@@ -58,11 +58,17 @@ class _Layout extends StatelessWidget {
                 return const SizedBox();
               }
               return IconButton(
-                onPressed: () => context.read<NoticeBloc>().add(
-                      notice.reminder
-                          ? const NoticeEvent.removeReminder()
-                          : const NoticeEvent.addReminder(),
-                    ),
+                onPressed: () {
+                  if (AuthBloc.userOrNull(context) == null) {
+                    const LoginRoute().push(context);
+                    return;
+                  }
+                  context.read<NoticeBloc>().add(
+                        notice.reminder
+                            ? const NoticeEvent.removeReminder()
+                            : const NoticeEvent.addReminder(),
+                      );
+                },
                 icon: BlocBuilder<NoticeBloc, NoticeState>(
                   builder: (context, state) => state.notice.reminder
                       ? Assets.icons.bellActive.svg()
