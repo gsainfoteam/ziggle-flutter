@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:markdown/markdown.dart' show markdownToHtml;
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/router/routes.dart';
@@ -96,7 +97,7 @@ class _LayoutState extends State<_Layout> {
                     final blob = context.read<WriteBloc>();
                     blob.add(WriteEvent.write(
                       title: _title,
-                      content: _korean!,
+                      content: markdownToHtml(_korean!),
                       deadline: _deadline,
                       type: _type!,
                       images: _images,
