@@ -30,7 +30,7 @@ abstract class NoticeApi {
   @POST('')
   Future<NoticeModel> createNotice({
     @Field('title') required String title,
-    @Field('content') required String body,
+    @Field('body') required String body,
     @Field('type') DateTime? deadline,
     @Field('tags') List<int> tagIds = const [],
     @Field('images') List<String> images = const [],
