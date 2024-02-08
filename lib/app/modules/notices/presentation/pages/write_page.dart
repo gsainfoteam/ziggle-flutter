@@ -531,6 +531,7 @@ class _TagState extends State<_Tag> {
         .split(' ')
         .where((v) => v.startsWith('#'))
         .map((e) => e.substring(1).trim())
+        .where((element) => element.isNotEmpty)
         .toList());
     // if newly focused, add a hash
     if (_focus.hasFocus && !_hasFocus) {
