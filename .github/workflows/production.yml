@@ -10,12 +10,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-os: [ubuntu-latest, macos-13]
+        build-os: [ubuntu-latest, macos-14]
         include:
           - os: Android
             build-os: ubuntu-latest
           - os: iOS
-            build-os: macos-13
+            build-os: macos-14
     name: Promote ${{ matrix.os }} App to Production
     runs-on: ${{ matrix.build-os }}
     concurrency:
