@@ -44,7 +44,12 @@ class WriteEvent with _$WriteEvent {
 
 @freezed
 class WriteState with _$WriteState {
+  const WriteState._();
+
   const factory WriteState.initial() = _Initial;
   const factory WriteState.loading() = _Loading;
   const factory WriteState.loaded(NoticeEntity notice) = _Loaded;
+
+  bool get isLoaded => this is _Loaded;
+  NoticeEntity get notice => (this as _Loaded).notice;
 }

@@ -5,6 +5,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
@@ -16,6 +17,7 @@ import 'package:ziggle/gen/strings.g.dart';
 import '../../domain/entities/tag_entity.dart';
 import '../../domain/enums/notice_type.dart';
 import '../bloc/tag_bloc.dart';
+import '../bloc/write_bloc.dart';
 
 class WritePage extends StatelessWidget {
   const WritePage({super.key});
@@ -25,6 +27,7 @@ class WritePage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => sl<TagBloc>()),
+        BlocProvider(create: (_) => sl<WriteBloc>()),
       ],
       child: const _Layout(),
     );
@@ -42,6 +45,7 @@ class _LayoutState extends State<_Layout> {
   String _title = '';
   DateTime? _deadline;
   NoticeType? _type;
+  final List<String> _tags = [];
   String? _korean;
   String? _english;
   final List<File> _images = [];
@@ -55,7 +59,23 @@ class _LayoutState extends State<_Layout> {
         title: Text(t.notice.write.title),
         actions: [
           ZiggleButton(
-            onTap: _done ? () {} : null,
+            onTap: _done
+                ? () async {
+                    final blob = context.read<WriteBloc>();
+                    blob.add(WriteEvent.write(
+                      title: _title,
+                      content: _korean!,
+                      deadline: _deadline,
+                      type: _type!,
+                      images: _images,
+                      tags: _tags,
+                    ));
+                    final s = await blob.stream.firstWhere((s) => s.isLoaded);
+                    if (!mounted) return;
+                    context.pop();
+                    NoticeRoute.fromEntity(s.notice).push(context);
+                  }
+                : null,
             color: Colors.transparent,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Text(
