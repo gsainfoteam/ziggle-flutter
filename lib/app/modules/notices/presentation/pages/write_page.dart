@@ -225,9 +225,13 @@ class _LayoutState extends State<_Layout> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-              child: _Tag(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+              child: _Tag(
+                onChanged: (tags) => _tags
+                  ..clear()
+                  ..addAll(tags),
+              ),
             ),
             const Divider(indent: 18, endIndent: 18),
             Column(
@@ -459,7 +463,9 @@ class _WriteArticleButton extends StatelessWidget {
 }
 
 class _Tag extends StatefulWidget {
-  const _Tag();
+  const _Tag({required this.onChanged});
+
+  final void Function(List<String>)? onChanged;
 
   @override
   State<_Tag> createState() => _TagState();
