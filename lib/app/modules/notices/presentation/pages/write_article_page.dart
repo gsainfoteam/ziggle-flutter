@@ -29,6 +29,7 @@ class _WriteArticlePageState extends State<WriteArticlePage> {
 
   @override
   void dispose() {
+    _controller.dispose();
     _focusNode.dispose();
     super.dispose();
   }
