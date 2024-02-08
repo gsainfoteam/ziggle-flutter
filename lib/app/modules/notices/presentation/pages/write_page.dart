@@ -30,13 +30,15 @@ class WritePage extends StatelessWidget {
         BlocProvider(create: (_) => sl<TagBloc>()),
         BlocProvider(create: (_) => sl<WriteBloc>()),
       ],
-      child: BlocBuilder<WriteBloc, WriteState>(
+      child: BlocConsumer<WriteBloc, WriteState>(
+        listener: (context, state) => state.mapOrNull(
+          error: (value) => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(value.message)),
+          ),
+        ),
         builder: (context, state) => Stack(
           children: [
-            IgnorePointer(
-              ignoring: state.isLoading,
-              child: const _Layout(),
-            ),
+            IgnorePointer(ignoring: state.isLoading, child: const _Layout()),
             IgnorePointer(
               child: TweenAnimationBuilder(
                 tween: Tween(
