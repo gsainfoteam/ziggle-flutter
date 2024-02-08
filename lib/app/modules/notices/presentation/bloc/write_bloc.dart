@@ -17,16 +17,21 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
   WriteBloc(this._repository) : super(const _Initial()) {
     on<_Write>((event, emit) async {
       emit(const WriteState.loading());
-      final notice = await _repository.write(
-        title: event.title,
-        content: event.content,
-        type: event.type,
-        deadline: event.deadline,
-        tags: event.tags,
-        images: event.images,
-        documents: event.documents,
-      );
-      emit(WriteState.loaded(notice));
+      try {
+        final notice = await _repository.write(
+          title: event.title,
+          content: event.content,
+          type: event.type,
+          deadline: event.deadline,
+          tags: event.tags,
+          images: event.images,
+          documents: event.documents,
+        );
+        emit(WriteState.loaded(notice));
+      } catch (e) {
+        emit(WriteState.error(e.toString()));
+        emit(const WriteState.initial());
+      }
     });
   }
 }
@@ -51,6 +56,7 @@ class WriteState with _$WriteState {
   const factory WriteState.initial() = _Initial;
   const factory WriteState.loading() = _Loading;
   const factory WriteState.loaded(NoticeEntity notice) = _Loaded;
+  const factory WriteState.error(String message) = _Error;
 
   bool get isLoading => this is _Loading;
   bool get isLoaded => this is _Loaded;
