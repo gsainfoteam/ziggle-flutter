@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,7 +30,33 @@ class WritePage extends StatelessWidget {
         BlocProvider(create: (_) => sl<TagBloc>()),
         BlocProvider(create: (_) => sl<WriteBloc>()),
       ],
-      child: const _Layout(),
+      child: BlocBuilder<WriteBloc, WriteState>(
+        builder: (context, state) => Stack(
+          children: [
+            IgnorePointer(
+              ignoring: state.isLoading,
+              child: const _Layout(),
+            ),
+            IgnorePointer(
+              child: TweenAnimationBuilder(
+                tween: Tween(begin: 0.0, end: state.isLoading ? 1.0 : 0.0),
+                builder: (context, value, child) => Opacity(
+                  opacity: value,
+                  child: child,
+                ),
+                duration: const Duration(milliseconds: 100),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                  child: Container(
+                    color: Colors.black.withOpacity(0.2),
+                    child: const Center(child: CircularProgressIndicator()),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
