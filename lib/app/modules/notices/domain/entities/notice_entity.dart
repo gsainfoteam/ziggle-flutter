@@ -15,6 +15,7 @@ class NoticeEntity {
   final String author;
   final List<String> imagesUrl;
   final List<String> documentsUrl;
+  final bool reminder;
 
   NoticeEntity({
     required this.id,
@@ -29,6 +30,7 @@ class NoticeEntity {
     required this.author,
     required this.imagesUrl,
     required this.documentsUrl,
+    required this.reminder,
   });
 
   factory NoticeEntity.fromId(int id) => NoticeEntity(
@@ -44,6 +46,7 @@ class NoticeEntity {
         imagesUrl: [],
         documentsUrl: [],
         author: '',
+        reminder: false,
       );
 }
 
