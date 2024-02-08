@@ -527,6 +527,11 @@ class _TagState extends State<_Tag> {
 
   void _onChange() {
     final text = _controller.text;
+    widget.onChanged?.call(text
+        .split(' ')
+        .where((v) => v.startsWith('#'))
+        .map((e) => e.substring(1).trim())
+        .toList());
     // if newly focused, add a hash
     if (_focus.hasFocus && !_hasFocus) {
       _hasFocus = true;
