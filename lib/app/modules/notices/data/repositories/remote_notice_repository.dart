@@ -91,8 +91,11 @@ class RemoteNoticeRepository implements NoticeRepository {
         return existingTag ?? await _createTag(tag);
       }),
     );
-    final uploadedImages = await _imageApi.uploadImages(images);
-    final uploadedDocuments = await _documentApi.uploadDocuments(documents);
+    final uploadedImages =
+        images.isEmpty ? <String>[] : await _imageApi.uploadImages(images);
+    final uploadedDocuments = documents.isEmpty
+        ? <String>[]
+        : await _documentApi.uploadDocuments(documents);
     return _api.createNotice(
       title: title,
       body: content,
