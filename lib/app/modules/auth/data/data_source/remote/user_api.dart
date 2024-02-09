@@ -29,4 +29,7 @@ abstract class UserApi {
   @POST('refresh')
   @Extra({AuthorizeInterceptor.retriedKey: true})
   Future<TokenModel> refresh();
+
+  @POST('fcm')
+  Future updateFcmToken(@Field('fcm_token') String fcmToken);
 }
