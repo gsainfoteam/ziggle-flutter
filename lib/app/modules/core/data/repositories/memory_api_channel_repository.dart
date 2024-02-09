@@ -2,41 +2,47 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 
 import '../../domain/enums/api_channel.dart';
 import '../../domain/repositories/api_channel_repository.dart';
 
 @Singleton(as: ApiChannelRepository)
 class MemoryApiChannelRepository implements ApiChannelRepository {
-  ApiChannel _channel = ApiChannel.byMode();
-  final _controller = StreamController<ApiChannel>.broadcast();
+  final _subject = BehaviorSubject<ApiChannel>.seeded(ApiChannel.byMode());
+  late final StreamSubscription<ApiChannel> _localSubscription;
   final Dio _dio;
 
   MemoryApiChannelRepository(this._dio) {
-    _dio.options.baseUrl = _channel.baseUrl;
+    _localSubscription = _subject.listen(
+      (value) => _dio.options.baseUrl = value.baseUrl,
+    );
+  }
+
+  @disposeMethod
+  void dispose() {
+    _localSubscription.cancel();
+    _subject.close();
   }
 
   @override
   void setChannel(ApiChannel channel) {
-    _channel = channel;
-    _dio.options.baseUrl = channel.baseUrl;
+    _subject.add(channel);
   }
 
   @override
   ApiChannel toggleChannel() {
-    setChannel(_channel.oppose);
-    return _channel;
+    final channel = _subject.value.oppose;
+    _subject.add(channel);
+    return channel;
   }
 
   @override
-  String get baseUrl => _channel.baseUrl;
+  String get baseUrl => _subject.value.baseUrl;
 
   @override
-  String get idpUrl => _channel.idpBaseUrl;
+  String get idpUrl => _subject.value.idpBaseUrl;
 
   @override
-  Stream<ApiChannel> get channel async* {
-    yield _channel;
-    yield* _controller.stream;
-  }
+  Stream<ApiChannel> get channel => _subject.stream;
 }
