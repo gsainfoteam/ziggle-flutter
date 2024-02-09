@@ -13,6 +13,7 @@ class NoticeEntity {
   final List<NoticeContentEntity> contents;
   final List<NoticeReactionEntity> reactions;
   final String author;
+  final String authorId;
   final List<String> imagesUrl;
   final List<String> documentsUrl;
   final bool reminder;
@@ -28,6 +29,7 @@ class NoticeEntity {
     required this.contents,
     required this.reactions,
     required this.author,
+    required this.authorId,
     required this.imagesUrl,
     required this.documentsUrl,
     required this.reminder,
@@ -46,6 +48,7 @@ class NoticeEntity {
         imagesUrl: [],
         documentsUrl: [],
         author: '',
+        authorId: '',
         reminder: false,
       );
 }

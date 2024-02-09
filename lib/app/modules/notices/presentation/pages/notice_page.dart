@@ -53,6 +53,18 @@ class _Layout extends StatelessWidget {
           BlocBuilder<NoticeBloc, NoticeState>(
             builder: (context, state) {
               final notice = state.notice;
+              if (AuthBloc.userOrNull(context)?.uuid != notice.authorId) {
+                return const SizedBox.shrink();
+              }
+              return IconButton(
+                onPressed: () {},
+                icon: Assets.icons.settings.svg(),
+              );
+            },
+          ),
+          BlocBuilder<NoticeBloc, NoticeState>(
+            builder: (context, state) {
+              final notice = state.notice;
               if (notice.currentDeadline == null) return const SizedBox();
               if (notice.currentDeadline!.toLocal().isBefore(DateTime.now())) {
                 return const SizedBox();
