@@ -63,7 +63,13 @@ class _Layout extends StatelessWidget {
                 onPressed: () => _AuthorSettingSheet.show(
                   context: context,
                   onEdit: notice.canEdit ? () {} : null,
-                  onAdditional: () async {},
+                  onAdditional: () async {
+                    final result = await WriteAdditionalRoute.fromEntity(notice)
+                        .push(context);
+                    if (result == null) return;
+                    if (!context.mounted) return;
+                    context.read<NoticeBloc>().add(NoticeEvent.load(result));
+                  },
                   onEnglish: notice.contents.localesBy(AppLocale.en).isEmpty
                       ? () async {
                           final result =

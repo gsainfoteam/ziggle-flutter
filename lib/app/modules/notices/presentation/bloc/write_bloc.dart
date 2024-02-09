@@ -84,7 +84,7 @@ class WriteEvent with _$WriteEvent {
   }) = _Write;
   const factory WriteEvent.writeForeign({
     required NoticeEntity notice,
-    required String title,
+    String? title,
     required String content,
     @Default(1) int contentId,
     @Default(AppLocale.en) AppLocale lang,

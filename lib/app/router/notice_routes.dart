@@ -19,6 +19,7 @@ class SectionRoute extends GoRouteData {
   path: '/notice/:id',
   routes: [
     TypedGoRoute<WriteForeignRoute>(path: 'foreign'),
+    TypedGoRoute<WriteAdditionalRoute>(path: 'additional'),
   ],
 )
 class NoticeRoute extends GoRouteData {
@@ -52,6 +53,23 @@ class WriteForeignRoute extends GoRouteData {
   @override
   Widget build(context, state) => AuthRequiredPage(
         child: WriteForeignPage(notice: NoticeModel.fromJson($extra)),
+      );
+}
+
+class WriteAdditionalRoute extends GoRouteData {
+  const WriteAdditionalRoute({required this.id, required this.$extra});
+  factory WriteAdditionalRoute.fromEntity(NoticeEntity notice) =>
+      WriteAdditionalRoute(
+        id: notice.id,
+        $extra: NoticeModel.fromEntity(notice).toJson(),
+      );
+
+  final int id;
+  final Map<String, dynamic> $extra;
+
+  @override
+  Widget build(context, state) => AuthRequiredPage(
+        child: WriteAdditionalPage(notice: NoticeModel.fromJson($extra)),
       );
 }
 

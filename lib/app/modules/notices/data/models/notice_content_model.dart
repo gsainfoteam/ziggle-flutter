@@ -15,7 +15,7 @@ class NoticeContentModel
   const factory NoticeContentModel({
     required int id,
     required AppLocale lang,
-    required String title,
+    @Default('') String title,
     required String body,
     DateTime? deadline,
     required DateTime createdAt,
