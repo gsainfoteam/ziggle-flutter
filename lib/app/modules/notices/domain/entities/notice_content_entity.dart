@@ -20,6 +20,8 @@ class NoticeContentEntity {
 }
 
 extension NoticeContentsEntityX on List<NoticeContentEntity> {
+  Iterable<NoticeContentEntity> localesBy(AppLocale locale) =>
+      where((e) => e.lang == locale);
   Iterable<NoticeContentEntity> get locales =>
       groupFoldBy<int, NoticeContentEntity>(
         (element) => element.id,

@@ -2,8 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ziggle/app/modules/notices/data/enums/notice_my.dart';
-import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/entities/notice_list_entity.dart';
@@ -14,6 +13,11 @@ import '../data_sources/remote/document_api.dart';
 import '../data_sources/remote/image_api.dart';
 import '../data_sources/remote/notice_api.dart';
 import '../data_sources/remote/tag_api.dart';
+import '../enums/notice_my.dart';
+import '../enums/notice_to.dart';
+import '../models/create_additional_notice_model.dart';
+import '../models/create_foreign_notice_model.dart';
+import '../models/create_notice_model.dart';
 
 @Injectable(as: NoticeRepository)
 class RemoteNoticeRepository implements NoticeRepository {
@@ -117,5 +121,48 @@ class RemoteNoticeRepository implements NoticeRepository {
   @override
   Future<NoticeEntity> removeReminder(int id) {
     return _api.removeReminder(id);
+  }
+
+  @override
+  Future<void> deleteNotice(int id) {
+    return _api.deleteNotice(id);
+  }
+
+  @override
+  Future<NoticeEntity> addAdditionalContent({
+    required int id,
+    required String content,
+    DateTime? deadline,
+    bool? notifyToAll,
+  }) {
+    return _api.addAdditionalContent(
+      id,
+      CreateAdditionalNoticeModel(
+        body: content,
+        deadline: deadline,
+        to: NoticeTo.fromBoolean(notifyToAll ?? false),
+      ),
+    );
+  }
+
+  @override
+  Future<NoticeEntity> writeForeign({
+    required int id,
+    String? title,
+    required String content,
+    required int contentId,
+    required AppLocale lang,
+    DateTime? deadline,
+  }) {
+    return _api.addForeign(
+      id,
+      contentId,
+      CreateForeignNoticeModel(
+        title: title,
+        body: content,
+        lang: lang,
+        deadline: deadline,
+      ),
+    );
   }
 }

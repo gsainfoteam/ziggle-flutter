@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/notices/data/models/create_additional_notice_model.dart';
+import 'package:ziggle/app/modules/notices/data/models/create_foreign_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -36,6 +38,22 @@ abstract class NoticeApi {
     @Path('id') int id, {
     @Query('isViewed') bool isViewed = false,
   });
+
+  @DELETE('{id}')
+  Future<void> deleteNotice(@Path('id') int id);
+
+  @POST('{id}/additional')
+  Future<NoticeModel> addAdditionalContent(
+    @Path('id') int id,
+    @Body() CreateAdditionalNoticeModel model,
+  );
+
+  @POST('{id}/{contentId}/foreign')
+  Future<NoticeModel> addForeign(
+    @Path('id') int id,
+    @Path('contentId') int contentId,
+    @Body() CreateForeignNoticeModel model,
+  );
 
   @POST('{id}/reaction')
   Future<NoticeModel> addReaction(

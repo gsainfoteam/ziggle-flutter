@@ -22,6 +22,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     required List<NoticeContentModel> contents,
     required List<NoticeReactionModel> reactions,
     required String author,
+    @Default('') String authorId,
     @Default([]) List<String> imagesUrl,
     @Default([]) List<String> documentsUrl,
     @Default(false) bool reminder,
@@ -41,6 +42,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
         reactions:
             entity.reactions.map(NoticeReactionModel.fromEntity).toList(),
         author: entity.author,
+        authorId: entity.authorId,
         imagesUrl: entity.imagesUrl,
         documentsUrl: entity.documentsUrl,
         reminder: entity.reminder,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_type.dart';
@@ -33,6 +34,40 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
         emit(const WriteState.initial());
       }
     });
+    on<_AddForeign>((event, emit) async {
+      emit(const WriteState.loading());
+      try {
+        final notice = await _repository.writeForeign(
+          id: event.notice.id,
+          title: event.title,
+          content: event.content,
+          contentId: event.contentId,
+          lang: event.lang,
+          deadline: event.notice.contents
+              .firstWhere((element) => element.id == event.contentId)
+              .deadline,
+        );
+        emit(WriteState.loaded(notice));
+      } catch (e) {
+        emit(WriteState.error(e.toString()));
+        emit(const WriteState.initial());
+      }
+    });
+    on<_WriteAdditional>((event, emit) async {
+      emit(const WriteState.loading());
+      try {
+        final notice = await _repository.addAdditionalContent(
+          id: event.notice.id,
+          content: event.content,
+          deadline: event.deadline,
+          notifyToAll: event.notifyToAll,
+        );
+        emit(WriteState.loaded(notice));
+      } catch (e) {
+        emit(WriteState.error(e.toString()));
+        emit(const WriteState.initial());
+      }
+    });
   }
 }
 
@@ -47,6 +82,19 @@ class WriteEvent with _$WriteEvent {
     @Default([]) List<File> images,
     @Default([]) List<File> documents,
   }) = _Write;
+  const factory WriteEvent.writeForeign({
+    required NoticeEntity notice,
+    String? title,
+    required String content,
+    @Default(1) int contentId,
+    @Default(AppLocale.en) AppLocale lang,
+  }) = _AddForeign;
+  const factory WriteEvent.writeAdditional({
+    required NoticeEntity notice,
+    required String content,
+    DateTime? deadline,
+    bool? notifyToAll,
+  }) = _WriteAdditional;
 }
 
 @freezed

@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
@@ -19,6 +21,7 @@ import '../../presentation/bloc/notice_bloc.dart';
 import '../../presentation/widgets/additional_notice_content.dart';
 import '../../presentation/widgets/notice_body.dart';
 import '../cubit/share_cubit.dart';
+import '../widgets/adaptive_dialog_action.dart';
 
 class NoticePage extends StatelessWidget {
   const NoticePage({super.key, required this.notice});
@@ -50,6 +53,47 @@ class _Layout extends StatelessWidget {
         title: Text(t.notice.title),
         leadingWidth: Theme.of(context).appBarTheme.toolbarHeight!,
         actions: [
+          BlocBuilder<NoticeBloc, NoticeState>(
+            builder: (context, state) {
+              final notice = state.notice;
+              if (AuthBloc.userOrNull(context)?.uuid != notice.authorId) {
+                return const SizedBox.shrink();
+              }
+              return IconButton(
+                onPressed: () => _AuthorSettingSheet.show(
+                  context: context,
+                  onEdit: notice.canEdit ? () {} : null,
+                  onAdditional: () async {
+                    final result = await WriteAdditionalRoute.fromEntity(notice)
+                        .push(context);
+                    if (result == null) return;
+                    if (!context.mounted) return;
+                    context.read<NoticeBloc>().add(NoticeEvent.load(result));
+                  },
+                  onEnglish: notice.contents.localesBy(AppLocale.en).isEmpty
+                      ? () async {
+                          final result =
+                              await WriteForeignRoute.fromEntity(notice)
+                                  .push<NoticeEntity>(context);
+                          if (result == null) return;
+                          if (!context.mounted) return;
+                          context
+                              .read<NoticeBloc>()
+                              .add(NoticeEvent.load(result));
+                        }
+                      : null,
+                  onDelete: () async {
+                    final bloc = context.read<NoticeBloc>();
+                    bloc.add(const NoticeEvent.delete());
+                    await bloc.stream.firstWhere((state) => state.loaded);
+                    if (!context.mounted) return;
+                    context.pop();
+                  },
+                ),
+                icon: Assets.icons.settings.svg(),
+              );
+            },
+          ),
           BlocBuilder<NoticeBloc, NoticeState>(
             builder: (context, state) {
               final notice = state.notice;
@@ -319,6 +363,111 @@ class _Layout extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _AuthorSettingSheet extends StatelessWidget {
+  const _AuthorSettingSheet({
+    required this.onEdit,
+    required this.onAdditional,
+    required this.onEnglish,
+    required this.onDelete,
+  });
+
+  final VoidCallback? onEdit;
+  final VoidCallback onAdditional;
+  final VoidCallback? onEnglish;
+  final VoidCallback onDelete;
+
+  static void show({
+    required BuildContext context,
+    VoidCallback? onEdit,
+    required VoidCallback onAdditional,
+    VoidCallback? onEnglish,
+    required VoidCallback onDelete,
+  }) {
+    showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      backgroundColor: Palette.white,
+      builder: (modalContext) => _AuthorSettingSheet(
+        onEdit: onEdit,
+        onAdditional: onAdditional,
+        onEnglish: onEnglish,
+        onDelete: onDelete,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (onEdit != null)
+            ListTile(
+              leading: Assets.icons.editPencil.svg(),
+              title: Text(t.notice.edit),
+              onTap: () {
+                onEdit?.call();
+                Navigator.pop(context);
+              },
+            ),
+          ListTile(
+            leading: Assets.icons.plus.svg(),
+            title: Text(t.notice.writeAdditional),
+            onTap: () {
+              onAdditional();
+              Navigator.pop(context);
+            },
+          ),
+          if (onEnglish != null)
+            ListTile(
+              leading: Assets.icons.language.svg(),
+              title: Text(t.notice.writeEnglish),
+              onTap: () {
+                onEnglish?.call();
+                Navigator.pop(context);
+              },
+            ),
+          ListTile(
+            leading: Assets.icons.trash.svg(
+              colorFilter: const ColorFilter.mode(
+                Palette.primary100,
+                BlendMode.srcIn,
+              ),
+            ),
+            title: Text(
+              t.notice.delete.action,
+              style: const TextStyle(color: Palette.primary100),
+            ),
+            onTap: () async {
+              final result = await showCupertinoDialog(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  content: Text(t.notice.delete.confirm),
+                  actions: [
+                    AdaptiveDialogAction(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: Text(t.notice.delete.delete),
+                    ),
+                    AdaptiveDialogAction(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: Text(t.notice.delete.cancel),
+                    ),
+                  ],
+                ),
+              );
+              if (result != true) return;
+              onDelete();
+              if (!context.mounted) return;
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
     );
   }
 }
