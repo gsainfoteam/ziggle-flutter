@@ -29,4 +29,5 @@ abstract class NoticeRepository {
     List<File> images = const [],
     List<File> documents = const [],
   });
+  Future<void> deleteNotice(int id);
 }

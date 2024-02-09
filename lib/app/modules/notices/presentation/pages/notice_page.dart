@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
@@ -19,6 +21,7 @@ import '../../presentation/bloc/notice_bloc.dart';
 import '../../presentation/widgets/additional_notice_content.dart';
 import '../../presentation/widgets/notice_body.dart';
 import '../cubit/share_cubit.dart';
+import '../widgets/adaptive_dialog_action.dart';
 
 class NoticePage extends StatelessWidget {
   const NoticePage({super.key, required this.notice});
@@ -57,7 +60,16 @@ class _Layout extends StatelessWidget {
                 return const SizedBox.shrink();
               }
               return IconButton(
-                onPressed: () => _AuthorSettingSheet.show(context),
+                onPressed: () => _AuthorSettingSheet.show(
+                  context,
+                  () async {
+                    final bloc = context.read<NoticeBloc>();
+                    bloc.add(const NoticeEvent.delete());
+                    await bloc.stream.firstWhere((state) => state.loaded);
+                    if (!context.mounted) return;
+                    context.pop();
+                  },
+                ),
                 icon: Assets.icons.settings.svg(),
               );
             },
@@ -336,14 +348,23 @@ class _Layout extends StatelessWidget {
 }
 
 class _AuthorSettingSheet extends StatelessWidget {
-  const _AuthorSettingSheet();
+  const _AuthorSettingSheet({
+    required this.onDelete,
+  });
 
-  static void show(BuildContext context) {
+  final VoidCallback onDelete;
+
+  static void show(
+    BuildContext context,
+    VoidCallback onDelete,
+  ) {
     showModalBottomSheet(
       context: context,
       showDragHandle: true,
       backgroundColor: Palette.white,
-      builder: (modalContext) => const _AuthorSettingSheet(),
+      builder: (modalContext) => _AuthorSettingSheet(
+        onDelete: onDelete,
+      ),
     );
   }
 
@@ -375,10 +396,29 @@ class _AuthorSettingSheet extends StatelessWidget {
               ),
             ),
             title: Text(
-              t.notice.delete,
+              t.notice.delete.action,
               style: const TextStyle(color: Palette.primary100),
             ),
-            onTap: () {
+            onTap: () async {
+              final result = await showCupertinoDialog(
+                context: context,
+                builder: (context) => CupertinoAlertDialog(
+                  content: Text(t.notice.delete.confirm),
+                  actions: [
+                    AdaptiveDialogAction(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: Text(t.notice.delete.delete),
+                    ),
+                    AdaptiveDialogAction(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: Text(t.notice.delete.cancel),
+                    ),
+                  ],
+                ),
+              );
+              if (result != true) return;
+              onDelete();
+              if (!context.mounted) return;
               Navigator.pop(context);
             },
           ),

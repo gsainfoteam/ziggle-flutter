@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
@@ -6,6 +5,8 @@ import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart'
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
+
+import '../widgets/adaptive_dialog_action.dart';
 
 class WriteArticlePage extends StatefulWidget {
   const WriteArticlePage({
@@ -34,24 +35,6 @@ class _WriteArticlePageState extends State<WriteArticlePage> {
     super.dispose();
   }
 
-  Widget _adaptiveAction({
-    required BuildContext context,
-    required VoidCallback onPressed,
-    required Widget child,
-  }) {
-    final ThemeData theme = Theme.of(context);
-    switch (theme.platform) {
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
-        return TextButton(onPressed: onPressed, child: child);
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-        return CupertinoDialogAction(onPressed: onPressed, child: child);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -61,15 +44,13 @@ class _WriteArticlePageState extends State<WriteArticlePage> {
         builder: (dialogContext) => AlertDialog.adaptive(
           title: Text(t.notice.write.unsaved.title),
           actions: [
-            _adaptiveAction(
-              context: dialogContext,
+            AdaptiveDialogAction(
               onPressed: () => context
                 ..pop()
                 ..pop(),
               child: Text(t.notice.write.unsaved.discard),
             ),
-            _adaptiveAction(
-              context: dialogContext,
+            AdaptiveDialogAction(
               onPressed: () => dialogContext.pop(),
               child: Text(t.notice.write.unsaved.preserve),
             ),

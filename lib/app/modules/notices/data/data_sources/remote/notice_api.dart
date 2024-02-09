@@ -37,6 +37,9 @@ abstract class NoticeApi {
     @Query('isViewed') bool isViewed = false,
   });
 
+  @DELETE('{id}')
+  Future<void> deleteNotice(@Path('id') int id);
+
   @POST('{id}/reaction')
   Future<NoticeModel> addReaction(
     @Path('id') int id,

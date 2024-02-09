@@ -90,5 +90,10 @@
   },
   "writeAdditional": "추가 공지 작성하기",
   "writeEnglish": "영어 공지 작성하기",
-  "delete": "공지 삭제하기"
+  "delete": {
+    "action": "공지 삭제하기",
+    "confirm": "정말 삭제하시겠습니까?",
+    "delete": "삭제하기",
+    "cancel": "취소"
+  }
 }

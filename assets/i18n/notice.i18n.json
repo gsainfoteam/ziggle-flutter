@@ -98,5 +98,10 @@
   },
   "writeAdditional": "Write Additional Notice",
   "writeEnglish": "Write English Notice",
-  "delete": "Delete Notice"
+  "delete": {
+    "action": "Delete Notice",
+    "confirm": "Are you sure you want to delete this notice?",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  }
 }
