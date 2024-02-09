@@ -62,6 +62,7 @@ class _Layout extends StatelessWidget {
               return IconButton(
                 onPressed: () => _AuthorSettingSheet.show(
                   context: context,
+                  onEdit: notice.canEdit ? () {} : null,
                   onAdditional: () async {},
                   onEnglish: () async {},
                   onDelete: () async {
@@ -351,17 +352,20 @@ class _Layout extends StatelessWidget {
 
 class _AuthorSettingSheet extends StatelessWidget {
   const _AuthorSettingSheet({
+    required this.onEdit,
     required this.onAdditional,
     required this.onEnglish,
     required this.onDelete,
   });
 
+  final VoidCallback? onEdit;
   final VoidCallback onAdditional;
   final VoidCallback onEnglish;
   final VoidCallback onDelete;
 
   static void show({
     required BuildContext context,
+    VoidCallback? onEdit,
     required VoidCallback onAdditional,
     required VoidCallback onEnglish,
     required VoidCallback onDelete,
@@ -371,6 +375,7 @@ class _AuthorSettingSheet extends StatelessWidget {
       showDragHandle: true,
       backgroundColor: Palette.white,
       builder: (modalContext) => _AuthorSettingSheet(
+        onEdit: onEdit,
         onAdditional: onAdditional,
         onEnglish: onEnglish,
         onDelete: onDelete,
@@ -384,6 +389,15 @@ class _AuthorSettingSheet extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          if (onEdit != null)
+            ListTile(
+              leading: Assets.icons.editPencil.svg(),
+              title: Text(t.notice.edit),
+              onTap: () {
+                onEdit?.call();
+                Navigator.pop(context);
+              },
+            ),
           ListTile(
             leading: Assets.icons.plus.svg(),
             title: Text(t.notice.writeAdditional),

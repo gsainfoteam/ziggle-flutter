@@ -54,9 +54,12 @@ class NoticeEntity {
 }
 
 extension NoticeEntityExtension on NoticeEntity {
+  static const maxTimeToEdit = Duration(minutes: 15);
+
   int reactionsBy(NoticeReaction reaction) =>
       reactions.where((e) => e.emoji == reaction.emoji).length;
   int get likes => reactionsBy(NoticeReaction.like);
   bool reactedBy(String userId, NoticeReaction reaction) =>
       reactions.any((e) => e.userId == userId && e.emoji == reaction.emoji);
+  bool get canEdit => DateTime.now().difference(createdAt) < maxTimeToEdit;
 }
