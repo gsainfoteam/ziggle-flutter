@@ -20,7 +20,8 @@
       "description": "Visit your device settings to turn on notifications.",
       "action": "Turn on"
     },
-    "enabled": "Notifications are turned on"
+    "enabled": "Notifications are turned on",
+    "description": "Ziggle will send you notifications about new announcements and events."
   },
   "about": "About",
   "feedback": {
