@@ -6,7 +6,7 @@ import '../../domain/repositories/push_message_repository.dart';
 @Singleton(as: PushMessageRepository)
 class FcmRepository implements PushMessageRepository, LinkRepository {
   @override
-  Future<String> getToken() {
+  Stream<String> getTokenStream() {
     throw UnimplementedError();
   }
 

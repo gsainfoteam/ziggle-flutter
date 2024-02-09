@@ -1,3 +1,3 @@
 abstract class PushMessageRepository {
-  Future<String> getToken();
+  Stream<String> getTokenStream();
 }
