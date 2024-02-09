@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
@@ -9,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:markdown/markdown.dart' show markdownToHtml;
+import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
@@ -467,12 +469,14 @@ class _TagState extends State<_Tag> {
   String? _currentQuery;
   int? _currentCursor;
   bool _hasFocus = false;
+  final _textController = StreamController<String>();
 
   @override
   void initState() {
     super.initState();
     _controller.addListener(_onChange);
     _focus.addListener(_onChange);
+    _textController.stream.debounceTime(Duration.zero).listen(_onChangeHandler);
   }
 
   @override
@@ -483,10 +487,15 @@ class _TagState extends State<_Tag> {
     _focus
       ..removeListener(_onChange)
       ..dispose();
+    _textController.close();
     super.dispose();
   }
 
   void _onChange() {
+    _textController.add(_controller.text);
+  }
+
+  void _onChangeHandler(_) {
     final text = _controller.text;
     widget.onChanged?.call(text
         .split(' ')
