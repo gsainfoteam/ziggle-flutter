@@ -63,6 +63,12 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
       await _repository.deleteNotice(state.notice.id);
       emit(_Loaded(state.notice));
     });
+    on<_Report>((event, emit) async {
+      emit(_Loading(state.notice));
+      _analyticsRepository.logTryReport();
+      emit(_Loaded(state.notice));
+      _analyticsRepository.logReport();
+    });
   }
 }
 
@@ -75,6 +81,7 @@ class NoticeEvent with _$NoticeEvent {
   const factory NoticeEvent.addReminder() = _AddReminder;
   const factory NoticeEvent.removeReminder() = _RemoveReminder;
   const factory NoticeEvent.delete() = _Delete;
+  const factory NoticeEvent.report() = _Report;
 }
 
 @freezed

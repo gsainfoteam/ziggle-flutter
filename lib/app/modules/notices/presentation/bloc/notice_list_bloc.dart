@@ -75,16 +75,20 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
     on<_AddReminder>((event, emit) async {
       if (state is! _Loaded) return;
       emit(_Loading(total: state.total, list: state.list, type: state.type));
+      _analyticsRepository.logTryReminder();
       final data = await _repository.addReminder(event.id);
       final list = state.list.replaceWithPersistContent(data);
       emit(_Loaded(total: state.total, list: list, type: state.type));
+      _analyticsRepository.logToggleReminder(data.reminder);
     });
     on<_RemoveReminder>((event, emit) async {
       if (state is! _Loaded) return;
       emit(_Loading(total: state.total, list: state.list, type: state.type));
+      _analyticsRepository.logTryReminder();
       final data = await _repository.removeReminder(event.id);
       final list = state.list.replaceWithPersistContent(data);
       emit(_Loaded(total: state.total, list: list, type: state.type));
+      _analyticsRepository.logToggleReminder(data.reminder);
     });
   }
 
