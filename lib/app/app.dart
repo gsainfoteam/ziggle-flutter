@@ -6,6 +6,7 @@ import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:upgrader/upgrader.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/core/presentation/bloc/link_bloc.dart';
 import 'package:ziggle/app/modules/core/presentation/bloc/push_message_bloc.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -80,12 +81,27 @@ class _Providers extends StatelessWidget {
           create: (_) =>
               sl<PushMessageBloc>()..add(const PushMessageEvent.init()),
         ),
-      ],
-      child: BlocListener<PushMessageBloc, PushMessageState>(
-        listener: (context, state) => state.mapOrNull(
-          loaded: (s) =>
-              context.read<AuthBloc>().add(AuthEvent.updatePushToken(s.token)),
+        BlocProvider(
+          create: (_) => sl<LinkBloc>()..add(const LinkEvent.init()),
         ),
+      ],
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<PushMessageBloc, PushMessageState>(
+            listener: (context, state) => state.mapOrNull(
+              loaded: (s) => context
+                  .read<AuthBloc>()
+                  .add(AuthEvent.updatePushToken(s.token)),
+            ),
+          ),
+          BlocListener<LinkBloc, LinkState>(
+            listener: (context, state) => state.mapOrNull(
+              loaded: (s) {
+                return AppRoutes.config.push(s.link);
+              },
+            ),
+          ),
+        ],
         child: child,
       ),
     );
