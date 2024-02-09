@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
 
 import '../../domain/entities/notice_entity.dart';
@@ -11,9 +12,13 @@ part 'notice_bloc.freezed.dart';
 @injectable
 class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
   final NoticeRepository _repository;
+  final AnalyticsRepository _analyticsRepository;
 
-  NoticeBloc(this._repository, @factoryParam NoticeEntity notice)
-      : super(_Initial(notice)) {
+  NoticeBloc(
+    this._repository,
+    @factoryParam NoticeEntity notice,
+    this._analyticsRepository,
+  ) : super(_Initial(notice)) {
     on<_Load>((event, emit) async {
       emit(_Loading(event.notice));
       final data = await _repository.getNotice(event.notice.id);
@@ -39,15 +44,19 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
       emit(_Loading(
         NoticeModel.fromEntity(state.notice).copyWith(reminder: true),
       ));
+      _analyticsRepository.logTryReminder();
       final data = await _repository.addReminder(state.notice.id);
       emit(_Loaded(data));
+      _analyticsRepository.logToggleReminder(data.reminder);
     });
     on<_RemoveReminder>((event, emit) async {
       emit(_Loading(
         NoticeModel.fromEntity(state.notice).copyWith(reminder: false),
       ));
+      _analyticsRepository.logTryReminder();
       final data = await _repository.removeReminder(state.notice.id);
       emit(_Loaded(data));
+      _analyticsRepository.logToggleReminder(data.reminder);
     });
     on<_Delete>((event, emit) async {
       emit(_Loading(state.notice));
