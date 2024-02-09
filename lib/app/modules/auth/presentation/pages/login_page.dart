@@ -31,6 +31,22 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) => state.mapOrNull(
+        error: (value) => ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(value.message)),
+        ),
+      ),
+      child: const _Layout(),
+    );
+  }
+}
+
+class _Layout extends StatelessWidget {
+  const _Layout();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,7 +78,22 @@ class LoginPage extends StatelessWidget {
               padding: const EdgeInsets.all(8),
               child: Column(
                 children: [
-                  _buildText(),
+                  Column(
+                    children: [
+                      Assets.logo.black.image(height: 100),
+                      Text.rich(
+                        t.setting.promotion(
+                          red: (text) => TextSpan(
+                            text: text,
+                            style: const TextStyle(color: Palette.primary100),
+                          ),
+                        ),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
                   const SizedBox(height: 20),
                   SizedBox(
                     height: 50,
@@ -110,24 +141,6 @@ class LoginPage extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Column _buildText() {
-    return Column(
-      children: [
-        Assets.logo.black.image(height: 100),
-        Text.rich(
-          t.setting.promotion(
-            red: (text) => TextSpan(
-              text: text,
-              style: const TextStyle(color: Palette.primary100),
-            ),
-          ),
-          textAlign: TextAlign.center,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        )
-      ],
     );
   }
 }
