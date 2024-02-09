@@ -1,4 +1,4 @@
-import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+import '../../domain/enums/notice_type.dart';
 
 enum NoticeMy {
   own,
