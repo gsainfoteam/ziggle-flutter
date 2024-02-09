@@ -1,5 +1,4 @@
-Ziggle is now live - see all of your GIST announcements at a glance with Ziggle!
+Ziggle has been renewed - see all of your GIST announcements at a glance with Ziggle!
 
-+ You can add additional notice
-+ You can translate notice with English
-+ App usability improvements. 
++ Show the most recent notices first for easy viewing
++ Add reactions to notices
