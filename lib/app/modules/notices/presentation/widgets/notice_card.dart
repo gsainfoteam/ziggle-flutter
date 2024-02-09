@@ -1,8 +1,6 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
-import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -21,11 +19,15 @@ class NoticeCard extends StatelessWidget {
     required this.notice,
     this.onTapDetail,
     this.onTapLike,
+    this.onTapShare,
+    this.onTapReminder,
   });
 
   final NoticeEntity notice;
   final VoidCallback? onTapDetail;
   final VoidCallback? onTapLike;
+  final VoidCallback? onTapShare;
+  final VoidCallback? onTapReminder;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,8 @@ class NoticeCard extends StatelessWidget {
                 final user => notice.reactedBy(user.uuid, NoticeReaction.like),
               },
               onTapLike: onTapLike,
+              onTapShare: onTapShare,
+              onTapReminder: onTapReminder,
             ),
             _Content(
               tags: notice.tags
@@ -120,11 +124,15 @@ class _ImageAction extends StatefulWidget {
     required this.notice,
     required this.isLiked,
     required this.onTapLike,
+    required this.onTapShare,
+    required this.onTapReminder,
   });
 
   final NoticeEntity notice;
   final bool isLiked;
   final VoidCallback? onTapLike;
+  final VoidCallback? onTapShare;
+  final VoidCallback? onTapReminder;
 
   @override
   State<_ImageAction> createState() => _ImageActionState();
@@ -194,7 +202,7 @@ class _ImageActionState extends State<_ImageAction> {
                 ),
                 const Spacer(),
                 IconButton(
-                  onPressed: () => context.read<ShareCubit>().share(notice),
+                  onPressed: widget.onTapShare,
                   icon: Assets.icons.shareAndroid.svg(),
                   padding: EdgeInsets.zero,
                   visualDensity:
@@ -203,8 +211,10 @@ class _ImageActionState extends State<_ImageAction> {
                       const BoxConstraints.tightFor(width: 48, height: 48),
                 ),
                 IconButton(
-                  onPressed: () {},
-                  icon: Assets.icons.bell.svg(),
+                  onPressed: widget.onTapReminder,
+                  icon: notice.reminder
+                      ? Assets.icons.bellActive.svg()
+                      : Assets.icons.bell.svg(),
                   padding: EdgeInsets.zero,
                   visualDensity:
                       const VisualDensity(horizontal: -4, vertical: -4),

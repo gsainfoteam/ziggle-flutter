@@ -48,4 +48,10 @@ abstract class NoticeApi {
     @Path('id') int id,
     @Field('emoji') String emoji,
   );
+
+  @POST('{id}/reminder')
+  Future<NoticeModel> addReminder(@Path('id') int id);
+
+  @DELETE('{id}/reminder')
+  Future<NoticeModel> removeReminder(@Path('id') int id);
 }

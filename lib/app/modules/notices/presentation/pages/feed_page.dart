@@ -133,6 +133,19 @@ class _Layout extends StatelessWidget {
                 ? NoticeListEvent.removeReaction(notice.id, like.emoji)
                 : NoticeListEvent.addReaction(notice.id, like.emoji));
           },
+          onTapShare: () => context.read<ShareCubit>().share(notice),
+          onTapReminder: () {
+            if (AuthBloc.userOrNull(context) == null) {
+              const LoginRoute().push(context);
+              return;
+            }
+            HapticFeedback.lightImpact();
+            context.read<NoticeListBloc>().add(
+                  notice.reminder
+                      ? NoticeListEvent.removeReminder(notice.id)
+                      : NoticeListEvent.addReminder(notice.id),
+                );
+          },
         );
       },
       separatorBuilder: (context, index) => const Divider(),

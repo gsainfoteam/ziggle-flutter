@@ -24,6 +24,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     required String author,
     @Default([]) List<String> imagesUrl,
     @Default([]) List<String> documentsUrl,
+    @Default(false) bool reminder,
   }) = _NoticeModel;
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>
@@ -42,5 +43,6 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
         author: entity.author,
         imagesUrl: entity.imagesUrl,
         documentsUrl: entity.documentsUrl,
+        reminder: entity.reminder,
       );
 }

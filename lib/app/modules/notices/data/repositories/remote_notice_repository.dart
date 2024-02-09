@@ -108,4 +108,14 @@ class RemoteNoticeRepository implements NoticeRepository {
       ),
     );
   }
+
+  @override
+  Future<NoticeEntity> addReminder(int id) {
+    return _api.addReminder(id);
+  }
+
+  @override
+  Future<NoticeEntity> removeReminder(int id) {
+    return _api.removeReminder(id);
+  }
 }

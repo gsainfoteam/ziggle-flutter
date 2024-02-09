@@ -17,6 +17,8 @@ abstract class NoticeRepository {
 
   Future<NoticeEntity> addReaction(int id, String emoji);
   Future<NoticeEntity> removeReaction(int id, String emoji);
+  Future<NoticeEntity> addReminder(int id);
+  Future<NoticeEntity> removeReminder(int id);
 
   Future<NoticeEntity> write({
     required String title,
