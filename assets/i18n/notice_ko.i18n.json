@@ -71,7 +71,7 @@
       "hint": "태그 입력"
     },
     "korean": "한글 본문",
-    "english(rich)": "영어 본문 ${optional(@:notice.write.optional)}",
+    "english": "영어 본문",
     "write": "작성하기",
     "writeKorean": "한글 본문 작성",
     "writeEnglish": "영어 본문 작성",

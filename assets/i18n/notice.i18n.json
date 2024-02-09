@@ -79,7 +79,7 @@
       "hint": "Enter tag"
     },
     "korean": "Korean Article",
-    "english(rich)": "English Article ${optional(@:notice.write.optional)}",
+    "english": "English Article",
     "write": "Write",
     "writeKorean": "Write Korean Article",
     "writeEnglish": "Write English Article",

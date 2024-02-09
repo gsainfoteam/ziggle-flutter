@@ -79,10 +79,9 @@ class _LayoutState extends State<_Layout> {
   DateTime? _deadline;
   NoticeType? _type;
   List<String> _tags = [];
-  String? _korean;
-  String? _english;
+  String? _article;
   final List<File> _images = [];
-  bool get _done => _title.isNotEmpty && _type != null && _korean != null;
+  bool get _done => _title.isNotEmpty && _type != null && _article != null;
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +96,7 @@ class _LayoutState extends State<_Layout> {
                     final blob = context.read<WriteBloc>();
                     blob.add(WriteEvent.write(
                       title: _title,
-                      content: markdownToHtml(_korean!),
+                      content: markdownToHtml(_article!),
                       deadline: _deadline,
                       type: _type!,
                       images: _images,
@@ -263,44 +262,42 @@ class _LayoutState extends State<_Layout> {
               child: _Tag(onChanged: (tags) => _tags = tags.sublist(0)),
             ),
             const Divider(indent: 18, endIndent: 18),
-            Column(
-              children: [
-                _WriteArticleButton(
-                  onTap: () => WriteArticleRoute.create(
-                    title: t.notice.write.writeKorean,
-                    hint: t.notice.write.enterKorean,
-                    body: _korean,
-                  ).push<String>(context).then((value) {
-                    if (!mounted) return;
-                    setState(() => _korean = value ?? _korean);
-                  }),
-                  title: Text(
-                    t.notice.write.korean,
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  isFilled: _korean != null,
-                ),
-                _WriteArticleButton(
-                  onTap: () => WriteArticleRoute.create(
-                    title: t.notice.write.writeEnglish,
-                    hint: t.notice.write.enterEnglish,
-                    body: _korean,
-                  ).push<String>(context).then((value) {
-                    if (!mounted) return;
-                    setState(() => _english = value ?? _english);
-                  }),
-                  title: Text.rich(
-                    t.notice.write.english(
-                      optional: (v) => TextSpan(
-                        text: v,
-                        style: const TextStyle(color: Palette.textGrey),
-                      ),
+            ListTile(
+              onTap: () => WriteArticleRoute.create(
+                title: t.notice.write.writeKorean,
+                hint: t.notice.write.enterKorean,
+                body: _article,
+              ).push<String>(context).then((value) {
+                if (!mounted) return;
+                setState(() => _article = value ?? _article);
+              }),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 18),
+              leading: Assets.icons.docs.svg(),
+              horizontalTitleGap: 6,
+              title: Text(
+                t.notice.write.korean,
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    _article != null
+                        ? t.notice.write.edit
+                        : t.notice.write.write,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Palette.textGrey,
                     ),
-                    style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
-                  isFilled: _english != null,
-                ),
-              ],
+                  const SizedBox(width: 2),
+                  const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                    color: Palette.textGrey,
+                  ),
+                ],
+              ),
             ),
             const Divider(indent: 18, endIndent: 18),
             const SizedBox(height: 10),
@@ -447,47 +444,6 @@ class _LayoutState extends State<_Layout> {
     setState(() {
       _images.addAll(result.map((e) => File(e.path)).toList());
     });
-  }
-}
-
-class _WriteArticleButton extends StatelessWidget {
-  const _WriteArticleButton({
-    required this.onTap,
-    required this.title,
-    required this.isFilled,
-  });
-
-  final VoidCallback onTap;
-  final Widget title;
-  final bool isFilled;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      onTap: onTap,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 18),
-      leading: Assets.icons.docs.svg(),
-      horizontalTitleGap: 6,
-      title: title,
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            isFilled ? t.notice.write.edit : t.notice.write.write,
-            style: const TextStyle(
-              fontSize: 14,
-              color: Palette.textGrey,
-            ),
-          ),
-          const SizedBox(width: 2),
-          const Icon(
-            Icons.arrow_forward_ios,
-            size: 16,
-            color: Palette.textGrey,
-          ),
-        ],
-      ),
-    );
   }
 }
 

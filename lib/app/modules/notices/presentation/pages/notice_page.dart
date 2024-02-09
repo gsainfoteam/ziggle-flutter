@@ -64,7 +64,13 @@ class _Layout extends StatelessWidget {
                   context: context,
                   onEdit: notice.canEdit ? () {} : null,
                   onAdditional: () async {},
-                  onEnglish: () async {},
+                  onEnglish: () async {
+                    final result = await WriteForeignRoute.fromEntity(notice)
+                        .push<NoticeEntity>(context);
+                    if (result == null) return;
+                    if (!context.mounted) return;
+                    context.read<NoticeBloc>().add(NoticeEvent.load(result));
+                  },
                   onDelete: () async {
                     final bloc = context.read<NoticeBloc>();
                     bloc.add(const NoticeEvent.delete());
