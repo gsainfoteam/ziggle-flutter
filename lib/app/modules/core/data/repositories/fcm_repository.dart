@@ -118,4 +118,11 @@ class FcmRepository implements PushMessageRepository, LinkRepository {
 
   @override
   Stream<String> getLinkStream() => _linkSubject.stream;
+
+  @override
+  Future<void> clearToken() async {
+    final instance = FirebaseMessaging.instance;
+    await instance.deleteToken();
+    await instance.getToken();
+  }
 }

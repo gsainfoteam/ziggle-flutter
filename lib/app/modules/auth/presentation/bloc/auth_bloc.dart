@@ -16,6 +16,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
   final AnalyticsRepository _analyticsRepository;
 
+  String? _pushToken;
+
   AuthBloc(
     this._oAuthRepository,
     this._authRepository,
@@ -49,12 +51,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _authRepository.logout();
       emit(const _Guest());
     });
+    on<_UpdatePushToken>((event, emit) async {
+      _pushToken = event.token;
+      await _authRepository.updatePushToken(event.token);
+    });
   }
 
   @override
   void onChange(Change<AuthState> change) {
     super.onChange(change);
     _analyticsRepository.logChangeUser(change.nextState.userOrNull);
+    switch (change.nextState) {
+      case _Authenticated _:
+        if (_pushToken != null) {
+          _authRepository.updatePushToken(_pushToken!);
+        }
+        break;
+    }
   }
 
   static UserEntity? userOrNull(BuildContext context) =>
@@ -66,6 +79,7 @@ class AuthEvent with _$AuthEvent {
   const factory AuthEvent.load() = _Load;
   const factory AuthEvent.login() = _Login;
   const factory AuthEvent.logout() = _Logout;
+  const factory AuthEvent.updatePushToken(String token) = _UpdatePushToken;
 }
 
 @freezed
