@@ -86,9 +86,9 @@
     "enterKorean": "Enter Korean Article",
     "enterEnglish": "Enter English Article",
     "unsaved": {
-      "title": "There is changed",
+      "title": "There are unsaved changes\nDo you want to discard them?",
       "discard": "Discard",
-      "preserve": "Cancel"
+      "preserve": "Continue Editing"
     },
     "edit": "Edit",
     "images(rich)": "Attach Images ${optional(@:notice.write.optional)}",

@@ -78,9 +78,9 @@
     "enterKorean": "한글 본문 입력",
     "enterEnglish": "영어 본문 입력",
     "unsaved": {
-      "title": "There is changed",
-      "discard": "Discard",
-      "preserve": "Cancel"
+      "title": "작성 중인 공지가 있습니다.\n저장하지 않고 나가시겠습니까?",
+      "discard": "버리기",
+      "preserve": "계속 작성하기"
     },
     "edit": "편집하기",
     "images(rich)": "사진 첨부 ${optional(@:notice.write.optional)}",
