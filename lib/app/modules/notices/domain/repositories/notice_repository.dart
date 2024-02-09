@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:ziggle/gen/strings.g.dart';
+
 import '../entities/notice_entity.dart';
 import '../entities/notice_list_entity.dart';
 import '../enums/notice_type.dart';
@@ -30,4 +32,18 @@ abstract class NoticeRepository {
     List<File> documents = const [],
   });
   Future<void> deleteNotice(int id);
+  Future<NoticeEntity> addAdditionalContent({
+    required int id,
+    required String content,
+    DateTime? deadline,
+    bool? notifyToAll,
+  });
+  Future<NoticeEntity> writeForeign({
+    required int id,
+    String? title,
+    required String content,
+    required int contentId,
+    required AppLocale lang,
+    DateTime? deadline,
+  });
 }
