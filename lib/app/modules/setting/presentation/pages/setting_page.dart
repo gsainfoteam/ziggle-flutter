@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -40,7 +41,10 @@ class SettingPage extends StatelessWidget {
             ),
             ListTile(
               title: Text(t.setting.account.withdraw),
-              onTap: () => launchUrlString(Strings.withdrawalUrl),
+              onTap: () {
+                sl<AnalyticsRepository>().logOpenWithdrawal();
+                launchUrlString(Strings.withdrawalUrl);
+              },
             ),
             const Divider(),
             const _NotificationSetting(),

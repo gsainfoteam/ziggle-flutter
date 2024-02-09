@@ -6,6 +6,7 @@ abstract class AnalyticsRepository {
   logChangeUser(UserEntity? user);
   logScreen(String screenName);
 
+  logOpenFeedback();
   logOpenPrivacyPolicy();
   logOpenTermsOfService();
   logOpenWithdrawal();

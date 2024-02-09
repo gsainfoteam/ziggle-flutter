@@ -35,6 +35,8 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   @override
   logTryReport() => _log('try report');
   @override
+  logOpenFeedback() => _log('open feedback');
+  @override
   logOpenPrivacyPolicy() => _log('open privacy policy');
   @override
   logOpenWithdrawal() => _log('open withdrawal');

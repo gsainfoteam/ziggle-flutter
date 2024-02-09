@@ -61,6 +61,8 @@ class ThirdAnalyticsRepository implements AnalyticsRepository {
       });
 
   @override
+  logOpenFeedback() => _log('open_feedback');
+  @override
   logOpenPrivacyPolicy() => _log('open_privacy_policy');
   @override
   logOpenTermsOfService() => _log('open_terms_of_service');
