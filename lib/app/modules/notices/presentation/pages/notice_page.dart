@@ -64,13 +64,18 @@ class _Layout extends StatelessWidget {
                   context: context,
                   onEdit: notice.canEdit ? () {} : null,
                   onAdditional: () async {},
-                  onEnglish: () async {
-                    final result = await WriteForeignRoute.fromEntity(notice)
-                        .push<NoticeEntity>(context);
-                    if (result == null) return;
-                    if (!context.mounted) return;
-                    context.read<NoticeBloc>().add(NoticeEvent.load(result));
-                  },
+                  onEnglish: notice.contents.localesBy(AppLocale.en).isEmpty
+                      ? () async {
+                          final result =
+                              await WriteForeignRoute.fromEntity(notice)
+                                  .push<NoticeEntity>(context);
+                          if (result == null) return;
+                          if (!context.mounted) return;
+                          context
+                              .read<NoticeBloc>()
+                              .add(NoticeEvent.load(result));
+                        }
+                      : null,
                   onDelete: () async {
                     final bloc = context.read<NoticeBloc>();
                     bloc.add(const NoticeEvent.delete());
@@ -366,14 +371,14 @@ class _AuthorSettingSheet extends StatelessWidget {
 
   final VoidCallback? onEdit;
   final VoidCallback onAdditional;
-  final VoidCallback onEnglish;
+  final VoidCallback? onEnglish;
   final VoidCallback onDelete;
 
   static void show({
     required BuildContext context,
     VoidCallback? onEdit,
     required VoidCallback onAdditional,
-    required VoidCallback onEnglish,
+    VoidCallback? onEnglish,
     required VoidCallback onDelete,
   }) {
     showModalBottomSheet(
@@ -412,14 +417,15 @@ class _AuthorSettingSheet extends StatelessWidget {
               Navigator.pop(context);
             },
           ),
-          ListTile(
-            leading: Assets.icons.language.svg(),
-            title: Text(t.notice.writeEnglish),
-            onTap: () {
-              onEnglish();
-              Navigator.pop(context);
-            },
-          ),
+          if (onEnglish != null)
+            ListTile(
+              leading: Assets.icons.language.svg(),
+              title: Text(t.notice.writeEnglish),
+              onTap: () {
+                onEnglish?.call();
+                Navigator.pop(context);
+              },
+            ),
           ListTile(
             leading: Assets.icons.trash.svg(
               colorFilter: const ColorFilter.mode(
