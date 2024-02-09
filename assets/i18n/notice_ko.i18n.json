@@ -87,5 +87,8 @@
     "selectImage": "사진 선택하기",
     "addImage": "사진 추가",
     "action": "완료"
-  }
+  },
+  "writeAdditional": "추가 공지 작성하기",
+  "writeEnglish": "영어 공지 작성하기",
+  "delete": "공지 삭제하기"
 }

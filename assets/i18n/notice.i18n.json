@@ -95,5 +95,8 @@
     "selectImage": "Select Image(s)",
     "addImage": "Add Image(s)",
     "action": "Done"
-  }
+  },
+  "writeAdditional": "Write Additional Notice",
+  "writeEnglish": "Write English Notice",
+  "delete": "Delete Notice"
 }

@@ -57,7 +57,7 @@ class _Layout extends StatelessWidget {
                 return const SizedBox.shrink();
               }
               return IconButton(
-                onPressed: () {},
+                onPressed: () => _AuthorSettingSheet.show(context),
                 icon: Assets.icons.settings.svg(),
               );
             },
@@ -331,6 +331,59 @@ class _Layout extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _AuthorSettingSheet extends StatelessWidget {
+  const _AuthorSettingSheet();
+
+  static void show(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      showDragHandle: true,
+      backgroundColor: Palette.white,
+      builder: (modalContext) => const _AuthorSettingSheet(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: Assets.icons.plus.svg(),
+            title: Text(t.notice.writeAdditional),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Assets.icons.language.svg(),
+            title: Text(t.notice.writeEnglish),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: Assets.icons.trash.svg(
+              colorFilter: const ColorFilter.mode(
+                Palette.primary100,
+                BlendMode.srcIn,
+              ),
+            ),
+            title: Text(
+              t.notice.delete,
+              style: const TextStyle(color: Palette.primary100),
+            ),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
     );
   }
 }
