@@ -61,8 +61,10 @@ class _Layout extends StatelessWidget {
               }
               return IconButton(
                 onPressed: () => _AuthorSettingSheet.show(
-                  context,
-                  () async {
+                  context: context,
+                  onAdditional: () async {},
+                  onEnglish: () async {},
+                  onDelete: () async {
                     final bloc = context.read<NoticeBloc>();
                     bloc.add(const NoticeEvent.delete());
                     await bloc.stream.firstWhere((state) => state.loaded);
@@ -349,20 +351,28 @@ class _Layout extends StatelessWidget {
 
 class _AuthorSettingSheet extends StatelessWidget {
   const _AuthorSettingSheet({
+    required this.onAdditional,
+    required this.onEnglish,
     required this.onDelete,
   });
 
+  final VoidCallback onAdditional;
+  final VoidCallback onEnglish;
   final VoidCallback onDelete;
 
-  static void show(
-    BuildContext context,
-    VoidCallback onDelete,
-  ) {
+  static void show({
+    required BuildContext context,
+    required VoidCallback onAdditional,
+    required VoidCallback onEnglish,
+    required VoidCallback onDelete,
+  }) {
     showModalBottomSheet(
       context: context,
       showDragHandle: true,
       backgroundColor: Palette.white,
       builder: (modalContext) => _AuthorSettingSheet(
+        onAdditional: onAdditional,
+        onEnglish: onEnglish,
         onDelete: onDelete,
       ),
     );
@@ -378,6 +388,7 @@ class _AuthorSettingSheet extends StatelessWidget {
             leading: Assets.icons.plus.svg(),
             title: Text(t.notice.writeAdditional),
             onTap: () {
+              onAdditional();
               Navigator.pop(context);
             },
           ),
@@ -385,6 +396,7 @@ class _AuthorSettingSheet extends StatelessWidget {
             leading: Assets.icons.language.svg(),
             title: Text(t.notice.writeEnglish),
             onTap: () {
+              onEnglish();
               Navigator.pop(context);
             },
           ),
