@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,38 @@ class WriteAdditionalPage extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => sl<WriteBloc>()),
       ],
-      child: _Layout(notice),
+      child: BlocConsumer<WriteBloc, WriteState>(
+        listener: (context, state) => state.mapOrNull(
+          error: (value) => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(value.message)),
+          ),
+        ),
+        builder: (context, state) => Stack(
+          children: [
+            IgnorePointer(ignoring: state.isLoading, child: _Layout(notice)),
+            IgnorePointer(
+              child: TweenAnimationBuilder(
+                tween: Tween(
+                  begin: state.isLoading ? 0.0 : 1.0,
+                  end: state.isLoading ? 1.0 : 0.0,
+                ),
+                builder: (context, value, child) => Opacity(
+                  opacity: value,
+                  child: child,
+                ),
+                duration: const Duration(milliseconds: 100),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                  child: Container(
+                    color: Colors.black.withOpacity(0.2),
+                    child: const Center(child: CircularProgressIndicator()),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
