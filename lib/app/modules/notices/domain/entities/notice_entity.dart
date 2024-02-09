@@ -1,3 +1,5 @@
+import 'package:ziggle/gen/strings.g.dart';
+
 import '../enums/notice_reaction.dart';
 import 'notice_content_entity.dart';
 import 'notice_reaction_entity.dart';
@@ -43,7 +45,15 @@ class NoticeEntity {
         updatedAt: DateTime.now(),
         deletedAt: null,
         tags: [],
-        contents: [],
+        contents: [
+          NoticeContentEntity(
+            id: 1,
+            lang: AppLocale.ko,
+            title: '',
+            body: '',
+            createdAt: DateTime.now(),
+          ),
+        ],
         reactions: [],
         imagesUrl: [],
         documentsUrl: [],
