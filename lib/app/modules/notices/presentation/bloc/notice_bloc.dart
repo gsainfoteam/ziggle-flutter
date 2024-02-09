@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
-import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
 
+import '../../data/models/notice_model.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/repositories/notice_repository.dart';
 

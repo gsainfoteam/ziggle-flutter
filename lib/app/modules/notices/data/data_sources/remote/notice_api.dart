@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:ziggle/app/modules/notices/data/models/create_additional_notice_model.dart';
-import 'package:ziggle/app/modules/notices/data/models/create_foreign_notice_model.dart';
-import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../../domain/enums/notice_sort.dart';
 import '../../enums/notice_my.dart';
+import '../../models/create_additional_notice_model.dart';
+import '../../models/create_foreign_notice_model.dart';
+import '../../models/create_notice_model.dart';
 import '../../models/notice_list_model.dart';
 import '../../models/notice_model.dart';
 

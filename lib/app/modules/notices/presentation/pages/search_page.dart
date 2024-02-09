@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/notice_list_item.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../bloc/notice_list_bloc.dart';
+import '../widgets/infinite_scroll.dart';
+import '../widgets/notice_list_item.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
