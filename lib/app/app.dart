@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:upgrader/upgrader.dart';
-import 'package:ziggle/app/modules/auth/presentation/pages/auth_provider.dart';
+import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/core/presentation/bloc/push_message_bloc.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/strings.dart';
@@ -36,7 +39,7 @@ class _AppState extends State<App> {
         ),
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: AuthProvider(
+          child: _Providers(
             child: MaterialApp.router(
               theme: AppTheme.theme,
               routerConfig: AppRoutes.config,
@@ -55,6 +58,35 @@ class _AppState extends State<App> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _Providers extends StatelessWidget {
+  const _Providers({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          lazy: false,
+          create: (_) => sl<AuthBloc>()..add(const AuthEvent.load()),
+        ),
+        BlocProvider(
+          create: (_) =>
+              sl<PushMessageBloc>()..add(const PushMessageEvent.init()),
+        ),
+      ],
+      child: BlocListener<PushMessageBloc, PushMessageState>(
+        listener: (context, state) => state.mapOrNull(
+          loaded: (s) =>
+              context.read<AuthBloc>().add(AuthEvent.updatePushToken(s.token)),
+        ),
+        child: child,
       ),
     );
   }

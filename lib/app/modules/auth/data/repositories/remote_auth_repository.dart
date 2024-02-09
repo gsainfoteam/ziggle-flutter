@@ -52,4 +52,9 @@ class RemoteAuthRepository implements AuthRepository {
     yield await _user;
     yield* _userController.stream;
   }
+
+  @override
+  Future<void> updatePushToken(String token) {
+    return _api.updateFcmToken(token);
+  }
 }

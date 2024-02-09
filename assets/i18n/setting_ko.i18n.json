@@ -20,7 +20,8 @@
       "description": "기기 설정에서 알림을 켜주세요.",
       "action": "켜기"
     },
-    "enabled": "알림이 켜져있습니다."
+    "enabled": "알림이 켜져있습니다.",
+    "description": "지글의 새로운 소식을 받아보세요."
   },
   "about": "정보",
   "feedback": {
