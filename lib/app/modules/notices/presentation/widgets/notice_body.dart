@@ -63,6 +63,7 @@ class _NoticeBodyState extends State<NoticeBody> {
           controller.addJavaScriptHandler(
             handlerName: 'Resize',
             callback: (arguments) {
+              if (!mounted) return;
               setState(() => _height = arguments.first.toDouble());
               if (!_completer.isCompleted) _completer.complete();
             },
