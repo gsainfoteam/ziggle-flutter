@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:markdown/markdown.dart' show markdownToHtml;
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -439,11 +440,14 @@ class _LayoutState extends State<_Layout> {
   }
 
   void _addImages() async {
+    final analytics = sl<AnalyticsRepository>();
+    analytics.logTrySelectImage();
     final result = await ImagePicker().pickMultiImage();
     if (!mounted) return;
     setState(() {
       _images.addAll(result.map((e) => File(e.path)).toList());
     });
+    analytics.logSelectImage();
   }
 }
 

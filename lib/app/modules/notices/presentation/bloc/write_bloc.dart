@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
@@ -14,8 +15,10 @@ part 'write_bloc.freezed.dart';
 @injectable
 class WriteBloc extends Bloc<WriteEvent, WriteState> {
   final NoticeRepository _repository;
+  final AnalyticsRepository _analyticsRepository;
 
-  WriteBloc(this._repository) : super(const _Initial()) {
+  WriteBloc(this._repository, this._analyticsRepository)
+      : super(const _Initial()) {
     on<_Write>((event, emit) async {
       emit(const WriteState.loading());
       try {
@@ -68,6 +71,24 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
         emit(const WriteState.initial());
       }
     });
+  }
+
+  @override
+  void onChange(Change<WriteState> change) {
+    super.onChange(change);
+    switch (change.nextState) {
+      case _Initial _:
+        break;
+      case _Loading _:
+        _analyticsRepository.logTrySubmitArticle();
+        break;
+      case _Loaded _:
+        _analyticsRepository.logSubmitArticle();
+        break;
+      case _Error e:
+        _analyticsRepository.logSubmitArticleCancel(e.message);
+        break;
+    }
   }
 }
 
