@@ -1,3 +1,5 @@
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+
 import '../../../auth/domain/entities/user_entity.dart';
 
 abstract class AnalyticsRepository {
@@ -17,7 +19,7 @@ abstract class AnalyticsRepository {
   logTryReport();
   logReport();
 
-  logSearch(String value);
+  logSearch(String value, NoticeType type);
 
   logTrySubmitArticle();
   logSubmitArticleCancel(String reason);

@@ -2,6 +2,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_smartlook/flutter_smartlook.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/auth/domain/entities/user_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 import '../../domain/repositories/analytics_repository.dart';
 
@@ -54,7 +55,10 @@ class ThirdAnalyticsRepository implements AnalyticsRepository {
   logToggleReminder(bool set) => _log('toggle_reminder', {'set': set ? 1 : 0});
 
   @override
-  logSearch(String query) => _log('search', {'query': query});
+  logSearch(String query, NoticeType type) => _log('search', {
+        'query': query,
+        'type': type.name,
+      });
 
   @override
   logOpenPrivacyPolicy() => _log('open_privacy_policy');

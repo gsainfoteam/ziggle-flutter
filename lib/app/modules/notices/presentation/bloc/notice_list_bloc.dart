@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 
 import '../../data/models/notice_model.dart';
 import '../../domain/entities/notice_entity.dart';
@@ -18,9 +19,11 @@ Stream<T> _thottle<T>(Stream<T> events, Stream<T> Function(T) mapper) => events
 @injectable
 class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
   final NoticeRepository _repository;
+  final AnalyticsRepository _analyticsRepository;
   String? _query;
 
-  NoticeListBloc(this._repository) : super(const _Initial()) {
+  NoticeListBloc(this._repository, this._analyticsRepository)
+      : super(const _Initial()) {
     on<_Droppable>((event, emit) async {
       if (event is _Load) {
         emit(_Loading(type: event.type));
@@ -83,6 +86,20 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       final list = state.list.replaceWithPersistContent(data);
       emit(_Loaded(total: state.total, list: list, type: state.type));
     });
+  }
+
+  @override
+  void onTransition(Transition<NoticeListEvent, NoticeListState> transition) {
+    super.onTransition(transition);
+    switch (transition.event) {
+      case _Load e:
+        switch (transition.nextState) {
+          case _Loading _:
+            _analyticsRepository.logSearch(e.query ?? '', e.type);
+            break;
+        }
+        break;
+    }
   }
 }
 

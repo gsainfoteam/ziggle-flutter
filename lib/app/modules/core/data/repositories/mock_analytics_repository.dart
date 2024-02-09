@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/auth/domain/entities/user_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 import '../../domain/repositories/analytics_repository.dart';
 
@@ -38,7 +39,10 @@ class MockAnalyticsRepository implements AnalyticsRepository {
   @override
   logOpenWithdrawal() => _log('open withdrawal');
   @override
-  logSearch(String value) => _log('search', {'query': value});
+  logSearch(String value, NoticeType type) => _log(
+        'search',
+        {'query': value, 'type': type.name},
+      );
   @override
   logSubmitArticle() => _log('submit article');
   @override
