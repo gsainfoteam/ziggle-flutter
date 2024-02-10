@@ -2,3 +2,9 @@ Ziggle has been renewed - see all of your GIST announcements at a glance with Zi
 
 + Show the most recent notices first for easy viewing
 + Add reactions to notices
++ Tag field supports autocomplete
++ Deadline can include specific time
++ You can send us feedback through [Profile -> Setting -> About -> Feedback]
++ You can share notice to others
++ Author setting; write additional notice, english notice or delete it
++ Continue viewing from Ziggle web to this app
