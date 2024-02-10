@@ -19,6 +19,7 @@ class MemoryApiChannelRepository implements ApiChannelRepository {
     );
   }
 
+  @override
   @disposeMethod
   void dispose() {
     _localSubscription.cancel();
