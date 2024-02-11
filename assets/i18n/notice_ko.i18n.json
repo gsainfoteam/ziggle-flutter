@@ -1,6 +1,7 @@
 {
   "type(context=NoticeType, param=type)": {
     "all": "최신",
+    "urgent": "마감임박",
     "hot": "지글픽",
     "recruit": "모집",
     "event": "행사",

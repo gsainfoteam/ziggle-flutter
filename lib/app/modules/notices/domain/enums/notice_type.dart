@@ -5,6 +5,7 @@ import 'notice_sort.dart';
 
 enum NoticeType {
   all,
+  urgent,
   hot,
   recruit(1),
   event(2),
@@ -19,10 +20,11 @@ enum NoticeType {
 
   static const writable = [recruit, event, general];
   static const tags = [...writable, academic];
-  static const sections = [all, hot, ...tags];
+  static const sections = [all, urgent, hot, ...tags];
 
   SvgGenImage get icon => {
         all: Assets.icons.clock,
+        urgent: Assets.icons.star,
         hot: Assets.icons.fireFlame,
         recruit: Assets.icons.community,
         event: Assets.icons.flower,
