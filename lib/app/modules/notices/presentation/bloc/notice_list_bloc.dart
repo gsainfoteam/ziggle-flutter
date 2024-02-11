@@ -35,7 +35,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           _query = event.query;
           emit(_Loaded(total: data.total, list: data.list, type: event.type));
         } catch (_) {
-          emit(const _Initial());
+          emit(_Loaded(total: 0, list: [], type: event.type));
         }
       } else if (event is _Reset) {
         _query = null;
