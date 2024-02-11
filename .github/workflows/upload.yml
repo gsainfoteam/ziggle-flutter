@@ -27,7 +27,7 @@ jobs:
         run: |
           echo "directory=$(echo ${{ matrix.os }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      - uses: shimataro/ssh-key-action@v2
+      - uses: shimataro/ssh-key-action@v2.7.0
         if: matrix.os == 'iOS'
         with:
           key: ${{ secrets.CERTIFICATION_DEPLOY_KEY }}
