@@ -22,12 +22,12 @@ jobs:
       group: ${{ matrix.os }}-staging
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: setup env
         run: |
           echo "directory=$(echo ${{ matrix.os }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
-      - uses: shimataro/ssh-key-action@v2
+      - uses: shimataro/ssh-key-action@v2.7.0
         if: matrix.os == 'iOS'
         with:
           key: ${{ secrets.CERTIFICATION_DEPLOY_KEY }}
@@ -60,14 +60,14 @@ jobs:
           flutter-version: '3.16.8'
           channel: 'stable'
           cache: true
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         if: env.run == 'true'
         with:
           path: |
             .dart_tool
             !.dart_tool/**/*.snapshot
           key: ${{ runner.os }}-dart-tool-${{ hashFiles('pubspec.lock') }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         if: env.run == 'true' && matrix.os == 'macos-14'
         with:
           path: |

@@ -22,7 +22,7 @@ jobs:
       group: ${{ matrix.os }}-production
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: setup env
         run: |
           echo "directory=$(echo ${{ matrix.os }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV

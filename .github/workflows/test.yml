@@ -14,7 +14,7 @@ jobs:
       android-changed: ${{ steps.android-changed-files.outputs.any_changed }}
       ios-changed: ${{ steps.ios-changed-files.outputs.any_changed }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -62,7 +62,7 @@ jobs:
               matrix.os == 'iOS' && needs.check-test-required.outputs.ios-changed == 'true'
             }}" >> $GITHUB_ENV
           echo "directory=$(echo ${{ matrix.os }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         if: env.run == 'true'
       - uses: subosito/flutter-action@v2
         if: env.run == 'true'
@@ -70,14 +70,14 @@ jobs:
           flutter-version: '3.16.8'
           channel: 'stable'
           cache: true
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         if: env.run == 'true'
         with:
           path: |
             .dart_tool
             !.dart_tool/**/*.snapshot
           key: ${{ runner.os }}-dart-tool-${{ hashFiles('pubspec.lock') }}
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         if: env.run == 'true' && matrix.os == 'iOS'
         with:
           path: |
