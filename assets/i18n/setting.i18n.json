@@ -9,6 +9,8 @@
     "description": "Log in to create announcements, set reminders, and leave reactions.",
     "action": "Log in"
   },
+  "feedbackReport": "Feedback · Report a bug",
+  "open": "Open",
   "name": "Name",
   "studentId": "Student ID",
   "email": "Email",
