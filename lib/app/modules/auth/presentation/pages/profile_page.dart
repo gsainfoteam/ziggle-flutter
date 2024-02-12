@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -43,47 +44,72 @@ class _Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
-      buildWhen: (_, c) => c.hasUser,
-      builder: (context, state) => Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Palette.textGreyDark,
-                  borderRadius: BorderRadius.circular(80),
-                ),
-                child: ClipOval(
-                  child: Transform.scale(
-                    alignment: const Alignment(0, -0.5),
-                    scale: 1.3,
-                    child: const Icon(
-                      Icons.person,
-                      size: 120,
-                      color: Palette.white,
+      builder: (context, state) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        child: state.hasUser
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Palette.textGreyDark,
+                      borderRadius: BorderRadius.circular(80),
+                    ),
+                    child: ClipOval(
+                      child: Transform.scale(
+                        alignment: const Alignment(0, -0.5),
+                        scale: 1.3,
+                        child: const Icon(
+                          Icons.person,
+                          size: 120,
+                          color: Palette.white,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  const SizedBox(height: 30),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8),
+                    child: Column(
+                      children: [
+                        _buildInfo(t.setting.name, state.user.name),
+                        const SizedBox(height: 10),
+                        _buildInfo(t.setting.studentId, state.user.studentId),
+                        const SizedBox(height: 10),
+                        _buildInfo(t.setting.email, state.user.email),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    t.setting.notLoggedIn.title,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(t.setting.notLoggedIn.description),
+                  const SizedBox(height: 10),
+                  BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, state) => ZiggleButton(
+                      text: t.setting.notLoggedIn.action,
+                      onTap: () =>
+                          context.read<AuthBloc>().add(const AuthEvent.login()),
+                      loading: state.maybeWhen(
+                        orElse: () => false,
+                        loading: () => true,
+                      ),
+                      fontSize: 16,
+                    ),
+                  )
+                ],
               ),
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Column(
-                  children: [
-                    _buildInfo(t.setting.name, state.user.name),
-                    const SizedBox(height: 10),
-                    _buildInfo(t.setting.studentId, state.user.studentId),
-                    const SizedBox(height: 10),
-                    _buildInfo(t.setting.email, state.user.email),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

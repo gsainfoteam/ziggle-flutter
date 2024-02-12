@@ -4,6 +4,11 @@
   "withoutLogin": "로그인 없이 이용하기",
   "consent(rich)": "GSA 통합 계정으로 로그인하면,\n${terms(지글 이용약관)}에 동의하는 것으로 간주합니다.",
   "mypage": "마이페이지",
+  "notLoggedIn": {
+    "title": "로그인해주세요.",
+    "description": "공지를 작성하고, 리마인드하고, 반응을 남기려면 로그인해주세요.",
+    "action": "로그인하기"
+  },
   "name": "이름",
   "studentId": "학번",
   "email": "메일",
