@@ -40,14 +40,14 @@ class _AppState extends State<App> {
         ),
         child: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: _Providers(
-            child: MaterialApp.router(
-              theme: AppTheme.theme,
-              routerConfig: AppRoutes.config,
-              locale: TranslationProvider.of(context).flutterLocale,
-              supportedLocales: AppLocaleUtils.supportedLocales,
-              localizationsDelegates: GlobalMaterialLocalizations.delegates,
-              builder: (context, child) => UpgradeAlert(
+          child: MaterialApp.router(
+            theme: AppTheme.theme,
+            routerConfig: AppRoutes.config,
+            locale: TranslationProvider.of(context).flutterLocale,
+            supportedLocales: AppLocaleUtils.supportedLocales,
+            localizationsDelegates: GlobalMaterialLocalizations.delegates,
+            builder: (context, child) => _Providers(
+              child: UpgradeAlert(
                 upgrader: Upgrader(
                   dialogStyle: UpgradeDialogStyle.cupertino,
                   showIgnore: false,
@@ -99,6 +99,13 @@ class _Providers extends StatelessWidget {
               loaded: (s) => WidgetsBinding.instance.addPostFrameCallback((_) {
                 AppRoutes.config.push(s.link);
               }),
+            ),
+          ),
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) => state.mapOrNull(
+              error: (value) => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(value.message)),
+              ),
             ),
           ),
         ],

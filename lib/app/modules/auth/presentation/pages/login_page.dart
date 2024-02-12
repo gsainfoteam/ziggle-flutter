@@ -31,14 +31,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
-      listener: (context, state) => state.mapOrNull(
-        error: (value) => ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(value.message)),
-        ),
-      ),
-      child: const _Layout(),
-    );
+    return const _Layout();
   }
 }
 
