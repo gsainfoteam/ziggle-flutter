@@ -5,6 +5,7 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -32,19 +33,42 @@ class SettingPage extends StatelessWidget {
                 ),
               ),
             ),
-            ListTile(
-              title: Text(t.setting.account.logout),
-              onTap: () {
-                context.read<AuthBloc>().add(const AuthEvent.logout());
-                const FeedRoute().go(context);
-              },
-            ),
-            ListTile(
-              title: Text(t.setting.account.withdraw),
-              onTap: () {
-                sl<AnalyticsRepository>().logOpenWithdrawal();
-                launchUrlString(Strings.withdrawalUrl);
-              },
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) => state.hasUser
+                  ? ListBody(
+                      children: [
+                        ListTile(
+                          title: Text(t.setting.account.logout),
+                          onTap: () {
+                            context
+                                .read<AuthBloc>()
+                                .add(const AuthEvent.logout());
+                            const FeedRoute().go(context);
+                          },
+                        ),
+                        ListTile(
+                          title: Text(t.setting.account.withdraw),
+                          onTap: () {
+                            sl<AnalyticsRepository>().logOpenWithdrawal();
+                            launchUrlString(Strings.withdrawalUrl);
+                          },
+                        ),
+                      ],
+                    )
+                  : ListBody(
+                      children: [
+                        ListTile(
+                          title: Text(t.setting.notLoggedIn.action),
+                          selected: state.isLoading,
+                          selectedTileColor: Palette.backgroundGreyLight,
+                          onTap: state.isLoading
+                              ? null
+                              : () => context
+                                  .read<AuthBloc>()
+                                  .add(const AuthEvent.login()),
+                        ),
+                      ],
+                    ),
             ),
             const Divider(),
             const _NotificationSetting(),
