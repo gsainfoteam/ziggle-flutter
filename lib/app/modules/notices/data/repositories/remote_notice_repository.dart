@@ -46,7 +46,7 @@ class RemoteNoticeRepository implements NoticeRepository {
       limit: limit,
       search: search,
       tags: [if (type.isTag) type.name, ...tags],
-      // lang: LocaleSettings.currentLocale,
+      lang: LocaleSettings.currentLocale,
       orderBy: type.defaultSort,
       my: NoticeMy.fromType(type),
     );
@@ -54,7 +54,11 @@ class RemoteNoticeRepository implements NoticeRepository {
 
   @override
   Future<NoticeEntity> getNotice(int id) {
-    return _api.getNotice(id, isViewed: true);
+    return _api.getNotice(
+      id,
+      lang: LocaleSettings.currentLocale,
+      isViewed: true,
+    );
   }
 
   @override
