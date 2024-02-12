@@ -4,7 +4,7 @@ part of 'routes.dart';
 class MyPageRoute extends GoRouteData {
   const MyPageRoute();
   @override
-  Widget build(context, state) => const AuthRequiredPage(child: ProfilePage());
+  Widget build(context, state) => const ProfilePage();
 }
 
 @TypedGoRoute<LoginRoute>(path: '/login')
