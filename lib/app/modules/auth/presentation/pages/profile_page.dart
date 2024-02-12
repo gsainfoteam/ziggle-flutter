@@ -15,6 +15,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(t.setting.mypage),
         actions: [
           IconButton(
             onPressed: () => const SettingRoute().push(context),
