@@ -1,11 +1,9 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_reaction.dart';
 import '../../domain/enums/notice_type.dart';
@@ -38,27 +36,23 @@ class NoticeCard extends StatelessWidget {
         child: Column(
           children: [
             _Title(
-              title: notice.contents.main.title,
-              author: notice.author,
+              title: notice.title,
+              author: notice.author.name,
               createdAt: notice.createdAt,
               deadline: notice.currentDeadline,
             ),
             _ImageAction(
               notice: notice,
-              isLiked: switch (AuthBloc.userOrNull(context)) {
-                null => false,
-                final user => notice.reactedBy(user.uuid, NoticeReaction.like),
-              },
+              isLiked: notice.reacted(NoticeReaction.like),
               onTapLike: onTapLike,
               onTapShare: onTapShare,
               onTapReminder: onTapReminder,
             ),
             _Content(
               tags: notice.tags
-                  .map((e) => e['name'] as String)
                   .map((e) => NoticeType.fromTag(e)?.label ?? e)
                   .toList(),
-              content: notice.contents.main.body,
+              content: notice.content,
             ),
           ],
         ),
@@ -143,7 +137,7 @@ class _ImageActionState extends State<_ImageAction> {
 
   NoticeEntity get notice => widget.notice;
   int get likes => notice.likes;
-  List<String> get imagesUrl => notice.imagesUrl;
+  List<String> get imagesUrl => notice.imageUrls;
 
   @override
   void initState() {
@@ -212,7 +206,7 @@ class _ImageActionState extends State<_ImageAction> {
                 ),
                 IconButton(
                   onPressed: widget.onTapReminder,
-                  icon: notice.reminder
+                  icon: notice.isReminded
                       ? Assets.icons.bellActive.svg()
                       : Assets.icons.bell.svg(),
                   padding: EdgeInsets.zero,

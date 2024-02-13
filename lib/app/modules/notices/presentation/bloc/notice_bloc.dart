@@ -42,21 +42,21 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
     });
     on<_AddReminder>((event, emit) async {
       emit(_Loading(
-        NoticeModel.fromEntity(state.notice).copyWith(reminder: true),
+        NoticeModel.fromEntity(state.notice).copyWith(isReminded: true),
       ));
       _analyticsRepository.logTryReminder();
       final data = await _repository.addReminder(state.notice.id);
       emit(_Loaded(data));
-      _analyticsRepository.logToggleReminder(data.reminder);
+      _analyticsRepository.logToggleReminder(data.isReminded);
     });
     on<_RemoveReminder>((event, emit) async {
       emit(_Loading(
-        NoticeModel.fromEntity(state.notice).copyWith(reminder: false),
+        NoticeModel.fromEntity(state.notice).copyWith(isReminded: false),
       ));
       _analyticsRepository.logTryReminder();
       final data = await _repository.removeReminder(state.notice.id);
       emit(_Loaded(data));
-      _analyticsRepository.logToggleReminder(data.reminder);
+      _analyticsRepository.logToggleReminder(data.isReminded);
     });
     on<_Delete>((event, emit) async {
       emit(_Loading(state.notice));

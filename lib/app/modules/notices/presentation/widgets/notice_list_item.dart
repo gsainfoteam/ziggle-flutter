@@ -1,11 +1,9 @@
 import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_reaction.dart';
 import '../../presentation/widgets/created_at.dart';
@@ -31,14 +29,14 @@ class NoticeListItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              notice.contents.main.title,
+              notice.title,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 5),
             ExtendedText(
-              notice.contents.main.body,
+              notice.content,
               maxLines: 2,
               overflowWidget: TextOverflowWidget(
                 child: Text.rich(
@@ -53,11 +51,7 @@ class NoticeListItem extends StatelessWidget {
             ),
             Row(
               children: [
-                (switch (AuthBloc.userOrNull(context)) {
-                  null => false,
-                  final user =>
-                    notice.reactedBy(user.uuid, NoticeReaction.like),
-                }
+                (notice.reacted(NoticeReaction.like)
                         ? Assets.icons.fireFlameActive
                         : Assets.icons.fireFlame)
                     .svg(height: 24),
@@ -76,7 +70,7 @@ class NoticeListItem extends StatelessWidget {
                 ),
                 const SizedBox(width: 5),
                 Text(
-                  notice.author,
+                  notice.author.name,
                   style: const TextStyle(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(width: 5),

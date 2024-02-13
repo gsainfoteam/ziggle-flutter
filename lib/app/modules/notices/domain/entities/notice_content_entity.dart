@@ -5,16 +5,14 @@ class NoticeContentEntity {
   const NoticeContentEntity({
     required this.id,
     required this.lang,
-    required this.title,
-    required this.body,
+    required this.content,
     this.deadline,
     required this.createdAt,
   });
 
   final int id;
   final AppLocale lang;
-  final String title;
-  final String body;
+  final String content;
   final DateTime? deadline;
   final DateTime createdAt;
 }

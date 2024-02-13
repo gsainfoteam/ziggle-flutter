@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../domain/entities/notice_entity.dart';
+import 'author_model.dart';
 import 'notice_content_model.dart';
 import 'notice_reaction_model.dart';
 
@@ -14,18 +15,19 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
   const factory NoticeModel({
     required int id,
     required int views,
+    DateTime? deadline,
     DateTime? currentDeadline,
     required DateTime createdAt,
-    required DateTime updatedAt,
     DateTime? deletedAt,
-    @Default([]) List tags,
-    required List<NoticeContentModel> contents,
+    @Default([]) List<String> tags,
+    required String title,
+    required String content,
+    @Default([]) List<NoticeContentModel> additionalContents,
     required List<NoticeReactionModel> reactions,
-    required String author,
-    @Default('') String authorId,
-    @Default([]) List<String> imagesUrl,
-    @Default([]) List<String> documentsUrl,
-    @Default(false) bool reminder,
+    required AuthorModel author,
+    @Default([]) List<String> imageUrls,
+    @Default([]) List<String> documentUrls,
+    @Default(false) bool isReminded,
   }) = _NoticeModel;
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>
@@ -33,18 +35,18 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
   factory NoticeModel.fromEntity(NoticeEntity entity) => NoticeModel(
         id: entity.id,
         views: entity.views,
+        deadline: entity.deadline,
         currentDeadline: entity.currentDeadline,
         createdAt: entity.createdAt,
-        updatedAt: entity.updatedAt,
         deletedAt: entity.deletedAt,
         tags: entity.tags,
-        contents: entity.contents.map(NoticeContentModel.fromEntity).toList(),
+        title: entity.title,
+        content: entity.content,
         reactions:
             entity.reactions.map(NoticeReactionModel.fromEntity).toList(),
-        author: entity.author,
-        authorId: entity.authorId,
-        imagesUrl: entity.imagesUrl,
-        documentsUrl: entity.documentsUrl,
-        reminder: entity.reminder,
+        author: AuthorModel.fromEntity(entity.author),
+        imageUrls: entity.imageUrls,
+        documentUrls: entity.documentUrls,
+        isReminded: entity.isReminded,
       );
 }

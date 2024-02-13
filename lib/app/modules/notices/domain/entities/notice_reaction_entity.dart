@@ -1,15 +1,11 @@
 class NoticeReactionEntity {
   final String emoji;
-  final DateTime createdAt;
-  final DateTime? deletedAt;
-  final int noticeId;
-  final String userId;
+  final int count;
+  final bool isReacted;
 
   NoticeReactionEntity({
     required this.emoji,
-    required this.createdAt,
-    required this.deletedAt,
-    required this.noticeId,
-    required this.userId,
+    required this.count,
+    required this.isReacted,
   });
 }

@@ -76,7 +76,7 @@ class _LayoutState extends State<_Layout> {
   String _korean = '';
   String _english = '';
   bool get _englishRequired =>
-      widget.notice.contents.localesBy(AppLocale.en).isNotEmpty;
+      widget.notice.additionalContents.localesBy(AppLocale.en).isNotEmpty;
   bool get _done =>
       _korean.isNotEmpty && (!_englishRequired || _english.isNotEmpty);
 
@@ -100,7 +100,9 @@ class _LayoutState extends State<_Layout> {
                     blob.add(WriteEvent.writeForeign(
                       notice: result.notice,
                       content: _english,
-                      contentId: maxBy(result.notice.contents, (c) => c.id)!.id,
+                      contentId:
+                          maxBy(result.notice.additionalContents, (c) => c.id)!
+                              .id,
                     ));
                     final s = await blob.stream.firstWhere((s) => s.isLoaded);
                     if (!mounted) return;

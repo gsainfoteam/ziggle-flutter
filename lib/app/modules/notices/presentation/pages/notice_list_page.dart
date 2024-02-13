@@ -135,7 +135,7 @@ class _LayoutState extends State<_Layout> {
                   }
                   HapticFeedback.lightImpact();
                   context.read<NoticeListBloc>().add(
-                        notice.reminder
+                        notice.isReminded
                             ? NoticeListEvent.removeReminder(notice.id)
                             : NoticeListEvent.addReminder(notice.id),
                       );

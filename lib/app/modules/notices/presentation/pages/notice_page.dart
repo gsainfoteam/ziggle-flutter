@@ -8,12 +8,12 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_reaction.dart';
 import '../../domain/enums/notice_type.dart';
@@ -56,7 +56,7 @@ class _Layout extends StatelessWidget {
           BlocBuilder<NoticeBloc, NoticeState>(
             builder: (context, state) {
               final notice = state.notice;
-              if (AuthBloc.userOrNull(context)?.uuid != notice.authorId) {
+              if (AuthBloc.userOrNull(context)?.uuid != notice.author.uuid) {
                 return const SizedBox.shrink();
               }
               return IconButton(
@@ -70,18 +70,19 @@ class _Layout extends StatelessWidget {
                     if (!context.mounted) return;
                     context.read<NoticeBloc>().add(NoticeEvent.load(result));
                   },
-                  onEnglish: notice.contents.localesBy(AppLocale.en).isEmpty
-                      ? () async {
-                          final result =
-                              await WriteForeignRoute.fromEntity(notice)
-                                  .push<NoticeEntity>(context);
-                          if (result == null) return;
-                          if (!context.mounted) return;
-                          context
-                              .read<NoticeBloc>()
-                              .add(NoticeEvent.load(result));
-                        }
-                      : null,
+                  onEnglish:
+                      notice.additionalContents.localesBy(AppLocale.en).isEmpty
+                          ? () async {
+                              final result =
+                                  await WriteForeignRoute.fromEntity(notice)
+                                      .push<NoticeEntity>(context);
+                              if (result == null) return;
+                              if (!context.mounted) return;
+                              context
+                                  .read<NoticeBloc>()
+                                  .add(NoticeEvent.load(result));
+                            }
+                          : null,
                   onDelete: () async {
                     final bloc = context.read<NoticeBloc>();
                     bloc.add(const NoticeEvent.delete());
@@ -97,8 +98,8 @@ class _Layout extends StatelessWidget {
           BlocBuilder<NoticeBloc, NoticeState>(
             builder: (context, state) {
               final notice = state.notice;
-              if (notice.currentDeadline == null) return const SizedBox();
-              if (notice.currentDeadline!.toLocal().isBefore(DateTime.now())) {
+              if (notice.deadline == null) return const SizedBox();
+              if (notice.deadline!.toLocal().isBefore(DateTime.now())) {
                 return const SizedBox();
               }
               return IconButton(
@@ -108,13 +109,13 @@ class _Layout extends StatelessWidget {
                     return;
                   }
                   context.read<NoticeBloc>().add(
-                        notice.reminder
+                        notice.isReminded
                             ? const NoticeEvent.removeReminder()
                             : const NoticeEvent.addReminder(),
                       );
                 },
                 icon: BlocBuilder<NoticeBloc, NoticeState>(
-                  builder: (context, state) => state.notice.reminder
+                  builder: (context, state) => state.notice.isReminded
                       ? Assets.icons.bellActive.svg()
                       : Assets.icons.bell.svg(),
                 ),
@@ -138,15 +139,14 @@ class _Layout extends StatelessWidget {
     final notice = context.select((NoticeBloc bloc) => bloc.state.notice);
     return CustomScrollView(
       slivers: [
-        if (notice.currentDeadline != null)
+        if (notice.deadline != null)
           SliverPadding(
             padding: const EdgeInsets.only(bottom: 10),
             sliver: SliverPinnedHeader(
               child: Container(
-                color:
-                    notice.currentDeadline!.toLocal().isBefore(DateTime.now())
-                        ? Palette.textGreyDark
-                        : Palette.primary100,
+                color: notice.deadline!.toLocal().isBefore(DateTime.now())
+                    ? Palette.textGreyDark
+                    : Palette.primary100,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 child: DefaultTextStyle.merge(
@@ -160,9 +160,7 @@ class _Layout extends StatelessWidget {
                     children: [
                       Text(t.notice.deadline),
                       Text(
-                        DateFormat.yMd()
-                            .add_Hm()
-                            .format(notice.currentDeadline!),
+                        DateFormat.yMd().add_Hm().format(notice.deadline!),
                       )
                     ],
                   ),
@@ -181,7 +179,7 @@ class _Layout extends StatelessWidget {
                     Assets.icons.profileCircle.svg(height: 24),
                     const SizedBox(width: 8),
                     Text(
-                      notice.author,
+                      notice.author.name,
                       style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(width: 5),
@@ -206,7 +204,7 @@ class _Layout extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  notice.contents.main.title,
+                  notice.title,
                   style: const TextStyle(
                       fontWeight: FontWeight.w600, fontSize: 16),
                   maxLines: 2,
@@ -218,7 +216,6 @@ class _Layout extends StatelessWidget {
                   child: Wrap(
                     spacing: 4,
                     children: notice.tags
-                        .map((e) => e['name'] as String)
                         .map((e) => NoticeType.fromTag(e)?.label ?? e)
                         .map((e) => Text('#$e'))
                         .toList(),
@@ -229,11 +226,11 @@ class _Layout extends StatelessWidget {
           ),
         ),
         SliverList.builder(
-          itemCount: notice.imagesUrl.length,
+          itemCount: notice.imageUrls.length,
           itemBuilder: (context, index) => Column(
             children: [
               const SizedBox(height: 10),
-              Image.network(notice.imagesUrl[index]),
+              Image.network(notice.imageUrls[index]),
             ],
           ),
         ),
@@ -267,9 +264,7 @@ class _Layout extends StatelessWidget {
                   }
                   final reaction = NoticeReaction.values[index];
                   final userId = AuthBloc.userOrNull(context)?.uuid;
-                  final selected = userId == null
-                      ? false
-                      : notice.reactedBy(userId, reaction);
+                  final selected = notice.reacted(reaction);
                   return _ReactionButton(
                     icon: reaction.icon(selected),
                     selected: selected,
@@ -313,20 +308,19 @@ class _Layout extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18),
           sliver: SliverToBoxAdapter(
             child: BlocBuilder<NoticeBloc, NoticeState>(
-              builder: (context, state) =>
-                  NoticeBody(body: notice.contents.main.body),
+              builder: (context, state) => NoticeBody(body: notice.content),
             ),
           ),
         ),
         SliverList.builder(
-          itemCount: notice.contents.additionals.length,
+          itemCount: notice.additionalContents.length,
           itemBuilder: (context, index) {
-            final previous = notice.contents.locales.elementAt(index);
-            final additional = notice.contents.additionals.elementAt(index);
+            final previous = notice.additionalContents.locales.elementAt(index);
+            final additional = notice.additionalContents.elementAt(index);
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: AdditionalNoticeContent(
-                body: additional.body,
+                body: additional.content,
                 previousDeadline: previous.deadline,
                 deadline: additional.deadline,
                 createdAt: additional.createdAt,

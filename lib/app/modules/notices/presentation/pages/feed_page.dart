@@ -128,7 +128,7 @@ class _Layout extends StatelessWidget {
               return;
             }
             const like = NoticeReaction.like;
-            final liked = notice.reactedBy(userId, like);
+            final liked = notice.reacted(like);
             context.read<NoticeListBloc>().add(liked
                 ? NoticeListEvent.removeReaction(notice.id, like.emoji)
                 : NoticeListEvent.addReaction(notice.id, like.emoji));
@@ -141,7 +141,7 @@ class _Layout extends StatelessWidget {
             }
             HapticFeedback.lightImpact();
             context.read<NoticeListBloc>().add(
-                  notice.reminder
+                  notice.isReminded
                       ? NoticeListEvent.removeReminder(notice.id)
                       : NoticeListEvent.addReminder(notice.id),
                 );

@@ -46,7 +46,7 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
           content: event.content,
           contentId: event.contentId,
           lang: event.lang,
-          deadline: event.notice.contents
+          deadline: event.notice.additionalContents
               .firstWhere((element) => element.id == event.contentId)
               .deadline,
         );

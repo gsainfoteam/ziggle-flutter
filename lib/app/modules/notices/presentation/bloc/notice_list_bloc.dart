@@ -79,7 +79,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       final data = await _repository.addReminder(event.id);
       final list = state.list.replaceWithPersistContent(data);
       emit(_Loaded(total: state.total, list: list, type: state.type));
-      _analyticsRepository.logToggleReminder(data.reminder);
+      _analyticsRepository.logToggleReminder(data.isReminded);
     });
     on<_RemoveReminder>((event, emit) async {
       if (state is! _Loaded) return;
@@ -88,7 +88,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       final data = await _repository.removeReminder(event.id);
       final list = state.list.replaceWithPersistContent(data);
       emit(_Loaded(total: state.total, list: list, type: state.type));
-      _analyticsRepository.logToggleReminder(data.reminder);
+      _analyticsRepository.logToggleReminder(data.isReminded);
     });
   }
 
@@ -156,9 +156,8 @@ extension on List<NoticeEntity> {
     final index = indexWhere((e) => e.id == notice.id);
     if (index == -1) return this;
     final list = toList();
-    list[index] = NoticeModel.fromEntity(notice).copyWith(
-      contents: NoticeModel.fromEntity(list[index]).contents,
-    );
+    list[index] =
+        NoticeModel.fromEntity(notice).copyWith(content: list[index].content);
     return list;
   }
 }
