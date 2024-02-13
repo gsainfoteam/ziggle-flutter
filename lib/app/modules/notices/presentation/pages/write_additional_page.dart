@@ -11,7 +11,6 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../bloc/write_bloc.dart';
 
@@ -75,8 +74,7 @@ class _LayoutState extends State<_Layout> {
   DateTime? _deadline;
   String _korean = '';
   String _english = '';
-  bool get _englishRequired =>
-      widget.notice.additionalContents.localesBy(AppLocale.en).isNotEmpty;
+  bool get _englishRequired => widget.notice.langs.contains(AppLocale.en);
   bool get _done =>
       _korean.isNotEmpty && (!_englishRequired || _english.isNotEmpty);
 
@@ -97,6 +95,11 @@ class _LayoutState extends State<_Layout> {
                     ));
                     final result =
                         await blob.stream.firstWhere((s) => s.isLoaded);
+                    if (!_englishRequired) {
+                      if (!mounted) return;
+                      context.pop(result.notice);
+                      return;
+                    }
                     blob.add(WriteEvent.writeForeign(
                       notice: result.notice,
                       content: _english,
