@@ -91,7 +91,7 @@ class _LayoutState extends State<_Layout> {
                     blob.add(WriteEvent.writeAdditional(
                       notice: widget.notice,
                       content: _korean,
-                      deadline: _deadline,
+                      deadline: _deadline ?? widget.notice.currentDeadline,
                     ));
                     final result =
                         await blob.stream.firstWhere((s) => s.isLoaded);
