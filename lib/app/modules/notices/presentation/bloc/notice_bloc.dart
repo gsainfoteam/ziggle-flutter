@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 
 import '../../data/models/notice_model.dart';
+import '../../data/models/notice_reaction_model.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/repositories/notice_repository.dart';
 
@@ -32,13 +33,23 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
     on<_AddReaction>((event, emit) async {
       emit(_Loading(state.notice));
       final data = await _repository.addReaction(state.notice.id, event.emoji);
-      emit(_Loaded(data));
+      emit(_Loaded(
+        NoticeModel.fromEntity(state.notice).copyWith(
+          reactions:
+              data.reactions.map(NoticeReactionModel.fromEntity).toList(),
+        ),
+      ));
     });
     on<_RemoveReaction>((event, emit) async {
       emit(_Loading(state.notice));
       final data =
           await _repository.removeReaction(state.notice.id, event.emoji);
-      emit(_Loaded(data));
+      emit(_Loaded(
+        NoticeModel.fromEntity(state.notice).copyWith(
+          reactions:
+              data.reactions.map(NoticeReactionModel.fromEntity).toList(),
+        ),
+      ));
     });
     on<_AddReminder>((event, emit) async {
       emit(_Loading(

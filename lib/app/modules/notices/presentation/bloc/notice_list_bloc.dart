@@ -156,8 +156,10 @@ extension on List<NoticeEntity> {
     final index = indexWhere((e) => e.id == notice.id);
     if (index == -1) return this;
     final list = toList();
-    list[index] =
-        NoticeModel.fromEntity(notice).copyWith(content: list[index].content);
+    list[index] = NoticeModel.fromEntity(notice).copyWith(
+      title: list[index].title,
+      content: list[index].content,
+    );
     return list;
   }
 }

@@ -47,6 +47,9 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
         content: entity.content,
         reactions:
             entity.reactions.map(NoticeReactionModel.fromEntity).toList(),
+        additionalContents: entity.additionalContents
+            .map(NoticeContentModel.fromEntity)
+            .toList(),
         author: AuthorModel.fromEntity(entity.author),
         imageUrls: entity.imageUrls,
         documentUrls: entity.documentUrls,
