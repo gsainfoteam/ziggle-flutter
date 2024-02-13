@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
+import 'package:ziggle/app/modules/notices/data/models/notice_content_model.dart';
 
 import '../../data/models/notice_model.dart';
 import '../../domain/entities/notice_entity.dart';
@@ -32,31 +33,31 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
     on<_AddReaction>((event, emit) async {
       emit(_Loading(state.notice));
       final data = await _repository.addReaction(state.notice.id, event.emoji);
-      emit(_Loaded(data));
+      emit(_Loaded(state.notice.replaceWithPersistContent(data)));
     });
     on<_RemoveReaction>((event, emit) async {
       emit(_Loading(state.notice));
       final data =
           await _repository.removeReaction(state.notice.id, event.emoji);
-      emit(_Loaded(data));
+      emit(_Loaded(state.notice.replaceWithPersistContent(data)));
     });
     on<_AddReminder>((event, emit) async {
       emit(_Loading(
-        NoticeModel.fromEntity(state.notice).copyWith(reminder: true),
+        NoticeModel.fromEntity(state.notice).copyWith(isReminded: true),
       ));
       _analyticsRepository.logTryReminder();
       final data = await _repository.addReminder(state.notice.id);
-      emit(_Loaded(data));
-      _analyticsRepository.logToggleReminder(data.reminder);
+      emit(_Loaded(state.notice.replaceWithPersistContent(data)));
+      _analyticsRepository.logToggleReminder(data.isReminded);
     });
     on<_RemoveReminder>((event, emit) async {
       emit(_Loading(
-        NoticeModel.fromEntity(state.notice).copyWith(reminder: false),
+        NoticeModel.fromEntity(state.notice).copyWith(isReminded: false),
       ));
       _analyticsRepository.logTryReminder();
       final data = await _repository.removeReminder(state.notice.id);
-      emit(_Loaded(data));
-      _analyticsRepository.logToggleReminder(data.reminder);
+      emit(_Loaded(state.notice.replaceWithPersistContent(data)));
+      _analyticsRepository.logToggleReminder(data.isReminded);
     });
     on<_Delete>((event, emit) async {
       emit(_Loading(state.notice));
@@ -92,4 +93,15 @@ class NoticeState with _$NoticeState {
   const factory NoticeState.loaded(NoticeEntity notice) = _Loaded;
 
   bool get loaded => this is _Loaded;
+}
+
+extension on NoticeEntity {
+  NoticeEntity replaceWithPersistContent(NoticeEntity notice) {
+    return NoticeModel.fromEntity(notice).copyWith(
+      title: title,
+      content: content,
+      additionalContents:
+          additionalContents.map(NoticeContentModel.fromEntity).toList(),
+    );
+  }
 }

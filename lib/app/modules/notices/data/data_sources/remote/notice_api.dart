@@ -36,6 +36,7 @@ abstract class NoticeApi {
   @GET('{id}')
   Future<NoticeModel> getNotice(
     @Path('id') int id, {
+    @Query('lang') AppLocale? lang,
     @Query('isViewed') bool isViewed = false,
   });
 

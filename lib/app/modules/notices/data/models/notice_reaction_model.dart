@@ -13,10 +13,8 @@ class NoticeReactionModel
 
   const factory NoticeReactionModel({
     required String emoji,
-    required DateTime createdAt,
-    DateTime? deletedAt,
-    required int noticeId,
-    required String userId,
+    required int count,
+    required bool isReacted,
   }) = _NoticeReactionModel;
 
   factory NoticeReactionModel.fromJson(Map<String, dynamic> json) =>
@@ -24,9 +22,7 @@ class NoticeReactionModel
   factory NoticeReactionModel.fromEntity(NoticeReactionEntity entity) =>
       NoticeReactionModel(
         emoji: entity.emoji,
-        createdAt: entity.createdAt,
-        deletedAt: entity.deletedAt,
-        noticeId: entity.noticeId,
-        userId: entity.userId,
+        count: entity.count,
+        isReacted: entity.isReacted,
       );
 }

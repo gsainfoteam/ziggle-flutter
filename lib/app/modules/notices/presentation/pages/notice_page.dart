@@ -8,12 +8,12 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/sliver_pinned_header.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_reaction.dart';
 import '../../domain/enums/notice_type.dart';
@@ -56,7 +56,7 @@ class _Layout extends StatelessWidget {
           BlocBuilder<NoticeBloc, NoticeState>(
             builder: (context, state) {
               final notice = state.notice;
-              if (AuthBloc.userOrNull(context)?.uuid != notice.authorId) {
+              if (AuthBloc.userOrNull(context)?.uuid != notice.author.uuid) {
                 return const SizedBox.shrink();
               }
               return IconButton(
@@ -70,7 +70,7 @@ class _Layout extends StatelessWidget {
                     if (!context.mounted) return;
                     context.read<NoticeBloc>().add(NoticeEvent.load(result));
                   },
-                  onEnglish: notice.contents.localesBy(AppLocale.en).isEmpty
+                  onEnglish: !notice.langs.contains(AppLocale.en)
                       ? () async {
                           final result =
                               await WriteForeignRoute.fromEntity(notice)
@@ -97,10 +97,7 @@ class _Layout extends StatelessWidget {
           BlocBuilder<NoticeBloc, NoticeState>(
             builder: (context, state) {
               final notice = state.notice;
-              if (notice.currentDeadline == null) return const SizedBox();
-              if (notice.currentDeadline!.toLocal().isBefore(DateTime.now())) {
-                return const SizedBox();
-              }
+              if (!notice.isRemindable) return const SizedBox();
               return IconButton(
                 onPressed: () {
                   if (AuthBloc.userOrNull(context) == null) {
@@ -108,13 +105,13 @@ class _Layout extends StatelessWidget {
                     return;
                   }
                   context.read<NoticeBloc>().add(
-                        notice.reminder
+                        notice.isReminded
                             ? const NoticeEvent.removeReminder()
                             : const NoticeEvent.addReminder(),
                       );
                 },
                 icon: BlocBuilder<NoticeBloc, NoticeState>(
-                  builder: (context, state) => state.notice.reminder
+                  builder: (context, state) => state.notice.isReminded
                       ? Assets.icons.bellActive.svg()
                       : Assets.icons.bell.svg(),
                 ),
@@ -162,7 +159,7 @@ class _Layout extends StatelessWidget {
                       Text(
                         DateFormat.yMd()
                             .add_Hm()
-                            .format(notice.currentDeadline!),
+                            .format(notice.currentDeadline!.toLocal()),
                       )
                     ],
                   ),
@@ -181,7 +178,7 @@ class _Layout extends StatelessWidget {
                     Assets.icons.profileCircle.svg(height: 24),
                     const SizedBox(width: 8),
                     Text(
-                      notice.author,
+                      notice.author.name,
                       style: const TextStyle(fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(width: 5),
@@ -206,7 +203,7 @@ class _Layout extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  notice.contents.main.title,
+                  notice.title,
                   style: const TextStyle(
                       fontWeight: FontWeight.w600, fontSize: 16),
                   maxLines: 2,
@@ -218,7 +215,6 @@ class _Layout extends StatelessWidget {
                   child: Wrap(
                     spacing: 4,
                     children: notice.tags
-                        .map((e) => e['name'] as String)
                         .map((e) => NoticeType.fromTag(e)?.label ?? e)
                         .map((e) => Text('#$e'))
                         .toList(),
@@ -229,11 +225,11 @@ class _Layout extends StatelessWidget {
           ),
         ),
         SliverList.builder(
-          itemCount: notice.imagesUrl.length,
+          itemCount: notice.imageUrls.length,
           itemBuilder: (context, index) => Column(
             children: [
               const SizedBox(height: 10),
-              Image.network(notice.imagesUrl[index]),
+              Image.network(notice.imageUrls[index]),
             ],
           ),
         ),
@@ -267,9 +263,7 @@ class _Layout extends StatelessWidget {
                   }
                   final reaction = NoticeReaction.values[index];
                   final userId = AuthBloc.userOrNull(context)?.uuid;
-                  final selected = userId == null
-                      ? false
-                      : notice.reactedBy(userId, reaction);
+                  final selected = notice.reacted(reaction);
                   return _ReactionButton(
                     icon: reaction.icon(selected),
                     selected: selected,
@@ -313,21 +307,25 @@ class _Layout extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18),
           sliver: SliverToBoxAdapter(
             child: BlocBuilder<NoticeBloc, NoticeState>(
-              builder: (context, state) =>
-                  NoticeBody(body: notice.contents.main.body),
+              builder: (context, state) => NoticeBody(body: notice.content),
             ),
           ),
         ),
         SliverList.builder(
-          itemCount: notice.contents.additionals.length,
+          itemCount: notice.additionalContents.locales.length,
           itemBuilder: (context, index) {
-            final previous = notice.contents.locales.elementAt(index);
-            final additional = notice.contents.additionals.elementAt(index);
+            final previousDeadline = index == 0
+                ? notice.deadline
+                : notice.additionalContents.locales
+                    .elementAt(index - 1)
+                    .deadline;
+            final additional =
+                notice.additionalContents.locales.elementAt(index);
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: AdditionalNoticeContent(
-                body: additional.body,
-                previousDeadline: previous.deadline,
+                body: additional.content,
+                previousDeadline: previousDeadline,
                 deadline: additional.deadline,
                 createdAt: additional.createdAt,
               ),

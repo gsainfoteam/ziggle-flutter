@@ -15,8 +15,7 @@ class NoticeContentModel
   const factory NoticeContentModel({
     required int id,
     required AppLocale lang,
-    @Default('') String title,
-    required String body,
+    required String content,
     DateTime? deadline,
     required DateTime createdAt,
   }) = _NoticeModel;
@@ -27,8 +26,7 @@ class NoticeContentModel
       NoticeContentModel(
         id: entity.id,
         lang: entity.lang,
-        title: entity.title,
-        body: entity.body,
+        content: entity.content,
         deadline: entity.deadline,
         createdAt: entity.createdAt,
       );

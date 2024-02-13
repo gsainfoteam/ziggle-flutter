@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/notice_content_entity.dart';
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_type.dart';
 import '../../domain/repositories/notice_repository.dart';
@@ -46,9 +48,10 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
           content: event.content,
           contentId: event.contentId,
           lang: event.lang,
-          deadline: event.notice.contents
-              .firstWhere((element) => element.id == event.contentId)
-              .deadline,
+          deadline: event.notice.additionalContents.locales
+                  .firstWhereOrNull((element) => element.id == event.contentId)
+                  ?.deadline ??
+              event.notice.deadline,
         );
         emit(WriteState.loaded(notice));
       } catch (e) {

@@ -27,16 +27,12 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
     on<_Droppable>((event, emit) async {
       if (event is _Load) {
         emit(_Loading(type: event.type));
-        try {
-          final data = await _repository.getNotices(
-            type: event.type,
-            search: event.query,
-          );
-          _query = event.query;
-          emit(_Loaded(total: data.total, list: data.list, type: event.type));
-        } catch (_) {
-          emit(_Loaded(total: 0, list: [], type: event.type));
-        }
+        final data = await _repository.getNotices(
+          type: event.type,
+          search: event.query,
+        );
+        _query = event.query;
+        emit(_Loaded(total: data.total, list: data.list, type: event.type));
       } else if (event is _Reset) {
         _query = null;
         emit(_Initial(type: state.type));
@@ -83,7 +79,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       final data = await _repository.addReminder(event.id);
       final list = state.list.replaceWithPersistContent(data);
       emit(_Loaded(total: state.total, list: list, type: state.type));
-      _analyticsRepository.logToggleReminder(data.reminder);
+      _analyticsRepository.logToggleReminder(data.isReminded);
     });
     on<_RemoveReminder>((event, emit) async {
       if (state is! _Loaded) return;
@@ -92,7 +88,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       final data = await _repository.removeReminder(event.id);
       final list = state.list.replaceWithPersistContent(data);
       emit(_Loaded(total: state.total, list: list, type: state.type));
-      _analyticsRepository.logToggleReminder(data.reminder);
+      _analyticsRepository.logToggleReminder(data.isReminded);
     });
   }
 
@@ -161,7 +157,8 @@ extension on List<NoticeEntity> {
     if (index == -1) return this;
     final list = toList();
     list[index] = NoticeModel.fromEntity(notice).copyWith(
-      contents: NoticeModel.fromEntity(list[index]).contents,
+      title: list[index].title,
+      content: list[index].content,
     );
     return list;
   }

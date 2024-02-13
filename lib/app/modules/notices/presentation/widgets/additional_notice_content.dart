@@ -50,9 +50,7 @@ class AdditionalNoticeContent extends StatelessWidget {
                         .format(previousDeadline!.toLocal())),
                     const Text(' ▶ ️'),
                     Text(
-                      DateFormat.yMd()
-                          .add_Hm()
-                          .format(previousDeadline!.toLocal()),
+                      DateFormat.yMd().add_Hm().format(deadline!.toLocal()),
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ],
