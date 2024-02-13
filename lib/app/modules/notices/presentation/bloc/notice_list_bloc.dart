@@ -27,16 +27,12 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
     on<_Droppable>((event, emit) async {
       if (event is _Load) {
         emit(_Loading(type: event.type));
-        try {
-          final data = await _repository.getNotices(
-            type: event.type,
-            search: event.query,
-          );
-          _query = event.query;
-          emit(_Loaded(total: data.total, list: data.list, type: event.type));
-        } catch (_) {
-          emit(_Loaded(total: 0, list: [], type: event.type));
-        }
+        final data = await _repository.getNotices(
+          type: event.type,
+          search: event.query,
+        );
+        _query = event.query;
+        emit(_Loaded(total: data.total, list: data.list, type: event.type));
       } else if (event is _Reset) {
         _query = null;
         emit(_Initial(type: state.type));
