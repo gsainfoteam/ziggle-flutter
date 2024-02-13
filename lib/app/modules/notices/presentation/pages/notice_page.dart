@@ -98,8 +98,8 @@ class _Layout extends StatelessWidget {
           BlocBuilder<NoticeBloc, NoticeState>(
             builder: (context, state) {
               final notice = state.notice;
-              if (notice.deadline == null) return const SizedBox();
-              if (notice.deadline!.toLocal().isBefore(DateTime.now())) {
+              if (notice.currentDeadline == null) return const SizedBox();
+              if (notice.currentDeadline!.toLocal().isBefore(DateTime.now())) {
                 return const SizedBox();
               }
               return IconButton(
@@ -139,14 +139,15 @@ class _Layout extends StatelessWidget {
     final notice = context.select((NoticeBloc bloc) => bloc.state.notice);
     return CustomScrollView(
       slivers: [
-        if (notice.deadline != null)
+        if (notice.currentDeadline != null)
           SliverPadding(
             padding: const EdgeInsets.only(bottom: 10),
             sliver: SliverPinnedHeader(
               child: Container(
-                color: notice.deadline!.toLocal().isBefore(DateTime.now())
-                    ? Palette.textGreyDark
-                    : Palette.primary100,
+                color:
+                    notice.currentDeadline!.toLocal().isBefore(DateTime.now())
+                        ? Palette.textGreyDark
+                        : Palette.primary100,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                 child: DefaultTextStyle.merge(
@@ -160,7 +161,9 @@ class _Layout extends StatelessWidget {
                     children: [
                       Text(t.notice.deadline),
                       Text(
-                        DateFormat.yMd().add_Hm().format(notice.deadline!),
+                        DateFormat.yMd()
+                            .add_Hm()
+                            .format(notice.currentDeadline!.toLocal()),
                       )
                     ],
                   ),
@@ -313,15 +316,20 @@ class _Layout extends StatelessWidget {
           ),
         ),
         SliverList.builder(
-          itemCount: notice.additionalContents.length,
+          itemCount: notice.additionalContents.locales.length,
           itemBuilder: (context, index) {
-            final previous = notice.additionalContents.locales.elementAt(index);
-            final additional = notice.additionalContents.elementAt(index);
+            final previousDeadline = index == 0
+                ? notice.deadline
+                : notice.additionalContents.locales
+                    .elementAt(index - 1)
+                    .deadline;
+            final additional =
+                notice.additionalContents.locales.elementAt(index);
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: AdditionalNoticeContent(
                 body: additional.content,
-                previousDeadline: previous.deadline,
+                previousDeadline: previousDeadline,
                 deadline: additional.deadline,
                 createdAt: additional.createdAt,
               ),
