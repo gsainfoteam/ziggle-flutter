@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 import '../enums/notice_reaction.dart';
 import 'author_entity.dart';
@@ -8,6 +9,7 @@ import 'notice_reaction_entity.dart';
 class NoticeEntity {
   final int id;
   final int views;
+  final List<AppLocale> langs;
   final DateTime? deadline;
   final DateTime? currentDeadline;
   final DateTime createdAt;
@@ -25,6 +27,7 @@ class NoticeEntity {
   NoticeEntity({
     required this.id,
     required this.views,
+    required this.langs,
     required this.deadline,
     required this.currentDeadline,
     required this.createdAt,
@@ -43,6 +46,7 @@ class NoticeEntity {
   factory NoticeEntity.fromId(int id) => NoticeEntity(
         id: id,
         views: 0,
+        langs: [],
         deadline: null,
         currentDeadline: null,
         createdAt: DateTime.now(),

@@ -70,19 +70,18 @@ class _Layout extends StatelessWidget {
                     if (!context.mounted) return;
                     context.read<NoticeBloc>().add(NoticeEvent.load(result));
                   },
-                  onEnglish:
-                      notice.additionalContents.localesBy(AppLocale.en).isEmpty
-                          ? () async {
-                              final result =
-                                  await WriteForeignRoute.fromEntity(notice)
-                                      .push<NoticeEntity>(context);
-                              if (result == null) return;
-                              if (!context.mounted) return;
-                              context
-                                  .read<NoticeBloc>()
-                                  .add(NoticeEvent.load(result));
-                            }
-                          : null,
+                  onEnglish: !notice.langs.contains(AppLocale.en)
+                      ? () async {
+                          final result =
+                              await WriteForeignRoute.fromEntity(notice)
+                                  .push<NoticeEntity>(context);
+                          if (result == null) return;
+                          if (!context.mounted) return;
+                          context
+                              .read<NoticeBloc>()
+                              .add(NoticeEvent.load(result));
+                        }
+                      : null,
                   onDelete: () async {
                     final bloc = context.read<NoticeBloc>();
                     bloc.add(const NoticeEvent.delete());

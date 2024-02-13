@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import 'author_model.dart';
@@ -15,6 +16,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
   const factory NoticeModel({
     required int id,
     required int views,
+    @Default([AppLocale.ko]) List<AppLocale> langs,
     DateTime? deadline,
     DateTime? currentDeadline,
     required DateTime createdAt,
@@ -35,6 +37,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
   factory NoticeModel.fromEntity(NoticeEntity entity) => NoticeModel(
         id: entity.id,
         views: entity.views,
+        langs: entity.langs,
         deadline: entity.deadline,
         currentDeadline: entity.currentDeadline,
         createdAt: entity.createdAt,
