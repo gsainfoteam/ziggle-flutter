@@ -253,6 +253,7 @@ class _Layout extends StatelessWidget {
                       child: Row(
                         children: [
                           Assets.icons.shareAndroid.svg(width: 20),
+                          const SizedBox(width: 6),
                           Text(
                             t.notice.share,
                             style: const TextStyle(
@@ -494,33 +495,25 @@ class _ReactionButton extends _ChipButton {
     super.selected,
     required int count,
   }) : super(
-          child: Center(
-            child: Text.rich(
-              TextSpan(
-                children: [
-                  WidgetSpan(
-                    child: IconTheme(
-                      data: const IconThemeData(size: 20),
-                      child: SizedBox(
-                        width: 20,
-                        child: icon,
-                      ),
-                    ),
-                    alignment: PlaceholderAlignment.middle,
-                  ),
-                  const WidgetSpan(child: SizedBox(width: 8)),
-                  TextSpan(
-                    text: '$count',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight:
-                          selected ? FontWeight.bold : FontWeight.normal,
-                    ),
-                  ),
-                ],
+          child: Row(
+            children: [
+              IconTheme(
+                data: const IconThemeData(size: 20),
+                child: SizedBox(
+                  height: 24,
+                  width: 20,
+                  child: icon,
+                ),
               ),
-              strutStyle: const StrutStyle(forceStrutHeight: true),
-            ),
+              const SizedBox(width: 6),
+              Text(
+                '$count',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+            ],
           ),
         );
 }
