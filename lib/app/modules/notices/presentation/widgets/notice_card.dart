@@ -204,17 +204,18 @@ class _ImageActionState extends State<_ImageAction> {
                   constraints:
                       const BoxConstraints.tightFor(width: 48, height: 48),
                 ),
-                IconButton(
-                  onPressed: widget.onTapReminder,
-                  icon: notice.isReminded
-                      ? Assets.icons.bellActive.svg()
-                      : Assets.icons.bell.svg(),
-                  padding: EdgeInsets.zero,
-                  visualDensity:
-                      const VisualDensity(horizontal: -4, vertical: -4),
-                  constraints:
-                      const BoxConstraints.tightFor(width: 48, height: 48),
-                ),
+                if (notice.isRemindable)
+                  IconButton(
+                    onPressed: widget.onTapReminder,
+                    icon: notice.isReminded
+                        ? Assets.icons.bellActive.svg()
+                        : Assets.icons.bell.svg(),
+                    padding: EdgeInsets.zero,
+                    visualDensity:
+                        const VisualDensity(horizontal: -4, vertical: -4),
+                    constraints:
+                        const BoxConstraints.tightFor(width: 48, height: 48),
+                  ),
                 const SizedBox(width: 8),
               ],
             ),

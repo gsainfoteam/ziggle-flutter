@@ -73,4 +73,9 @@ extension NoticeEntityExtension on NoticeEntity {
       reactions.firstWhereOrNull((e) => e.emoji == reaction.emoji)?.isReacted ??
       false;
   bool get canEdit => DateTime.now().difference(createdAt) < maxTimeToEdit;
+  bool get isRemindable {
+    if (currentDeadline == null) return false;
+    if (currentDeadline!.toLocal().isBefore(DateTime.now())) return false;
+    return true;
+  }
 }
