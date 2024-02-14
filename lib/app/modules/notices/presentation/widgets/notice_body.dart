@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -19,7 +20,7 @@ class NoticeBody extends StatefulWidget {
 
 class _NoticeBodyState extends State<NoticeBody> {
   double _height = 0;
-  bool _initial = true;
+  late bool _initial = Platform.isIOS;
   final _completer = Completer<void>();
   late final InAppWebViewController _controller;
 
