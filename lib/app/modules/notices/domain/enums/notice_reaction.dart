@@ -4,7 +4,7 @@ import 'package:ziggle/gen/assets.gen.dart';
 
 enum NoticeReaction {
   like('\u{1F525}'), // 🔥
-  crying('\u{1F622}'), // 😢
+  crying('\u{1F62E}'), // 😭
   surprised('\u{1F62E}'), // 😮
   thinking('\u{1F914}'), // 🤔
   sad('\u{1F627}'); // 😧
