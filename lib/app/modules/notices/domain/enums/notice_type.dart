@@ -36,7 +36,11 @@ enum NoticeType {
   bool get isTag => tags.contains(this);
   String get label => t.notice.type(type: this);
   NoticeSort get defaultSort =>
-      {hot: NoticeSort.hot}[this] ?? NoticeSort.recent;
+      {
+        urgent: NoticeSort.deadline,
+        hot: NoticeSort.hot,
+      }[this] ??
+      NoticeSort.recent;
 
   static NoticeType? fromTag(String tag) => {
         'recruit': recruit,
