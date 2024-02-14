@@ -17,9 +17,9 @@ import 'package:ziggle/gen/strings.g.dart';
 void main() async {
   _initSplash();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  _initCrashlytics();
   await configureDependencies();
   await _initLocale();
-  _initCrashlytics();
   _initFont();
   _initBloc();
   runApp(TranslationProvider(child: const App()));
