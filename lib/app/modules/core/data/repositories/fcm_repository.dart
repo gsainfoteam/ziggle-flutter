@@ -12,6 +12,8 @@ import '../../domain/repositories/link_repository.dart';
 import '../../domain/repositories/push_message_repository.dart';
 
 @singleton
+@dev
+@prod
 class FcmRepository implements PushMessageRepository, LinkRepository {
   final _tokenSubject = BehaviorSubject<String>();
   final _linkSubject = BehaviorSubject<String>();

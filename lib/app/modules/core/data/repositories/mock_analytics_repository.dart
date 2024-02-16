@@ -7,6 +7,7 @@ import '../../domain/repositories/analytics_repository.dart';
 
 @Injectable(as: AnalyticsRepository)
 @dev
+@test
 class MockAnalyticsRepository implements AnalyticsRepository {
   @override
   logChangeUser(UserEntity? user) {}
