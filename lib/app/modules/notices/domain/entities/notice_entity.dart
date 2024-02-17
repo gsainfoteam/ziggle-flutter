@@ -61,6 +61,35 @@ class NoticeEntity {
         author: AuthorEntity(name: '', uuid: ''),
         isReminded: false,
       );
+  factory NoticeEntity.mock({
+    DateTime? deadline,
+    required DateTime createdAt,
+    List<String> tags = const [],
+    required String title,
+    required String content,
+    List<NoticeReactionEntity> reactions = const [],
+    String authorName = '홍길동',
+    List<String> imageUrls = const [],
+    bool isReminded = false,
+  }) =>
+      NoticeEntity(
+        id: 0,
+        views: 0,
+        langs: [AppLocale.ko],
+        deadline: deadline,
+        currentDeadline: null,
+        createdAt: createdAt,
+        deletedAt: null,
+        tags: tags,
+        title: title,
+        content: content,
+        additionalContents: [],
+        reactions: reactions,
+        author: AuthorEntity(name: authorName, uuid: ''),
+        imageUrls: imageUrls,
+        documentUrls: [],
+        isReminded: isReminded,
+      );
 }
 
 extension NoticeEntityExtension on NoticeEntity {
