@@ -20,6 +20,8 @@ import '../models/create_foreign_notice_model.dart';
 import '../models/create_notice_model.dart';
 
 @Injectable(as: NoticeRepository)
+@prod
+@dev
 class RemoteNoticeRepository implements NoticeRepository {
   final NoticeApi _api;
   final TagApi _tagApi;
