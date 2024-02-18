@@ -48,11 +48,7 @@ class _AppState extends State<App> {
             localizationsDelegates: GlobalMaterialLocalizations.delegates,
             builder: (context, child) => _Providers(
               child: UpgradeAlert(
-                upgrader: Upgrader(
-                  dialogStyle: UpgradeDialogStyle.cupertino,
-                  showIgnore: false,
-                  showLater: false,
-                ),
+                upgrader: Upgrader(dialogStyle: UpgradeDialogStyle.cupertino),
                 navigatorKey: AppRoutes.config.configuration.navigatorKey,
                 child: child,
               ),
