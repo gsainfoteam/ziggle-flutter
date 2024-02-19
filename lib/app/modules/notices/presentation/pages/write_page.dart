@@ -279,7 +279,10 @@ class _LayoutState extends State<_Layout> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-              child: _Tag(onChanged: (tags) => _tags = tags.sublist(0)),
+              child: _Tags(
+                onChanged: (tags) => _tags = tags.sublist(0),
+                initialTags: _tags,
+              ),
             ),
             const Divider(indent: 18, endIndent: 18),
             ListTile(
@@ -470,17 +473,20 @@ class _LayoutState extends State<_Layout> {
   }
 }
 
-class _Tag extends StatefulWidget {
-  const _Tag({required this.onChanged});
+class _Tags extends StatefulWidget {
+  const _Tags({required this.onChanged, required this.initialTags});
 
+  final List<String> initialTags;
   final void Function(List<String>)? onChanged;
 
   @override
-  State<_Tag> createState() => _TagState();
+  State<_Tags> createState() => _TagsState();
 }
 
-class _TagState extends State<_Tag> {
-  final _controller = TextEditingController();
+class _TagsState extends State<_Tags> {
+  late final _controller = TextEditingController(
+    text: widget.initialTags.map((e) => '#$e').join(' '),
+  );
   final _focus = FocusNode();
   String _text = '';
   String? _currentQuery;
