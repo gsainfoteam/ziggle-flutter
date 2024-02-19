@@ -96,7 +96,7 @@ class _LayoutState extends State<_Layout> {
           .toList() ??
       [];
   late String? _article = widget.notice?.content;
-  late final List<String> _prevImages = widget.notice?.imageUrls ?? [];
+  late final List<String> _prevImages = widget.notice?.imageUrls.toList() ?? [];
   final List<File> _images = [];
   bool get _done => _title.isNotEmpty && _type != null && _article != null;
 
@@ -345,7 +345,7 @@ class _LayoutState extends State<_Layout> {
                 ],
               ),
             ),
-            if (_images.isEmpty)
+            if (_prevImages.isEmpty && _images.isEmpty)
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
@@ -361,7 +361,7 @@ class _LayoutState extends State<_Layout> {
                   padding: const EdgeInsets.symmetric(horizontal: 18),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    if (index == _images.length) {
+                    if (index == _prevImages.length + _images.length) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 20),
                         child: SizedBox(
@@ -402,14 +402,16 @@ class _LayoutState extends State<_Layout> {
                         ),
                       );
                     }
-                    final file = _images[index];
                     return Stack(
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 20) +
                               const EdgeInsets.only(right: 16),
-                          child: Image.file(
-                            file,
+                          child: Image(
+                            image: index < _prevImages.length
+                                ? NetworkImage(_prevImages[index])
+                                : FileImage(_images[index - _prevImages.length])
+                                    as ImageProvider,
                             width: 130,
                             height: 130,
                             fit: BoxFit.cover,
@@ -426,7 +428,10 @@ class _LayoutState extends State<_Layout> {
                                 child: ZiggleButton(
                                   onTap: () {
                                     if (!mounted) return;
-                                    setState(() => _images.removeAt(index));
+                                    setState(() => index < _prevImages.length
+                                        ? _prevImages.removeAt(index)
+                                        : _images.removeAt(
+                                            index - _prevImages.length));
                                   },
                                   decoration: const BoxDecoration(
                                     shape: BoxShape.circle,
@@ -452,7 +457,7 @@ class _LayoutState extends State<_Layout> {
                       ],
                     );
                   },
-                  itemCount: _images.length + 1,
+                  itemCount: _prevImages.length + _images.length + 1,
                 ),
               )
           ],
