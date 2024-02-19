@@ -171,4 +171,19 @@ class RemoteNoticeRepository implements NoticeRepository {
       ),
     );
   }
+
+  @override
+  Future<NoticeEntity> modify(
+      {required int id,
+      String? title,
+      String? content,
+      DateTime? deadline,
+      NoticeType? type,
+      List<String>? tags,
+      List<String>? prevImages,
+      List<File>? images,
+      List<File>? documents}) {
+    // TODO: implement modify
+    throw UnimplementedError();
+  }
 }

@@ -113,14 +113,24 @@ class _LayoutState extends State<_Layout> {
             onTap: _done
                 ? () async {
                     final blob = context.read<WriteBloc>();
-                    blob.add(WriteEvent.write(
-                      title: _title,
-                      content: markdownToHtml(_article!),
-                      deadline: _deadline,
-                      type: _type!,
-                      images: _images,
-                      tags: _tags,
-                    ));
+                    blob.add(widget.notice == null
+                        ? WriteEvent.write(
+                            title: _title,
+                            content: markdownToHtml(_article!),
+                            deadline: _deadline,
+                            type: _type!,
+                            images: _images,
+                            tags: _tags,
+                          )
+                        : WriteEvent.modify(
+                            notice: widget.notice!,
+                            title: _title,
+                            content: markdownToHtml(_article!),
+                            deadline: _deadline,
+                            type: _type!,
+                            images: _images,
+                            tags: _tags,
+                          ));
                     final s = await blob.stream.firstWhere((s) => s.isLoaded);
                     if (!mounted) return;
                     context.pop();

@@ -39,6 +39,26 @@ class WriteBloc extends Bloc<WriteEvent, WriteState> {
         emit(const WriteState.initial());
       }
     });
+    on<_Modify>((event, emit) async {
+      emit(const WriteState.loading());
+      try {
+        final notice = await _repository.modify(
+          id: event.notice.id,
+          title: event.title,
+          content: event.content,
+          type: event.type,
+          deadline: event.deadline,
+          tags: event.tags,
+          prevImages: event.prevImages,
+          images: event.images,
+          documents: event.documents,
+        );
+        emit(WriteState.loaded(notice));
+      } catch (e) {
+        emit(WriteState.error(e.toString()));
+        emit(const WriteState.initial());
+      }
+    });
     on<_AddForeign>((event, emit) async {
       emit(const WriteState.loading());
       try {
@@ -106,6 +126,17 @@ class WriteEvent with _$WriteEvent {
     @Default([]) List<File> images,
     @Default([]) List<File> documents,
   }) = _Write;
+  const factory WriteEvent.modify({
+    required NoticeEntity notice,
+    String? title,
+    required String content,
+    required NoticeType type,
+    DateTime? deadline,
+    @Default([]) List<String> tags,
+    @Default([]) List<String> prevImages,
+    @Default([]) List<File> images,
+    @Default([]) List<File> documents,
+  }) = _Modify;
   const factory WriteEvent.writeForeign({
     required NoticeEntity notice,
     String? title,
