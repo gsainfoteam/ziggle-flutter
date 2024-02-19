@@ -8,6 +8,7 @@ import '../../enums/notice_my.dart';
 import '../../models/create_additional_notice_model.dart';
 import '../../models/create_foreign_notice_model.dart';
 import '../../models/create_notice_model.dart';
+import '../../models/modify_notice_model.dart';
 import '../../models/notice_list_model.dart';
 import '../../models/notice_model.dart';
 
@@ -39,6 +40,12 @@ abstract class NoticeApi {
     @Query('lang') AppLocale? lang,
     @Query('isViewed') bool isViewed = false,
   });
+
+  @PATCH('{id}')
+  Future<NoticeModel> modifyNotice(
+    @Path('id') int id,
+    @Body() ModifyNoticeModel model,
+  );
 
   @DELETE('{id}')
   Future<void> deleteNotice(@Path('id') int id);
