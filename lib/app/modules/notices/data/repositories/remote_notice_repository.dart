@@ -112,7 +112,7 @@ class RemoteNoticeRepository implements NoticeRepository {
         title: title,
         body: content,
         deadline: deadline,
-        tagIds: [type.tagId, ...uploadedTags.map((tag) => tag.id)],
+        tags: [type.tagId, ...uploadedTags.map((tag) => tag.id)],
         images: uploadedImages,
         documents: uploadedDocuments,
       ),
