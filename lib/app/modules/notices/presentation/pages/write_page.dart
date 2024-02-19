@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:collection/collection.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +20,16 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/notice_entity.dart';
 import '../../domain/entities/tag_entity.dart';
 import '../../domain/enums/notice_type.dart';
 import '../bloc/tag_bloc.dart';
 import '../bloc/write_bloc.dart';
 
 class WritePage extends StatelessWidget {
-  const WritePage({super.key});
+  const WritePage({super.key, this.notice});
+
+  final NoticeEntity? notice;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,7 @@ class WritePage extends StatelessWidget {
         ),
         builder: (context, state) => Stack(
           children: [
-            IgnorePointer(ignoring: state.isLoading, child: const _Layout()),
+            IgnorePointer(ignoring: state.isLoading, child: _Layout(notice)),
             IgnorePointer(
               child: TweenAnimationBuilder(
                 tween: Tween(
@@ -71,18 +75,28 @@ class WritePage extends StatelessWidget {
 }
 
 class _Layout extends StatefulWidget {
-  const _Layout();
+  const _Layout(this.notice);
+
+  final NoticeEntity? notice;
 
   @override
   State<_Layout> createState() => _LayoutState();
 }
 
 class _LayoutState extends State<_Layout> {
-  String _title = '';
-  DateTime? _deadline;
-  NoticeType? _type;
-  List<String> _tags = [];
-  String? _article;
+  late String _title = widget.notice?.title ?? '';
+  late DateTime? _deadline = widget.notice?.deadline;
+  late NoticeType? _type = widget.notice == null
+      ? null
+      : NoticeType.tags.firstWhereOrNull(
+          (e) => widget.notice!.tags.contains(e.name),
+        );
+  late List<String> _tags = widget.notice?.tags
+          .whereNot((element) => NoticeType.tags.any((e) => e.name == element))
+          .toList() ??
+      [];
+  late String? _article = widget.notice?.content;
+  late final List<String> _prevImages = widget.notice?.imageUrls ?? [];
   final List<File> _images = [];
   bool get _done => _title.isNotEmpty && _type != null && _article != null;
 
@@ -91,7 +105,9 @@ class _LayoutState extends State<_Layout> {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: Theme.of(context).appBarTheme.toolbarHeight,
-        title: Text(t.notice.write.title),
+        title: Text(widget.notice == null
+            ? t.notice.write.title
+            : t.notice.write.modify),
         actions: [
           ZiggleButton(
             onTap: _done
@@ -129,6 +145,7 @@ class _LayoutState extends State<_Layout> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: TextFormField(
+                initialValue: _title,
                 onChanged: (v) => setState(() => _title = v),
                 style: const TextStyle(fontWeight: FontWeight.bold),
                 decoration: InputDecoration(

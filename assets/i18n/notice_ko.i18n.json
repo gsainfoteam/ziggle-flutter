@@ -63,6 +63,7 @@
   "searchHint": "검색어를 입력하세요",
   "write": {
     "title": "공지 작성하기",
+    "modify": "공지 수정하기",
     "titleHint": "제목",
     "deadline": "마감일 설정",
     "type": "분류",

@@ -62,7 +62,9 @@ class _Layout extends StatelessWidget {
               return IconButton(
                 onPressed: () => _AuthorSettingSheet.show(
                   context: context,
-                  onEdit: notice.canEdit ? () {} : null,
+                  onEdit: notice.canEdit
+                      ? () => WriteRoute.edit(notice: notice).push(context)
+                      : null,
                   onAdditional: () async {
                     final result = await WriteAdditionalRoute.fromEntity(notice)
                         .push(context);
