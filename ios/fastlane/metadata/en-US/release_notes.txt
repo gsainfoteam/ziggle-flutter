@@ -1,5 +1,7 @@
 Ziggle has been renewed - see all of your GIST announcements at a glance with Ziggle!
 
++ Added the ability to edit announcements
++ Language change function added
 + Show the most recent notices first for easy viewing
 + Add reactions to notices
 + Tag field supports autocomplete
