@@ -6,6 +6,8 @@ import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:ziggle/app/modules/core/data/repositories/fcm_repository.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/push_message_repository.dart';
+import 'package:ziggle/app/modules/setting/data/repositories/hive_setting_repository.dart';
+import 'package:ziggle/app/modules/setting/domain/repositories/language_setting_repository.dart';
 
 @module
 abstract class AppModule {
@@ -28,4 +30,8 @@ abstract class AppModule {
         aOptions: AndroidOptions(encryptedSharedPreferences: true),
       );
   PushMessageRepository getPushMessageRepository(FcmRepository r) => r;
+
+  LanguageSettingRepository getLanguageSettingRepository(
+          HiveSettingRepository r) =>
+      r;
 }
