@@ -31,6 +31,11 @@
     "enabled": "알림이 켜져있습니다.",
     "description": "지글의 새로운 소식을 받아보세요."
   },
+  "language": {
+    "label": "언어",
+    "english": "English",
+    "korean": "한국어"
+  },
   "about": "정보",
   "feedback": {
     "label": "피드백",

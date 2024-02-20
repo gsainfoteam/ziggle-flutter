@@ -73,6 +73,8 @@ class SettingPage extends StatelessWidget {
             const Divider(),
             const _NotificationSetting(),
             const Divider(),
+            const _LanguageSetting(),
+            const Divider(),
             ListTile(
               title: Text(t.setting.about),
               onTap: () => const AboutRoute().push(context),
@@ -120,6 +122,43 @@ class _NotificationSetting extends StatelessWidget {
               title: Text(t.setting.notifications.enabled),
               onTap: () {},
             );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _LanguageSetting extends StatelessWidget {
+  const _LanguageSetting();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: Text(
+            t.setting.language.label,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        ListTile(
+          title: Text(t.setting.language.korean),
+          onTap: () {
+            LocaleSettings.setLocale(AppLocale.ko);
+            const FeedRoute().go(context);
+          },
+        ),
+        ListTile(
+          title: Text(t.setting.language.english),
+          onTap: () {
+            LocaleSettings.setLocale(AppLocale.en);
+            const FeedRoute().go(context);
           },
         ),
       ],
