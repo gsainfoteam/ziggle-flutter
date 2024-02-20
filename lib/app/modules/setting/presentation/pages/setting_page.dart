@@ -9,6 +9,7 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/repositories/language_setting_repository.dart';
 import '../../domain/repositories/notification_setting_repository.dart';
 
 class SettingPage extends StatelessWidget {
@@ -150,6 +151,7 @@ class _LanguageSetting extends StatelessWidget {
         ListTile(
           title: Text(t.setting.language.korean),
           onTap: () {
+            sl<LanguageSettingRepository>().setLanguage(AppLocale.ko);
             LocaleSettings.setLocale(AppLocale.ko);
             const FeedRoute().go(context);
           },
@@ -157,6 +159,7 @@ class _LanguageSetting extends StatelessWidget {
         ListTile(
           title: Text(t.setting.language.english),
           onTap: () {
+            sl<LanguageSettingRepository>().setLanguage(AppLocale.en);
             LocaleSettings.setLocale(AppLocale.en);
             const FeedRoute().go(context);
           },

@@ -8,6 +8,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/app.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/setting/domain/repositories/language_setting_repository.dart';
 import 'package:ziggle/app/values/emojis.dart';
 import 'package:ziggle/app/values/fonts.dart';
 import 'package:ziggle/app_bloc_observer.dart';
@@ -31,7 +32,8 @@ void _initSplash() {
 }
 
 Future<void> _initLocale() async {
-  final locale = LocaleSettings.useDeviceLocale();
+  final locale = await sl<LanguageSettingRepository>().getLanguage();
+  LocaleSettings.setLocale(locale);
   await initializeDateFormatting();
   Intl.defaultLocale = locale.languageCode;
   LocaleSettings.setPluralResolver(
