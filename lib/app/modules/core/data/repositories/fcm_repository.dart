@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/services.dart';
@@ -36,9 +37,23 @@ class FcmRepository implements PushMessageRepository, LinkRepository {
     FirebaseMessaging.onMessageOpenedApp.listen(_handleRemoteMessage);
   }
 
+  Future<void> _waitForIosToken() async {
+    if (!Platform.isIOS) return;
+    for (var i = 0; i < 10; i++) {
+      final token = await FirebaseMessaging.instance.getAPNSToken();
+      if (token != null) return;
+      await Future.delayed(const Duration(seconds: 1));
+    }
+    throw PlatformException(
+      code: 'no_ios_token',
+      message: 'Failed to get APNS token',
+    );
+  }
+
   Future<void> _initToken() async {
     final instance = FirebaseMessaging.instance;
     await instance.requestPermission(announcement: true, provisional: true);
+    await _waitForIosToken();
     final fcmToken = await instance.getToken();
     if (fcmToken != null) _tokenSubject.add(fcmToken);
     instance.onTokenRefresh.listen(_tokenSubject.add);
