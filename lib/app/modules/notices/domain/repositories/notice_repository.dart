@@ -33,14 +33,8 @@ abstract class NoticeRepository {
   });
   Future<NoticeEntity> modify({
     required int id,
-    String? title,
-    String? content,
+    required String content,
     DateTime? deadline,
-    NoticeType? type,
-    List<String>? tags,
-    List<String>? prevImages,
-    List<File>? images,
-    List<File>? documents,
   });
   Future<void> deleteNotice(int id);
   Future<NoticeEntity> addAdditionalContent({

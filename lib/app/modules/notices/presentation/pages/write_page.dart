@@ -99,31 +99,27 @@ class _LayoutState extends State<_Layout> {
   late final List<String> _prevImages = widget.notice?.imageUrls.toList() ?? [];
   final List<File> _images = [];
   bool get _done => _title.isNotEmpty && _type != null && _article != null;
+  bool get _isEditing => widget.notice != null;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: Theme.of(context).appBarTheme.toolbarHeight,
-        title: Text(widget.notice == null
-            ? t.notice.write.title
-            : t.notice.write.modify),
+        title: Text(_isEditing ? t.notice.write.modify : t.notice.write.title),
         actions: [
           ZiggleButton(
             onTap: _done
                 ? () async {
                     final blob = context.read<WriteBloc>();
-                    blob.add(widget.notice == null
-                        ? WriteEvent.write(
+                    blob.add(_isEditing
+                        ? WriteEvent.modify(
+                            notice: widget.notice!,
                             title: _title,
                             content: markdownToHtml(_article!),
                             deadline: _deadline,
-                            type: _type!,
-                            images: _images,
-                            tags: _tags,
                           )
-                        : WriteEvent.modify(
-                            notice: widget.notice!,
+                        : WriteEvent.write(
                             title: _title,
                             content: markdownToHtml(_article!),
                             deadline: _deadline,
@@ -152,22 +148,24 @@ class _LayoutState extends State<_Layout> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: TextFormField(
-                initialValue: _title,
-                onChanged: (v) => setState(() => _title = v),
-                style: const TextStyle(fontWeight: FontWeight.bold),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.zero,
-                  isCollapsed: true,
-                  hintText: t.notice.write.titleHint,
-                  hintStyle: const TextStyle(color: Palette.textGrey),
+            if (!_isEditing) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: TextFormField(
+                  initialValue: _title,
+                  onChanged: (v) => setState(() => _title = v),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.zero,
+                    isCollapsed: true,
+                    hintText: t.notice.write.titleHint,
+                    hintStyle: const TextStyle(color: Palette.textGrey),
+                  ),
                 ),
               ),
-            ),
-            const Divider(indent: 18, endIndent: 18, height: 40),
+              const Divider(indent: 18, endIndent: 18, height: 40),
+            ],
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: Column(
@@ -207,93 +205,97 @@ class _LayoutState extends State<_Layout> {
                 ],
               ),
             ),
-            const Divider(indent: 18, endIndent: 18, height: 40),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Row(
-                children: [
-                  Assets.icons.list.svg(),
-                  const SizedBox(width: 6),
-                  Text(
-                    t.notice.write.type,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 52,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 10,
-                ),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final type = NoticeType.writable[index];
-                  final selected = _type == type;
-                  return ZiggleButton(
-                    color:
-                        selected ? Palette.black : Palette.backgroundGreyLight,
-                    onTap: () => setState(() => _type = type),
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(children: [
-                      type.icon.svg(
-                        colorFilter: selected
-                            ? const ColorFilter.mode(
-                                Palette.white,
-                                BlendMode.srcIn,
-                              )
-                            : null,
+            if (!_isEditing) ...[
+              const Divider(indent: 18, endIndent: 18, height: 40),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                  children: [
+                    Assets.icons.list.svg(),
+                    const SizedBox(width: 6),
+                    Text(
+                      t.notice.write.type,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(width: 4),
-                      Text(
-                        type.name,
-                        style: TextStyle(
-                          color: selected ? Palette.white : Palette.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 52,
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 10,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final type = NoticeType.writable[index];
+                    final selected = _type == type;
+                    return ZiggleButton(
+                      color: selected
+                          ? Palette.black
+                          : Palette.backgroundGreyLight,
+                      onTap: () => setState(() => _type = type),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(children: [
+                        type.icon.svg(
+                          colorFilter: selected
+                              ? const ColorFilter.mode(
+                                  Palette.white,
+                                  BlendMode.srcIn,
+                                )
+                              : null,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          type.name,
+                          style: TextStyle(
+                            color: selected ? Palette.white : Palette.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ]),
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                  itemCount: NoticeType.writable.length,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                  children: [
+                    Assets.icons.tag.svg(),
+                    const SizedBox(width: 6),
+                    Text.rich(
+                      t.notice.write.tag.title(
+                        optional: (v) => TextSpan(
+                          text: v,
+                          style: const TextStyle(color: Palette.textGrey),
                         ),
                       ),
-                    ]),
-                  );
-                },
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
-                itemCount: NoticeType.writable.length,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Row(
-                children: [
-                  Assets.icons.tag.svg(),
-                  const SizedBox(width: 6),
-                  Text.rich(
-                    t.notice.write.tag.title(
-                      optional: (v) => TextSpan(
-                        text: v,
-                        style: const TextStyle(color: Palette.textGrey),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-              child: _Tags(
-                onChanged: (tags) => _tags = tags.sublist(0),
-                initialTags: _tags,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                child: _Tags(
+                  onChanged: (tags) => _tags = tags.sublist(0),
+                  initialTags: _tags,
+                ),
               ),
-            ),
+            ],
             const Divider(indent: 18, endIndent: 18),
             ListTile(
               onTap: () => WriteArticleRoute.create(
@@ -332,144 +334,148 @@ class _LayoutState extends State<_Layout> {
                 ],
               ),
             ),
-            const Divider(indent: 18, endIndent: 18),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Row(
-                children: [
-                  Assets.icons.mediaImagePlus.svg(),
-                  const SizedBox(width: 6),
-                  Text.rich(
-                    t.notice.write.images(
-                      optional: (v) => TextSpan(
-                        text: v,
-                        style: const TextStyle(color: Palette.textGrey),
+            if (!_isEditing) ...[
+              const Divider(indent: 18, endIndent: 18),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                  children: [
+                    Assets.icons.mediaImagePlus.svg(),
+                    const SizedBox(width: 6),
+                    Text.rich(
+                      t.notice.write.images(
+                        optional: (v) => TextSpan(
+                          text: v,
+                          style: const TextStyle(color: Palette.textGrey),
+                        ),
+                      ),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (_prevImages.isEmpty && _images.isEmpty)
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                child: ZiggleButton(
-                  onTap: _addImages,
-                  text: t.notice.write.selectImage,
+                  ],
                 ),
-              )
-            else
-              SizedBox(
-                height: 170,
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    if (index == _prevImages.length + _images.length) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: SizedBox(
-                          width: 130,
-                          child: ZiggleButton(
-                            onTap: _addImages,
-                            color: Colors.transparent,
-                            padding: EdgeInsets.zero,
-                            child: DottedBorder(
-                              borderType: BorderType.RRect,
-                              radius: const Radius.circular(10),
-                              color: Palette.textGrey,
-                              strokeWidth: 2,
-                              dashPattern: const [10, 4],
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Assets.icons.mediaImagePlus.svg(
-                                      width: 60,
-                                      colorFilter: const ColorFilter.mode(
-                                        Palette.textGrey,
-                                        BlendMode.srcIn,
+              ),
+              if (_prevImages.isEmpty && _images.isEmpty)
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                  child: ZiggleButton(
+                    onTap: _addImages,
+                    text: t.notice.write.selectImage,
+                  ),
+                )
+              else
+                SizedBox(
+                  height: 170,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      if (index == _prevImages.length + _images.length) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: SizedBox(
+                            width: 130,
+                            child: ZiggleButton(
+                              onTap: _addImages,
+                              color: Colors.transparent,
+                              padding: EdgeInsets.zero,
+                              child: DottedBorder(
+                                borderType: BorderType.RRect,
+                                radius: const Radius.circular(10),
+                                color: Palette.textGrey,
+                                strokeWidth: 2,
+                                dashPattern: const [10, 4],
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Assets.icons.mediaImagePlus.svg(
+                                        width: 60,
+                                        colorFilter: const ColorFilter.mode(
+                                          Palette.textGrey,
+                                          BlendMode.srcIn,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      t.notice.write.addImage,
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
+                                      Text(
+                                        t.notice.write.addImage,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                    return Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20) +
-                              const EdgeInsets.only(right: 16),
-                          child: Image(
-                            image: index < _prevImages.length
-                                ? NetworkImage(_prevImages[index])
-                                : FileImage(_images[index - _prevImages.length])
-                                    as ImageProvider,
-                            width: 130,
-                            height: 130,
-                            fit: BoxFit.cover,
+                        );
+                      }
+                      return Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20) +
+                                const EdgeInsets.only(right: 16),
+                            child: Image(
+                              image: index < _prevImages.length
+                                  ? NetworkImage(_prevImages[index])
+                                  : FileImage(
+                                          _images[index - _prevImages.length])
+                                      as ImageProvider,
+                              width: 130,
+                              height: 130,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        Positioned(
-                          top: 4,
-                          right: 0,
-                          child: Stack(
-                            children: [
-                              SizedBox(
-                                width: 32,
-                                height: 32,
-                                child: ZiggleButton(
-                                  onTap: () {
-                                    if (!mounted) return;
-                                    setState(() => index < _prevImages.length
-                                        ? _prevImages.removeAt(index)
-                                        : _images.removeAt(
-                                            index - _prevImages.length));
-                                  },
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  padding: EdgeInsets.zero,
-                                  color: Colors.transparent,
-                                  child: Center(
-                                    child: Container(
-                                      width: 16,
-                                      height: 16,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Palette.textGreyDark,
+                          Positioned(
+                            top: 4,
+                            right: 0,
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                  width: 32,
+                                  height: 32,
+                                  child: ZiggleButton(
+                                    onTap: () {
+                                      if (!mounted) return;
+                                      setState(() => index < _prevImages.length
+                                          ? _prevImages.removeAt(index)
+                                          : _images.removeAt(
+                                              index - _prevImages.length));
+                                    },
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    padding: EdgeInsets.zero,
+                                    color: Colors.transparent,
+                                    child: Center(
+                                      child: Container(
+                                        width: 16,
+                                        height: 16,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Palette.textGreyDark,
+                                        ),
+                                        child:
+                                            const Icon(Icons.close, size: 12),
                                       ),
-                                      child: const Icon(Icons.close, size: 12),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                  itemCount: _prevImages.length + _images.length + 1,
+                        ],
+                      );
+                    },
+                    itemCount: _prevImages.length + _images.length + 1,
+                  ),
                 ),
-              )
+            ],
           ],
         ),
       ),
