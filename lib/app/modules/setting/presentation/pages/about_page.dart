@@ -52,9 +52,15 @@ class AboutPage extends StatelessWidget {
             ),
             ListTile(
               title: Text(t.setting.version),
+              leadingAndTrailingTextStyle: const TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+              ),
               trailing: FutureBuilder(
                 future: PackageInfo.fromPlatform(),
-                builder: (_, snapshot) => Text(snapshot.data?.version ?? ''),
+                builder: (_, snapshot) => Text(
+                  snapshot.data?.version ?? '',
+                ),
               ),
             ),
             ListTile(
