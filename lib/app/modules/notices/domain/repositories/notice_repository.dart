@@ -31,6 +31,11 @@ abstract class NoticeRepository {
     List<File> images = const [],
     List<File> documents = const [],
   });
+  Future<NoticeEntity> modify({
+    required int id,
+    required String content,
+    DateTime? deadline,
+  });
   Future<void> deleteNotice(int id);
   Future<NoticeEntity> addAdditionalContent({
     required int id,

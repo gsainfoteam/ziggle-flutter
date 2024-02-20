@@ -85,9 +85,18 @@ class SearchRoute extends GoRouteData {
   routes: [TypedGoRoute<WriteArticleRoute>(path: 'article')],
 )
 class WriteRoute extends GoRouteData {
-  const WriteRoute();
+  const WriteRoute({this.$extra = const {}});
+  factory WriteRoute.edit({required NoticeEntity notice}) => WriteRoute(
+        $extra: NoticeModel.fromEntity(notice).toJson(),
+      );
+  final Map<String, dynamic> $extra;
+
   @override
-  Widget build(context, state) => const AuthRequiredPage(child: WritePage());
+  Widget build(context, state) => AuthRequiredPage(
+        child: WritePage(
+          notice: $extra.isNotEmpty ? NoticeModel.fromJson($extra) : null,
+        ),
+      );
 }
 
 class WriteArticleRoute extends GoRouteData {

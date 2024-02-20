@@ -71,6 +71,7 @@
   "searchHint": "Enter search keyword",
   "write": {
     "title": "Write Notice",
+    "modify": "Edit Notice",
     "titleHint": "Title",
     "deadline": "Set Deadline",
     "type": "Type",

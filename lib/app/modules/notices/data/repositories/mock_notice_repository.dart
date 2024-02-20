@@ -152,4 +152,13 @@ class TestNoticeRepository implements NoticeRepository {
       DateTime? deadline}) async {
     return _notices[0];
   }
+
+  @override
+  Future<NoticeEntity> modify({
+    required int id,
+    required String content,
+    DateTime? deadline,
+  }) async {
+    return _notices[0];
+  }
 }

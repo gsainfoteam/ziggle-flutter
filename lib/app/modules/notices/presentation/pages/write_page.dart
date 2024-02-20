@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:collection/collection.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +20,16 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+import '../../domain/entities/notice_entity.dart';
 import '../../domain/entities/tag_entity.dart';
 import '../../domain/enums/notice_type.dart';
 import '../bloc/tag_bloc.dart';
 import '../bloc/write_bloc.dart';
 
 class WritePage extends StatelessWidget {
-  const WritePage({super.key});
+  const WritePage({super.key, this.notice});
+
+  final NoticeEntity? notice;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +46,7 @@ class WritePage extends StatelessWidget {
         ),
         builder: (context, state) => Stack(
           children: [
-            IgnorePointer(ignoring: state.isLoading, child: const _Layout()),
+            IgnorePointer(ignoring: state.isLoading, child: _Layout(notice)),
             IgnorePointer(
               child: TweenAnimationBuilder(
                 tween: Tween(
@@ -71,40 +75,58 @@ class WritePage extends StatelessWidget {
 }
 
 class _Layout extends StatefulWidget {
-  const _Layout();
+  const _Layout(this.notice);
+
+  final NoticeEntity? notice;
 
   @override
   State<_Layout> createState() => _LayoutState();
 }
 
 class _LayoutState extends State<_Layout> {
-  String _title = '';
-  DateTime? _deadline;
-  NoticeType? _type;
-  List<String> _tags = [];
-  String? _article;
+  late String _title = widget.notice?.title ?? '';
+  late DateTime? _deadline = widget.notice?.deadline;
+  late NoticeType? _type = widget.notice == null
+      ? null
+      : NoticeType.tags.firstWhereOrNull(
+          (e) => widget.notice!.tags.contains(e.name),
+        );
+  late List<String> _tags = widget.notice?.tags
+          .whereNot((element) => NoticeType.tags.any((e) => e.name == element))
+          .toList() ??
+      [];
+  late String? _article = widget.notice?.content;
+  late final List<String> _prevImages = widget.notice?.imageUrls.toList() ?? [];
   final List<File> _images = [];
   bool get _done => _title.isNotEmpty && _type != null && _article != null;
+  bool get _isEditing => widget.notice != null;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leadingWidth: Theme.of(context).appBarTheme.toolbarHeight,
-        title: Text(t.notice.write.title),
+        title: Text(_isEditing ? t.notice.write.modify : t.notice.write.title),
         actions: [
           ZiggleButton(
             onTap: _done
                 ? () async {
                     final blob = context.read<WriteBloc>();
-                    blob.add(WriteEvent.write(
-                      title: _title,
-                      content: markdownToHtml(_article!),
-                      deadline: _deadline,
-                      type: _type!,
-                      images: _images,
-                      tags: _tags,
-                    ));
+                    blob.add(_isEditing
+                        ? WriteEvent.modify(
+                            notice: widget.notice!,
+                            title: _title,
+                            content: markdownToHtml(_article!),
+                            deadline: _deadline,
+                          )
+                        : WriteEvent.write(
+                            title: _title,
+                            content: markdownToHtml(_article!),
+                            deadline: _deadline,
+                            type: _type!,
+                            images: _images,
+                            tags: _tags,
+                          ));
                     final s = await blob.stream.firstWhere((s) => s.isLoaded);
                     if (!mounted) return;
                     context.pop();
@@ -126,21 +148,24 @@ class _LayoutState extends State<_Layout> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: TextFormField(
-                onChanged: (v) => setState(() => _title = v),
-                style: const TextStyle(fontWeight: FontWeight.bold),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.zero,
-                  isCollapsed: true,
-                  hintText: t.notice.write.titleHint,
-                  hintStyle: const TextStyle(color: Palette.textGrey),
+            if (!_isEditing) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: TextFormField(
+                  initialValue: _title,
+                  onChanged: (v) => setState(() => _title = v),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.zero,
+                    isCollapsed: true,
+                    hintText: t.notice.write.titleHint,
+                    hintStyle: const TextStyle(color: Palette.textGrey),
+                  ),
                 ),
               ),
-            ),
-            const Divider(indent: 18, endIndent: 18, height: 40),
+              const Divider(indent: 18, endIndent: 18, height: 40),
+            ],
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
               child: Column(
@@ -180,90 +205,97 @@ class _LayoutState extends State<_Layout> {
                 ],
               ),
             ),
-            const Divider(indent: 18, endIndent: 18, height: 40),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Row(
-                children: [
-                  Assets.icons.list.svg(),
-                  const SizedBox(width: 6),
-                  Text(
-                    t.notice.write.type,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 52,
-              child: ListView.separated(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 10,
-                ),
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final type = NoticeType.writable[index];
-                  final selected = _type == type;
-                  return ZiggleButton(
-                    color:
-                        selected ? Palette.black : Palette.backgroundGreyLight,
-                    onTap: () => setState(() => _type = type),
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(children: [
-                      type.icon.svg(
-                        colorFilter: selected
-                            ? const ColorFilter.mode(
-                                Palette.white,
-                                BlendMode.srcIn,
-                              )
-                            : null,
+            if (!_isEditing) ...[
+              const Divider(indent: 18, endIndent: 18, height: 40),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                  children: [
+                    Assets.icons.list.svg(),
+                    const SizedBox(width: 6),
+                    Text(
+                      t.notice.write.type,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(width: 4),
-                      Text(
-                        type.name,
-                        style: TextStyle(
-                          color: selected ? Palette.white : Palette.black,
-                          fontSize: 14,
-                          fontWeight: FontWeight.normal,
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 52,
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 18,
+                    vertical: 10,
+                  ),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final type = NoticeType.writable[index];
+                    final selected = _type == type;
+                    return ZiggleButton(
+                      color: selected
+                          ? Palette.black
+                          : Palette.backgroundGreyLight,
+                      onTap: () => setState(() => _type = type),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(children: [
+                        type.icon.svg(
+                          colorFilter: selected
+                              ? const ColorFilter.mode(
+                                  Palette.white,
+                                  BlendMode.srcIn,
+                                )
+                              : null,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          type.name,
+                          style: TextStyle(
+                            color: selected ? Palette.white : Palette.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ]),
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                  itemCount: NoticeType.writable.length,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                  children: [
+                    Assets.icons.tag.svg(),
+                    const SizedBox(width: 6),
+                    Text.rich(
+                      t.notice.write.tag.title(
+                        optional: (v) => TextSpan(
+                          text: v,
+                          style: const TextStyle(color: Palette.textGrey),
                         ),
                       ),
-                    ]),
-                  );
-                },
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
-                itemCount: NoticeType.writable.length,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Row(
-                children: [
-                  Assets.icons.tag.svg(),
-                  const SizedBox(width: 6),
-                  Text.rich(
-                    t.notice.write.tag.title(
-                      optional: (v) => TextSpan(
-                        text: v,
-                        style: const TextStyle(color: Palette.textGrey),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-              child: _Tag(onChanged: (tags) => _tags = tags.sublist(0)),
-            ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                child: _Tags(
+                  onChanged: (tags) => _tags = tags.sublist(0),
+                  initialTags: _tags,
+                ),
+              ),
+            ],
             const Divider(indent: 18, endIndent: 18),
             ListTile(
               onTap: () => WriteArticleRoute.create(
@@ -302,139 +334,148 @@ class _LayoutState extends State<_Layout> {
                 ],
               ),
             ),
-            const Divider(indent: 18, endIndent: 18),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Row(
-                children: [
-                  Assets.icons.mediaImagePlus.svg(),
-                  const SizedBox(width: 6),
-                  Text.rich(
-                    t.notice.write.images(
-                      optional: (v) => TextSpan(
-                        text: v,
-                        style: const TextStyle(color: Palette.textGrey),
+            if (!_isEditing) ...[
+              const Divider(indent: 18, endIndent: 18),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                  children: [
+                    Assets.icons.mediaImagePlus.svg(),
+                    const SizedBox(width: 6),
+                    Text.rich(
+                      t.notice.write.images(
+                        optional: (v) => TextSpan(
+                          text: v,
+                          style: const TextStyle(color: Palette.textGrey),
+                        ),
+                      ),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (_images.isEmpty)
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                child: ZiggleButton(
-                  onTap: _addImages,
-                  text: t.notice.write.selectImage,
+                  ],
                 ),
-              )
-            else
-              SizedBox(
-                height: 170,
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    if (index == _images.length) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: SizedBox(
-                          width: 130,
-                          child: ZiggleButton(
-                            onTap: _addImages,
-                            color: Colors.transparent,
-                            padding: EdgeInsets.zero,
-                            child: DottedBorder(
-                              borderType: BorderType.RRect,
-                              radius: const Radius.circular(10),
-                              color: Palette.textGrey,
-                              strokeWidth: 2,
-                              dashPattern: const [10, 4],
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Assets.icons.mediaImagePlus.svg(
-                                      width: 60,
-                                      colorFilter: const ColorFilter.mode(
-                                        Palette.textGrey,
-                                        BlendMode.srcIn,
+              ),
+              if (_prevImages.isEmpty && _images.isEmpty)
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                  child: ZiggleButton(
+                    onTap: _addImages,
+                    text: t.notice.write.selectImage,
+                  ),
+                )
+              else
+                SizedBox(
+                  height: 170,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      if (index == _prevImages.length + _images.length) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: SizedBox(
+                            width: 130,
+                            child: ZiggleButton(
+                              onTap: _addImages,
+                              color: Colors.transparent,
+                              padding: EdgeInsets.zero,
+                              child: DottedBorder(
+                                borderType: BorderType.RRect,
+                                radius: const Radius.circular(10),
+                                color: Palette.textGrey,
+                                strokeWidth: 2,
+                                dashPattern: const [10, 4],
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Assets.icons.mediaImagePlus.svg(
+                                        width: 60,
+                                        colorFilter: const ColorFilter.mode(
+                                          Palette.textGrey,
+                                          BlendMode.srcIn,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      t.notice.write.addImage,
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
+                                      Text(
+                                        t.notice.write.addImage,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    }
-                    final file = _images[index];
-                    return Stack(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20) +
-                              const EdgeInsets.only(right: 16),
-                          child: Image.file(
-                            file,
-                            width: 130,
-                            height: 130,
-                            fit: BoxFit.cover,
+                        );
+                      }
+                      return Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20) +
+                                const EdgeInsets.only(right: 16),
+                            child: Image(
+                              image: index < _prevImages.length
+                                  ? NetworkImage(_prevImages[index])
+                                  : FileImage(
+                                          _images[index - _prevImages.length])
+                                      as ImageProvider,
+                              width: 130,
+                              height: 130,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
-                        Positioned(
-                          top: 4,
-                          right: 0,
-                          child: Stack(
-                            children: [
-                              SizedBox(
-                                width: 32,
-                                height: 32,
-                                child: ZiggleButton(
-                                  onTap: () {
-                                    if (!mounted) return;
-                                    setState(() => _images.removeAt(index));
-                                  },
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  padding: EdgeInsets.zero,
-                                  color: Colors.transparent,
-                                  child: Center(
-                                    child: Container(
-                                      width: 16,
-                                      height: 16,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Palette.textGreyDark,
+                          Positioned(
+                            top: 4,
+                            right: 0,
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                  width: 32,
+                                  height: 32,
+                                  child: ZiggleButton(
+                                    onTap: () {
+                                      if (!mounted) return;
+                                      setState(() => index < _prevImages.length
+                                          ? _prevImages.removeAt(index)
+                                          : _images.removeAt(
+                                              index - _prevImages.length));
+                                    },
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                    ),
+                                    padding: EdgeInsets.zero,
+                                    color: Colors.transparent,
+                                    child: Center(
+                                      child: Container(
+                                        width: 16,
+                                        height: 16,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Palette.textGreyDark,
+                                        ),
+                                        child:
+                                            const Icon(Icons.close, size: 12),
                                       ),
-                                      child: const Icon(Icons.close, size: 12),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    );
-                  },
-                  itemCount: _images.length + 1,
+                        ],
+                      );
+                    },
+                    itemCount: _prevImages.length + _images.length + 1,
+                  ),
                 ),
-              )
+            ],
           ],
         ),
       ),
@@ -453,17 +494,20 @@ class _LayoutState extends State<_Layout> {
   }
 }
 
-class _Tag extends StatefulWidget {
-  const _Tag({required this.onChanged});
+class _Tags extends StatefulWidget {
+  const _Tags({required this.onChanged, required this.initialTags});
 
+  final List<String> initialTags;
   final void Function(List<String>)? onChanged;
 
   @override
-  State<_Tag> createState() => _TagState();
+  State<_Tags> createState() => _TagsState();
 }
 
-class _TagState extends State<_Tag> {
-  final _controller = TextEditingController();
+class _TagsState extends State<_Tags> {
+  late final _controller = TextEditingController(
+    text: widget.initialTags.map((e) => '#$e').join(' '),
+  );
   final _focus = FocusNode();
   String _text = '';
   String? _currentQuery;

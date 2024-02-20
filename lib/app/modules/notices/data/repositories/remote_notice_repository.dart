@@ -18,6 +18,7 @@ import '../enums/notice_to.dart';
 import '../models/create_additional_notice_model.dart';
 import '../models/create_foreign_notice_model.dart';
 import '../models/create_notice_model.dart';
+import '../models/modify_notice_model.dart';
 
 @Injectable(as: NoticeRepository)
 @prod
@@ -112,7 +113,7 @@ class RemoteNoticeRepository implements NoticeRepository {
         title: title,
         body: content,
         deadline: deadline,
-        tagIds: [type.tagId, ...uploadedTags.map((tag) => tag.id)],
+        tags: [type.tagId, ...uploadedTags.map((tag) => tag.id)],
         images: uploadedImages,
         documents: uploadedDocuments,
       ),
@@ -170,5 +171,19 @@ class RemoteNoticeRepository implements NoticeRepository {
         deadline: deadline,
       ),
     );
+  }
+
+  @override
+  Future<NoticeEntity> modify({
+    required int id,
+    required String content,
+    DateTime? deadline,
+  }) {
+    return _api.modifyNotice(
+        id,
+        ModifyNoticeModel(
+          body: content,
+          deadline: deadline,
+        ));
   }
 }

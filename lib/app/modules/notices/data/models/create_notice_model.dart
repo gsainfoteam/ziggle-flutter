@@ -9,7 +9,7 @@ class CreateNoticeModel with _$CreateNoticeModel {
     required String title,
     required String body,
     DateTime? deadline,
-    @Default([]) List<int> tagIds,
+    @Default([]) List<int> tags,
     @Default([]) List<String> images,
     @Default([]) List<String> documents,
   }) = _CreateNoticeModel;
