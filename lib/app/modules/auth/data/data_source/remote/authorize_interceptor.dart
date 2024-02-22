@@ -37,7 +37,7 @@ class AuthorizeInterceptor extends Interceptor {
       RequestOptions options, RequestInterceptorHandler handler) async {
     final expired = await _repository.hasExpired();
     try {
-      if (expired) {
+      if (expired && !options.extra.containsKey(retriedKey)) {
         final token = await _api.refresh();
         await _repository.saveToken(token.accessToken, token.expiresIn);
       }
