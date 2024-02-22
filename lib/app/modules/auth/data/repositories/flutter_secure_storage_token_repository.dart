@@ -9,6 +9,7 @@ import '../../domain/repositories/token_repository.dart';
 class FlutterSecureStorageTokenRepository implements TokenRepository {
   final FlutterSecureStorage _storage;
   static const _tokenKey = '_token';
+  static const _expiredAtKey = '_expiredAt';
   final _tokenController = StreamController<String?>.broadcast();
 
   FlutterSecureStorageTokenRepository(this._storage);
@@ -26,8 +27,13 @@ class FlutterSecureStorageTokenRepository implements TokenRepository {
   }
 
   @override
-  Future<void> saveToken(String token) async {
+  Future<void> saveToken(String token, int expiresIn) async {
     await _storage.write(key: _tokenKey, value: token);
+    final expiredAt = DateTime.now().add(Duration(seconds: expiresIn));
+    await _storage.write(
+      key: _expiredAtKey,
+      value: expiredAt.toIso8601String(),
+    );
     _tokenController.add(token);
   }
 
@@ -36,5 +42,13 @@ class FlutterSecureStorageTokenRepository implements TokenRepository {
     final token = await _storage.read(key: _tokenKey);
     yield token;
     yield* _tokenController.stream;
+  }
+
+  @override
+  Future<bool> hasExpired() async {
+    final expiredAt = await _storage.read(key: _expiredAtKey);
+    if (expiredAt == null) return true;
+    final parsed = DateTime.parse(expiredAt);
+    return parsed.isBefore(DateTime.now());
   }
 }

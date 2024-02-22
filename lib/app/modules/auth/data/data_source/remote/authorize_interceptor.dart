@@ -25,7 +25,7 @@ class AuthorizeInterceptor extends Interceptor {
     if (retried) return handler.next(err);
     try {
       final token = await _api.refresh();
-      await _repository.saveToken(token.accessToken);
+      await _repository.saveToken(token.accessToken, token.expiresIn);
       return handler.resolve(await _dio.fetch(err.requestOptions));
     } on DioException {
       return super.onError(err, handler);
