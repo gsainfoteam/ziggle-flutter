@@ -1,7 +1,7 @@
 name: ziggle
 description: ziggle
 publish_to: 'none'
-version: 3.1.0
+version: 3.1.1
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
@@ -81,7 +81,7 @@ flutter:
     - family: TossFace
       fonts:
         - asset: assets/fonts/TossFace/TossFaceFontWeb.otf
-  
+
 flutter_gen:
   integrations:
     flutter_svg: true
