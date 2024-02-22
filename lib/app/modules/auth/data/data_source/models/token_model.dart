@@ -9,6 +9,7 @@ part 'token_model.g.dart';
 class TokenModel with _$TokenModel {
   const factory TokenModel({
     @JsonKey(name: 'access_token') required String accessToken,
+    @JsonKey(name: 'expires_in') required int expiresIn,
   }) = _TokenModel;
 
   factory TokenModel.fromJson(Map<String, dynamic> json) =>

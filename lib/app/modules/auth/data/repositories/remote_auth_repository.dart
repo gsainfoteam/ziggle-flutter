@@ -34,7 +34,7 @@ class RemoteAuthRepository implements AuthRepository {
   @override
   Future<UserEntity> login(String code) async {
     final token = await _api.login(code);
-    await _tokenRepository.saveToken(token.accessToken);
+    await _tokenRepository.saveToken(token.accessToken, token.expiresIn);
     final user = await _api.info();
     _userController.add(user);
     return user;

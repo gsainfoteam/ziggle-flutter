@@ -25,7 +25,7 @@ class AuthorizeInterceptor extends Interceptor {
     if (retried) return handler.next(err);
     try {
       final token = await _api.refresh();
-      await _repository.saveToken(token.accessToken);
+      await _repository.saveToken(token.accessToken, token.expiresIn);
       return handler.resolve(await _dio.fetch(err.requestOptions));
     } on DioException {
       return super.onError(err, handler);
@@ -35,6 +35,13 @@ class AuthorizeInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
+    final expired = await _repository.hasExpired();
+    try {
+      if (expired) {
+        final token = await _api.refresh();
+        await _repository.saveToken(token.accessToken, token.expiresIn);
+      }
+    } catch (_) {}
     final token = await _repository.token.first;
     if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';

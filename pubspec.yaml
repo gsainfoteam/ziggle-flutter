@@ -83,7 +83,7 @@ flutter:
     - family: TossFace
       fonts:
         - asset: assets/fonts/TossFace/TossFaceFontWeb.otf
-  
+
 flutter_gen:
   integrations:
     flutter_svg: true
