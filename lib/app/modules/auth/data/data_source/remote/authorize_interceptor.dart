@@ -35,6 +35,13 @@ class AuthorizeInterceptor extends Interceptor {
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
+    final expired = await _repository.hasExpired();
+    try {
+      if (expired) {
+        final token = await _api.refresh();
+        await _repository.saveToken(token.accessToken, token.expiresIn);
+      }
+    } catch (_) {}
     final token = await _repository.token.first;
     if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';
