@@ -67,7 +67,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         if: env.run == 'true'
         with:
-          flutter-version: '3.16.8'
+          flutter-version: '3.19.6'
           channel: 'stable'
           cache: true
       - uses: actions/cache@v4
@@ -84,6 +84,11 @@ jobs:
             ~/.cocoapods
             ~/Library/Caches/CocoaPods
           key: cocoapods-${{ hashFiles('ios/Podfile.lock') }}
+      - uses: actions/setup-java@v4
+        if: env.run == 'true' && matrix.os == 'Android'
+        with:
+          java-version: '17'
+          distribution: 'adopt'
 
       - uses: ruby/setup-ruby@v1
         if: env.run == 'true'

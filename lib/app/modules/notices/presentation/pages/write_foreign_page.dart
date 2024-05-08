@@ -92,7 +92,7 @@ class _LayoutState extends State<_Layout> {
                       content: markdownToHtml(_article!),
                     ));
                     final s = await blob.stream.firstWhere((s) => s.isLoaded);
-                    if (!mounted) return;
+                    if (!context.mounted) return;
                     context.pop(s.notice);
                   }
                 : null,

@@ -128,7 +128,7 @@ class _LayoutState extends State<_Layout> {
                             tags: _tags,
                           ));
                     final s = await blob.stream.firstWhere((s) => s.isLoaded);
-                    if (!mounted) return;
+                    if (!context.mounted) return;
                     context.pop();
                     NoticeRoute.fromEntity(s.notice).push(context);
                   }

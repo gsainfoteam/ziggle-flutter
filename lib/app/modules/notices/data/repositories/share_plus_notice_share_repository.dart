@@ -9,7 +9,7 @@ import '../../domain/repositories/notice_share_repository.dart';
 class SharePlusNoticeShareRepository implements NoticeShareRepository {
   @override
   Future<bool> shareNotice(NoticeEntity notice) async {
-    final result = await Share.shareWithResult(t.notice.shareContent(
+    final result = await Share.share(t.notice.shareContent(
       title: notice.title,
       link: 'https://ziggle.gistory.me/notice/${notice.id}',
     ));
