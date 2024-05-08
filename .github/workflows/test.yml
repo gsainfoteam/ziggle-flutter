@@ -84,6 +84,11 @@ jobs:
             ~/.cocoapods
             ~/Library/Caches/CocoaPods
           key: cocoapods-${{ hashFiles('ios/Podfile.lock') }}
+      - uses: actions/setup-java@v4
+        if: env.run == 'true' && matrix.os == 'Android'
+        with:
+          java-version: '17'
+          distribution: 'adopt'
 
       - uses: ruby/setup-ruby@v1
         if: env.run == 'true'
