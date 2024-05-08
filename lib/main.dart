@@ -29,8 +29,8 @@ void main() async {
 }
 
 void _initSplash() {
-  final widgetsBining = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBining);
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 }
 
 Future<void> _initLocale() async {
