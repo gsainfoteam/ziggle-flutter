@@ -96,7 +96,7 @@ class _LayoutState extends State<_Layout> {
                     final result =
                         await blob.stream.firstWhere((s) => s.isLoaded);
                     if (!_englishRequired) {
-                      if (!mounted) return;
+                      if (!context.mounted) return;
                       context.pop(result.notice);
                       return;
                     }
@@ -108,7 +108,7 @@ class _LayoutState extends State<_Layout> {
                               .id,
                     ));
                     final s = await blob.stream.firstWhere((s) => s.isLoaded);
-                    if (!mounted) return;
+                    if (!context.mounted) return;
                     context.pop(s.notice);
                   }
                 : null,
