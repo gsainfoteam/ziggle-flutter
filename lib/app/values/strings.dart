@@ -1,7 +1,7 @@
 abstract class Strings {
   Strings._();
 
-  static const _idpClientId = 'ziggle2023';
+  static const _idpClientId = 'ziggle_stg';
   static const idpRedirectScheme = 'ziggle-idp-login-redirect';
   static const _idpBasePath = '/authorize'
       '?client_id=$_idpClientId'

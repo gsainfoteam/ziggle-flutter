@@ -52,7 +52,7 @@ class _CreatedAtState extends State<CreatedAt> {
       _timeAgo,
       style: const TextStyle(
         fontWeight: FontWeight.w500,
-        color: Palette.text300,
+        color: Palette.textGrey,
       ),
     );
   }

@@ -32,11 +32,11 @@ class ProfilePage extends StatelessWidget {
               ? const Column(
                   children: [
                     _Profile(),
+                    _FeedbackButton(),
                     Divider(),
                     _NoticeSectionButton(NoticeType.written),
                     _NoticeSectionButton(NoticeType.reminded),
                     Divider(),
-                    _FeedbackButton(),
                   ],
                 )
               : const Column(
@@ -59,40 +59,21 @@ class _Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-        child: Column(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Palette.textGreyDark,
-                borderRadius: BorderRadius.circular(80),
-              ),
-              child: ClipOval(
-                child: Transform.scale(
-                  alignment: const Alignment(0, -0.5),
-                  scale: 1.3,
-                  child: const Icon(
-                    Icons.person,
-                    size: 120,
-                    color: Palette.white,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-            Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: Column(
-                children: [
-                  _buildInfo(t.setting.name, state.user.name),
-                  const SizedBox(height: 10),
-                  _buildInfo(t.setting.studentId, state.user.studentId),
-                  const SizedBox(height: 10),
-                  _buildInfo(t.setting.email, state.user.email),
-                ],
-              ),
+            Image.asset('assets/images/default_profile.png', width: 75),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _buildInfo(state.user.name, 22, Palette.black, FontWeight.w800),
+                _buildInfo(state.user.studentId),
+                _buildInfo(state.user.email, 14, Palette.textGreyDark,
+                    FontWeight.w400),
+              ],
             ),
           ],
         ),
@@ -100,22 +81,18 @@ class _Profile extends StatelessWidget {
     );
   }
 
-  Widget _buildInfo(String key, String value) {
+  Widget _buildInfo(String value,
+      [double? fontSize = 14,
+      Color? color = Palette.black,
+      FontWeight? fontWeight = FontWeight.w500]) {
     return Row(
       children: [
         Text(
-          key,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const Spacer(),
-        Text(
           value,
-          style: const TextStyle(
-            fontSize: 16,
-            color: Palette.textGreyDark,
+          style: TextStyle(
+            fontSize: fontSize,
+            color: color,
+            fontWeight: fontWeight,
           ),
         ),
       ],
@@ -192,7 +169,10 @@ class _FeedbackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: Assets.icons.flag.svg(),
-      title: Text(t.setting.feedbackReport),
+      title: Text(
+        t.setting.feedbackReport,
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -204,6 +184,7 @@ class _FeedbackButton extends StatelessWidget {
         ],
       ),
       onTap: () => launchUrlString(Strings.heyDeveloperUrl),
+      splashColor: Colors.transparent,
     );
   }
 }

@@ -6,10 +6,8 @@ import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_reaction.dart';
-import '../../domain/enums/notice_type.dart';
 import 'created_at.dart';
 import 'd_day.dart';
-import 'scrolling_page_indicator.dart';
 
 class NoticeCard extends StatelessWidget {
   const NoticeCard({
@@ -31,30 +29,36 @@ class NoticeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTapDetail,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10),
-        child: Column(
-          children: [
-            _Title(
-              title: notice.title,
-              author: notice.author.name,
-              createdAt: notice.createdAt,
-              deadline: notice.currentDeadline,
-            ),
-            _ImageAction(
-              notice: notice,
-              isLiked: notice.reacted(NoticeReaction.like),
-              onTapLike: onTapLike,
-              onTapShare: onTapShare,
-              onTapReminder: onTapReminder,
-            ),
-            _Content(
-              tags: notice.tags
-                  .map((e) => NoticeType.fromTag(e)?.label ?? e)
-                  .toList(),
-              content: notice.content,
-            ),
-          ],
+      child: Container(
+        decoration: BoxDecoration(
+          color: Palette.white,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Column(
+            children: [
+              _Title(
+                title: notice.title,
+                author: notice.author.name,
+                createdAt: notice.createdAt,
+                deadline: notice.currentDeadline,
+              ),
+              _ImageAction(
+                notice: notice,
+                isLiked: notice.reacted(NoticeReaction.like),
+                onTapLike: onTapLike,
+                onTapShare: onTapShare,
+                onTapReminder: onTapReminder,
+              ),
+              // _Content(
+              //   tags: notice.tags
+              //       .map((e) => NoticeType.fromTag(e)?.label ?? e)
+              //       .toList(),
+              //   content: notice.content,
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -77,26 +81,32 @@ class _Title extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Assets.icons.profileCircle.svg(height: 24),
-              const SizedBox(width: 8),
-              Text(author, style: const TextStyle(fontWeight: FontWeight.w500)),
-              const SizedBox(width: 5),
-              const Text(
-                '·',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: Palette.text300,
-                ),
+              Row(
+                children: [
+                  Assets.images.defaultProfile.image(width: 40, height: 40),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        author,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                        ),
+                      ),
+                      CreatedAt(createdAt: createdAt),
+                    ],
+                  ),
+                ],
               ),
-              const SizedBox(width: 5),
-              CreatedAt(createdAt: createdAt),
-              const Spacer(),
               if (deadline != null) DDay(deadline: deadline!),
             ],
           ),
@@ -156,70 +166,71 @@ class _ImageActionState extends State<_ImageAction> {
     return Column(
       children: [
         if (imagesUrl.isNotEmpty)
-          AspectRatio(
-            aspectRatio: 1,
-            child: PageView.builder(
-              itemCount: imagesUrl.length,
-              controller: _pageController,
-              itemBuilder: (context, index) => Image.network(
-                imagesUrl[index],
-                fit: BoxFit.cover,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxHeight: 280,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(
+                  imagesUrl.first,
+                  fit: BoxFit.fitWidth,
+                  width: double.infinity,
+                ),
               ),
             ),
           ),
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            if (imagesUrl.isNotEmpty)
-              ScrollingPageIndicator(
-                itemCount: imagesUrl.length,
-                controller: _pageController,
-                dotColor: Palette.textGrey,
-                dotSelectedColor: Palette.primary100,
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8,
+          ),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: widget.onTapLike,
+                icon: (widget.isLiked
+                        ? Assets.icons.fireFlameActive
+                        : Assets.icons.fireFlame)
+                    .svg(
+                  height: 30,
+                  fit: BoxFit.contain,
+                ),
+                padding: EdgeInsets.zero,
               ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: widget.onTapLike,
-                  icon: (widget.isLiked
-                          ? Assets.icons.fireFlameActive
-                          : Assets.icons.fireFlame)
-                      .svg(
-                    height: 32,
-                    fit: BoxFit.contain,
-                  ),
-                  padding: EdgeInsets.zero,
+              Text(
+                '$likes',
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
                 ),
-                Text(
-                  '$likes',
-                  style: const TextStyle(fontWeight: FontWeight.w600),
-                ),
-                const Spacer(),
+              ),
+              const Spacer(),
+              IconButton(
+                onPressed: widget.onTapShare,
+                icon: Assets.icons.shareAndroid.svg(),
+                padding: EdgeInsets.zero,
+                visualDensity:
+                    const VisualDensity(horizontal: -4, vertical: -4),
+                constraints:
+                    const BoxConstraints.tightFor(width: 48, height: 48),
+              ),
+              if (notice.isRemindable)
                 IconButton(
-                  onPressed: widget.onTapShare,
-                  icon: Assets.icons.shareAndroid.svg(),
+                  onPressed: widget.onTapReminder,
+                  icon: notice.isReminded
+                      ? Assets.icons.bellActive.svg()
+                      : Assets.icons.bell.svg(),
                   padding: EdgeInsets.zero,
                   visualDensity:
                       const VisualDensity(horizontal: -4, vertical: -4),
                   constraints:
                       const BoxConstraints.tightFor(width: 48, height: 48),
                 ),
-                if (notice.isRemindable)
-                  IconButton(
-                    onPressed: widget.onTapReminder,
-                    icon: notice.isReminded
-                        ? Assets.icons.bellActive.svg()
-                        : Assets.icons.bell.svg(),
-                    padding: EdgeInsets.zero,
-                    visualDensity:
-                        const VisualDensity(horizontal: -4, vertical: -4),
-                    constraints:
-                        const BoxConstraints.tightFor(width: 48, height: 48),
-                  ),
-                const SizedBox(width: 8),
-              ],
-            ),
-          ],
+              const SizedBox(width: 8),
+            ],
+          ),
         ),
       ],
     );
@@ -257,6 +268,8 @@ class _ContentState extends State<_Content> {
               ? Text(widget.content)
               : InkWell(
                   onTap: () => setState(() => _isExpanded = true),
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   child: ExtendedText(
                     widget.content,
                     maxLines: 2,
