@@ -120,6 +120,7 @@ class _NoticeSectionButton extends StatelessWidget {
         ],
       ),
       onTap: () => SectionRoute(type: type).push(context),
+      splashColor: Colors.transparent,
     );
   }
 }

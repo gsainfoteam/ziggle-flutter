@@ -46,6 +46,7 @@ class SettingPage extends StatelessWidget {
                                 .add(const AuthEvent.logout());
                             const FeedRoute().go(context);
                           },
+                          splashColor: Colors.transparent,
                         ),
                         ListTile(
                           title: Text(t.setting.account.withdraw),
@@ -53,6 +54,7 @@ class SettingPage extends StatelessWidget {
                             sl<AnalyticsRepository>().logOpenWithdrawal();
                             launchUrlString(Strings.withdrawalUrl);
                           },
+                          splashColor: Colors.transparent,
                         ),
                       ],
                     )
@@ -67,6 +69,7 @@ class SettingPage extends StatelessWidget {
                               : () => context
                                   .read<AuthBloc>()
                                   .add(const AuthEvent.login()),
+                          splashColor: Colors.transparent,
                         ),
                       ],
                     ),
@@ -79,6 +82,7 @@ class SettingPage extends StatelessWidget {
             ListTile(
               title: Text(t.setting.about),
               onTap: () => const AboutRoute().push(context),
+              splashColor: Colors.transparent,
             ),
           ],
         ),
@@ -122,6 +126,7 @@ class _NotificationSetting extends StatelessWidget {
             return ListTile(
               title: Text(t.setting.notifications.enabled),
               onTap: () {},
+              splashColor: Colors.transparent,
             );
           },
         ),
@@ -155,6 +160,7 @@ class _LanguageSetting extends StatelessWidget {
             LocaleSettings.setLocale(AppLocale.ko);
             const FeedRoute().go(context);
           },
+          splashColor: Colors.transparent,
         ),
         ListTile(
           title: Text(t.setting.language.english),
@@ -163,6 +169,7 @@ class _LanguageSetting extends StatelessWidget {
             LocaleSettings.setLocale(AppLocale.en);
             const FeedRoute().go(context);
           },
+          splashColor: Colors.transparent,
         ),
       ],
     );
