@@ -61,7 +61,6 @@ class _AboutPageState extends State<AboutPage> {
                     sl<AnalyticsRepository>().logOpenFeedback();
                     launchUrlString(Strings.heyDeveloperUrl);
                   },
-                  splashColor: Colors.transparent,
                 ),
                 ListTile(
                   title: Text(t.setting.termsOfService),
@@ -72,7 +71,6 @@ class _AboutPageState extends State<AboutPage> {
                       mode: LaunchMode.inAppBrowserView,
                     );
                   },
-                  splashColor: Colors.transparent,
                 ),
                 ListTile(
                   title: Text(t.setting.privacyPolicy),
@@ -83,12 +81,10 @@ class _AboutPageState extends State<AboutPage> {
                       mode: LaunchMode.inAppBrowserView,
                     );
                   },
-                  splashColor: Colors.transparent,
                 ),
                 ListTile(
                   title: Text(t.setting.openSourceLicenses),
                   onTap: () => const PackagesRoute().push(context),
-                  splashColor: Colors.transparent,
                 ),
                 ListTile(
                   title: Text(t.setting.version),
@@ -102,12 +98,10 @@ class _AboutPageState extends State<AboutPage> {
                       snapshot.data?.version ?? '',
                     ),
                   ),
-                  splashColor: Colors.transparent,
                 ),
                 ListTile(
                   title: Text(t.setting.infoteam),
                   onTap: () => _controller.play(),
-                  splashColor: Colors.transparent,
                 ),
               ],
             ),
