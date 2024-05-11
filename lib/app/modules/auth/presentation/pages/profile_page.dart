@@ -69,33 +69,27 @@ class _Profile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildInfo(state.user.name, 22, Palette.black, FontWeight.w800),
-                _buildInfo(state.user.studentId),
-                _buildInfo(state.user.email, 14, Palette.textGreyDark,
-                    FontWeight.w400),
+                Text(
+                  state.user.name,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    color: Palette.black,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                Text(
+                  state.user.studentId,
+                  style: const TextStyle(fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  state.user.email,
+                  style: const TextStyle(color: Palette.textGreyDark),
+                ),
               ],
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _buildInfo(String value,
-      [double? fontSize = 14,
-      Color? color = Palette.black,
-      FontWeight? fontWeight = FontWeight.w500]) {
-    return Row(
-      children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: fontSize,
-            color: color,
-            fontWeight: fontWeight,
-          ),
-        ),
-      ],
     );
   }
 }
