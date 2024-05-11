@@ -116,7 +116,7 @@ class _Layout extends StatelessWidget {
   }
 
   SliverList _buildList(NoticeListState state) {
-    return SliverList.separated(
+    return SliverList.builder(
       itemCount: state.list.length + (state.loaded ? 0 : 1),
       itemBuilder: (context, index) {
         if (index == state.list.length) {
@@ -162,7 +162,6 @@ class _Layout extends StatelessWidget {
           ),
         );
       },
-      separatorBuilder: (context, index) => Container(),
     );
   }
 
