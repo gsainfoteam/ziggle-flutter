@@ -1,8 +1,6 @@
-import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/entities/notice_entity.dart';
 import '../../domain/enums/notice_reaction.dart';
@@ -51,12 +49,6 @@ class NoticeCard extends StatelessWidget {
                 onTapShare: onTapShare,
                 onTapReminder: onTapReminder,
               ),
-              // _Content(
-              //   tags: notice.tags
-              //       .map((e) => NoticeType.fromTag(e)?.label ?? e)
-              //       .toList(),
-              //   content: notice.content,
-              // ),
             ],
           ),
         ),
@@ -233,60 +225,6 @@ class _ImageActionState extends State<_ImageAction> {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _Content extends StatefulWidget {
-  const _Content({required this.tags, required this.content});
-
-  final List<String> tags;
-  final String content;
-
-  @override
-  State<_Content> createState() => _ContentState();
-}
-
-class _ContentState extends State<_Content> {
-  bool _isExpanded = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          DefaultTextStyle.merge(
-            style: const TextStyle(color: Palette.primary100),
-            child: Wrap(
-              spacing: 4,
-              children: widget.tags.map((e) => Text('#$e')).toList(),
-            ),
-          ),
-          _isExpanded
-              ? Text(widget.content)
-              : InkWell(
-                  onTap: () => setState(() => _isExpanded = true),
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  child: ExtendedText(
-                    widget.content,
-                    maxLines: 2,
-                    overflowWidget: TextOverflowWidget(
-                      child: Text.rich(
-                        t.notice.viewMore(
-                          more: (more) => TextSpan(
-                            text: more,
-                            style: const TextStyle(color: Palette.textGrey),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-        ],
-      ),
     );
   }
 }
