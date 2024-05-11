@@ -63,7 +63,7 @@ class _Profile extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/images/default_profile.png', width: 75),
+            Assets.images.defaultProfile.image(width: 75),
             const SizedBox(width: 16),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
