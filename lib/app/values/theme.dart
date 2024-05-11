@@ -30,5 +30,6 @@ abstract class AppTheme {
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: Palette.primary100,
     ),
+    splashColor: Colors.transparent,
   );
 }
