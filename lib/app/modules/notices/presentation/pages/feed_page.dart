@@ -44,68 +44,79 @@ class _Layout extends StatelessWidget {
     final bottomHeight = toolbarHeight + 8;
 
     return Scaffold(
-      body: RefreshIndicator(
-        edgeOffset: mediaQueryPadding.top + toolbarHeight + bottomHeight,
-        onRefresh: () async {
-          HapticFeedback.mediumImpact();
-          final bloc = context.read<NoticeListBloc>()
-            ..add(const NoticeListEvent.refresh());
-          await bloc.stream.firstWhere((state) => state.loaded);
-        },
-        child: InfiniteScroll(
-          onLoadMore: () => context.read<NoticeListBloc>()
-            ..add(const NoticeListEvent.loadMore()),
-          slivers: [
-            SliverAppBar(
-              toolbarHeight: toolbarHeight,
-              floating: true,
-              leading: Center(
-                child: Assets.logo.black.image(height: toolbarHeight),
+      backgroundColor: Palette.background200,
+      body: SafeArea(
+        left: false,
+        right: false,
+        bottom: false,
+        child: RefreshIndicator(
+          edgeOffset: mediaQueryPadding.top + toolbarHeight,
+          onRefresh: () async {
+            HapticFeedback.mediumImpact();
+            final bloc = context.read<NoticeListBloc>()
+              ..add(const NoticeListEvent.refresh());
+            await bloc.stream.firstWhere((state) => state.loaded);
+          },
+          child: InfiniteScroll(
+            onLoadMore: () => context.read<NoticeListBloc>()
+              ..add(const NoticeListEvent.loadMore()),
+            slivers: [
+              SliverAppBar(
+                backgroundColor: Palette.background200,
+                toolbarHeight: toolbarHeight,
+                floating: true,
+                leadingWidth: 100,
+                leading: Row(
+                  children: [
+                    const SizedBox(width: 12),
+                    Assets.logo.light.svg(width: 75),
+                  ],
+                ),
+                actions: [
+                  IconButton(
+                    icon: Assets.icons.search.svg(),
+                    onPressed: () => const SearchRoute().push(context),
+                  ),
+                  IconButton(
+                    icon: Assets.icons.editPencil.svg(),
+                    onPressed: () => const WriteRoute().push(context),
+                  ),
+                  IconButton(
+                    icon: Assets.icons.user.svg(),
+                    onPressed: () => const MyPageRoute().push(context),
+                  ),
+                ],
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(bottomHeight),
+                  child: _buildNoticeTypeChips(),
+                ),
               ),
-              actions: [
-                IconButton(
-                  icon: Assets.icons.search.svg(),
-                  onPressed: () => const SearchRoute().push(context),
-                ),
-                IconButton(
-                  icon: Assets.icons.editPencil.svg(),
-                  onPressed: () => const WriteRoute().push(context),
-                ),
-                IconButton(
-                  icon: Assets.icons.user.svg(),
-                  onPressed: () => const MyPageRoute().push(context),
-                ),
-              ],
-              bottom: PreferredSize(
-                preferredSize: Size.fromHeight(bottomHeight),
-                child: _buildNoticeTypeChips(),
-              ),
-            ),
-            SliverSafeArea(
-              top: false,
-              sliver: BlocBuilder<NoticeListBloc, NoticeListState>(
-                builder: (context, state) => state.list.isEmpty
-                    ? SliverPadding(
-                        padding: const EdgeInsets.only(top: 8),
-                        sliver: SliverToBoxAdapter(
-                          child: Center(
-                            child: state.loaded
-                                ? Text(t.notice.noNotice)
-                                : const CircularProgressIndicator(),
+              SliverSafeArea(
+                top: false,
+                sliver: BlocBuilder<NoticeListBloc, NoticeListState>(
+                  builder: (context, state) => state.list.isEmpty
+                      ? SliverPadding(
+                          padding: const EdgeInsets.only(top: 8),
+                          sliver: SliverToBoxAdapter(
+                            child: Center(
+                              child: state.loaded
+                                  ? Text(t.notice.noNotice)
+                                  : const CircularProgressIndicator(),
+                            ),
                           ),
-                        ),
-                      )
-                    : _buildList(state),
+                        )
+                      : _buildList(state),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   SliverList _buildList(NoticeListState state) {
-    return SliverList.separated(
+    return SliverList.builder(
       itemCount: state.list.length + (state.loaded ? 0 : 1),
       itemBuilder: (context, index) {
         if (index == state.list.length) {
@@ -117,38 +128,40 @@ class _Layout extends StatelessWidget {
           );
         }
         final notice = state.list[index];
-        return NoticeCard(
-          notice: notice,
-          onTapDetail: () => NoticeRoute.fromEntity(notice).push(context),
-          onTapLike: () {
-            HapticFeedback.lightImpact();
-            final userId = AuthBloc.userOrNull(context)?.uuid;
-            if (userId == null) {
-              const LoginRoute().push(context);
-              return;
-            }
-            const like = NoticeReaction.like;
-            final liked = notice.reacted(like);
-            context.read<NoticeListBloc>().add(liked
-                ? NoticeListEvent.removeReaction(notice.id, like.emoji)
-                : NoticeListEvent.addReaction(notice.id, like.emoji));
-          },
-          onTapShare: () => context.read<ShareCubit>().share(notice),
-          onTapReminder: () {
-            if (AuthBloc.userOrNull(context) == null) {
-              const LoginRoute().push(context);
-              return;
-            }
-            HapticFeedback.lightImpact();
-            context.read<NoticeListBloc>().add(
-                  notice.isReminded
-                      ? NoticeListEvent.removeReminder(notice.id)
-                      : NoticeListEvent.addReminder(notice.id),
-                );
-          },
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7.5),
+          child: NoticeCard(
+            notice: notice,
+            onTapDetail: () => NoticeRoute.fromEntity(notice).push(context),
+            onTapLike: () {
+              HapticFeedback.lightImpact();
+              final userId = AuthBloc.userOrNull(context)?.uuid;
+              if (userId == null) {
+                const LoginRoute().push(context);
+                return;
+              }
+              const like = NoticeReaction.like;
+              final liked = notice.reacted(like);
+              context.read<NoticeListBloc>().add(liked
+                  ? NoticeListEvent.removeReaction(notice.id, like.emoji)
+                  : NoticeListEvent.addReaction(notice.id, like.emoji));
+            },
+            onTapShare: () => context.read<ShareCubit>().share(notice),
+            onTapReminder: () {
+              if (AuthBloc.userOrNull(context) == null) {
+                const LoginRoute().push(context);
+                return;
+              }
+              HapticFeedback.lightImpact();
+              context.read<NoticeListBloc>().add(
+                    notice.isReminded
+                        ? NoticeListEvent.removeReminder(notice.id)
+                        : NoticeListEvent.addReminder(notice.id),
+                  );
+            },
+          ),
         );
       },
-      separatorBuilder: (context, index) => const Divider(),
     );
   }
 
@@ -156,7 +169,7 @@ class _Layout extends StatelessWidget {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: BlocBuilder<NoticeListBloc, NoticeListState>(
           builder: (context, state) => Wrap(
             spacing: 8,
@@ -210,8 +223,10 @@ class _Layout extends StatelessWidget {
                     },
                     labelStyle: TextStyle(
                       color: e == state.type ? Palette.background100 : null,
+                      fontWeight: e == state.type ? FontWeight.w700 : null,
                     ),
-                    backgroundColor: e == state.type ? Palette.text100 : null,
+                    backgroundColor:
+                        e == state.type ? Palette.primary100 : null,
                   ),
                 )
                 .toList(),

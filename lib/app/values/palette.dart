@@ -6,6 +6,8 @@ abstract class Palette {
   static const primary100 = Color(0xffff4500);
   static const primary200 = Color(0xffff7b3a);
   static const primary300 = Color(0xffffe49a);
+  static const primaryLight = Color(0xfffbccba);
+  static const primaryUltraLight = Color(0xFFFFEEE8);
 
   static const accent100 = Color(0xffff8c00);
   static const accent200 = Color(0xff8e3000);
@@ -20,7 +22,7 @@ abstract class Palette {
 
   static const white = background100;
   static const background100 = Color(0xffffffff);
-  static const background200 = Color(0xfff5f5f5);
+  static const background200 = Color(0xfff8f8f8);
   static const backgroundGreyLight = background200;
   static const background300 = Color(0xffcccccc);
 

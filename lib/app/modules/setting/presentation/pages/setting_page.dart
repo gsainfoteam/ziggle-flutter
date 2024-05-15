@@ -79,6 +79,7 @@ class SettingPage extends StatelessWidget {
             ListTile(
               title: Text(t.setting.about),
               onTap: () => const AboutRoute().push(context),
+              splashColor: Colors.transparent,
             ),
           ],
         ),

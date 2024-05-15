@@ -46,4 +46,7 @@ class MemoryApiChannelRepository implements ApiChannelRepository {
 
   @override
   Stream<ApiChannel> get channel => _subject.stream;
+
+  @override
+  String get idpClientId => _subject.value.idpClientId;
 }

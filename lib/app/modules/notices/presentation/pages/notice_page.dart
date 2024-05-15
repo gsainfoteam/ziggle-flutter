@@ -177,29 +177,29 @@ class _Layout extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Assets.icons.profileCircle.svg(height: 24),
+                    Assets.images.defaultProfile.image(width: 40, height: 40),
                     const SizedBox(width: 8),
-                    Text(
-                      notice.author.name,
-                      style: const TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(width: 5),
-                    const Text(
-                      '·',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: Palette.text300,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      DateFormat.yMd()
-                          .add_Hm()
-                          .format(notice.createdAt.toLocal()),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Palette.text300,
-                      ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          notice.author.name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          DateFormat.yMd()
+                              .add_Hm()
+                              .format(notice.createdAt.toLocal()),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Palette.textGrey,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

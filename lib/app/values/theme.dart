@@ -23,12 +23,13 @@ abstract class AppTheme {
     chipTheme: const ChipThemeData(
       elevation: 0,
       pressElevation: 0,
-      backgroundColor: Palette.background200,
+      backgroundColor: Palette.primaryUltraLight,
       padding: EdgeInsets.zero,
     ),
     dividerColor: Palette.borderGreyLight,
     progressIndicatorTheme: const ProgressIndicatorThemeData(
       color: Palette.primary100,
     ),
+    splashColor: Colors.transparent,
   );
 }
