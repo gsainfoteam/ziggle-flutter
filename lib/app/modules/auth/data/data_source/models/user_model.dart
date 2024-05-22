@@ -9,13 +9,18 @@ part 'user_model.g.dart';
 
 @freezed
 class UserModel with _$UserModel implements UserEntity {
+  const UserModel._();
   const factory UserModel({
-    @JsonKey(name: 'email') required String email,
-    @JsonKey(name: 'name') required String name,
-    @JsonKey(name: 'studentNumber') required String studentId,
-    @JsonKey(name: 'uuid') required String uuid,
+    required String email,
+    required String name,
+    @JsonKey(name: 'student_id') String? id,
+    @JsonKey(name: 'studentNumber') String? number,
+    required String uuid,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
+
+  @override
+  String get studentId => (id ?? number)!;
 }

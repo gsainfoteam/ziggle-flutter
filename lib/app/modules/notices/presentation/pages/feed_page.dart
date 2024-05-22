@@ -29,7 +29,20 @@ class FeedPage extends StatelessWidget {
         ),
         BlocProvider(create: (_) => sl<ShareCubit>()),
       ],
-      child: const _Layout(),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<NoticeListBloc, NoticeListState>(
+            listener: (context, state) {
+              final error = state.error;
+              if (error == null) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(error.toString())),
+              );
+            },
+          )
+        ],
+        child: const _Layout(),
+      ),
     );
   }
 }
