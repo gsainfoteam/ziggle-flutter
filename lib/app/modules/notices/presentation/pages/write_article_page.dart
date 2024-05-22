@@ -100,24 +100,27 @@ class _WriteArticlePageState extends State<WriteArticlePage> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: widget.initialContent == _controller.text,
-      onPopInvoked: (didPop) => showAdaptiveDialog(
-        context: context,
-        builder: (dialogContext) => AlertDialog.adaptive(
-          title: Text(t.notice.write.unsaved.title),
-          actions: [
-            AdaptiveDialogAction(
-              onPressed: () => context
-                ..pop()
-                ..pop(),
-              child: Text(t.notice.write.unsaved.discard),
-            ),
-            AdaptiveDialogAction(
-              onPressed: () => dialogContext.pop(),
-              child: Text(t.notice.write.unsaved.preserve),
-            ),
-          ],
-        ),
-      ),
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        showAdaptiveDialog(
+          context: context,
+          builder: (dialogContext) => AlertDialog.adaptive(
+            title: Text(t.notice.write.unsaved.title),
+            actions: [
+              AdaptiveDialogAction(
+                onPressed: () => context
+                  ..pop()
+                  ..pop(),
+                child: Text(t.notice.write.unsaved.discard),
+              ),
+              AdaptiveDialogAction(
+                onPressed: () => dialogContext.pop(),
+                child: Text(t.notice.write.unsaved.preserve),
+              ),
+            ],
+          ),
+        );
+      },
       child: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
