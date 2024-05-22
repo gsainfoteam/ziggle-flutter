@@ -24,12 +24,12 @@ abstract class UserApi {
   Future<UserModel> info();
 
   @POST('logout')
-  Future logout();
+  Future logout(@Field('access_token') String accessToken);
 
   @POST('refresh')
   @Extra({AuthorizeInterceptor.retriedKey: true})
   Future<TokenModel> refresh();
 
   @POST('fcm')
-  Future updateFcmToken(@Field('fcm_token') String fcmToken);
+  Future updateFcmToken(@Field() String fcmToken);
 }

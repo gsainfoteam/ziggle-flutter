@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -166,10 +167,13 @@ class _ImageActionState extends State<_ImageAction> {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
-                child: Image.network(
-                  imagesUrl.first,
+                child: CachedNetworkImage(
+                  imageUrl: imagesUrl.first,
                   fit: BoxFit.fitWidth,
                   width: double.infinity,
+                  placeholder: (context, url) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 ),
               ),
             ),
