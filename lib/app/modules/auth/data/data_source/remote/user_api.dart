@@ -31,5 +31,5 @@ abstract class UserApi {
   Future<TokenModel> refresh();
 
   @POST('fcm')
-  Future updateFcmToken(@Field('fcm_token') String fcmToken);
+  Future updateFcmToken(@Field() String fcmToken);
 }
