@@ -36,6 +36,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           emit(_Loaded(total: data.total, list: data.list, type: event.type));
         } catch (e) {
           emit(_Loading(type: event.type, error: e.toString()));
+          rethrow;
         }
       } else if (event is _Reset) {
         _query = null;
@@ -61,6 +62,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           type: state.type,
           error: e.toString(),
         ));
+        rethrow;
       }
     });
     on<_Refresh>((event, emit) async {
@@ -78,6 +80,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           type: state.type,
           error: e.toString(),
         ));
+        rethrow;
       }
     });
     on<_AddReaction>((event, emit) async {
@@ -94,6 +97,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           type: state.type,
           error: e.toString(),
         ));
+        rethrow;
       }
     });
     on<_RemoveReaction>((event, emit) async {
@@ -110,6 +114,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           type: state.type,
           error: e.toString(),
         ));
+        rethrow;
       }
     });
     on<_AddReminder>((event, emit) async {
@@ -128,6 +133,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           type: state.type,
           error: e.toString(),
         ));
+        rethrow;
       }
     });
     on<_RemoveReminder>((event, emit) async {
@@ -146,6 +152,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           type: state.type,
           error: e.toString(),
         ));
+        rethrow;
       }
     });
   }
