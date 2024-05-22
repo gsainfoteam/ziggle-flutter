@@ -27,12 +27,16 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
     on<_Droppable>((event, emit) async {
       if (event is _Load) {
         emit(_Loading(type: event.type));
-        final data = await _repository.getNotices(
-          type: event.type,
-          search: event.query,
-        );
-        _query = event.query;
-        emit(_Loaded(total: data.total, list: data.list, type: event.type));
+        try {
+          final data = await _repository.getNotices(
+            type: event.type,
+            search: event.query,
+          );
+          _query = event.query;
+          emit(_Loaded(total: data.total, list: data.list, type: event.type));
+        } catch (e) {
+          emit(_Loading(type: event.type, error: e.toString()));
+        }
       } else if (event is _Reset) {
         _query = null;
         emit(_Initial(type: state.type));
@@ -42,53 +46,107 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       if (state is! _Loaded) return;
       if (state.list.length >= state.total) return;
       emit(_Loading(total: state.total, list: state.list, type: state.type));
-      final data = await _repository.getNotices(
-          offset: state.list.length, type: state.type, search: _query);
-      emit(_Loaded(
-        total: data.total,
-        list: [...state.list, ...data.list],
-        type: state.type,
-      ));
+      try {
+        final data = await _repository.getNotices(
+            offset: state.list.length, type: state.type, search: _query);
+        emit(_Loaded(
+          total: data.total,
+          list: [...state.list, ...data.list],
+          type: state.type,
+        ));
+      } catch (e) {
+        emit(_Loaded(
+          total: state.total,
+          list: state.list,
+          type: state.type,
+          error: e.toString(),
+        ));
+      }
     });
     on<_Refresh>((event, emit) async {
       emit(_Loading(type: state.type));
-      final data = await _repository.getNotices(
-        type: state.type,
-        search: _query,
-      );
-      emit(_Loaded(total: data.total, list: data.list, type: state.type));
+      try {
+        final data = await _repository.getNotices(
+          type: state.type,
+          search: _query,
+        );
+        emit(_Loaded(total: data.total, list: data.list, type: state.type));
+      } catch (e) {
+        emit(_Loaded(
+          total: state.total,
+          list: state.list,
+          type: state.type,
+          error: e.toString(),
+        ));
+      }
     });
     on<_AddReaction>((event, emit) async {
       if (state is! _Loaded) return;
       emit(_Loading(total: state.total, list: state.list, type: state.type));
-      final data = await _repository.addReaction(event.id, event.emoji);
-      final list = state.list.replaceWithPersistContent(data);
-      emit(_Loaded(total: state.total, list: list, type: state.type));
+      try {
+        final data = await _repository.addReaction(event.id, event.emoji);
+        final list = state.list.replaceWithPersistContent(data);
+        emit(_Loaded(total: state.total, list: list, type: state.type));
+      } catch (e) {
+        emit(_Loaded(
+          total: state.total,
+          list: state.list,
+          type: state.type,
+          error: e.toString(),
+        ));
+      }
     });
     on<_RemoveReaction>((event, emit) async {
       if (state is! _Loaded) return;
       emit(_Loading(total: state.total, list: state.list, type: state.type));
-      final data = await _repository.removeReaction(event.id, event.emoji);
-      final list = state.list.replaceWithPersistContent(data);
-      emit(_Loaded(total: state.total, list: list, type: state.type));
+      try {
+        final data = await _repository.removeReaction(event.id, event.emoji);
+        final list = state.list.replaceWithPersistContent(data);
+        emit(_Loaded(total: state.total, list: list, type: state.type));
+      } catch (e) {
+        emit(_Loaded(
+          total: state.total,
+          list: state.list,
+          type: state.type,
+          error: e.toString(),
+        ));
+      }
     });
     on<_AddReminder>((event, emit) async {
       if (state is! _Loaded) return;
       emit(_Loading(total: state.total, list: state.list, type: state.type));
-      _analyticsRepository.logTryReminder();
-      final data = await _repository.addReminder(event.id);
-      final list = state.list.replaceWithPersistContent(data);
-      emit(_Loaded(total: state.total, list: list, type: state.type));
-      _analyticsRepository.logToggleReminder(data.isReminded);
+      try {
+        _analyticsRepository.logTryReminder();
+        final data = await _repository.addReminder(event.id);
+        final list = state.list.replaceWithPersistContent(data);
+        emit(_Loaded(total: state.total, list: list, type: state.type));
+        _analyticsRepository.logToggleReminder(data.isReminded);
+      } catch (e) {
+        emit(_Loaded(
+          total: state.total,
+          list: state.list,
+          type: state.type,
+          error: e.toString(),
+        ));
+      }
     });
     on<_RemoveReminder>((event, emit) async {
       if (state is! _Loaded) return;
       emit(_Loading(total: state.total, list: state.list, type: state.type));
-      _analyticsRepository.logTryReminder();
-      final data = await _repository.removeReminder(event.id);
-      final list = state.list.replaceWithPersistContent(data);
-      emit(_Loaded(total: state.total, list: list, type: state.type));
-      _analyticsRepository.logToggleReminder(data.isReminded);
+      try {
+        _analyticsRepository.logTryReminder();
+        final data = await _repository.removeReminder(event.id);
+        final list = state.list.replaceWithPersistContent(data);
+        emit(_Loaded(total: state.total, list: list, type: state.type));
+        _analyticsRepository.logToggleReminder(data.isReminded);
+      } catch (e) {
+        emit(_Loaded(
+          total: state.total,
+          list: state.list,
+          type: state.type,
+          error: e.toString(),
+        ));
+      }
     });
   }
 
@@ -136,16 +194,19 @@ class NoticeListState with _$NoticeListState {
     @Default(0) int total,
     @Default([]) List<NoticeEntity> list,
     @Default(NoticeType.all) NoticeType type,
+    String? error,
   }) = _Initial;
   const factory NoticeListState.loading({
     @Default(0) int total,
     @Default([]) List<NoticeEntity> list,
     required NoticeType type,
+    String? error,
   }) = _Loading;
   const factory NoticeListState.loaded({
     required int total,
     required List<NoticeEntity> list,
     required NoticeType type,
+    String? error,
   }) = _Loaded;
 
   bool get loaded => this is _Loaded;
