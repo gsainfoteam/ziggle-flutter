@@ -11,7 +11,7 @@ import '../../domain/repositories/notice_repository.dart';
 
 part 'notice_list_bloc.freezed.dart';
 
-Stream<T> _thottle<T>(Stream<T> events, Stream<T> Function(T) mapper) => events
+Stream<T> _throttle<T>(Stream<T> events, Stream<T> Function(T) mapper) => events
     .throttleTime(const Duration(milliseconds: 500), trailing: true)
     .distinct()
     .switchMap(mapper);
@@ -37,7 +37,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
         _query = null;
         emit(_Initial(type: state.type));
       }
-    }, transformer: _thottle);
+    }, transformer: _throttle);
     on<_LoadMore>((event, emit) async {
       if (state is! _Loaded) return;
       if (state.list.length >= state.total) return;
