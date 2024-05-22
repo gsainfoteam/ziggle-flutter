@@ -9,7 +9,7 @@ enum ApiChannel {
   production(
     'https://api.ziggle.gistory.me/',
     'https://idp.gistory.me',
-    'ziggle_prod',
+    'ziggle2023',
   );
 
   final String baseUrl;
