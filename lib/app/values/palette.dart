@@ -28,3 +28,8 @@ abstract class Palette {
 
   static const borderGreyLight = Color(0xffd6d6d6);
 }
+
+extension ColorHex on Color {
+  String get hex =>
+      '#${value.toRadixString(16).padLeft(8, '0').substring(2, 8)}';
+}

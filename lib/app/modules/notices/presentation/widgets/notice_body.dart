@@ -5,7 +5,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_smartlook/wireframe/element_data.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ziggle/app/values/palette.dart';
 
@@ -111,7 +110,7 @@ class _NoticeBodyState extends State<NoticeBody> {
                     margin-bottom: 1rem;
                   }
                   a {
-                    color: ${Palette.textGreyDark.toHex()};
+                    color: #${Palette.textGreyDark.hex};
                   }
                   img {
                     max-width: 100%;

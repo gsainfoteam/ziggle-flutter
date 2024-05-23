@@ -18,6 +18,5 @@ abstract class Strings {
       'https://infoteam-rulrudino.notion.site/6177be6369e44280a23a65866c51b257';
   static const withdrawalUrl = 'https://idp.gistory.me';
 
-  static const smartlookKey = '559177df225fb6be8f57ab026bcd071f18c172cc';
   static const heyDeveloperUrl = 'https://cs.gistory.me/?service=Ziggle';
 }
