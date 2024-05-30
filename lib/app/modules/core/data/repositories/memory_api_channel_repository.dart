@@ -42,11 +42,5 @@ class MemoryApiChannelRepository implements ApiChannelRepository {
   String get baseUrl => _subject.value.baseUrl;
 
   @override
-  String get idpUrl => _subject.value.idpBaseUrl;
-
-  @override
   Stream<ApiChannel> get channel => _subject.stream;
-
-  @override
-  String get idpClientId => _subject.value.idpClientId;
 }
