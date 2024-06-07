@@ -16,5 +16,8 @@ class MultipleLinkRepository implements LinkRepository {
   Stream<String> getLinkStream() => MergeStream([
         _fcmRepository.getLinkStream(),
         _uniLinkLinkRepository.getLinkStream(),
-      ]);
+      ]).map((event) {
+        if (!event.contains('/root/article')) return event;
+        return event.replaceFirst('/root/article?id=', '/notice/');
+      });
 }
