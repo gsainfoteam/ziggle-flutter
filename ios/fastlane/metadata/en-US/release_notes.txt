@@ -1,5 +1,6 @@
 Ziggle has been renewed - see all of your GIST announcements at a glance with Ziggle!
 
-+ Fixed an issue that caused logins to unravel.
++ Fixed an issue that caused logins to unravel
 + Added the ability to edit announcements
 + Language change function added
++ Fixed the issue where the link of a specific announcement wouldn't open
