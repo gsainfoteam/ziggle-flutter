@@ -23,7 +23,7 @@ class ThirdAnalyticsRepository implements AnalyticsRepository {
     _analytics.logScreenView(screenName: screenName);
   }
 
-  _log(String name, [Map<String, dynamic>? parameters]) {
+  _log(String name, [Map<String, Object>? parameters]) {
     _analytics.logEvent(name: name, parameters: parameters);
   }
 
