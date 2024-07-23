@@ -23,6 +23,7 @@ class AuthorizeInterceptor extends Interceptor {
     if (token == null) return handler.next(err);
     final retried = err.requestOptions.extra.containsKey(retriedKey);
     if (retried) return handler.next(err);
+    err.requestOptions.extra[retriedKey] = true;
     try {
       final token = await _api.refresh();
       await _repository.saveToken(token.accessToken, token.expiresIn);
