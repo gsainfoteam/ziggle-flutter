@@ -49,7 +49,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const _Loading());
       await _oAuthRepository.setRecentLogout();
       await _authRepository.logout();
-      _authRepository.logout();
       emit(const _Guest());
     });
     on<_UpdatePushToken>((event, emit) async {

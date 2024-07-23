@@ -44,7 +44,7 @@ class RemoteAuthRepository implements AuthRepository {
   Future<void> logout() async {
     final accessToken = await _tokenRepository.token.first;
     if (accessToken == null) return;
-    await _api.logout(accessToken);
+    await _api.logout(accessToken).catchError((_) => null);
     await _tokenRepository.deleteToken();
     _userController.add(null);
   }
