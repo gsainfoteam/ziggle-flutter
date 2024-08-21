@@ -1,5 +1,7 @@
 # 🔥 ziggle flutter
 
+본 프로젝트는 Flutter 3.24 버전을 기반으로 작성되었습니다.
+
 [bloc](https://bloclibrary.dev/)을 기반으로 아키텍쳐를 구성했습니다.
 
 ```
