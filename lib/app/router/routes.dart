@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/auth_required_page.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/profile_page.dart';
+import 'package:ziggle/app/modules/groups/presentation/pages/group_detail_page.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
@@ -30,6 +31,7 @@ part 'notice_routes.dart';
 part 'routes.g.dart';
 part 'setting_routes.dart';
 part 'splash_routes.dart';
+part 'group_routes.dart';
 
 abstract class AppRoutes {
   static final config = GoRouter(
