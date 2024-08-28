@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/auth_required_page.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/profile_page.dart';
+import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_page.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
@@ -26,6 +27,7 @@ import 'package:ziggle/app/modules/setting/presentation/pages/setting_page.dart'
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 
 part 'auth_routes.dart';
+part 'group_routes.dart';
 part 'notice_routes.dart';
 part 'routes.g.dart';
 part 'setting_routes.dart';
