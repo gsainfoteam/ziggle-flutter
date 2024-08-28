@@ -13,7 +13,7 @@ abstract class Palette {
   static const accent200 = Color(0xff8e3000);
 
   static const text100 = Color(0xff000000);
-  static const black = text100;
+  static const black = Color(0xff252525);
   static const text200 = Color(0xff2c2c2c);
   static const text300 = Color(0xff6e6e73);
   static const textGreyDark = text300;

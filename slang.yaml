@@ -5,5 +5,8 @@ timestamp: false
 contexts:
   NoticeType:
     generate_enum: false
+  GroupCreationStage:
+    generate_enum: false
 imports:
   - 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart'
+  - 'package:ziggle/app/modules/groups/presentation/enums/group_creation_stage.dart'

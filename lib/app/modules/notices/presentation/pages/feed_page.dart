@@ -79,11 +79,14 @@ class _Layout extends StatelessWidget {
                 toolbarHeight: toolbarHeight,
                 floating: true,
                 leadingWidth: 100,
-                leading: Row(
-                  children: [
-                    const SizedBox(width: 12),
-                    Assets.logo.light.svg(width: 75),
-                  ],
+                leading: GestureDetector(
+                  onTap: () => const GroupCreationRoute().push(context),
+                  child: Row(
+                    children: [
+                      const SizedBox(width: 12),
+                      Assets.logo.light.svg(width: 75),
+                    ],
+                  ),
                 ),
                 actions: [
                   IconButton(

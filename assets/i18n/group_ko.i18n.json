@@ -1,0 +1,17 @@
+{
+  "create": {
+    "title": "그룹 생성",
+    "step": "$count단계",
+    "stage(context=GroupCreationStage)": {
+      "profile": "그룹 프로필 설정",
+      "introduce": "간단한 그룹 소개 작성",
+      "notion": "그룹 소개 노션 링크 첨부",
+      "invite": "그룹 초대 링크 생성"
+    },
+    "setGroupProfileImage": "그룹 프로필 사진 설정",
+    "groupName": {
+      "label": "그룹명",
+      "hint": "인포팀 (Infoteam)"
+    }
+  }
+}
