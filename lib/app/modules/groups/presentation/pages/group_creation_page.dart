@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button_2.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/groups/presentation/enums/group_creation_stage.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/progress_bar.dart';
-import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -115,17 +114,9 @@ class _ProfileSettingState extends State<_ProfileSetting> {
                 children: [
                   Assets.images.defaultGroupProfile.image(width: 300),
                   const SizedBox(height: 24),
-                  ZiggleButton(
-                    onTap: () {},
-                    text: t.group.create.setGroupProfileImage,
-                    color: Palette.background200,
-                    textColor: Palette.black,
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(
-                        color: Palette.borderGreyLight,
-                      ),
-                    ),
+                  ZiggleButton2(
+                    onPressed: () {},
+                    child: Text(t.group.create.setGroupProfileImage),
                   ),
                   const SizedBox(height: 60),
                   ZiggleTextField(
@@ -139,10 +130,11 @@ class _ProfileSettingState extends State<_ProfileSetting> {
           ),
         ),
         const SizedBox(height: 20),
-        ZiggleButton(
-          text: t.common.next,
-          onTap: _name.isEmpty ? null : widget.onNext,
-          color: _name.isEmpty ? const Color(0xfff7f7f7) : Palette.primary100,
+        ZiggleButton2(
+          onPressed: _name.isEmpty ? null : widget.onNext,
+          disabled: _name.isEmpty,
+          cta: true,
+          child: Text(t.common.next),
         ),
         const SizedBox(height: 10),
       ],
