@@ -44,10 +44,12 @@ class _ZiggleButtonState extends State<ZiggleButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.loading ? null : widget.onTap,
-      onTapDown: (_) => setState(() {
-        _hover = true;
-        _small = true;
-      }),
+      onTapDown: (_) => widget.onTap != null
+          ? setState(() {
+              _hover = true;
+              _small = true;
+            })
+          : null,
       onTapCancel: () => setState(() => _hover = false),
       onTapUp: (_) => setState(() => _hover = false),
       child: AnimatedScale(
