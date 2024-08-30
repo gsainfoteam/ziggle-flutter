@@ -8,7 +8,8 @@ import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/auth_required_page.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/login_page.dart';
 import 'package:ziggle/app/modules/auth/presentation/pages/profile_page.dart';
-import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_page.dart';
+import 'package:ziggle/app/modules/groups/presentation/enums/group_creation_stage.dart';
+import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_name_page.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
@@ -39,4 +40,12 @@ abstract class AppRoutes {
     debugLogDiagnostics: kDebugMode,
     routes: $appRoutes,
   );
+}
+
+extension GoRouterX on GoRouter {
+  bool get canPopInShellRoute {
+    final conf = routerDelegate.currentConfiguration;
+    final lastMatch = conf.matches.lastOrNull;
+    return lastMatch is ShellRouteMatch ? lastMatch.matches.length == 1 : true;
+  }
 }
