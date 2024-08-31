@@ -1,3 +1,9 @@
 {
-    "title" : "Group Information"
+    "detail" : {
+        "title" : "Group Information",
+        "introduction" : "About",
+        "notice": "Notice",
+        "member" : "Member",
+        "subscribe" : "Subscribe"
+    }
 }
