@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button_2.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -74,23 +75,21 @@ class GroupDetailPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Placeholder(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                        ],
-                      ),
+                    const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                        Text('소개 내용입니다.소개 내용입니다.'),
+                      ],
                     ),
                     Container(child: const Text('멤버 내용입니다.')),
                   ],
@@ -181,28 +180,16 @@ class GroupInfoHeaderDelegate extends SliverPersistentHeaderDelegate {
           ),
         ),
         const SizedBox(height: 15),
-        Container(
-          height: 51,
-          decoration: BoxDecoration(
-            color: Palette.primary100,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: () {},
-                child: const Text(
-                  '구독',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Palette.white,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
+        Row(
+          children: [
+            Expanded(
+              child: ZiggleButton2(
+                onPressed: () {},
+                cta: true,
+                child: const Text('구독'),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );
