@@ -18,139 +18,75 @@ class GroupDetailPage extends StatelessWidget {
         length: 3,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: CustomScrollView(
-            slivers: [
-              SliverPersistentHeader(
-                pinned: false,
-                floating: true,
-                delegate: GroupInfoHeaderDelegate(),
-              ),
-              SliverPersistentHeader(
-                pinned: true,
-                delegate: MyTabBarDelegate(
-                  TabBar(
-                    labelStyle: const TextStyle(
-                      fontSize: 16,
-                      color: Palette.primary100,
-                      fontWeight: FontWeight.w500,
-                    ),
-                    indicator: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Palette.primary100,
-                          width: 3,
+          child: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) {
+              return <Widget>[
+                SliverPersistentHeader(
+                  pinned: false,
+                  floating: true,
+                  delegate: GroupInfoHeaderDelegate(),
+                ),
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: MyTabBarDelegate(
+                    TabBar(
+                      labelStyle: const TextStyle(
+                        fontSize: 16,
+                        color: Palette.primary100,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      indicator: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Palette.primary100,
+                            width: 3,
+                          ),
                         ),
                       ),
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      dividerColor: Palette.text400,
+                      dividerHeight: 3,
+                      tabs: <Tab>[
+                        Tab(text: t.group.detail.introduction),
+                        Tab(text: t.group.detail.notice),
+                        Tab(text: t.group.detail.member),
+                      ],
                     ),
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    dividerColor: Palette.text400,
-                    dividerHeight: 3,
-                    tabs: <Tab>[
-                      Tab(text: t.group.detail.introduction),
-                      Tab(text: t.group.detail.notice),
-                      Tab(text: t.group.detail.member),
+                  ),
+                ),
+              ];
+            },
+            body: TabBarView(
+              children: [
+                ListView.builder(
+                  itemCount: 20,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text('Item $index'),
+                    );
+                  },
+                ),
+                const SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('소개 내용입니다.소개 내용입니다.'),
                     ],
                   ),
                 ),
-              ),
-              SliverFillRemaining(
-                child: TabBarView(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                          Text('소개 내용입니다.소개 내용입니다.'),
-                        ],
-                      ),
-                    ),
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                        Text('소개 내용입니다.소개 내용입니다.'),
-                      ],
-                    ),
-                    Container(child: const Text('멤버 내용입니다.')),
-                  ],
-                ),
-              ),
-            ],
+                Container(child: const Text('멤버 내용입니다.')),
+              ],
+            ),
           ),
         ),
       ),
