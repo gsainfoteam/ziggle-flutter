@@ -19,43 +19,41 @@ class GroupDetailPage extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: NestedScrollView(
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return <Widget>[
-                SliverPersistentHeader(
-                  pinned: false,
-                  floating: true,
-                  delegate: GroupInfoHeaderDelegate(),
-                ),
-                SliverPersistentHeader(
-                  pinned: true,
-                  delegate: MyTabBarDelegate(
-                    TabBar(
-                      labelStyle: const TextStyle(
-                        fontSize: 16,
-                        color: Palette.primary100,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      indicator: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Palette.primary100,
-                            width: 3,
-                          ),
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              SliverPersistentHeader(
+                pinned: false,
+                floating: true,
+                delegate: GroupInfoHeaderDelegate(),
+              ),
+              SliverPersistentHeader(
+                pinned: true,
+                delegate: MyTabBarDelegate(
+                  TabBar(
+                    labelStyle: const TextStyle(
+                      fontSize: 16,
+                      color: Palette.primary100,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    indicator: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Palette.primary100,
+                          width: 3,
                         ),
                       ),
-                      indicatorSize: TabBarIndicatorSize.tab,
-                      dividerColor: Palette.text400,
-                      dividerHeight: 3,
-                      tabs: <Tab>[
-                        Tab(text: t.group.detail.introduction),
-                        Tab(text: t.group.detail.notice),
-                        Tab(text: t.group.detail.member),
-                      ],
                     ),
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    dividerColor: Palette.text400,
+                    dividerHeight: 3,
+                    tabs: <Tab>[
+                      Tab(text: t.group.detail.introduction),
+                      Tab(text: t.group.detail.notice),
+                      Tab(text: t.group.detail.member),
+                    ],
                   ),
                 ),
-              ];
-            },
+              ),
+            ],
             body: TabBarView(
               children: [
                 Builder(
@@ -76,7 +74,6 @@ class GroupDetailPage extends StatelessWidget {
                 ),
                 const SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('소개 내용입니다.소개 내용입니다.'),
                       Text('소개 내용입니다.소개 내용입니다.'),
@@ -166,7 +163,7 @@ class GroupInfoHeaderDelegate extends SliverPersistentHeaderDelegate {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: const Color(0xFFF7F7F7),
+              color: Palette.background200,
             ),
             child: const Column(
               children: [
