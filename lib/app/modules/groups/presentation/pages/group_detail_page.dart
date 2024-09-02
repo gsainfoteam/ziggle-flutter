@@ -58,11 +58,19 @@ class GroupDetailPage extends StatelessWidget {
             },
             body: TabBarView(
               children: [
-                ListView.builder(
-                  itemCount: 20,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text('Item $index'),
+                Builder(
+                  builder: (context) {
+                    return CustomScrollView(
+                      slivers: [
+                        SliverList.builder(
+                          itemCount: 20,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text('Item $index'),
+                            );
+                          },
+                        ),
+                      ],
                     );
                   },
                 ),
