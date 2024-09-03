@@ -42,6 +42,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {
         emit(_Error(e.toString()));
         _analyticsRepository.logLoginCancel(e.toString());
+        emit(const _Guest());
         rethrow;
       }
     });
