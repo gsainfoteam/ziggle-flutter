@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button_2.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/groups/presentation/bloc/group_create_bloc.dart';
@@ -18,6 +21,7 @@ class GroupCreationProfilePage extends StatefulWidget {
 
 class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
   String _name = '';
+  File? _file;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +34,27 @@ class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Column(
                 children: [
-                  Assets.images.defaultGroupProfile.image(width: 300),
+                  if (_file != null)
+                    AspectRatio(
+                      aspectRatio: 1,
+                      child: ClipOval(
+                        child: Image.file(
+                          _file!,
+                          width: 300,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  else
+                    Assets.images.defaultGroupProfile.image(width: 300),
                   const SizedBox(height: 24),
                   ZiggleButton2(
-                    onPressed: () {},
+                    onPressed: () async {
+                      final result = await ImagePicker()
+                          .pickImage(source: ImageSource.gallery);
+                      if (!mounted || result == null) return;
+                      setState(() => _file = File(result.path));
+                    },
                     child: Text(t.group.create.setGroupProfileImage),
                   ),
                   const SizedBox(height: 60),
