@@ -19,5 +19,14 @@ class GroupCreationRoute extends GoRouteData {
   final GroupCreationStage step;
 
   @override
-  Widget build(context, state) => const GroupCreationNamePage();
+  Widget build(context, state) {
+    final screen = {
+      GroupCreationStage.profile: const GroupCreationProfilePage(),
+      GroupCreationStage.introduce: const GroupCreationIntroducePage(),
+    }[step];
+    return GroupCreationLayout(
+      stage: step,
+      child: screen ?? const SizedBox.shrink(),
+    );
+  }
 }
