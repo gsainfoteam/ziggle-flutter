@@ -7,9 +7,12 @@ class GroupCreationShellRoute extends ShellRouteData {
   const GroupCreationShellRoute();
 
   @override
-  Widget builder(context, state, navigator) => PopScope(
-        canPop: GoRouter.of(context).canPopInShellRoute,
-        child: navigator,
+  Widget builder(context, state, navigator) => BlocProvider(
+        create: (_) => sl<GroupCreateBloc>(),
+        child: PopScope(
+          canPop: GoRouter.of(context).canPopInShellRoute,
+          child: navigator,
+        ),
       );
 }
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_button_2.dart';
 import 'package:ziggle/app/modules/core/presentation/widgets/ziggle_input.dart';
+import 'package:ziggle/app/modules/groups/presentation/bloc/group_create_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/enums/group_creation_stage.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -49,8 +51,13 @@ class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
         ZiggleButton2(
           onPressed: _name.isEmpty
               ? null
-              : () => const GroupCreationRoute(GroupCreationStage.introduce)
-                  .push(context),
+              : () {
+                  context
+                      .read<GroupCreateBloc>()
+                      .add(GroupCreateEvent.changeName(_name));
+                  const GroupCreationRoute(GroupCreationStage.introduce)
+                      .push(context);
+                },
           disabled: _name.isEmpty,
           cta: true,
           child: Text(t.common.next),
