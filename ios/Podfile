@@ -4,7 +4,7 @@ platform :ios, '13.0'
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
-project 'ziggle', {
+project 'Runner', {
   'Debug' => :debug,
   'Profile' => :release,
   'Release' => :release,
