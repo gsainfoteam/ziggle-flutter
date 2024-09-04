@@ -1,7 +1,7 @@
 name: ziggle
 description: ziggle
 publish_to: 'none'
-version: 4.0.0
+version: 4.0.1
 
 environment:
   sdk: ^3.5.1
