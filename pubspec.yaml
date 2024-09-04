@@ -15,12 +15,15 @@ dependencies:
   firebase_messaging: ^15.1.0
   get_it: ^7.7.0
   injectable: ^2.4.4
+  slang: ^3.31.2
+  slang_flutter: ^3.31.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
   injectable_generator: ^2.4.1
+  build_runner: ^2.4.12
 
 
 flutter:
