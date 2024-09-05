@@ -72,6 +72,8 @@ jobs:
             .dart_tool
             !.dart_tool/**/*.snapshot
           key: ${{ runner.os }}-dart-tool-${{ hashFiles('pubspec.lock') }}
+      - name: install flutterfire
+        run: flutter pub global activate flutterfire_cli
       - uses: actions/cache@v4
         if: env.run == 'true' && matrix.os == 'macos-14'
         with:
