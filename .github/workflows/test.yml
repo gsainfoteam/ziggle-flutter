@@ -67,7 +67,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         if: env.run == 'true'
         with:
-          flutter-version: '3.24.0'
+          flutter-version: '3.24.1'
           channel: 'stable'
           cache: true
       - uses: actions/cache@v4
@@ -77,6 +77,8 @@ jobs:
             .dart_tool
             !.dart_tool/**/*.snapshot
           key: ${{ runner.os }}-dart-tool-${{ hashFiles('pubspec.lock') }}
+      - name: install flutterfire
+        run: flutter pub global activate flutterfire_cli
       - uses: actions/cache@v4
         if: env.run == 'true' && matrix.os == 'iOS'
         with:
