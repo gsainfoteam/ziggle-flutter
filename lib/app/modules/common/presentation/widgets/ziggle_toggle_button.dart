@@ -64,9 +64,9 @@ class _ZiggleToggleButtonState extends State<ZiggleToggleButton> {
             AnimatedPositioned(
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeIn,
-              left: _switched ? widget.trackHeight - 3 : 3,
-              top: 0,
-              bottom: 0,
+              left: _switched ? widget.trackWidth - widget.thumbSize - 3 : 3,
+              top: 2.5,
+              bottom: 2.5,
               child: Container(
                 width: widget.thumbSize,
                 height: widget.thumbSize,
