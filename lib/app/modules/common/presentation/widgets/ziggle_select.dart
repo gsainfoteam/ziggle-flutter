@@ -32,6 +32,9 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
   final _link = LayerLink();
   double? _buttonWidth;
   ZiggleSelectEntry<T>? _value;
+  ZiggleSelectEntry<T>? _hovering;
+  bool _isHovering = false;
+  bool _isRecentlyHovered = false;
 
   @override
   Widget build(BuildContext context) {
@@ -66,56 +69,85 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
         borderRadius: BorderRadius.all(Radius.circular(10)),
         color: Palette.white,
       ),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: 200),
-        child: Scrollbar(
-          thumbVisibility: true,
-          child: ListView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            itemCount: widget.entries.length + 1,
-            itemBuilder: (context, index) {
-              final item =
-                  index == 0 ? null : widget.entries.elementAt(index - 1);
-              return GestureDetector(
-                onTap: () {
-                  widget.onChanged?.call(item?.value);
-                  setState(() => _value = item);
-                  _overlayController.hide();
-                },
-                behavior: HitTestBehavior.translucent,
-                child: Padding(
-                  padding: widget.small
-                      ? const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 5) +
-                          const EdgeInsets.only(left: 2)
-                      : const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 12.5) +
-                          const EdgeInsets.only(left: 6),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        item?.label ?? widget.hintText,
-                        style: TextStyle(
-                          color: item == null
-                              ? Palette.grayText
-                              : item == _value
-                                  ? Palette.primary
-                                  : Palette.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxHeight: 200),
+          child: Scrollbar(
+            thumbVisibility: true,
+            child: ListView.builder(
+              shrinkWrap: true,
+              padding: EdgeInsets.zero,
+              itemCount: widget.entries.length + 1,
+              itemBuilder: (context, index) {
+                final item =
+                    index == 0 ? null : widget.entries.elementAt(index - 1);
+                return GestureDetector(
+                  onTap: () {
+                    widget.onChanged?.call(item?.value);
+                    setState(() => _value = item);
+                    Future.delayed(
+                      const Duration(milliseconds: 100),
+                      () {
+                        if (!mounted) return;
+                        _overlayController.hide();
+                      },
+                    );
+                  },
+                  onTapDown: (_) => setState(() {
+                    _hovering = item;
+                    _isHovering = true;
+                    _isRecentlyHovered = true;
+                    Future.delayed(
+                      const Duration(milliseconds: 100),
+                      () {
+                        if (!mounted) return;
+                        setState(() => _isRecentlyHovered = false);
+                      },
+                    );
+                  }),
+                  onTapUp: (_) => setState(() {
+                    _isHovering = false;
+                  }),
+                  behavior: HitTestBehavior.translucent,
+                  child: AnimatedContainer(
+                    color:
+                        (_isHovering || _isRecentlyHovered) && item == _hovering
+                            ? const Color(0xFFFFF4F0)
+                            : Palette.white,
+                    duration: const Duration(milliseconds: 100),
+                    padding: widget.small
+                        ? const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5) +
+                            const EdgeInsets.only(left: 2)
+                        : const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 12.5) +
+                            const EdgeInsets.only(left: 6),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          item?.label ?? widget.hintText,
+                          style: TextStyle(
+                            color: item == null
+                                ? Palette.grayText
+                                : item == _value
+                                    ? Palette.primary
+                                    : Palette.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      ),
-                      if (item != null && item == _value)
-                        widget.small
-                            ? Assets.icons.check.svg(width: 20, height: 20)
-                            : Assets.icons.check.svg(width: 24, height: 24),
-                    ],
+                        if (item != null && item == _value)
+                          widget.small
+                              ? Assets.icons.check.svg(width: 20, height: 20)
+                              : Assets.icons.check.svg(width: 24, height: 24),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),
