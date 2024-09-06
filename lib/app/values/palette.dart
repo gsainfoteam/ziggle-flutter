@@ -6,6 +6,7 @@ abstract class Palette {
   static const primary = Color(0xFFFF4500);
   static const white = Color(0xFFFFFFFF);
   static const grayLight = Color(0xFFF8F8F8);
+  static const grayMedium = Color(0xFFF0F0F0);
   static const gray = Color(0xFFB3B3B3);
   static const grayBorder = Color(0xD6D6D6FF);
   static const black = Color(0xFF000000);
