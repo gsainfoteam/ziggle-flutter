@@ -64,7 +64,7 @@ class _ZiggleCheckboxState extends State<ZiggleCheckbox> {
         child: Center(
           child: AnimatedOpacity(
             opacity: _checked ? 1.0 : 0.0,
-            duration: const Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 100),
             child: Icon(
               Icons.check,
               color: widget.checkmarkColor,
