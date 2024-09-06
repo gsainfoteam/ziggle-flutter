@@ -39,12 +39,16 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
       link: _link,
       child: OverlayPortal(
         controller: _overlayController,
-        overlayChildBuilder: (context) => CompositedTransformFollower(
-          link: _link,
-          targetAnchor: Alignment.topLeft,
-          child: Align(
-            alignment: Alignment.topLeft,
-            child: _buildSelector(),
+        overlayChildBuilder: (context) => GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => _overlayController.hide(),
+          child: CompositedTransformFollower(
+            link: _link,
+            targetAnchor: Alignment.topLeft,
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: _buildSelector(),
+            ),
           ),
         ),
         child: _buildPicker(),
