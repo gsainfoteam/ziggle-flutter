@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - development
+      - development-v4
 
 jobs:
   check-test-required:
