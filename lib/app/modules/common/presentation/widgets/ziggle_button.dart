@@ -5,7 +5,8 @@ enum ZiggleButtonType {
   cta(EdgeInsets.symmetric(vertical: 15, horizontal: 20)),
   big(EdgeInsets.symmetric(vertical: 10, horizontal: 25)),
   small(EdgeInsets.symmetric(vertical: 7, horizontal: 15)),
-  text(EdgeInsets.zero);
+  text(EdgeInsets.zero),
+  textWithPadding(EdgeInsets.symmetric(horizontal: 12));
 
   final EdgeInsets padding;
   const ZiggleButtonType(this.padding);
@@ -42,6 +43,7 @@ class _ZiggleButtonState extends State<ZiggleButton> {
 
   Color get _effectiveColor {
     if (widget.type == ZiggleButtonType.text) return Palette.primary;
+    if (widget.type == ZiggleButtonType.textWithPadding) return Palette.primary;
     if (widget.disabled) return Palette.gray;
     if (widget.outlined) return Palette.primary;
     if (widget.emphasize) return Palette.white;
@@ -50,6 +52,7 @@ class _ZiggleButtonState extends State<ZiggleButton> {
 
   Color? get _effectiveBackgroundColor {
     if (widget.type == ZiggleButtonType.text) return null;
+    if (widget.type == ZiggleButtonType.textWithPadding) return null;
     if (widget.disabled) return Palette.grayLight;
     if (widget.outlined) return null;
     if (widget.emphasize) return Palette.primary;
@@ -58,6 +61,7 @@ class _ZiggleButtonState extends State<ZiggleButton> {
 
   Color? get _effectiveBorderColor {
     if (widget.type == ZiggleButtonType.text) return null;
+    if (widget.type == ZiggleButtonType.textWithPadding) return null;
     if (widget.disabled) return null;
     if (widget.outlined) return Palette.primary;
     if (widget.emphasize) return null;
