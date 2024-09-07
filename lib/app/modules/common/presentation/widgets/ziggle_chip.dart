@@ -6,7 +6,7 @@ class ZiggleChip extends StatelessWidget {
     super.key,
     this.chipColor = Palette.primary,
     this.labelColor = Palette.white,
-    this.label = 'Ziggle Chip',
+    required this.label,
   });
 
   final Color chipColor;
