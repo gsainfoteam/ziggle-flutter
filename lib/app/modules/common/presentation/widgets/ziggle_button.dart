@@ -74,6 +74,7 @@ class _ZiggleButtonState extends State<ZiggleButton> {
       style: const TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
+        height: 1,
       ).copyWith(color: _effectiveColor),
       child: widget.child,
     );
@@ -98,7 +99,6 @@ class _ZiggleButtonState extends State<ZiggleButton> {
         scale: widget.onPressed != null && pressed ? 0.95 : 1,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 100),
-          padding: widget.type.padding,
           width: widget.type == ZiggleButtonType.cta ? double.infinity : null,
           decoration: BoxDecoration(
             color: _effectiveBackgroundColor
@@ -114,10 +114,17 @@ class _ZiggleButtonState extends State<ZiggleButton> {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              Opacity(opacity: widget.loading ? 0 : 1, child: inner),
-              Opacity(
-                opacity: widget.loading ? 1 : 0,
-                child: const CircularProgressIndicator(),
+              Padding(
+                padding: widget.type.padding,
+                child: Opacity(opacity: widget.loading ? 0 : 1, child: inner),
+              ),
+              Positioned.fill(
+                child: Center(
+                  child: Opacity(
+                    opacity: widget.loading ? 1 : 0,
+                    child: const CircularProgressIndicator(),
+                  ),
+                ),
               ),
             ],
           ),
