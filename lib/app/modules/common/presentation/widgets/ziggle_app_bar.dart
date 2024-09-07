@@ -11,18 +11,22 @@ class ZiggleAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actions = const [],
     this.leading,
     this.title,
+    this.backgroundColor,
   });
 
   final bool large;
   final List<Widget> actions;
   final Widget? leading;
-  final String? title;
+  final Widget? title;
+  final Color? backgroundColor;
 
   factory ZiggleAppBar.main({
     required VoidCallback onTapSearch,
     required VoidCallback onTapWrite,
+    Color? backgroundColor,
   }) =>
       ZiggleAppBar(
+        backgroundColor: backgroundColor,
         large: true,
         actions: [
           GestureDetector(
@@ -50,10 +54,12 @@ class ZiggleAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   factory ZiggleAppBar.compact({
     required String backLabel,
-    required String title,
+    required Widget title,
     List<Widget> actions = const [],
+    Color? backgroundColor,
   }) =>
       ZiggleAppBar(
+        backgroundColor: backgroundColor,
         leading: ZiggleBackButton(
           label: backLabel,
         ),
@@ -64,25 +70,29 @@ class ZiggleAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     if (large) {
-      return SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(width: 8),
-            const ZiggleLogo(),
-            const Spacer(),
-            ...actions,
-          ],
+      return Container(
+        color: backgroundColor,
+        child: SafeArea(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(width: 8),
+              const ZiggleLogo(),
+              const Spacer(),
+              ...actions,
+            ],
+          ),
         ),
       );
     }
-    return SafeArea(
-      child: Container(
-        decoration: const BoxDecoration(
-          border: Border(
-            bottom: BorderSide(color: Palette.grayBorder),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        border: const Border(
+          bottom: BorderSide(color: Palette.grayBorder),
         ),
+      ),
+      child: SafeArea(
         child: Stack(
           children: [
             if (leading != null)
@@ -92,13 +102,13 @@ class ZiggleAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             if (title != null)
               Center(
-                child: Text(
-                  title!,
+                child: DefaultTextStyle.merge(
                   style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF1D1D1F),
                   ),
+                  child: title!,
                 ),
               ),
             Align(
