@@ -10,8 +10,7 @@ class ZiggleBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ZiggleButton(
-      type: ZiggleButtonType.text,
+    return ZiggleButton.text(
       onPressed: () => Navigator.maybePop(context),
       child: Text.rich(
         TextSpan(

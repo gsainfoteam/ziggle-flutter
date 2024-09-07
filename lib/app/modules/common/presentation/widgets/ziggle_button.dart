@@ -12,7 +12,7 @@ enum ZiggleButtonType {
 }
 
 class ZiggleButton extends StatefulWidget {
-  const ZiggleButton({
+  const ZiggleButton._({
     super.key,
     required this.child,
     this.onPressed,
@@ -20,8 +20,84 @@ class ZiggleButton extends StatefulWidget {
     this.loading = false,
     this.disabled = false,
     this.emphasize = true,
-    this.type = ZiggleButtonType.cta,
+    required this.type,
   });
+
+  factory ZiggleButton.cta({
+    Key? key,
+    required Widget child,
+    VoidCallback? onPressed,
+    bool outlined = false,
+    bool loading = false,
+    bool disabled = false,
+    bool emphasize = true,
+  }) =>
+      ZiggleButton._(
+        key: key,
+        onPressed: onPressed,
+        outlined: outlined,
+        loading: loading,
+        disabled: disabled,
+        emphasize: emphasize,
+        type: ZiggleButtonType.cta,
+        child: child,
+      );
+
+  factory ZiggleButton.big({
+    Key? key,
+    required Widget child,
+    VoidCallback? onPressed,
+    bool outlined = false,
+    bool loading = false,
+    bool disabled = false,
+    bool emphasize = true,
+  }) =>
+      ZiggleButton._(
+        key: key,
+        onPressed: onPressed,
+        outlined: outlined,
+        loading: loading,
+        disabled: disabled,
+        emphasize: emphasize,
+        type: ZiggleButtonType.big,
+        child: child,
+      );
+
+  factory ZiggleButton.small({
+    Key? key,
+    required Widget child,
+    VoidCallback? onPressed,
+    bool outlined = false,
+    bool loading = false,
+    bool disabled = false,
+    bool emphasize = true,
+  }) =>
+      ZiggleButton._(
+        key: key,
+        onPressed: onPressed,
+        outlined: outlined,
+        loading: loading,
+        disabled: disabled,
+        emphasize: emphasize,
+        type: ZiggleButtonType.small,
+        child: child,
+      );
+
+  factory ZiggleButton.text({
+    Key? key,
+    required Widget child,
+    VoidCallback? onPressed,
+    bool loading = false,
+    bool disabled = false,
+  }) =>
+      ZiggleButton._(
+        key: key,
+        onPressed: onPressed,
+        loading: loading,
+        disabled: disabled,
+        type: ZiggleButtonType.text,
+        child: child,
+      );
 
   final Widget child;
   final VoidCallback? onPressed;
