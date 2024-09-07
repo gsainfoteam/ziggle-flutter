@@ -31,9 +31,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/logo/light.svg
-    - assets/logo/black.png
-    - assets/logo/transparent.png
+    - assets/logo/fire.svg
+    - assets/logo/short.svg
+    - assets/logo/long.svg
     - assets/icons/
     - assets/images/
     - assets/fonts/TossFace/LICENSE
