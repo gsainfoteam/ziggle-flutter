@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
@@ -22,14 +23,14 @@ class ZiggleRowButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
+    return ZigglePressable(
+      onPressed: onPressed,
+      decoration: const BoxDecoration(
+        color: Palette.grayLight,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
       child: Container(
         padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
-          color: Palette.grayLight,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
         child: Row(
           children: [
             if (icon != null) icon!,
