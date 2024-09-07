@@ -8,24 +8,12 @@ class ZiggleToggleButton extends StatefulWidget {
     this.initialState = false,
     this.loading = false,
     this.disabled = false,
-    this.activeColor = Palette.primary,
-    this.inactiveColor = Palette.gray,
-    this.thumbColor = Palette.white,
-    this.trackWidth = 40.0,
-    this.trackHeight = 22.0,
-    this.thumbSize = 17.0,
   });
 
   final ValueChanged<bool> onToggle;
   final bool initialState;
   final bool loading;
   final bool disabled;
-  final Color activeColor;
-  final Color inactiveColor;
-  final Color thumbColor;
-  final double trackHeight;
-  final double trackWidth;
-  final double thumbSize;
 
   @override
   State<ZiggleToggleButton> createState() => _ZiggleToggleButtonState();
@@ -53,25 +41,25 @@ class _ZiggleToggleButtonState extends State<ZiggleToggleButton> {
     return GestureDetector(
       onTap: _handleSwitch,
       child: Container(
-        width: widget.trackWidth,
-        height: widget.trackHeight,
+        width: 40.0,
+        height: 22.0,
         decoration: BoxDecoration(
-          color: _switched ? widget.activeColor : widget.inactiveColor,
-          borderRadius: BorderRadius.circular(widget.trackHeight / 2),
+          color: _switched ? Palette.primary : Palette.gray,
+          borderRadius: BorderRadius.circular(22.0 / 2),
         ),
         child: Stack(
           children: [
             AnimatedPositioned(
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeIn,
-              left: _switched ? widget.trackWidth - widget.thumbSize - 3 : 3,
+              left: _switched ? 40.0 - 17.0 - 3.0 : 3.0,
               top: 2.5,
               bottom: 2.5,
               child: Container(
-                width: widget.thumbSize,
-                height: widget.thumbSize,
-                decoration: BoxDecoration(
-                  color: widget.thumbColor,
+                width: 17.0,
+                height: 17.0,
+                decoration: const BoxDecoration(
+                  color: Palette.white,
                   shape: BoxShape.circle,
                 ),
               ),
