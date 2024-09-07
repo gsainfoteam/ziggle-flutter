@@ -31,8 +31,7 @@ class ProgressBar extends StatelessWidget {
                         Expanded(
                           child: Container(
                             height: 5,
-                            // color: Palette.grayLight,
-                            color: Palette.black,
+                            color: Palette.grayLight,
                           ),
                         ),
                         if (index != totalStage - 1)
