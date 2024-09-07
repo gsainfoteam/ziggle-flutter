@@ -8,22 +8,12 @@ class ZiggleCheckbox extends StatefulWidget {
     this.initialState = false,
     this.loading = false,
     this.disabled = false,
-    this.activeColor = Palette.primary,
-    this.inactiveColor = Palette.white,
-    this.checkmarkColor = Palette.white,
-    this.borderColor = Palette.gray,
-    this.size = 24.0,
   });
 
   final ValueChanged<bool> onToggle;
   final bool initialState;
   final bool loading;
   final bool disabled;
-  final Color activeColor;
-  final Color inactiveColor;
-  final Color checkmarkColor;
-  final Color borderColor;
-  final double size;
 
   @override
   State<ZiggleCheckbox> createState() => _ZiggleCheckboxState();
@@ -51,13 +41,13 @@ class _ZiggleCheckboxState extends State<ZiggleCheckbox> {
     return GestureDetector(
       onTap: _handleCheck,
       child: Container(
-        width: widget.size,
-        height: widget.size,
+        width: 24.0,
+        height: 24.0,
         decoration: BoxDecoration(
-          color: _checked ? widget.activeColor : widget.inactiveColor,
+          color: _checked ? Palette.primary : Palette.white,
           borderRadius: BorderRadius.circular(7.0),
           border: Border.all(
-            color: _checked ? widget.activeColor : widget.borderColor,
+            color: _checked ? Palette.primary : Palette.gray,
             width: 1.5,
           ),
         ),
@@ -65,10 +55,10 @@ class _ZiggleCheckboxState extends State<ZiggleCheckbox> {
           child: AnimatedOpacity(
             opacity: _checked ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 100),
-            child: Icon(
+            child: const Icon(
               Icons.check,
-              color: widget.checkmarkColor,
-              size: widget.size * 0.6,
+              color: Palette.white,
+              size: 24.0 * 0.6,
             ),
           ),
         ),
