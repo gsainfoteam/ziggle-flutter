@@ -24,7 +24,7 @@ class ZiggleSelect<T> extends StatefulWidget {
   final void Function(T?)? onChanged;
 
   @override
-  State<ZiggleSelect<T>> createState() => _ZiggleSelectState<T>();
+  State<ZiggleSelect> createState() => _ZiggleSelectState();
 }
 
 class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
@@ -131,14 +131,14 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
                           style: TextStyle(
                             color: item == null
                                 ? Palette.grayText
-                                : item.value == _value?.value
+                                : item == _value
                                     ? Palette.primary
                                     : Palette.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        if (item != null && item.value == _value?.value)
+                        if (item != null && item == _value)
                           widget.small
                               ? Assets.icons.check.svg(width: 20, height: 20)
                               : Assets.icons.check.svg(width: 24, height: 24),
@@ -169,9 +169,6 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
         decoration: const BoxDecoration(
           color: Palette.grayLight,
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          border: Border.fromBorderSide(
-            BorderSide(color: Palette.grayBorder, strokeAlign: 1),
-          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

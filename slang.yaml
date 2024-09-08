@@ -5,8 +5,5 @@ timestamp: false
 contexts:
   NoticeType:
     generate_enum: false
-  NoticeCategory:
-    generate_enum: false
 imports:
-  - 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart'
-  - 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart'
+  # - 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart'

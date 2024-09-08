@@ -58,14 +58,14 @@ class ZiggleBottomSheet extends StatelessWidget {
     );
   }
 
-  static Future<T?> show<T>({
+  static show({
     required BuildContext context,
     required String title,
     required WidgetBuilder builder,
     bool isDismissible = true,
     bool enableDrag = true,
   }) =>
-      showModalBottomSheet<T>(
+      showModalBottomSheet(
         backgroundColor: Palette.white,
         context: context,
         isDismissible: isDismissible,
