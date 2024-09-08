@@ -6,13 +6,27 @@
       "profile": "Set group profile",
       "introduce": "Introduce group",
       "notion": "Attach Notion link",
-      "invite": "Generate group invite link"
+      "done": "Done"
     },
     "setProfileImage": "Set group profile image",
     "introduce": {
       "title": "Please write a brief introduction to the group.",
       "description": "The group description you write will be posted at the top of the group main page.",
       "hint": "Write description here"
+    },
+    "notion": {
+      "title": "Notion link",
+      "description(rich)": "You can paste your beautiful Notion link in the group introduction.\n${strong(After publishing the group introduction Notion on the web)}, please paste the link here."
+    },
+    "done": {
+      "title": "\"$name\" group creation\nis complete!",
+      "description": "You can now write announcements in the name of the group.",
+      "invite": {
+        "title": "Invitation link",
+        "selectExpire": "Select expiration date",
+        "copy": "Copy invitation link"
+      },
+      "back": "Back"
     }
   }
 }

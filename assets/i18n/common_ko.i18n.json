@@ -1,5 +1,12 @@
 {
   "cancel": "취소",
   "next": "다음",
-  "back": "이전"
+  "back": "이전",
+  "duration": {
+    "day": "$n일",
+    "week": {
+      "one": "일주일",
+      "other": "$n주"
+    }
+  }
 }

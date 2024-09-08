@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -58,7 +59,12 @@ class GroupCreationIntroducePage extends StatelessWidget {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: ZiggleButton(child: Text(t.common.next)),
+              child: ZiggleButton(
+                onPressed: () =>
+                    const GroupCreationRoute(GroupCreationStep.notion)
+                        .push(context),
+                child: Text(t.common.next),
+              ),
             ),
           ],
         )

@@ -21,6 +21,8 @@ class GroupCreationRoute extends GoRouteData {
     final screen = {
       GroupCreationStep.profile: const GroupCreationProfilePage(),
       GroupCreationStep.introduce: const GroupCreationIntroducePage(),
+      GroupCreationStep.notion: const GroupCreationNotionPage(),
+      GroupCreationStep.done: const GroupCreationDonePage(),
     }[step];
     return GroupCreationLayout(
       step: step,
