@@ -8,6 +8,11 @@
       "notion": "Attach Notion link",
       "invite": "Generate group invite link"
     },
-    "setProfileImage": "Set group profile image"
+    "setProfileImage": "Set group profile image",
+    "introduce": {
+      "title": "Please write a brief introduction to the group.",
+      "description": "The group description you write will be posted at the top of the group main page.",
+      "hint": "Write description here"
+    }
   }
 }

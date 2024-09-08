@@ -8,6 +8,11 @@
       "notion": "그룹 소개 노션 링크 첨부",
       "invite": "그룹 초대 링크 생성"
     },
-    "setProfileImage": "그룹 프로필 사진 설정"
+    "setProfileImage": "그룹 프로필 사진 설정",
+    "introduce": {
+      "title": "간단한 그룹 소개를\n작성해주세요.",
+      "description": "작성해주신 그룹 설명은\n그룹 메인 페이지 최상단에 게재됩니다.",
+      "hint": "여기에 설명 작성"
+    }
   }
 }
