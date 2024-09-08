@@ -1,12 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:upgrader/upgrader.dart';
-import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/auth/presentation/bloc/auth_bloc.dart';
-import 'package:ziggle/app/modules/core/presentation/bloc/link_bloc.dart';
-import 'package:ziggle/app/modules/core/presentation/bloc/push_message_bloc.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/theme.dart';
@@ -30,11 +24,7 @@ class App extends StatelessWidget {
           supportedLocales: AppLocaleUtils.supportedLocales,
           localizationsDelegates: GlobalMaterialLocalizations.delegates,
           builder: (context, child) => _Providers(
-            child: UpgradeAlert(
-              dialogStyle: UpgradeDialogStyle.cupertino,
-              navigatorKey: AppRoutes.config.configuration.navigatorKey,
-              child: child,
-            ),
+            child: child ?? const SizedBox.shrink(),
           ),
         ),
       ),
@@ -49,46 +39,6 @@ class _Providers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          lazy: false,
-          create: (_) => sl<AuthBloc>()..add(const AuthEvent.load()),
-        ),
-        BlocProvider(
-          create: (_) =>
-              sl<PushMessageBloc>()..add(const PushMessageEvent.init()),
-        ),
-        BlocProvider(
-          create: (_) => sl<LinkBloc>()..add(const LinkEvent.init()),
-        ),
-      ],
-      child: MultiBlocListener(
-        listeners: [
-          BlocListener<PushMessageBloc, PushMessageState>(
-            listener: (context, state) => state.mapOrNull(
-              loaded: (s) => context
-                  .read<AuthBloc>()
-                  .add(AuthEvent.updatePushToken(s.token)),
-            ),
-          ),
-          BlocListener<LinkBloc, LinkState>(
-            listener: (context, state) => state.mapOrNull(
-              loaded: (s) => WidgetsBinding.instance.addPostFrameCallback((_) {
-                AppRoutes.config.push(s.link);
-              }),
-            ),
-          ),
-          BlocListener<AuthBloc, AuthState>(
-            listener: (context, state) => state.mapOrNull(
-              error: (value) => ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(value.message)),
-              ),
-            ),
-          ),
-        ],
-        child: child,
-      ),
-    );
+    return child;
   }
 }
