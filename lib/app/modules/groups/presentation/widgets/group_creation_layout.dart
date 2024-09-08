@@ -82,7 +82,7 @@ class GroupCreationLayout extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                    vertical: 20,
+                    vertical: 16,
                     horizontal: 18,
                   ),
                   child: child,
