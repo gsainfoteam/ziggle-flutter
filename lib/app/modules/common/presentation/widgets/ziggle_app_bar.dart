@@ -94,6 +94,7 @@ class ZiggleAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       child: SafeArea(
         child: Stack(
+          alignment: Alignment.center,
           children: [
             if (leading != null)
               Align(
