@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -22,7 +23,9 @@ class GroupCreationProfilePage extends StatelessWidget {
         const SizedBox(height: 60),
         const SizedBox(height: 60),
         ZiggleButton(
-          disabled: true,
+          onPressed: () => const GroupCreationRoute(GroupCreationStep.introduce)
+              .push(context),
+          // disabled: true,
           child: Text(t.common.next),
         ),
       ],

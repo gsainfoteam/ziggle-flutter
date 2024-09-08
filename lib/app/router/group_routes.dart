@@ -20,6 +20,7 @@ class GroupCreationRoute extends GoRouteData {
   Widget build(context, state) {
     final screen = {
       GroupCreationStep.profile: const GroupCreationProfilePage(),
+      GroupCreationStep.introduce: const GroupCreationIntroducePage(),
     }[step];
     return GroupCreationLayout(
       step: step,

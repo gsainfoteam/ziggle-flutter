@@ -21,43 +21,49 @@ class GroupCreationLayout extends StatelessWidget {
         children: [
           Hero(
             tag: 'group creation app bar',
-            child: ZiggleAppBar.compact(
-              backLabel: t.common.cancel,
-              title: Text(t.group.creation.title),
+            child: Material(
+              color: Colors.transparent,
+              child: ZiggleAppBar.compact(
+                backLabel: t.common.cancel,
+                title: Text(t.group.creation.title),
+              ),
             ),
           ),
           const SizedBox(height: 20),
           Hero(
             tag: 'group creation title',
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Row(
-                children: [
-                  Text(
-                    t.group.creation.stage(
-                        count: GroupCreationStep.values.indexOf(step) + 1),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Palette.primary,
+            child: Material(
+              color: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Row(
+                  children: [
+                    Text(
+                      t.group.creation.stage(
+                          count: GroupCreationStep.values.indexOf(step) + 1),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Palette.primary,
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    color: Palette.grayText,
-                    height: 1,
-                    width: 25,
-                  ),
-                  const SizedBox(width: 10),
-                  Text(
-                    t.group.creation.step(context: step),
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500,
+                    const SizedBox(width: 10),
+                    Container(
                       color: Palette.grayText,
+                      height: 1,
+                      width: 25,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 10),
+                    Text(
+                      t.group.creation.step(context: step),
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
+                        color: Palette.grayText,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
