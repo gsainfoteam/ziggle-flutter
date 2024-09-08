@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/modules/groups/presentation/enums/group_creation_step.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_progress_bar.dart';
+import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class GroupCreationLayout extends StatelessWidget {
   const GroupCreationLayout({
@@ -16,12 +19,63 @@ class GroupCreationLayout extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
+          Hero(
+            tag: 'group creation app bar',
+            child: ZiggleAppBar.compact(
+              backLabel: t.common.cancel,
+              title: Text(t.group.creation.title),
+            ),
+          ),
+          const SizedBox(height: 20),
+          Hero(
+            tag: 'group creation title',
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: Row(
+                children: [
+                  Text(
+                    t.group.creation.stage(
+                        count: GroupCreationStep.values.indexOf(step) + 1),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Palette.primary,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Container(
+                    color: Palette.grayText,
+                    height: 1,
+                    width: 25,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(
+                    t.group.creation.step(context: step),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Palette.grayText,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 14),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: ZiggleProgressBar(
+              currentStage: GroupCreationStep.values.indexOf(step),
+              totalStage: GroupCreationStep.values.length,
+            ),
+          ),
+          const SizedBox(height: 14),
           Expanded(
             child: SafeArea(
               top: false,
               child: Padding(
                 padding: const EdgeInsets.symmetric(),
-                child: child,
+                child: SingleChildScrollView(child: child),
               ),
             ),
           )

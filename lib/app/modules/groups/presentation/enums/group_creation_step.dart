@@ -1,1 +1,0 @@
-enum GroupCreationStep { profile }
