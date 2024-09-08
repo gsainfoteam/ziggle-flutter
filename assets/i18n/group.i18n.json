@@ -7,6 +7,7 @@
       "introduce": "Write a group introduction",
       "notion": "Attach Notion link",
       "invite": "Generate group invite link"
-    }
+    },
+    "setProfileImage": "Set group profile image"
   }
 }

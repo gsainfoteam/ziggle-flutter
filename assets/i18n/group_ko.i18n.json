@@ -7,6 +7,7 @@
       "introduce": "간단한 그룹 소개 작성",
       "notion": "그룹 소개 노션 링크 첨부",
       "invite": "그룹 초대 링크 생성"
-    }
+    },
+    "setProfileImage": "그룹 프로필 사진 설정"
   }
 }
