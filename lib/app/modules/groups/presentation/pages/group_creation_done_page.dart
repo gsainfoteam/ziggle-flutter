@@ -6,8 +6,15 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-class GroupCreationDonePage extends StatelessWidget {
+class GroupCreationDonePage extends StatefulWidget {
   const GroupCreationDonePage({super.key});
+
+  @override
+  State<GroupCreationDonePage> createState() => _GroupCreationDonePageState();
+}
+
+class _GroupCreationDonePageState extends State<GroupCreationDonePage> {
+  int? _duration;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +65,7 @@ class GroupCreationDonePage extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               ZiggleSelect(
+                onChanged: (v) => setState(() => _duration = v),
                 hintText: t.group.creation.done.invite.selectExpire,
                 entries: [
                   ZiggleSelectEntry(
@@ -74,11 +82,13 @@ class GroupCreationDonePage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
-              ZiggleButton(
-                emphasize: false,
-                child: Text(t.group.creation.done.invite.copy),
-              ),
+              if (_duration != null) ...[
+                const SizedBox(height: 10),
+                ZiggleButton(
+                  emphasize: false,
+                  child: Text(t.group.creation.done.invite.copy),
+                ),
+              ],
             ],
           ),
         ),
