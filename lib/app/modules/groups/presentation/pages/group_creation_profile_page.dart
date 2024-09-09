@@ -17,6 +17,7 @@ class GroupCreationProfilePage extends StatefulWidget {
 
 class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
   File? _image;
+  String _name = '';
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +28,12 @@ class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
           SizedBox(
             width: 300,
             height: 300,
-            child: Image.file(
-              _image!,
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(150)),
+              child: Image.file(
+                _image!,
+                fit: BoxFit.cover,
+              ),
             ),
           )
         else
@@ -48,11 +52,16 @@ class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
           ),
         ),
         const SizedBox(height: 60),
+        TextFormField(
+          onChanged: (v) => setState(() => _name = v),
+        ),
         const SizedBox(height: 60),
         ZiggleButton(
-          onPressed: () => const GroupCreationRoute(GroupCreationStep.introduce)
-              .push(context),
-          // disabled: true,
+          onPressed: () {
+            if (_name.isEmpty) return;
+            const GroupCreationRoute(GroupCreationStep.introduce).push(context);
+          },
+          disabled: _name.isEmpty,
           child: Text(t.common.next),
         ),
       ],
