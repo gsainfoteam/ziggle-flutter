@@ -5,10 +5,7 @@ part of 'routes.dart';
 class GroupCreationShellRoute extends ShellRouteData {
   @override
   Widget builder(context, state, navigator) {
-    return PopScope(
-      canPop: GoRouter.of(context).canPopInShellRoute,
-      child: navigator,
-    );
+    return navigator;
   }
 }
 

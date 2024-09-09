@@ -21,10 +21,20 @@ abstract class AppRoutes {
   );
 }
 
-extension _GoRouterX on GoRouter {
-  bool get canPopInShellRoute {
-    final conf = routerDelegate.currentConfiguration;
-    final lastMatch = conf.matches.lastOrNull;
-    return lastMatch is ShellRouteMatch ? lastMatch.matches.length == 1 : true;
+extension GoRouterExtension on GoRouter {
+  void popUntilPath(String ancestorPath) async {
+    final match = routerDelegate.currentConfiguration.matches.last;
+    if (match is ImperativeRouteMatch) {
+      if (match.matches.last.matchedLocation == ancestorPath) return;
+    } else {
+      if (match.matchedLocation == ancestorPath) return;
+    }
+    pop();
+    popUntilPath(ancestorPath);
   }
+}
+
+extension BuildContextX on BuildContext {
+  void popUntilPath(String ancestorPath) =>
+      GoRouter.of(this).popUntilPath(ancestorPath);
 }
