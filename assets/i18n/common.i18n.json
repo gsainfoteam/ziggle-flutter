@@ -2,6 +2,7 @@
   "cancel": "Cancel",
   "next": "Next",
   "back": "Back",
+  "skip": "Skip",
   "duration": {
     "day": {
       "one": "$n day",

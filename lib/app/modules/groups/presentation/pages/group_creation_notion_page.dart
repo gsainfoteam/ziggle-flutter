@@ -46,9 +46,23 @@ class GroupCreationNotionPage extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: ZiggleButton(child: Text(t.common.back)),
+              child: ZiggleButton(
+                outlined: true,
+                child: Text(t.common.back),
+              ),
             ),
             const SizedBox(width: 10),
+            Expanded(
+              child: ZiggleButton(
+                emphasize: false,
+                onPressed: () {
+                  context.popUntilPath(const GroupCreationRoute().location);
+                  const GroupCreationRoute(GroupCreationStep.done)
+                      .pushReplacement(context);
+                },
+                child: Text(t.common.skip),
+              ),
+            ),
             Expanded(
               child: ZiggleButton(
                 onPressed: () {

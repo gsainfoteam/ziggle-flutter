@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -55,7 +56,11 @@ class GroupCreationIntroducePage extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: ZiggleButton(child: Text(t.common.back)),
+              child: ZiggleButton(
+                outlined: true,
+                onPressed: () => context.pop(),
+                child: Text(t.common.back),
+              ),
             ),
             const SizedBox(width: 10),
             Expanded(
