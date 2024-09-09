@@ -33,7 +33,6 @@ class GroupCreationDonePage extends StatelessWidget {
         const SizedBox(height: 40),
         const SizedBox(height: 30),
         ZiggleButton(
-          // onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
           onPressed: () => context.pop(),
           child: Text(t.group.creation.done.back),
         )
