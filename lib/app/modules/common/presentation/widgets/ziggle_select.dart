@@ -169,6 +169,9 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
         decoration: const BoxDecoration(
           color: Palette.grayLight,
           borderRadius: BorderRadius.all(Radius.circular(10)),
+          border: Border.fromBorderSide(
+            BorderSide(color: Palette.grayBorder, strokeAlign: 1),
+          ),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
