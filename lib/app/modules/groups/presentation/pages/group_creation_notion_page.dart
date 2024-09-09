@@ -43,6 +43,8 @@ class GroupCreationNotionPage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 30),
+        TextFormField(),
+        const SizedBox(height: 30),
         Container(
           decoration: const BoxDecoration(
             color: Color(0xFFF5F5F7),
