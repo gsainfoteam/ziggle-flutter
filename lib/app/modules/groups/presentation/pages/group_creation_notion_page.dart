@@ -11,6 +11,7 @@ class GroupCreationNotionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,6 +43,27 @@ class GroupCreationNotionPage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 30),
+        Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFFF5F5F7),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 25),
+          child: Column(
+            children: [
+              const Text('...'),
+              const SizedBox(height: 10),
+              Text(
+                t.group.creation.notion.loading,
+                style: const TextStyle(
+                  color: Palette.grayText,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 30),
         Row(
           children: [

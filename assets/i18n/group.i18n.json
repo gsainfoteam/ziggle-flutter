@@ -16,7 +16,8 @@
     },
     "notion": {
       "title": "Notion link",
-      "description(rich)": "You can paste your beautiful Notion link in the group introduction.\n${strong(After publishing the group introduction Notion on the web)}, please paste the link here."
+      "description(rich)": "You can paste your beautiful Notion link in the group introduction.\n${strong(After publishing the group introduction Notion on the web)}, please paste the link here.",
+      "loading": "Loading Notion..."
     },
     "done": {
       "title": "\"$name\" group creation\nis complete!",
