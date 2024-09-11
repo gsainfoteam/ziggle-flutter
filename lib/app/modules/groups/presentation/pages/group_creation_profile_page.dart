@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -52,8 +53,10 @@ class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
           ),
         ),
         const SizedBox(height: 60),
-        TextFormField(
+        ZiggleInput(
           onChanged: (v) => setState(() => _name = v),
+          hintText: t.group.creation.profile.name.hint,
+          label: Text(t.group.creation.profile.name.label),
         ),
         const SizedBox(height: 60),
         ZiggleButton(

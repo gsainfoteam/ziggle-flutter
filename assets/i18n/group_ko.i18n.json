@@ -9,6 +9,12 @@
       "done": "생성 완료"
     },
     "setProfileImage": "그룹 프로필 사진 설정",
+    "profile": {
+      "name": {
+        "label": "그룹명",
+        "hint": "인포팀 (Infoteam)"
+      }
+    },
     "introduce": {
       "title": "간단한 그룹 소개를\n작성해주세요.",
       "description": "작성해주신 그룹 설명은\n그룹 메인 페이지 최상단에 게재됩니다.",
