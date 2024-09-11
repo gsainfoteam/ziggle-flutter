@@ -1,5 +1,12 @@
 {
   "write": {
-    "title": "Write Notice"
+    "title": "Write Notice",
+    "link": {
+      "text": "Text",
+      "link": "Link",
+      "add": "Add",
+      "change": "Change",
+      "remove": "Remove"
+    }
   }
 }

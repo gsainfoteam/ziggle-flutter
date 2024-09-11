@@ -9,6 +9,7 @@ class ZiggleInput extends StatelessWidget {
     required this.hintText,
     this.onChanged,
     this.label,
+    this.showBorder = true,
   });
 
   final TextEditingController? controller;
@@ -16,6 +17,7 @@ class ZiggleInput extends StatelessWidget {
   final String hintText;
   final void Function(String)? onChanged;
   final Widget? label;
+  final bool showBorder;
 
   OutlineInputBorder _buildInputBorder(Color color) {
     return OutlineInputBorder(

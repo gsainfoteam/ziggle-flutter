@@ -1,5 +1,12 @@
 {
   "write": {
-    "title": "공지 작성"
+    "title": "공지 작성",
+    "link": {
+      "text": "내용",
+      "link": "링크",
+      "add": "추가",
+      "change": "변경",
+      "remove": "삭제"
+    }
   }
 }
