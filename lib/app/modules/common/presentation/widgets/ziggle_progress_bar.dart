@@ -3,8 +3,8 @@ import 'package:ziggle/app/values/palette.dart';
 
 const _gap = 5.0;
 
-class ProgressBar extends StatelessWidget {
-  const ProgressBar({
+class ZiggleProgressBar extends StatelessWidget {
+  const ZiggleProgressBar({
     super.key,
     required this.currentStage,
     required this.totalStage,
