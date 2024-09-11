@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -43,7 +44,7 @@ class GroupCreationNotionPage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 30),
-        TextFormField(),
+        ZiggleInput(hintText: t.group.creation.notion.hint),
         const SizedBox(height: 30),
         Container(
           decoration: const BoxDecoration(
