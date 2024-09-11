@@ -3,6 +3,7 @@
   "next": "Next",
   "back": "Back",
   "skip": "Skip",
+  "done": "Done",
   "duration": {
     "day": {
       "one": "$n day",
