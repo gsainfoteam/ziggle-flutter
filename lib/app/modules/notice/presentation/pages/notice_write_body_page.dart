@@ -63,14 +63,19 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
             const SizedBox(height: 20),
             Expanded(
               child: KeyboardActions(
-                config: KeyboardActionsConfig(actions: [
-                  KeyboardActionsItem(
-                    focusNode: _focusNode,
-                    displayArrows: false,
-                    toolbarAlignment: MainAxisAlignment.start,
-                    toolbarButtons: _buildToolbarButtons(),
-                  ),
-                ]),
+                config: KeyboardActionsConfig(
+                  keyboardBarElevation: 0,
+                  keyboardSeparatorColor: Palette.grayBorder,
+                  keyboardBarColor: Palette.white,
+                  actions: [
+                    KeyboardActionsItem(
+                      focusNode: _focusNode,
+                      displayArrows: false,
+                      toolbarAlignment: MainAxisAlignment.start,
+                      toolbarButtons: _buildToolbarButtons(),
+                    ),
+                  ],
+                ),
                 child: QuillEditor.basic(
                   focusNode: _focusNode,
                   controller: _controller,
