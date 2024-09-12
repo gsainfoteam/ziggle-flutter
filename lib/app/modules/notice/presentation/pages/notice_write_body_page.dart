@@ -21,6 +21,13 @@ class NoticeWriteBodyPage extends StatefulWidget {
 class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
   final _controller = QuillController.basic();
   final _focusNode = FocusNode();
+  String _title = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() => setState(() {}));
+  }
 
   @override
   void dispose() {
@@ -31,6 +38,8 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
 
   @override
   Widget build(BuildContext context) {
+    final actionDisabled =
+        _title.isEmpty || _controller.plainTextEditingValue.text.trim().isEmpty;
     return Scaffold(
       appBar: ZiggleAppBar(
         leading: ZiggleBackButton(label: t.common.cancel),
@@ -38,6 +47,8 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
         actions: [
           ZiggleButton(
             type: ZiggleButtonType.text,
+            disabled: actionDisabled,
+            onPressed: actionDisabled ? null : () {},
             child: Text(
               t.common.done,
               style: const TextStyle(
@@ -54,15 +65,17 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
           children: [
             const SizedBox(height: 10),
             ZiggleInput(
-              hintText: t.notice.write.titleHint,
               showBorder: false,
+              hintText: t.notice.write.titleHint,
+              onChanged: (v) => setState(() => _title = v),
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             Container(height: 1, color: Palette.grayBorder),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Expanded(
               child: KeyboardActions(
+                autoScroll: true,
                 config: KeyboardActionsConfig(
                   keyboardBarElevation: 0,
                   keyboardSeparatorColor: Palette.grayBorder,
@@ -81,6 +94,7 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
                   controller: _controller,
                   configurations: QuillEditorConfigurations(
                     placeholder: t.notice.write.bodyHint,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     customStyles: const DefaultStyles(
                       placeHolder: DefaultTextBlockStyle(
                         TextStyle(fontSize: 16, color: Palette.gray),
