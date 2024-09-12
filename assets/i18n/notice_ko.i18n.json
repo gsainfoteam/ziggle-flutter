@@ -7,6 +7,8 @@
       "add": "추가",
       "change": "변경",
       "remove": "삭제"
-    }
+    },
+    "titleHint": "제목을 입력하세요",
+    "bodyHint": "내용을 입력하세요"
   }
 }

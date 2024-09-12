@@ -48,29 +48,49 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          ZiggleInput(
-            hintText: 'title',
-            showBorder: false,
-          ),
-          Expanded(
-            child: KeyboardActions(
-              config: KeyboardActionsConfig(actions: [
-                KeyboardActionsItem(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            ZiggleInput(
+              hintText: t.notice.write.titleHint,
+              showBorder: false,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Container(height: 1, color: Palette.grayBorder),
+            const SizedBox(height: 20),
+            Expanded(
+              child: KeyboardActions(
+                config: KeyboardActionsConfig(actions: [
+                  KeyboardActionsItem(
+                    focusNode: _focusNode,
+                    displayArrows: false,
+                    toolbarAlignment: MainAxisAlignment.start,
+                    toolbarButtons: _buildToolbarButtons(),
+                  ),
+                ]),
+                child: QuillEditor.basic(
                   focusNode: _focusNode,
-                  displayArrows: false,
-                  toolbarAlignment: MainAxisAlignment.start,
-                  toolbarButtons: _buildToolbarButtons(),
+                  controller: _controller,
+                  configurations: QuillEditorConfigurations(
+                    placeholder: t.notice.write.bodyHint,
+                    customStyles: const DefaultStyles(
+                      placeHolder: DefaultTextBlockStyle(
+                        TextStyle(fontSize: 16, color: Palette.gray),
+                        HorizontalSpacing.zero,
+                        VerticalSpacing.zero,
+                        VerticalSpacing.zero,
+                        null,
+                      ),
+                    ),
+                  ),
                 ),
-              ]),
-              child: QuillEditor.basic(
-                focusNode: _focusNode,
-                controller: _controller,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

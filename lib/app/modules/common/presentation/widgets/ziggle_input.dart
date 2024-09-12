@@ -10,6 +10,7 @@ class ZiggleInput extends StatelessWidget {
     this.onChanged,
     this.label,
     this.showBorder = true,
+    this.style,
   });
 
   final TextEditingController? controller;
@@ -18,6 +19,7 @@ class ZiggleInput extends StatelessWidget {
   final void Function(String)? onChanged;
   final Widget? label;
   final bool showBorder;
+  final TextStyle? style;
 
   OutlineInputBorder _buildInputBorder(Color color) {
     if (!showBorder) {
@@ -54,6 +56,7 @@ class ZiggleInput extends StatelessWidget {
             controller: controller,
             readOnly: disabled ? true : false,
             onChanged: onChanged,
+            style: style,
             decoration: InputDecoration(
               contentPadding: showBorder
                   ? const EdgeInsets.symmetric(vertical: 10, horizontal: 16)

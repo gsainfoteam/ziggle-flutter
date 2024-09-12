@@ -7,6 +7,8 @@
       "add": "Add",
       "change": "Change",
       "remove": "Remove"
-    }
+    },
+    "titleHint": "Enter Title",
+    "bodyHint": "Enter Content"
   }
 }
