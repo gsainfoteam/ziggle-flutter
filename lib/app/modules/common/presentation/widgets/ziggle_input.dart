@@ -11,6 +11,7 @@ class ZiggleInput extends StatelessWidget {
     this.label,
     this.showBorder = true,
     this.style,
+    this.focusNode,
   });
 
   final TextEditingController? controller;
@@ -20,6 +21,7 @@ class ZiggleInput extends StatelessWidget {
   final Widget? label;
   final bool showBorder;
   final TextStyle? style;
+  final FocusNode? focusNode;
 
   OutlineInputBorder _buildInputBorder(Color color) {
     if (!showBorder) {
@@ -53,6 +55,7 @@ class ZiggleInput extends StatelessWidget {
         SizedBox(
           height: 48,
           child: TextFormField(
+            focusNode: focusNode,
             controller: controller,
             readOnly: disabled ? true : false,
             onChanged: onChanged,

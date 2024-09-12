@@ -9,6 +9,7 @@
       "remove": "Remove"
     },
     "titleHint": "Enter Title",
-    "bodyHint": "Enter Content"
+    "bodyHint": "Enter Content",
+    "addPhoto": "Add Photo"
   }
 }
