@@ -20,6 +20,9 @@ class ZiggleInput extends StatelessWidget {
   final bool showBorder;
 
   OutlineInputBorder _buildInputBorder(Color color) {
+    if (!showBorder) {
+      return const OutlineInputBorder(borderSide: BorderSide.none);
+    }
     return OutlineInputBorder(
       borderSide: BorderSide(
         width: 1.5,
@@ -52,8 +55,9 @@ class ZiggleInput extends StatelessWidget {
             readOnly: disabled ? true : false,
             onChanged: onChanged,
             decoration: InputDecoration(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+              contentPadding: showBorder
+                  ? const EdgeInsets.symmetric(vertical: 10, horizontal: 16)
+                  : const EdgeInsets.symmetric(vertical: 10),
               hintText: hintText,
               hintStyle: const TextStyle(color: Palette.gray),
               enabledBorder: _buildInputBorder(Palette.gray),
