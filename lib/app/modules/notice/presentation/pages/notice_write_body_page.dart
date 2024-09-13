@@ -27,23 +27,25 @@ class NoticeWriteBodyPage extends StatefulWidget {
 
 class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
     with SingleTickerProviderStateMixin {
+  final _koreanTitleController = TextEditingController();
   final _koreanBodyController = QuillController.basic();
   final _koreanTitleFocusNode = FocusNode();
   final _koreanBodyFocusNode = FocusNode();
+  final _englishTitleController = TextEditingController();
   final _englishBodyController = QuillController.basic();
   final _englishTitleFocusNode = FocusNode();
   final _englishBodyFocusNode = FocusNode();
-  String _koreanTitle = '';
-  String _englishTitle = '';
   final List<File> _photos = [];
   late final _tabController = TabController(length: 2, vsync: this);
 
   @override
   void initState() {
     super.initState();
+    _koreanTitleController.addListener(() => setState(() {}));
     _koreanBodyController.addListener(() => setState(() {}));
     _koreanTitleFocusNode.addListener(() => setState(() {}));
     _koreanBodyFocusNode.addListener(() => setState(() {}));
+    _englishTitleController.addListener(() => setState(() {}));
     _englishBodyController.addListener(() => setState(() {}));
     _englishTitleFocusNode.addListener(() => setState(() {}));
     _englishBodyFocusNode.addListener(() => setState(() {}));
@@ -58,9 +60,11 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
   @override
   void dispose() {
     super.dispose();
+    _koreanTitleController.dispose();
     _koreanBodyController.dispose();
     _koreanTitleFocusNode.dispose();
     _koreanBodyFocusNode.dispose();
+    _englishTitleController.dispose();
     _englishBodyController.dispose();
     _englishTitleFocusNode.dispose();
     _englishBodyFocusNode.dispose();
@@ -69,8 +73,13 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
 
   @override
   Widget build(BuildContext context) {
-    final actionDisabled = _koreanTitle.isEmpty ||
-        _koreanBodyController.plainTextEditingValue.text.trim().isEmpty;
+    final actionDisabled = _koreanTitleController.text.trim().isEmpty ||
+        _koreanBodyController.plainTextEditingValue.text.trim().isEmpty ||
+        (_tabController.index == 1 &&
+            (_englishTitleController.text.trim().isEmpty ||
+                _englishBodyController.plainTextEditingValue.text
+                    .trim()
+                    .isEmpty));
     return Scaffold(
       appBar: ZiggleAppBar(
         leading: ZiggleBackButton(label: t.common.cancel),
@@ -135,8 +144,8 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
                   _Editor(
                     titleFocusNode: _koreanTitleFocusNode,
                     bodyFocusNode: _koreanBodyFocusNode,
-                    controller: _koreanBodyController,
-                    onTitleChanged: (v) => setState(() => _koreanTitle = v),
+                    titleController: _koreanTitleController,
+                    bodyController: _koreanBodyController,
                   ),
                   _Editor(
                     onTranslate: _englishBodyController
@@ -147,8 +156,8 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
                         : () {},
                     titleFocusNode: _englishTitleFocusNode,
                     bodyFocusNode: _englishBodyFocusNode,
-                    controller: _englishBodyController,
-                    onTitleChanged: (v) => setState(() => _englishTitle = v),
+                    titleController: _englishTitleController,
+                    bodyController: _englishBodyController,
                   ),
                 ],
               ),
@@ -311,15 +320,15 @@ class _Editor extends StatelessWidget {
   const _Editor({
     required this.titleFocusNode,
     required this.bodyFocusNode,
-    required this.controller,
-    required this.onTitleChanged,
+    required this.titleController,
+    required this.bodyController,
     this.onTranslate,
   });
 
   final FocusNode titleFocusNode;
   final FocusNode bodyFocusNode;
-  final QuillController controller;
-  final ValueChanged<String> onTitleChanged;
+  final TextEditingController titleController;
+  final QuillController bodyController;
   final VoidCallback? onTranslate;
 
   @override
@@ -329,10 +338,10 @@ class _Editor extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: ZiggleInput(
+            controller: titleController,
             focusNode: titleFocusNode,
             showBorder: false,
             hintText: t.notice.write.titleHint,
-            onChanged: onTitleChanged,
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -369,7 +378,7 @@ class _Editor extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: QuillEditor.basic(
               focusNode: bodyFocusNode,
-              controller: controller,
+              controller: bodyController,
               configurations: QuillEditorConfigurations(
                 placeholder: t.notice.write.bodyHint,
                 padding: const EdgeInsets.symmetric(vertical: 10),
