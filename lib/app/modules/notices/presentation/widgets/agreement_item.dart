@@ -7,7 +7,7 @@ class AgreementItem extends StatelessWidget {
     super.key,
     required this.title,
     required this.description,
-    this.isChecked = false,
+    required this.isChecked,
     required this.onChanged,
   });
 
