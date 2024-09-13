@@ -129,6 +129,10 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               Switch(
                 value: _deadline != null,
                 onChanged: (v) async {
+                  if (_deadline != null) {
+                    setState(() => _deadline = null);
+                    return;
+                  }
                   final dateTime = await ZiggleBottomSheet.show<DateTime>(
                     context: context,
                     title: t.notice.write.deadline.title,
@@ -142,22 +146,36 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               ),
             ],
           ),
-          if (true) ...[
+          if (_deadline != null) ...[
             const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              decoration: BoxDecoration(
-                color: const Color(0xFFF0F0F0),
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-                border: Border.all(color: Palette.grayBorder),
-              ),
-              child: Center(
-                child: Text(
-                  DateFormat.yMd().add_jm().format(DateTime.now()),
-                  style: const TextStyle(
-                    color: Palette.grayText,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+            ZigglePressable(
+              onPressed: () async {
+                final dateTime = await ZiggleBottomSheet.show<DateTime>(
+                  context: context,
+                  title: t.notice.write.deadline.title,
+                  builder: (context) => _DeadlineSelector(
+                    initialDateTime: _deadline,
+                    onChanged: (v) => Navigator.pop(context, v),
+                  ),
+                );
+                if (dateTime == null || !mounted) return;
+                setState(() => _deadline = dateTime);
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF0F0F0),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  border: Border.all(color: Palette.grayBorder),
+                ),
+                child: Center(
+                  child: Text(
+                    DateFormat.yMd().add_jm().format(_deadline!),
+                    style: const TextStyle(
+                      color: Palette.grayText,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
@@ -170,15 +188,18 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
 }
 
 class _DeadlineSelector extends StatefulWidget {
-  const _DeadlineSelector({required this.onChanged});
+  const _DeadlineSelector({required this.onChanged, this.initialDateTime});
 
   final ValueChanged<DateTime?> onChanged;
+  final DateTime? initialDateTime;
 
   @override
   State<_DeadlineSelector> createState() => __DeadlineSelectorState();
 }
 
 class __DeadlineSelectorState extends State<_DeadlineSelector> {
+  late DateTime? _dateTime = widget.initialDateTime;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -187,7 +208,8 @@ class __DeadlineSelectorState extends State<_DeadlineSelector> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: ZiggleDateTimePicker(
-            onChange: widget.onChanged,
+            dateTime: _dateTime,
+            onChange: (v) => setState(() => _dateTime = v),
           ),
         ),
         const SizedBox(height: 20),
@@ -195,7 +217,7 @@ class __DeadlineSelectorState extends State<_DeadlineSelector> {
           children: [
             Expanded(
               child: ZiggleButton.cta(
-                onPressed: () {},
+                onPressed: () => widget.onChanged(null),
                 outlined: true,
                 child: Text(t.common.cancel),
               ),
@@ -203,8 +225,10 @@ class __DeadlineSelectorState extends State<_DeadlineSelector> {
             const SizedBox(width: 10),
             Expanded(
               child: ZiggleButton.cta(
-                onPressed: () {},
-                disabled: true,
+                onPressed: _dateTime == null
+                    ? null
+                    : () => widget.onChanged(_dateTime),
+                disabled: _dateTime == null,
                 child: Text(t.notice.write.deadline.confirm),
               ),
             ),

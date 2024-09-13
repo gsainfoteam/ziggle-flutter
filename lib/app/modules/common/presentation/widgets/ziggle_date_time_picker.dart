@@ -9,10 +9,12 @@ import 'package:ziggle/gen/strings.g.dart';
 class ZiggleDateTimePicker extends StatefulWidget {
   const ZiggleDateTimePicker({
     super.key,
+    this.dateTime,
     required this.onChange,
   });
 
-  final ValueChanged<DateTime> onChange;
+  final DateTime? dateTime;
+  final ValueChanged<DateTime?> onChange;
 
   @override
   State<ZiggleDateTimePicker> createState() => _ZiggleDateTimePickerState();
@@ -20,7 +22,6 @@ class ZiggleDateTimePicker extends StatefulWidget {
 
 class _ZiggleDateTimePickerState extends State<ZiggleDateTimePicker> {
   bool _showMonthSelector = false;
-  DateTime? _dateTime;
   DateTime _currentShowing = DateTime.now();
 
   @override
@@ -31,7 +32,7 @@ class _ZiggleDateTimePickerState extends State<ZiggleDateTimePicker> {
           children: [
             ZigglePressable(
               onPressed: () => setState(() {
-                _dateTime = null;
+                widget.onChange(null);
                 _showMonthSelector = !_showMonthSelector;
               }),
               child: Row(
@@ -63,7 +64,7 @@ class _ZiggleDateTimePickerState extends State<ZiggleDateTimePicker> {
                     ZigglePressable(
                       onPressed: () => setState(
                         () {
-                          _dateTime = null;
+                          widget.onChange(null);
                           _currentShowing = DateTime(
                             _currentShowing.year,
                             _currentShowing.month - 1,
@@ -76,7 +77,7 @@ class _ZiggleDateTimePickerState extends State<ZiggleDateTimePicker> {
                     ZigglePressable(
                       onPressed: () => setState(
                         () {
-                          _dateTime = null;
+                          widget.onChange(null);
                           _currentShowing = DateTime(
                             _currentShowing.year,
                             _currentShowing.month + 1,
@@ -159,7 +160,8 @@ class _ZiggleDateTimePickerState extends State<ZiggleDateTimePicker> {
           (week) => AnimatedSize(
             duration: const Duration(milliseconds: 100),
             child: SizedBox(
-              height: _dateTime == null || week.any(_dateTime!.isSameDate)
+              height: widget.dateTime == null ||
+                      week.any(widget.dateTime!.isSameDate)
                   ? null
                   : 0,
               child: Row(
@@ -167,14 +169,14 @@ class _ZiggleDateTimePickerState extends State<ZiggleDateTimePicker> {
                     .map(
                       (day) => Expanded(
                         child: ZigglePressable(
-                          onPressed: () => setState(() => _dateTime = day),
+                          onPressed: () => widget.onChange(day),
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Text(
                               DateFormat.d().format(day),
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: _dateTime?.isSameDate(day) ?? false
+                                color: widget.dateTime?.isSameDate(day) ?? false
                                     ? Palette.primary
                                     : firstDateOfMonth.month == day.month
                                         ? Palette.black
@@ -208,16 +210,18 @@ class _ZiggleDateTimePickerState extends State<ZiggleDateTimePicker> {
                 ),
               ),
               const SizedBox(height: 10),
-              SizedBox(
-                height: 150,
-                child: CupertinoDatePicker(
-                  mode: CupertinoDatePickerMode.time,
-                  onDateTimeChanged: (v) {},
-                ),
-              )
+              if (widget.dateTime != null)
+                SizedBox(
+                  height: 150,
+                  child: CupertinoDatePicker(
+                    mode: CupertinoDatePickerMode.time,
+                    initialDateTime: widget.dateTime,
+                    onDateTimeChanged: (v) => widget.onChange(v),
+                  ),
+                )
             ],
           ),
-          crossFadeState: _dateTime == null
+          crossFadeState: widget.dateTime == null
               ? CrossFadeState.showFirst
               : CrossFadeState.showSecond,
           duration: const Duration(milliseconds: 100),
