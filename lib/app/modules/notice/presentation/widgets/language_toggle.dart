@@ -12,7 +12,7 @@ class LanguageToggle extends StatefulWidget {
   const LanguageToggle({
     super.key,
     required this.onToggle,
-    this.initialState = false,
+    required this.value,
     this.loading = false,
     this.disabled = false,
     this.activeColor = Palette.primary,
@@ -22,7 +22,7 @@ class LanguageToggle extends StatefulWidget {
   });
 
   final ValueChanged<bool> onToggle;
-  final bool initialState;
+  final bool value;
   final bool loading;
   final bool disabled;
   final Color activeColor;
@@ -36,7 +36,6 @@ class LanguageToggle extends StatefulWidget {
 
 class _LanguageToggleState extends State<LanguageToggle>
     with SingleTickerProviderStateMixin {
-  bool _switched = false;
   late final _animationController = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 100),
@@ -47,19 +46,15 @@ class _LanguageToggleState extends State<LanguageToggle>
     parent: _animationController,
   );
 
-  @override
-  void initState() {
-    super.initState();
-    _switched = widget.initialState;
-  }
-
   void _handleSwitch() {
     if (widget.disabled || widget.loading) return;
-    setState(() {
-      _switched = !_switched;
-    });
-    widget.onToggle(_switched);
-    if (_switched) {
+    widget.onToggle(!widget.value);
+  }
+
+  @override
+  void didUpdateWidget(covariant LanguageToggle oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.value) {
       _animationController.forward();
     } else {
       _animationController.reverse();
