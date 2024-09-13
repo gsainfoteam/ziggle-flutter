@@ -145,10 +145,11 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
                     if (index == _photos.length) {
                       return GestureDetector(
                         onTap: () async {
-                          final image = await ImagePicker()
-                              .pickImage(source: ImageSource.gallery);
-                          if (image == null) return;
-                          setState(() => _photos.add(File(image.path)));
+                          final images = await ImagePicker().pickMultiImage();
+                          if (!mounted) return;
+                          setState(() => _photos.addAll(
+                                images.map((e) => File(e.path)),
+                              ));
                         },
                         child: DottedBorder(
                           color: Palette.gray,
