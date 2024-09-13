@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/auth/data/data_sources/remote/auth_api.dart';
-import 'package:ziggle/app/modules/auth/domain/token_repository.dart';
+import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
 
 @singleton
 class AuthorizeInterceptor extends Interceptor {
