@@ -49,18 +49,20 @@ class _ZiggleToggleButtonState extends State<ZiggleToggleButton> {
         ),
         child: Stack(
           children: [
-            AnimatedPositioned(
+            AnimatedAlign(
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeIn,
-              left: _switched ? 40.0 - 17.0 - 3.0 : 3.0,
-              top: 2.5,
-              bottom: 2.5,
-              child: Container(
-                width: 17.0,
-                height: 17.0,
-                decoration: const BoxDecoration(
-                  color: Palette.white,
-                  shape: BoxShape.circle,
+              alignment:
+                  _switched ? Alignment.centerRight : Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                child: Container(
+                  width: 17.0,
+                  height: 17.0,
+                  decoration: const BoxDecoration(
+                    color: Palette.white,
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
             ),
