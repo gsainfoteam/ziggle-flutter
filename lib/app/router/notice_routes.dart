@@ -1,10 +1,19 @@
 part of 'routes.dart';
 
+@TypedGoRoute<SearchRoute>(path: '/search')
+class SearchRoute extends GoRouteData {
+  const SearchRoute();
+  static final $parentNavigatorKey = rootNavigatorKey;
+  @override
+  Widget build(context, state) => const SearchPage();
+}
+
 @TypedGoRoute<NoticeCategoryRoute>(path: '/category/:type')
 class NoticeCategoryRoute extends GoRouteData {
   const NoticeCategoryRoute(this.type);
 
   final NoticeType type;
+  static final $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(context, state) => ListPage(title: type.name);
