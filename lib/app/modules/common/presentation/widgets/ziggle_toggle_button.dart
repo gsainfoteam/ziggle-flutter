@@ -5,13 +5,13 @@ class ZiggleToggleButton extends StatefulWidget {
   const ZiggleToggleButton({
     super.key,
     required this.onToggle,
-    this.initialState = false,
+    required this.value,
     this.loading = false,
     this.disabled = false,
   });
 
   final ValueChanged<bool> onToggle;
-  final bool initialState;
+  final bool value;
   final bool loading;
   final bool disabled;
 
@@ -20,20 +20,9 @@ class ZiggleToggleButton extends StatefulWidget {
 }
 
 class _ZiggleToggleButtonState extends State<ZiggleToggleButton> {
-  bool _switched = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _switched = widget.initialState;
-  }
-
   void _handleSwitch() {
     if (widget.disabled || widget.loading) return;
-    setState(() {
-      _switched = !_switched;
-    });
-    widget.onToggle(_switched);
+    widget.onToggle(!widget.value);
   }
 
   @override
@@ -44,7 +33,7 @@ class _ZiggleToggleButtonState extends State<ZiggleToggleButton> {
         width: 40.0,
         height: 22.0,
         decoration: BoxDecoration(
-          color: _switched ? Palette.primary : Palette.gray,
+          color: widget.value ? Palette.primary : Palette.gray,
           borderRadius: BorderRadius.circular(22.0 / 2),
         ),
         child: Stack(
@@ -53,7 +42,7 @@ class _ZiggleToggleButtonState extends State<ZiggleToggleButton> {
               duration: const Duration(milliseconds: 100),
               curve: Curves.easeIn,
               alignment:
-                  _switched ? Alignment.centerRight : Alignment.centerLeft,
+                  widget.value ? Alignment.centerRight : Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3.0),
                 child: Container(
