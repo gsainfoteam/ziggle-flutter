@@ -1,8 +1,11 @@
 {
   "type(context=NoticeType)": {
+    "deadline": "Deadline",
     "recruit": "Recruit",
     "event": "Event",
-    "general": "General"
+    "general": "General",
+    "hot": "Ziggle Pick",
+    "academic": "Academic"
   },
   "write": {
     "title": "Write Notice",

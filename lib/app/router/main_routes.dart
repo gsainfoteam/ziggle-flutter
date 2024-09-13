@@ -53,7 +53,7 @@ class FeedRoute extends GoRouteData {
 class CategoryRoute extends GoRouteData {
   const CategoryRoute();
   @override
-  Widget build(context, state) => const FeedPage();
+  Widget build(context, state) => const CategoryPage();
 }
 
 class FavoriteRoute extends GoRouteData {

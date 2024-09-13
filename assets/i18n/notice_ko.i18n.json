@@ -1,8 +1,11 @@
 {
   "type(context=NoticeType)": {
+    "deadline": "마감임박",
     "recruit": "모집",
     "event": "행사",
-    "general": "일반"
+    "general": "일반",
+    "hot": "지글픽",
+    "academic": "학사"
   },
   "write": {
     "title": "공지 작성",
