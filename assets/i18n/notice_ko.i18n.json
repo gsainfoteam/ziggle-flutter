@@ -41,6 +41,23 @@
       "upload": "공지 게시하기"
     }
   },
+  "calendar": {
+    "weeksAgo": {
+      "other": "$n주 전"
+    },
+    "daysAgo": {
+      "other": "$n일 전"
+    },
+    "hoursAgo": {
+      "other": "$n시간 전"
+    },
+    "minutesAgo": {
+      "other": "$n분 전"
+    },
+    "secondsAgo": {
+      "other": "$n초 전"
+    }
+  },
   "dDay": {
     "daysLeft(rich)": {
       "other": "$n일 남음"
@@ -56,6 +73,10 @@
       "other": "$n초 left"
     },
     "overdue": "기한 지남"
+  },
+  "search": {
+    "hint": "공지 검색",
+    "description": "검색 키워드를 입력해보세요"
   },
   "list": "목록"
 }
