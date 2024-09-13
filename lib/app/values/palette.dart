@@ -16,3 +16,8 @@ abstract class Palette {
   /// for dropdown default color
   static const grayText = Color(0xFF6E6E73);
 }
+
+extension ColorHex on Color {
+  String get hex =>
+      '#${value.toRadixString(16).padLeft(8, '0').substring(2, 8)}';
+}
