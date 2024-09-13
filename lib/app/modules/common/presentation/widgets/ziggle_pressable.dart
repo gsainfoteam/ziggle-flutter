@@ -48,7 +48,9 @@ class _ZigglePressableState extends State<ZigglePressable> {
           duration: const Duration(milliseconds: 100),
           decoration: widget.decoration.copyWith(
             color: widget.decoration.color?.withOpacity(
-              widget.onPressed != null && pressed ? 0.8 : 1,
+              widget.onPressed != null && pressed
+                  ? widget.decoration.color!.opacity * 0.8
+                  : widget.decoration.color!.opacity,
             ),
           ),
           child: widget.child,
