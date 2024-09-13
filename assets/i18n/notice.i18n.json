@@ -24,6 +24,10 @@
       "confirm": "Set",
       "timeSelect": "Select Deadline Time"
     },
-    "category": "Category"
+    "category": "Category",
+    "hashtag": {
+      "label(rich)": "Set Tags ${small((Optional))}",
+      "hint": "Enter Tags"
+    }
   }
 }

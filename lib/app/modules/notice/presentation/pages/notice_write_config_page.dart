@@ -6,6 +6,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_date_time_picker.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notice/domain/enums/notice_type.dart';
+import 'package:ziggle/app/modules/notice/presentation/widgets/tag.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -20,6 +21,7 @@ class NoticeWriteConfigPage extends StatefulWidget {
 class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
   DateTime? _deadline;
   NoticeType? _type;
+  final List<String> _tags = [];
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +53,8 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               _buildDeadline(),
               const SizedBox(height: 25),
               _buildCategory(),
+              const SizedBox(height: 25),
+              _buildTags(),
               const SizedBox(height: 25),
             ],
           ),
@@ -266,6 +270,86 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 )
                 .toList(),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTags() {
+    return Container(
+      padding: const EdgeInsets.all(15),
+      decoration: const BoxDecoration(
+        color: Palette.grayLight,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Assets.icons.hashtag.svg(),
+              const SizedBox(width: 6),
+              Text.rich(
+                t.notice.write.hashtag.label(
+                  small: (text) => TextSpan(
+                    text: text,
+                    style: const TextStyle(
+                      color: Palette.gray,
+                      fontSize: 16,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                ),
+                style: const TextStyle(
+                  color: Palette.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          ZigglePressable(
+            onPressed: () {},
+            decoration: BoxDecoration(
+              color: Palette.white,
+              border: Border.all(color: Palette.grayBorder),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: Container(
+              height: 48,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    t.notice.write.hashtag.hint,
+                    style: const TextStyle(
+                      color: Palette.gray,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (_tags.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: _tags.indexed
+                  .map(
+                    (tag) => Tag(
+                      tag: tag.$2,
+                      onDelete: true,
+                      onPressed: () => setState(() => _tags.removeAt(tag.$1)),
+                    ),
+                  )
+                  .toList(),
+            )
+          ],
         ],
       ),
     );

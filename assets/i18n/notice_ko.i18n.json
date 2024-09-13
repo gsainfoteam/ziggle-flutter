@@ -24,6 +24,10 @@
       "confirm": "설정",
       "timeSelect": "마감 시각 설정"
     },
-    "category": "분류"
+    "category": "분류",
+    "hashtag": {
+      "label(rich)": "태그 설정 ${small((선택))}",
+      "hint": "태그 입력"
+    }
   }
 }
