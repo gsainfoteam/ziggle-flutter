@@ -12,6 +12,7 @@ import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_body_p
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_config_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_consent_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_preview_page.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_select_tags_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 import 'package:ziggle/gen/strings.g.dart';
 

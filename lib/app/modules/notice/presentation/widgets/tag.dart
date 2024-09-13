@@ -20,40 +20,38 @@ class Tag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 37.0,
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
       decoration: BoxDecoration(
         color: onDelete ? Palette.primaryMedium : Palette.primaryLight,
         borderRadius: BorderRadius.circular(4.0),
       ),
-      child: IntrinsicWidth(
-        child: Center(
-          child: Row(
-            children: [
-              Text(
-                tag,
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.normal,
-                  color: Palette.primary,
-                ),
-                textAlign: TextAlign.center,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(
+            child: Text(
+              tag,
+              style: const TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.normal,
+                color: Palette.primary,
               ),
-              if (onDelete)
-                const SizedBox(
-                  width: 10,
-                ),
-              if (onDelete)
-                ZigglePressable(
-                  onPressed: loading ? null : onPressed,
-                  child: Assets.icons.xmarkCircle.svg(
-                    width: 24.0,
-                    height: 24.0,
-                  ),
-                ),
-            ],
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
+          if (onDelete)
+            const SizedBox(
+              width: 10,
+            ),
+          if (onDelete)
+            ZigglePressable(
+              onPressed: loading ? null : onPressed,
+              child: Assets.icons.xmarkCircle.svg(
+                width: 24.0,
+                height: 24.0,
+              ),
+            ),
+        ],
       ),
     );
   }

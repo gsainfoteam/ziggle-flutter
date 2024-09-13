@@ -27,7 +27,8 @@
     "category": "분류",
     "hashtag": {
       "label(rich)": "태그 설정 ${small((선택))}",
-      "hint": "태그 입력"
+      "hint": "태그 입력",
+      "title": "태그 추가하기"
     },
     "preview": "미리보기",
     "publish": "발행",

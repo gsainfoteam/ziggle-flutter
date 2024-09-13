@@ -35,7 +35,7 @@ class NoticeWriteRoute extends GoRouteData {
   }
 }
 
-enum NoticeWriteSheetStep { preview, consent }
+enum NoticeWriteSheetStep { tags, preview, consent }
 
 class NoticeWriteSheetRoute extends GoRouteData {
   const NoticeWriteSheetRoute(this.step);
@@ -45,6 +45,7 @@ class NoticeWriteSheetRoute extends GoRouteData {
   @override
   Page<void> buildPage(context, state) {
     final page = {
+          NoticeWriteSheetStep.tags: const NoticeWriteSelectTagsPage(),
           NoticeWriteSheetStep.preview: const NoticeWritePreviewPage(),
           NoticeWriteSheetStep.consent: const NoticeWriteConsentPage(),
         }[step] ??

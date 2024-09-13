@@ -322,7 +322,15 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
           ),
           const SizedBox(height: 10),
           ZigglePressable(
-            onPressed: () {},
+            onPressed: () async {
+              final tags =
+                  await const NoticeWriteSheetRoute(NoticeWriteSheetStep.tags)
+                      .push(context);
+              if (!mounted) return;
+              setState(() => _tags
+                ..clear()
+                ..addAll(tags));
+            },
             decoration: BoxDecoration(
               color: Palette.white,
               border: Border.all(color: Palette.grayBorder),

@@ -27,7 +27,8 @@
     "category": "Category",
     "hashtag": {
       "label(rich)": "Set Tags ${small((Optional))}",
-      "hint": "Enter Tags"
+      "hint": "Enter Tags",
+      "title": "Add Tags"
     },
     "preview": "Preview",
     "publish": "Publish",
