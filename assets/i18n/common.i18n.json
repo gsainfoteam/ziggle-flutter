@@ -1,0 +1,16 @@
+{
+  "cancel": "Cancel",
+  "next": "Next",
+  "back": "Back",
+  "skip": "Skip",
+  "duration": {
+    "day": {
+      "one": "$n day",
+      "other": "$n days"
+    },
+    "week": {
+      "one": "$n week",
+      "other": "$n weeks"
+    }
+  }
+}
