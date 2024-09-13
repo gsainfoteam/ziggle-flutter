@@ -59,9 +59,11 @@ class _LanguageToggleState extends State<LanguageToggle>
       _switched = !_switched;
     });
     widget.onToggle(_switched);
-    _animationController.forward();
-
-    print(_animationController.value);
+    if (_switched) {
+      _animationController.forward();
+    } else {
+      _animationController.reverse();
+    }
   }
 
   @override
