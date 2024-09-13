@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_chip.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/notice/domain/entities/notice_summary.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
 class NoticeCard extends StatelessWidget {
-  const NoticeCard({super.key});
+  const NoticeCard({super.key, required this.notice});
+
+  final NoticeSummary notice;
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +31,9 @@ class NoticeCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Text(
-                          '홍길동',
-                          style: TextStyle(
+                        Text(
+                          notice.authorName,
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                             color: Palette.black,
@@ -39,7 +42,8 @@ class NoticeCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 5),
-                        Assets.icons.certificatedBadge.svg(width: 20),
+                        if (notice.authorIsCertificated)
+                          Assets.icons.certificatedBadge.svg(width: 20),
                       ],
                     ),
                     const SizedBox(height: 2),
@@ -57,26 +61,26 @@ class NoticeCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          const Text(
-            '공지 제목',
-            style: TextStyle(
+          Text(
+            notice.title,
+            style: const TextStyle(
               color: Palette.black,
               fontSize: 16,
               fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 8),
-          if (true)
+          if (notice.images.isNotEmpty)
             Image.network(
-              'https://picsum.photos/200/300',
+              notice.images.first,
               height: 250,
               width: double.infinity,
               fit: BoxFit.cover,
             )
           else
-            const Text(
-              '공지 내용',
-              style: TextStyle(
+            Text(
+              notice.content,
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: Palette.black,
@@ -91,9 +95,9 @@ class NoticeCard extends StatelessWidget {
                   children: [
                     Assets.icons.fire.svg(width: 30),
                     const SizedBox(width: 5),
-                    const Text(
-                      '10',
-                      style: TextStyle(
+                    Text(
+                      '${notice.likes}',
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Palette.black,
