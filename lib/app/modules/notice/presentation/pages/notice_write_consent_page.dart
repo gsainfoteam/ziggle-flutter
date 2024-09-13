@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -35,6 +37,15 @@ class NoticeWriteConsentPage extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               const SizedBox(height: 10),
+              const SizedBox(height: 24),
+              ZiggleButton.cta(
+                onPressed: () {
+                  context.popUntilPath(const NoticeWriteRoute().location);
+                  // TODO: change to notice detail page
+                  context.pop();
+                },
+                child: Text(t.notice.write.consent.upload),
+              )
             ],
           ),
         ),

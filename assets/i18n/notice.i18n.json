@@ -32,7 +32,8 @@
     "preview": "Preview",
     "publish": "Publish",
     "consent": {
-      "title": "Please read and agree to the following."
+      "title": "Please read and agree to the following.",
+      "upload": "Publish Notice"
     }
   }
 }
