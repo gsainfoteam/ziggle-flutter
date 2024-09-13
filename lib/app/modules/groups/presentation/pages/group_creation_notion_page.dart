@@ -71,14 +71,14 @@ class GroupCreationNotionPage extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: ZiggleButton(
+              child: ZiggleButton.cta(
                 outlined: true,
                 child: Text(t.common.back),
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: ZiggleButton(
+              child: ZiggleButton.cta(
                 emphasize: false,
                 onPressed: () {
                   context.popUntilPath(const GroupCreationRoute().location);
@@ -89,7 +89,7 @@ class GroupCreationNotionPage extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ZiggleButton(
+              child: ZiggleButton.cta(
                 onPressed: () {
                   context.popUntilPath(const GroupCreationRoute().location);
                   const GroupCreationRoute(GroupCreationStep.done)

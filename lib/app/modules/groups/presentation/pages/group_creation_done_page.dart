@@ -84,7 +84,7 @@ class _GroupCreationDonePageState extends State<GroupCreationDonePage> {
               ),
               if (_duration != null) ...[
                 const SizedBox(height: 10),
-                ZiggleButton(
+                ZiggleButton.cta(
                   emphasize: false,
                   child: Text(t.group.creation.done.invite.copy),
                 ),
@@ -93,7 +93,7 @@ class _GroupCreationDonePageState extends State<GroupCreationDonePage> {
           ),
         ),
         const SizedBox(height: 30),
-        ZiggleButton(
+        ZiggleButton.cta(
           onPressed: () => context.pop(),
           child: Text(t.group.creation.done.back),
         )
