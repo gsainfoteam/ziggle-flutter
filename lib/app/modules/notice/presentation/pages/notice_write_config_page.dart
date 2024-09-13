@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_bottom_sheet.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_date_time_picker.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notice/domain/enums/notice_type.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -17,6 +19,7 @@ class NoticeWriteConfigPage extends StatefulWidget {
 
 class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
   NoticeType? _type;
+  DateTime? _deadline;
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +109,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               Assets.icons.clock.svg(),
               const SizedBox(width: 6),
               Text.rich(
-                t.notice.write.changeDeadline(
+                t.notice.write.deadline.label(
                   small: (text) => TextSpan(
                     text: text,
                     style: const TextStyle(
@@ -123,6 +126,20 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 ),
               ),
               const Spacer(),
+              Switch(
+                value: _deadline != null,
+                onChanged: (v) async {
+                  final dateTime = await ZiggleBottomSheet.show<DateTime>(
+                    context: context,
+                    title: t.notice.write.deadline.title,
+                    builder: (context) => _DeadlineSelector(
+                      onChanged: (v) => Navigator.pop(context, v),
+                    ),
+                  );
+                  if (dateTime == null || !mounted) return;
+                  setState(() => _deadline = dateTime);
+                },
+              ),
             ],
           ),
           if (true) ...[
@@ -148,6 +165,52 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
           ],
         ],
       ),
+    );
+  }
+}
+
+class _DeadlineSelector extends StatefulWidget {
+  const _DeadlineSelector({required this.onChanged});
+
+  final ValueChanged<DateTime?> onChanged;
+
+  @override
+  State<_DeadlineSelector> createState() => __DeadlineSelectorState();
+}
+
+class __DeadlineSelectorState extends State<_DeadlineSelector> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: ZiggleDateTimePicker(
+            onChange: widget.onChanged,
+          ),
+        ),
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            Expanded(
+              child: ZiggleButton.cta(
+                onPressed: () {},
+                outlined: true,
+                child: Text(t.common.cancel),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: ZiggleButton.cta(
+                onPressed: () {},
+                disabled: true,
+                child: Text(t.notice.write.deadline.confirm),
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

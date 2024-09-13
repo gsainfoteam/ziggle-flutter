@@ -13,6 +13,11 @@
     "addPhoto": "Add Photo",
     "configTitle": "Upload Option",
     "changeAccount": "Change Account",
-    "changeDeadline(rich)": "Deadline ${small((Optional))}"
+    "deadline": {
+      "label(rich)": "Deadline ${small((Optional))}",
+      "title": "Set Deadline",
+      "confirm": "Set",
+      "timeSelect": "Select Deadline Time"
+    }
   }
 }

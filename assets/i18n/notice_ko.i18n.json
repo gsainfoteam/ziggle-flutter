@@ -13,6 +13,11 @@
     "addPhoto": "사진 추가",
     "configTitle": "발행 옵션",
     "changeAccount": "계정 변경",
-    "changeDeadline(rich)": "마감일 ${small((선택))}"
+    "deadline": {
+      "label(rich)": "마감일 ${small((선택))}",
+      "title": "마감일 설정",
+      "confirm": "설정",
+      "timeSelect": "마감 시각 설정"
+    }
   }
 }
