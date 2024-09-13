@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/auth/data/data_sources/remote/auth_api.dart';
-import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
+import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
+import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
 
 @singleton
 class AuthorizeInterceptor extends Interceptor {
@@ -23,12 +23,12 @@ class AuthorizeInterceptor extends Interceptor {
     if (retried) return handler.next(err);
     err.requestOptions.extra[retriedKey] = true;
     try {
-      final authApi = sl<AuthApi>();
+      final userApi = sl<UserApi>();
       try {
-        authApi.testTokenInfo();
+        userApi.testTokenInfo();
       } catch (e) {
         try {
-          final token = await authApi.refresh();
+          final token = await userApi.refresh();
           await _repository.saveToken(token.accessToken);
         } catch (e) {
           await _repository.deleteToken();
@@ -50,8 +50,8 @@ class AuthorizeInterceptor extends Interceptor {
     if (_repository.tokenExpiration != null) {
       if (DateTime.now().isAfter(_repository.tokenExpiration!)) {
         try {
-          final authApi = sl<AuthApi>();
-          final token = await authApi.refresh();
+          final userApi = sl<UserApi>();
+          final token = await userApi.refresh();
           await _repository.saveToken(token.accessToken);
         } catch (_) {}
       }

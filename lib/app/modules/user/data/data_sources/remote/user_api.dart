@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:ziggle/app/modules/auth/data/data_sources/remote/authorize_interceptor.dart';
-import 'package:ziggle/app/modules/auth/data/models/token_model.dart';
+import 'package:ziggle/app/modules/user/data/data_sources/remote/authorize_interceptor.dart';
+import 'package:ziggle/app/modules/user/data/models/token_model.dart';
 
-part 'auth_api.g.dart';
+part 'user_api.g.dart';
 
 @injectable
 @RestApi(baseUrl: 'user')
-abstract class AuthApi {
+abstract class UserApi {
   @factoryMethod
-  factory AuthApi(Dio dio) = _AuthApi;
+  factory UserApi(Dio dio) = _UserApi;
 
   @GET('login')
   Future<TokenModel> login(@Field('access_token') String accessToken);
