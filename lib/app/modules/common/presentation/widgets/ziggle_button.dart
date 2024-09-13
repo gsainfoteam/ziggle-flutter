@@ -6,7 +6,8 @@ enum ZiggleButtonType {
   cta(EdgeInsets.symmetric(vertical: 15, horizontal: 20)),
   big(EdgeInsets.symmetric(vertical: 10, horizontal: 25)),
   small(EdgeInsets.symmetric(vertical: 7, horizontal: 15)),
-  text(EdgeInsets.zero);
+  text(EdgeInsets.zero),
+  textWithPadding(EdgeInsets.symmetric(horizontal: 12));
 
   final EdgeInsets padding;
   const ZiggleButtonType(this.padding);
@@ -34,6 +35,7 @@ class ZiggleButton extends StatelessWidget {
 
   Color get _effectiveColor {
     if (type == ZiggleButtonType.text) return Palette.primary;
+    if (type == ZiggleButtonType.textWithPadding) return Palette.primary;
     if (disabled) return Palette.gray;
     if (outlined) return Palette.primary;
     if (emphasize) return Palette.white;
@@ -42,6 +44,7 @@ class ZiggleButton extends StatelessWidget {
 
   Color? get _effectiveBackgroundColor {
     if (type == ZiggleButtonType.text) return null;
+    if (type == ZiggleButtonType.textWithPadding) return null;
     if (disabled) return Palette.grayLight;
     if (outlined) return null;
     if (emphasize) return Palette.primary;
@@ -50,6 +53,7 @@ class ZiggleButton extends StatelessWidget {
 
   Color? get _effectiveBorderColor {
     if (type == ZiggleButtonType.text) return null;
+    if (type == ZiggleButtonType.textWithPadding) return null;
     if (disabled) return null;
     if (outlined) return Palette.primary;
     if (emphasize) return null;
@@ -62,6 +66,7 @@ class ZiggleButton extends StatelessWidget {
       style: const TextStyle(
         fontSize: 18,
         fontWeight: FontWeight.bold,
+        height: 1,
       ).copyWith(color: _effectiveColor),
       child: child,
     );
@@ -85,10 +90,17 @@ class ZiggleButton extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Opacity(opacity: loading ? 0 : 1, child: inner),
-            Opacity(
-              opacity: loading ? 1 : 0,
-              child: const CircularProgressIndicator(),
+            Padding(
+              padding: widget.type.padding,
+              child: Opacity(opacity: widget.loading ? 0 : 1, child: inner),
+            ),
+            Positioned.fill(
+              child: Center(
+                child: Opacity(
+                  opacity: widget.loading ? 1 : 0,
+                  child: const CircularProgressIndicator(),
+                ),
+              ),
             ),
           ],
         ),
