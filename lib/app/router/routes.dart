@@ -20,6 +20,7 @@ import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_consen
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_preview_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_select_tags_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
+import 'package:ziggle/app/modules/user/presentation/pages/profile_page.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 

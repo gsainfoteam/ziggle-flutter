@@ -1,0 +1,11 @@
+{
+  "login": {
+    "title": "Please log in",
+    "description": "Please log in to write notices, remind, and leave reactions.",
+    "action": "Log in"
+  },
+  "setting": {
+    "title": "Setting"
+  },
+  "feedback": "Feedback · Report a bug"
+}
