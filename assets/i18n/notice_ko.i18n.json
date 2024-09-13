@@ -30,6 +30,9 @@
       "hint": "태그 입력"
     },
     "preview": "미리보기",
-    "publish": "발행"
+    "publish": "발행",
+    "consent": {
+      "title": "아래 내용을 모두 읽고,\n동의해주세요."
+    }
   }
 }

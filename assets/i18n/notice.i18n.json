@@ -30,6 +30,9 @@
       "hint": "Enter Tags"
     },
     "preview": "Preview",
-    "publish": "Publish"
+    "publish": "Publish",
+    "consent": {
+      "title": "Please read and agree to the following."
+    }
   }
 }

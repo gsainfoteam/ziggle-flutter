@@ -2,7 +2,8 @@ part of 'routes.dart';
 
 @TypedShellRoute<NoticeShellRoute>(routes: [
   TypedGoRoute<NoticeWriteBaseRoute>(path: '/write'),
-  TypedGoRoute<NoticeWriteRoute>(path: '/write/:step')
+  TypedGoRoute<NoticeWriteRoute>(path: '/write/:step'),
+  TypedGoRoute<NoticeWriteSheetRoute>(path: '/write/sheet/:step'),
 ])
 class NoticeShellRoute extends ShellRouteData {
   @override
@@ -24,12 +25,33 @@ class NoticeWriteRoute extends GoRouteData {
   final NoticeWriteStep step;
 
   @override
-  Widget build(context, state) {
+  Page<void> buildPage(context, state) {
     final page = {
           NoticeWriteStep.body: const NoticeWriteBodyPage(),
           NoticeWriteStep.config: const NoticeWriteConfigPage(),
         }[step] ??
         const SizedBox.shrink();
-    return page;
+    return MaterialExtendedPage(child: page);
+  }
+}
+
+enum NoticeWriteSheetStep { preview, consent }
+
+class NoticeWriteSheetRoute extends GoRouteData {
+  const NoticeWriteSheetRoute(this.step);
+
+  final NoticeWriteSheetStep step;
+
+  @override
+  Page<void> buildPage(context, state) {
+    final page = {
+          NoticeWriteSheetStep.preview: const NoticeWritePreviewPage(),
+          NoticeWriteSheetStep.consent: const NoticeWriteConsentPage(),
+        }[step] ??
+        const SizedBox.shrink();
+    return CupertinoSheetPage(
+      key: state.pageKey,
+      child: page,
+    );
   }
 }

@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_date_time_
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notice/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notice/presentation/widgets/tag.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -32,7 +33,11 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
         actions: [
           ZiggleButton.text(
             disabled: _type == null,
-            onPressed: _type == null ? null : () {},
+            onPressed: _type == null
+                ? null
+                : () =>
+                    const NoticeWriteSheetRoute(NoticeWriteSheetStep.consent)
+                        .push(context),
             child: Text(
               t.notice.write.publish,
               style: const TextStyle(
@@ -58,6 +63,9 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               const SizedBox(height: 25),
               ZiggleButton.cta(
                 emphasize: false,
+                onPressed: () =>
+                    const NoticeWriteSheetRoute(NoticeWriteSheetStep.preview)
+                        .push(context),
                 child: Text(t.notice.write.preview),
               ),
             ],
