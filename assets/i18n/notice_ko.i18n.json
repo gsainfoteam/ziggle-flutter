@@ -1,8 +1,11 @@
 {
   "type(context=NoticeType)": {
+    "deadline": "마감임박",
     "recruit": "모집",
     "event": "행사",
-    "general": "일반"
+    "general": "일반",
+    "hot": "지글픽",
+    "academic": "학사"
   },
   "write": {
     "title": "공지 작성",
@@ -57,25 +60,23 @@
   },
   "dDay": {
     "daysLeft(rich)": {
-      "one": "$n day left",
-      "other": "$n days left"
+      "other": "$n일 남음"
     },
     "hoursLeft(rich)": {
-      "one": "$n hour left",
-      "other": "$n hours left"
+      "other": "$n시간 남음"
     },
     "minutesLeft(rich)": {
-      "one": "$n minute left",
-      "other": "$n minutes left"
+      "other": "$n분 남음"
     },
     "secondsLeft(rich)": {
-      "one": "$n second left",
-      "other": "$n seconds left"
+      "one": "$n초 left",
+      "other": "$n초 left"
     },
-    "overdue": "OVERDUE"
+    "overdue": "기한 지남"
   },
   "search": {
     "hint": "공지 검색",
     "description": "검색 키워드를 입력해보세요"
-  }
+  },
+  "list": "목록"
 }

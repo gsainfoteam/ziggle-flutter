@@ -3,17 +3,20 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/notice/domain/entities/notice_summary.dart';
 import 'package:ziggle/app/modules/notice/presentation/widgets/notice_card.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
-class FeedPage extends StatelessWidget {
-  const FeedPage({super.key});
+class ListPage extends StatelessWidget {
+  const ListPage({super.key, required this.title});
+
+  final String title;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Palette.grayLight,
-      appBar: ZiggleAppBar.main(
-        onTapSearch: () {},
-        onTapWrite: () {},
+      appBar: ZiggleAppBar.compact(
+        backLabel: t.notice.list,
+        title: Text(title),
       ),
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
