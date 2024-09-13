@@ -96,5 +96,9 @@
     "copy": "Copy Link",
     "deadline": "Deadline"
   },
+  "search": {
+    "hint": "Search Notice",
+    "description": "Enter search keyword"
+  },
   "list": "List"
 }

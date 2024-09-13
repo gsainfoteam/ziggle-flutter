@@ -88,5 +88,9 @@
     "copy": "링크 복사하기",
     "deadline": "마감기한"
   },
+  "search": {
+    "hint": "공지 검색",
+    "description": "검색 키워드를 입력해보세요"
+  },
   "list": "목록"
 }
