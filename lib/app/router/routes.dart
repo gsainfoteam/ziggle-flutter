@@ -28,10 +28,13 @@ part 'notice_routes.dart';
 part 'routes.g.dart';
 part 'splash_routes.dart';
 
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+
 abstract class AppRoutes {
   AppRoutes._();
 
   static final config = GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: const SplashRoute().location,
     routes: $appRoutes,
     debugLogDiagnostics: kDebugMode,

@@ -10,6 +10,7 @@ class NoticeDetailRoute extends GoRouteData {
 
   final int id;
   final Map<String, dynamic>? $extra;
+  static final $parentNavigatorKey = rootNavigatorKey;
 
   @override
   Widget build(BuildContext context, GoRouterState state) => DetailPage(
