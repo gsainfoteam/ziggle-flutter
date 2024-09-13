@@ -10,6 +10,9 @@
     },
     "titleHint": "Enter Title",
     "bodyHint": "Enter Content",
-    "addPhoto": "Add Photo"
+    "addPhoto": "Add Photo",
+    "configTitle": "Upload Option",
+    "changeAccount": "Change Account",
+    "changeDeadline(rich)": "Deadline ${small((Optional))}"
   }
 }

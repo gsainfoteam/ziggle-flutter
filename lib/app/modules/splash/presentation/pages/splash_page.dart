@@ -7,7 +7,7 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ZiggleButton(
+    return ZiggleButton.cta(
       onPressed: () => const NoticeWriteRoute().push(context),
       child: const Text('asdf'),
     );

@@ -10,6 +10,9 @@
     },
     "titleHint": "제목을 입력하세요",
     "bodyHint": "내용을 입력하세요",
-    "addPhoto": "사진 추가"
+    "addPhoto": "사진 추가",
+    "configTitle": "발행 옵션",
+    "changeAccount": "계정 변경",
+    "changeDeadline(rich)": "마감일 ${small((선택))}"
   }
 }

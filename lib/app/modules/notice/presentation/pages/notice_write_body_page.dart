@@ -12,6 +12,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_butto
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/notice/presentation/widgets/photo_item.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -55,10 +56,12 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
         leading: ZiggleBackButton(label: t.common.cancel),
         title: Text(t.notice.write.title),
         actions: [
-          ZiggleButton(
-            type: ZiggleButtonType.text,
+          ZiggleButton.text(
             disabled: actionDisabled,
-            onPressed: actionDisabled ? null : () {},
+            onPressed: actionDisabled
+                ? null
+                : () => const NoticeWriteRoute(NoticeWriteStep.config)
+                    .push(context),
             child: Text(
               t.common.done,
               style: const TextStyle(
