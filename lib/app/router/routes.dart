@@ -10,6 +10,8 @@ import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_intr
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_notion_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_profile_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_creation_layout.dart';
+import 'package:ziggle/app/modules/notice/domain/entities/notice_summary.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/detail_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/feed_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_body_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_config_page.dart';

@@ -56,5 +56,9 @@
       "other": "$n seconds left"
     },
     "overdue": "OVERDUE"
+  },
+  "detail": {
+    "title": "Notice Detail",
+    "back": "Notice"
   }
 }

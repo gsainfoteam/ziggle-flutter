@@ -1,5 +1,31 @@
 part of 'routes.dart';
 
+@TypedGoRoute<NoticeDetailRoute>(path: '/notice/:id')
+class NoticeDetailRoute extends GoRouteData {
+  const NoticeDetailRoute({required this.id, this.$extra});
+  factory NoticeDetailRoute.fromSummary(NoticeSummary summary) =>
+      NoticeDetailRoute(
+        id: summary.id,
+      );
+
+  final int id;
+  final Map<String, dynamic>? $extra;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => DetailPage(
+        notice: NoticeSummary(
+          id: 0,
+          content: '공지 내용',
+          title: '공지 제목',
+          deadline: DateTime(2024, 9, 14, 0, 48, 20),
+          images: [],
+          likes: 10,
+          authorIsCertificated: true,
+          authorName: '홍길동',
+        ),
+      );
+}
+
 @TypedShellRoute<NoticeShellRoute>(routes: [
   TypedGoRoute<NoticeWriteBaseRoute>(path: '/write'),
   TypedGoRoute<NoticeWriteRoute>(path: '/write/:step'),
