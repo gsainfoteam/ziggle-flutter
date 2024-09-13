@@ -41,7 +41,7 @@ class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
           Assets.images.groupDefaultProfile.image(width: 300),
         const SizedBox(height: 27),
         IntrinsicWidth(
-          child: ZiggleButton(
+          child: ZiggleButton.cta(
             emphasize: false,
             onPressed: () async {
               final image =
@@ -59,7 +59,7 @@ class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
           label: Text(t.group.creation.profile.name.label),
         ),
         const SizedBox(height: 60),
-        ZiggleButton(
+        ZiggleButton.cta(
           onPressed: () {
             if (_name.isEmpty) return;
             const GroupCreationRoute(GroupCreationStep.introduce).push(context);

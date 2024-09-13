@@ -75,7 +75,7 @@ class _GroupCreationIntroducePageState
         Row(
           children: [
             Expanded(
-              child: ZiggleButton(
+              child: ZiggleButton.cta(
                 outlined: true,
                 onPressed: () => context.pop(),
                 child: Text(t.common.back),
@@ -83,7 +83,7 @@ class _GroupCreationIntroducePageState
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: ZiggleButton(
+              child: ZiggleButton.cta(
                 onPressed: () {
                   if (_content.isEmpty) return;
                   const GroupCreationRoute(GroupCreationStep.notion)
