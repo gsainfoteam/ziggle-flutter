@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -15,7 +14,18 @@ class GroupManagementMainPage extends StatelessWidget {
       appBar: ZiggleAppBar.compact(
         backLabel: t.group.groupManagementMain.back,
         title: Text(t.group.groupManagementMain.header),
-        actions: const [],
+        actions: [
+          GestureDetector(
+            child: const Text(
+              '새 그룹',
+              style: TextStyle(
+                fontSize: 16,
+                color: Palette.primary,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 25, 16, 10),
