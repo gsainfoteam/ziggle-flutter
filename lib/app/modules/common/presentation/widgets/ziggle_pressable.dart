@@ -6,11 +6,13 @@ class ZigglePressable extends StatefulWidget {
     required this.onPressed,
     required this.child,
     this.decoration = const BoxDecoration(),
+    this.behavior,
   });
 
   final VoidCallback? onPressed;
   final Widget child;
   final BoxDecoration decoration;
+  final HitTestBehavior? behavior;
 
   @override
   State<ZigglePressable> createState() => _ZigglePressableState();
@@ -24,6 +26,7 @@ class _ZigglePressableState extends State<ZigglePressable> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: widget.behavior,
       onTapDown: (_) {
         if (widget.onPressed == null) return;
         setState(() {
