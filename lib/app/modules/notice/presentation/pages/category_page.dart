@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notice/domain/enums/notice_type.dart';
 import 'package:ziggle/app/values/palette.dart';
 
@@ -39,7 +40,8 @@ class CategoryPage extends StatelessWidget {
                             (category) => [
                               if (category.$1 != 0) const SizedBox(width: 10),
                               Expanded(
-                                child: Container(
+                                child: ZigglePressable(
+                                  onPressed: () {},
                                   decoration: BoxDecoration(
                                     color: category.$2.backgroundColor,
                                     borderRadius: const BorderRadius.all(
