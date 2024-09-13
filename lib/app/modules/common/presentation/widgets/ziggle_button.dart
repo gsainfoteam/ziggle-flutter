@@ -91,13 +91,13 @@ class ZiggleButton extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Padding(
-              padding: widget.type.padding,
-              child: Opacity(opacity: widget.loading ? 0 : 1, child: inner),
+              padding: type.padding,
+              child: Opacity(opacity: loading ? 0 : 1, child: inner),
             ),
             Positioned.fill(
               child: Center(
                 child: Opacity(
-                  opacity: widget.loading ? 1 : 0,
+                  opacity: loading ? 1 : 0,
                   child: const CircularProgressIndicator(),
                 ),
               ),
