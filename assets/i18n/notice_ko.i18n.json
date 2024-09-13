@@ -37,5 +37,24 @@
       "title": "아래 내용을 모두 읽고,\n동의해주세요.",
       "upload": "공지 게시하기"
     }
+  },
+  "dDay": {
+    "daysLeft(rich)": {
+      "one": "$n day left",
+      "other": "$n days left"
+    },
+    "hoursLeft(rich)": {
+      "one": "$n hour left",
+      "other": "$n hours left"
+    },
+    "minutesLeft(rich)": {
+      "one": "$n minute left",
+      "other": "$n minutes left"
+    },
+    "secondsLeft(rich)": {
+      "one": "$n second left",
+      "other": "$n seconds left"
+    },
+    "overdue": "OVERDUE"
   }
 }
