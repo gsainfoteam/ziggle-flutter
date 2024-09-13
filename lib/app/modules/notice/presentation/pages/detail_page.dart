@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notice/domain/entities/notice_entity.dart';
@@ -24,6 +25,46 @@ class DetailPage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           const SliverToBoxAdapter(child: SizedBox(height: 9)),
+          if (notice.deadline != null)
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+              sliver: SliverToBoxAdapter(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10,
+                    horizontal: 18,
+                  ),
+                  decoration: ShapeDecoration(
+                    color: Palette.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        t.notice.detail.deadline,
+                        style: const TextStyle(
+                          color: Palette.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        DateFormat.yMd().add_Hm().format(notice.deadline!),
+                        style: const TextStyle(
+                          color: Palette.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
             sliver: SliverToBoxAdapter(
