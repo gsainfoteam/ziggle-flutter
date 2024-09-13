@@ -4,6 +4,13 @@
     "event": "행사",
     "general": "일반"
   },
+  "category(context=NoticeCategory)": {
+    "academic": "학사",
+    "recruit": "모집",
+    "event": "행사",
+    "club": "동아리",
+    "etc": "일반"
+  },
   "write": {
     "title": "공지 작성",
     "link": {

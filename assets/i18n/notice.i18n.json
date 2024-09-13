@@ -4,6 +4,13 @@
     "event": "Event",
     "general": "General"
   },
+  "category(context=NoticeCategory)": {
+    "academic": "Academic",
+    "recruit": "Recruit",
+    "event": "Event",
+    "club": "Club",
+    "etc": "General"
+  },
   "write": {
     "title": "Write Notice",
     "link": {

@@ -67,17 +67,19 @@ class DetailPage extends StatelessWidget {
               ),
             ),
           ),
-          if (notice.tags.isNotEmpty)
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
-              sliver: SliverToBoxAdapter(
-                child: Wrap(
-                  spacing: 7,
-                  runSpacing: 7,
-                  children: notice.tags.map((tag) => Tag(tag: tag)).toList(),
-                ),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+            sliver: SliverToBoxAdapter(
+              child: Wrap(
+                spacing: 7,
+                runSpacing: 7,
+                children: [
+                  Tag(tag: notice.category.name),
+                  ...notice.tags.map((tag) => Tag(tag: tag)),
+                ],
               ),
             ),
+          ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
             sliver: SliverList.separated(

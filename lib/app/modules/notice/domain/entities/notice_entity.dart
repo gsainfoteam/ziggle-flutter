@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:ziggle/app/modules/notice/domain/enums/notice_category.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../enums/notice_reaction.dart';
@@ -25,6 +26,7 @@ class NoticeEntity {
   final bool isReminded;
   final DateTime? publishedAt;
   final String? groupName;
+  final NoticeCategory category;
 
   NoticeEntity({
     required this.id,
@@ -45,6 +47,7 @@ class NoticeEntity {
     required this.isReminded,
     required this.publishedAt,
     required this.groupName,
+    required this.category,
   });
 
   factory NoticeEntity.fromId(int id) => NoticeEntity(
@@ -66,6 +69,7 @@ class NoticeEntity {
         isReminded: false,
         publishedAt: null,
         groupName: null,
+        category: NoticeCategory.etc,
       );
   factory NoticeEntity.mock({
     DateTime? deadline,
@@ -77,6 +81,7 @@ class NoticeEntity {
     String authorName = '홍길동',
     List<String> imageUrls = const [],
     bool isReminded = false,
+    NoticeCategory category = NoticeCategory.etc,
   }) =>
       NoticeEntity(
         id: 0,
@@ -97,6 +102,7 @@ class NoticeEntity {
         isReminded: isReminded,
         publishedAt: null,
         groupName: null,
+        category: category,
       );
 }
 
