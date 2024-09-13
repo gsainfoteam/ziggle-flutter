@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_noti
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_profile_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_creation_layout.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_body_page.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_config_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 import 'package:ziggle/gen/strings.g.dart';
 

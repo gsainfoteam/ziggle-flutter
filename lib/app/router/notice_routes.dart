@@ -12,10 +12,11 @@ class NoticeShellRoute extends ShellRouteData {
 class NoticeWriteBaseRoute extends GoRouteData {
   const NoticeWriteBaseRoute();
   @override
-  FutureOr<String?> redirect(context, state) => '';
+  FutureOr<String?> redirect(context, state) =>
+      const NoticeWriteRoute().location;
 }
 
-enum NoticeWriteStep { body }
+enum NoticeWriteStep { body, config }
 
 class NoticeWriteRoute extends GoRouteData {
   const NoticeWriteRoute([this.step = NoticeWriteStep.body]);
@@ -26,6 +27,7 @@ class NoticeWriteRoute extends GoRouteData {
   Widget build(context, state) {
     final page = {
           NoticeWriteStep.body: const NoticeWriteBodyPage(),
+          NoticeWriteStep.config: const NoticeWriteConfigPage(),
         }[step] ??
         const SizedBox.shrink();
     return page;
