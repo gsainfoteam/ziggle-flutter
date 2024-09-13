@@ -29,7 +29,7 @@ class PhotoItem extends StatelessWidget {
           right: 6,
           top: 6,
           child: GestureDetector(
-            onTap: () => print('test'),
+            onTap: onDelete,
             child: Container(
               width: 22,
               height: 22,

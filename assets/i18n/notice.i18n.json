@@ -1,1 +1,41 @@
-{}
+{
+  "type(context=NoticeType)": {
+    "recruit": "Recruit",
+    "event": "Event",
+    "general": "General"
+  },
+  "write": {
+    "title": "Write Notice",
+    "link": {
+      "text": "Text",
+      "link": "Link",
+      "add": "Add",
+      "change": "Change",
+      "remove": "Remove"
+    },
+    "titleHint": "Enter Title",
+    "translate": "Use AI Translation",
+    "bodyHint": "Enter Content",
+    "addPhoto": "Add Photo",
+    "configTitle": "Publish Option",
+    "changeAccount": "Change Account",
+    "deadline": {
+      "label(rich)": "Deadline ${small((Optional))}",
+      "title": "Set Deadline",
+      "confirm": "Set",
+      "timeSelect": "Select Deadline Time"
+    },
+    "category": "Category",
+    "hashtag": {
+      "label(rich)": "Set Tags ${small((Optional))}",
+      "hint": "Enter Tags",
+      "title": "Add Tags"
+    },
+    "preview": "Preview",
+    "publish": "Publish",
+    "consent": {
+      "title": "Please read and agree to the following.",
+      "upload": "Publish Notice"
+    }
+  }
+}

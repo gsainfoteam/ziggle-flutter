@@ -1,1 +1,41 @@
-{}
+{
+  "type(context=NoticeType)": {
+    "recruit": "모집",
+    "event": "행사",
+    "general": "일반"
+  },
+  "write": {
+    "title": "공지 작성",
+    "link": {
+      "text": "내용",
+      "link": "링크",
+      "add": "추가",
+      "change": "변경",
+      "remove": "삭제"
+    },
+    "titleHint": "제목을 입력하세요",
+    "translate": "AI 번역 사용",
+    "bodyHint": "내용을 입력하세요",
+    "addPhoto": "사진 추가",
+    "configTitle": "발행 옵션",
+    "changeAccount": "계정 변경",
+    "deadline": {
+      "label(rich)": "마감일 ${small((선택))}",
+      "title": "마감일 설정",
+      "confirm": "설정",
+      "timeSelect": "마감 시각 설정"
+    },
+    "category": "분류",
+    "hashtag": {
+      "label(rich)": "태그 설정 ${small((선택))}",
+      "hint": "태그 입력",
+      "title": "태그 추가하기"
+    },
+    "preview": "미리보기",
+    "publish": "발행",
+    "consent": {
+      "title": "아래 내용을 모두 읽고,\n동의해주세요.",
+      "upload": "공지 게시하기"
+    }
+  }
+}

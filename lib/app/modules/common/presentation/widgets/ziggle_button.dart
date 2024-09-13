@@ -23,6 +23,7 @@ class ZiggleButton extends StatelessWidget {
     this.disabled = false,
     this.emphasize = true,
     required this.type,
+    required this.defaultStyle,
   });
 
   factory ZiggleButton.cta({
@@ -42,6 +43,11 @@ class ZiggleButton extends StatelessWidget {
         disabled: disabled,
         emphasize: emphasize,
         type: ZiggleButtonType.cta,
+        defaultStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          height: 1,
+        ),
         child: child,
       );
 
@@ -62,6 +68,11 @@ class ZiggleButton extends StatelessWidget {
         disabled: disabled,
         emphasize: emphasize,
         type: ZiggleButtonType.big,
+        defaultStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          height: 1,
+        ),
         child: child,
       );
 
@@ -82,6 +93,11 @@ class ZiggleButton extends StatelessWidget {
         disabled: disabled,
         emphasize: emphasize,
         type: ZiggleButtonType.small,
+        defaultStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          height: 1,
+        ),
         child: child,
       );
 
@@ -98,6 +114,11 @@ class ZiggleButton extends StatelessWidget {
         loading: loading,
         disabled: disabled,
         type: ZiggleButtonType.text,
+        defaultStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          height: 1,
+        ),
         child: child,
       );
 
@@ -108,6 +129,7 @@ class ZiggleButton extends StatelessWidget {
   final bool disabled;
   final bool emphasize;
   final ZiggleButtonType type;
+  final TextStyle defaultStyle;
 
   Color get _effectiveColor {
     if (disabled) return Palette.gray;
@@ -139,11 +161,7 @@ class ZiggleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget inner = DefaultTextStyle.merge(
-      style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        height: 1,
-      ).copyWith(color: _effectiveColor),
+      style: defaultStyle.copyWith(color: _effectiveColor),
       child: child,
     );
 
@@ -166,10 +184,7 @@ class ZiggleButton extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Padding(
-              padding: type.padding,
-              child: Opacity(opacity: loading ? 0 : 1, child: inner),
-            ),
+            Opacity(opacity: loading ? 0 : 1, child: inner),
             Positioned.fill(
               child: Center(
                 child: Opacity(
