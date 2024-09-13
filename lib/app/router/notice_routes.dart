@@ -1,5 +1,35 @@
 part of 'routes.dart';
 
+@TypedGoRoute<NoticeDetailRoute>(path: '/notice/:id')
+class NoticeDetailRoute extends GoRouteData {
+  const NoticeDetailRoute({required this.id, this.$extra});
+  factory NoticeDetailRoute.fromSummary(NoticeEntity summary) =>
+      NoticeDetailRoute(
+        id: summary.id,
+      );
+
+  final int id;
+  final Map<String, dynamic>? $extra;
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) => DetailPage(
+        notice: NoticeEntity.mock(
+          content: '공지 내용',
+          title: '공지 제목',
+          deadline: DateTime(2024, 9, 14, 0, 48, 20),
+          imageUrls: [
+            'https://picsum.photos/200/300',
+            'https://picsum.photos/200/111',
+            'https://picsum.photos/200/302',
+          ],
+          authorName: '홍길동',
+          createdAt: DateTime.now(),
+          tags: ['태그1', '태그2'],
+        ),
+      );
+}
+
 @TypedGoRoute<SearchRoute>(path: '/search')
 class SearchRoute extends GoRouteData {
   const SearchRoute();

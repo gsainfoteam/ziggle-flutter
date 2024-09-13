@@ -7,6 +7,13 @@
     "hot": "지글픽",
     "academic": "학사"
   },
+  "category(context=NoticeCategory)": {
+    "academic": "학사",
+    "recruit": "모집",
+    "event": "행사",
+    "club": "동아리",
+    "etc": "일반"
+  },
   "write": {
     "title": "공지 작성",
     "link": {
@@ -73,6 +80,13 @@
       "other": "$n초 left"
     },
     "overdue": "기한 지남"
+  },
+  "detail": {
+    "title": "공지 상세",
+    "back": "공지",
+    "share": "공유하기",
+    "copy": "링크 복사하기",
+    "deadline": "마감기한"
   },
   "search": {
     "hint": "공지 검색",
