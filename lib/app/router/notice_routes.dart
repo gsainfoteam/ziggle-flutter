@@ -30,6 +30,17 @@ class NoticeDetailRoute extends GoRouteData {
       );
 }
 
+@TypedGoRoute<NoticeCategoryRoute>(path: '/category/:type')
+class NoticeCategoryRoute extends GoRouteData {
+  const NoticeCategoryRoute(this.type);
+
+  final NoticeType type;
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Widget build(context, state) => ListPage(title: type.name);
+}
+
 @TypedShellRoute<NoticeShellRoute>(routes: [
   TypedGoRoute<NoticeWriteBaseRoute>(path: '/write'),
   TypedGoRoute<NoticeWriteRoute>(path: '/write/:step'),

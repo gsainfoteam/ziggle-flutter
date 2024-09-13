@@ -1,8 +1,11 @@
 {
   "type(context=NoticeType)": {
+    "deadline": "Deadline",
     "recruit": "Recruit",
     "event": "Event",
-    "general": "General"
+    "general": "General",
+    "hot": "Ziggle Pick",
+    "academic": "Academic"
   },
   "category(context=NoticeCategory)": {
     "academic": "Academic",
@@ -92,5 +95,6 @@
     "share": "Share",
     "copy": "Copy Link",
     "deadline": "Deadline"
-  }
+  },
+  "list": "List"
 }

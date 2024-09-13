@@ -232,7 +232,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
           ),
           const SizedBox(height: 10),
           Row(
-            children: NoticeType.values.indexed
+            children: NoticeType.writable.indexed
                 .expand(
                   (e) => [
                     if (e.$1 != 0) const SizedBox(width: 10),
@@ -266,7 +266,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                               ),
                               const SizedBox(height: 5),
                               Text(
-                                t.notice.type(context: e.$2),
+                                e.$2.name,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: _type == e.$2
