@@ -5,6 +5,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_bottom_she
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_date_time_picker.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
 import 'package:ziggle/app/modules/notice/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notice/presentation/widgets/tag.dart';
 import 'package:ziggle/app/router/routes.dart';
@@ -145,9 +146,9 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 ),
               ),
               const Spacer(),
-              Switch(
+              ZiggleToggleButton(
                 value: _deadline != null,
-                onChanged: (v) async {
+                onToggle: (v) async {
                   if (_deadline != null) {
                     setState(() => _deadline = null);
                     return;
