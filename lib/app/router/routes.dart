@@ -1,14 +1,23 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sheet/route.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_done_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_introduce_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_notion_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_profile_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_creation_layout.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_body_page.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_config_page.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_consent_page.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_preview_page.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_select_tags_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 part 'group_routes.dart';
+part 'notice_routes.dart';
 part 'routes.g.dart';
 part 'splash_routes.dart';
 

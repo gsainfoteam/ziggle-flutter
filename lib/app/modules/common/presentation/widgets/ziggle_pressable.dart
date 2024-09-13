@@ -5,7 +5,7 @@ class ZigglePressable extends StatefulWidget {
     super.key,
     required this.onPressed,
     required this.child,
-    required this.decoration,
+    this.decoration = const BoxDecoration(),
   });
 
   final VoidCallback? onPressed;
