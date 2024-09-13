@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:ziggle/app/modules/auth/data/data_sources/models/token_model.dart';
 import 'package:ziggle/app/modules/auth/data/data_sources/remote/authorize_interceptor.dart';
+import 'package:ziggle/app/modules/auth/data/models/token_model.dart';
 
 part 'auth_api.g.dart';
 
