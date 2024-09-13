@@ -11,6 +11,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
+import 'package:ziggle/app/modules/notice/presentation/widgets/language_toggle.dart';
 import 'package:ziggle/app/modules/notice/presentation/widgets/photo_item.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -24,33 +25,52 @@ class NoticeWriteBodyPage extends StatefulWidget {
   State<NoticeWriteBodyPage> createState() => _NoticeWriteBodyPageState();
 }
 
-class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
-  final _controller = QuillController.basic();
-  final _titleFocusNode = FocusNode();
-  final _bodyFocusNode = FocusNode();
-  String _title = '';
+class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
+    with SingleTickerProviderStateMixin {
+  final _koreanBodyController = QuillController.basic();
+  final _koreanTitleFocusNode = FocusNode();
+  final _koreanBodyFocusNode = FocusNode();
+  final _englishBodyController = QuillController.basic();
+  final _englishTitleFocusNode = FocusNode();
+  final _englishBodyFocusNode = FocusNode();
+  String _koreanTitle = '';
+  String _englishTitle = '';
   final List<File> _photos = [];
+  late final _tabController = TabController(length: 2, vsync: this);
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() => setState(() {}));
-    _titleFocusNode.addListener(() => setState(() {}));
-    _bodyFocusNode.addListener(() => setState(() {}));
+    _koreanBodyController.addListener(() => setState(() {}));
+    _koreanTitleFocusNode.addListener(() => setState(() {}));
+    _koreanBodyFocusNode.addListener(() => setState(() {}));
+    _englishBodyController.addListener(() => setState(() {}));
+    _englishTitleFocusNode.addListener(() => setState(() {}));
+    _englishBodyFocusNode.addListener(() => setState(() {}));
+    _tabController.addListener(() => setState(() {
+          _koreanBodyFocusNode.unfocus();
+          _koreanTitleFocusNode.unfocus();
+          _englishBodyFocusNode.unfocus();
+          _englishTitleFocusNode.unfocus();
+        }));
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
-    _titleFocusNode.dispose();
-    _bodyFocusNode.dispose();
+    _koreanBodyController.dispose();
+    _koreanTitleFocusNode.dispose();
+    _koreanBodyFocusNode.dispose();
+    _englishBodyController.dispose();
+    _englishTitleFocusNode.dispose();
+    _englishBodyFocusNode.dispose();
+    _tabController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final actionDisabled =
-        _title.isEmpty || _controller.plainTextEditingValue.text.trim().isEmpty;
+    final actionDisabled = _koreanTitle.isEmpty ||
+        _koreanBodyController.plainTextEditingValue.text.trim().isEmpty;
     return Scaffold(
       appBar: ZiggleAppBar(
         leading: ZiggleBackButton(label: t.common.cancel),
@@ -79,62 +99,64 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
           keyboardSeparatorColor: Palette.grayBorder,
           keyboardBarColor: Palette.white,
           actions: [
+            KeyboardActionsItem(focusNode: _koreanTitleFocusNode),
             KeyboardActionsItem(
-              focusNode: _titleFocusNode,
-            ),
-            KeyboardActionsItem(
-              focusNode: _bodyFocusNode,
+              focusNode: _koreanBodyFocusNode,
               displayArrows: false,
               toolbarAlignment: MainAxisAlignment.start,
-              toolbarButtons: _buildToolbarButtons(),
+              toolbarButtons: _buildToolbarButtons(_koreanBodyController),
+            ),
+            KeyboardActionsItem(focusNode: _englishTitleFocusNode),
+            KeyboardActionsItem(
+              focusNode: _englishBodyFocusNode,
+              displayArrows: false,
+              toolbarAlignment: MainAxisAlignment.start,
+              toolbarButtons: _buildToolbarButtons(_englishBodyController),
             ),
           ],
         ),
         child: Column(
           children: [
-            const SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: ZiggleInput(
-                focusNode: _titleFocusNode,
-                showBorder: false,
-                hintText: t.notice.write.titleHint,
-                onChanged: (v) => setState(() => _title = v),
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+              child: Row(
+                children: [
+                  LanguageToggle(
+                      onToggle: (v) => _tabController.animateTo(v ? 1 : 0),
+                      value: _tabController.index != 0),
+                ],
               ),
             ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: Container(height: 1, color: Palette.grayBorder),
-            ),
-            const SizedBox(height: 10),
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                child: QuillEditor.basic(
-                  focusNode: _bodyFocusNode,
-                  controller: _controller,
-                  configurations: QuillEditorConfigurations(
-                    placeholder: t.notice.write.bodyHint,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    customStyles: const DefaultStyles(
-                      placeHolder: DefaultTextBlockStyle(
-                        TextStyle(fontSize: 16, color: Palette.gray),
-                        HorizontalSpacing.zero,
-                        VerticalSpacing.zero,
-                        VerticalSpacing.zero,
-                        null,
-                      ),
-                    ),
+              child: TabBarView(
+                controller: _tabController,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  _Editor(
+                    titleFocusNode: _koreanTitleFocusNode,
+                    bodyFocusNode: _koreanBodyFocusNode,
+                    controller: _koreanBodyController,
+                    onTitleChanged: (v) => setState(() => _koreanTitle = v),
                   ),
-                ),
+                  _Editor(
+                    onTranslate: _englishBodyController
+                            .plainTextEditingValue.text
+                            .trim()
+                            .isNotEmpty
+                        ? null
+                        : () {},
+                    titleFocusNode: _englishTitleFocusNode,
+                    bodyFocusNode: _englishBodyFocusNode,
+                    controller: _englishBodyController,
+                    onTitleChanged: (v) => setState(() => _englishTitle = v),
+                  ),
+                ],
               ),
             ),
-            if (!_titleFocusNode.hasFocus && !_bodyFocusNode.hasFocus) ...[
+            if (!_koreanTitleFocusNode.hasFocus &&
+                !_koreanBodyFocusNode.hasFocus &&
+                !_englishTitleFocusNode.hasFocus &&
+                !_englishBodyFocusNode.hasFocus) ...[
               const SizedBox(height: 10),
               SizedBox(
                 height: 140,
@@ -198,46 +220,52 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
     );
   }
 
-  List<ButtonBuilder> _buildToolbarButtons() {
+  List<ButtonBuilder> _buildToolbarButtons(QuillController controller) {
     return [
       (_) => _buildToggleButton(
+            controller: controller,
             attribute: Attribute.h1,
             child: Assets.icons.heading.svg(),
           ),
       (_) => _buildToggleButton(
+            controller: controller,
             attribute: Attribute.h2,
             child: Assets.icons.subheading.svg(),
           ),
       (_) => _buildToggleButton(
+            controller: controller,
             attribute: Attribute.bold,
             child: Assets.icons.bold.svg(),
           ),
       (_) => _buildToggleButton(
+            controller: controller,
             attribute: Attribute.italic,
             child: Assets.icons.italic.svg(),
           ),
       (_) => QuillToolbarLinkStyleButton(
-            controller: _controller,
+            controller: controller,
             options: QuillToolbarLinkStyleButtonOptions(
               childBuilder: (options, extraOptions) => _buildIcon(
                 onPressed: () {
                   showCupertinoDialog<QuillTextLink>(
                     context: context,
                     barrierDismissible: true,
-                    builder: (context) => _LinkDialog(controller: _controller),
-                  ).then((link) => link?.submit(_controller));
+                    builder: (context) => _LinkDialog(controller: controller),
+                  ).then((link) => link?.submit(controller));
                   options.afterButtonPressed?.call();
                 },
-                isToggled: QuillTextLink.isSelected(_controller),
+                isToggled: QuillTextLink.isSelected(controller),
                 child: Assets.icons.link.svg(),
               ),
             ),
           ),
       (_) => _buildToggleButton(
+            controller: controller,
             attribute: Attribute.ul,
             child: Assets.icons.list.svg(),
           ),
       (_) => _buildToggleButton(
+            controller: controller,
             attribute: Attribute.underline,
             child: Assets.icons.underline.svg(),
           ),
@@ -247,10 +275,11 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
   Widget _buildToggleButton({
     required Attribute<dynamic> attribute,
     required Widget child,
+    required QuillController controller,
   }) =>
       QuillToolbarToggleStyleButton(
         attribute: attribute,
-        controller: _controller,
+        controller: controller,
         options: QuillToolbarToggleStyleButtonOptions(
           childBuilder: (options, extraOptions) => _buildIcon(
             onPressed: extraOptions.onPressed,
@@ -276,6 +305,90 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
           child: child,
         ),
       );
+}
+
+class _Editor extends StatelessWidget {
+  const _Editor({
+    required this.titleFocusNode,
+    required this.bodyFocusNode,
+    required this.controller,
+    required this.onTitleChanged,
+    this.onTranslate,
+  });
+
+  final FocusNode titleFocusNode;
+  final FocusNode bodyFocusNode;
+  final QuillController controller;
+  final ValueChanged<String> onTitleChanged;
+  final VoidCallback? onTranslate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: ZiggleInput(
+            focusNode: titleFocusNode,
+            showBorder: false,
+            hintText: t.notice.write.titleHint,
+            onChanged: onTitleChanged,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18),
+          child: Container(height: 1, color: Palette.grayBorder),
+        ),
+        const SizedBox(height: 10),
+        if (onTranslate != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: Row(
+              children: [
+                ZiggleButton.big(
+                  emphasize: false,
+                  onPressed: onTranslate,
+                  child: Row(
+                    children: [
+                      Assets.icons.sparks.svg(),
+                      const SizedBox(width: 10),
+                      Text(t.notice.write.translate),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18),
+            child: QuillEditor.basic(
+              focusNode: bodyFocusNode,
+              controller: controller,
+              configurations: QuillEditorConfigurations(
+                placeholder: t.notice.write.bodyHint,
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                customStyles: const DefaultStyles(
+                  placeHolder: DefaultTextBlockStyle(
+                    TextStyle(fontSize: 16, color: Palette.gray),
+                    HorizontalSpacing.zero,
+                    VerticalSpacing.zero,
+                    VerticalSpacing.zero,
+                    null,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class _LinkDialog extends StatefulWidget {
