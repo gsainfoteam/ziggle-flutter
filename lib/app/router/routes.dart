@@ -10,8 +10,10 @@ import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_intr
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_notion_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_profile_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_creation_layout.dart';
+import 'package:ziggle/app/modules/notice/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notice/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/category_page.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/detail_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/feed_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/list_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_body_page.dart';
@@ -30,7 +32,7 @@ part 'notice_routes.dart';
 part 'routes.g.dart';
 part 'splash_routes.dart';
 
-final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 abstract class AppRoutes {
   AppRoutes._();
