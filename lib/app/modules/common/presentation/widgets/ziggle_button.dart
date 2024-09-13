@@ -166,10 +166,7 @@ class ZiggleButton extends StatelessWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Padding(
-              padding: type.padding,
-              child: Opacity(opacity: loading ? 0 : 1, child: inner),
-            ),
+            Opacity(opacity: loading ? 0 : 1, child: inner),
             Positioned.fill(
               child: Center(
                 child: Opacity(
