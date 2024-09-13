@@ -3,7 +3,7 @@ part of 'routes.dart';
 @TypedGoRoute<NoticeDetailRoute>(path: '/notice/:id')
 class NoticeDetailRoute extends GoRouteData {
   const NoticeDetailRoute({required this.id, this.$extra});
-  factory NoticeDetailRoute.fromSummary(NoticeSummary summary) =>
+  factory NoticeDetailRoute.fromSummary(NoticeEntity summary) =>
       NoticeDetailRoute(
         id: summary.id,
       );
@@ -14,15 +14,13 @@ class NoticeDetailRoute extends GoRouteData {
 
   @override
   Widget build(BuildContext context, GoRouterState state) => DetailPage(
-        notice: NoticeSummary(
-          id: 0,
+        notice: NoticeEntity.mock(
           content: '공지 내용',
           title: '공지 제목',
           deadline: DateTime(2024, 9, 14, 0, 48, 20),
-          images: [],
-          likes: 10,
-          authorIsCertificated: true,
+          imageUrls: [],
           authorName: '홍길동',
+          createdAt: DateTime.now(),
         ),
       );
 }
