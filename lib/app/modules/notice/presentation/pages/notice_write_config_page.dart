@@ -18,8 +18,8 @@ class NoticeWriteConfigPage extends StatefulWidget {
 }
 
 class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
-  NoticeType? _type;
   DateTime? _deadline;
+  NoticeType? _type;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +49,9 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               _buildChangeAccount(),
               const SizedBox(height: 25),
               _buildDeadline(),
+              const SizedBox(height: 25),
+              _buildCategory(),
+              const SizedBox(height: 25),
             ],
           ),
         ),
@@ -181,6 +184,88 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               ),
             ),
           ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCategory() {
+    return Container(
+      padding: const EdgeInsets.all(15),
+      decoration: const BoxDecoration(
+        color: Palette.grayLight,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Assets.icons.list.svg(),
+              const SizedBox(width: 6),
+              Text(
+                t.notice.write.category,
+                style: const TextStyle(
+                  color: Palette.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: NoticeType.values.indexed
+                .expand(
+                  (e) => [
+                    if (e.$1 != 0) const SizedBox(width: 10),
+                    Expanded(
+                      child: AspectRatio(
+                        aspectRatio: 1,
+                        child: ZigglePressable(
+                          onPressed: () => setState(() => _type = e.$2),
+                          decoration: BoxDecoration(
+                            color: _type == e.$2
+                                ? Palette.black
+                                : Palette.grayLight,
+                            border: Border.all(
+                              color: _type == e.$2
+                                  ? Palette.black
+                                  : Palette.grayBorder,
+                            ),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(10),
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              e.$2.icon.svg(
+                                height: 36,
+                                colorFilter: _type == e.$2
+                                    ? const ColorFilter.mode(
+                                        Palette.white, BlendMode.srcIn)
+                                    : null,
+                              ),
+                              const SizedBox(height: 5),
+                              Text(
+                                t.notice.type(context: e.$2),
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: _type == e.$2
+                                      ? Palette.white
+                                      : Palette.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+                .toList(),
+          ),
         ],
       ),
     );

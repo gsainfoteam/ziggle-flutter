@@ -1,4 +1,9 @@
 {
+  "type(context=NoticeType)": {
+    "recruit": "Recruit",
+    "event": "Event",
+    "general": "General"
+  },
   "write": {
     "title": "Write Notice",
     "link": {
@@ -18,6 +23,7 @@
       "title": "Set Deadline",
       "confirm": "Set",
       "timeSelect": "Select Deadline Time"
-    }
+    },
+    "category": "Category"
   }
 }
