@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_chip.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notice/domain/entities/notice_summary.dart';
+import 'package:ziggle/app/modules/notice/presentation/widgets/d_day.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
@@ -57,7 +57,7 @@ class NoticeCard extends StatelessWidget {
                   ],
                 ),
               ),
-              const ZiggleChip(label: '343days left'),
+              if (notice.deadline != null) DDay(deadline: notice.deadline!),
             ],
           ),
           const SizedBox(height: 8),
