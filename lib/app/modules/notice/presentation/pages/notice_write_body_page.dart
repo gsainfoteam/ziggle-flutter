@@ -187,7 +187,7 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage> {
                 ),
               ),
             ],
-            const SizedBox(height: 10),
+            const SizedBox(height: 50),
           ],
         ),
       ),
