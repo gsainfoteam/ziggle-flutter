@@ -30,7 +30,7 @@ class Tag extends StatelessWidget {
         children: [
           Flexible(
             child: Text(
-              tag,
+              '#$tag',
               style: const TextStyle(
                 fontSize: 18.0,
                 fontWeight: FontWeight.normal,

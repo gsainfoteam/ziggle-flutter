@@ -38,6 +38,23 @@
       "upload": "공지 게시하기"
     }
   },
+  "calendar": {
+    "weeksAgo": {
+      "other": "$n주 전"
+    },
+    "daysAgo": {
+      "other": "$n일 전"
+    },
+    "hoursAgo": {
+      "other": "$n시간 전"
+    },
+    "minutesAgo": {
+      "other": "$n분 전"
+    },
+    "secondsAgo": {
+      "other": "$n초 전"
+    }
+  },
   "dDay": {
     "daysLeft(rich)": {
       "one": "$n day left",
@@ -59,6 +76,8 @@
   },
   "detail": {
     "title": "공지 상세",
-    "back": "공지"
+    "back": "공지",
+    "share": "공유하기",
+    "copy": "링크 복사하기"
   }
 }

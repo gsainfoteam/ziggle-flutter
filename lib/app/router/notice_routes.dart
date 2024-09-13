@@ -18,9 +18,14 @@ class NoticeDetailRoute extends GoRouteData {
           content: '공지 내용',
           title: '공지 제목',
           deadline: DateTime(2024, 9, 14, 0, 48, 20),
-          imageUrls: [],
+          imageUrls: [
+            'https://picsum.photos/200/300',
+            'https://picsum.photos/200/111',
+            'https://picsum.photos/200/302',
+          ],
           authorName: '홍길동',
           createdAt: DateTime.now(),
+          tags: ['태그1', '태그2'],
         ),
       );
 }
