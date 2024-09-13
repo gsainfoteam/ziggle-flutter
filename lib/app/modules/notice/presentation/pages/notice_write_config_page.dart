@@ -34,7 +34,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
             disabled: _type == null,
             onPressed: _type == null ? null : () {},
             child: Text(
-              t.common.done,
+              t.notice.write.publish,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -56,6 +56,10 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               const SizedBox(height: 25),
               _buildTags(),
               const SizedBox(height: 25),
+              ZiggleButton.cta(
+                emphasize: false,
+                child: Text(t.notice.write.preview),
+              ),
             ],
           ),
         ),

@@ -16,7 +16,7 @@
     "titleHint": "Enter Title",
     "bodyHint": "Enter Content",
     "addPhoto": "Add Photo",
-    "configTitle": "Upload Option",
+    "configTitle": "Publish Option",
     "changeAccount": "Change Account",
     "deadline": {
       "label(rich)": "Deadline ${small((Optional))}",
@@ -28,6 +28,8 @@
     "hashtag": {
       "label(rich)": "Set Tags ${small((Optional))}",
       "hint": "Enter Tags"
-    }
+    },
+    "preview": "Preview",
+    "publish": "Publish"
   }
 }
