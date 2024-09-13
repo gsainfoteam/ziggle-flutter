@@ -4,6 +4,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:ziggle/app/modules/auth/data/data_sources/remote/authorize_interceptor.dart';
 
 @module
 abstract class AppModule {
@@ -23,8 +24,9 @@ abstract class AppModule {
       CookieManager(cookieJar);
 
   @singleton
-  Dio getDio(CookieManager cookieManager) =>
-      Dio()..interceptors.addAll([cookieManager]);
+  Dio getDio(AuthorizeInterceptor authorizeInterceptor,
+          CookieManager cookieManager) =>
+      Dio()..interceptors.addAll([authorizeInterceptor, cookieManager]);
 
   FlutterSecureStorage get flutterSecureStorage => const FlutterSecureStorage(
         aOptions: AndroidOptions(encryptedSharedPreferences: true),
