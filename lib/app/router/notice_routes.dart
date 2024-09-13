@@ -1,5 +1,13 @@
 part of 'routes.dart';
 
+@TypedGoRoute<SearchRoute>(path: '/search')
+class SearchRoute extends GoRouteData {
+  const SearchRoute();
+  static final GlobalKey<NavigatorState> $parentNavigatorKey = rootNavigatorKey;
+  @override
+  Widget build(context, state) => const SearchPage();
+}
+
 @TypedShellRoute<NoticeShellRoute>(routes: [
   TypedGoRoute<NoticeWriteBaseRoute>(path: '/write'),
   TypedGoRoute<NoticeWriteRoute>(path: '/write/:step'),

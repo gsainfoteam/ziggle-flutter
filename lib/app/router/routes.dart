@@ -16,6 +16,7 @@ import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_config
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_consent_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_preview_page.dart';
 import 'package:ziggle/app/modules/notice/presentation/pages/notice_write_select_tags_page.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/search_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -26,10 +27,13 @@ part 'notice_routes.dart';
 part 'routes.g.dart';
 part 'splash_routes.dart';
 
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();
+
 abstract class AppRoutes {
   AppRoutes._();
 
   static final config = GoRouter(
+    navigatorKey: rootNavigatorKey,
     initialLocation: const SplashRoute().location,
     routes: $appRoutes,
     debugLogDiagnostics: kDebugMode,
