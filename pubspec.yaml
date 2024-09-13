@@ -37,6 +37,7 @@ dependencies:
   json_annotation: ^4.9.0
   freezed_annotation: ^2.4.4
   rxdart: ^0.28.0
+  flutter_bloc: ^8.1.6
 
 dev_dependencies:
   flutter_test:
