@@ -2,40 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_checkbox.dart';
 import 'package:ziggle/app/values/palette.dart';
 
-class ConsentItem extends StatefulWidget {
-  const ConsentItem({
+class AgreementItem extends StatelessWidget {
+  const AgreementItem({
     super.key,
     required this.title,
     required this.description,
     this.isChecked = false,
+    required this.onChanged,
   });
 
   final String title;
   final String description;
   final bool isChecked;
-
-  @override
-  State<ConsentItem> createState() => _ConsentItemState();
-}
-
-class _ConsentItemState extends State<ConsentItem> {
-  late bool isChecked;
-
-  @override
-  void initState() {
-    isChecked = widget.isChecked;
-    super.initState();
-  }
-
-  _toggleCheck(bool newValue) {
-    setState(() {
-      isChecked = newValue;
-    });
-  }
+  final void Function(bool) onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: Durations.medium1,
       decoration: ShapeDecoration(
         color: isChecked ? Palette.primaryLight : Palette.grayLight,
         shape: RoundedRectangleBorder(
@@ -49,7 +33,7 @@ class _ConsentItemState extends State<ConsentItem> {
         mainAxisSize: MainAxisSize.min,
         children: [
           ZiggleCheckbox(
-            onToggle: (newValue) => _toggleCheck(newValue),
+            onToggle: onChanged,
           ),
           const SizedBox(width: 10),
           Expanded(
@@ -58,7 +42,7 @@ class _ConsentItemState extends State<ConsentItem> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  widget.title,
+                  title,
                   style: const TextStyle(
                     color: Palette.black,
                     fontSize: 18,
@@ -67,7 +51,7 @@ class _ConsentItemState extends State<ConsentItem> {
                   ),
                 ),
                 Text(
-                  widget.description,
+                  description,
                 )
               ],
             ),
