@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/theme.dart';
@@ -39,6 +44,27 @@ class _Providers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return child;
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          lazy: false,
+          create: (_) => sl<AuthBloc>()..add(const AuthEvent.load()),
+        ),
+        BlocProvider(
+          lazy: false,
+          create: (_) => sl<UserBloc>()..add(const UserEvent.init()),
+        ),
+      ],
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) => state.whenOrNull(
+              error: (message) => context.showToast(message),
+            ),
+          ),
+        ],
+        child: child,
+      ),
+    );
   }
 }
