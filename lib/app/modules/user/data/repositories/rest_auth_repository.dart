@@ -31,7 +31,7 @@ class RestAuthRepository implements AuthRepository {
   Stream<bool> get isSignedIn => _tokenRepository.token.asyncMap(
         (_) async {
           try {
-            await _api.testTokenInfo();
+            await _api.info();
             return true;
           } catch (_) {
             return false;
