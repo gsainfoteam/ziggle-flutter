@@ -1,7 +1,7 @@
 {
   "login": {
     "title": "Please log in",
-    "description": "Please log in to write notices, remind, and leave reactions.",
+    "description": "Please log in to write notices and leave reactions.",
     "action": "Login"
   },
   "setting": {
