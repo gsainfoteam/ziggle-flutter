@@ -102,5 +102,6 @@
     "hint": "Search Notice",
     "description": "Enter search keyword"
   },
-  "list": "List"
+  "list": "List",
+  "viewMore(rich)": "... ${more(more)}"
 }

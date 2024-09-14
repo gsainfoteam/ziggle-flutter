@@ -1,9 +1,11 @@
+import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/d_day.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class NoticeCard extends StatelessWidget {
   const NoticeCard({
@@ -89,12 +91,23 @@ class NoticeCard extends StatelessWidget {
                 fit: BoxFit.cover,
               )
             else
-              Text(
+              ExtendedText(
                 notice.content,
+                maxLines: 4,
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: Palette.black,
+                ),
+                overflowWidget: TextOverflowWidget(
+                  child: Text.rich(
+                    t.notice.viewMore(
+                      more: (more) => TextSpan(
+                        text: more,
+                        style: const TextStyle(color: Palette.grayText),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             const SizedBox(height: 8),
