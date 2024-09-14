@@ -121,4 +121,6 @@ extension NoticeEntityExtension on NoticeEntity {
     if (currentDeadline!.toLocal().isBefore(DateTime.now())) return false;
     return true;
   }
+
+  bool get isCertified => false;
 }

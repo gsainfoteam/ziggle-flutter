@@ -53,7 +53,7 @@ class NoticeCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          if (false)
+                          if (notice.isCertified)
                             Assets.icons.certificatedBadge.svg(width: 20),
                         ],
                       ),

@@ -5,7 +5,9 @@
     "event": "Event",
     "general": "General",
     "hot": "Ziggle Pick",
-    "academic": "Academic"
+    "academic": "Academic",
+    "all": "All",
+    "written": "Written"
   },
   "category(context=NoticeCategory)": {
     "academic": "Academic",
