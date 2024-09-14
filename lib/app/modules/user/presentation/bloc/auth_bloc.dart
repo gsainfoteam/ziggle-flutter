@@ -54,4 +54,5 @@ sealed class AuthState with _$AuthState {
 
   bool get hasUser => this is _Authenticated;
   bool get isLoading => this is _Loading;
+  bool get hasError => this is _Error;
 }
