@@ -25,7 +25,7 @@ class AuthorizeInterceptor extends Interceptor {
     try {
       final userApi = sl<UserApi>();
       try {
-        userApi.testTokenInfo();
+        await userApi.testTokenInfo();
       } catch (e) {
         try {
           final token = await userApi.refresh();
