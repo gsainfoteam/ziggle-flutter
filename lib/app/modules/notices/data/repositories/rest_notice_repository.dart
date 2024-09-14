@@ -41,8 +41,7 @@ class RestNoticeRepository implements NoticeRepository {
 
   @override
   Future<NoticeEntity> getNotice(int id) {
-    // TODO: implement getNotice
-    throw UnimplementedError();
+    return _api.getNotice(id);
   }
 
   @override
