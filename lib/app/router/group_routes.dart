@@ -27,7 +27,6 @@ class GroupCreationRoute extends GoRouteData {
     );
   }
 }
-part of 'routes.dart';
 
 @TypedGoRoute<GroupRoute>(path: '/group')
 class GroupRoute extends GoRouteData {

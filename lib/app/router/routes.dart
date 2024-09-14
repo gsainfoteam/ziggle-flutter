@@ -10,6 +10,7 @@ import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_intr
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_notion_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_profile_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_creation_layout.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/group_management_main_page.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/category_page.dart';
@@ -62,21 +63,4 @@ extension GoRouterExtension on GoRouter {
 extension BuildContextX on BuildContext {
   void popUntilPath(String ancestorPath) =>
       GoRouter.of(this).popUntilPath(ancestorPath);
-}
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:ziggle/app/modules/notice/presentation/pages/group_management_main_page.dart';
-import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
-
-part 'routes.g.dart';
-part 'splash_routes.dart';
-part 'group_routes.dart';
-
-abstract class AppRoutes {
-  AppRoutes._();
-
-  static final config = GoRouter(
-    initialLocation: const SplashRoute().location,
-    routes: $appRoutes,
-  );
 }
