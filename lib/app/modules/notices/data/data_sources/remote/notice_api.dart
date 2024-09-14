@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart'
 import 'package:ziggle/app/modules/notices/data/models/modify_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_list_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -28,6 +29,7 @@ abstract class NoticeApi {
     @Query('tags[]') List<String>? tags,
     @Query('orderBy') NoticeSort? orderBy,
     @Query('my') NoticeMy? my,
+    @Query('category') NoticeCategory? category,
   });
 
   @POST('')

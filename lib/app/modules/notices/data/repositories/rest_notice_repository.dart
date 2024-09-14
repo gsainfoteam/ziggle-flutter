@@ -5,6 +5,7 @@ import 'package:ziggle/app/modules/notices/data/data_sources/remote/notice_api.d
 import 'package:ziggle/app/modules/notices/data/enums/notice_my.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_list_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
@@ -55,8 +56,10 @@ class RestNoticeRepository implements NoticeRepository {
       limit: limit,
       search: search,
       tags: tags,
-      my: type == NoticeType.written ? NoticeMy.own : null,
+      my: NoticeMy.fromType(type),
       orderBy: NoticeSort.recent,
+      lang: LocaleSettings.currentLocale,
+      category: NoticeCategory.fromType(type),
     );
   }
 
