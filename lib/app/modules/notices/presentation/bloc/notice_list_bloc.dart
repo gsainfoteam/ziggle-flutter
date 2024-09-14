@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -12,19 +13,47 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
   final NoticeRepository _repository;
 
   late NoticeType type;
+  late int total;
 
   NoticeListBloc(this._repository) : super(const _Initial()) {
     on<_Load>((event, emit) async {
       emit(const _Loading());
       type = event.type;
       final notices = await _repository.getNotices(type: type);
+      total = notices.total;
       emit(_Loaded(notices.list));
     });
     on<_Refresh>((event, emit) async {
       emit(const _Loading());
       final notices = await _repository.getNotices(type: type);
+      total = notices.total;
       emit(_Loaded(notices.list));
     });
+    on<_LoadMore>((event, emit) async {
+      if (state is! _Loaded) return;
+      if (state.notices.length >= total) return;
+      emit(const _Loading());
+      final notices = await _repository.getNotices(
+        type: type,
+        offset: state.notices.length,
+      );
+      total = notices.total;
+      emit(_Loaded([...state.notices, ...notices.list]));
+    });
+  }
+
+  static Future<void> refresh(BuildContext context) async {
+    final bloc = context.read<NoticeListBloc>();
+    final blocker = bloc.stream.firstWhere((state) => !state.isLoading);
+    bloc.add(const NoticeListEvent.refresh());
+    await blocker;
+  }
+
+  static Future<void> loadMore(BuildContext context) async {
+    final bloc = context.read<NoticeListBloc>();
+    final blocker = bloc.stream.firstWhere((state) => !state.isLoading);
+    bloc.add(const NoticeListEvent.loadMore());
+    await blocker;
   }
 }
 
@@ -32,6 +61,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
 sealed class NoticeListEvent {
   const factory NoticeListEvent.load(NoticeType type) = _Load;
   const factory NoticeListEvent.refresh() = _Refresh;
+  const factory NoticeListEvent.loadMore() = _LoadMore;
 }
 
 @freezed
