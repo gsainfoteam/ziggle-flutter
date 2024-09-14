@@ -21,21 +21,11 @@ class AuthorizeInterceptor extends Interceptor {
     if (statusCode != 401) return handler.next(err);
     final token = await _repository.token.first;
     if (token == null) return handler.next(err);
-    final retried = err.requestOptions.extra.containsKey(retriedKey);
-    if (retried) return handler.next(err);
-    err.requestOptions.extra[retriedKey] = true;
+    if (err.requestOptions.retried) return handler.next(err);
+    err.requestOptions.retried = true;
+
     try {
-      await mutex.acquireWrite();
-      final userApi = sl<UserApi>();
-      try {
-        final token = await userApi.refresh();
-        await _repository.saveToken(token.accessToken);
-      } catch (e) {
-        await _repository.deleteToken();
-        return handler.next(err);
-      } finally {
-        mutex.release();
-      }
+      if (!(await _refresh())) return handler.next(err);
       final retriedResponse = await dio.fetch(err.requestOptions);
       return handler.resolve(retriedResponse);
     } on DioException {
@@ -48,35 +38,47 @@ class AuthorizeInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    if (!options.extra.containsKey(retriedKey)) {
-      if (_repository.tokenExpiration != null) {
-        if (DateTime.now().isAfter(_repository.tokenExpiration!)) {
-          try {
-            await mutex.acquireWrite();
-            final userApi = sl<UserApi>();
-            final token = await userApi.refresh();
-            await _repository.saveToken(token.accessToken);
-          } catch (_) {
-            await _repository.deleteToken();
-          } finally {
-            mutex.release();
-          }
-        }
+    if (options.retried) return handler.next(options);
+    if (_repository.tokenExpiration != null) {
+      if (DateTime.now().isAfter(_repository.tokenExpiration!)) {
+        await _refresh();
       }
     }
+
     try {
-      if (!options.extra.containsKey(retriedKey)) {
-        await mutex.acquireRead();
-      }
+      await mutex.acquireRead();
       final token = await _repository.token.first;
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
       }
       handler.next(options);
     } finally {
-      if (!options.extra.containsKey(retriedKey)) {
-        mutex.release();
-      }
+      mutex.release();
     }
   }
+
+  Future<bool> _refresh() async {
+    if (mutex.isWriteLocked) {
+      await mutex.acquireRead();
+      mutex.release();
+      return true;
+    }
+    await mutex.acquireWrite();
+    final userApi = sl<UserApi>();
+    try {
+      final token = await userApi.refresh();
+      await _repository.saveToken(token.accessToken);
+      return true;
+    } catch (e) {
+      await _repository.deleteToken();
+      return false;
+    } finally {
+      mutex.release();
+    }
+  }
+}
+
+extension _RequestOptionsX on RequestOptions {
+  bool get retried => extra.containsKey(AuthorizeInterceptor.retriedKey);
+  set retried(bool value) => extra[AuthorizeInterceptor.retriedKey] = value;
 }
