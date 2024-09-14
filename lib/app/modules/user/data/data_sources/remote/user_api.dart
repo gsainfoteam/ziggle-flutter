@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/authorize_interceptor.dart';
 import 'package:ziggle/app/modules/user/data/models/token_model.dart';
+import 'package:ziggle/app/modules/user/data/models/user_model.dart';
 
 part 'user_api.g.dart';
 
@@ -25,4 +26,7 @@ abstract class UserApi {
   @GET('info')
   @Extra({AuthorizeInterceptor.retriedKey: true})
   Future testTokenInfo();
+
+  @GET('info')
+  Future<UserModel> info();
 }

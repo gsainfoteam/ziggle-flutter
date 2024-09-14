@@ -2,10 +2,11 @@
   "login": {
     "title": "Please log in",
     "description": "Please log in to write notices, remind, and leave reactions.",
-    "action": "Log in"
+    "action": "Login"
   },
   "setting": {
     "title": "Setting"
   },
-  "feedback": "Feedback · Report a bug"
+  "feedback": "Feedback · Report a bug",
+  "logout": "Logout"
 }
