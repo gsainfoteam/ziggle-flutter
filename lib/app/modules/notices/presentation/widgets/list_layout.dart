@@ -14,7 +14,7 @@ class ListLayout extends StatelessWidget {
           onRefresh: () async {
             final bloc = context.read<NoticeListBloc>();
             final blocker = bloc.stream.firstWhere((state) => !state.isLoading);
-            bloc.add(const NoticeListEvent.load());
+            bloc.add(const NoticeListEvent.refresh());
             await blocker;
           },
           child: state.showLoading

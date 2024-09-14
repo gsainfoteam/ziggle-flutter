@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/list_layout.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -18,7 +19,8 @@ class FeedPage extends StatelessWidget {
         onTapWrite: () {},
       ),
       body: BlocProvider(
-        create: (_) => sl<NoticeListBloc>()..add(const NoticeListEvent.load()),
+        create: (_) => sl<NoticeListBloc>()
+          ..add(const NoticeListEvent.load(NoticeType.all)),
         child: const ListLayout(),
       ),
     );

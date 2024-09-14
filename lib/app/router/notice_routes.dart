@@ -46,7 +46,7 @@ class NoticeCategoryRoute extends GoRouteData {
   static final $parentNavigatorKey = rootNavigatorKey;
 
   @override
-  Widget build(context, state) => ListPage(title: type.name);
+  Widget build(context, state) => ListPage(title: type.name, type: type);
 }
 
 @TypedShellRoute<NoticeShellRoute>(routes: [
