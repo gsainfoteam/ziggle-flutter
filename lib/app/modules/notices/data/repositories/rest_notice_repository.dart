@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/notice_api.dart';
 import 'package:ziggle/app/modules/notices/data/enums/notice_my.dart';
+import 'package:ziggle/app/modules/notices/data/models/get_notices_query_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_list_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
@@ -51,16 +52,16 @@ class RestNoticeRepository implements NoticeRepository {
       String? search,
       List<String> tags = const [],
       NoticeType type = NoticeType.all}) {
-    return _api.getNotices(
+    return _api.getNotices(GetNoticesQueryModel(
       offset: offset,
       limit: limit,
       search: search,
       tags: tags,
       my: NoticeMy.fromType(type),
-      orderBy: NoticeSort.recent,
+      orderBy: NoticeSort.fromType(type),
       lang: LocaleSettings.currentLocale,
       category: NoticeCategory.fromType(type),
-    );
+    ));
   }
 
   @override

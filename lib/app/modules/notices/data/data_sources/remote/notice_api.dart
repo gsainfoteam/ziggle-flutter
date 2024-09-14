@@ -1,15 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
-import 'package:ziggle/app/modules/notices/data/enums/notice_my.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_additional_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_foreign_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
+import 'package:ziggle/app/modules/notices/data/models/get_notices_query_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/modify_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_list_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
-import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
-import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 part 'notice_api.g.dart';
@@ -21,16 +19,7 @@ abstract class NoticeApi {
   factory NoticeApi(Dio dio) = _NoticeApi;
 
   @GET('')
-  Future<NoticeListModel> getNotices({
-    @Query('offset') int? offset,
-    @Query('limit') int? limit,
-    @Query('lang') AppLocale? lang,
-    @Query('search') String? search,
-    @Query('tags[]') List<String>? tags,
-    @Query('orderBy') NoticeSort? orderBy,
-    @Query('my') NoticeMy? my,
-    @Query('category') NoticeCategory? category,
-  });
+  Future<NoticeListModel> getNotices(@Queries() GetNoticesQueryModel query);
 
   @POST('')
   Future<NoticeModel> createNotice(@Body() CreateNoticeModel model);
