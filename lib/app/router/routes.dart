@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ziggle/app/modules/notice/presentation/pages/group_management_main_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 
 part 'routes.g.dart';
