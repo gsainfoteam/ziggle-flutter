@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -68,7 +69,7 @@ class _Layout extends StatelessWidget {
             ZiggleRowButton(
               icon: Assets.icons.setting.svg(),
               title: Text(t.user.setting.title),
-              onPressed: () {},
+              onPressed: () => const SettingRoute().push(context),
             ),
             const SizedBox(height: 20),
             ZiggleRowButton(

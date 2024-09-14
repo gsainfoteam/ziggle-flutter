@@ -24,6 +24,7 @@ import 'package:ziggle/app/modules/notices/presentation/pages/notice_write_selec
 import 'package:ziggle/app/modules/notices/presentation/pages/search_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 import 'package:ziggle/app/modules/user/presentation/pages/profile_page.dart';
+import 'package:ziggle/app/modules/user/presentation/pages/setting_page.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -32,6 +33,7 @@ part 'main_routes.dart';
 part 'notice_routes.dart';
 part 'routes.g.dart';
 part 'splash_routes.dart';
+part 'user_routes.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
