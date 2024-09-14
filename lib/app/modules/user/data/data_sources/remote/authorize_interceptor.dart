@@ -47,13 +47,17 @@ class AuthorizeInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    if (_repository.tokenExpiration != null) {
-      if (DateTime.now().isAfter(_repository.tokenExpiration!)) {
-        try {
-          final userApi = sl<UserApi>();
-          final token = await userApi.refresh();
-          await _repository.saveToken(token.accessToken);
-        } catch (_) {}
+    if (!options.extra.containsKey(retriedKey)) {
+      if (_repository.tokenExpiration != null) {
+        if (DateTime.now().isAfter(_repository.tokenExpiration!)) {
+          try {
+            final userApi = sl<UserApi>();
+            final token = await userApi.refresh();
+            await _repository.saveToken(token.accessToken);
+          } catch (_) {
+            await _repository.deleteToken();
+          }
+        }
       }
     }
     final token = await _repository.token.first;
