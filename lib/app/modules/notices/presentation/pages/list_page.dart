@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
-import 'package:ziggle/app/modules/notice/domain/entities/notice_entity.dart';
-import 'package:ziggle/app/modules/notice/presentation/widgets/notice_card.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 

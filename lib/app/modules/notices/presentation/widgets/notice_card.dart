@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
-import 'package:ziggle/app/modules/notice/domain/entities/notice_entity.dart';
-import 'package:ziggle/app/modules/notice/presentation/widgets/d_day.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/d_day.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
