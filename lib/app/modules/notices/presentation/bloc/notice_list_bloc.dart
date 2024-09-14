@@ -32,7 +32,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
     on<_LoadMore>((event, emit) async {
       if (state is! _Loaded) return;
       if (state.notices.length >= total) return;
-      emit(const _Loading());
+      emit(_Loading(state.notices));
       final notices = await _repository.getNotices(
         type: type,
         offset: state.notices.length,
