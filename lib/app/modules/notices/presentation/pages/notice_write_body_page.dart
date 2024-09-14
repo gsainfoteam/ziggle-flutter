@@ -11,8 +11,8 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
-import 'package:ziggle/app/modules/notice/presentation/widgets/language_toggle.dart';
-import 'package:ziggle/app/modules/notice/presentation/widgets/photo_item.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/photo_item.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
