@@ -7,7 +7,7 @@ import 'package:ziggle/app/modules/user/data/models/token_model.dart';
 part 'user_api.g.dart';
 
 @injectable
-@RestApi(baseUrl: 'user')
+@RestApi(baseUrl: 'user/')
 abstract class UserApi {
   @factoryMethod
   factory UserApi(Dio dio) = _UserApi;
