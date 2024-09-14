@@ -1,0 +1,1 @@
+class InvalidAuthorizationCodeException implements Exception {}

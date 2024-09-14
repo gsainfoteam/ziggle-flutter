@@ -1,1 +1,96 @@
-{}
+{
+  "type(context=NoticeType)": {
+    "deadline": "마감임박",
+    "recruit": "모집",
+    "event": "행사",
+    "general": "일반",
+    "hot": "지글픽",
+    "academic": "학사"
+  },
+  "category(context=NoticeCategory)": {
+    "academic": "학사",
+    "recruit": "모집",
+    "event": "행사",
+    "club": "동아리",
+    "etc": "일반"
+  },
+  "write": {
+    "title": "공지 작성",
+    "link": {
+      "text": "내용",
+      "link": "링크",
+      "add": "추가",
+      "change": "변경",
+      "remove": "삭제"
+    },
+    "titleHint": "제목을 입력하세요",
+    "translate": "AI 번역 사용",
+    "bodyHint": "내용을 입력하세요",
+    "addPhoto": "사진 추가",
+    "configTitle": "발행 옵션",
+    "changeAccount": "계정 변경",
+    "deadline": {
+      "label(rich)": "마감일 ${small((선택))}",
+      "title": "마감일 설정",
+      "confirm": "설정",
+      "timeSelect": "마감 시각 설정"
+    },
+    "category": "분류",
+    "hashtag": {
+      "label(rich)": "태그 설정 ${small((선택))}",
+      "hint": "태그 입력",
+      "title": "태그 추가하기"
+    },
+    "preview": "미리보기",
+    "publish": "발행",
+    "consent": {
+      "title": "아래 내용을 모두 읽고,\n동의해주세요.",
+      "upload": "공지 게시하기"
+    }
+  },
+  "calendar": {
+    "weeksAgo": {
+      "other": "$n주 전"
+    },
+    "daysAgo": {
+      "other": "$n일 전"
+    },
+    "hoursAgo": {
+      "other": "$n시간 전"
+    },
+    "minutesAgo": {
+      "other": "$n분 전"
+    },
+    "secondsAgo": {
+      "other": "$n초 전"
+    }
+  },
+  "dDay": {
+    "daysLeft(rich)": {
+      "other": "$n일 남음"
+    },
+    "hoursLeft(rich)": {
+      "other": "$n시간 남음"
+    },
+    "minutesLeft(rich)": {
+      "other": "$n분 남음"
+    },
+    "secondsLeft(rich)": {
+      "one": "$n초 left",
+      "other": "$n초 left"
+    },
+    "overdue": "기한 지남"
+  },
+  "detail": {
+    "title": "공지 상세",
+    "back": "공지",
+    "share": "공유하기",
+    "copy": "링크 복사하기",
+    "deadline": "마감기한"
+  },
+  "search": {
+    "hint": "공지 검색",
+    "description": "검색 키워드를 입력해보세요"
+  },
+  "list": "목록"
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/values/palette.dart';
 
 enum ZiggleButtonType {
@@ -12,8 +13,8 @@ enum ZiggleButtonType {
   const ZiggleButtonType(this.padding);
 }
 
-class ZiggleButton extends StatefulWidget {
-  const ZiggleButton({
+class ZiggleButton extends StatelessWidget {
+  const ZiggleButton._({
     super.key,
     required this.child,
     this.onPressed,
@@ -21,8 +22,105 @@ class ZiggleButton extends StatefulWidget {
     this.loading = false,
     this.disabled = false,
     this.emphasize = true,
-    this.type = ZiggleButtonType.cta,
+    required this.type,
+    required this.defaultStyle,
   });
+
+  factory ZiggleButton.cta({
+    Key? key,
+    required Widget child,
+    VoidCallback? onPressed,
+    bool outlined = false,
+    bool loading = false,
+    bool disabled = false,
+    bool emphasize = true,
+  }) =>
+      ZiggleButton._(
+        key: key,
+        onPressed: onPressed,
+        outlined: outlined,
+        loading: loading,
+        disabled: disabled,
+        emphasize: emphasize,
+        type: ZiggleButtonType.cta,
+        defaultStyle: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          height: 1,
+        ),
+        child: child,
+      );
+
+  factory ZiggleButton.big({
+    Key? key,
+    required Widget child,
+    VoidCallback? onPressed,
+    bool outlined = false,
+    bool loading = false,
+    bool disabled = false,
+    bool emphasize = true,
+  }) =>
+      ZiggleButton._(
+        key: key,
+        onPressed: onPressed,
+        outlined: outlined,
+        loading: loading,
+        disabled: disabled,
+        emphasize: emphasize,
+        type: ZiggleButtonType.big,
+        defaultStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          height: 1,
+        ),
+        child: child,
+      );
+
+  factory ZiggleButton.small({
+    Key? key,
+    required Widget child,
+    VoidCallback? onPressed,
+    bool outlined = false,
+    bool loading = false,
+    bool disabled = false,
+    bool emphasize = true,
+  }) =>
+      ZiggleButton._(
+        key: key,
+        onPressed: onPressed,
+        outlined: outlined,
+        loading: loading,
+        disabled: disabled,
+        emphasize: emphasize,
+        type: ZiggleButtonType.small,
+        defaultStyle: const TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          height: 1,
+        ),
+        child: child,
+      );
+
+  factory ZiggleButton.text({
+    Key? key,
+    required Widget child,
+    VoidCallback? onPressed,
+    bool loading = false,
+    bool disabled = false,
+  }) =>
+      ZiggleButton._(
+        key: key,
+        onPressed: onPressed,
+        loading: loading,
+        disabled: disabled,
+        type: ZiggleButtonType.text,
+        defaultStyle: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          height: 1,
+        ),
+        child: child,
+      );
 
   final Widget child;
   final VoidCallback? onPressed;
@@ -31,103 +129,71 @@ class ZiggleButton extends StatefulWidget {
   final bool disabled;
   final bool emphasize;
   final ZiggleButtonType type;
-
-  @override
-  State<ZiggleButton> createState() => _ZiggleButtonState();
-}
-
-class _ZiggleButtonState extends State<ZiggleButton> {
-  bool _pressed = false;
-  bool _active = false;
-  bool get pressed => _pressed || _active;
+  final TextStyle defaultStyle;
 
   Color get _effectiveColor {
-    if (widget.type == ZiggleButtonType.text) return Palette.primary;
-    if (widget.type == ZiggleButtonType.textWithPadding) return Palette.primary;
-    if (widget.disabled) return Palette.gray;
-    if (widget.outlined) return Palette.primary;
-    if (widget.emphasize) return Palette.white;
+    if (disabled) return Palette.gray;
+    if (type == ZiggleButtonType.text) return Palette.primary;
+    if (type == ZiggleButtonType.textWithPadding) return Palette.primary;
+    if (outlined) return Palette.primary;
+    if (emphasize) return Palette.white;
     return Palette.black;
   }
 
   Color? get _effectiveBackgroundColor {
-    if (widget.type == ZiggleButtonType.text) return null;
-    if (widget.type == ZiggleButtonType.textWithPadding) return null;
-    if (widget.disabled) return Palette.grayLight;
-    if (widget.outlined) return null;
-    if (widget.emphasize) return Palette.primary;
+    if (type == ZiggleButtonType.text) return null;
+    if (type == ZiggleButtonType.textWithPadding) return null;
+    if (disabled) return Palette.grayLight;
+    if (outlined) return null;
+    if (emphasize) return Palette.primary;
     return Palette.grayLight;
   }
 
   Color? get _effectiveBorderColor {
-    if (widget.type == ZiggleButtonType.text) return null;
-    if (widget.type == ZiggleButtonType.textWithPadding) return null;
-    if (widget.disabled) return null;
-    if (widget.outlined) return Palette.primary;
-    if (widget.emphasize) return null;
+    if (type == ZiggleButtonType.text) return null;
+    if (type == ZiggleButtonType.textWithPadding) return null;
+    if (disabled) return null;
+    if (outlined) return Palette.primary;
+    if (emphasize) return null;
     return Palette.grayBorder;
   }
 
   @override
   Widget build(BuildContext context) {
     Widget inner = DefaultTextStyle.merge(
-      style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        height: 1,
-      ).copyWith(color: _effectiveColor),
-      child: widget.child,
+      style: defaultStyle.copyWith(color: _effectiveColor),
+      child: child,
     );
 
-    return GestureDetector(
-      onTapDown: (_) {
-        if (widget.disabled) return;
-        setState(() {
-          _pressed = true;
-          _active = true;
-        });
-        Future.delayed(const Duration(milliseconds: 100), () {
-          if (!mounted) return;
-          setState(() => _active = false);
-        });
-      },
-      onTapUp: (_) => setState(() => _pressed = false),
-      onTapCancel: () => setState(() => _pressed = false),
-      onTap: widget.loading ? null : widget.onPressed,
-      child: AnimatedScale(
+    return ZigglePressable(
+      onPressed: disabled || loading ? null : onPressed,
+      decoration: BoxDecoration(
+        color: _effectiveBackgroundColor,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        border: Border.all(
+          color: _effectiveBorderColor ?? Colors.transparent,
+          style: _effectiveBorderColor == null
+              ? BorderStyle.none
+              : BorderStyle.solid,
+        ),
+      ),
+      child: AnimatedContainer(
         duration: const Duration(milliseconds: 100),
-        scale: widget.onPressed != null && pressed ? 0.95 : 1,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 100),
-          width: widget.type == ZiggleButtonType.cta ? double.infinity : null,
-          decoration: BoxDecoration(
-            color: _effectiveBackgroundColor
-                ?.withOpacity(widget.onPressed != null && pressed ? 0.8 : 1),
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            border: Border.all(
-              color: _effectiveBorderColor ?? Colors.transparent,
-              style: _effectiveBorderColor == null
-                  ? BorderStyle.none
-                  : BorderStyle.solid,
-            ),
-          ),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              Padding(
-                padding: widget.type.padding,
-                child: Opacity(opacity: widget.loading ? 0 : 1, child: inner),
-              ),
-              Positioned.fill(
-                child: Center(
-                  child: Opacity(
-                    opacity: widget.loading ? 1 : 0,
-                    child: const CircularProgressIndicator(),
-                  ),
+        padding: type.padding,
+        width: type == ZiggleButtonType.cta ? double.infinity : null,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Opacity(opacity: loading ? 0 : 1, child: inner),
+            Positioned.fill(
+              child: Center(
+                child: Opacity(
+                  opacity: loading ? 1 : 0,
+                  child: const CircularProgressIndicator(),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

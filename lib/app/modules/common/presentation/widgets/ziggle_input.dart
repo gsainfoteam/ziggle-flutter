@@ -1,10 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/values/palette.dart';
 
 class ZiggleInput extends StatelessWidget {
-  const ZiggleInput({super.key});
+  const ZiggleInput({
+    super.key,
+    this.controller,
+    this.disabled = false,
+    required this.hintText,
+    this.onChanged,
+    this.label,
+    this.showBorder = true,
+    this.style,
+    this.focusNode,
+  });
+
+  final TextEditingController? controller;
+  final bool disabled;
+  final String hintText;
+  final void Function(String)? onChanged;
+  final Widget? label;
+  final bool showBorder;
+  final TextStyle? style;
+  final FocusNode? focusNode;
+
+  OutlineInputBorder _buildInputBorder(Color color) {
+    if (!showBorder) {
+      return const OutlineInputBorder(borderSide: BorderSide.none);
+    }
+    return OutlineInputBorder(
+      borderSide: BorderSide(
+        width: 1.5,
+        color: color,
+      ),
+      borderRadius: BorderRadius.circular(10),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (label != null) ...[
+          DefaultTextStyle.merge(
+            style: const TextStyle(
+              color: Palette.black,
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
+            child: label!,
+          ),
+          const SizedBox(height: 10),
+        ],
+        SizedBox(
+          height: 48,
+          child: TextFormField(
+            focusNode: focusNode,
+            controller: controller,
+            readOnly: disabled ? true : false,
+            onChanged: onChanged,
+            style: style,
+            decoration: InputDecoration(
+              contentPadding: showBorder
+                  ? const EdgeInsets.symmetric(vertical: 10, horizontal: 16)
+                  : const EdgeInsets.symmetric(vertical: 10),
+              hintText: hintText,
+              hintStyle: const TextStyle(color: Palette.gray),
+              enabledBorder: _buildInputBorder(Palette.gray),
+              focusedBorder:
+                  _buildInputBorder(disabled ? Palette.gray : Palette.primary),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

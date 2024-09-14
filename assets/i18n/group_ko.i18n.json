@@ -3,5 +3,43 @@
         "back" : "내 정보",
         "header" : "그룹 관리",
         "myGroup" : "내가 속한 그룹들"
+    },
+  "creation": {
+    "title": "그룹 생성",
+    "stage": "$count단계",
+    "step(context=GroupCreationStep)": {
+      "profile": "그룹 프로필 설정",
+      "introduce": "간단한 그룹 소개 작성",
+      "notion": "그룹 소개 노션 링크 첨부",
+      "done": "생성 완료"
+    },
+    "setProfileImage": "그룹 프로필 사진 설정",
+    "profile": {
+      "name": {
+        "label": "그룹명",
+        "hint": "인포팀 (Infoteam)"
+      }
+    },
+    "introduce": {
+      "title": "간단한 그룹 소개를\n작성해주세요.",
+      "description": "작성해주신 그룹 설명은\n그룹 메인 페이지 최상단에 게재됩니다.",
+      "hint": "여기에 설명 작성"
+    },
+    "notion": {
+      "title": "그룹 소개 노션 링크",
+      "hint": "노션 링크 입력",
+      "description(rich)": "그룹 소개에 여러분의 예쁜 노션 링크를 붙여넣을 수 있습니다.\n${strong(작성하신 그룹 소개 노션을 웹에 퍼블리싱)}하신 다음, 그 링크를 여기 붙여넣어주세요.",
+      "loading": "노션 불러오는 중..."
+    },
+    "done": {
+      "title": "\"$name\" 그룹 생성이\n완료되었습니다!",
+      "description": "이제 그룹 명의로 공지를 작성하실 수 있습니다.",
+      "invite": {
+        "title": "초대 링크",
+        "selectExpire": "만료 기간 선택",
+        "copy": "초대 링크 복사하기"
+      },
+      "back": "돌아가기"
     }
+  }
 }
