@@ -31,20 +31,35 @@ class _Layout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NoticeListBloc, NoticeListState>(
-      builder: (context, state) => ListView.separated(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-        itemBuilder: (context, index) {
-          final notice = state.notices[index];
-          return NoticeCard(
-            onLike: () {},
-            onPressed: () {},
-            onShare: () {},
-            notice: notice,
-          );
-        },
-        separatorBuilder: (_, __) => const SizedBox(height: 15),
-        itemCount: state.notices.length,
-      ),
+      builder: (context, state) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            final bloc = context.read<NoticeListBloc>();
+            final blocker = bloc.stream.firstWhere((state) => !state.isLoading);
+            bloc.add(const NoticeListEvent.load());
+            await blocker;
+          },
+          child: state.showLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.separated(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                  itemBuilder: (context, index) {
+                    final notice = state.notices[index];
+                    return NoticeCard(
+                      onLike: () {},
+                      onPressed: () {},
+                      onShare: () {},
+                      notice: notice,
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(height: 15),
+                  itemCount: state.notices.length,
+                ),
+        );
+      },
     );
   }
 }

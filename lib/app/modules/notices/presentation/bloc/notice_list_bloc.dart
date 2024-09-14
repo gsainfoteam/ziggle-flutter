@@ -26,6 +26,8 @@ sealed class NoticeListEvent {
 
 @freezed
 sealed class NoticeListState with _$NoticeListState {
+  const NoticeListState._();
+
   const factory NoticeListState.initial(
       [@Default([]) List<NoticeEntity> notices]) = _Initial;
   const factory NoticeListState.loading(
@@ -33,4 +35,7 @@ sealed class NoticeListState with _$NoticeListState {
   const factory NoticeListState.loaded(List<NoticeEntity> notices) = _Loaded;
   const factory NoticeListState.error(String error,
       [@Default([]) List<NoticeEntity> notices]) = _Error;
+
+  bool get isLoading => this is _Loading;
+  bool get showLoading => isLoading && notices.isEmpty;
 }
