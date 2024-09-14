@@ -4,6 +4,7 @@ import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 
 part 'routes.g.dart';
 part 'splash_routes.dart';
+part 'group_routes.dart';
 
 abstract class AppRoutes {
   AppRoutes._();
