@@ -7,6 +7,13 @@
     "hot": "Ziggle Pick",
     "academic": "Academic"
   },
+  "category(context=NoticeCategory)": {
+    "academic": "Academic",
+    "recruit": "Recruit",
+    "event": "Event",
+    "club": "Club",
+    "etc": "General"
+  },
   "write": {
     "title": "Write Notice",
     "link": {
@@ -41,6 +48,28 @@
       "upload": "Publish Notice"
     }
   },
+  "calendar": {
+    "weeksAgo": {
+      "one": "$n week ago",
+      "other": "$n weeks ago"
+    },
+    "daysAgo": {
+      "one": "$n day ago",
+      "other": "$n days ago"
+    },
+    "hoursAgo": {
+      "one": "$n hour ago",
+      "other": "$n hours ago"
+    },
+    "minutesAgo": {
+      "one": "$n minute ago",
+      "other": "$n minutes ago"
+    },
+    "secondsAgo": {
+      "one": "$n second ago",
+      "other": "$n seconds ago"
+    }
+  },
   "dDay": {
     "daysLeft(rich)": {
       "one": "$n day left",
@@ -59,6 +88,17 @@
       "other": "$n seconds left"
     },
     "overdue": "OVERDUE"
+  },
+  "detail": {
+    "title": "Notice Detail",
+    "back": "Notice",
+    "share": "Share",
+    "copy": "Copy Link",
+    "deadline": "Deadline"
+  },
+  "search": {
+    "hint": "Search Notice",
+    "description": "Enter search keyword"
   },
   "list": "List"
 }

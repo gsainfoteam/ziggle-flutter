@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
-import 'package:ziggle/app/modules/notice/domain/entities/notice_summary.dart';
+import 'package:ziggle/app/modules/notice/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notice/presentation/widgets/d_day.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -14,7 +14,7 @@ class NoticeCard extends StatelessWidget {
     required this.onShare,
   });
 
-  final NoticeSummary notice;
+  final NoticeEntity notice;
   final VoidCallback onPressed;
   final VoidCallback onLike;
   final VoidCallback onShare;
@@ -43,7 +43,7 @@ class NoticeCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            notice.authorName,
+                            notice.author.name,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -53,7 +53,7 @@ class NoticeCard extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(width: 5),
-                          if (notice.authorIsCertificated)
+                          if (false)
                             Assets.icons.certificatedBadge.svg(width: 20),
                         ],
                       ),
@@ -81,9 +81,9 @@ class NoticeCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            if (notice.images.isNotEmpty)
+            if (notice.imageUrls.isNotEmpty)
               Image.network(
-                notice.images.first,
+                notice.imageUrls.first,
                 height: 250,
                 width: double.infinity,
                 fit: BoxFit.cover,
