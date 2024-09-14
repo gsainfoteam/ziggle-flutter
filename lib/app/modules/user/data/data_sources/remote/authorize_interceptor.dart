@@ -68,11 +68,19 @@ class AuthorizeInterceptor extends Interceptor {
         }
       }
     }
-    await mutex.acquireRead();
-    final token = await _repository.token.first;
-    if (token != null) {
-      options.headers['Authorization'] = 'Bearer $token';
+    try {
+      if (!options.extra.containsKey(retriedKey)) {
+        await mutex.acquireRead();
+      }
+      final token = await _repository.token.first;
+      if (token != null) {
+        options.headers['Authorization'] = 'Bearer $token';
+      }
+      handler.next(options);
+    } finally {
+      if (!options.extra.containsKey(retriedKey)) {
+        mutex.release();
+      }
     }
-    handler.next(options);
   }
 }
