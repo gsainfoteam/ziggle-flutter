@@ -55,7 +55,9 @@ class _Layout extends StatelessWidget {
                   horizontal: 18,
                 ),
                 decoration: ShapeDecoration(
-                  color: Palette.primary,
+                  color: notice.deadline!.isBefore(DateTime.now())
+                      ? Palette.grayText
+                      : Palette.primary,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
