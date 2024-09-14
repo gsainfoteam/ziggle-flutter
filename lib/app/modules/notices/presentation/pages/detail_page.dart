@@ -181,9 +181,9 @@ class _Layout extends StatelessWidget {
                 ...NoticeReaction.values.map(
                   (reaction) => _ChipButton(
                     onPressed: () {},
-                    isSelected: true,
-                    icon: reaction.icon(true),
-                    text: '37',
+                    isSelected: notice.reacted(reaction),
+                    icon: reaction.icon(notice.reacted(reaction)),
+                    text: notice.reactionsBy(reaction).toString(),
                   ),
                 ),
                 _ChipButton(
