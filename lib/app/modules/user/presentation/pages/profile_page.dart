@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -65,7 +67,8 @@ class _Login extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         ZiggleButton.cta(
-          onPressed: () {},
+          onPressed: () =>
+              context.read<AuthBloc>().add(const AuthEvent.login()),
           child: Text(t.user.login.action),
         ),
       ],
