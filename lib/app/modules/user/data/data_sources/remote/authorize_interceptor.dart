@@ -53,7 +53,9 @@ class AuthorizeInterceptor extends Interceptor {
           final userApi = sl<UserApi>();
           final token = await userApi.refresh();
           await _repository.saveToken(token.accessToken);
-        } catch (_) {}
+        } catch (_) {
+          await _repository.deleteToken();
+        }
       }
     }
     final token = await _repository.token.first;
