@@ -16,6 +16,7 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/category_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/detail_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/feed_page.dart';
+import 'package:ziggle/app/modules/notices/presentation/pages/group_management_main_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/list_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_write_body_page.dart';
 import 'package:ziggle/app/modules/notices/presentation/pages/notice_write_config_page.dart';
