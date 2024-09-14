@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -34,22 +33,36 @@ class _Layout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-      itemBuilder: (context, index) => NoticeCard(
-        onLike: () {},
-        onPressed: () {},
-        onShare: () {},
-        notice: NoticeEntity.mock(
-          content: '공지 내용',
-          title: '공지 제목',
-          deadline: DateTime(2024, 9, 14, 0, 48, 20),
-          authorName: '홍길동',
-          createdAt: DateTime.now(),
-        ),
-      ),
-      separatorBuilder: (_, __) => const SizedBox(height: 15),
-      itemCount: 1000,
+    return BlocBuilder<NoticeListBloc, NoticeListState>(
+      builder: (context, state) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            final bloc = context.read<NoticeListBloc>();
+            final blocker = bloc.stream.firstWhere((state) => !state.isLoading);
+            bloc.add(const NoticeListEvent.load());
+            await blocker;
+          },
+          child: state.showLoading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView.separated(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                  itemBuilder: (context, index) {
+                    final notice = state.notices[index];
+                    return NoticeCard(
+                      onLike: () {},
+                      onPressed: () {},
+                      onShare: () {},
+                      notice: notice,
+                    );
+                  },
+                  separatorBuilder: (_, __) => const SizedBox(height: 15),
+                  itemCount: state.notices.length,
+                ),
+        );
+      },
     );
   }
 }
