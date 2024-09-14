@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:ziggle/app/modules/notice/domain/enums/notice_category.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../enums/notice_reaction.dart';
