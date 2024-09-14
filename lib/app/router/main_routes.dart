@@ -65,5 +65,5 @@ class FavoriteRoute extends GoRouteData {
 class ProfileRoute extends GoRouteData {
   const ProfileRoute();
   @override
-  Widget build(context, state) => const FeedPage();
+  Widget build(context, state) => const ProfilePage();
 }
