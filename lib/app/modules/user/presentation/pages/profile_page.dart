@@ -49,6 +49,7 @@ class _Login extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        const SizedBox(height: 10),
         Text(
           t.user.login.title,
           style: const TextStyle(

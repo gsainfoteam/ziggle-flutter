@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -49,7 +50,16 @@ class _Providers extends StatelessWidget {
           create: (_) => sl<AuthBloc>()..add(const AuthEvent.load()),
         ),
       ],
-      child: child,
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) => state.whenOrNull(
+              error: (message) => context.showToast(message),
+            ),
+          ),
+        ],
+        child: child,
+      ),
     );
   }
 }
