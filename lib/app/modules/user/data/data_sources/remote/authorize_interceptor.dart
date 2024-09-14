@@ -28,15 +28,11 @@ class AuthorizeInterceptor extends Interceptor {
       await mutex.acquireWrite();
       final userApi = sl<UserApi>();
       try {
-        await userApi.testTokenInfo();
+        final token = await userApi.refresh();
+        await _repository.saveToken(token.accessToken);
       } catch (e) {
-        try {
-          final token = await userApi.refresh();
-          await _repository.saveToken(token.accessToken);
-        } catch (e) {
-          await _repository.deleteToken();
-          return handler.next(err);
-        }
+        await _repository.deleteToken();
+        return handler.next(err);
       } finally {
         mutex.release();
       }
