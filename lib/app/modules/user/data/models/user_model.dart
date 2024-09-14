@@ -10,14 +10,10 @@ class UserModel with _$UserModel implements UserEntity {
   const factory UserModel({
     required String email,
     required String name,
-    @JsonKey(name: 'student_id') String? id,
-    @JsonKey(name: 'studentNumber') String? number,
+    @JsonKey(name: 'studentNumber') required String studentId,
     required String uuid,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);
-
-  @override
-  String get studentId => (id ?? number)!;
 }
