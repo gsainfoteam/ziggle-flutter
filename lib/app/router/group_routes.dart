@@ -37,3 +37,13 @@ class GroupManagementRoute extends GoRouteData {
     return const GroupManagementPage();
   }
 }
+
+@TypedGoRoute<GroupManagementNameRoute>(path: '/group/management/name')
+class GroupManagementNameRoute extends GoRouteData {
+  static final $parentNavigatorKey = rootNavigatorKey;
+
+  @override
+  Widget build(context, state) {
+    return const GroupManagementChangeNamePage();
+  }
+}
