@@ -51,6 +51,7 @@ class GroupManagementPage extends StatelessWidget {
               ),
               ZiggleButton.cta(
                 emphasize: false,
+                width: null,
                 child: const Text(
                   '그룹 프로필 사진 변경',
                   style: TextStyle(
