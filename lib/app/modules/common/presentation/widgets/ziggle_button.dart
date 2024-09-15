@@ -22,6 +22,7 @@ class ZiggleButton extends StatelessWidget {
     this.loading = false,
     this.disabled = false,
     this.emphasize = true,
+    this.width,
     required this.type,
     required this.defaultStyle,
   });
@@ -34,6 +35,7 @@ class ZiggleButton extends StatelessWidget {
     bool loading = false,
     bool disabled = false,
     bool emphasize = true,
+    double? width = double.infinity,
   }) =>
       ZiggleButton._(
         key: key,
@@ -42,6 +44,7 @@ class ZiggleButton extends StatelessWidget {
         loading: loading,
         disabled: disabled,
         emphasize: emphasize,
+        width: width,
         type: ZiggleButtonType.cta,
         defaultStyle: const TextStyle(
           fontSize: 18,
@@ -128,6 +131,7 @@ class ZiggleButton extends StatelessWidget {
   final bool loading;
   final bool disabled;
   final bool emphasize;
+  final double? width;
   final ZiggleButtonType type;
   final TextStyle defaultStyle;
 
@@ -180,7 +184,7 @@ class ZiggleButton extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 100),
         padding: type.padding,
-        width: type == ZiggleButtonType.cta ? double.infinity : null,
+        width: width,
         child: Stack(
           alignment: Alignment.center,
           children: [
