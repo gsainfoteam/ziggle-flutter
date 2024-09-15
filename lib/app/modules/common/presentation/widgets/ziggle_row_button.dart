@@ -11,7 +11,7 @@ class ZiggleRowButton extends StatelessWidget {
     this.disabled = false,
     this.showChevron = true,
     this.destructive = false,
-    required this.onPressed,
+    this.onPressed,
   });
 
   final Widget? icon;
@@ -19,7 +19,7 @@ class ZiggleRowButton extends StatelessWidget {
   final bool disabled;
   final bool destructive;
   final bool showChevron;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +35,20 @@ class ZiggleRowButton extends StatelessWidget {
           children: [
             if (icon != null) icon!,
             const SizedBox(width: 5),
-            DefaultTextStyle.merge(
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: destructive ? Palette.primary : Palette.black,
+            Expanded(
+              child: DefaultTextStyle.merge(
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: disabled
+                      ? Palette.gray
+                      : destructive
+                          ? Palette.primary
+                          : Palette.black,
+                ),
+                child: title,
               ),
-              child: title,
             ),
-            const Spacer(),
             if (showChevron) Assets.icons.chevronRight.svg(),
           ],
         ),

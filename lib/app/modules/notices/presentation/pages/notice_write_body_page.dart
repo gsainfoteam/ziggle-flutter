@@ -82,8 +82,8 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
                     .isEmpty));
     return Scaffold(
       appBar: ZiggleAppBar(
-        leading: ZiggleBackButton(label: t.common.cancel),
-        title: Text(t.notice.write.title),
+        leading: ZiggleBackButton(label: context.t.common.cancel),
+        title: Text(context.t.notice.write.title),
         actions: [
           ZiggleButton.text(
             disabled: actionDisabled,
@@ -92,7 +92,7 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
                 : () => const NoticeWriteRoute(NoticeWriteStep.config)
                     .push(context),
             child: Text(
-              t.common.done,
+              context.t.common.done,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -198,7 +198,7 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
                                 Assets.icons.addPhoto.svg(width: 50),
                                 const SizedBox(height: 5),
                                 Text(
-                                  t.notice.write.addPhoto,
+                                  context.t.notice.write.addPhoto,
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w500,
@@ -341,7 +341,7 @@ class _Editor extends StatelessWidget {
             controller: titleController,
             focusNode: titleFocusNode,
             showBorder: false,
-            hintText: t.notice.write.titleHint,
+            hintText: context.t.notice.write.titleHint,
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -366,7 +366,7 @@ class _Editor extends StatelessWidget {
                     children: [
                       Assets.icons.sparks.svg(),
                       const SizedBox(width: 10),
-                      Text(t.notice.write.translate),
+                      Text(context.t.notice.write.translate),
                     ],
                   ),
                 ),
@@ -380,7 +380,7 @@ class _Editor extends StatelessWidget {
               focusNode: bodyFocusNode,
               controller: bodyController,
               configurations: QuillEditorConfigurations(
-                placeholder: t.notice.write.bodyHint,
+                placeholder: context.t.notice.write.bodyHint,
                 padding: const EdgeInsets.symmetric(vertical: 10),
                 customStyles: const DefaultStyles(
                   placeHolder: DefaultTextBlockStyle(
@@ -423,13 +423,13 @@ class _LinkDialogState extends State<_LinkDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CupertinoTextField(
-            placeholder: t.notice.write.link.text,
+            placeholder: context.t.notice.write.link.text,
             controller: _text,
             onChanged: (v) => setState(() {}),
           ),
           const SizedBox(height: 8),
           CupertinoTextField(
-            placeholder: t.notice.write.link.link,
+            placeholder: context.t.notice.write.link.link,
             controller: _link,
             onChanged: (v) => setState(() {}),
           ),
@@ -448,8 +448,8 @@ class _LinkDialogState extends State<_LinkDialog> {
                     QuillTextLink(_text.text, _link.text),
                   ),
           child: _initialTextLink.link == null
-              ? Text(t.notice.write.link.add)
-              : Text(t.notice.write.link.change),
+              ? Text(context.t.notice.write.link.add)
+              : Text(context.t.notice.write.link.change),
         ),
         CupertinoDialogAction(
           isDestructiveAction: true,
@@ -457,7 +457,7 @@ class _LinkDialogState extends State<_LinkDialog> {
             context,
             QuillTextLink(_text.text, null),
           ),
-          child: Text(t.notice.write.link.remove),
+          child: Text(context.t.notice.write.link.remove),
         ),
       ],
     );

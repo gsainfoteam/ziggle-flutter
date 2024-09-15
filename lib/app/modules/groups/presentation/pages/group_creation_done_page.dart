@@ -23,7 +23,7 @@ class _GroupCreationDonePageState extends State<GroupCreationDonePage> {
         Assets.icons.doneCheck.svg(width: 100),
         const SizedBox(height: 20),
         Text(
-          t.group.creation.done.title(name: "인포팀"),
+          context.t.group.creation.done.title(name: "인포팀"),
           style: const TextStyle(
             fontSize: 24,
             color: Palette.black,
@@ -33,7 +33,7 @@ class _GroupCreationDonePageState extends State<GroupCreationDonePage> {
         ),
         const SizedBox(height: 10),
         Text(
-          t.group.creation.done.description,
+          context.t.group.creation.done.description,
           style: const TextStyle(
             fontSize: 18,
             color: Palette.grayText,
@@ -55,7 +55,7 @@ class _GroupCreationDonePageState extends State<GroupCreationDonePage> {
                   Assets.icons.link.svg(width: 24),
                   const SizedBox(width: 6),
                   Text(
-                    t.group.creation.done.invite.title,
+                    context.t.group.creation.done.invite.title,
                     style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -66,19 +66,19 @@ class _GroupCreationDonePageState extends State<GroupCreationDonePage> {
               const SizedBox(height: 10),
               ZiggleSelect(
                 onChanged: (v) => setState(() => _duration = v),
-                hintText: t.group.creation.done.invite.selectExpire,
+                hintText: context.t.group.creation.done.invite.selectExpire,
                 entries: [
                   ZiggleSelectEntry(
                     value: 1,
-                    label: t.common.duration.day(n: 1),
+                    label: context.t.common.duration.day(n: 1),
                   ),
                   ZiggleSelectEntry(
                     value: 3,
-                    label: t.common.duration.day(n: 3),
+                    label: context.t.common.duration.day(n: 3),
                   ),
                   ZiggleSelectEntry(
                     value: 7,
-                    label: t.common.duration.week(n: 1),
+                    label: context.t.common.duration.week(n: 1),
                   ),
                 ],
               ),
@@ -86,7 +86,7 @@ class _GroupCreationDonePageState extends State<GroupCreationDonePage> {
                 const SizedBox(height: 10),
                 ZiggleButton.cta(
                   emphasize: false,
-                  child: Text(t.group.creation.done.invite.copy),
+                  child: Text(context.t.group.creation.done.invite.copy),
                 ),
               ],
             ],
@@ -95,7 +95,7 @@ class _GroupCreationDonePageState extends State<GroupCreationDonePage> {
         const SizedBox(height: 30),
         ZiggleButton.cta(
           onPressed: () => context.pop(),
-          child: Text(t.group.creation.done.back),
+          child: Text(context.t.group.creation.done.back),
         )
       ],
     );

@@ -202,7 +202,7 @@ class _ZiggleDateTimePickerState extends State<ZiggleDateTimePicker> {
             children: [
               const SizedBox(height: 10),
               Text(
-                t.notice.write.deadline.timeSelect,
+                context.t.notice.write.deadline.timeSelect,
                 style: const TextStyle(
                   fontSize: 18,
                   color: Palette.black,

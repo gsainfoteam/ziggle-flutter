@@ -2,12 +2,15 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -44,7 +47,6 @@ class _Layout extends StatelessWidget {
               _Profile(user: state.user!)
             else
               BlocBuilder<AuthBloc, AuthState>(
-                buildWhen: (c, p) => p.isLoading || p.hasError,
                 builder: (context, authState) => Stack(
                   alignment: Alignment.center,
                   children: [
@@ -67,20 +69,20 @@ class _Layout extends StatelessWidget {
             const SizedBox(height: 40),
             ZiggleRowButton(
               icon: Assets.icons.setting.svg(),
-              title: Text(t.user.setting.title),
-              onPressed: () {},
+              title: Text(context.t.user.setting.title),
+              onPressed: () => const SettingRoute().push(context),
             ),
             const SizedBox(height: 20),
             ZiggleRowButton(
               icon: Assets.icons.flag.svg(),
-              title: Text(t.user.feedback),
-              onPressed: () {},
+              title: Text(context.t.user.feedback),
+              onPressed: () => launchUrlString(Strings.heyDeveloperUrl),
             ),
             const SizedBox(height: 40),
             if (authenticated)
               ZiggleRowButton(
                 showChevron: false,
-                title: Text(t.user.logout),
+                title: Text(context.t.user.account.logout),
                 destructive: true,
                 onPressed: () =>
                     context.read<AuthBloc>().add(const AuthEvent.logout()),
@@ -134,7 +136,7 @@ class _Login extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          t.user.login.title,
+          context.t.user.login.title,
           style: const TextStyle(
             fontSize: 24,
             color: Palette.black,
@@ -142,7 +144,7 @@ class _Login extends StatelessWidget {
           ),
         ),
         Text(
-          t.user.login.description,
+          context.t.user.login.description,
           style: const TextStyle(
             fontSize: 14,
             color: Palette.grayText,
@@ -153,7 +155,7 @@ class _Login extends StatelessWidget {
         ZiggleButton.cta(
           onPressed: () =>
               context.read<AuthBloc>().add(const AuthEvent.login()),
-          child: Text(t.user.login.action),
+          child: Text(context.t.user.login.action),
         ),
       ],
     );

@@ -56,7 +56,7 @@ class CategoryPage extends StatelessWidget {
                                       category.$2.image.image(width: 100),
                                       const SizedBox(height: 10),
                                       Text(
-                                        category.$2.name,
+                                        category.$2.getName(context),
                                         style: TextStyle(
                                           color: category.$2.textColor,
                                           fontSize: 20,
