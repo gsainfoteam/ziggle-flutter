@@ -9,7 +9,9 @@ enum NoticeType {
   event,
   recruit,
   hot,
-  academic;
+  academic,
+  all,
+  written;
 
   static List<NoticeType> writable = [recruit, event, general];
   static List<NoticeType> categories = [
