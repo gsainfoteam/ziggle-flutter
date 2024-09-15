@@ -3,6 +3,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -35,7 +36,7 @@ class InformationPage extends StatelessWidget {
               ZiggleRowButton(
                 title:
                     Text(context.t.user.setting.information.openSourceLicense),
-                onPressed: () => launchUrlString(Strings.termsOfServiceUrl),
+                onPressed: () => const PackagesRoute().push(context),
               ),
               const SizedBox(height: 20),
               FutureBuilder(

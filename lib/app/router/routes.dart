@@ -24,6 +24,8 @@ import 'package:ziggle/app/modules/notices/presentation/pages/notice_write_selec
 import 'package:ziggle/app/modules/notices/presentation/pages/search_page.dart';
 import 'package:ziggle/app/modules/splash/presentation/pages/splash_page.dart';
 import 'package:ziggle/app/modules/user/presentation/pages/information_page.dart';
+import 'package:ziggle/app/modules/user/presentation/pages/license_page.dart';
+import 'package:ziggle/app/modules/user/presentation/pages/packages_page.dart';
 import 'package:ziggle/app/modules/user/presentation/pages/profile_page.dart';
 import 'package:ziggle/app/modules/user/presentation/pages/setting_page.dart';
 import 'package:ziggle/gen/assets.gen.dart';
