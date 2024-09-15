@@ -28,7 +28,8 @@
   "account": {
     "title": "계정",
     "logout": "로그아웃",
-    "withdraw": "회원 탈퇴"
+    "withdraw": "회원 탈퇴",
+    "login": "로그인"
   },
   "myInfo": "내 정보"
 }

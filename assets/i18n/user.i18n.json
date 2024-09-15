@@ -28,7 +28,8 @@
   "account": {
     "title": "Account",
     "logout": "Logout",
-    "withdraw": "Withdraw"
+    "withdraw": "Withdraw",
+    "login": "Login"
   },
   "myInfo": "My Info"
 }
