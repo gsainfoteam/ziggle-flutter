@@ -22,8 +22,8 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
-        backLabel: t.notice.detail.back,
-        title: Text(t.notice.detail.title),
+        backLabel: context.t.notice.detail.back,
+        title: Text(context.t.notice.detail.title),
       ),
       body: BlocProvider(
         create: (_) => sl<NoticeBloc>()..add(NoticeEvent.load(notice)),
@@ -66,7 +66,7 @@ class _Layout extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      t.notice.detail.deadline,
+                      context.t.notice.detail.deadline,
                       style: const TextStyle(
                         color: Palette.white,
                         fontSize: 18,
@@ -189,12 +189,12 @@ class _Layout extends StatelessWidget {
                 _ChipButton(
                   onPressed: () {},
                   icon: Assets.icons.share.svg(),
-                  text: t.notice.detail.share,
+                  text: context.t.notice.detail.share,
                 ),
                 _ChipButton(
                   onPressed: () {},
                   icon: Assets.icons.link.svg(),
-                  text: t.notice.detail.copy,
+                  text: context.t.notice.detail.copy,
                 ),
               ],
             ),

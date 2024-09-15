@@ -49,14 +49,14 @@ class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
               if (image == null) return;
               setState(() => _image = File(image.path));
             },
-            child: Text(t.group.creation.setProfileImage),
+            child: Text(context.t.group.creation.setProfileImage),
           ),
         ),
         const SizedBox(height: 60),
         ZiggleInput(
           onChanged: (v) => setState(() => _name = v),
-          hintText: t.group.creation.profile.name.hint,
-          label: Text(t.group.creation.profile.name.label),
+          hintText: context.t.group.creation.profile.name.hint,
+          label: Text(context.t.group.creation.profile.name.label),
         ),
         const SizedBox(height: 60),
         ZiggleButton.cta(
@@ -65,7 +65,7 @@ class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
             const GroupCreationRoute(GroupCreationStep.introduce).push(context);
           },
           disabled: _name.isEmpty,
-          child: Text(t.common.next),
+          child: Text(context.t.common.next),
         ),
       ],
     );

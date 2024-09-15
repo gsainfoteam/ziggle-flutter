@@ -24,8 +24,8 @@ class GroupCreationLayout extends StatelessWidget {
             child: Material(
               color: Colors.transparent,
               child: ZiggleAppBar.compact(
-                backLabel: t.common.cancel,
-                title: Text(t.group.creation.title),
+                backLabel: context.t.common.cancel,
+                title: Text(context.t.group.creation.title),
               ),
             ),
           ),
@@ -39,7 +39,7 @@ class GroupCreationLayout extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      t.group.creation.stage(
+                      context.t.group.creation.stage(
                           count: GroupCreationStep.values.indexOf(step) + 1),
                       style: const TextStyle(
                         fontSize: 18,
@@ -55,7 +55,7 @@ class GroupCreationLayout extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      t.group.creation.step(context: step),
+                      context.t.group.creation.step(context: step),
                       style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,

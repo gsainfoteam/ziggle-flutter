@@ -29,8 +29,8 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
-        backLabel: t.common.cancel,
-        title: Text(t.notice.write.configTitle),
+        backLabel: context.t.common.cancel,
+        title: Text(context.t.notice.write.configTitle),
         actions: [
           ZiggleButton.text(
             disabled: _type == null,
@@ -40,7 +40,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                     const NoticeWriteSheetRoute(NoticeWriteSheetStep.consent)
                         .push(context),
             child: Text(
-              t.notice.write.publish,
+              context.t.notice.write.publish,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
@@ -67,7 +67,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 onPressed: () =>
                     const NoticeWriteSheetRoute(NoticeWriteSheetStep.preview)
                         .push(context),
-                child: Text(t.notice.write.preview),
+                child: Text(context.t.notice.write.preview),
               ),
             ],
           ),
@@ -99,7 +99,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
             ),
             const Spacer(),
             Text(
-              t.notice.write.changeAccount,
+              context.t.notice.write.changeAccount,
               style: const TextStyle(
                 color: Palette.grayText,
                 fontSize: 14,
@@ -129,7 +129,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               Assets.icons.clock.svg(),
               const SizedBox(width: 6),
               Text.rich(
-                t.notice.write.deadline.label(
+                context.t.notice.write.deadline.label(
                   small: (text) => TextSpan(
                     text: text,
                     style: const TextStyle(
@@ -155,7 +155,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                   }
                   final dateTime = await ZiggleBottomSheet.show<DateTime>(
                     context: context,
-                    title: t.notice.write.deadline.title,
+                    title: context.t.notice.write.deadline.title,
                     builder: (context) => _DeadlineSelector(
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
@@ -172,7 +172,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               onPressed: () async {
                 final dateTime = await ZiggleBottomSheet.show<DateTime>(
                   context: context,
-                  title: t.notice.write.deadline.title,
+                  title: context.t.notice.write.deadline.title,
                   builder: (context) => _DeadlineSelector(
                     initialDateTime: _deadline,
                     onChanged: (v) => Navigator.pop(context, v),
@@ -221,7 +221,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               Assets.icons.list.svg(),
               const SizedBox(width: 6),
               Text(
-                t.notice.write.category,
+                context.t.notice.write.category,
                 style: const TextStyle(
                   color: Palette.black,
                   fontSize: 16,
@@ -266,7 +266,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                               ),
                               const SizedBox(height: 5),
                               Text(
-                                e.$2.name,
+                                e.$2.getName(context),
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: _type == e.$2
@@ -303,7 +303,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               Assets.icons.hashtag.svg(),
               const SizedBox(width: 6),
               Text.rich(
-                t.notice.write.hashtag.label(
+                context.t.notice.write.hashtag.label(
                   small: (text) => TextSpan(
                     text: text,
                     style: const TextStyle(
@@ -344,7 +344,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    t.notice.write.hashtag.hint,
+                    context.t.notice.write.hashtag.hint,
                     style: const TextStyle(
                       color: Palette.gray,
                       fontSize: 16,
@@ -409,7 +409,7 @@ class __DeadlineSelectorState extends State<_DeadlineSelector> {
               child: ZiggleButton.cta(
                 onPressed: () => widget.onChanged(null),
                 outlined: true,
-                child: Text(t.common.cancel),
+                child: Text(context.t.common.cancel),
               ),
             ),
             const SizedBox(width: 10),
@@ -419,7 +419,7 @@ class __DeadlineSelectorState extends State<_DeadlineSelector> {
                     ? null
                     : () => widget.onChanged(_dateTime),
                 disabled: _dateTime == null,
-                child: Text(t.notice.write.deadline.confirm),
+                child: Text(context.t.notice.write.deadline.confirm),
               ),
             ),
           ],

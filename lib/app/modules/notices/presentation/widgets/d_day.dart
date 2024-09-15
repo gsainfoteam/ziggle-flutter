@@ -73,7 +73,7 @@ class _DDayState extends State<DDay> {
               ),
             )
           : Text(
-              t.notice.dDay.overdue,
+              context.t.notice.dDay.overdue,
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w400,
