@@ -33,10 +33,16 @@ class SettingPage extends StatelessWidget {
               _Title(title: context.t.user.account.title),
               BlocBuilder<UserBloc, UserState>(builder: (context, state) {
                 if (state.user == null) {
-                  return ZiggleButton.cta(
-                    child: Text(context.t.user.account.login),
-                    onPressed: () =>
-                        context.read<AuthBloc>().add(const AuthEvent.login()),
+                  return BlocBuilder<AuthBloc, AuthState>(
+                    builder: (context, authState) {
+                      return ZiggleButton.cta(
+                        loading: authState.isLoading,
+                        child: Text(context.t.user.account.login),
+                        onPressed: () => context
+                            .read<AuthBloc>()
+                            .add(const AuthEvent.login()),
+                      );
+                    },
                   );
                 }
                 return Column(

@@ -47,7 +47,6 @@ class _Layout extends StatelessWidget {
               _Profile(user: state.user!)
             else
               BlocBuilder<AuthBloc, AuthState>(
-                buildWhen: (c, p) => p.isLoading,
                 builder: (context, authState) => Stack(
                   alignment: Alignment.center,
                   children: [
