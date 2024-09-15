@@ -53,14 +53,14 @@ class SettingPage extends StatelessWidget {
                   if (!data) {
                     return ZiggleRowButton(
                       title: Text(context.t.user.setting.notification.enable),
-                      showChevron: false,
+                      onPressed: () => sl<NotificationSettingRepository>()
+                          .enableNotification(),
                     );
                   }
                   return ZiggleRowButton(
                     title: Text(context.t.user.setting.notification.enabled),
                     disabled: true,
-                    onPressed: () => sl<NotificationSettingRepository>()
-                        .enableNotification(),
+                    showChevron: false,
                   );
                 },
               ),
