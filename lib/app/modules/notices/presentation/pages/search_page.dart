@@ -32,7 +32,7 @@ class _SearchPageState extends State<SearchPage> {
                 Expanded(
                   child: CupertinoSearchTextField(
                     prefixIcon: Assets.icons.search.svg(width: 20),
-                    placeholder: t.notice.search.hint,
+                    placeholder: context.t.notice.search.hint,
                     suffixIcon: const Icon(Icons.cancel),
                     onChanged: (v) => setState(() => _keyword = v),
                   ),
@@ -41,7 +41,7 @@ class _SearchPageState extends State<SearchPage> {
                 ZiggleButton.text(
                   onPressed: () => context.pop(),
                   child: Text(
-                    t.common.cancel,
+                    context.t.common.cancel,
                     style: const TextStyle(color: Palette.grayText),
                   ),
                 ),
@@ -65,7 +65,7 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                   const SizedBox(height: 9),
                   Text(
-                    t.notice.search.description,
+                    context.t.notice.search.description,
                     style: const TextStyle(
                       color: Palette.grayText,
                       fontSize: 16,

@@ -179,12 +179,14 @@ class ZiggleButton extends StatelessWidget {
       ),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 100),
-        padding: type.padding,
         width: type == ZiggleButtonType.cta ? double.infinity : null,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Opacity(opacity: loading ? 0 : 1, child: inner),
+            Padding(
+              padding: type.padding,
+              child: Opacity(opacity: loading ? 0 : 1, child: inner),
+            ),
             Positioned.fill(
               child: Center(
                 child: Opacity(

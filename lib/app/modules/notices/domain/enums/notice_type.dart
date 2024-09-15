@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:flutter/material.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -56,5 +55,5 @@ enum NoticeType {
         NoticeType.academic: const Color(0x33372CA6),
       }[this]!;
 
-  String get name => t.notice.type(context: this);
+  String getName(BuildContext context) => context.t.notice.type(context: this);
 }

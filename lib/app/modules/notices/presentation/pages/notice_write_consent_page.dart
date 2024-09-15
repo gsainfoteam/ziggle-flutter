@@ -28,7 +28,7 @@ class NoticeWriteConsentPage extends StatelessWidget {
                 ],
               ),
               Text(
-                t.notice.write.consent.title,
+                context.t.notice.write.consent.title,
                 style: const TextStyle(
                   fontSize: 26,
                   color: Palette.black,
@@ -44,7 +44,7 @@ class NoticeWriteConsentPage extends StatelessWidget {
                   // TODO: change to notice detail page
                   context.pop();
                 },
-                child: Text(t.notice.write.consent.upload),
+                child: Text(context.t.notice.write.consent.upload),
               )
             ],
           ),

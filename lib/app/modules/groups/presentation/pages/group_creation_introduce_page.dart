@@ -23,7 +23,7 @@ class _GroupCreationIntroducePageState
     return Column(
       children: [
         Text(
-          t.group.creation.introduce.title,
+          context.t.group.creation.introduce.title,
           style: const TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
@@ -32,7 +32,7 @@ class _GroupCreationIntroducePageState
         ),
         const SizedBox(height: 10),
         Text(
-          t.group.creation.introduce.description,
+          context.t.group.creation.introduce.description,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
@@ -66,7 +66,7 @@ class _GroupCreationIntroducePageState
             counter: const SizedBox.shrink(),
             border: const OutlineInputBorder(borderSide: BorderSide.none),
             contentPadding: const EdgeInsets.symmetric(vertical: 13),
-            hintText: t.group.creation.introduce.hint,
+            hintText: context.t.group.creation.introduce.hint,
             hintStyle: const TextStyle(color: Palette.grayText),
           ),
         ),
@@ -78,7 +78,7 @@ class _GroupCreationIntroducePageState
               child: ZiggleButton.cta(
                 outlined: true,
                 onPressed: () => context.pop(),
-                child: Text(t.common.back),
+                child: Text(context.t.common.back),
               ),
             ),
             const SizedBox(width: 10),
@@ -90,7 +90,7 @@ class _GroupCreationIntroducePageState
                       .push(context);
                 },
                 disabled: _content.isEmpty,
-                child: Text(t.common.next),
+                child: Text(context.t.common.next),
               ),
             ),
           ],

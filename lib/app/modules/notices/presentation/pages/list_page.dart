@@ -19,7 +19,7 @@ class ListPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.compact(
-        backLabel: t.notice.list,
+        backLabel: context.t.notice.list,
         title: Text(title),
       ),
       body: BlocProvider(

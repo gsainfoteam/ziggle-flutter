@@ -20,7 +20,7 @@ class GroupCreationNotionPage extends StatelessWidget {
             Assets.images.notion.image(width: 30),
             const SizedBox(width: 10),
             Text(
-              t.group.creation.notion.title,
+              context.t.group.creation.notion.title,
               style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -31,7 +31,7 @@ class GroupCreationNotionPage extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Text.rich(
-          t.group.creation.notion.description(
+          context.t.group.creation.notion.description(
             strong: (text) => TextSpan(
               text: text,
               style: const TextStyle(color: Palette.primary),
@@ -44,7 +44,7 @@ class GroupCreationNotionPage extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 30),
-        ZiggleInput(hintText: t.group.creation.notion.hint),
+        ZiggleInput(hintText: context.t.group.creation.notion.hint),
         const SizedBox(height: 30),
         Container(
           decoration: const BoxDecoration(
@@ -57,7 +57,7 @@ class GroupCreationNotionPage extends StatelessWidget {
               const Text('...'),
               const SizedBox(height: 10),
               Text(
-                t.group.creation.notion.loading,
+                context.t.group.creation.notion.loading,
                 style: const TextStyle(
                   color: Palette.grayText,
                   fontSize: 16,
@@ -73,7 +73,7 @@ class GroupCreationNotionPage extends StatelessWidget {
             Expanded(
               child: ZiggleButton.cta(
                 outlined: true,
-                child: Text(t.common.back),
+                child: Text(context.t.common.back),
               ),
             ),
             const SizedBox(width: 10),
@@ -85,7 +85,7 @@ class GroupCreationNotionPage extends StatelessWidget {
                   const GroupCreationRoute(GroupCreationStep.done)
                       .pushReplacement(context);
                 },
-                child: Text(t.common.skip),
+                child: Text(context.t.common.skip),
               ),
             ),
             Expanded(
@@ -95,7 +95,7 @@ class GroupCreationNotionPage extends StatelessWidget {
                   const GroupCreationRoute(GroupCreationStep.done)
                       .pushReplacement(context);
                 },
-                child: Text(t.common.next),
+                child: Text(context.t.common.next),
               ),
             ),
           ],
