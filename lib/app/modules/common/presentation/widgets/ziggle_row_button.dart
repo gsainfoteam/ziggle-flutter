@@ -11,7 +11,7 @@ class ZiggleRowButton extends StatelessWidget {
     this.disabled = false,
     this.showChevron = true,
     this.destructive = false,
-    required this.onPressed,
+    this.onPressed,
   });
 
   final Widget? icon;
@@ -19,7 +19,7 @@ class ZiggleRowButton extends StatelessWidget {
   final bool disabled;
   final bool destructive;
   final bool showChevron;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {

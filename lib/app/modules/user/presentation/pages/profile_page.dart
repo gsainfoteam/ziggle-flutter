@@ -81,7 +81,7 @@ class _Layout extends StatelessWidget {
             if (authenticated)
               ZiggleRowButton(
                 showChevron: false,
-                title: Text(t.user.logout),
+                title: Text(t.user.account.logout),
                 destructive: true,
                 onPressed: () =>
                     context.read<AuthBloc>().add(const AuthEvent.logout()),

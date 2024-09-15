@@ -5,9 +5,26 @@
     "action": "로그인하기"
   },
   "setting": {
-    "title": "설정"
+    "title": "설정",
+    "notification": {
+      "title": "알림",
+      "enabled": "알림이 켜져 있습니다.",
+      "enable": "알림 켜기"
+    },
+    "language": {
+      "title": "언어",
+      "setKorean": "한국어로 설정",
+      "setEnglish": "Set Language to English"
+    },
+    "information": {
+      "title": "정보"
+    }
   },
   "feedback": "피드백 · 버그 제보하기",
-  "logout": "로그아웃",
+  "account": {
+    "title": "계정",
+    "logout": "로그아웃",
+    "withdraw": "회원 탈퇴"
+  },
   "myInfo": "내 정보"
 }

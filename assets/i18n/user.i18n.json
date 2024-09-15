@@ -5,9 +5,26 @@
     "action": "Login"
   },
   "setting": {
-    "title": "Setting"
+    "title": "Setting",
+    "notification": {
+      "title": "Notification",
+      "enabled": "Notification is enabled.",
+      "enable": "Enable notification"
+    },
+    "language": {
+      "title": "Language",
+      "setKorean": "한국어로 설정",
+      "setEnglish": "Set Language to English"
+    },
+    "information": {
+      "title": "Information"
+    }
   },
   "feedback": "Feedback · Report a bug",
-  "logout": "Logout",
+  "account": {
+    "title": "Account",
+    "logout": "Logout",
+    "withdraw": "Withdraw"
+  },
   "myInfo": "My Info"
 }
