@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 enum NoticeCategory {
@@ -7,5 +8,6 @@ enum NoticeCategory {
   club,
   etc;
 
-  String get name => t.notice.category(context: this);
+  String getName(BuildContext context) =>
+      context.t.notice.category(context: this);
 }

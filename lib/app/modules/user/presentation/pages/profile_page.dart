@@ -68,20 +68,20 @@ class _Layout extends StatelessWidget {
             const SizedBox(height: 40),
             ZiggleRowButton(
               icon: Assets.icons.setting.svg(),
-              title: Text(t.user.setting.title),
+              title: Text(context.t.user.setting.title),
               onPressed: () => const SettingRoute().push(context),
             ),
             const SizedBox(height: 20),
             ZiggleRowButton(
               icon: Assets.icons.flag.svg(),
-              title: Text(t.user.feedback),
+              title: Text(context.t.user.feedback),
               onPressed: () {},
             ),
             const SizedBox(height: 40),
             if (authenticated)
               ZiggleRowButton(
                 showChevron: false,
-                title: Text(t.user.account.logout),
+                title: Text(context.t.user.account.logout),
                 destructive: true,
                 onPressed: () =>
                     context.read<AuthBloc>().add(const AuthEvent.logout()),
@@ -135,7 +135,7 @@ class _Login extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          t.user.login.title,
+          context.t.user.login.title,
           style: const TextStyle(
             fontSize: 24,
             color: Palette.black,
@@ -143,7 +143,7 @@ class _Login extends StatelessWidget {
           ),
         ),
         Text(
-          t.user.login.description,
+          context.t.user.login.description,
           style: const TextStyle(
             fontSize: 14,
             color: Palette.grayText,
@@ -154,7 +154,7 @@ class _Login extends StatelessWidget {
         ZiggleButton.cta(
           onPressed: () =>
               context.read<AuthBloc>().add(const AuthEvent.login()),
-          child: Text(t.user.login.action),
+          child: Text(context.t.user.login.action),
         ),
       ],
     );

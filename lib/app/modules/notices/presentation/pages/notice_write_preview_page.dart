@@ -10,8 +10,8 @@ class NoticeWritePreviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ZiggleAppBar(
-        leading: ZiggleBackButton(label: t.notice.write.configTitle),
-        title: Text(t.notice.write.preview),
+        leading: ZiggleBackButton(label: context.t.notice.write.configTitle),
+        title: Text(context.t.notice.write.preview),
       ),
     );
   }

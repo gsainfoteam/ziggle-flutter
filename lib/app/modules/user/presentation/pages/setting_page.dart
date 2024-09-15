@@ -18,8 +18,8 @@ class SettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
-        backLabel: t.user.myInfo,
-        title: Text(t.user.setting.title),
+        backLabel: context.t.user.myInfo,
+        title: Text(context.t.user.setting.title),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -27,9 +27,9 @@ class SettingPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _Title(title: t.user.account.title),
+              _Title(title: context.t.user.account.title),
               ZiggleRowButton(
-                title: Text(t.user.account.logout),
+                title: Text(context.t.user.account.logout),
                 destructive: true,
                 showChevron: false,
                 onPressed: () =>
@@ -37,12 +37,12 @@ class SettingPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
-                title: Text(t.user.account.withdraw),
+                title: Text(context.t.user.account.withdraw),
                 destructive: true,
                 showChevron: false,
                 onPressed: () => launchUrlString(Strings.withdrawalUrl),
               ),
-              _Title(title: t.user.setting.notification.title),
+              _Title(title: context.t.user.setting.notification.title),
               FutureBuilder(
                 future:
                     sl<NotificationSettingRepository>().isNotificationEnabled(),
@@ -51,14 +51,14 @@ class SettingPage extends StatelessWidget {
                   if (data == null) return const SizedBox.shrink();
                   if (!data) {
                     return ZiggleRowButton(
-                      title: Text(t.user.setting.notification.enable),
+                      title: Text(context.t.user.setting.notification.enable),
                       showChevron: false,
                       disabled: true,
                     );
                   }
                   return ZiggleRowButton(
                     title: Text(
-                      t.user.setting.notification.enabled,
+                      context.t.user.setting.notification.enabled,
                       style: const TextStyle(color: Palette.gray),
                     ),
                     onPressed: () => sl<NotificationSettingRepository>()
@@ -66,9 +66,9 @@ class SettingPage extends StatelessWidget {
                   );
                 },
               ),
-              _Title(title: t.user.setting.language.title),
+              _Title(title: context.t.user.setting.language.title),
               ZiggleRowButton(
-                title: Text(t.user.setting.language.setKorean),
+                title: Text(context.t.user.setting.language.setKorean),
                 showChevron: false,
                 onPressed: () {
                   LocaleSettings.setLocale(AppLocale.ko);
@@ -77,17 +77,16 @@ class SettingPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
-                title: Text(t.user.setting.language.setEnglish),
+                title: Text(context.t.user.setting.language.setEnglish),
                 showChevron: false,
                 onPressed: () {
                   LocaleSettings.setLocale(AppLocale.en);
                   sl<LanguageSettingRepository>().setLanguage(AppLocale.en);
                 },
               ),
-              _Title(title: t.user.setting.information.title),
+              _Title(title: context.t.user.setting.information.title),
               ZiggleRowButton(
-                title: Text(t.user.setting.information.title),
-                showChevron: false,
+                title: Text(context.t.user.setting.information.title),
                 onPressed: () {},
               ),
             ],

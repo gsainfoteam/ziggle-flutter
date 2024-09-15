@@ -31,12 +31,12 @@ class _NoticeWriteSelectTagsPageState extends State<NoticeWriteSelectTagsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ZiggleAppBar(
-        leading: ZiggleBackButton(label: t.notice.write.configTitle),
-        title: Text(t.notice.write.hashtag.title),
+        leading: ZiggleBackButton(label: context.t.notice.write.configTitle),
+        title: Text(context.t.notice.write.hashtag.title),
         actions: [
           ZiggleButton.text(
             onPressed: () => context.pop(_tags),
-            child: Text(t.common.done),
+            child: Text(context.t.common.done),
           )
         ],
       ),
@@ -50,7 +50,7 @@ class _NoticeWriteSelectTagsPageState extends State<NoticeWriteSelectTagsPage> {
                 Expanded(
                   child: ZiggleInput(
                     controller: _controller,
-                    hintText: t.notice.write.hashtag.hint,
+                    hintText: context.t.notice.write.hashtag.hint,
                     showBorder: false,
                   ),
                 ),

@@ -19,8 +19,8 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
-        backLabel: t.notice.detail.back,
-        title: Text(t.notice.detail.title),
+        backLabel: context.t.notice.detail.back,
+        title: Text(context.t.notice.detail.title),
       ),
       body: CustomScrollView(
         slivers: [
@@ -44,7 +44,7 @@ class DetailPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        t.notice.detail.deadline,
+                        context.t.notice.detail.deadline,
                         style: const TextStyle(
                           color: Palette.white,
                           fontSize: 18,
@@ -115,7 +115,7 @@ class DetailPage extends StatelessWidget {
                 spacing: 7,
                 runSpacing: 7,
                 children: [
-                  Tag(tag: notice.category.name),
+                  Tag(tag: notice.category.getName(context)),
                   ...notice.tags.map((tag) => Tag(tag: tag)),
                 ],
               ),
@@ -167,12 +167,12 @@ class DetailPage extends StatelessWidget {
                   _ChipButton(
                     onPressed: () {},
                     icon: Assets.icons.share.svg(),
-                    text: t.notice.detail.share,
+                    text: context.t.notice.detail.share,
                   ),
                   _ChipButton(
                     onPressed: () {},
                     icon: Assets.icons.link.svg(),
-                    text: t.notice.detail.copy,
+                    text: context.t.notice.detail.copy,
                   ),
                 ],
               ),
