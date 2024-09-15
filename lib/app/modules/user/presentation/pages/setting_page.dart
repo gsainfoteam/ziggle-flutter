@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/notification_setting_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class SettingPage extends StatelessWidget {
@@ -37,7 +39,7 @@ class SettingPage extends StatelessWidget {
                 title: Text(t.user.account.withdraw),
                 destructive: true,
                 showChevron: false,
-                onPressed: () {},
+                onPressed: () => launchUrlString(Strings.withdrawalUrl),
               ),
               _Title(title: t.user.setting.notification.title),
               FutureBuilder(
