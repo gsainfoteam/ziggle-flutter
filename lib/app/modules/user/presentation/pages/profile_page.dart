@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
@@ -9,6 +10,7 @@ import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -75,7 +77,7 @@ class _Layout extends StatelessWidget {
             ZiggleRowButton(
               icon: Assets.icons.flag.svg(),
               title: Text(context.t.user.feedback),
-              onPressed: () {},
+              onPressed: () => launchUrlString(Strings.heyDeveloperUrl),
             ),
             const SizedBox(height: 40),
             if (authenticated)
