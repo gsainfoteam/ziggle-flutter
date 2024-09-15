@@ -60,7 +60,8 @@ class SettingPage extends StatelessWidget {
                       t.user.setting.notification.enabled,
                       style: const TextStyle(color: Palette.gray),
                     ),
-                    onPressed: () {},
+                    onPressed: () => sl<NotificationSettingRepository>()
+                        .enableNotification(),
                   );
                 },
               ),
