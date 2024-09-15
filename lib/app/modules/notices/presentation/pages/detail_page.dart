@@ -200,7 +200,10 @@ class _Layout extends StatelessWidget {
             ),
           ),
         ),
-        const SliverToBoxAdapter(child: SizedBox(height: 9)),
+        const SliverSafeArea(
+          top: false,
+          sliver: SliverToBoxAdapter(child: SizedBox(height: 9)),
+        ),
       ],
     );
   }

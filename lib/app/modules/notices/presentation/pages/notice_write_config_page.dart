@@ -50,26 +50,28 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
         ],
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-          child: Column(
-            children: [
-              _buildChangeAccount(),
-              const SizedBox(height: 25),
-              _buildDeadline(),
-              const SizedBox(height: 25),
-              _buildCategory(),
-              const SizedBox(height: 25),
-              _buildTags(),
-              const SizedBox(height: 25),
-              ZiggleButton.cta(
-                emphasize: false,
-                onPressed: () =>
-                    const NoticeWriteSheetRoute(NoticeWriteSheetStep.preview)
-                        .push(context),
-                child: Text(context.t.notice.write.preview),
-              ),
-            ],
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+            child: Column(
+              children: [
+                _buildChangeAccount(),
+                const SizedBox(height: 25),
+                _buildDeadline(),
+                const SizedBox(height: 25),
+                _buildCategory(),
+                const SizedBox(height: 25),
+                _buildTags(),
+                const SizedBox(height: 25),
+                ZiggleButton.cta(
+                  emphasize: false,
+                  onPressed: () =>
+                      const NoticeWriteSheetRoute(NoticeWriteSheetStep.preview)
+                          .push(context),
+                  child: Text(context.t.notice.write.preview),
+                ),
+              ],
+            ),
           ),
         ),
       ),
