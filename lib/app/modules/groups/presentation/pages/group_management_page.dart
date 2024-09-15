@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 
 class GroupManagementPage extends StatelessWidget {
@@ -61,7 +62,7 @@ class GroupManagementPage extends StatelessWidget {
               const SizedBox(height: 48),
               ZiggleRowButton(
                 title: const Text('그룹명 변경'),
-                onPressed: () {},
+                onPressed: () => GroupManagementNameRoute().go(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
