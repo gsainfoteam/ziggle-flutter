@@ -24,9 +24,5 @@ abstract class UserApi {
   Future<TokenModel> refresh();
 
   @GET('info')
-  @Extra({AuthorizeInterceptor.retriedKey: true})
-  Future testTokenInfo();
-
-  @GET('info')
   Future<UserModel> info();
 }
