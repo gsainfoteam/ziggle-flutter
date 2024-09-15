@@ -44,6 +44,11 @@ class GroupManagementInvitatoinLinkPage extends StatelessWidget {
                       ZiggleSelectEntry(label: '3일', value: '3일'),
                       ZiggleSelectEntry(label: '1주일', value: '1주일'),
                     ],
+                  ),
+                  const SizedBox(height: 10),
+                  ZiggleButton.cta(
+                    emphasize: false,
+                    child: const Text('초대 링크 복사하기'),
                   )
                 ],
               ),
