@@ -7,7 +7,6 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button
 import 'package:ziggle/app/modules/user/domain/repositories/language_setting_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/notification_setting_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
-import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -72,8 +71,8 @@ class SettingPage extends StatelessWidget {
                 title: Text(t.user.setting.language.setKorean),
                 showChevron: false,
                 onPressed: () {
+                  LocaleSettings.setLocale(AppLocale.ko);
                   sl<LanguageSettingRepository>().setLanguage(AppLocale.ko);
-                  const FeedRoute().go(context);
                 },
               ),
               const SizedBox(height: 20),
@@ -81,8 +80,8 @@ class SettingPage extends StatelessWidget {
                 title: Text(t.user.setting.language.setEnglish),
                 showChevron: false,
                 onPressed: () {
+                  LocaleSettings.setLocale(AppLocale.en);
                   sl<LanguageSettingRepository>().setLanguage(AppLocale.en);
-                  const FeedRoute().go(context);
                 },
               ),
               _Title(title: t.user.setting.information.title),
