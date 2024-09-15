@@ -17,7 +17,11 @@
       "setEnglish": "Set Language to English"
     },
     "information": {
-      "title": "Information"
+      "title": "Information",
+      "termsOfService": "Terms of Service",
+      "privacyPolicy": "Privacy Policy",
+      "openSourceLicense": "Open Source License",
+      "copyright": "GIST Students' Association, Infoteam"
     }
   },
   "feedback": "Feedback · Report a bug",

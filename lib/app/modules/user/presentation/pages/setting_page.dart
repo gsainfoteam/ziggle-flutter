@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button
 import 'package:ziggle/app/modules/user/domain/repositories/language_setting_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/notification_setting_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -53,14 +54,11 @@ class SettingPage extends StatelessWidget {
                     return ZiggleRowButton(
                       title: Text(context.t.user.setting.notification.enable),
                       showChevron: false,
-                      disabled: true,
                     );
                   }
                   return ZiggleRowButton(
-                    title: Text(
-                      context.t.user.setting.notification.enabled,
-                      style: const TextStyle(color: Palette.gray),
-                    ),
+                    title: Text(context.t.user.setting.notification.enabled),
+                    disabled: true,
                     onPressed: () => sl<NotificationSettingRepository>()
                         .enableNotification(),
                   );
@@ -87,7 +85,7 @@ class SettingPage extends StatelessWidget {
               _Title(title: context.t.user.setting.information.title),
               ZiggleRowButton(
                 title: Text(context.t.user.setting.information.title),
-                onPressed: () {},
+                onPressed: () => const InformationRoute().push(context),
               ),
             ],
           ),

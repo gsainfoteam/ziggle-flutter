@@ -6,3 +6,10 @@ class SettingRoute extends GoRouteData {
   @override
   Widget build(context, state) => const SettingPage();
 }
+
+@TypedGoRoute<InformationRoute>(path: '/setting/information')
+class InformationRoute extends GoRouteData {
+  const InformationRoute();
+  @override
+  Widget build(context, state) => const InformationPage();
+}
