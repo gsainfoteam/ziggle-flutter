@@ -77,9 +77,9 @@ class GroupCreationLayout extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           Expanded(
-            child: SafeArea(
-              top: false,
-              child: SingleChildScrollView(
+            child: SingleChildScrollView(
+              child: SafeArea(
+                top: false,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 16,
