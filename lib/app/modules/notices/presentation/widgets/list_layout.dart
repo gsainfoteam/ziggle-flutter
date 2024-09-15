@@ -21,34 +21,38 @@ class ListLayout extends StatelessWidget {
               : InfiniteScroll(
                   onLoadMore: () => NoticeListBloc.loadMore(context),
                   slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: 16,
-                      ),
-                      sliver: SliverList.separated(
-                        itemBuilder: (context, index) {
-                          if (index >= state.notices.length) {
-                            return const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Center(
-                                child: CircularProgressIndicator(),
-                              ),
+                    SliverSafeArea(
+                      top: false,
+                      sliver: SliverPadding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: 16,
+                        ),
+                        sliver: SliverList.separated(
+                          itemBuilder: (context, index) {
+                            if (index >= state.notices.length) {
+                              return const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+                            final notice = state.notices[index];
+                            return NoticeCard(
+                              onLike: () {},
+                              onPressed: () =>
+                                  NoticeDetailRoute.fromEntity(notice)
+                                      .push(context),
+                              onShare: () {},
+                              notice: notice,
                             );
-                          }
-                          final notice = state.notices[index];
-                          return NoticeCard(
-                            onLike: () {},
-                            onPressed: () =>
-                                NoticeDetailRoute.fromEntity(notice)
-                                    .push(context),
-                            onShare: () {},
-                            notice: notice,
-                          );
-                        },
-                        separatorBuilder: (_, __) => const SizedBox(height: 15),
-                        itemCount:
-                            state.notices.length + (state.isLoading ? 1 : 0),
+                          },
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 15),
+                          itemCount:
+                              state.notices.length + (state.isLoading ? 1 : 0),
+                        ),
                       ),
                     ),
                   ],
