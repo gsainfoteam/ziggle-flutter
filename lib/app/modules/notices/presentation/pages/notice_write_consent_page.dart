@@ -14,39 +14,41 @@ class NoticeWriteConsentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ZigglePressable(
-                    onPressed: () => context.pop(context),
-                    child: Assets.icons.closeCircle.svg(),
-                  ),
-                ],
-              ),
-              Text(
-                context.t.notice.write.consent.title,
-                style: const TextStyle(
-                  fontSize: 26,
-                  color: Palette.black,
-                  fontWeight: FontWeight.bold,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ZigglePressable(
+                      onPressed: () => context.pop(context),
+                      child: Assets.icons.closeCircle.svg(),
+                    ),
+                  ],
                 ),
-              ),
-              const SizedBox(height: 24),
-              const SizedBox(height: 10),
-              const SizedBox(height: 24),
-              ZiggleButton.cta(
-                onPressed: () {
-                  context.popUntilPath(const NoticeWriteRoute().location);
-                  // TODO: change to notice detail page
-                  context.pop();
-                },
-                child: Text(context.t.notice.write.consent.upload),
-              )
-            ],
+                Text(
+                  context.t.notice.write.consent.title,
+                  style: const TextStyle(
+                    fontSize: 26,
+                    color: Palette.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 24),
+                const SizedBox(height: 10),
+                const SizedBox(height: 24),
+                ZiggleButton.cta(
+                  onPressed: () {
+                    context.popUntilPath(const NoticeWriteRoute().location);
+                    // TODO: change to notice detail page
+                    context.pop();
+                  },
+                  child: Text(context.t.notice.write.consent.upload),
+                )
+              ],
+            ),
           ),
         ),
       ),

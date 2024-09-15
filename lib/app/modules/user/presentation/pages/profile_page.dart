@@ -20,8 +20,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
             child: _Layout(),

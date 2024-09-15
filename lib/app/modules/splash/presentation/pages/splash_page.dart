@@ -8,7 +8,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ZiggleButton.cta(
-      onPressed: () => const FeedRoute().go(context),
+      onPressed: () => const GroupCreationRoute().go(context),
       child: const Text('feed page'),
     );
   }
