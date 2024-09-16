@@ -27,3 +27,67 @@ class GroupCreationRoute extends GoRouteData {
     );
   }
 }
+
+@TypedGoRoute<GroupManagementRoute>(
+  path: '/group/management',
+  routes: <TypedGoRoute<GoRouteData>>[
+    TypedGoRoute<GroupNameManagementRoute>(path: 'name'),
+    TypedGoRoute<GroupDescriptionManagementRoute>(path: 'description'),
+    TypedGoRoute<GroupNotionLinkManagementRoute>(path: 'notion-link'),
+    TypedGoRoute<GroupInvitationLinkManagementRoute>(path: 'invitation-link'),
+    TypedGoRoute<GroupMemberManagementRoute>(path: 'member')
+  ],
+)
+class GroupManagementRoute extends GoRouteData {
+  const GroupManagementRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const GroupManagementPage();
+  }
+}
+
+class GroupNameManagementRoute extends GoRouteData {
+  const GroupNameManagementRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const GroupNameManagementPage();
+  }
+}
+
+class GroupDescriptionManagementRoute extends GoRouteData {
+  const GroupDescriptionManagementRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const GroupDescriptionManagementPage();
+  }
+}
+
+class GroupNotionLinkManagementRoute extends GoRouteData {
+  const GroupNotionLinkManagementRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const GroupNotionLinkManagementPage();
+  }
+}
+
+class GroupInvitationLinkManagementRoute extends GoRouteData {
+  const GroupInvitationLinkManagementRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const GroupInvitationLinkManagementPage();
+  }
+}
+
+class GroupMemberManagementRoute extends GoRouteData {
+  const GroupMemberManagementRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const GroupMemberManagementPage();
+  }
+}

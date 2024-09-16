@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/modules/groups/presentation/pages/group_notion_link_management_page.dart';
 import 'package:ziggle/app/router/routes.dart';
 import 'package:ziggle/app/values/palette.dart';
 
@@ -63,27 +64,30 @@ class GroupManagementPage extends StatelessWidget {
               const SizedBox(height: 48),
               ZiggleRowButton(
                 title: const Text('그룹명 변경'),
-                onPressed: () => GroupManagementNameRoute().go(context),
+                onPressed: () => const GroupNameManagementRoute().go(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
                 title: const Text('그룹 간단 소개 변경'),
-                onPressed: () {},
+                onPressed: () =>
+                    const GroupDescriptionManagementRoute().go(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
                 title: const Text('노션 페이지 링크 변경'),
-                onPressed: () {},
+                onPressed: () =>
+                    const GroupNotionLinkManagementRoute().go(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
                 title: const Text('초대 링크 생성'),
-                onPressed: () {},
+                onPressed: () =>
+                    const GroupInvitationLinkManagementRoute().go(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
                 title: const Text('멤버 관리'),
-                onPressed: () {},
+                onPressed: () => const GroupMemberManagementRoute().go(context),
               ),
               const SizedBox(height: 40),
               ZiggleRowButton(
