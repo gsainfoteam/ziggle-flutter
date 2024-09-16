@@ -41,7 +41,7 @@ abstract class AppRoutes {
 
   static final config = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: GroupManagementRoute().location,
+    initialLocation: const SplashRoute().location,
     routes: $appRoutes,
     debugLogDiagnostics: kDebugMode,
   );
