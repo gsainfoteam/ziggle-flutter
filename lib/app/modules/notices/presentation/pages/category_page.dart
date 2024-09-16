@@ -13,7 +13,7 @@ class CategoryPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.main(
-        onTapSearch: () {},
+        onTapSearch: () => const SearchRoute().push(context),
         onTapWrite: () {},
       ),
       body: Padding(
