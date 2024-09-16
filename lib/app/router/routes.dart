@@ -9,6 +9,10 @@ import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_done
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_introduce_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_notion_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_profile_page.dart';
+import 'package:ziggle/app/modules/groups/presentation/pages/group_description_management_page.dart';
+import 'package:ziggle/app/modules/groups/presentation/pages/group_name_management_page.dart';
+import 'package:ziggle/app/modules/groups/presentation/pages/group_invitation_link_management_page.dart';
+import 'package:ziggle/app/modules/groups/presentation/pages/group_management_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_creation_layout.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
@@ -40,7 +44,7 @@ abstract class AppRoutes {
 
   static final config = GoRouter(
     navigatorKey: rootNavigatorKey,
-    initialLocation: const SplashRoute().location,
+    initialLocation: GroupManagementRoute().location,
     routes: $appRoutes,
     debugLogDiagnostics: kDebugMode,
   );

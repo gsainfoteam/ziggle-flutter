@@ -34,7 +34,7 @@ class GroupManagementRoute extends GoRouteData {
 
   @override
   Widget build(context, state) {
-    return const GroupManagementPage();
+    return const GroupManagementChangeBriefDescriptionPage();
   }
 }
 
@@ -47,3 +47,28 @@ class GroupManagementNameRoute extends GoRouteData {
     return const GroupManagementChangeNamePage();
   }
 }
+
+final groupManagementRoutes = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/group/management',
+      builder: (context, state) => const GroupManagementPage(),
+      routes: [
+        GoRoute(
+          path: 'change-group-name',
+          builder: (context, state) => const GroupManagementChangeNamePage(),
+        ),
+        GoRoute(
+          path: 'change-group-description',
+          builder: (context, state) =>
+              const GroupManagementChangeBriefDescriptionPage(),
+        ),
+        GoRoute(
+          path: 'change-invitation-link',
+          builder: (context, state) =>
+              const GroupManagementInvitatoinLinkPage(),
+        ),
+      ],
+    ),
+  ],
+);

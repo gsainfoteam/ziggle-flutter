@@ -5,8 +5,8 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_select.dar
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
-class GroupManagementInvitatoinLinkPage extends StatelessWidget {
-  const GroupManagementInvitatoinLinkPage({super.key});
+class GroupInvitationLinkManagementPage extends StatelessWidget {
+  const GroupInvitationLinkManagementPage({super.key});
 
   @override
   Widget build(BuildContext context) {

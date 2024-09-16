@@ -1,12 +1,10 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
-class GroupManagementChangeBriefDescriptionPage extends StatelessWidget {
-  const GroupManagementChangeBriefDescriptionPage({super.key});
+class GroupDescriptionManagementPage extends StatelessWidget {
+  const GroupDescriptionManagementPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -4,8 +4,8 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/values/palette.dart';
 
-class GroupManagementChangeNamePage extends StatelessWidget {
-  const GroupManagementChangeNamePage({super.key});
+class GroupNameManagementPage extends StatelessWidget {
+  const GroupNameManagementPage({super.key});
 
   @override
   Widget build(BuildContext context) {
