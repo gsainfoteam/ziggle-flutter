@@ -2,30 +2,44 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
 
 part 'notice_list_bloc.freezed.dart';
 
+Stream<T> _throttle<T>(Stream<T> events, Stream<T> Function(T) mapper) => events
+    .throttleTime(const Duration(milliseconds: 500), trailing: true)
+    .distinct()
+    .switchMap(mapper);
+
 @injectable
 class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
   final NoticeRepository _repository;
 
-  late NoticeType type;
+  late NoticeType _type;
+  String? query;
   late int total;
 
   NoticeListBloc(this._repository) : super(const _Initial()) {
-    on<_Load>((event, emit) async {
-      emit(const _Loading());
-      type = event.type;
-      final notices = await _repository.getNotices(type: type);
-      total = notices.total;
-      emit(_Loaded(notices.list));
-    });
+    on<_SearchEvent>((event, emit) async {
+      if (event is _Load) {
+        emit(const _Loading());
+        _type = event.type;
+        query = event.query;
+        final notices =
+            await _repository.getNotices(type: _type, search: query);
+        total = notices.total;
+        emit(_Loaded(notices.list));
+      } else if (event is _Reset) {
+        query = null;
+        emit(const _Initial());
+      }
+    }, transformer: _throttle);
     on<_Refresh>((event, emit) async {
       emit(const _Loading());
-      final notices = await _repository.getNotices(type: type);
+      final notices = await _repository.getNotices(type: _type, search: query);
       total = notices.total;
       emit(_Loaded(notices.list));
     });
@@ -34,8 +48,9 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       if (state.notices.length >= total) return;
       emit(_Loading(state.notices));
       final notices = await _repository.getNotices(
-        type: type,
+        type: _type,
         offset: state.notices.length,
+        search: query,
       );
       total = notices.total;
       emit(_Loaded([...state.notices, ...notices.list]));
@@ -57,11 +72,19 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
   }
 }
 
+mixin _SearchEvent implements NoticeListEvent {}
+
 @freezed
 sealed class NoticeListEvent {
-  const factory NoticeListEvent.load(NoticeType type) = _Load;
+  @With<_SearchEvent>()
+  const factory NoticeListEvent.load(
+    NoticeType type, {
+    String? query,
+  }) = _Load;
   const factory NoticeListEvent.refresh() = _Refresh;
   const factory NoticeListEvent.loadMore() = _LoadMore;
+  @With<_SearchEvent>()
+  const factory NoticeListEvent.reset() = _Reset;
 }
 
 @freezed

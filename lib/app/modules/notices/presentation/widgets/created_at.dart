@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/date_time.dart';
 import 'package:ziggle/app/values/palette.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 class CreatedAt extends StatefulWidget {
   const CreatedAt({super.key, required this.createdAt});
@@ -28,28 +28,10 @@ class _CreatedAtState extends State<CreatedAt> {
     super.dispose();
   }
 
-  String get _timeAgo {
-    final now = DateTime.now();
-    final diff = now.difference(widget.createdAt);
-    if (diff.inDays > 7) {
-      return context.t.notice.calendar.weeksAgo(n: diff.inDays ~/ 7);
-    }
-    if (diff.inDays > 0) {
-      return context.t.notice.calendar.daysAgo(n: diff.inDays);
-    }
-    if (diff.inHours > 0) {
-      return context.t.notice.calendar.hoursAgo(n: diff.inHours);
-    }
-    if (diff.inMinutes > 0) {
-      return context.t.notice.calendar.minutesAgo(n: diff.inMinutes);
-    }
-    return context.t.notice.calendar.secondsAgo(n: diff.inSeconds);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Text(
-      _timeAgo,
+      widget.createdAt.getTimeAgo(context),
       style: const TextStyle(
         fontWeight: FontWeight.w500,
         color: Palette.grayText,
