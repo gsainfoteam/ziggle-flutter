@@ -36,5 +36,17 @@
       },
       "back": "돌아가기"
     }
+  },
+  "detail" :{
+    "appBar":{
+      "backLabel" : "목록",
+      "title" : "그룹 정보"
+    },
+    "tab":{
+      "introduction" :"소개",
+      "notice" : "공지",
+      "member" : "멤버"
+    },
+    "favorite" : "즐겨찾기"
   }
 }

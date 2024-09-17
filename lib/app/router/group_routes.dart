@@ -27,3 +27,14 @@ class GroupCreationRoute extends GoRouteData {
     );
   }
 }
+
+// 나중에 :id 파라미터로 받기
+@TypedGoRoute<GroupDetailRoute>(path: '/group/detail')
+class GroupDetailRoute extends GoRouteData {
+  const GroupDetailRoute();
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const GroupDetailPage();
+  }
+}
