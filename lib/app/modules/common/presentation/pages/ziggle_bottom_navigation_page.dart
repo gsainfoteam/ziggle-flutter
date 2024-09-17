@@ -15,7 +15,6 @@ class ZiggleBottomNavigationPage extends StatelessWidget {
       routes: const [
         FeedRoute(),
         CategoryRoute(),
-        FeedRoute(),
         ProfileRoute(),
       ],
       builder: (context, child, tabController) => Scaffold(
@@ -38,10 +37,6 @@ class ZiggleBottomNavigationPage extends StatelessWidget {
                   BottomNavigationBarItem(
                     icon: Assets.icons.category.svg(),
                     activeIcon: Assets.icons.categoryActive.svg(),
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Assets.icons.favorite.svg(),
-                    activeIcon: Assets.icons.favoriteActive.svg(),
                   ),
                   BottomNavigationBarItem(
                     icon: Assets.icons.profile.svg(),
