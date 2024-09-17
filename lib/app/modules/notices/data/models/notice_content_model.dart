@@ -21,12 +21,4 @@ class NoticeContentModel
 
   factory NoticeContentModel.fromJson(Map<String, dynamic> json) =>
       _$NoticeContentModelFromJson(json);
-  factory NoticeContentModel.fromEntity(NoticeContentEntity entity) =>
-      NoticeContentModel(
-        id: entity.id,
-        lang: entity.lang,
-        content: entity.content,
-        deadline: entity.deadline,
-        createdAt: entity.createdAt,
-      );
 }

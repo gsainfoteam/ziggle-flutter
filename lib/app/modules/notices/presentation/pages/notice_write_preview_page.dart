@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
-import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_renderer.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
@@ -27,14 +26,9 @@ class NoticeWritePreviewPage extends StatelessWidget {
             return const SizedBox();
           }
           return NoticeRenderer(
-            notice: NoticeEntity.mock(
-              createdAt: DateTime.now(),
-              title: state.draft.titles[AppLocale.ko] ?? '',
-              content: state.draft.bodies[AppLocale.ko] ?? '',
-              category: NoticeCategory.fromType(state.draft.type!)!,
-              authorName: UserBloc.userOrNull(context)!.name,
-              deadline: state.draft.deadline,
-              tags: state.draft.tags,
+            notice: NoticeEntity.fromDraft(
+              draft: state.draft,
+              user: UserBloc.userOrNull(context)!,
             ),
           );
         },

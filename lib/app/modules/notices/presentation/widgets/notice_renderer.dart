@@ -124,7 +124,7 @@ class NoticeRenderer extends StatelessWidget {
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
           sliver: SliverList.separated(
-            itemCount: notice.imageUrls.length,
+            itemCount: notice.images.length,
             itemBuilder: (context, index) => Container(
               decoration: const ShapeDecoration(
                 shape: RoundedRectangleBorder(
@@ -134,8 +134,8 @@ class NoticeRenderer extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
-                child: Image.network(
-                  notice.imageUrls[index],
+                child: Image(
+                  image: notice.images[index],
                   fit: BoxFit.contain,
                 ),
               ),
