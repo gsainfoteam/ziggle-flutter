@@ -6,13 +6,15 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/router.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/theme.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class App extends StatelessWidget {
-  const App({super.key});
+  App({super.key});
+
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class App extends StatelessWidget {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: MaterialApp.router(
           theme: AppTheme.theme,
-          routerConfig: AppRoutes.config,
+          routerConfig: _appRouter.config(),
           locale: TranslationProvider.of(context).flutterLocale,
           supportedLocales: AppLocaleUtils.supportedLocales,
           localizationsDelegates: GlobalMaterialLocalizations.delegates,

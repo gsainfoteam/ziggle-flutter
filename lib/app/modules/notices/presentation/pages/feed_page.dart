@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
@@ -5,9 +6,10 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/list_layout.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 
+@RoutePage()
 class FeedPage extends StatelessWidget {
   const FeedPage({super.key});
 
@@ -17,7 +19,7 @@ class FeedPage extends StatelessWidget {
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.main(
         onTapSearch: () => const SearchRoute().push(context),
-        onTapWrite: () {},
+        onTapWrite: () => const NoticeWriteBodyRoute().push(context),
       ),
       body: BlocProvider(
         create: (_) => sl<NoticeListBloc>()

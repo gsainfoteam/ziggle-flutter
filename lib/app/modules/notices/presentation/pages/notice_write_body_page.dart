@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,12 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/photo_item.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+@RoutePage()
 class NoticeWriteBodyPage extends StatefulWidget {
   const NoticeWriteBodyPage({super.key});
 
@@ -89,8 +91,7 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
             disabled: actionDisabled,
             onPressed: actionDisabled
                 ? null
-                : () => const NoticeWriteRoute(NoticeWriteStep.config)
-                    .push(context),
+                : () => const NoticeWriteConfigRoute().push(context),
             child: Text(
               context.t.common.done,
               style: const TextStyle(

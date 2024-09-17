@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
@@ -8,11 +9,12 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/tag.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+@RoutePage()
 class NoticeWriteConfigPage extends StatefulWidget {
   const NoticeWriteConfigPage({super.key});
 
@@ -36,9 +38,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
             disabled: _type == null,
             onPressed: _type == null
                 ? null
-                : () =>
-                    const NoticeWriteSheetRoute(NoticeWriteSheetStep.consent)
-                        .push(context),
+                : () => const NoticeWriteConsentRoute().push(context),
             child: Text(
               context.t.notice.write.publish,
               style: const TextStyle(
@@ -66,8 +66,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 ZiggleButton.cta(
                   emphasize: false,
                   onPressed: () =>
-                      const NoticeWriteSheetRoute(NoticeWriteSheetStep.preview)
-                          .push(context),
+                      const NoticeWritePreviewRoute().push(context),
                   child: Text(context.t.notice.write.preview),
                 ),
               ],
@@ -326,10 +325,9 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
           const SizedBox(height: 10),
           ZigglePressable(
             onPressed: () async {
-              final tags =
-                  await const NoticeWriteSheetRoute(NoticeWriteSheetStep.tags)
-                      .push(context);
-              if (!mounted) return;
+              final tags = await const NoticeWriteSelectTagsRoute()
+                  .push<List<String>>(context);
+              if (!mounted || tags == null) return;
               setState(() => _tags
                 ..clear()
                 ..addAll(tags));

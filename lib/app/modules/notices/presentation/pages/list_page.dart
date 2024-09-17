@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
@@ -8,10 +9,10 @@ import 'package:ziggle/app/modules/notices/presentation/widgets/list_layout.dart
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+@RoutePage()
 class ListPage extends StatelessWidget {
-  const ListPage({super.key, required this.title, required this.type});
+  const ListPage({super.key, required this.type});
 
-  final String title;
   final NoticeType type;
 
   @override
@@ -20,7 +21,7 @@ class ListPage extends StatelessWidget {
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.notice.list,
-        title: Text(title),
+        title: Text(type.getName(context)),
       ),
       body: BlocProvider(
         create: (_) => sl<NoticeListBloc>()..add(NoticeListEvent.load(type)),

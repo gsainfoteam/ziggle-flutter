@@ -1,12 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+@RoutePage()
 class NoticeWriteConsentPage extends StatelessWidget {
   const NoticeWriteConsentPage({super.key});
 
@@ -23,7 +25,7 @@ class NoticeWriteConsentPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     ZigglePressable(
-                      onPressed: () => context.pop(context),
+                      onPressed: () => context.maybePop(),
                       child: Assets.icons.closeCircle.svg(),
                     ),
                   ],
@@ -41,9 +43,12 @@ class NoticeWriteConsentPage extends StatelessWidget {
                 const SizedBox(height: 24),
                 ZiggleButton.cta(
                   onPressed: () {
-                    context.popUntilPath(const NoticeWriteRoute().location);
+                    context.router
+                        .popUntilRouteWithName(NoticeWriteBodyRoute.name);
                     // TODO: change to notice detail page
-                    context.pop();
+                    context.replaceRoute(
+                      DetailRoute(notice: NoticeEntity.fromId(1)),
+                    );
                   },
                   child: Text(context.t.notice.write.consent.upload),
                 )

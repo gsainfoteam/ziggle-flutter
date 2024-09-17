@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/router.gr.dart';
 
 class ListLayout extends StatelessWidget {
   const ListLayout({super.key});
@@ -42,8 +42,7 @@ class ListLayout extends StatelessWidget {
                             return NoticeCard(
                               onLike: () {},
                               onPressed: () =>
-                                  NoticeDetailRoute.fromEntity(notice)
-                                      .push(context),
+                                  DetailRoute(notice: notice).push(context),
                               onShare: () {},
                               notice: notice,
                             );

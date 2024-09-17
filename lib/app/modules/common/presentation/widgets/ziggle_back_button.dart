@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -11,7 +12,7 @@ class ZiggleBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ZiggleButton.text(
-      onPressed: () => Navigator.pop(context),
+      onPressed: () => context.maybePop(),
       child: Text.rich(
         TextSpan(
           children: [
