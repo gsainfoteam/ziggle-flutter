@@ -1,10 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 
+@RoutePage()
 class CategoryPage extends StatelessWidget {
   const CategoryPage({super.key});
 
@@ -42,9 +44,10 @@ class CategoryPage extends StatelessWidget {
                               if (category.$1 != 0) const SizedBox(width: 10),
                               Expanded(
                                 child: ZigglePressable(
-                                  onPressed: () =>
-                                      NoticeCategoryRoute(category.$2)
-                                          .push(context),
+                                  // onPressed: () =>
+                                  //     NoticeCategoryRoute(category.$2)
+                                  //         .push(context),
+                                  onPressed: () {},
                                   decoration: BoxDecoration(
                                     color: category.$2.backgroundColor,
                                     borderRadius: const BorderRadius.all(
