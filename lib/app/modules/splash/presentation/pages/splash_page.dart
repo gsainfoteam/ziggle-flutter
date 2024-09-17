@@ -1,6 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/router.gr.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -8,7 +9,7 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ZiggleButton.cta(
-      onPressed: () => const GroupCreationRoute().go(context),
+      onPressed: () => context.router.replaceAll([const FeedRoute()]),
       child: const Text('feed page'),
     );
   }

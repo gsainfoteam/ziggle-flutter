@@ -1,14 +1,16 @@
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+@RoutePage()
 class PackageLicensesPage extends StatelessWidget {
   const PackageLicensesPage({
     super.key,
-    required this.package,
+    @PathParam('package') required this.package,
     required this.licenses,
   });
 

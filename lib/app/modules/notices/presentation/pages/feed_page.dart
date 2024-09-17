@@ -19,7 +19,7 @@ class FeedPage extends StatelessWidget {
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.main(
         onTapSearch: () => const SearchRoute().push(context),
-        onTapWrite: () {},
+        onTapWrite: () => const NoticeWriteBodyRoute().push(context),
       ),
       body: BlocProvider(
         create: (_) => sl<NoticeListBloc>()

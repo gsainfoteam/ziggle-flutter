@@ -16,7 +16,7 @@ class CategoryPage extends StatelessWidget {
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.main(
         onTapSearch: () => const SearchRoute().push(context),
-        onTapWrite: () {},
+        onTapWrite: () => const NoticeWriteBodyRoute().push(context),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
@@ -44,10 +44,8 @@ class CategoryPage extends StatelessWidget {
                               if (category.$1 != 0) const SizedBox(width: 10),
                               Expanded(
                                 child: ZigglePressable(
-                                  // onPressed: () =>
-                                  //     NoticeCategoryRoute(category.$2)
-                                  //         .push(context),
-                                  onPressed: () {},
+                                  onPressed: () => ListRoute(type: category.$2)
+                                      .push(context),
                                   decoration: BoxDecoration(
                                     color: category.$2.backgroundColor,
                                     borderRadius: const BorderRadius.all(

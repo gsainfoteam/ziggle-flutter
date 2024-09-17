@@ -15,9 +15,8 @@ class ZiggleBottomNavigationPage extends StatelessWidget {
       routes: const [
         FeedRoute(),
         CategoryRoute(),
-        CategoryRoute(),
         FeedRoute(),
-        FeedRoute(),
+        ProfileRoute(),
       ],
       builder: (context, child, tabController) => Scaffold(
         body: child,
