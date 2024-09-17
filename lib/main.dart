@@ -22,7 +22,7 @@ void main() async {
   await _initLocale();
   _initBloc();
   _initFont();
-  runApp(TranslationProvider(child: const App()));
+  runApp(TranslationProvider(child: App()));
 }
 
 void _initCrashlytics() {

@@ -1,13 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+@RoutePage()
 class PackagesPage extends StatelessWidget {
   const PackagesPage({super.key});
 
@@ -65,9 +67,10 @@ class PackagesPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                onPressed: () =>
-                    PackageLicensesRoute.fromParagraph(item.key, item.value)
-                        .push(context),
+                onPressed: () => PackageLicensesRoute(
+                  package: item.key,
+                  licenses: item.value,
+                ).push(context),
               );
             },
           );

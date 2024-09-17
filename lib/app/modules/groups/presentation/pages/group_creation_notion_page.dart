@@ -1,13 +1,28 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/modules/groups/presentation/layouts/group_creation_layout.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+@RoutePage()
 class GroupCreationNotionPage extends StatelessWidget {
   const GroupCreationNotionPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const GroupCreationLayout(
+      step: GroupCreationStep.notion,
+      child: _Layout(),
+    );
+  }
+}
+
+class _Layout extends StatelessWidget {
+  const _Layout();
 
   @override
   Widget build(BuildContext context) {
@@ -81,9 +96,9 @@ class GroupCreationNotionPage extends StatelessWidget {
               child: ZiggleButton.cta(
                 emphasize: false,
                 onPressed: () {
-                  context.popUntilPath(const GroupCreationRoute().location);
-                  const GroupCreationRoute(GroupCreationStep.done)
-                      .pushReplacement(context);
+                  context.router
+                      .popUntilRouteWithName(GroupCreationProfileRoute.name);
+                  context.replaceRoute(const GroupCreationDoneRoute());
                 },
                 child: Text(context.t.common.skip),
               ),
@@ -91,9 +106,9 @@ class GroupCreationNotionPage extends StatelessWidget {
             Expanded(
               child: ZiggleButton.cta(
                 onPressed: () {
-                  context.popUntilPath(const GroupCreationRoute().location);
-                  const GroupCreationRoute(GroupCreationStep.done)
-                      .pushReplacement(context);
+                  context.router
+                      .popUntilRouteWithName(GroupCreationProfileRoute.name);
+                  context.replaceRoute(const GroupCreationDoneRoute());
                 },
                 child: Text(context.t.common.next),
               ),

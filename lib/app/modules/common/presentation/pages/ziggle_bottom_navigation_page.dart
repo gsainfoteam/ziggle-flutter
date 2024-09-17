@@ -1,65 +1,77 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 
-class ZiggleBottomNavigationPage extends StatefulWidget {
-  const ZiggleBottomNavigationPage({
-    super.key,
-    required this.child,
-    required this.items,
-  });
+@RoutePage()
+class ZiggleBottomNavigationPage extends StatelessWidget {
+  const ZiggleBottomNavigationPage({super.key});
 
-  final StatefulNavigationShell child;
-  final List<BottomNavigationBarItem> items;
-
-  @override
-  State<ZiggleBottomNavigationPage> createState() =>
-      _ZiggleBottomNavigationPageState();
-}
-
-class _ZiggleBottomNavigationPageState
-    extends State<ZiggleBottomNavigationPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: widget.child,
-      bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          border: Border(top: BorderSide(color: Palette.grayBorder)),
-        ),
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: widget.items.indexed
-                  .map(
-                    (e) => Expanded(
-                      child: ZigglePressable(
-                        onPressed: () => widget.child.goBranch(
-                          e.$1,
-                          initialLocation: e.$1 == widget.child.currentIndex,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SizedBox(
-                                width: 24,
-                                child: widget.child.currentIndex == e.$1
-                                    ? e.$2.activeIcon
-                                    : e.$2.icon,
-                              ),
-                            ],
+    return AutoTabsRouter.tabBar(
+      routes: const [
+        FeedRoute(),
+        CategoryRoute(),
+        FeedRoute(),
+        ProfileRoute(),
+      ],
+      builder: (context, child, tabController) => Scaffold(
+        body: child,
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            border: Border(top: BorderSide(color: Palette.grayBorder)),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  BottomNavigationBarItem(
+                    icon: Assets.icons.feed.svg(),
+                    activeIcon: Assets.icons.feedActive.svg(),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Assets.icons.category.svg(),
+                    activeIcon: Assets.icons.categoryActive.svg(),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Assets.icons.favorite.svg(),
+                    activeIcon: Assets.icons.favoriteActive.svg(),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Assets.icons.profile.svg(),
+                    activeIcon: Assets.icons.profileActive.svg(),
+                  ),
+                ]
+                    .indexed
+                    .map(
+                      (e) => Expanded(
+                        child: ZigglePressable(
+                          onPressed: () => tabController.animateTo(e.$1),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SizedBox(
+                                  width: 24,
+                                  child: tabController.index == e.$1
+                                      ? e.$2.activeIcon
+                                      : e.$2.icon,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  )
-                  .toList(),
+                    )
+                    .toList(),
+              ),
             ),
           ),
         ),

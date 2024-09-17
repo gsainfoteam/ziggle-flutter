@@ -1,5 +1,5 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
@@ -9,6 +9,7 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+@RoutePage()
 class NoticeWriteSelectTagsPage extends StatefulWidget {
   const NoticeWriteSelectTagsPage({super.key});
 
@@ -35,7 +36,7 @@ class _NoticeWriteSelectTagsPageState extends State<NoticeWriteSelectTagsPage> {
         title: Text(context.t.notice.write.hashtag.title),
         actions: [
           ZiggleButton.text(
-            onPressed: () => context.pop(_tags),
+            onPressed: () => context.maybePop(_tags),
             child: Text(context.t.common.done),
           )
         ],

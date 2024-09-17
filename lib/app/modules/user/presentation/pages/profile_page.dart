@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -8,12 +9,13 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+@RoutePage()
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -67,6 +69,12 @@ class _Layout extends StatelessWidget {
                 ),
               ),
             const SizedBox(height: 40),
+            ZiggleRowButton(
+              icon: Assets.icons.setting.svg(),
+              title: const Text('create group'),
+              onPressed: () => const GroupCreationProfileRoute().push(context),
+            ),
+            const SizedBox(height: 20),
             ZiggleRowButton(
               icon: Assets.icons.setting.svg(),
               title: Text(context.t.user.setting.title),

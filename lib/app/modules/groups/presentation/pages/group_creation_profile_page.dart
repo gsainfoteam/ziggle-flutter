@@ -1,22 +1,36 @@
 import 'dart:io';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
-import 'package:ziggle/app/router/routes.dart';
+import 'package:ziggle/app/modules/groups/presentation/layouts/group_creation_layout.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-class GroupCreationProfilePage extends StatefulWidget {
+@RoutePage()
+class GroupCreationProfilePage extends StatelessWidget {
   const GroupCreationProfilePage({super.key});
 
   @override
-  State<GroupCreationProfilePage> createState() =>
-      _GroupCreationProfilePageState();
+  Widget build(BuildContext context) {
+    return const GroupCreationLayout(
+      step: GroupCreationStep.profile,
+      child: _Layout(),
+    );
+  }
 }
 
-class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
+class _Layout extends StatefulWidget {
+  const _Layout();
+
+  @override
+  State<_Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<_Layout> {
   File? _image;
   String _name = '';
 
@@ -62,7 +76,7 @@ class _GroupCreationProfilePageState extends State<GroupCreationProfilePage> {
         ZiggleButton.cta(
           onPressed: () {
             if (_name.isEmpty) return;
-            const GroupCreationRoute(GroupCreationStep.introduce).push(context);
+            const GroupCreationIntroduceRoute().push(context);
           },
           disabled: _name.isEmpty,
           child: Text(context.t.common.next),
