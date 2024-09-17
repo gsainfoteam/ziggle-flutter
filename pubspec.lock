@@ -310,6 +310,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  dynamic_fonts:
+    dependency: "direct dev"
+    description:
+      name: dynamic_fonts
+      sha256: "138aaaec03c31bf10ba634d9ea8ba07588b46d9364c3995f29768c38d1c5b0b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.1"
   equatable:
     dependency: transitive
     description:
