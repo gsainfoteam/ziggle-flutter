@@ -8,6 +8,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/app.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/values/fonts.dart';
 import 'package:ziggle/app_bloc_observer.dart';
 import 'package:ziggle/firebase_options.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -20,6 +21,7 @@ void main() async {
   await configureDependencies();
   await _initLocale();
   _initBloc();
+  _initFont();
   runApp(TranslationProvider(child: const App()));
 }
 
@@ -57,4 +59,8 @@ void _initBloc() {
   if (kDebugMode) {
     Bloc.observer = AppBlocObserver();
   }
+}
+
+void _initFont() {
+  Pretendard.register();
 }
