@@ -9,6 +9,7 @@ import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_done
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_introduce_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_notion_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/pages/group_creation_profile_page.dart';
+import 'package:ziggle/app/modules/groups/presentation/pages/group_detail_page.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_creation_layout.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';

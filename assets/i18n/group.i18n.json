@@ -36,5 +36,17 @@
       },
       "back": "Back"
     }
+  },
+  "detail" : {
+    "appBar":{
+      "backLabel" : "List",
+      "title" : "Group Info"
+    },
+    "tab":{
+      "introduction" :"Intro",
+      "notice" : "Notice",
+      "member" : "Member"
+    },
+    "favorite" : "Favorite"
   }
 }
