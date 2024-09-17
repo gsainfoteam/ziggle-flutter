@@ -3,15 +3,19 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_draft_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 part 'notice_write_bloc.freezed.dart';
 
 @injectable
 class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
-  NoticeWriteBloc() : super(const _Draft()) {
+  final NoticeRepository _repository;
+
+  NoticeWriteBloc(this._repository) : super(const _Draft()) {
     on<_SetTitle>(
       (event, emit) => emit(_Draft(state.draft.copyWith(
         titles: {...state.draft.titles, event.lang: event.title},
@@ -29,6 +33,22 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
           tags: event.tags,
           deadline: event.deadline,
         ))));
+    on<_Publish>((event, emit) async {
+      try {
+        emit(_Loading(state.draft));
+        final notice = await _repository.write(
+          title: state.draft.titles[AppLocale.ko]!,
+          content: state.draft.bodies[AppLocale.ko]!,
+          type: state.draft.type!,
+          tags: state.draft.tags,
+          images: state.draft.images,
+          deadline: state.draft.deadline,
+        );
+        emit(_Done(state.draft, notice));
+      } catch (e) {
+        emit(_Error(state.draft, e.toString()));
+      }
+    });
   }
 }
 
@@ -44,11 +64,25 @@ class NoticeWriteEvent {
     required List<String> tags,
     DateTime? deadline,
   }) = _SetConfig;
+  const factory NoticeWriteEvent.publish() = _Publish;
 }
 
 @freezed
 class NoticeWriteState with _$NoticeWriteState {
+  const NoticeWriteState._();
   const factory NoticeWriteState.draft(
           [@Default(NoticeWriteDraftEntity()) NoticeWriteDraftEntity draft]) =
       _Draft;
+  const factory NoticeWriteState.loading(NoticeWriteDraftEntity draft) =
+      _Loading;
+  const factory NoticeWriteState.done(
+    NoticeWriteDraftEntity draft,
+    NoticeEntity notice,
+  ) = _Done;
+  const factory NoticeWriteState.error(
+    NoticeWriteDraftEntity draft,
+    String error,
+  ) = _Error;
+
+  bool get hasResult => this is _Done || this is _Error;
 }

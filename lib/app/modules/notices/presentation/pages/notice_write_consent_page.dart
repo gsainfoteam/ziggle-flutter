@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/consent_item.dart';
 import 'package:ziggle/app/router.gr.dart';
@@ -23,6 +23,20 @@ class _NoticeWriteConsentPageState extends State<NoticeWriteConsentPage> {
   bool _notification = false;
   bool _edit = false;
   bool _urgent = false;
+
+  void _publish() async {
+    final bloc = context.read<NoticeWriteBloc>();
+    final blocker = bloc.stream.firstWhere((state) => state.hasResult);
+    bloc.add(const NoticeWriteEvent.publish());
+    final state = await blocker;
+    state.mapOrNull(
+      done: (state) {
+        context.router.popUntilRouteWithName(NoticeWriteBodyRoute.name);
+        context.replaceRoute(DetailRoute(notice: state.notice));
+      },
+      error: (state) => context.showToast(state.error),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,16 +90,8 @@ class _NoticeWriteConsentPageState extends State<NoticeWriteConsentPage> {
                 const SizedBox(height: 24),
                 ZiggleButton.cta(
                   disabled: !_notification || !_edit || !_urgent,
-                  onPressed: !(_notification && _edit && _urgent)
-                      ? null
-                      : () async {
-                          context.router
-                              .popUntilRouteWithName(NoticeWriteBodyRoute.name);
-                          final bloc = context.read<NoticeWriteBloc>();
-                          context.replaceRoute(
-                            DetailRoute(notice: NoticeEntity.fromId(1)),
-                          );
-                        },
+                  onPressed:
+                      !(_notification && _edit && _urgent) ? null : _publish,
                   child: Text(context.t.notice.write.consent.upload),
                 )
               ],
