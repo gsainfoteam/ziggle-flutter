@@ -85,4 +85,5 @@ class NoticeWriteState with _$NoticeWriteState {
   ) = _Error;
 
   bool get hasResult => this is _Done || this is _Error;
+  bool get isLoading => this is _Loading;
 }

@@ -12,14 +12,28 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeWriteConsentPage extends StatefulWidget {
+class NoticeWriteConsentPage extends StatelessWidget {
   const NoticeWriteConsentPage({super.key});
 
   @override
-  State<NoticeWriteConsentPage> createState() => _NoticeWriteConsentPageState();
+  Widget build(BuildContext context) {
+    return BlocBuilder<NoticeWriteBloc, NoticeWriteState>(
+      builder: (context, state) => PopScope(
+        canPop: !state.isLoading,
+        child: const _Layout(),
+      ),
+    );
+  }
 }
 
-class _NoticeWriteConsentPageState extends State<NoticeWriteConsentPage> {
+class _Layout extends StatefulWidget {
+  const _Layout();
+
+  @override
+  State<_Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<_Layout> {
   bool _notification = false;
   bool _edit = false;
   bool _urgent = false;
@@ -88,11 +102,14 @@ class _NoticeWriteConsentPageState extends State<NoticeWriteConsentPage> {
                   onChanged: (v) => setState(() => _urgent = v),
                 ),
                 const SizedBox(height: 24),
-                ZiggleButton.cta(
-                  disabled: !_notification || !_edit || !_urgent,
-                  onPressed:
-                      !(_notification && _edit && _urgent) ? null : _publish,
-                  child: Text(context.t.notice.write.consent.upload),
+                BlocBuilder<NoticeWriteBloc, NoticeWriteState>(
+                  builder: (context, state) => ZiggleButton.cta(
+                    loading: state.isLoading,
+                    disabled: !_notification || !_edit || !_urgent,
+                    onPressed:
+                        !(_notification && _edit && _urgent) ? null : _publish,
+                    child: Text(context.t.notice.write.consent.upload),
+                  ),
                 )
               ],
             ),
