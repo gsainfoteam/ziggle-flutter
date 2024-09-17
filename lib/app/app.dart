@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
+import 'package:ziggle/app/modules/core/presentation/bloc/messaging_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.dart';
@@ -56,6 +57,10 @@ class _Providers extends StatelessWidget {
           lazy: false,
           create: (_) => sl<UserBloc>()..add(const UserEvent.init()),
         ),
+        BlocProvider(
+          lazy: false,
+          create: (_) => sl<MessagingBloc>()..add(const MessagingEvent.init()),
+        ),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -64,6 +69,17 @@ class _Providers extends StatelessWidget {
               error: (message) => context.showToast(message),
             ),
           ),
+          BlocListener<AuthBloc, AuthState>(
+            listenWhen: (previous, current) =>
+                current.mapOrNull(
+                  authenticated: (_) => true,
+                  unauthenticated: (_) => true,
+                ) ??
+                false,
+            listener: (context, state) => context
+                .read<MessagingBloc>()
+                .add(const MessagingEvent.refresh()),
+          )
         ],
         child: child,
       ),
