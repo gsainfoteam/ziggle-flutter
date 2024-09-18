@@ -7,13 +7,14 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/core/data/data_sources/fcm_api.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/link_repository.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/messaging_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 // TODO: https://firebase.google.com/docs/cloud-messaging/flutter/receive?hl=en#apple_platforms_and_android
 
-@Singleton(as: MessagingRepository)
-class FcmMessagingRepository implements MessagingRepository {
+@singleton
+class FcmMessagingRepository implements MessagingRepository, LinkRepository {
   final _tokenSubject = BehaviorSubject<String?>();
   final _linkSubject = BehaviorSubject<String?>();
   final FcmApi _api;
@@ -136,4 +137,7 @@ class FcmMessagingRepository implements MessagingRepository {
       await _api.fcm(token ?? _tokenSubject.value!);
     }
   }
+
+  @override
+  Stream<String> getLinkStream() => _linkSubject.stream.whereType();
 }
