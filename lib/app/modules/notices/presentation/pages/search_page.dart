@@ -171,7 +171,7 @@ class _LayoutState extends State<_Layout> {
             ),
             child: ZigglePressable(
               onPressed: () =>
-                  context.pushRoute(SingleNoticeShellRoute(notice: notice)),
+                  SingleNoticeShellRoute(notice: notice).push(context),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

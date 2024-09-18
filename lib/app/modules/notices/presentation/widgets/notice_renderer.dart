@@ -211,7 +211,7 @@ class NoticeRenderer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _AuthorSettingAction(
-              onPressed: () => context.pushRoute(const NoticeEditRoute()),
+              onPressed: () => const NoticeEditRoute().push(context),
               icon: Assets.icons.editPencil,
               text: context.t.notice.settings.edit.action,
             ),
