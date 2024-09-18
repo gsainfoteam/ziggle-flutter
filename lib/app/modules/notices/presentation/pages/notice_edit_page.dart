@@ -3,20 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
 class NoticeEditPage extends StatelessWidget {
-  NoticeEditPage({super.key, int? id, NoticeEntity? notice})
-      : assert(id != null || notice != null),
-        id = id ?? notice!.id,
-        notice = notice ?? NoticeEntity.fromId(id!);
-
-  final int? id;
-  final NoticeEntity? notice;
+  const NoticeEditPage({super.key});
 
   void _publish() {}
 

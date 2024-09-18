@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
@@ -41,8 +42,11 @@ class ListLayout extends StatelessWidget {
                             final notice = state.notices[index];
                             return NoticeCard(
                               onLike: () {},
-                              onPressed: () =>
-                                  DetailRoute(notice: notice).push(context),
+                              onPressed: () => context
+                                ..pushRoute(
+                                  SingleNoticeShellRoute(notice: notice),
+                                )
+                                ..pushRoute(const DetailRoute()),
                               onShare: () {},
                               notice: notice,
                             );
