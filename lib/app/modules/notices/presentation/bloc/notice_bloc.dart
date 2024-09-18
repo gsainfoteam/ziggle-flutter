@@ -16,12 +16,26 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
       final entity = await _repository.getNotice(event.entity.id);
       emit(_Loaded(entity));
     });
+    on<_SendNotification>((event, emit) async {
+      if (state.entity == null) return;
+      emit(_Loading(state.entity!.copyWith(publishedAt: DateTime.now())));
+      final entity = await _repository.sendNotification(state.entity!.id);
+      emit(_Loaded(entity));
+    });
+    on<_Delete>((event, emit) async {
+      if (state.entity == null) return;
+      emit(_Loading(state.entity!));
+      await _repository.deleteNotice(state.entity!.id);
+      emit(const _Deleted());
+    });
   }
 }
 
 @freezed
 sealed class NoticeEvent with _$NoticeEvent {
   const factory NoticeEvent.load(NoticeEntity entity) = _Load;
+  const factory NoticeEvent.sendNotification() = _SendNotification;
+  const factory NoticeEvent.delete() = _Delete;
 }
 
 @freezed
@@ -29,6 +43,10 @@ sealed class NoticeState with _$NoticeState {
   const NoticeState._();
   const factory NoticeState.initial() = _Initial;
   const factory NoticeState.loaded(NoticeEntity entity) = _Loaded;
+  const factory NoticeState.loading(NoticeEntity entity) = _Loading;
+  const factory NoticeState.deleted() = _Deleted;
 
   NoticeEntity? get entity => mapOrNull(loaded: (state) => state.entity);
+  bool get isLoaded => this is _Loaded;
+  bool get isDeleted => this is _Deleted;
 }

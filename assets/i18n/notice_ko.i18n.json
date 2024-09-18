@@ -107,5 +107,33 @@
     "description": "검색 키워드를 입력해보세요"
   },
   "list": "목록",
-  "viewMore(rich)": "... ${more(더 보기)}"
+  "viewMore(rich)": "... ${more(더 보기)}",
+  "settings": {
+    "edit": {
+      "action": "수정 / 추가공지 작성"
+    },
+    "delete": {
+      "action": "삭제",
+      "title": "정말 공지를 삭제하시겠습니까?",
+      "description": "이 작업은 되돌릴 수 없습니다."
+    },
+    "sendNotification": {
+      "action": "지금 바로 알림 보내기",
+      "caution": "알림을 보내면 수정이 불가능합니다.",
+      "title": "지금 바로 알림을 보내시겠습니까?",
+      "description": "알림을 보내면 수정할 수 없습니다."
+    }
+  },
+  "edit": {
+    "title": "공지 수정",
+    "leftTime(rich)": "수정 불가능까지 남은 시간 $bold",
+    "cannotEdit": "수정 가능한 기한이 지났습니다.",
+    "editBody": "본문 수정",
+    "addEnglish": "영어공지 작성",
+    "additional": {
+      "action": "추가공지 작성 / 마감일 변경",
+      "title": "추가공지 작성",
+      "deadline(rich)": "마감시각 변경 ${small((선택))}"
+    }
+  }
 }

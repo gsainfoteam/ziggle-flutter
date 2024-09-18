@@ -35,6 +35,7 @@ abstract class NoticeRepository {
     DateTime? deadline,
   });
   Future<void> deleteNotice(int id);
+  Future<NoticeEntity> sendNotification(int id);
   Future<NoticeEntity> addAdditionalContent({
     required int id,
     required String content,

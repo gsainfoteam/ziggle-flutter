@@ -49,8 +49,7 @@ class RestNoticeRepository implements NoticeRepository {
 
   @override
   Future<void> deleteNotice(int id) {
-    // TODO: implement deleteNotice
-    throw UnimplementedError();
+    return _api.deleteNotice(id);
   }
 
   @override
@@ -144,5 +143,11 @@ class RestNoticeRepository implements NoticeRepository {
       DateTime? deadline}) {
     // TODO: implement writeForeign
     throw UnimplementedError();
+  }
+
+  @override
+  Future<NoticeEntity> sendNotification(int id) async {
+    await _api.alarm(id);
+    return _api.getNotice(id);
   }
 }
