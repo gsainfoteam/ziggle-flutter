@@ -127,7 +127,9 @@
     },
     "sendNotification": {
       "action": "Send Notification Now",
-      "caution": "Editing is disabled after sending a notification."
+      "caution": "Editing is disabled after sending a notification.",
+      "title": "Send Notification Now?",
+      "description": "You cannot edit the notice after sending the notification."
     }
   },
   "edit": {

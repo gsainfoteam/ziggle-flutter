@@ -233,38 +233,55 @@ class NoticeRenderer extends StatelessWidget {
               icon: Assets.icons.delete,
               text: context.t.notice.settings.delete.action,
             ),
-            _AuthorSettingAction(
-              onPressed: () {},
-              icon: Assets.icons.bell,
-              text: context.t.notice.settings.sendNotification.action,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(18, 0, 18, 9),
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: const BoxDecoration(
-                  border: Border.fromBorderSide(
-                    BorderSide(color: Palette.primary),
+            if (notice.publishedAt == null)
+              Column(
+                children: [
+                  _AuthorSettingAction(
+                    onPressed: () async {
+                      final result = await context.showDialog<bool>(
+                        title: context.t.notice.settings.sendNotification.title,
+                        content: context
+                            .t.notice.settings.sendNotification.description,
+                        onConfirm: (context) => Navigator.pop(context, true),
+                      );
+                      if (result != true || !context.mounted) return;
+                      final bloc = context.read<NoticeBloc>();
+                      final blocker = bloc.stream.firstWhere((s) => s.isLoaded);
+                      bloc.add(const NoticeEvent.sendNotification());
+                      await blocker;
+                    },
+                    icon: Assets.icons.bell,
+                    text: context.t.notice.settings.sendNotification.action,
                   ),
-                  borderRadius: BorderRadius.all(Radius.circular(100)),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Assets.icons.warningTriangle.svg(width: 14),
-                    const SizedBox(width: 5),
-                    Text(
-                      context.t.notice.settings.sendNotification.caution,
-                      style: const TextStyle(
-                        color: Palette.primary,
-                        fontSize: 12,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 0, 18, 9),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: const BoxDecoration(
+                        border: Border.fromBorderSide(
+                          BorderSide(color: Palette.primary),
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(100)),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Assets.icons.warningTriangle.svg(width: 14),
+                          const SizedBox(width: 5),
+                          Text(
+                            context.t.notice.settings.sendNotification.caution,
+                            style: const TextStyle(
+                              color: Palette.primary,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ),
           ],
         ),
       ),

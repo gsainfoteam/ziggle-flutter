@@ -40,6 +40,9 @@ abstract class NoticeApi {
   @DELETE('{id}')
   Future<void> deleteNotice(@Path('id') int id);
 
+  @POST('{id}/alarm')
+  Future<void> alarm(@Path('id') int id);
+
   @POST('{id}/additional')
   Future<NoticeModel> addAdditionalContent(
     @Path('id') int id,
