@@ -17,7 +17,18 @@ import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
 class DetailPage extends StatelessWidget {
-  const DetailPage({super.key, required this.notice});
+  const DetailPage._({
+    required this.id,
+    required this.notice,
+  });
+  DetailPage({
+    super.key,
+    @PathParam() int? id,
+    NoticeEntity? notice,
+  })  : assert(id != null || notice != null),
+        id = id ?? notice!.id,
+        notice = notice ?? NoticeEntity.fromId(id!);
+  final int id;
   final NoticeEntity notice;
 
   @override
