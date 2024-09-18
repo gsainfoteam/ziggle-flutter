@@ -30,6 +30,7 @@ class NoticeWritePreviewPage extends StatelessWidget {
               draft: state.draft,
               user: UserBloc.userOrNull(context)!,
             ),
+            hideAuthorSetting: true,
           );
         },
       ),

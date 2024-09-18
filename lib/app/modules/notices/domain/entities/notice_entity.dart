@@ -151,4 +151,29 @@ extension NoticeEntityExtension on NoticeEntity {
   }
 
   bool get isCertified => false;
+
+  NoticeEntity copyWith({
+    DateTime? publishedAt,
+  }) =>
+      NoticeEntity(
+        id: id,
+        views: views,
+        langs: langs,
+        deadline: deadline,
+        currentDeadline: currentDeadline,
+        createdAt: createdAt,
+        deletedAt: deletedAt,
+        tags: tags,
+        title: title,
+        content: content,
+        additionalContents: additionalContents,
+        reactions: reactions,
+        author: author,
+        images: images,
+        documentUrls: documentUrls,
+        isReminded: isReminded,
+        publishedAt: publishedAt ?? this.publishedAt,
+        groupName: groupName,
+        category: category,
+      );
 }
