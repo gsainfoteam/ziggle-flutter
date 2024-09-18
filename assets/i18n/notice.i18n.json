@@ -118,7 +118,7 @@
   "viewMore(rich)": "... ${more(more)}",
   "settings": {
     "edit": {
-      "action": "Edit / Add Notice"
+      "action": "Edit / Write Additional Notice"
     },
     "delete": {
       "action": "Delete"
