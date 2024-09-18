@@ -71,6 +71,7 @@ class AppRouter extends RootStackRouter {
         ],
       ),
       AutoRoute(path: '/notice/:id', page: DetailRoute.page),
+      AutoRoute(path: '/notice/:id/edit', page: NoticeEditRoute.page),
       AutoRoute(
         path: '/group/create',
         page: GroupCreationShellRoute.page,

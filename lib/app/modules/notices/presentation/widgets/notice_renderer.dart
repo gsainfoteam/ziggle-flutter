@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/notices/presentation/widgets/created_at.dart'
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/tag.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -206,7 +207,7 @@ class NoticeRenderer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _AuthorSettingAction(
-              onPressed: () {},
+              onPressed: () => NoticeEditRoute(notice: notice).push(context),
               icon: Assets.icons.editPencil,
               text: context.t.notice.settings.edit.action,
             ),
