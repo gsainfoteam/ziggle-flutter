@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -23,13 +24,7 @@ class NoticeEditPage extends StatelessWidget {
           ZiggleButton.text(
             disabled: false,
             onPressed: _publish,
-            child: Text(
-              context.t.notice.write.publish,
-              style: const TextStyle(
-                  // fontSize: 16,
-                  // fontWeight: FontWeight.w500,
-                  ),
-            ),
+            child: Text(context.t.notice.write.publish),
           ),
         ],
       ),
@@ -65,7 +60,7 @@ class NoticeEditPage extends StatelessWidget {
               _ActionButton(
                 icon: Assets.icons.body,
                 title: context.t.notice.edit.editBody,
-                onPressed: () {},
+                onPressed: () => const NoticeEditBodyRoute().push(context),
               ),
               const SizedBox(height: 10),
               _ActionButton(

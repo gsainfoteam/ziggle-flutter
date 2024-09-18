@@ -75,7 +75,14 @@ class AppRouter extends RootStackRouter {
         page: SingleNoticeShellRoute.page,
         children: [
           AutoRoute(path: '', page: DetailRoute.page),
-          AutoRoute(path: 'edit', page: NoticeEditRoute.page),
+          AutoRoute(
+            path: 'edit',
+            page: NoticeEditShellRoute.page,
+            children: [
+              AutoRoute(path: '', page: NoticeEditRoute.page),
+              AutoRoute(path: 'body', page: NoticeEditBodyRoute.page),
+            ],
+          ),
         ],
       ),
       AutoRoute(path: '/search', page: SearchRoute.page),
