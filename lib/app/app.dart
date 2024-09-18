@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
+import 'package:ziggle/app/modules/core/presentation/bloc/link_bloc.dart';
 import 'package:ziggle/app/modules/core/presentation/bloc/messaging_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
@@ -12,10 +13,10 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/theme.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-class App extends StatelessWidget {
-  App({super.key});
+final _appRouter = AppRouter();
 
-  final _appRouter = AppRouter();
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +62,10 @@ class _Providers extends StatelessWidget {
           lazy: false,
           create: (_) => sl<MessagingBloc>()..add(const MessagingEvent.init()),
         ),
+        BlocProvider(
+          lazy: false,
+          create: (_) => sl<LinkBloc>()..add(const LinkEvent.init()),
+        ),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -79,7 +84,14 @@ class _Providers extends StatelessWidget {
             listener: (context, state) => context
                 .read<MessagingBloc>()
                 .add(const MessagingEvent.refresh()),
-          )
+          ),
+          BlocListener<LinkBloc, LinkState>(
+            listener: (context, state) => state.mapOrNull(
+              loaded: (s) => WidgetsBinding.instance.addPostFrameCallback((_) {
+                _appRouter.pushNamed(s.link);
+              }),
+            ),
+          ),
         ],
         child: child,
       ),
