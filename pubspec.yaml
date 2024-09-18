@@ -49,6 +49,7 @@ dependencies:
   auto_route: ^9.2.2
   flutter_local_notifications: ^17.2.2
   uni_links: ^0.5.1
+  vsc_quill_delta_to_html: ^1.0.5
 
 dev_dependencies:
   flutter_test:

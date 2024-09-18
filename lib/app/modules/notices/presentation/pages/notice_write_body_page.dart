@@ -4,14 +4,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
+import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
+import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/photo_item.dart';
 import 'package:ziggle/app/router.gr.dart';
@@ -73,6 +76,34 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
     _tabController.dispose();
   }
 
+  void _next() {
+    _save();
+    const NoticeWriteConfigRoute().push(context);
+  }
+
+  void _save() {
+    final bloc = context.read<NoticeWriteBloc>()
+      ..add(NoticeWriteEvent.setTitle(_koreanTitleController.text))
+      ..add(NoticeWriteEvent.setBody(
+        QuillDeltaToHtmlConverter(
+          _koreanBodyController.document.toDelta().toJson(),
+        ).convert(),
+      ))
+      ..add(NoticeWriteEvent.setImages(_photos));
+    if (_englishTitleController.text.isNotEmpty) {
+      bloc
+        ..add(
+          NoticeWriteEvent.setTitle(_englishTitleController.text, AppLocale.en),
+        )
+        ..add(NoticeWriteEvent.setBody(
+          QuillDeltaToHtmlConverter(
+            _englishBodyController.document.toDelta().toJson(),
+          ).convert(),
+          AppLocale.en,
+        ));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final actionDisabled = _koreanTitleController.text.trim().isEmpty ||
@@ -89,9 +120,7 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
         actions: [
           ZiggleButton.text(
             disabled: actionDisabled,
-            onPressed: actionDisabled
-                ? null
-                : () => const NoticeWriteConfigRoute().push(context),
+            onPressed: actionDisabled ? null : _next,
             child: Text(
               context.t.common.done,
               style: const TextStyle(

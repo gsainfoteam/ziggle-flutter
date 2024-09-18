@@ -18,10 +18,4 @@ class NoticeReactionModel
 
   factory NoticeReactionModel.fromJson(Map<String, dynamic> json) =>
       _$NoticeReactionModelFromJson(json);
-  factory NoticeReactionModel.fromEntity(NoticeReactionEntity entity) =>
-      NoticeReactionModel(
-        emoji: entity.emoji,
-        count: entity.count,
-        isReacted: entity.isReacted,
-      );
 }

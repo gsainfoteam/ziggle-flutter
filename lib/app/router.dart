@@ -47,13 +47,17 @@ class AppRouter extends RootStackRouter {
             ),
           ),
           CustomRoute(
-            page: NoticeWriteShellRoute.page,
+            page: NoticeWriteSheetShellRoute.page,
             customRouteBuilder: <T>(_, child, page) => CupertinoSheetRoute<T>(
               settings: page,
               builder: (context) => child,
               maintainState: page.maintainState,
             ),
             children: [
+              AutoRoute(
+                path: 'tags',
+                page: NoticeWriteSelectTagsRoute.page,
+              ),
               AutoRoute(
                 path: 'preview',
                 page: NoticeWritePreviewRoute.page,

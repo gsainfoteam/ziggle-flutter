@@ -1,5 +1,8 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_write_draft_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
+import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 import '../enums/notice_reaction.dart';
@@ -21,7 +24,7 @@ class NoticeEntity {
   final List<NoticeContentEntity> additionalContents;
   final List<NoticeReactionEntity> reactions;
   final AuthorEntity author;
-  final List<String> imageUrls;
+  final List<ImageProvider> images;
   final List<String> documentUrls;
   final bool isReminded;
   final DateTime? publishedAt;
@@ -42,7 +45,7 @@ class NoticeEntity {
     required this.additionalContents,
     required this.reactions,
     required this.author,
-    required this.imageUrls,
+    required this.images,
     required this.documentUrls,
     required this.isReminded,
     required this.publishedAt,
@@ -63,7 +66,7 @@ class NoticeEntity {
         content: '',
         additionalContents: [],
         reactions: [],
-        imageUrls: [],
+        images: [],
         documentUrls: [],
         author: AuthorEntity(name: '', uuid: ''),
         isReminded: false,
@@ -97,12 +100,37 @@ class NoticeEntity {
         additionalContents: [],
         reactions: reactions,
         author: AuthorEntity(name: authorName, uuid: ''),
-        imageUrls: imageUrls,
+        images: imageUrls.map((url) => NetworkImage(url)).toList(),
         documentUrls: [],
         isReminded: isReminded,
         publishedAt: null,
         groupName: null,
         category: category,
+      );
+  factory NoticeEntity.fromDraft({
+    required NoticeWriteDraftEntity draft,
+    required UserEntity user,
+  }) =>
+      NoticeEntity(
+        id: 0,
+        views: 0,
+        langs: [AppLocale.ko],
+        deadline: draft.deadline,
+        currentDeadline: draft.deadline,
+        createdAt: DateTime.now(),
+        deletedAt: null,
+        tags: draft.tags,
+        title: draft.titles[AppLocale.ko] ?? '',
+        content: draft.bodies[AppLocale.ko] ?? '',
+        additionalContents: [],
+        reactions: [],
+        author: AuthorEntity(name: user.name, uuid: ''),
+        images: draft.images.map((file) => FileImage(file)).toList(),
+        documentUrls: [],
+        isReminded: false,
+        publishedAt: null,
+        groupName: null,
+        category: NoticeCategory.fromType(draft.type!)!,
       );
 }
 
