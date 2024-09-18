@@ -121,7 +121,9 @@
       "action": "Edit / Write Additional Notice"
     },
     "delete": {
-      "action": "Delete"
+      "action": "Delete",
+      "title": "Are you sure you want to delete the notice?",
+      "description": "This action cannot be undone."
     },
     "sendNotification": {
       "action": "Send Notification Now",

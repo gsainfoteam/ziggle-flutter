@@ -113,7 +113,9 @@
       "action": "수정 / 추가공지 작성"
     },
     "delete": {
-      "action": "삭제"
+      "action": "삭제",
+      "title": "정말 공지를 삭제하시겠습니까?",
+      "description": "이 작업은 되돌릴 수 없습니다."
     },
     "sendNotification": {
       "action": "지금 바로 알림 보내기",

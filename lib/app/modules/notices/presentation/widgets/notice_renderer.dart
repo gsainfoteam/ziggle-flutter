@@ -1,8 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
+import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/created_at.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/tag.dart';
@@ -212,7 +216,20 @@ class NoticeRenderer extends StatelessWidget {
               text: context.t.notice.settings.edit.action,
             ),
             _AuthorSettingAction(
-              onPressed: () {},
+              onPressed: () async {
+                final result = await context.showDialog<bool>(
+                  title: context.t.notice.settings.delete.title,
+                  content: context.t.notice.settings.delete.description,
+                  onConfirm: (context) => Navigator.pop(context, true),
+                );
+                if (result != true || !context.mounted) return;
+                final bloc = context.read<NoticeBloc>();
+                final blocker = bloc.stream.firstWhere((s) => s.isDeleted);
+                bloc.add(const NoticeEvent.delete());
+                await blocker;
+                if (!context.mounted) return;
+                context.maybePop();
+              },
               icon: Assets.icons.delete,
               text: context.t.notice.settings.delete.action,
             ),
