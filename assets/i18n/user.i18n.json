@@ -9,7 +9,8 @@
     "notification": {
       "title": "Notification",
       "enabled": "Notification is enabled.",
-      "enable": "Enable notification"
+      "enable": "Enable notification",
+      "description": "Ziggle will send you notifications about new announcements and events."
     },
     "language": {
       "title": "Language",
