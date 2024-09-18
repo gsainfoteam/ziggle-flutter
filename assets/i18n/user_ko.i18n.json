@@ -9,7 +9,8 @@
     "notification": {
       "title": "알림",
       "enabled": "알림이 켜져 있습니다.",
-      "enable": "알림 켜기"
+      "enable": "알림 켜기",
+      "description": "지글의 새로운 소식을 받아보세요."
     },
     "language": {
       "title": "언어",
