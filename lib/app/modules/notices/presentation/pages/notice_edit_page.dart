@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/edit_deadline.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -34,28 +35,7 @@ class NoticeEditPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: const BoxDecoration(
-                  color: Palette.primaryLight,
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                child: Center(
-                  child: Text.rich(
-                    context.t.notice.edit.leftTime(
-                      bold: const TextSpan(
-                        text: '${13}:${29}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    style: const TextStyle(
-                      color: Palette.primary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-              ),
+              const EditDeadline(duration: Duration(minutes: 13, seconds: 39)),
               const SizedBox(height: 25),
               _ActionButton(
                 icon: Assets.icons.body,
