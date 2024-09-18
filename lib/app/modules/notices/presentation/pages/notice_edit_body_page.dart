@@ -1,22 +1,20 @@
-import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
+import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/edit_deadline.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/photo_item.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -32,7 +30,9 @@ class NoticeEditBodyPage extends StatefulWidget {
 
 class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
     with SingleTickerProviderStateMixin {
-  final _koreanTitleController = TextEditingController();
+  late final _koreanTitleController = TextEditingController(
+    text: context.read<NoticeBloc>().state.entity!.title,
+  );
   final _koreanBodyController = QuillController.basic();
   final _koreanTitleFocusNode = FocusNode();
   final _koreanBodyFocusNode = FocusNode();
@@ -40,12 +40,13 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
   final _englishBodyController = QuillController.basic();
   final _englishTitleFocusNode = FocusNode();
   final _englishBodyFocusNode = FocusNode();
-  final List<File> _photos = [];
   late final _tabController = TabController(length: 2, vsync: this);
 
   @override
   void initState() {
     super.initState();
+    _koreanBodyController.document = Document.fromDelta(HtmlToDelta()
+        .convert(context.read<NoticeBloc>().state.entity!.content));
     _koreanTitleController.addListener(() => setState(() {}));
     _koreanBodyController.addListener(() => setState(() {}));
     _koreanTitleFocusNode.addListener(() => setState(() {}));
@@ -88,8 +89,7 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
         QuillDeltaToHtmlConverter(
           _koreanBodyController.document.toDelta().toJson(),
         ).convert(),
-      ))
-      ..add(NoticeWriteEvent.setImages(_photos));
+      ));
     if (_englishTitleController.text.isNotEmpty) {
       bloc
         ..add(
@@ -156,6 +156,10 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
         ),
         child: Column(
           children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(18, 16, 18, 6),
+              child: EditDeadline(duration: Duration(minutes: 13, seconds: 39)),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
               child: Row(
@@ -192,66 +196,6 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
                 ],
               ),
             ),
-            if (!_koreanTitleFocusNode.hasFocus &&
-                !_koreanBodyFocusNode.hasFocus &&
-                !_englishTitleFocusNode.hasFocus &&
-                !_englishBodyFocusNode.hasFocus) ...[
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 140,
-                child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    if (index == _photos.length) {
-                      return GestureDetector(
-                        onTap: () async {
-                          final images = await ImagePicker().pickMultiImage();
-                          if (!mounted) return;
-                          setState(() => _photos.addAll(
-                                images.map((e) => File(e.path)),
-                              ));
-                        },
-                        child: DottedBorder(
-                          color: Palette.gray,
-                          strokeWidth: 2,
-                          borderType: BorderType.RRect,
-                          radius: const Radius.circular(10),
-                          borderPadding: const EdgeInsets.all(1),
-                          dashPattern: const [10, 4],
-                          child: SizedBox(
-                            width: 140,
-                            height: 140,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Assets.icons.addPhoto.svg(width: 50),
-                                const SizedBox(height: 5),
-                                Text(
-                                  context.t.notice.write.addPhoto,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: Palette.grayText,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    return PhotoItem(
-                      onDelete: () => setState(() => _photos.removeAt(index)),
-                      image: FileImage(_photos[index]),
-                    );
-                  },
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(width: 10),
-                  itemCount: _photos.length + 1,
-                ),
-              ),
-            ],
             const SizedBox(height: 50),
           ],
         ),
