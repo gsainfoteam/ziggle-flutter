@@ -127,5 +127,17 @@
       "action": "Send Notification Now",
       "caution": "Editing is disabled after sending a notification."
     }
+  },
+  "edit": {
+    "title": "Edit Notice",
+    "leftTime(rich)": "Time left until editing is disabled $bold",
+    "cannotEdit": "The deadline for editing has passed.",
+    "editBody": "Edit Content",
+    "addEnglish": "Write English Notice",
+    "additional": {
+      "action": "Add Notice / Change Deadline",
+      "title": "Add Notice",
+      "deadline(rich)": "Change Deadline ${small((Optional))}"
+    }
   }
 }

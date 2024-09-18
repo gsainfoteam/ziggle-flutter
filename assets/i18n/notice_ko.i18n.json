@@ -119,5 +119,17 @@
       "action": "지금 바로 알림 보내기",
       "caution": "알림을 보내면 수정이 불가능합니다."
     }
+  },
+  "edit": {
+    "title": "공지 수정",
+    "leftTime(rich)": "수정 불가능까지 남은 시간 $bold",
+    "cannotEdit": "수정 가능한 기한이 지났습니다.",
+    "editBody": "본문 수정",
+    "addEnglish": "영어공지 작성",
+    "additional": {
+      "action": "추가공지 작성 / 마감일 변경",
+      "title": "추가공지 작성",
+      "deadline(rich)": "마감시각 변경 ${small((선택))}"
+    }
   }
 }
