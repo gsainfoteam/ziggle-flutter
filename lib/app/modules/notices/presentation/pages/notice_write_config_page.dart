@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_bottom_sheet.dart';
@@ -8,6 +9,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_date_time_
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/tag.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -27,6 +29,25 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
   NoticeType? _type;
   final List<String> _tags = [];
 
+  void _save() {
+    if (_type == null) return;
+    context.read<NoticeWriteBloc>().add(NoticeWriteEvent.setConfig(
+          deadline: _deadline,
+          type: _type!,
+          tags: _tags,
+        ));
+  }
+
+  _publish() {
+    _save();
+    const NoticeWriteConsentRoute().push(context);
+  }
+
+  _preview() {
+    _save();
+    const NoticeWritePreviewRoute().push(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +57,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
         actions: [
           ZiggleButton.text(
             disabled: _type == null,
-            onPressed: _type == null
-                ? null
-                : () => const NoticeWriteConsentRoute().push(context),
+            onPressed: _type == null ? null : _publish,
             child: Text(
               context.t.notice.write.publish,
               style: const TextStyle(
@@ -64,9 +83,9 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 _buildTags(),
                 const SizedBox(height: 25),
                 ZiggleButton.cta(
+                  disabled: _type == null,
                   emphasize: false,
-                  onPressed: () =>
-                      const NoticeWritePreviewRoute().push(context),
+                  onPressed: _type == null ? null : _preview,
                   child: Text(context.t.notice.write.preview),
                 ),
               ],
