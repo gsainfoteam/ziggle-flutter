@@ -6,6 +6,7 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/created_at.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/tag.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -14,9 +15,11 @@ class NoticeRenderer extends StatelessWidget {
   const NoticeRenderer({
     super.key,
     required this.notice,
+    this.hideAuthorSetting = false,
   });
 
   final NoticeEntity notice;
+  final bool hideAuthorSetting;
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +98,12 @@ class NoticeRenderer extends StatelessWidget {
             ),
           ),
         ),
+        if (!hideAuthorSetting &&
+            UserBloc.userOrNull(context)?.uuid == notice.author.uuid)
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(vertical: 9),
+            sliver: SliverToBoxAdapter(child: _buildAuthorSetting()),
+          ),
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
           sliver: SliverToBoxAdapter(
@@ -180,6 +189,102 @@ class NoticeRenderer extends StatelessWidget {
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 9)),
       ],
+    );
+  }
+
+  Container _buildAuthorSetting() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 9),
+      decoration: const BoxDecoration(
+        color: Palette.grayLight,
+        border: Border.symmetric(
+          horizontal: BorderSide(color: Palette.grayBorder),
+        ),
+      ),
+      child: Builder(
+        builder: (context) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _AuthorSettingAction(
+              onPressed: () {},
+              icon: Assets.icons.editPencil,
+              text: context.t.notice.settings.edit.action,
+            ),
+            _AuthorSettingAction(
+              onPressed: () {},
+              icon: Assets.icons.delete,
+              text: context.t.notice.settings.delete.action,
+            ),
+            _AuthorSettingAction(
+              onPressed: () {},
+              icon: Assets.icons.bell,
+              text: context.t.notice.settings.sendNotification.action,
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 0, 18, 9),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: const BoxDecoration(
+                  border: Border.fromBorderSide(
+                    BorderSide(color: Palette.primary),
+                  ),
+                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Assets.icons.warningTriangle.svg(width: 14),
+                    const SizedBox(width: 5),
+                    Text(
+                      context.t.notice.settings.sendNotification.caution,
+                      style: const TextStyle(
+                        color: Palette.primary,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _AuthorSettingAction extends StatelessWidget {
+  const _AuthorSettingAction({
+    required this.icon,
+    required this.text,
+    required this.onPressed,
+  });
+
+  final SvgGenImage icon;
+  final String text;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return ZigglePressable(
+      onPressed: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 18),
+        child: Row(
+          children: [
+            icon.svg(width: 20),
+            const SizedBox(width: 10),
+            Text(
+              text,
+              style: const TextStyle(
+                color: Palette.grayText,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

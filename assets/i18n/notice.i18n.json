@@ -115,5 +115,17 @@
     "description": "Enter search keyword"
   },
   "list": "List",
-  "viewMore(rich)": "... ${more(more)}"
+  "viewMore(rich)": "... ${more(more)}",
+  "settings": {
+    "edit": {
+      "action": "Edit / Add Notice"
+    },
+    "delete": {
+      "action": "Delete"
+    },
+    "sendNotification": {
+      "action": "Send Notification Now",
+      "caution": "Editing is disabled after sending a notification."
+    }
+  }
 }
