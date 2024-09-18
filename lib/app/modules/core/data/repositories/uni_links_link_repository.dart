@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:uni_links/uni_links.dart';
@@ -14,10 +13,8 @@ class UniLinksLinkRepository implements LinkRepository {
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    try {
-      final initialLink = await getInitialLink();
-      if (initialLink != null) _linkSubject.add(initialLink);
-    } on PlatformException catch (_) {}
+    final initialLink = await getInitialLink().catchError((_) => null);
+    if (initialLink != null) _linkSubject.add(initialLink);
     _subscription = linkStream.listen((link) {
       if (link != null) _linkSubject.add(link);
     });
