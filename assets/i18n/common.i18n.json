@@ -4,6 +4,7 @@
   "back": "Back",
   "skip": "Skip",
   "done": "Done",
+  "confirm": "Confirm",
   "duration": {
     "day": {
       "one": "$n day",
