@@ -1,11 +1,17 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/notices/data/data_sources/remote/document_api.dart';
+import 'package:ziggle/app/modules/notices/data/data_sources/remote/image_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/notice_api.dart';
+import 'package:ziggle/app/modules/notices/data/data_sources/remote/tag_api.dart';
 import 'package:ziggle/app/modules/notices/data/enums/notice_my.dart';
+import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/get_notices_query_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_list_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
@@ -15,8 +21,16 @@ import 'package:ziggle/gen/strings.g.dart';
 @Injectable(as: NoticeRepository)
 class RestNoticeRepository implements NoticeRepository {
   final NoticeApi _api;
+  final TagApi _tagApi;
+  final ImageApi _imageApi;
+  final DocumentApi _documentApi;
 
-  RestNoticeRepository(this._api);
+  RestNoticeRepository(
+    this._api,
+    this._tagApi,
+    this._imageApi,
+    this._documentApi,
+  );
 
   @override
   Future<NoticeEntity> addAdditionalContent(
@@ -76,6 +90,19 @@ class RestNoticeRepository implements NoticeRepository {
     throw UnimplementedError();
   }
 
+  Future<TagEntity> _createTag(String name) {
+    return _tagApi.createTag(name);
+  }
+
+  Future<TagEntity?> _getTag(String name) async {
+    try {
+      return await _tagApi.findTag(name);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) return null;
+      rethrow;
+    }
+  }
+
   @override
   Future<NoticeEntity> write(
       {required String title,
@@ -84,9 +111,27 @@ class RestNoticeRepository implements NoticeRepository {
       required NoticeType type,
       List<String> tags = const [],
       List<File> images = const [],
-      List<File> documents = const []}) {
-    // TODO: implement write
-    throw UnimplementedError();
+      List<File> documents = const []}) async {
+    final uploadedTags = await Future.wait(
+      tags.map((tag) async {
+        final existingTag = await _getTag(tag);
+        return existingTag ?? await _createTag(tag);
+      }),
+    );
+    final uploadedImages =
+        images.isEmpty ? <String>[] : await _imageApi.uploadImages(images);
+    final uploadedDocuments = documents.isEmpty
+        ? <String>[]
+        : await _documentApi.uploadDocuments(documents);
+    return _api.createNotice(CreateNoticeModel(
+      title: title,
+      body: content,
+      deadline: deadline,
+      category: NoticeCategory.fromType(type)!,
+      tags: uploadedTags.map((tag) => tag.id).toList(),
+      images: uploadedImages,
+      documents: uploadedDocuments,
+    ));
   }
 
   @override

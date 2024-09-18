@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_checkbox.dart';
 import 'package:ziggle/app/values/palette.dart';
 
-class AgreementItem extends StatelessWidget {
-  const AgreementItem({
+class ConsentItem extends StatelessWidget {
+  const ConsentItem({
     super.key,
     required this.title,
     required this.description,

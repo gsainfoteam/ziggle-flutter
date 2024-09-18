@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
@@ -38,28 +39,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>
       _$NoticeModelFromJson(json);
-  factory NoticeModel.fromEntity(NoticeEntity entity) => NoticeModel(
-        id: entity.id,
-        views: entity.views,
-        langs: entity.langs,
-        deadline: entity.deadline,
-        currentDeadline: entity.currentDeadline,
-        createdAt: entity.createdAt,
-        deletedAt: entity.deletedAt,
-        tags: entity.tags,
-        title: entity.title,
-        content: entity.content,
-        reactions:
-            entity.reactions.map(NoticeReactionModel.fromEntity).toList(),
-        additionalContents: entity.additionalContents
-            .map(NoticeContentModel.fromEntity)
-            .toList(),
-        author: AuthorModel.fromEntity(entity.author),
-        imageUrls: entity.imageUrls,
-        documentUrls: entity.documentUrls,
-        isReminded: entity.isReminded,
-        category: entity.category,
-        groupName: entity.groupName,
-        publishedAt: entity.publishedAt,
-      );
+  @override
+  List<NetworkImage> get images =>
+      imageUrls.map((e) => NetworkImage(e)).toList();
 }

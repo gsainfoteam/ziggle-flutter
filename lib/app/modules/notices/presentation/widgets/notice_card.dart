@@ -83,9 +83,9 @@ class NoticeCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            if (notice.imageUrls.isNotEmpty)
-              Image.network(
-                notice.imageUrls.first,
+            if (notice.images.isNotEmpty)
+              Image(
+                image: notice.images.first,
                 height: 250,
                 width: double.infinity,
                 fit: BoxFit.cover,

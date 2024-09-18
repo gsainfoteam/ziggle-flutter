@@ -47,7 +47,19 @@
     "publish": "Publish",
     "consent": {
       "title": "Please read and agree to the following.",
-      "upload": "Publish Notice"
+      "upload": "Publish Notice",
+      "notification": {
+        "title": "Notifications are sent 15 minutes after the notice is posted.",
+        "description": "If the notice contains incorrect information, the author deletes the notice and uploads it again, the notification may be sent twice. To prevent this, notifications are sent 15 minutes after the notice is posted."
+      },
+      "edit": {
+        "title": "Editing is only possible before sending a notification.",
+        "description": "Many users check the notice immediately after the notification is sent. To ensure that the content checked by the user matches the notice content, editing is restricted after the notification is sent."
+      },
+      "urgent": {
+        "title": "For urgent notices, you can send a notification immediately from the author settings.",
+        "description": "If you need to send a notification immediately, you can send a notification from the author settings of each notice by selecting 'Send Notification Now'. In this case, [Urgent] is added to the notification title and editing is disabled."
+      }
     }
   },
   "calendar": {
