@@ -16,12 +16,17 @@ class FlutterSecureStorageTokenRepository implements TokenRepository {
   final _subject = BehaviorSubject<String?>();
   final _expiredAtSubject = BehaviorSubject<DateTime?>();
 
-  FlutterSecureStorageTokenRepository(this._storage) {
-    _storage.read(key: _tokenKey).then(_subject.add);
-    _storage
-        .read(key: _expiredAtKey)
-        .then((v) => v == null ? null : DateTime.parse(v))
-        .then(_expiredAtSubject.add);
+  FlutterSecureStorageTokenRepository(this._storage);
+
+  @PostConstruct(preResolve: true)
+  Future<void> init() async {
+    await Future.wait([
+      _storage.read(key: _tokenKey).then(_subject.add),
+      _storage
+          .read(key: _expiredAtKey)
+          .then((v) => v == null ? null : DateTime.parse(v))
+          .then(_expiredAtSubject.add),
+    ]);
   }
 
   static FutureOr dispose(TokenRepository repository) {
