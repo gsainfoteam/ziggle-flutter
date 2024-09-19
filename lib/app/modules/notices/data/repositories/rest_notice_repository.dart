@@ -53,8 +53,23 @@ class RestNoticeRepository implements NoticeRepository {
   }
 
   @override
-  Future<NoticeEntity> getNotice(int id) {
-    return _api.getNotice(id);
+  Future<NoticeEntity> getNotice(int id, [bool getAllLanguages = false]) async {
+    final notice = await _api.getNotice(id, lang: LocaleSettings.currentLocale);
+    if (getAllLanguages) {
+      final langs = notice.langs;
+      final notices = await Future.wait(langs.map((lang) async {
+        final notice = await _api.getNotice(id, lang: lang);
+        return MapEntry(lang, notice);
+      }));
+      return notice.copyWith(
+        langs: langs,
+        addedTitles: Map.fromEntries(
+            notices.map((entry) => MapEntry(entry.key, entry.value.title))),
+        addedContents: Map.fromEntries(
+            notices.map((entry) => MapEntry(entry.key, entry.value.content))),
+      );
+    }
+    return notice;
   }
 
   @override
