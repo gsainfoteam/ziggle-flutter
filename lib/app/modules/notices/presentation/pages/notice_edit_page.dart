@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/edit_deadline.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -32,35 +34,41 @@ class NoticeEditPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const EditDeadline(duration: Duration(minutes: 13, seconds: 39)),
-              const SizedBox(height: 25),
-              _ActionButton(
-                icon: Assets.icons.body,
-                title: context.t.notice.edit.editBody,
-                onPressed: () => const NoticeEditBodyRoute().push(context),
-              ),
-              const SizedBox(height: 10),
-              _ActionButton(
-                icon: Assets.icons.language,
-                title: context.t.notice.edit.addEnglish,
-                onPressed: () {},
-              ),
-              const SizedBox(height: 10),
-              _ActionButton(
-                icon: Assets.icons.add,
-                title: context.t.notice.edit.additional.action,
-                onPressed: () {},
-              ),
-              const SizedBox(height: 25),
-              ZiggleButton.cta(
-                emphasize: false,
-                onPressed: () {},
-                child: Text(context.t.notice.write.preview),
-              ),
-            ],
+          child: BlocBuilder<NoticeBloc, NoticeState>(
+            builder: (context, state) => Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const EditDeadline(
+                    duration: Duration(minutes: 13, seconds: 39)),
+                const SizedBox(height: 25),
+                _ActionButton(
+                  disabled: !state.isLoaded,
+                  icon: Assets.icons.body,
+                  title: context.t.notice.edit.editBody,
+                  onPressed: () => const NoticeEditBodyRoute().push(context),
+                ),
+                const SizedBox(height: 10),
+                _ActionButton(
+                  disabled: !state.isLoaded,
+                  icon: Assets.icons.language,
+                  title: context.t.notice.edit.addEnglish,
+                  onPressed: () {},
+                ),
+                const SizedBox(height: 10),
+                _ActionButton(
+                  disabled: false,
+                  icon: Assets.icons.add,
+                  title: context.t.notice.edit.additional.action,
+                  onPressed: () {},
+                ),
+                const SizedBox(height: 25),
+                ZiggleButton.cta(
+                  emphasize: false,
+                  onPressed: () {},
+                  child: Text(context.t.notice.write.preview),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -73,19 +81,21 @@ class _ActionButton extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.onPressed,
+    required this.disabled,
   });
 
   final SvgGenImage icon;
   final String title;
   final VoidCallback onPressed;
+  final bool disabled;
 
   @override
   Widget build(BuildContext context) {
     return ZigglePressable(
-      onPressed: onPressed,
-      decoration: const BoxDecoration(
-        color: Palette.grayLight,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
+      onPressed: disabled ? null : onPressed,
+      decoration: BoxDecoration(
+        color: disabled ? Palette.gray : Palette.grayLight,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
