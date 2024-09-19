@@ -57,9 +57,11 @@ class ZiggleInput extends StatelessWidget {
           child: TextFormField(
             focusNode: focusNode,
             controller: controller,
-            readOnly: disabled ? true : false,
+            readOnly: disabled,
             onChanged: onChanged,
-            style: style,
+            style: TextStyle(
+              color: disabled ? Palette.gray : Palette.black,
+            ).merge(style),
             decoration: InputDecoration(
               contentPadding: showBorder
                   ? const EdgeInsets.symmetric(vertical: 10, horizontal: 16)
@@ -67,6 +69,8 @@ class ZiggleInput extends StatelessWidget {
               hintText: hintText,
               hintStyle: const TextStyle(color: Palette.gray),
               enabledBorder: _buildInputBorder(Palette.gray),
+              disabledBorder:
+                  _buildInputBorder(disabled ? Palette.gray : Palette.primary),
               focusedBorder:
                   _buildInputBorder(disabled ? Palette.gray : Palette.primary),
             ),
