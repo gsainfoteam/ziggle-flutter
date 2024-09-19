@@ -39,9 +39,9 @@ class GroupListItem extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          const Text(
-            '그룹 이름',
-            style: TextStyle(),
+          Text(
+            name,
+            style: const TextStyle(),
           ),
           const SizedBox(width: 5),
           if (isCertificated == true) Assets.icons.certificatedBadge.svg(),
