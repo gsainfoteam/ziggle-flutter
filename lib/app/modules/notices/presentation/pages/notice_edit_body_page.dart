@@ -159,9 +159,12 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
         ),
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.fromLTRB(18, 16, 18, 6),
-              child: EditDeadline(duration: Duration(minutes: 13, seconds: 39)),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 16, 18, 6),
+              child: EditDeadline(
+                deadline:
+                    _prevNotice.createdAt.add(const Duration(minutes: 15)),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),

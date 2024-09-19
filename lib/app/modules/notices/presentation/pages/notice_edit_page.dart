@@ -38,8 +38,10 @@ class NoticeEditPage extends StatelessWidget {
             builder: (context, state) => Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const EditDeadline(
-                    duration: Duration(minutes: 13, seconds: 39)),
+                EditDeadline(
+                  deadline:
+                      state.entity!.createdAt.add(const Duration(minutes: 15)),
+                ),
                 const SizedBox(height: 25),
                 _ActionButton(
                   disabled: !state.isLoaded,
