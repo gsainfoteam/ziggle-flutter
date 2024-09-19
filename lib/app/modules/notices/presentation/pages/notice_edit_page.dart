@@ -44,7 +44,8 @@ class NoticeEditPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 25),
                 _ActionButton(
-                  disabled: !state.isLoaded,
+                  disabled:
+                      !state.isLoaded || state.entity!.publishedAt != null,
                   icon: Assets.icons.body,
                   title: context.t.notice.edit.editBody,
                   onPressed: () => const NoticeEditBodyRoute().push(context),
@@ -95,22 +96,28 @@ class _ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ZigglePressable(
       onPressed: disabled ? null : onPressed,
-      decoration: BoxDecoration(
-        color: disabled ? Palette.gray : Palette.grayLight,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      decoration: const BoxDecoration(
+        color: Palette.grayLight,
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
         child: Column(
           children: [
-            icon.svg(height: 40, width: 40),
+            icon.svg(
+              height: 40,
+              width: 40,
+              colorFilter: disabled
+                  ? const ColorFilter.mode(Palette.gray, BlendMode.srcIn)
+                  : null,
+            ),
             const SizedBox(height: 5),
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Palette.black,
+                color: disabled ? Palette.gray : Palette.black,
               ),
             )
           ],

@@ -5,9 +5,14 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class EditDeadline extends StatefulWidget {
-  const EditDeadline({super.key, required this.deadline});
+  const EditDeadline({
+    super.key,
+    required this.deadline,
+    this.alreadyPassed = false,
+  });
 
   final DateTime deadline;
+  final bool alreadyPassed;
 
   @override
   State<EditDeadline> createState() => _EditDeadlineState();
@@ -16,6 +21,7 @@ class EditDeadline extends StatefulWidget {
 class _EditDeadlineState extends State<EditDeadline> {
   late Duration duration = widget.deadline.difference(DateTime.now());
   late final Timer timer;
+  bool get isPassed => duration.isNegative || widget.alreadyPassed;
 
   @override
   void initState() {
@@ -25,7 +31,7 @@ class _EditDeadlineState extends State<EditDeadline> {
         setState(() {
           duration = widget.deadline.difference(DateTime.now());
         });
-        if (duration.isNegative) {
+        if (isPassed) {
           timer.cancel();
         }
       }
@@ -43,13 +49,11 @@ class _EditDeadlineState extends State<EditDeadline> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        color: duration.isNegative
-            ? const Color(0xFFF5F5F7)
-            : Palette.primaryLight,
+        color: isPassed ? const Color(0xFFF5F5F7) : Palette.primaryLight,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: Center(
-        child: duration.isNegative
+        child: isPassed
             ? Text(
                 context.t.notice.edit.cannotEdit,
                 style: const TextStyle(
