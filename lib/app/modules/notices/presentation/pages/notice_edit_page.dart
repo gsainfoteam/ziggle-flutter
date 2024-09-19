@@ -41,6 +41,7 @@ class NoticeEditPage extends StatelessWidget {
                 EditDeadline(
                   deadline:
                       state.entity!.createdAt.add(const Duration(minutes: 15)),
+                  alreadyPassed: state.entity!.publishedAt != null,
                 ),
                 const SizedBox(height: 25),
                 _ActionButton(
