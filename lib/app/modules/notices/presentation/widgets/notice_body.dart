@@ -50,6 +50,7 @@ class _NoticeBodyState extends State<NoticeBody> {
           android: AndroidInAppWebViewOptions(
             builtInZoomControls: false,
           ),
+          ios: IOSInAppWebViewOptions(),
         ),
         shouldOverrideUrlLoading: (controller, navigationAction) async {
           if (_initial) {
@@ -102,8 +103,6 @@ class _NoticeBodyState extends State<NoticeBody> {
                   #content {
                     overflow-x: hidden;
                     overflow-y: auto;
-                    user-select: none;
-                    -webkit-user-select: none;
                   }
                   #content *[style*="width"] {
                     width: auto !important;
