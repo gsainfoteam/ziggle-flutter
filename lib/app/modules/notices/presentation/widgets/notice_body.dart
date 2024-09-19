@@ -50,7 +50,6 @@ class _NoticeBodyState extends State<NoticeBody> {
           android: AndroidInAppWebViewOptions(
             builtInZoomControls: false,
           ),
-          ios: IOSInAppWebViewOptions(),
         ),
         shouldOverrideUrlLoading: (controller, navigationAction) async {
           if (_initial) {
