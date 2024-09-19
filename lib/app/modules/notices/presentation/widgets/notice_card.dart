@@ -75,7 +75,7 @@ class NoticeCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              notice.title,
+              notice.titles.current,
               style: const TextStyle(
                 color: Palette.black,
                 fontSize: 16,
@@ -92,7 +92,7 @@ class NoticeCard extends StatelessWidget {
               )
             else
               ExtendedText(
-                notice.content,
+                notice.contents.current,
                 maxLines: 4,
                 style: const TextStyle(
                   fontSize: 14,

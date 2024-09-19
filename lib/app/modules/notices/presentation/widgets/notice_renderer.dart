@@ -113,7 +113,7 @@ class NoticeRenderer extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
           sliver: SliverToBoxAdapter(
             child: Text(
-              notice.title,
+              notice.titles.current,
               style: const TextStyle(
                 color: Palette.black,
                 fontSize: 25,
@@ -160,7 +160,7 @@ class NoticeRenderer extends StatelessWidget {
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
           sliver: SliverToBoxAdapter(
-            child: NoticeBody(body: notice.content),
+            child: NoticeBody(body: notice.contents.current),
           ),
         ),
         SliverPadding(

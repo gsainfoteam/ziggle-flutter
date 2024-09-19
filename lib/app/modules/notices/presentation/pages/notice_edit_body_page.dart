@@ -30,14 +30,19 @@ class NoticeEditBodyPage extends StatefulWidget {
 
 class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
     with SingleTickerProviderStateMixin {
-  late final _koreanTitleController = TextEditingController(
-    text: context.read<NoticeBloc>().state.entity!.title,
-  );
-  final _koreanBodyController = QuillController.basic();
+  late final _prevNotice = context.read<NoticeBloc>().state.entity!;
+  late final _koreanTitleController =
+      TextEditingController(text: _prevNotice.titles[AppLocale.ko] ?? '');
+  late final _koreanBodyController = QuillController.basic()
+    ..document = Document.fromDelta(
+        HtmlToDelta().convert(_prevNotice.contents[AppLocale.ko] ?? ''));
   final _koreanTitleFocusNode = FocusNode();
   final _koreanBodyFocusNode = FocusNode();
-  final _englishTitleController = TextEditingController();
-  final _englishBodyController = QuillController.basic();
+  late final _englishTitleController =
+      TextEditingController(text: _prevNotice.titles[AppLocale.en] ?? '');
+  late final _englishBodyController = QuillController.basic()
+    ..document = Document.fromDelta(
+        HtmlToDelta().convert(_prevNotice.contents[AppLocale.en] ?? ''));
   final _englishTitleFocusNode = FocusNode();
   final _englishBodyFocusNode = FocusNode();
   late final _tabController = TabController(length: 2, vsync: this);
@@ -45,8 +50,6 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
   @override
   void initState() {
     super.initState();
-    _koreanBodyController.document = Document.fromDelta(HtmlToDelta()
-        .convert(context.read<NoticeBloc>().state.entity!.content));
     _koreanTitleController.addListener(() => setState(() {}));
     _koreanBodyController.addListener(() => setState(() {}));
     _koreanTitleFocusNode.addListener(() => setState(() {}));
