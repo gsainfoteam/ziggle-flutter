@@ -41,10 +41,13 @@ class GroupListItem extends StatelessWidget {
           const SizedBox(width: 10),
           Text(
             name,
-            style: const TextStyle(),
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+            ),
           ),
           const SizedBox(width: 5),
-          if (isCertificated == true) Assets.icons.certificatedBadge.svg(),
+          if (isCertificated) Assets.icons.certificatedBadge.svg(),
         ],
       ),
     );
