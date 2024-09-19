@@ -35,14 +35,14 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
       TextEditingController(text: _prevNotice.titles[AppLocale.ko] ?? '');
   late final _koreanBodyController = QuillController.basic()
     ..document = Document.fromDelta(
-        HtmlToDelta().convert(_prevNotice.contents[AppLocale.ko] ?? ''));
+        HtmlToDelta().convert(_prevNotice.contents[AppLocale.ko] ?? '<br/>'));
   final _koreanTitleFocusNode = FocusNode();
   final _koreanBodyFocusNode = FocusNode();
   late final _englishTitleController =
       TextEditingController(text: _prevNotice.titles[AppLocale.en] ?? '');
   late final _englishBodyController = QuillController.basic()
     ..document = Document.fromDelta(
-        HtmlToDelta().convert(_prevNotice.contents[AppLocale.en] ?? ''));
+        HtmlToDelta().convert(_prevNotice.contents[AppLocale.en] ?? '<br/>'));
   final _englishTitleFocusNode = FocusNode();
   final _englishBodyFocusNode = FocusNode();
   late final _tabController = TabController(length: 2, vsync: this);
