@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/edit_deadline.dart';
 import 'package:ziggle/app/router.gr.dart';
@@ -41,12 +42,11 @@ class NoticeEditPage extends StatelessWidget {
                 EditDeadline(
                   deadline:
                       state.entity!.createdAt.add(const Duration(minutes: 15)),
-                  alreadyPassed: state.entity!.publishedAt != null,
+                  alreadyPassed: state.entity!.isPublished,
                 ),
                 const SizedBox(height: 25),
                 _ActionButton(
-                  disabled:
-                      !state.isLoaded || state.entity!.publishedAt != null,
+                  disabled: !state.isLoaded || state.entity!.isPublished,
                   icon: Assets.icons.body,
                   title: context.t.notice.edit.editBody,
                   onPressed: () => const NoticeEditBodyRoute().push(context),

@@ -176,6 +176,9 @@ extension NoticeEntityExtension on NoticeEntity {
         groupName: groupName,
         category: category,
       );
+
+  bool get isPublished =>
+      publishedAt != null && publishedAt!.isBefore(DateTime.now());
 }
 
 extension LanguageContentX on Map<AppLocale, String> {
