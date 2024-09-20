@@ -120,10 +120,12 @@ class GroupMemberCard extends StatelessWidget {
                     child: ZiggleSelect(
                       onChanged: onChanged,
                       value: role,
+                      small: true,
                       hintText: context.t.common.memberCard.role.role,
                       entries: GroupMemberRole.values
                           .map((value) => ZiggleSelectEntry(
-                              value: value, label: value.label))
+                              value: value,
+                              label: value.toLocalizedString(context)))
                           .toList(),
                     ),
                   ),
