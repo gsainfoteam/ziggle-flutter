@@ -4,7 +4,26 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_select.dar
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-enum GroupMemberRole { admin, manager, user }
+enum GroupMemberRole {
+  admin('Admin'),
+  manager('Manager'),
+  user('User');
+
+  final String label;
+
+  const GroupMemberRole(this.label);
+
+  String toLocalizedString(BuildContext context) {
+    switch (this) {
+      case GroupMemberRole.admin:
+        return context.t.common.memberCard.role.admin;
+      case GroupMemberRole.manager:
+        return context.t.common.memberCard.role.manager;
+      case GroupMemberRole.user:
+        return context.t.common.memberCard.role.user;
+    }
+  }
+}
 
 class GroupMemberCard extends StatelessWidget {
   const GroupMemberCard({
@@ -12,14 +31,15 @@ class GroupMemberCard extends StatelessWidget {
     required this.name,
     required this.email,
     this.onPressed,
+    this.editMode = false,
     required this.role,
   });
 
   final String name;
   final String email;
   final VoidCallback? onPressed;
-  final GroupMemberRole? role;
   final bool editMode;
+  final GroupMemberRole role;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +89,7 @@ class GroupMemberCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: Text(
-                    '$role',
+                    role.toLocalizedString(context),
                     style: const TextStyle(
                       color: Palette.grayText,
                       fontSize: 14,
