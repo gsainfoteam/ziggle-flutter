@@ -4,17 +4,21 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_select.dar
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+enum GroupMemberRole { admin, manager, user }
+
 class GroupMemberCard extends StatelessWidget {
   const GroupMemberCard({
     super.key,
     required this.name,
     required this.email,
     this.onPressed,
+    required this.role,
   });
 
   final String name;
   final String email;
   final VoidCallback? onPressed;
+  final GroupMemberRole? role;
 
   @override
   Widget build(BuildContext context) {
@@ -58,18 +62,19 @@ class GroupMemberCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: ZiggleSelect(
+                    value: role,
                     hintText: context.t.common.memberCard.role.role,
                     entries: [
                       ZiggleSelectEntry(
-                        value: 'admin',
+                        value: GroupMemberRole.admin,
                         label: context.t.common.memberCard.role.admin,
                       ),
                       ZiggleSelectEntry(
-                        value: 'manager',
+                        value: GroupMemberRole.manager,
                         label: context.t.common.memberCard.role.manager,
                       ),
                       ZiggleSelectEntry(
-                        value: 'user',
+                        value: GroupMemberRole.user,
                         label: context.t.common.memberCard.role.user,
                       )
                     ],

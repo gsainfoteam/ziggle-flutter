@@ -26,12 +26,14 @@ class ZiggleSelect<T> extends StatefulWidget {
     required this.hintText,
     required this.entries,
     this.onChanged,
+    required this.value,
   });
 
   final bool small;
   final String hintText;
   final List<ZiggleSelectEntry<T>> entries;
-  final void Function(T?)? onChanged;
+  final T? value;
+  final ValueChanged<T?>? onChanged;
 
   @override
   State<ZiggleSelect<T>> createState() => _ZiggleSelectState<T>();
@@ -41,10 +43,13 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
   final _overlayController = OverlayPortalController();
   final _link = LayerLink();
   double? _buttonWidth;
-  ZiggleSelectEntry<T>? _value;
   ZiggleSelectEntry<T>? _hovering;
   bool _isHovering = false;
   bool _isRecentlyHovered = false;
+
+  ZiggleSelectEntry<T>? get _value => widget.value == null
+      ? null
+      : widget.entries.firstWhere((e) => e.value == widget.value);
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +100,6 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
                 return GestureDetector(
                   onTap: () {
                     widget.onChanged?.call(item?.value);
-                    setState(() => _value = item);
                     Future.delayed(
                       const Duration(milliseconds: 100),
                       () {
@@ -141,14 +145,14 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
                           style: TextStyle(
                             color: item == null
                                 ? Palette.grayText
-                                : item.value == _value?.value
+                                : item.value == widget.value
                                     ? Palette.primary
                                     : Palette.black,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        if (item != null && item.value == _value?.value)
+                        if (item != null && item.value == widget.value)
                           widget.small
                               ? Assets.icons.check.svg(width: 20, height: 20)
                               : Assets.icons.check.svg(width: 24, height: 24),
@@ -189,7 +193,8 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
             Text(
               _value?.label ?? widget.hintText,
               style: TextStyle(
-                color: _value == null ? Palette.grayText : Palette.primary,
+                color:
+                    widget.value == null ? Palette.grayText : Palette.primary,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),

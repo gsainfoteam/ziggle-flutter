@@ -79,6 +79,7 @@ class _LayoutState extends State<_Layout> {
               ),
               const SizedBox(height: 10),
               ZiggleSelect(
+                value: _duration,
                 onChanged: (v) => setState(() => _duration = v),
                 hintText: context.t.group.creation.done.invite.selectExpire,
                 entries: [
