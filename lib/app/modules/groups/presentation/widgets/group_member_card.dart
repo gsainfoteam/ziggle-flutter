@@ -110,21 +110,10 @@ class GroupMemberCard extends StatelessWidget {
                     child: ZiggleSelect(
                       value: role,
                       hintText: context.t.common.memberCard.role.role,
-                      entries: [
-                        ZiggleSelectEntry(
-                          value: GroupMemberRole.admin,
-                          label: context.t.common.memberCard.role.admin,
-                        ),
-                        ZiggleSelectEntry(
-                          value: GroupMemberRole.manager,
-                          label: context.t.common.memberCard.role.manager,
-                        ),
-                        ZiggleSelectEntry(
-                          value: GroupMemberRole.user,
-                          label: context.t.common.memberCard.role.user,
-                        )
-                      ],
-                      small: true,
+                      entries: GroupMemberRole.values
+                          .map((value) => ZiggleSelectEntry(
+                              value: value, label: value.label))
+                          .toList(),
                     ),
                   ),
                   const SizedBox(width: 10),
