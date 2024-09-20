@@ -39,14 +39,16 @@ class GroupListItem extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          Text(
-            name,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+          Expanded(
+            child: Text(
+              name,
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-          const SizedBox(width: 5),
+          if (isCertificated) const SizedBox(width: 5),
           if (isCertificated) Assets.icons.certificatedBadge.svg(),
         ],
       ),
