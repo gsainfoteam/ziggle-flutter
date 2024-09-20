@@ -102,8 +102,6 @@ class _NoticeBodyState extends State<NoticeBody> {
                   #content {
                     overflow-x: hidden;
                     overflow-y: auto;
-                    user-select: none;
-                    -webkit-user-select: none;
                   }
                   #content *[style*="width"] {
                     width: auto !important;
