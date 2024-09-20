@@ -13,7 +13,6 @@ class GroupMemberCard extends StatelessWidget {
     required this.email,
     this.onPressed,
     required this.role,
-    this.editMode = false,
   });
 
   final String name;
