@@ -49,14 +49,16 @@ class NoticeEditPage extends StatelessWidget {
                   disabled: !state.isLoaded || state.entity!.isPublished,
                   icon: Assets.icons.body,
                   title: context.t.notice.edit.editBody,
-                  onPressed: () => const NoticeEditBodyRoute().push(context),
+                  onPressed: () =>
+                      NoticeEditBodyRoute(showEnglish: false).push(context),
                 ),
                 const SizedBox(height: 10),
                 _ActionButton(
                   disabled: !state.isLoaded,
                   icon: Assets.icons.language,
                   title: context.t.notice.edit.addEnglish,
-                  onPressed: () {},
+                  onPressed: () =>
+                      NoticeEditBodyRoute(showEnglish: true).push(context),
                 ),
                 const SizedBox(height: 10),
                 _ActionButton(

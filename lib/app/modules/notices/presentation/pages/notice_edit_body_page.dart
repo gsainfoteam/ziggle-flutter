@@ -22,7 +22,9 @@ import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
 class NoticeEditBodyPage extends StatefulWidget {
-  const NoticeEditBodyPage({super.key});
+  const NoticeEditBodyPage({super.key, this.showEnglish = false});
+
+  final bool showEnglish;
 
   @override
   State<NoticeEditBodyPage> createState() => _NoticeEditBodyPageState();
@@ -45,7 +47,11 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
         HtmlToDelta().convert(_prevNotice.contents[AppLocale.en] ?? '<br/>'));
   final _englishTitleFocusNode = FocusNode();
   final _englishBodyFocusNode = FocusNode();
-  late final _tabController = TabController(length: 2, vsync: this);
+  late final _tabController = TabController(
+    length: 2,
+    vsync: this,
+    initialIndex: widget.showEnglish ? 1 : 0,
+  );
 
   @override
   void initState() {
