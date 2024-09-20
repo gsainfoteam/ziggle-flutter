@@ -26,20 +26,30 @@ enum GroupMemberRole {
 }
 
 class GroupMemberCard extends StatelessWidget {
-  const GroupMemberCard({
+  final String name;
+  final String email;
+  final VoidCallback? onBanish;
+  final bool editMode;
+  final GroupMemberRole role;
+  final ValueChanged<GroupMemberRole?>? onChanged;
+
+  const GroupMemberCard.editMode({
     super.key,
     required this.name,
     required this.email,
-    this.onPressed,
-    this.editMode = false,
     required this.role,
-  });
+    required this.onBanish,
+    required this.onChanged,
+  }) : editMode = true;
 
-  final String name;
-  final String email;
-  final VoidCallback? onPressed;
-  final bool editMode;
-  final GroupMemberRole role;
+  const GroupMemberCard.viewMode({
+    super.key,
+    required this.name,
+    required this.email,
+    required this.role,
+  })  : editMode = false,
+        onBanish = null,
+        onChanged = null;
 
   @override
   Widget build(BuildContext context) {
@@ -108,6 +118,7 @@ class GroupMemberCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ZiggleSelect(
+                      onChanged: onChanged,
                       value: role,
                       hintText: context.t.common.memberCard.role.role,
                       entries: GroupMemberRole.values
@@ -118,7 +129,7 @@ class GroupMemberCard extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   ZiggleButton.small(
-                    onPressed: onPressed,
+                    onPressed: onBanish,
                     child: Text(context.t.common.memberCard.banish),
                   )
                 ],
