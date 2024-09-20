@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/router.gr.dart';
 
-@RoutePage()
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
 
