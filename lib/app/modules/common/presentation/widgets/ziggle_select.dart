@@ -7,6 +7,16 @@ class ZiggleSelectEntry<T> {
   final String label;
 
   ZiggleSelectEntry({required this.value, required this.label});
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is ZiggleSelectEntry<T> && other.value == value;
+  }
+
+  @override
+  int get hashCode => value.hashCode ^ label.hashCode;
 }
 
 class ZiggleSelect<T> extends StatefulWidget {
