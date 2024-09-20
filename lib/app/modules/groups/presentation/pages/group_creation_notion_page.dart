@@ -103,6 +103,7 @@ class _Layout extends StatelessWidget {
                 child: Text(context.t.common.skip),
               ),
             ),
+            const SizedBox(width: 10),
             Expanded(
               child: ZiggleButton.cta(
                 onPressed: () {
