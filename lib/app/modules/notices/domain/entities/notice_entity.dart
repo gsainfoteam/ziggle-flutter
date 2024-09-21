@@ -154,6 +154,7 @@ extension NoticeEntityExtension on NoticeEntity {
 
   NoticeEntity copyWith({
     DateTime? publishedAt,
+    List<NoticeReactionEntity>? reactions,
   }) =>
       NoticeEntity(
         id: id,
@@ -167,7 +168,7 @@ extension NoticeEntityExtension on NoticeEntity {
         title: title,
         content: content,
         additionalContents: additionalContents,
-        reactions: reactions,
+        reactions: reactions ?? this.reactions,
         author: author,
         images: images,
         documentUrls: documentUrls,
@@ -176,4 +177,28 @@ extension NoticeEntityExtension on NoticeEntity {
         groupName: groupName,
         category: category,
       );
+
+  NoticeEntity addReaction(NoticeReaction reaction) {
+    final reactions = [
+      ...this.reactions.where((e) => e.emoji != reaction.emoji),
+      NoticeReactionEntity(
+        emoji: reaction.emoji,
+        count: reactionsBy(reaction) + 1,
+        isReacted: true,
+      ),
+    ];
+    return copyWith(reactions: reactions);
+  }
+
+  NoticeEntity removeReaction(NoticeReaction reaction) {
+    final reactions = [
+      ...this.reactions.where((e) => e.emoji != reaction.emoji),
+      NoticeReactionEntity(
+        emoji: reaction.emoji,
+        count: reactionsBy(reaction) - 1,
+        isReacted: false,
+      ),
+    ];
+    return copyWith(reactions: reactions);
+  }
 }

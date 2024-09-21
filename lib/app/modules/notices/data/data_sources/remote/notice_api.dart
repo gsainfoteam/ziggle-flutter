@@ -56,9 +56,15 @@ abstract class NoticeApi {
     @Body() CreateForeignNoticeModel model,
   );
 
-  @POST('{id}/reminder')
-  Future<NoticeModel> addReminder(@Path('id') int id);
+  @POST('{id}/reaction')
+  Future<NoticeModel> addReaction(
+    @Path('id') int id,
+    @Field('emoji') String emoji,
+  );
 
-  @DELETE('{id}/reminder')
-  Future<NoticeModel> removeReminder(@Path('id') int id);
+  @DELETE('{id}/reaction')
+  Future<NoticeModel> removeReaction(
+    @Path('id') int id,
+    @Field('emoji') String emoji,
+  );
 }
