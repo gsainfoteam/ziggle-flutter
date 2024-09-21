@@ -191,13 +191,15 @@ extension NoticeEntityExtension on NoticeEntity {
   }
 
   NoticeEntity removeReaction(NoticeReaction reaction) {
+    final newCount = reactionsBy(reaction) - 1;
     final reactions = [
       ...this.reactions.where((e) => e.emoji != reaction.emoji),
-      NoticeReactionEntity(
-        emoji: reaction.emoji,
-        count: reactionsBy(reaction) - 1,
-        isReacted: false,
-      ),
+      if (newCount > 0)
+        NoticeReactionEntity(
+          emoji: reaction.emoji,
+          count: newCount,
+          isReacted: false,
+        ),
     ];
     return copyWith(reactions: reactions);
   }
