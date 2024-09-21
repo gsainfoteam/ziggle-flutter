@@ -72,7 +72,8 @@ class NoticeEditPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 _ActionButton(
-                  disabled: !state.isLoaded,
+                  disabled: !state.isLoaded ||
+                      state.entity!.contents[AppLocale.en] != null,
                   icon: Assets.icons.language,
                   title: context.t.notice.edit.addEnglish,
                   onPressed: () =>
