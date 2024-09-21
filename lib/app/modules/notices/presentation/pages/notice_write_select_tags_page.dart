@@ -71,20 +71,23 @@ class _NoticeWriteSelectTagsPageState extends State<NoticeWriteSelectTagsPage> {
                 child: ListView.separated(
                   itemBuilder: (context, index) => ZigglePressable(
                     onPressed: () => setState(() => _tags.removeAt(index)),
-                    child: Row(
-                      children: [
-                        Assets.icons.check.svg(),
-                        const SizedBox(width: 5),
-                        Expanded(
-                          child: Text(
-                            _tags[index],
-                            style: const TextStyle(
-                              color: Palette.black,
-                              fontSize: 16,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
+                        children: [
+                          Assets.icons.check.svg(),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: Text(
+                              _tags[index],
+                              style: const TextStyle(
+                                color: Palette.black,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   separatorBuilder: (context, index) => const Divider(),
@@ -99,11 +102,14 @@ class _NoticeWriteSelectTagsPageState extends State<NoticeWriteSelectTagsPage> {
                       _controller.clear();
                       _tags.add(_tags[index]);
                     }),
-                    child: Text(
-                      _tags[index],
-                      style: const TextStyle(
-                        color: Palette.black,
-                        fontSize: 16,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Text(
+                        _tags[index],
+                        style: const TextStyle(
+                          color: Palette.black,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),
