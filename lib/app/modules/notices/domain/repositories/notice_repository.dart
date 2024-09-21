@@ -44,7 +44,7 @@ abstract class NoticeRepository {
   });
   Future<NoticeEntity> writeForeign({
     required int id,
-    String? title,
+    required String title,
     required String content,
     required int contentId,
     required AppLocale lang,

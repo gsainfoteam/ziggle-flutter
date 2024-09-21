@@ -49,6 +49,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
               state.draft.bodies.containsKey(AppLocale.en)) {
             await _repository.writeForeign(
               id: notice.id,
+              title: state.draft.titles[AppLocale.en]!,
               content: state.draft.bodies[AppLocale.en]!,
               contentId: 1,
               lang: AppLocale.en,
