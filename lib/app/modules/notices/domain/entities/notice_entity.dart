@@ -181,6 +181,37 @@ extension NoticeEntityExtension on NoticeEntity {
 
   bool get isPublished =>
       publishedAt != null && publishedAt!.isBefore(DateTime.now());
+  NoticeEntity addDraft(NoticeWriteDraftEntity draft) => NoticeEntity(
+        id: id,
+        views: views,
+        langs: langs,
+        deadline: deadline,
+        currentDeadline: currentDeadline,
+        createdAt: createdAt,
+        deletedAt: deletedAt,
+        tags: tags,
+        titles: titles,
+        contents: draft.bodies.isNotEmpty ? draft.bodies : contents,
+        additionalContents: [
+          ...additionalContents,
+          ...draft.additionalContent.entries.mapIndexed(
+            (index, content) => NoticeContentEntity(
+              id: lastContentId + 1,
+              lang: content.key,
+              content: content.value,
+              createdAt: DateTime.now(),
+            ),
+          ),
+        ],
+        reactions: reactions,
+        author: author,
+        images: images,
+        documentUrls: documentUrls,
+        isReminded: isReminded,
+        publishedAt: publishedAt,
+        groupName: groupName,
+        category: category,
+      );
 }
 
 extension LanguageContentX on Map<AppLocale, String> {
