@@ -37,7 +37,7 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
           text: _draft.additionalContent[AppLocale.en] ?? '')
       : null;
   late final _tabController = TabController(
-    length: 2,
+    length: _enContent != null ? 2 : 1,
     vsync: this,
   );
 
@@ -121,12 +121,13 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                       showBorder: false,
                       hintText: context.t.notice.write.bodyHint,
                     ),
-                    ZiggleInput(
-                      controller: _enContent,
-                      maxLines: null,
-                      showBorder: false,
-                      hintText: context.t.notice.write.bodyHint,
-                    ),
+                    if (_enContent != null)
+                      ZiggleInput(
+                        controller: _enContent,
+                        maxLines: null,
+                        showBorder: false,
+                        hintText: context.t.notice.write.bodyHint,
+                      ),
                   ],
                 ),
               ),
