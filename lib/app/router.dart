@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:sheet/route.dart';
 import 'package:ziggle/app/router.gr.dart';
 
@@ -38,21 +39,11 @@ class AppRouter extends RootStackRouter {
           CustomRoute(
             path: 'config',
             page: NoticeWriteConfigRoute.page,
-            customRouteBuilder: <T>(_, child, page) =>
-                MaterialExtendedPageRoute<T>(
-              fullscreenDialog: page.fullscreenDialog,
-              settings: page,
-              builder: (context) => child,
-              maintainState: page.maintainState,
-            ),
+            customRouteBuilder: _extendedRoute,
           ),
           CustomRoute(
             page: NoticeWriteSheetShellRoute.page,
-            customRouteBuilder: <T>(_, child, page) => CupertinoSheetRoute<T>(
-              settings: page,
-              builder: (context) => child,
-              maintainState: page.maintainState,
-            ),
+            customRouteBuilder: _sheetRoute,
             children: [
               AutoRoute(
                 path: 'tags',
@@ -70,8 +61,35 @@ class AppRouter extends RootStackRouter {
           ),
         ],
       ),
-      AutoRoute(path: '/notice/:id', page: DetailRoute.page),
-      AutoRoute(path: '/notice/:id/edit', page: NoticeEditRoute.page),
+      AutoRoute(
+        path: '/notice/:id',
+        page: SingleNoticeShellRoute.page,
+        children: [
+          AutoRoute(path: '', page: DetailRoute.page),
+          AutoRoute(
+            path: 'edit',
+            page: NoticeEditShellRoute.page,
+            children: [
+              CustomRoute(
+                path: '',
+                page: NoticeEditRoute.page,
+                customRouteBuilder: _extendedRoute,
+              ),
+              AutoRoute(path: 'body', page: NoticeEditBodyRoute.page),
+              AutoRoute(
+                path: 'additional',
+                page: WriteAdditionalNoticeRoute.page,
+              ),
+              CustomRoute(
+                path: 'preview',
+                page: NoticeEditPreviewRoute.page,
+                customRouteBuilder: _sheetRoute,
+              ),
+            ],
+          ),
+        ],
+      ),
+      AutoRoute(path: '/search', page: SearchRoute.page),
       AutoRoute(
         path: '/group/create',
         page: GroupCreationShellRoute.page,
@@ -96,4 +114,21 @@ class AppRouter extends RootStackRouter {
       ),
     ];
   }
+
+  Route<T> _sheetRoute<T>(
+          BuildContext _, Widget child, AutoRoutePage<T> page) =>
+      CupertinoSheetRoute<T>(
+        settings: page,
+        builder: (context) => child,
+        maintainState: page.maintainState,
+      );
+
+  Route<T> _extendedRoute<T>(
+          BuildContext _, Widget child, AutoRoutePage<T> page) =>
+      MaterialExtendedPageRoute<T>(
+        fullscreenDialog: page.fullscreenDialog,
+        settings: page,
+        builder: (context) => child,
+        maintainState: page.maintainState,
+      );
 }

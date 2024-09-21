@@ -6,6 +6,7 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/date_time.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.dart';
@@ -170,12 +171,13 @@ class _LayoutState extends State<_Layout> {
               ),
             ),
             child: ZigglePressable(
-              onPressed: () => DetailRoute(notice: notice).push(context),
+              onPressed: () =>
+                  SingleNoticeShellRoute(notice: notice).push(context),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    notice.title,
+                    notice.titles.current,
                     style: const TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,

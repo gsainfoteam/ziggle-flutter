@@ -46,7 +46,7 @@ class _LayoutState extends State<_Layout> {
     state.mapOrNull(
       done: (state) {
         context.router.popUntilRouteWithName(NoticeWriteBodyRoute.name);
-        context.replaceRoute(DetailRoute(notice: state.notice));
+        context.replaceRoute(SingleNoticeShellRoute(notice: state.notice));
       },
       error: (state) => context.showToast(state.error),
     );

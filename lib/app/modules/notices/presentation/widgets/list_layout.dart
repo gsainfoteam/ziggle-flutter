@@ -42,7 +42,8 @@ class ListLayout extends StatelessWidget {
                             return NoticeCard(
                               onLike: () {},
                               onPressed: () =>
-                                  DetailRoute(notice: notice).push(context),
+                                  SingleNoticeShellRoute(notice: notice)
+                                      .push(context),
                               onShare: () {},
                               notice: notice,
                             );

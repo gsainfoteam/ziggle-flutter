@@ -7,8 +7,12 @@ import 'package:ziggle/app/modules/notices/data/data_sources/remote/image_api.da
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/notice_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/tag_api.dart';
 import 'package:ziggle/app/modules/notices/data/enums/notice_my.dart';
+import 'package:ziggle/app/modules/notices/data/enums/notice_to.dart';
+import 'package:ziggle/app/modules/notices/data/models/create_additional_notice_model.dart';
+import 'package:ziggle/app/modules/notices/data/models/create_foreign_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/get_notices_query_model.dart';
+import 'package:ziggle/app/modules/notices/data/models/modify_notice_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_list_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
@@ -33,12 +37,19 @@ class RestNoticeRepository implements NoticeRepository {
   );
 
   @override
-  Future<NoticeEntity> addAdditionalContent(
-      {required int id,
-      required String content,
-      DateTime? deadline,
-      bool? notifyToAll}) {
-    throw UnimplementedError();
+  Future<NoticeEntity> addAdditionalContent({
+    required int id,
+    required String content,
+    DateTime? deadline,
+  }) {
+    return _api.addAdditionalContent(
+      id,
+      CreateAdditionalNoticeModel(
+        body: content,
+        deadline: deadline,
+        to: NoticeTo.all,
+      ),
+    );
   }
 
   @override
@@ -53,8 +64,25 @@ class RestNoticeRepository implements NoticeRepository {
   }
 
   @override
-  Future<NoticeEntity> getNotice(int id) {
-    return _api.getNotice(id);
+  Future<NoticeEntity> getNotice(int id, [bool getAllLanguages = false]) async {
+    final notice = await _api.getNotice(id, lang: LocaleSettings.currentLocale);
+    if (getAllLanguages) {
+      final langs = notice.langs;
+      final notices = await Future.wait(langs.map((lang) async {
+        final notice = await _api.getNotice(id, lang: lang);
+        return MapEntry(lang, notice);
+      }));
+      return notice.copyWith(
+        langs: langs,
+        addedTitles: {
+          for (final entry in notices) entry.key: entry.value.title,
+        },
+        addedContents: {
+          for (final entry in notices) entry.key: entry.value.content,
+        },
+      );
+    }
+    return notice;
   }
 
   @override
@@ -79,8 +107,13 @@ class RestNoticeRepository implements NoticeRepository {
   @override
   Future<NoticeEntity> modify(
       {required int id, required String content, DateTime? deadline}) {
-    // TODO: implement modify
-    throw UnimplementedError();
+    return _api.modifyNotice(
+      id,
+      ModifyNoticeModel(
+        body: content,
+        deadline: deadline,
+      ),
+    );
   }
 
   @override
@@ -134,15 +167,24 @@ class RestNoticeRepository implements NoticeRepository {
   }
 
   @override
-  Future<NoticeEntity> writeForeign(
-      {required int id,
-      String? title,
-      required String content,
-      required int contentId,
-      required AppLocale lang,
-      DateTime? deadline}) {
-    // TODO: implement writeForeign
-    throw UnimplementedError();
+  Future<NoticeEntity> writeForeign({
+    required int id,
+    String? title,
+    required String content,
+    required int contentId,
+    required AppLocale lang,
+    DateTime? deadline,
+  }) {
+    return _api.addForeign(
+      id,
+      contentId,
+      CreateForeignNoticeModel(
+        title: title,
+        body: content,
+        deadline: deadline,
+        lang: lang,
+      ),
+    );
   }
 
   @override

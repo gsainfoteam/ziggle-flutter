@@ -26,6 +26,8 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     @Default([]) List<String> tags,
     required String title,
     required String content,
+    Map<AppLocale, String>? addedTitles,
+    Map<AppLocale, String>? addedContents,
     @Default([]) List<NoticeContentModel> additionalContents,
     required List<NoticeReactionModel> reactions,
     required AuthorModel author,
@@ -42,4 +44,12 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
   @override
   List<NetworkImage> get images =>
       imageUrls.map((e) => NetworkImage(e)).toList();
+
+  @override
+  Map<AppLocale, String> get titles =>
+      addedTitles ?? {LocaleSettings.currentLocale: title};
+
+  @override
+  Map<AppLocale, String> get contents =>
+      addedContents ?? {LocaleSettings.currentLocale: content};
 }
