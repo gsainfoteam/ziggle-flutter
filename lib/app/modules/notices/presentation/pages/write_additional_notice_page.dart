@@ -179,7 +179,7 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                     context: context,
                     title: context.t.notice.write.deadline.title,
                     builder: (context) => DeadlineSelector(
-                      initialDateTime: _prevNotice.deadline,
+                      initialDateTime: _prevNotice.deadline!.toLocal(),
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
                   );
