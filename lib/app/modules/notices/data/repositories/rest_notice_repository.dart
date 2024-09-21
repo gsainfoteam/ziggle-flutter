@@ -7,6 +7,8 @@ import 'package:ziggle/app/modules/notices/data/data_sources/remote/image_api.da
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/notice_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/tag_api.dart';
 import 'package:ziggle/app/modules/notices/data/enums/notice_my.dart';
+import 'package:ziggle/app/modules/notices/data/enums/notice_to.dart';
+import 'package:ziggle/app/modules/notices/data/models/create_additional_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_foreign_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/get_notices_query_model.dart';
@@ -35,12 +37,19 @@ class RestNoticeRepository implements NoticeRepository {
   );
 
   @override
-  Future<NoticeEntity> addAdditionalContent(
-      {required int id,
-      required String content,
-      DateTime? deadline,
-      bool? notifyToAll}) {
-    throw UnimplementedError();
+  Future<NoticeEntity> addAdditionalContent({
+    required int id,
+    required String content,
+    DateTime? deadline,
+  }) {
+    return _api.addAdditionalContent(
+      id,
+      CreateAdditionalNoticeModel(
+        body: content,
+        deadline: deadline,
+        to: NoticeTo.all,
+      ),
+    );
   }
 
   @override
@@ -156,13 +165,14 @@ class RestNoticeRepository implements NoticeRepository {
   }
 
   @override
-  Future<NoticeEntity> writeForeign(
-      {required int id,
-      required String title,
-      required String content,
-      required int contentId,
-      required AppLocale lang,
-      DateTime? deadline}) {
+  Future<NoticeEntity> writeForeign({
+    required int id,
+    String? title,
+    required String content,
+    required int contentId,
+    required AppLocale lang,
+    DateTime? deadline,
+  }) {
     return _api.addForeign(
       id,
       contentId,

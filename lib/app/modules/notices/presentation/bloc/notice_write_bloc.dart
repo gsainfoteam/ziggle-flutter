@@ -59,6 +59,22 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
               lang: AppLocale.en,
             );
           }
+          if (state.draft.additionalContent.isNotEmpty) {
+            final added = await _repository.addAdditionalContent(
+              id: notice.id,
+              content: state.draft.additionalContent[AppLocale.ko]!,
+              deadline: state.draft.deadline,
+            );
+            if (state.draft.additionalContent.containsKey(AppLocale.en)) {
+              await _repository.writeForeign(
+                id: notice.id,
+                contentId: added.lastContentId,
+                content: state.draft.additionalContent[AppLocale.en]!,
+                deadline: state.draft.deadline,
+                lang: AppLocale.en,
+              );
+            }
+          }
           emit(_Done(state.draft, await _repository.getNotice(notice.id)));
         } else {
           final notice = await _repository.write(

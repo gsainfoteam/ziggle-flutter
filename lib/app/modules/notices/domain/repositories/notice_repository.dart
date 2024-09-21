@@ -40,11 +40,10 @@ abstract class NoticeRepository {
     required int id,
     required String content,
     DateTime? deadline,
-    bool? notifyToAll,
   });
   Future<NoticeEntity> writeForeign({
     required int id,
-    required String title,
+    String? title,
     required String content,
     required int contentId,
     required AppLocale lang,

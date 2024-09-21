@@ -152,6 +152,8 @@ extension NoticeEntityExtension on NoticeEntity {
 
   bool get isCertified => false;
 
+  int get lastContentId => maxBy(additionalContents, (c) => c.id)?.id ?? 1;
+
   NoticeEntity copyWith({
     DateTime? publishedAt,
   }) =>
