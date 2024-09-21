@@ -5,13 +5,9 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 enum GroupMemberRole {
-  admin('Admin'),
-  manager('Manager'),
-  user('User');
-
-  final String label;
-
-  const GroupMemberRole(this.label);
+  admin,
+  manager,
+  user;
 
   String toLocalizedString(BuildContext context) {
     switch (this) {
