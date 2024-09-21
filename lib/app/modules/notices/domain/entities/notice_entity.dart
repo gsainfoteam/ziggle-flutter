@@ -190,7 +190,7 @@ extension NoticeEntityExtension on NoticeEntity {
         createdAt: createdAt,
         deletedAt: deletedAt,
         tags: tags,
-        titles: titles,
+        titles: draft.titles.isNotEmpty ? draft.titles : titles,
         contents: draft.bodies.isNotEmpty ? draft.bodies : contents,
         additionalContents: [
           ...additionalContents,
