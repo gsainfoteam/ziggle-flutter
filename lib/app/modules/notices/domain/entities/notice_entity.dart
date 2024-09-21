@@ -156,6 +156,7 @@ extension NoticeEntityExtension on NoticeEntity {
 
   NoticeEntity copyWith({
     DateTime? publishedAt,
+    List<NoticeReactionEntity>? reactions,
   }) =>
       NoticeEntity(
         id: id,
@@ -169,7 +170,7 @@ extension NoticeEntityExtension on NoticeEntity {
         titles: titles,
         contents: contents,
         additionalContents: additionalContents,
-        reactions: reactions,
+        reactions: reactions ?? this.reactions,
         author: author,
         images: images,
         documentUrls: documentUrls,
@@ -179,6 +180,31 @@ extension NoticeEntityExtension on NoticeEntity {
         category: category,
       );
 
+  NoticeEntity addReaction(NoticeReaction reaction) {
+    final reactions = [
+      ...this.reactions.where((e) => e.emoji != reaction.emoji),
+      NoticeReactionEntity(
+        emoji: reaction.emoji,
+        count: reactionsBy(reaction) + 1,
+        isReacted: true,
+      ),
+    ];
+    return copyWith(reactions: reactions);
+  }
+
+  NoticeEntity removeReaction(NoticeReaction reaction) {
+    final newCount = reactionsBy(reaction) - 1;
+    final reactions = [
+      ...this.reactions.where((e) => e.emoji != reaction.emoji),
+      if (newCount > 0)
+        NoticeReactionEntity(
+          emoji: reaction.emoji,
+          count: newCount,
+          isReacted: false,
+        ),
+    ];
+    return copyWith(reactions: reactions);
+  }
   bool get isPublished =>
       publishedAt != null && publishedAt!.isBefore(DateTime.now());
   NoticeEntity addDraft(NoticeWriteDraftEntity draft) => NoticeEntity(

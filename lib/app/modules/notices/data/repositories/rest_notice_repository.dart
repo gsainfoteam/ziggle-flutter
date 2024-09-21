@@ -54,8 +54,7 @@ class RestNoticeRepository implements NoticeRepository {
 
   @override
   Future<NoticeEntity> addReaction(int id, String emoji) {
-    // TODO: implement addReaction
-    throw UnimplementedError();
+    return _api.addReaction(id, emoji);
   }
 
   @override
@@ -118,8 +117,7 @@ class RestNoticeRepository implements NoticeRepository {
 
   @override
   Future<NoticeEntity> removeReaction(int id, String emoji) {
-    // TODO: implement removeReaction
-    throw UnimplementedError();
+    return _api.removeReaction(id, emoji);
   }
 
   Future<TagEntity> _createTag(String name) {
