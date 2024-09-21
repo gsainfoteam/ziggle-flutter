@@ -86,4 +86,5 @@ class NoticeWriteState with _$NoticeWriteState {
 
   bool get hasResult => this is _Done || this is _Error;
   bool get isLoading => this is _Loading;
+  bool get hasChanging => draft.bodies.isNotEmpty;
 }

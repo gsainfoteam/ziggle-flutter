@@ -6,6 +6,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/edit_deadline.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -25,10 +26,12 @@ class NoticeEditPage extends StatelessWidget {
         backLabel: context.t.common.cancel,
         title: Text(context.t.notice.edit.title),
         actions: [
-          ZiggleButton.text(
-            disabled: false,
-            onPressed: _publish,
-            child: Text(context.t.notice.write.publish),
+          BlocBuilder<NoticeWriteBloc, NoticeWriteState>(
+            builder: (context, state) => ZiggleButton.text(
+              disabled: !state.hasChanging,
+              onPressed: _publish,
+              child: Text(context.t.notice.write.publish),
+            ),
           ),
         ],
       ),
