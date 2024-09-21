@@ -214,7 +214,7 @@ class NoticeRenderer extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  if (notice.additionalContents[index].deadline != null)
+                  if (notice.additionalContents[index].deadline != null) ...[
                     Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 15, vertical: 13),
@@ -225,6 +225,7 @@ class NoticeRenderer extends StatelessWidget {
                         ),
                       ),
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
                             context.t.notice.additional.deadline,
@@ -260,6 +261,8 @@ class NoticeRenderer extends StatelessWidget {
                         ],
                       ),
                     ),
+                    const SizedBox(height: 10),
+                  ],
                   Text(
                     notice.additionalContents[index].content,
                     style: const TextStyle(
