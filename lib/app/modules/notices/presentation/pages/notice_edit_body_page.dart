@@ -131,7 +131,11 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
     return Scaffold(
       appBar: ZiggleAppBar(
         leading: ZiggleBackButton(label: context.t.common.cancel),
-        title: Text(context.t.notice.write.title),
+        title: Text(
+          _tabController.index == 0
+              ? context.t.notice.edit.title
+              : context.t.notice.write.title,
+        ),
         actions: [
           ZiggleButton.text(
             disabled: actionDisabled,
@@ -153,13 +157,15 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
           keyboardSeparatorColor: Palette.grayBorder,
           keyboardBarColor: Palette.white,
           actions: [
-            KeyboardActionsItem(focusNode: _koreanTitleFocusNode),
-            KeyboardActionsItem(
-              focusNode: _koreanBodyFocusNode,
-              displayArrows: false,
-              toolbarAlignment: MainAxisAlignment.start,
-              toolbarButtons: _buildToolbarButtons(_koreanBodyController),
-            ),
+            if (!_prevNotice.isPublished) ...[
+              KeyboardActionsItem(focusNode: _koreanTitleFocusNode),
+              KeyboardActionsItem(
+                focusNode: _koreanBodyFocusNode,
+                displayArrows: false,
+                toolbarAlignment: MainAxisAlignment.start,
+                toolbarButtons: _buildToolbarButtons(_koreanBodyController),
+              ),
+            ],
             KeyboardActionsItem(focusNode: _englishTitleFocusNode),
             KeyboardActionsItem(
               focusNode: _englishBodyFocusNode,
