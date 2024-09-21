@@ -74,10 +74,12 @@ class RestNoticeRepository implements NoticeRepository {
       }));
       return notice.copyWith(
         langs: langs,
-        addedTitles: Map.fromEntries(
-            notices.map((entry) => MapEntry(entry.key, entry.value.title))),
-        addedContents: Map.fromEntries(
-            notices.map((entry) => MapEntry(entry.key, entry.value.content))),
+        addedTitles: {
+          for (final entry in notices) entry.key: entry.value.title,
+        },
+        addedContents: {
+          for (final entry in notices) entry.key: entry.value.content,
+        },
       );
     }
     return notice;
