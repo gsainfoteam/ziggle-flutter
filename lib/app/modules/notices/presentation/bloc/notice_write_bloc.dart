@@ -53,6 +53,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
               state.draft.bodies.containsKey(AppLocale.en)) {
             await _repository.writeForeign(
               id: notice.id,
+              deadline: notice.deadline,
               title: state.draft.titles[AppLocale.en]!,
               content: state.draft.bodies[AppLocale.en]!,
               contentId: 1,
@@ -63,14 +64,14 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
             final added = await _repository.addAdditionalContent(
               id: notice.id,
               content: state.draft.additionalContent[AppLocale.ko]!,
-              deadline: state.draft.deadline,
+              deadline: state.draft.deadline ?? notice.currentDeadline,
             );
             if (state.draft.additionalContent.containsKey(AppLocale.en)) {
               await _repository.writeForeign(
                 id: notice.id,
                 contentId: added.lastContentId,
                 content: state.draft.additionalContent[AppLocale.en]!,
-                deadline: state.draft.deadline,
+                deadline: state.draft.deadline ?? notice.currentDeadline,
                 lang: AppLocale.en,
               );
             }

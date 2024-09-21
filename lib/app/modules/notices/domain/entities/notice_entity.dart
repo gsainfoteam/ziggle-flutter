@@ -196,6 +196,7 @@ extension NoticeEntityExtension on NoticeEntity {
           ...additionalContents,
           ...draft.additionalContent.entries.mapIndexed(
             (index, content) => NoticeContentEntity(
+              deadline: draft.deadline ?? currentDeadline,
               id: lastContentId + 1,
               lang: content.key,
               content: content.value,
