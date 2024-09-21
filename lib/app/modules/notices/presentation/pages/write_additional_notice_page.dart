@@ -101,9 +101,10 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (_prevNotice.deadline != null) _buildDeadline(),
+              if (_prevNotice.currentDeadline != null) _buildDeadline(),
               if (_enContent != null) ...[
-                if (_prevNotice.deadline != null) const SizedBox(height: 20),
+                if (_prevNotice.currentDeadline != null)
+                  const SizedBox(height: 20),
                 LanguageToggle(
                   onToggle: (v) => _tabController.animateTo(v ? 1 : 0),
                   value: _tabController.index != 0,
@@ -179,7 +180,7 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                     context: context,
                     title: context.t.notice.write.deadline.title,
                     builder: (context) => DeadlineSelector(
-                      initialDateTime: _prevNotice.deadline!.toLocal(),
+                      initialDateTime: _prevNotice.currentDeadline!.toLocal(),
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
                   );

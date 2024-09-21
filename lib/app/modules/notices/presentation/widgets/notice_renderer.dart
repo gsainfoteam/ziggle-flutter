@@ -31,7 +31,7 @@ class NoticeRenderer extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         const SliverToBoxAdapter(child: SizedBox(height: 9)),
-        if (notice.deadline != null)
+        if (notice.currentDeadline != null)
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
             sliver: SliverToBoxAdapter(
@@ -41,7 +41,7 @@ class NoticeRenderer extends StatelessWidget {
                   horizontal: 18,
                 ),
                 decoration: ShapeDecoration(
-                  color: notice.deadline!.isBefore(DateTime.now())
+                  color: notice.currentDeadline!.isBefore(DateTime.now())
                       ? Palette.grayText
                       : Palette.primary,
                   shape: RoundedRectangleBorder(
@@ -61,7 +61,9 @@ class NoticeRenderer extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      DateFormat.yMd().add_Hm().format(notice.deadline!),
+                      DateFormat.yMd()
+                          .add_Hm()
+                          .format(notice.currentDeadline!.toLocal()),
                       style: const TextStyle(
                         color: Palette.white,
                         fontSize: 18,
@@ -239,8 +241,9 @@ class NoticeRenderer extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                DateFormat.yMd().add_Hm().format(
-                                    notice.additionalContents[index].deadline!),
+                                DateFormat.yMd().add_Hm().format(notice
+                                    .additionalContents[index].deadline!
+                                    .toLocal()),
                                 style: const TextStyle(
                                   fontSize: 18,
                                   color: Palette.black,
@@ -251,7 +254,9 @@ class NoticeRenderer extends StatelessWidget {
                             ],
                           ),
                           Text(
-                            DateFormat.yMd().add_Hm().format(notice.deadline!),
+                            DateFormat.yMd()
+                                .add_Hm()
+                                .format(notice.currentDeadline!.toLocal()),
                             style: const TextStyle(
                               fontSize: 16,
                               color: Palette.primary,

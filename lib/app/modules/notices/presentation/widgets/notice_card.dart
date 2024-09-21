@@ -70,7 +70,8 @@ class NoticeCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (notice.deadline != null) DDay(deadline: notice.deadline!),
+                if (notice.currentDeadline != null)
+                  DDay(deadline: notice.currentDeadline!),
               ],
             ),
             const SizedBox(height: 8),
