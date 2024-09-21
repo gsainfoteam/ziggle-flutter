@@ -1,16 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:ziggle/app/modules/common/presentation/utils/reactive.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/tag_repository.dart';
 
 part 'tag_bloc.freezed.dart';
-
-Stream<T> _throttle<T>(Stream<T> events, Stream<T> Function(T) mapper) => events
-    .throttleTime(const Duration(milliseconds: 500), trailing: true)
-    .distinct()
-    .switchMap(mapper);
 
 @injectable
 class TagBloc extends Bloc<TagEvent, TagState> {
@@ -28,7 +23,7 @@ class TagBloc extends Bloc<TagEvent, TagState> {
           emit(TagState.loaded(tags));
           break;
       }
-    }, transformer: _throttle);
+    }, transformer: makeEventThrottler());
   }
 }
 
