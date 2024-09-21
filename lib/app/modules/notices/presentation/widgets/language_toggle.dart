@@ -39,6 +39,7 @@ class _LanguageToggleState extends State<LanguageToggle>
   late final _animationController = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 100),
+    value: widget.value ? 1 : 0,
   );
   late final _position = CurvedAnimation(
     curve: Curves.easeIn,

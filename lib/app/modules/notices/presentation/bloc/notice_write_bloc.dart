@@ -33,18 +33,61 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
           tags: event.tags,
           deadline: event.deadline,
         ))));
+    on<_AddAdditional>((event, emit) => emit(_Draft(state.draft.copyWith(
+          deadline: event.deadline,
+          additionalContent: event.contents,
+        ))));
     on<_Publish>((event, emit) async {
       try {
         emit(_Loading(state.draft));
-        final notice = await _repository.write(
-          title: state.draft.titles[AppLocale.ko]!,
-          content: state.draft.bodies[AppLocale.ko]!,
-          type: state.draft.type!,
-          tags: state.draft.tags,
-          images: state.draft.images,
-          deadline: state.draft.deadline,
-        );
-        emit(_Done(state.draft, notice));
+        if (event.prevNotice != null) {
+          final notice = event.prevNotice!;
+          if (!notice.isPublished &&
+              state.draft.bodies.containsKey(AppLocale.ko)) {
+            await _repository.modify(
+              id: notice.id,
+              content: state.draft.bodies[AppLocale.ko]!,
+            );
+          }
+          if (!notice.contents.containsKey(AppLocale.en) &&
+              state.draft.bodies.containsKey(AppLocale.en)) {
+            await _repository.writeForeign(
+              id: notice.id,
+              deadline: notice.deadline,
+              title: state.draft.titles[AppLocale.en]!,
+              content: state.draft.bodies[AppLocale.en]!,
+              contentId: 1,
+              lang: AppLocale.en,
+            );
+          }
+          if (state.draft.additionalContent.isNotEmpty) {
+            final added = await _repository.addAdditionalContent(
+              id: notice.id,
+              content: state.draft.additionalContent[AppLocale.ko]!,
+              deadline: state.draft.deadline ?? notice.currentDeadline,
+            );
+            if (state.draft.additionalContent.containsKey(AppLocale.en)) {
+              await _repository.writeForeign(
+                id: notice.id,
+                contentId: added.lastContentId,
+                content: state.draft.additionalContent[AppLocale.en]!,
+                deadline: state.draft.deadline ?? notice.currentDeadline,
+                lang: AppLocale.en,
+              );
+            }
+          }
+          emit(_Done(state.draft, await _repository.getNotice(notice.id)));
+        } else {
+          final notice = await _repository.write(
+            title: state.draft.titles[AppLocale.ko]!,
+            content: state.draft.bodies[AppLocale.ko]!,
+            type: state.draft.type!,
+            tags: state.draft.tags,
+            images: state.draft.images,
+            deadline: state.draft.deadline,
+          );
+          emit(_Done(state.draft, notice));
+        }
       } catch (e) {
         emit(_Error(state.draft, e.toString()));
       }
@@ -64,7 +107,11 @@ class NoticeWriteEvent {
     required List<String> tags,
     DateTime? deadline,
   }) = _SetConfig;
-  const factory NoticeWriteEvent.publish() = _Publish;
+  const factory NoticeWriteEvent.addAdditional({
+    DateTime? deadline,
+    required Map<AppLocale, String> contents,
+  }) = _AddAdditional;
+  const factory NoticeWriteEvent.publish([NoticeEntity? prevNotice]) = _Publish;
 }
 
 @freezed
@@ -86,4 +133,6 @@ class NoticeWriteState with _$NoticeWriteState {
 
   bool get hasResult => this is _Done || this is _Error;
   bool get isLoading => this is _Loading;
+  bool get hasChanging =>
+      draft.bodies.isNotEmpty || draft.additionalContent.isNotEmpty;
 }

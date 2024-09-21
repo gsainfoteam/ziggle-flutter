@@ -17,7 +17,7 @@ class NoticeContentEntity {
   final DateTime createdAt;
 }
 
-extension NoticeContentsEntityX on List<NoticeContentEntity> {
+extension NoticeContentsEntityX on Iterable<NoticeContentEntity> {
   Iterable<NoticeContentEntity> localesBy(AppLocale locale) =>
       where((e) => e.lang == locale);
   Iterable<NoticeContentEntity> get locales =>

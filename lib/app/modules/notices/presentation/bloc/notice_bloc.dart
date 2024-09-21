@@ -28,6 +28,12 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
       await _repository.deleteNotice(state.entity!.id);
       emit(const _Deleted());
     });
+    on<_GetFull>((event, emit) async {
+      if (state.entity == null) return;
+      emit(_Loading(state.entity!));
+      final notice = await _repository.getNotice(state.entity!.id, true);
+      emit(_Loaded(notice));
+    });
   }
 }
 
@@ -36,6 +42,7 @@ sealed class NoticeEvent with _$NoticeEvent {
   const factory NoticeEvent.load(NoticeEntity entity) = _Load;
   const factory NoticeEvent.sendNotification() = _SendNotification;
   const factory NoticeEvent.delete() = _Delete;
+  const factory NoticeEvent.getFull() = _GetFull;
 }
 
 @freezed

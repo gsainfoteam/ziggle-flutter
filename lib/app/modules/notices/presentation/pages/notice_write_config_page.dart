@@ -5,11 +5,11 @@ import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_bottom_sheet.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_date_time_picker.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/tag.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -176,7 +176,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                   final dateTime = await ZiggleBottomSheet.show<DateTime>(
                     context: context,
                     title: context.t.notice.write.deadline.title,
-                    builder: (context) => _DeadlineSelector(
+                    builder: (context) => DeadlineSelector(
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
                   );
@@ -193,7 +193,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 final dateTime = await ZiggleBottomSheet.show<DateTime>(
                   context: context,
                   title: context.t.notice.write.deadline.title,
-                  builder: (context) => _DeadlineSelector(
+                  builder: (context) => DeadlineSelector(
                     initialDateTime: _deadline,
                     onChanged: (v) => Navigator.pop(context, v),
                   ),
@@ -392,58 +392,6 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
           ],
         ],
       ),
-    );
-  }
-}
-
-class _DeadlineSelector extends StatefulWidget {
-  const _DeadlineSelector({required this.onChanged, this.initialDateTime});
-
-  final ValueChanged<DateTime?> onChanged;
-  final DateTime? initialDateTime;
-
-  @override
-  State<_DeadlineSelector> createState() => __DeadlineSelectorState();
-}
-
-class __DeadlineSelectorState extends State<_DeadlineSelector> {
-  late DateTime? _dateTime = widget.initialDateTime;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: ZiggleDateTimePicker(
-            dateTime: _dateTime,
-            onChange: (v) => setState(() => _dateTime = v),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Row(
-          children: [
-            Expanded(
-              child: ZiggleButton.cta(
-                onPressed: () => widget.onChanged(null),
-                outlined: true,
-                child: Text(context.t.common.cancel),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: ZiggleButton.cta(
-                onPressed: _dateTime == null
-                    ? null
-                    : () => widget.onChanged(_dateTime),
-                disabled: _dateTime == null,
-                child: Text(context.t.notice.write.deadline.confirm),
-              ),
-            ),
-          ],
-        )
-      ],
     );
   }
 }
