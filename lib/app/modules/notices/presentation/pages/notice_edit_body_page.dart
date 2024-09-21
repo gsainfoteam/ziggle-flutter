@@ -16,7 +16,6 @@ import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/edit_deadline.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
-import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -95,7 +94,7 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
 
   void _next() {
     _save();
-    const NoticeWriteConfigRoute().push(context);
+    context.maybePop();
   }
 
   void _save() {
