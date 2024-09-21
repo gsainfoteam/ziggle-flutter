@@ -48,8 +48,10 @@ class GroupListItem extends StatelessWidget {
               ),
             ),
           ),
-          if (isCertificated) const SizedBox(width: 5),
-          if (isCertificated) Assets.icons.certificatedBadge.svg(),
+          if (isCertificated) ...[
+            const SizedBox(width: 5),
+            Assets.icons.certificatedBadge.svg(),
+          ]
         ],
       ),
     );
