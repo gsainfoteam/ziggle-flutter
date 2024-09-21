@@ -143,5 +143,9 @@
       "title": "Add Notice",
       "deadline(rich)": "Change Deadline ${small((Optional))}"
     }
+  },
+  "additional": {
+    "title": "Additional Notice",
+    "deadline": "Change Deadline"
   }
 }

@@ -192,6 +192,89 @@ class NoticeRenderer extends StatelessWidget {
             ),
           ),
         ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+          sliver: SliverList.separated(
+            itemBuilder: (context, index) => Container(
+              padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: Palette.grayLight,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    context.t.notice.additional.title,
+                    style: const TextStyle(
+                      height: 1,
+                      fontSize: 20,
+                      color: Palette.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  if (notice.additionalContents[index].deadline != null)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 13),
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15)),
+                        border: Border.fromBorderSide(
+                          BorderSide(color: Palette.primary),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            context.t.notice.additional.deadline,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Palette.primary,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              Text(
+                                DateFormat.yMd().add_Hm().format(
+                                    notice.additionalContents[index].deadline!),
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Palette.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Assets.icons.nextArrow.svg(width: 20, height: 20),
+                            ],
+                          ),
+                          Text(
+                            DateFormat.yMd().add_Hm().format(notice.deadline!),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Palette.primary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  Text(
+                    notice.additionalContents[index].content,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: Palette.grayText,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            separatorBuilder: (_, __) => const SizedBox(height: 18),
+            itemCount: notice.additionalContents.length,
+          ),
+        ),
         const SliverToBoxAdapter(child: SizedBox(height: 9)),
       ],
     );
