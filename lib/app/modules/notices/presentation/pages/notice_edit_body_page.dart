@@ -89,7 +89,6 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
 
   @override
   void dispose() {
-    super.dispose();
     _koreanTitleController.dispose();
     _koreanBodyController.dispose();
     _koreanTitleFocusNode.dispose();
@@ -99,6 +98,7 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
     _englishTitleFocusNode.dispose();
     _englishBodyFocusNode.dispose();
     _tabController.dispose();
+    super.dispose();
   }
 
   void _next() {
