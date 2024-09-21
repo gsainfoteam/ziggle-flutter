@@ -14,7 +14,6 @@ class NoticeEntity {
   final int id;
   final int views;
   final List<AppLocale> langs;
-  @Deprecated('Use currentDeadline instead')
   final DateTime? deadline;
   final DateTime? currentDeadline;
   final DateTime createdAt;
@@ -162,7 +161,6 @@ extension NoticeEntityExtension on NoticeEntity {
         id: id,
         views: views,
         langs: langs,
-        // ignore: deprecated_member_use_from_same_package
         deadline: deadline,
         currentDeadline: currentDeadline,
         createdAt: createdAt,
@@ -187,7 +185,6 @@ extension NoticeEntityExtension on NoticeEntity {
         id: id,
         views: views,
         langs: langs,
-        // ignore: deprecated_member_use_from_same_package
         deadline: deadline,
         currentDeadline: currentDeadline,
         createdAt: createdAt,
