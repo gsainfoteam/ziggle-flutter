@@ -74,8 +74,6 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
             child: Column(
               children: [
-                _buildChangeAccount(),
-                const SizedBox(height: 25),
                 _buildDeadline(),
                 const SizedBox(height: 25),
                 _buildCategory(),
@@ -91,44 +89,6 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildChangeAccount() {
-    return ZigglePressable(
-      onPressed: () {},
-      decoration: const BoxDecoration(
-        color: Palette.grayLight,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-        child: Row(
-          children: [
-            Assets.images.defaultProfile.image(width: 40),
-            const SizedBox(width: 10),
-            const Text(
-              '홍길동',
-              style: TextStyle(
-                color: Palette.black,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            const Spacer(),
-            Text(
-              context.t.notice.write.changeAccount,
-              style: const TextStyle(
-                color: Palette.grayText,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            const SizedBox(width: 5),
-            Assets.icons.navArrowRight.svg(),
-          ],
         ),
       ),
     );
