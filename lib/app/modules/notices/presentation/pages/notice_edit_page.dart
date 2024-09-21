@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
@@ -17,7 +18,21 @@ import 'package:ziggle/gen/strings.g.dart';
 class NoticeEditPage extends StatelessWidget {
   const NoticeEditPage({super.key});
 
-  void _publish() {}
+  Future<void> _publish(BuildContext context) async {
+    final bloc = context.read<NoticeWriteBloc>();
+    final blocker = bloc.stream.firstWhere((state) => state.hasResult);
+    bloc.add(NoticeWriteEvent.publish(
+      context.read<NoticeBloc>().state.entity!,
+    ));
+    final state = await blocker;
+    if (!context.mounted) return;
+    state.mapOrNull(
+      done: (state) {
+        context.maybePop();
+      },
+      error: (state) => context.showToast(state.error),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +44,7 @@ class NoticeEditPage extends StatelessWidget {
           BlocBuilder<NoticeWriteBloc, NoticeWriteState>(
             builder: (context, state) => ZiggleButton.text(
               disabled: !state.hasChanging,
-              onPressed: _publish,
+              onPressed: () => _publish(context),
               child: Text(context.t.notice.write.publish),
             ),
           ),

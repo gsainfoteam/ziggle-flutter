@@ -36,15 +36,36 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
     on<_Publish>((event, emit) async {
       try {
         emit(_Loading(state.draft));
-        final notice = await _repository.write(
-          title: state.draft.titles[AppLocale.ko]!,
-          content: state.draft.bodies[AppLocale.ko]!,
-          type: state.draft.type!,
-          tags: state.draft.tags,
-          images: state.draft.images,
-          deadline: state.draft.deadline,
-        );
-        emit(_Done(state.draft, notice));
+        if (event.prevNotice != null) {
+          final notice = event.prevNotice!;
+          if (!notice.isPublished &&
+              state.draft.bodies.containsKey(AppLocale.ko)) {
+            await _repository.modify(
+              id: notice.id,
+              content: state.draft.bodies[AppLocale.ko]!,
+            );
+          }
+          if (!notice.contents.containsKey(AppLocale.en) &&
+              state.draft.bodies.containsKey(AppLocale.en)) {
+            await _repository.writeForeign(
+              id: notice.id,
+              content: state.draft.bodies[AppLocale.en]!,
+              contentId: 1,
+              lang: AppLocale.en,
+            );
+          }
+          emit(_Done(state.draft, await _repository.getNotice(notice.id)));
+        } else {
+          final notice = await _repository.write(
+            title: state.draft.titles[AppLocale.ko]!,
+            content: state.draft.bodies[AppLocale.ko]!,
+            type: state.draft.type!,
+            tags: state.draft.tags,
+            images: state.draft.images,
+            deadline: state.draft.deadline,
+          );
+          emit(_Done(state.draft, notice));
+        }
       } catch (e) {
         emit(_Error(state.draft, e.toString()));
       }
@@ -64,7 +85,7 @@ class NoticeWriteEvent {
     required List<String> tags,
     DateTime? deadline,
   }) = _SetConfig;
-  const factory NoticeWriteEvent.publish() = _Publish;
+  const factory NoticeWriteEvent.publish([NoticeEntity? prevNotice]) = _Publish;
 }
 
 @freezed
