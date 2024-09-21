@@ -33,21 +33,30 @@ class NoticeEditBodyPage extends StatefulWidget {
 class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
     with SingleTickerProviderStateMixin {
   late final _prevNotice = context.read<NoticeBloc>().state.entity!;
-  late final _koreanTitleController =
-      TextEditingController(text: _prevNotice.titles[AppLocale.ko] ?? '');
+  late final _draft = context.read<NoticeWriteBloc>().state.draft;
+  late final _koreanTitleController = TextEditingController(
+      text: _draft.titles[AppLocale.ko] ??
+          _prevNotice.titles[AppLocale.ko] ??
+          '');
   late final _koreanBodyController = QuillController(
-    document: Document.fromDelta(
-        HtmlToDelta().convert(_prevNotice.contents[AppLocale.ko] ?? '<br/>')),
+    document: Document.fromDelta(HtmlToDelta().convert(
+        _draft.bodies[AppLocale.ko] ??
+            _prevNotice.contents[AppLocale.ko] ??
+            '<br/>')),
     selection: const TextSelection.collapsed(offset: 0),
     readOnly: _prevNotice.isPublished,
   );
   final _koreanTitleFocusNode = FocusNode();
   final _koreanBodyFocusNode = FocusNode();
-  late final _englishTitleController =
-      TextEditingController(text: _prevNotice.titles[AppLocale.en] ?? '');
+  late final _englishTitleController = TextEditingController(
+      text: _draft.titles[AppLocale.en] ??
+          _prevNotice.titles[AppLocale.en] ??
+          '');
   late final _englishBodyController = QuillController(
-    document: Document.fromDelta(
-        HtmlToDelta().convert(_prevNotice.contents[AppLocale.en] ?? '<br/>')),
+    document: Document.fromDelta(HtmlToDelta().convert(
+        _draft.bodies[AppLocale.en] ??
+            _prevNotice.contents[AppLocale.en] ??
+            '<br/>')),
     selection: const TextSelection.collapsed(offset: 0),
     readOnly: _prevNotice.contents[AppLocale.en] != null,
   );
