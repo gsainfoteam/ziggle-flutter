@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
@@ -31,7 +32,7 @@ class NoticeRenderer extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         const SliverToBoxAdapter(child: SizedBox(height: 9)),
-        if (notice.deadline != null)
+        if (notice.currentDeadline != null)
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
             sliver: SliverToBoxAdapter(
@@ -41,7 +42,7 @@ class NoticeRenderer extends StatelessWidget {
                   horizontal: 18,
                 ),
                 decoration: ShapeDecoration(
-                  color: notice.deadline!.isBefore(DateTime.now())
+                  color: notice.currentDeadline!.isBefore(DateTime.now())
                       ? Palette.grayText
                       : Palette.primary,
                   shape: RoundedRectangleBorder(
@@ -61,7 +62,9 @@ class NoticeRenderer extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      DateFormat.yMd().add_Hm().format(notice.deadline!),
+                      DateFormat.yMd()
+                          .add_Hm()
+                          .format(notice.currentDeadline!.toLocal()),
                       style: const TextStyle(
                         color: Palette.white,
                         fontSize: 18,
@@ -113,7 +116,7 @@ class NoticeRenderer extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
           sliver: SliverToBoxAdapter(
             child: Text(
-              notice.title,
+              notice.titles.current,
               style: const TextStyle(
                 color: Palette.black,
                 fontSize: 25,
@@ -160,7 +163,7 @@ class NoticeRenderer extends StatelessWidget {
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
           sliver: SliverToBoxAdapter(
-            child: NoticeBody(body: notice.content),
+            child: NoticeBody(body: notice.contents.current),
           ),
         ),
         SliverPadding(
@@ -196,6 +199,106 @@ class NoticeRenderer extends StatelessWidget {
             ),
           ),
         ),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+          sliver: SliverList.separated(
+            itemBuilder: (context, index) {
+              final previousDeadline = index == 0
+                  ? notice.deadline
+                  : notice.additionalContents.locales
+                      .elementAt(index - 1)
+                      .deadline;
+              final additional = notice.additionalContents[index];
+              return Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  color: Palette.grayLight,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      context.t.notice.additional.title,
+                      style: const TextStyle(
+                        height: 1,
+                        fontSize: 20,
+                        color: Palette.black,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    if (additional.deadline == null &&
+                        additional.deadline != previousDeadline) ...[
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 15, vertical: 13),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          border: Border.fromBorderSide(
+                            BorderSide(color: Palette.primary),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              context.t.notice.additional.deadline,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Palette.primary,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Row(
+                              children: [
+                                Text(
+                                  DateFormat.yMd()
+                                      .add_Hm()
+                                      .format(previousDeadline!.toLocal()),
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Palette.black,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Assets.icons.nextArrow
+                                    .svg(width: 20, height: 20),
+                              ],
+                            ),
+                            Text(
+                              DateFormat.yMd()
+                                  .add_Hm()
+                                  .format(additional.deadline!.toLocal()),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Palette.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                    Text(
+                      notice.additionalContents[index].content,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        color: Palette.grayText,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+            separatorBuilder: (_, __) => const SizedBox(height: 18),
+            itemCount: notice.additionalContents.locales.length,
+          ),
+        ),
         const SliverToBoxAdapter(child: SizedBox(height: 9)),
       ],
     );
@@ -215,7 +318,7 @@ class NoticeRenderer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _AuthorSettingAction(
-              onPressed: () => NoticeEditRoute(notice: notice).push(context),
+              onPressed: () => const NoticeEditRoute().push(context),
               icon: Assets.icons.editPencil,
               text: context.t.notice.settings.edit.action,
             ),

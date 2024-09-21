@@ -135,5 +135,9 @@
       "title": "추가공지 작성",
       "deadline(rich)": "마감시각 변경 ${small((선택))}"
     }
+  },
+  "additional": {
+    "title": "추가공지",
+    "deadline": "마감시각 변경"
   }
 }

@@ -15,7 +15,7 @@ abstract class NoticeRepository {
     NoticeType type = NoticeType.all,
   });
 
-  Future<NoticeEntity> getNotice(int id);
+  Future<NoticeEntity> getNotice(int id, [bool getAllLanguages = false]);
 
   Future<NoticeEntity> addReaction(int id, String emoji);
   Future<NoticeEntity> removeReaction(int id, String emoji);
@@ -40,7 +40,6 @@ abstract class NoticeRepository {
     required int id,
     required String content,
     DateTime? deadline,
-    bool? notifyToAll,
   });
   Future<NoticeEntity> writeForeign({
     required int id,

@@ -17,6 +17,7 @@ class NoticeWriteDraftEntity with _$NoticeWriteDraftEntity {
     NoticeType? type,
     @Default([]) List<String> tags,
     DateTime? deadline,
+    @Default({}) Map<AppLocale, String> additionalContent,
   }) = _NoticeWriteDraftEntity;
 
   bool get isValid =>

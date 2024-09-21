@@ -250,10 +250,10 @@ packages:
     dependency: transitive
     description:
       name: dart_quill_delta
-      sha256: cb55a027866c30ab7f9d917ff48ea21a9e6045f9ac58301ad066d74879ec5c9c
+      sha256: "3046b617add2f66bf3124e2144d06f64d0527cb66bffbb6ba1bb4461ef2c43aa"
       url: "https://pub.dev"
     source: hosted
-    version: "10.5.13"
+    version: "10.6.4"
   dart_style:
     dependency: transitive
     description:
@@ -335,7 +335,7 @@ packages:
     source: hosted
     version: "2.1.0"
   dynamic_fonts:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: dynamic_fonts
       sha256: "138aaaec03c31bf10ba634d9ea8ba07588b46d9364c3995f29768c38d1c5b0b2"
@@ -665,13 +665,13 @@ packages:
     source: hosted
     version: "10.5.13"
   flutter_quill_delta_from_html:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_quill_delta_from_html
-      sha256: "5461df689818d34237f7a5109763e1e4663b973c2a44a46c398bbd46381d297a"
+      sha256: fd6e18af21d35277524302d95e24cd3ebedc59b976ddb4605aaf775d38892d40
       url: "https://pub.dev"
     source: hosted
-    version: "1.4.0"
+    version: "1.4.1"
   flutter_secure_storage:
     dependency: "direct main"
     description:

@@ -19,8 +19,8 @@ class NoticeEntity {
   final DateTime createdAt;
   final DateTime? deletedAt;
   final List<String> tags;
-  final String title;
-  final String content;
+  final Map<AppLocale, String> titles;
+  final Map<AppLocale, String> contents;
   final List<NoticeContentEntity> additionalContents;
   final List<NoticeReactionEntity> reactions;
   final AuthorEntity author;
@@ -40,8 +40,8 @@ class NoticeEntity {
     required this.createdAt,
     required this.deletedAt,
     required this.tags,
-    required this.title,
-    required this.content,
+    required this.titles,
+    required this.contents,
     required this.additionalContents,
     required this.reactions,
     required this.author,
@@ -62,8 +62,8 @@ class NoticeEntity {
         createdAt: DateTime.now(),
         deletedAt: null,
         tags: [],
-        title: '',
-        content: '',
+        titles: {LocaleSettings.currentLocale: ''},
+        contents: {LocaleSettings.currentLocale: ''},
         additionalContents: [],
         reactions: [],
         images: [],
@@ -95,8 +95,8 @@ class NoticeEntity {
         createdAt: createdAt,
         deletedAt: null,
         tags: tags,
-        title: title,
-        content: content,
+        titles: {LocaleSettings.currentLocale: title},
+        contents: {LocaleSettings.currentLocale: content},
         additionalContents: [],
         reactions: reactions,
         author: AuthorEntity(name: authorName, uuid: ''),
@@ -120,8 +120,8 @@ class NoticeEntity {
         createdAt: DateTime.now(),
         deletedAt: null,
         tags: draft.tags,
-        title: draft.titles[AppLocale.ko] ?? '',
-        content: draft.bodies[AppLocale.ko] ?? '',
+        titles: draft.titles,
+        contents: draft.bodies,
         additionalContents: [],
         reactions: [],
         author: AuthorEntity(name: user.name, uuid: ''),
@@ -152,6 +152,8 @@ extension NoticeEntityExtension on NoticeEntity {
 
   bool get isCertified => false;
 
+  int get lastContentId => maxBy(additionalContents, (c) => c.id)?.id ?? 1;
+
   NoticeEntity copyWith({
     DateTime? publishedAt,
     List<NoticeReactionEntity>? reactions,
@@ -165,8 +167,8 @@ extension NoticeEntityExtension on NoticeEntity {
         createdAt: createdAt,
         deletedAt: deletedAt,
         tags: tags,
-        title: title,
-        content: content,
+        titles: titles,
+        contents: contents,
         additionalContents: additionalContents,
         reactions: reactions ?? this.reactions,
         author: author,
@@ -203,4 +205,42 @@ extension NoticeEntityExtension on NoticeEntity {
     ];
     return copyWith(reactions: reactions);
   }
+  bool get isPublished =>
+      publishedAt != null && publishedAt!.isBefore(DateTime.now());
+  NoticeEntity addDraft(NoticeWriteDraftEntity draft) => NoticeEntity(
+        id: id,
+        views: views,
+        langs: langs,
+        deadline: deadline,
+        currentDeadline: currentDeadline,
+        createdAt: createdAt,
+        deletedAt: deletedAt,
+        tags: tags,
+        titles: draft.titles.isNotEmpty ? draft.titles : titles,
+        contents: draft.bodies.isNotEmpty ? draft.bodies : contents,
+        additionalContents: [
+          ...additionalContents,
+          ...draft.additionalContent.entries.mapIndexed(
+            (index, content) => NoticeContentEntity(
+              deadline: draft.deadline ?? currentDeadline,
+              id: lastContentId + 1,
+              lang: content.key,
+              content: content.value,
+              createdAt: DateTime.now(),
+            ),
+          ),
+        ],
+        reactions: reactions,
+        author: author,
+        images: images,
+        documentUrls: documentUrls,
+        isReminded: isReminded,
+        publishedAt: publishedAt,
+        groupName: groupName,
+        category: category,
+      );
+}
+
+extension LanguageContentX on Map<AppLocale, String> {
+  String get current => this[LocaleSettings.currentLocale] ?? values.first;
 }

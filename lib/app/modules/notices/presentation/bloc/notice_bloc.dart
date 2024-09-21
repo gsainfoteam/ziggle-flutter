@@ -39,6 +39,11 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
       emit(_Loaded(state.entity!.removeReaction(event.reaction)));
       await _repository.removeReaction(state.entity!.id, event.reaction.emoji);
       emit(_Loaded(await _repository.getNotice(state.entity!.id)));
+    on<_GetFull>((event, emit) async {
+      if (state.entity == null) return;
+      emit(_Loading(state.entity!));
+      final notice = await _repository.getNotice(state.entity!.id, true);
+      emit(_Loaded(notice));
     });
   }
 }
@@ -51,6 +56,7 @@ sealed class NoticeEvent with _$NoticeEvent {
   const factory NoticeEvent.addReaction(NoticeReaction reaction) = _AddReaction;
   const factory NoticeEvent.removeReaction(NoticeReaction reaction) =
       _RemoveReaction;
+  const factory NoticeEvent.getFull() = _GetFull;
 }
 
 @freezed
