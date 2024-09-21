@@ -33,6 +33,10 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
           tags: event.tags,
           deadline: event.deadline,
         ))));
+    on<_AddAdditional>((event, emit) => emit(_Draft(state.draft.copyWith(
+          deadline: event.deadline,
+          additionalContent: event.contents,
+        ))));
     on<_Publish>((event, emit) async {
       try {
         emit(_Loading(state.draft));
@@ -86,6 +90,10 @@ class NoticeWriteEvent {
     required List<String> tags,
     DateTime? deadline,
   }) = _SetConfig;
+  const factory NoticeWriteEvent.addAdditional({
+    DateTime? deadline,
+    required Map<AppLocale, String> contents,
+  }) = _AddAdditional;
   const factory NoticeWriteEvent.publish([NoticeEntity? prevNotice]) = _Publish;
 }
 
@@ -108,5 +116,6 @@ class NoticeWriteState with _$NoticeWriteState {
 
   bool get hasResult => this is _Done || this is _Error;
   bool get isLoading => this is _Loading;
-  bool get hasChanging => draft.bodies.isNotEmpty;
+  bool get hasChanging =>
+      draft.bodies.isNotEmpty || draft.additionalContent.isNotEmpty;
 }

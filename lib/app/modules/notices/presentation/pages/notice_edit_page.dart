@@ -84,7 +84,8 @@ class NoticeEditPage extends StatelessWidget {
                   disabled: false,
                   icon: Assets.icons.add,
                   title: context.t.notice.edit.additional.action,
-                  onPressed: () {},
+                  onPressed: () =>
+                      const WriteAdditionalNoticeRoute().push(context),
                 ),
                 const SizedBox(height: 25),
                 ZiggleButton.cta(
