@@ -90,7 +90,7 @@ class NoticeEditPage extends StatelessWidget {
                 const SizedBox(height: 25),
                 ZiggleButton.cta(
                   emphasize: false,
-                  onPressed: () {},
+                  onPressed: () => const NoticeEditPreviewRoute().push(context),
                   child: Text(context.t.notice.write.preview),
                 ),
               ],
