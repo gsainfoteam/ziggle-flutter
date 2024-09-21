@@ -26,6 +26,7 @@ class NoticeEditPage extends StatelessWidget {
     ));
     final state = await blocker;
     if (!context.mounted) return;
+    context.read<NoticeBloc>().add(const NoticeEvent.getFull());
     state.mapOrNull(
       done: (state) {
         context.maybePop();
