@@ -12,6 +12,8 @@ class ZiggleInput extends StatelessWidget {
     this.showBorder = true,
     this.style,
     this.focusNode,
+    this.minLines,
+    this.maxLines = 1,
   });
 
   final TextEditingController? controller;
@@ -22,6 +24,8 @@ class ZiggleInput extends StatelessWidget {
   final bool showBorder;
   final TextStyle? style;
   final FocusNode? focusNode;
+  final int? minLines;
+  final int? maxLines;
 
   OutlineInputBorder _buildInputBorder(Color color) {
     if (!showBorder) {
@@ -52,9 +56,10 @@ class ZiggleInput extends StatelessWidget {
           ),
           const SizedBox(height: 10),
         ],
-        SizedBox(
-          height: 48,
+        Expanded(
           child: TextFormField(
+            minLines: minLines,
+            maxLines: maxLines,
             focusNode: focusNode,
             controller: controller,
             readOnly: disabled,
