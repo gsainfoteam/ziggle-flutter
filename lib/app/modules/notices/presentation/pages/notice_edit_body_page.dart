@@ -11,6 +11,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/edit_deadline.dart';
@@ -35,16 +36,22 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
   late final _prevNotice = context.read<NoticeBloc>().state.entity!;
   late final _koreanTitleController =
       TextEditingController(text: _prevNotice.titles[AppLocale.ko] ?? '');
-  late final _koreanBodyController = QuillController.basic()
-    ..document = Document.fromDelta(
-        HtmlToDelta().convert(_prevNotice.contents[AppLocale.ko] ?? '<br/>'));
+  late final _koreanBodyController = QuillController(
+    document: Document.fromDelta(
+        HtmlToDelta().convert(_prevNotice.contents[AppLocale.ko] ?? '<br/>')),
+    selection: const TextSelection.collapsed(offset: 0),
+    readOnly: _prevNotice.isPublished,
+  );
   final _koreanTitleFocusNode = FocusNode();
   final _koreanBodyFocusNode = FocusNode();
   late final _englishTitleController =
       TextEditingController(text: _prevNotice.titles[AppLocale.en] ?? '');
-  late final _englishBodyController = QuillController.basic()
-    ..document = Document.fromDelta(
-        HtmlToDelta().convert(_prevNotice.contents[AppLocale.en] ?? '<br/>'));
+  late final _englishBodyController = QuillController(
+    document: Document.fromDelta(
+        HtmlToDelta().convert(_prevNotice.contents[AppLocale.en] ?? '<br/>')),
+    selection: const TextSelection.collapsed(offset: 0),
+    readOnly: _prevNotice.contents[AppLocale.en] != null,
+  );
   final _englishTitleFocusNode = FocusNode();
   final _englishBodyFocusNode = FocusNode();
   late final _tabController = TabController(
@@ -188,12 +195,14 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   _Editor(
+                    titleDisabled: true,
                     titleFocusNode: _koreanTitleFocusNode,
                     bodyFocusNode: _koreanBodyFocusNode,
                     titleController: _koreanTitleController,
                     bodyController: _koreanBodyController,
                   ),
                   _Editor(
+                    titleDisabled: _prevNotice.contents[AppLocale.en] != null,
                     onTranslate: _englishBodyController
                             .plainTextEditingValue.text
                             .trim()
@@ -309,6 +318,7 @@ class _Editor extends StatelessWidget {
     required this.titleController,
     required this.bodyController,
     this.onTranslate,
+    required this.titleDisabled,
   });
 
   final FocusNode titleFocusNode;
@@ -316,6 +326,7 @@ class _Editor extends StatelessWidget {
   final TextEditingController titleController;
   final QuillController bodyController;
   final VoidCallback? onTranslate;
+  final bool titleDisabled;
 
   @override
   Widget build(BuildContext context) {
@@ -324,6 +335,7 @@ class _Editor extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: ZiggleInput(
+            disabled: titleDisabled,
             controller: titleController,
             focusNode: titleFocusNode,
             showBorder: false,
@@ -362,19 +374,22 @@ class _Editor extends StatelessWidget {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: QuillEditor.basic(
-              focusNode: bodyFocusNode,
-              controller: bodyController,
-              configurations: QuillEditorConfigurations(
-                placeholder: context.t.notice.write.bodyHint,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                customStyles: const DefaultStyles(
-                  placeHolder: DefaultTextBlockStyle(
-                    TextStyle(fontSize: 16, color: Palette.gray),
-                    HorizontalSpacing.zero,
-                    VerticalSpacing.zero,
-                    VerticalSpacing.zero,
-                    null,
+            child: Opacity(
+              opacity: bodyController.readOnly ? 0.5 : 1,
+              child: QuillEditor.basic(
+                focusNode: bodyFocusNode,
+                controller: bodyController,
+                configurations: QuillEditorConfigurations(
+                  placeholder: context.t.notice.write.bodyHint,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  customStyles: const DefaultStyles(
+                    placeHolder: DefaultTextBlockStyle(
+                      TextStyle(fontSize: 16, color: Palette.gray),
+                      HorizontalSpacing.zero,
+                      VerticalSpacing.zero,
+                      VerticalSpacing.zero,
+                      null,
+                    ),
                   ),
                 ),
               ),
