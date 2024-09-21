@@ -42,45 +42,45 @@ class ZiggleInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final field = TextFormField(
+      minLines: minLines,
+      maxLines: maxLines,
+      focusNode: focusNode,
+      controller: controller,
+      readOnly: disabled,
+      onChanged: onChanged,
+      style: TextStyle(
+        color: disabled ? Palette.gray : Palette.black,
+      ).merge(style),
+      decoration: InputDecoration(
+        contentPadding: showBorder
+            ? const EdgeInsets.symmetric(vertical: 10, horizontal: 16)
+            : const EdgeInsets.symmetric(vertical: 10),
+        hintText: hintText,
+        hintStyle: const TextStyle(color: Palette.gray),
+        enabledBorder: _buildInputBorder(Palette.gray),
+        disabledBorder:
+            _buildInputBorder(disabled ? Palette.gray : Palette.primary),
+        focusedBorder:
+            _buildInputBorder(disabled ? Palette.gray : Palette.primary),
+      ),
+    );
+
+    if (label == null) return field;
     return Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        if (label != null) ...[
-          DefaultTextStyle.merge(
-            style: const TextStyle(
-              color: Palette.black,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-            child: label!,
+        DefaultTextStyle.merge(
+          style: const TextStyle(
+            color: Palette.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           ),
-          const SizedBox(height: 10),
-        ],
-        Expanded(
-          child: TextFormField(
-            minLines: minLines,
-            maxLines: maxLines,
-            focusNode: focusNode,
-            controller: controller,
-            readOnly: disabled,
-            onChanged: onChanged,
-            style: TextStyle(
-              color: disabled ? Palette.gray : Palette.black,
-            ).merge(style),
-            decoration: InputDecoration(
-              contentPadding: showBorder
-                  ? const EdgeInsets.symmetric(vertical: 10, horizontal: 16)
-                  : const EdgeInsets.symmetric(vertical: 10),
-              hintText: hintText,
-              hintStyle: const TextStyle(color: Palette.gray),
-              enabledBorder: _buildInputBorder(Palette.gray),
-              disabledBorder:
-                  _buildInputBorder(disabled ? Palette.gray : Palette.primary),
-              focusedBorder:
-                  _buildInputBorder(disabled ? Palette.gray : Palette.primary),
-            ),
-          ),
+          child: label!,
         ),
+        const SizedBox(height: 10),
+        field,
       ],
     );
   }
