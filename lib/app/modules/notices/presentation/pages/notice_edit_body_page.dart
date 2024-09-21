@@ -7,11 +7,13 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/repositories/ai_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/edit_deadline.dart';
@@ -222,7 +224,20 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
                             .trim()
                             .isNotEmpty
                         ? null
-                        : () {},
+                        : () async {
+                            final result = await sl<AiRepository>().translate(
+                              text: QuillDeltaToHtmlConverter(
+                                _koreanBodyController.document
+                                    .toDelta()
+                                    .toJson(),
+                              ).convert(),
+                              targetLang: AppLocale.en,
+                            );
+                            _englishBodyController.document =
+                                Document.fromDelta(
+                              HtmlToDelta().convert(result),
+                            );
+                          },
                     titleFocusNode: _englishTitleFocusNode,
                     bodyFocusNode: _englishBodyFocusNode,
                     titleController: _englishTitleController,

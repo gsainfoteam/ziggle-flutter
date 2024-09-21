@@ -7,13 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
+import 'package:ziggle/app/modules/notices/domain/repositories/ai_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/photo_item.dart';
@@ -183,7 +186,20 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
                             .trim()
                             .isNotEmpty
                         ? null
-                        : () {},
+                        : () async {
+                            final result = await sl<AiRepository>().translate(
+                              text: QuillDeltaToHtmlConverter(
+                                _koreanBodyController.document
+                                    .toDelta()
+                                    .toJson(),
+                              ).convert(),
+                              targetLang: AppLocale.en,
+                            );
+                            _englishBodyController.document =
+                                Document.fromDelta(
+                              HtmlToDelta().convert(result),
+                            );
+                          },
                     titleFocusNode: _englishTitleFocusNode,
                     bodyFocusNode: _englishBodyFocusNode,
                     titleController: _englishTitleController,
