@@ -8,10 +8,14 @@ import 'package:ziggle/gen/strings.g.dart';
 class SharePlusNoticeShareRepository implements NoticeShareRepository {
   @override
   Future<bool> shareNotice(NoticeEntity notice) async {
-    final result = await Share.share(t.notice.detail.shareContent(
-      title: notice.titles.current,
-      link: 'https://ziggle.gistory.me/notice/${notice.id}',
-    ));
-    return result.status == ShareResultStatus.success;
+    try {
+      final result = await Share.share(t.notice.detail.shareContent(
+        title: notice.titles.current,
+        link: 'https://ziggle.gistory.me/notice/${notice.id}',
+      ));
+      return result.status == ShareResultStatus.success;
+    } catch (e) {
+      return false;
+    }
   }
 }
