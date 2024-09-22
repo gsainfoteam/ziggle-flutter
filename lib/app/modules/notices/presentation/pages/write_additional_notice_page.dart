@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_bottom_sheet.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
@@ -45,10 +46,10 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
   void initState() {
     super.initState();
     _tabController.addListener(() {
-      setState(() {});
+      setState(noop);
     });
-    _content.addListener(() => setState(() {}));
-    _enContent?.addListener(() => setState(() {}));
+    _content.addListener(() => setState(noop));
+    _enContent?.addListener(() => setState(noop));
   }
 
   @override

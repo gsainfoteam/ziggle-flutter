@@ -52,6 +52,7 @@ dependencies:
   vsc_quill_delta_to_html: ^1.0.5
   dynamic_fonts: ^2.2.1
   flutter_quill_delta_from_html: ^1.4.1
+  share_plus: ^10.0.2
 
 dev_dependencies:
   flutter_test:

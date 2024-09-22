@@ -6,6 +6,8 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/core/presentation/bloc/link_bloc.dart';
 import 'package:ziggle/app/modules/core/presentation/bloc/messaging_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/cubit/copy_link_cubit.dart';
+import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.dart';
@@ -66,6 +68,8 @@ class _Providers extends StatelessWidget {
           lazy: false,
           create: (_) => sl<LinkBloc>()..add(const LinkEvent.init()),
         ),
+        BlocProvider(create: (_) => sl<ShareCubit>()),
+        BlocProvider(create: (_) => sl<CopyLinkCubit>()),
       ],
       child: MultiBlocListener(
         listeners: [

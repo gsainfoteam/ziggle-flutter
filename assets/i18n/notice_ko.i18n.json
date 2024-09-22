@@ -99,7 +99,9 @@
     "title": "공지 상세",
     "back": "공지",
     "share": "공유하기",
+    "shareContent": "$title\n\nZiggle에서 공지를 확인해주세요!\n$link",
     "copy": "링크 복사하기",
+    "copied": "복사가 완료되었습니다.",
     "deadline": "마감기한"
   },
   "search": {

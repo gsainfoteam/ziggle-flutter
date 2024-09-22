@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/common/presentation/utils/reactive.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
 
@@ -50,6 +51,32 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       total = notices.total;
       emit(_Loaded([...state.notices, ...notices.list]));
     });
+    on<_AddLike>((event, emit) async {
+      if (state is! _Loaded) return;
+      final notice = event.notice;
+      final index = state.notices.indexWhere((n) => n.id == notice.id);
+      if (index == -1) return;
+      final notices = List<NoticeEntity>.from(state.notices);
+      notices[index] = notice.addReaction(NoticeReaction.like);
+      emit(_Loaded(notices));
+      final result =
+          await _repository.addReaction(notice.id, NoticeReaction.like.emoji);
+      notices[index] = notices[index].copyWith(reactions: result.reactions);
+      emit(_Loaded(notices));
+    });
+    on<_RemoveLike>((event, emit) async {
+      if (state is! _Loaded) return;
+      final notice = event.notice;
+      final index = state.notices.indexWhere((n) => n.id == notice.id);
+      if (index == -1) return;
+      final notices = List<NoticeEntity>.from(state.notices);
+      notices[index] = notice.removeReaction(NoticeReaction.like);
+      emit(_Loaded(notices));
+      final result = await _repository.removeReaction(
+          notice.id, NoticeReaction.like.emoji);
+      notices[index] = notices[index].copyWith(reactions: result.reactions);
+      emit(_Loaded(notices));
+    });
   }
 
   static Future<void> refresh(BuildContext context) async {
@@ -80,6 +107,9 @@ sealed class NoticeListEvent {
   const factory NoticeListEvent.loadMore() = _LoadMore;
   @With<_SearchEvent>()
   const factory NoticeListEvent.reset() = _Reset;
+
+  const factory NoticeListEvent.addLike(NoticeEntity notice) = _AddLike;
+  const factory NoticeListEvent.removeLike(NoticeEntity notice) = _RemoveLike;
 }
 
 @freezed
