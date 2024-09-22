@@ -2,17 +2,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:ziggle/app/modules/common/presentation/utils/reactive.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
 
 part 'notice_list_bloc.freezed.dart';
-
-Stream<T> _throttle<T>(Stream<T> events, Stream<T> Function(T) mapper) => events
-    .throttleTime(const Duration(milliseconds: 500), trailing: true)
-    .distinct()
-    .switchMap(mapper);
 
 @injectable
 class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
@@ -36,7 +31,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
         query = null;
         emit(const _Initial());
       }
-    }, transformer: _throttle);
+    }, transformer: makeEventThrottler());
     on<_Refresh>((event, emit) async {
       emit(const _Loading());
       final notices = await _repository.getNotices(type: _type, search: query);
