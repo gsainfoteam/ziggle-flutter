@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/date_time.dart';
+import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
@@ -42,7 +43,7 @@ class _LayoutState extends State<_Layout> {
   void initState() {
     super.initState();
     _controller.addListener(() {
-      setState(() {});
+      setState(noop);
       final bloc = context.read<NoticeListBloc>();
       if (_controller.text.isNotEmpty) {
         bloc.add(NoticeListEvent.load(NoticeType.all, query: _controller.text));

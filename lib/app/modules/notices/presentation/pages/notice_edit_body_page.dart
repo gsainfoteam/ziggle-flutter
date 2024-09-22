@@ -6,6 +6,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
+import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
@@ -90,14 +91,14 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _koreanTitleController.addListener(() => setState(() {}));
-    _koreanBodyController.addListener(() => setState(() {}));
-    _koreanTitleFocusNode.addListener(() => setState(() {}));
-    _koreanBodyFocusNode.addListener(() => setState(() {}));
-    _englishTitleController.addListener(() => setState(() {}));
-    _englishBodyController.addListener(() => setState(() {}));
-    _englishTitleFocusNode.addListener(() => setState(() {}));
-    _englishBodyFocusNode.addListener(() => setState(() {}));
+    _koreanTitleController.addListener(() => setState(noop));
+    _koreanBodyController.addListener(() => setState(noop));
+    _koreanTitleFocusNode.addListener(() => setState(noop));
+    _koreanBodyFocusNode.addListener(() => setState(noop));
+    _englishTitleController.addListener(() => setState(noop));
+    _englishBodyController.addListener(() => setState(noop));
+    _englishTitleFocusNode.addListener(() => setState(noop));
+    _englishBodyFocusNode.addListener(() => setState(noop));
     _tabController.addListener(() => setState(() {
           _koreanBodyFocusNode.unfocus();
           _koreanTitleFocusNode.unfocus();

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/date_time.dart';
+import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/values/palette.dart';
 
 class CreatedAt extends StatefulWidget {
@@ -19,7 +20,7 @@ class _CreatedAtState extends State<CreatedAt> {
   @override
   void initState() {
     super.initState();
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) => setState(() {}));
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) => setState(noop));
   }
 
   @override
