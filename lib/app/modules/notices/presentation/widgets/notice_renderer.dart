@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/cubit/copy_link_cubit.dart';
 import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/created_at.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
@@ -192,7 +194,12 @@ class NoticeRenderer extends StatelessWidget {
                   text: context.t.notice.detail.share,
                 ),
                 _ChipButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    final result =
+                        await context.read<CopyLinkCubit>().copyLink(notice);
+                    if (!result || !context.mounted) return;
+                    context.showToast(context.t.notice.detail.copied);
+                  },
                   icon: Assets.icons.link.svg(),
                   text: context.t.notice.detail.copy,
                 ),

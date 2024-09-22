@@ -109,6 +109,7 @@
     "share": "Share",
     "shareContent": "$title\n\nCheck the notice in Ziggle!\n$link",
     "copy": "Copy Link",
+    "copied": "Copied",
     "deadline": "Deadline"
   },
   "search": {
