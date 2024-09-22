@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
 import 'package:ziggle/app/di/locator.dart';
@@ -10,7 +9,6 @@ import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
@@ -18,7 +16,9 @@ import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.d
 import 'package:ziggle/app/modules/notices/presentation/extensions/quill.dart';
 import 'package:ziggle/app/modules/notices/presentation/functions/quill.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/edit_deadline.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/editor.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/link_dialog.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -216,51 +216,54 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                 ],
               ),
             ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  _Editor(
-                    titleDisabled: true,
-                    titleFocusNode: _koreanTitleFocusNode,
-                    bodyFocusNode: _koreanBodyFocusNode,
-                    titleController: _koreanTitleController,
-                    bodyController: _koreanBodyController,
-                  ),
-                  _Editor(
-                    titleDisabled: _prevNotice.contents[AppLocale.en] != null,
-                    onTranslate: _englishBodyController
-                            .plainTextEditingValue.text
-                            .trim()
-                            .isNotEmpty
-                        ? null
-                        : () async {
-                            final bloc = context.read<AiBloc>();
-                            final blocker =
-                                bloc.stream.firstWhere((s) => s.hasResult);
-                            bloc.add(AiEvent.request(
-                              body: _koreanBodyController.html,
-                              lang: AppLocale.en,
-                            ));
-                            final result = await blocker;
-                            result.mapOrNull(
-                              loaded: (result) =>
-                                  _englishBodyController.html = result.body,
-                            );
-                          },
-                    titleFocusNode: _englishTitleFocusNode,
-                    bodyFocusNode: _englishBodyFocusNode,
-                    titleController: _englishTitleController,
-                    bodyController: _englishBodyController,
-                  ),
-                ],
-              ),
-            ),
+            _buildEditors(),
             const SizedBox(height: 50),
           ],
         ),
       ),
+    );
+  }
+
+  Expanded _buildEditors() {
+    return Expanded(
+      child: TabBarView(
+        controller: _tabController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: [
+          Editor(
+            titleDisabled: true,
+            titleFocusNode: _koreanTitleFocusNode,
+            bodyFocusNode: _koreanBodyFocusNode,
+            titleController: _koreanTitleController,
+            bodyController: _koreanBodyController,
+          ),
+          Editor(
+            titleDisabled: _prevNotice.contents[AppLocale.en] != null,
+            onTranslate: _englishBodyController.plainTextEditingValue.text
+                    .trim()
+                    .isNotEmpty
+                ? null
+                : _translate,
+            titleFocusNode: _englishTitleFocusNode,
+            bodyFocusNode: _englishBodyFocusNode,
+            titleController: _englishTitleController,
+            bodyController: _englishBodyController,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _translate() async {
+    final bloc = context.read<AiBloc>();
+    final blocker = bloc.stream.firstWhere((s) => s.hasResult);
+    bloc.add(AiEvent.request(
+      body: _koreanBodyController.html,
+      lang: AppLocale.en,
+    ));
+    final result = await blocker;
+    result.mapOrNull(
+      loaded: (result) => _englishBodyController.html = result.body,
     );
   }
 
@@ -294,7 +297,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                   showCupertinoDialog<QuillTextLink>(
                     context: context,
                     barrierDismissible: true,
-                    builder: (context) => _LinkDialog(controller: controller),
+                    builder: (context) => LinkDialog(controller: controller),
                   ).then((link) => link?.submit(controller));
                   options.afterButtonPressed?.call();
                 },
@@ -349,158 +352,4 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
           child: child,
         ),
       );
-}
-
-class _Editor extends StatelessWidget {
-  const _Editor({
-    required this.titleFocusNode,
-    required this.bodyFocusNode,
-    required this.titleController,
-    required this.bodyController,
-    this.onTranslate,
-    required this.titleDisabled,
-  });
-
-  final FocusNode titleFocusNode;
-  final FocusNode bodyFocusNode;
-  final TextEditingController titleController;
-  final QuillController bodyController;
-  final VoidCallback? onTranslate;
-  final bool titleDisabled;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          child: ZiggleInput(
-            disabled: titleDisabled,
-            controller: titleController,
-            focusNode: titleFocusNode,
-            showBorder: false,
-            hintText: context.t.notice.write.titleHint,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(height: 10),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18),
-          child: Container(height: 1, color: Palette.grayBorder),
-        ),
-        const SizedBox(height: 10),
-        if (onTranslate != null)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Row(
-              children: [
-                ZiggleButton.big(
-                  emphasize: false,
-                  onPressed: onTranslate,
-                  child: Row(
-                    children: [
-                      Assets.icons.sparks.svg(),
-                      const SizedBox(width: 10),
-                      Text(context.t.notice.write.translate),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18),
-            child: Opacity(
-              opacity: bodyController.readOnly ? 0.5 : 1,
-              child: QuillEditor.basic(
-                focusNode: bodyFocusNode,
-                controller: bodyController,
-                configurations: QuillEditorConfigurations(
-                  placeholder: context.t.notice.write.bodyHint,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  customStyles: const DefaultStyles(
-                    placeHolder: DefaultTextBlockStyle(
-                      TextStyle(fontSize: 16, color: Palette.gray),
-                      HorizontalSpacing.zero,
-                      VerticalSpacing.zero,
-                      VerticalSpacing.zero,
-                      null,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _LinkDialog extends StatefulWidget {
-  const _LinkDialog({
-    required QuillController controller,
-  }) : _controller = controller;
-
-  final QuillController _controller;
-
-  @override
-  State<_LinkDialog> createState() => _LinkDialogState();
-}
-
-class _LinkDialogState extends State<_LinkDialog> {
-  late final _initialTextLink = QuillTextLink.prepare(widget._controller);
-  late final _text = TextEditingController(text: _initialTextLink.text);
-  late final _link = TextEditingController(text: _initialTextLink.link ?? '');
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoAlertDialog(
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CupertinoTextField(
-            placeholder: context.t.notice.write.link.text,
-            controller: _text,
-            onChanged: (v) => setState(() {}),
-          ),
-          const SizedBox(height: 8),
-          CupertinoTextField(
-            placeholder: context.t.notice.write.link.link,
-            controller: _link,
-            onChanged: (v) => setState(() {}),
-          ),
-        ],
-      ),
-      actions: [
-        CupertinoDialogAction(
-          onPressed: _text.text.isEmpty ||
-                  _link.text.isEmpty ||
-                  !const AutoFormatMultipleLinksRule()
-                      .oneLineLinkRegExp
-                      .hasMatch(_link.text)
-              ? null
-              : () => Navigator.pop(
-                    context,
-                    QuillTextLink(_text.text, _link.text),
-                  ),
-          child: _initialTextLink.link == null
-              ? Text(context.t.notice.write.link.add)
-              : Text(context.t.notice.write.link.change),
-        ),
-        CupertinoDialogAction(
-          isDestructiveAction: true,
-          onPressed: () => Navigator.pop(
-            context,
-            QuillTextLink(_text.text, null),
-          ),
-          child: Text(context.t.notice.write.link.remove),
-        ),
-      ],
-    );
-  }
 }

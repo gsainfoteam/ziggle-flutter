@@ -44,4 +44,5 @@ sealed class AiState with _$AiState {
   const factory AiState.error(String message) = _Error;
 
   bool get hasResult => this is _Loaded || this is _Error;
+  bool get isLoading => this is _Loading;
 }
