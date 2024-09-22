@@ -27,7 +27,7 @@ class AiBloc extends Bloc<AiEvent, AiState> {
 }
 
 @freezed
-sealed class AiEvent {
+sealed class AiEvent with _$AiEvent {
   const factory AiEvent.request({
     required String body,
     required AppLocale lang,
