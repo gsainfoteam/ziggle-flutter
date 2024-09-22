@@ -229,7 +229,7 @@ class NoticeRenderer extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    if (additional.deadline == null &&
+                    if (additional.deadline != null &&
                         additional.deadline != previousDeadline) ...[
                       Container(
                         padding: const EdgeInsets.symmetric(
