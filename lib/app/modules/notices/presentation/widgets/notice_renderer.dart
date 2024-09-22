@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/created_at.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/tag.dart';
@@ -186,7 +187,7 @@ class NoticeRenderer extends StatelessWidget {
                   ),
                 ),
                 _ChipButton(
-                  onPressed: () {},
+                  onPressed: () => context.read<ShareCubit>().share(notice),
                   icon: Assets.icons.share.svg(),
                   text: context.t.notice.detail.share,
                 ),

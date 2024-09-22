@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
 import 'package:ziggle/app/router.gr.dart';
@@ -44,7 +45,8 @@ class ListLayout extends StatelessWidget {
                               onPressed: () =>
                                   SingleNoticeShellRoute(notice: notice)
                                       .push(context),
-                              onShare: () {},
+                              onShare: () =>
+                                  context.read<ShareCubit>().share(notice),
                               notice: notice,
                             );
                           },

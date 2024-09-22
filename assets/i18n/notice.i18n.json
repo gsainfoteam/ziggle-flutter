@@ -107,6 +107,7 @@
     "title": "Notice Detail",
     "back": "Notice",
     "share": "Share",
+    "shareContent": "$title\n\nCheck the notice in Ziggle!\n$link",
     "copy": "Copy Link",
     "deadline": "Deadline"
   },
