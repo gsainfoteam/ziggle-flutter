@@ -7,17 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
-import 'package:ziggle/app/modules/notices/domain/repositories/ai_repository.dart';
+import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/extensions/quill.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/photo_item.dart';
 import 'package:ziggle/app/router.gr.dart';
@@ -26,15 +26,31 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeWriteBodyPage extends StatefulWidget {
+class NoticeWriteBodyPage extends StatelessWidget {
   const NoticeWriteBodyPage({super.key});
 
   @override
-  State<NoticeWriteBodyPage> createState() => _NoticeWriteBodyPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => sl<AiBloc>(),
+      child: BlocListener<AiBloc, AiState>(
+        listener: (context, state) => state.mapOrNull(
+          error: (error) => context.showToast(error.message),
+        ),
+        child: const _Layout(),
+      ),
+    );
+  }
 }
 
-class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
-    with SingleTickerProviderStateMixin {
+class _Layout extends StatefulWidget {
+  const _Layout();
+
+  @override
+  State<_Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
   final _koreanTitleController = TextEditingController();
   final _koreanBodyController = QuillController.basic();
   final _koreanTitleFocusNode = FocusNode();
@@ -87,11 +103,7 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
   void _save() {
     final bloc = context.read<NoticeWriteBloc>()
       ..add(NoticeWriteEvent.setTitle(_koreanTitleController.text))
-      ..add(NoticeWriteEvent.setBody(
-        QuillDeltaToHtmlConverter(
-          _koreanBodyController.document.toDelta().toJson(),
-        ).convert(),
-      ))
+      ..add(NoticeWriteEvent.setBody(_koreanBodyController.html))
       ..add(NoticeWriteEvent.setImages(_photos));
     if (_englishTitleController.text.isNotEmpty) {
       bloc
@@ -99,9 +111,7 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
           NoticeWriteEvent.setTitle(_englishTitleController.text, AppLocale.en),
         )
         ..add(NoticeWriteEvent.setBody(
-          QuillDeltaToHtmlConverter(
-            _englishBodyController.document.toDelta().toJson(),
-          ).convert(),
+          _englishBodyController.html,
           AppLocale.en,
         ));
     }
@@ -187,17 +197,17 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
                             .isNotEmpty
                         ? null
                         : () async {
-                            final result = await sl<AiRepository>().translate(
-                              text: QuillDeltaToHtmlConverter(
-                                _koreanBodyController.document
-                                    .toDelta()
-                                    .toJson(),
-                              ).convert(),
-                              targetLang: AppLocale.en,
-                            );
-                            _englishBodyController.document =
-                                Document.fromDelta(
-                              HtmlToDelta().convert(result),
+                            final bloc = context.read<AiBloc>();
+                            final blocker =
+                                bloc.stream.firstWhere((s) => s.hasResult);
+                            bloc.add(AiEvent.request(
+                              body: _koreanBodyController.html,
+                              lang: AppLocale.en,
+                            ));
+                            final result = await blocker;
+                            result.mapOrNull(
+                              loaded: (result) =>
+                                  _englishBodyController.html = result.body,
                             );
                           },
                     titleFocusNode: _englishTitleFocusNode,

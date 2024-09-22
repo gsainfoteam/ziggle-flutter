@@ -4,18 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill_delta_from_html/flutter_quill_delta_from_html.dart';
 import 'package:keyboard_actions/keyboard_actions.dart';
-import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
-import 'package:ziggle/app/modules/notices/domain/repositories/ai_repository.dart';
+import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
+import 'package:ziggle/app/modules/notices/presentation/extensions/quill.dart';
+import 'package:ziggle/app/modules/notices/presentation/functions/quill.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/edit_deadline.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -23,17 +24,35 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeEditBodyPage extends StatefulWidget {
+class NoticeEditBodyPage extends StatelessWidget {
   const NoticeEditBodyPage({super.key, this.showEnglish = false});
 
   final bool showEnglish;
 
   @override
-  State<NoticeEditBodyPage> createState() => _NoticeEditBodyPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => sl<AiBloc>(),
+      child: BlocListener<AiBloc, AiState>(
+        listener: (context, state) => state.mapOrNull(
+          error: (error) => context.showToast(error.message),
+        ),
+        child: _Layout(showEnglish: showEnglish),
+      ),
+    );
+  }
 }
 
-class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
-    with SingleTickerProviderStateMixin {
+class _Layout extends StatefulWidget {
+  const _Layout({this.showEnglish = false});
+
+  final bool showEnglish;
+
+  @override
+  State<_Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
   late final _prevNotice = context.read<NoticeBloc>().state.entity!;
   late final _draft = context.read<NoticeWriteBloc>().state.draft;
   late final _koreanTitleController = TextEditingController(
@@ -41,10 +60,9 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
           _prevNotice.titles[AppLocale.ko] ??
           '');
   late final _koreanBodyController = QuillController(
-    document: Document.fromDelta(HtmlToDelta().convert(
-        _draft.bodies[AppLocale.ko] ??
-            _prevNotice.contents[AppLocale.ko] ??
-            '<br/>')),
+    document: documentFromHtml(_draft.bodies[AppLocale.ko] ??
+        _prevNotice.contents[AppLocale.ko] ??
+        '<br/>'),
     selection: const TextSelection.collapsed(offset: 0),
     readOnly: _prevNotice.isPublished,
   );
@@ -55,10 +73,9 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
           _prevNotice.titles[AppLocale.en] ??
           '');
   late final _englishBodyController = QuillController(
-    document: Document.fromDelta(HtmlToDelta().convert(
-        _draft.bodies[AppLocale.en] ??
-            _prevNotice.contents[AppLocale.en] ??
-            '<br/>')),
+    document: documentFromHtml(_draft.bodies[AppLocale.en] ??
+        _prevNotice.contents[AppLocale.en] ??
+        '<br/>'),
     selection: const TextSelection.collapsed(offset: 0),
     readOnly: _prevNotice.contents[AppLocale.en] != null,
   );
@@ -111,20 +128,14 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
   void _save() {
     final bloc = context.read<NoticeWriteBloc>()
       ..add(NoticeWriteEvent.setTitle(_koreanTitleController.text))
-      ..add(NoticeWriteEvent.setBody(
-        QuillDeltaToHtmlConverter(
-          _koreanBodyController.document.toDelta().toJson(),
-        ).convert(),
-      ));
+      ..add(NoticeWriteEvent.setBody(_koreanBodyController.html));
     if (_englishTitleController.text.isNotEmpty) {
       bloc
         ..add(
           NoticeWriteEvent.setTitle(_englishTitleController.text, AppLocale.en),
         )
         ..add(NoticeWriteEvent.setBody(
-          QuillDeltaToHtmlConverter(
-            _englishBodyController.document.toDelta().toJson(),
-          ).convert(),
+          _englishBodyController.html,
           AppLocale.en,
         ));
     }
@@ -225,17 +236,17 @@ class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
                             .isNotEmpty
                         ? null
                         : () async {
-                            final result = await sl<AiRepository>().translate(
-                              text: QuillDeltaToHtmlConverter(
-                                _koreanBodyController.document
-                                    .toDelta()
-                                    .toJson(),
-                              ).convert(),
-                              targetLang: AppLocale.en,
-                            );
-                            _englishBodyController.document =
-                                Document.fromDelta(
-                              HtmlToDelta().convert(result),
+                            final bloc = context.read<AiBloc>();
+                            final blocker =
+                                bloc.stream.firstWhere((s) => s.hasResult);
+                            bloc.add(AiEvent.request(
+                              body: _koreanBodyController.html,
+                              lang: AppLocale.en,
+                            ));
+                            final result = await blocker;
+                            result.mapOrNull(
+                              loaded: (result) =>
+                                  _englishBodyController.html = result.body,
                             );
                           },
                     titleFocusNode: _englishTitleFocusNode,
