@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.dart';
@@ -41,7 +43,11 @@ class ListLayout extends StatelessWidget {
                             }
                             final notice = state.notices[index];
                             return NoticeCard(
-                              onLike: () {},
+                              onLike: () => context.read<NoticeListBloc>().add(
+                                    notice.reacted(NoticeReaction.like)
+                                        ? NoticeListEvent.removeLike(notice)
+                                        : NoticeListEvent.addLike(notice),
+                                  ),
                               onPressed: () =>
                                   SingleNoticeShellRoute(notice: notice)
                                       .push(context),

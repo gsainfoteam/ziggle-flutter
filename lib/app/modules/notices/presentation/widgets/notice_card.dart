@@ -2,6 +2,7 @@ import 'package:extended_text/extended_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/d_day.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -119,7 +120,10 @@ class NoticeCard extends StatelessWidget {
                   onPressed: onLike,
                   child: Row(
                     children: [
-                      Assets.icons.fire.svg(width: 30),
+                      if (notice.reacted(NoticeReaction.like))
+                        Assets.icons.fire.svg(width: 30)
+                      else
+                        Assets.icons.fire.svg(width: 30),
                       const SizedBox(width: 5),
                       Text(
                         '${notice.likes}',
