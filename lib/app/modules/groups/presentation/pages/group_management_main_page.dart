@@ -49,32 +49,7 @@ class GroupManagementMainPage extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    Assets.images.noGroup.svg(
-                      colorFilter: const ColorFilter.matrix(
-                        <double>[
-                          0.2126,
-                          0.7152,
-                          0.0722,
-                          0,
-                          0,
-                          0.2126,
-                          0.7152,
-                          0.0722,
-                          0,
-                          0,
-                          0.2126,
-                          0.7152,
-                          0.0722,
-                          0,
-                          0,
-                          0,
-                          0,
-                          0,
-                          1,
-                          0,
-                        ],
-                      ),
-                    ),
+                    Assets.images.bonfire.svg(),
                     const SizedBox(height: 20),
                     Text(
                       context.t.group.managementMain.noGroup,
