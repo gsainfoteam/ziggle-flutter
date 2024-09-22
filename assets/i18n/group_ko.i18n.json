@@ -38,7 +38,6 @@
     }
   },
   "managementMain" : {
-    "back": "내 정보",
     "header": "그룹 관리",
     "newGroup" : "새 그룹",
     "myGroup" : "내가 속한 그룹들",
