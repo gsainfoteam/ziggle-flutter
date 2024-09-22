@@ -73,7 +73,9 @@ class Editor extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: translating
-                ? const CircularProgressIndicator()
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
                 : Opacity(
                     opacity: bodyController.readOnly ? 0.5 : 1,
                     child: QuillEditor.basic(
