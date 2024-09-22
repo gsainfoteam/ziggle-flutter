@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 class ListLayout extends StatelessWidget {
   const ListLayout({super.key});
@@ -43,11 +46,18 @@ class ListLayout extends StatelessWidget {
                             }
                             final notice = state.notices[index];
                             return NoticeCard(
-                              onLike: () => context.read<NoticeListBloc>().add(
-                                    notice.reacted(NoticeReaction.like)
-                                        ? NoticeListEvent.removeLike(notice)
-                                        : NoticeListEvent.addLike(notice),
-                                  ),
+                              onLike: () {
+                                if (UserBloc.userOrNull(context) == null) {
+                                  return context.showToast(
+                                    context.t.user.login.description,
+                                  );
+                                }
+                                context.read<NoticeListBloc>().add(
+                                      notice.reacted(NoticeReaction.like)
+                                          ? NoticeListEvent.removeLike(notice)
+                                          : NoticeListEvent.addLike(notice),
+                                    );
+                              },
                               onPressed: () =>
                                   SingleNoticeShellRoute(notice: notice)
                                       .push(context),

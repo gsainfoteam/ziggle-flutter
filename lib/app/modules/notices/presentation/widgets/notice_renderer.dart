@@ -178,11 +178,18 @@ class NoticeRenderer extends StatelessWidget {
               children: [
                 ...NoticeReaction.values.map(
                   (reaction) => _ChipButton(
-                    onPressed: () => context.read<NoticeBloc>().add(
-                          notice.reacted(reaction)
-                              ? NoticeEvent.removeReaction(reaction)
-                              : NoticeEvent.addReaction(reaction),
-                        ),
+                    onPressed: () {
+                      if (UserBloc.userOrNull(context) == null) {
+                        return context.showToast(
+                          context.t.user.login.description,
+                        );
+                      }
+                      context.read<NoticeBloc>().add(
+                            notice.reacted(reaction)
+                                ? NoticeEvent.removeReaction(reaction)
+                                : NoticeEvent.addReaction(reaction),
+                          );
+                    },
                     isSelected: notice.reacted(reaction),
                     icon: reaction.icon(notice.reacted(reaction)),
                     text: notice.reactionsBy(reaction).toString(),
