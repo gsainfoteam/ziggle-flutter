@@ -5,13 +5,9 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 enum GroupMemberRole {
-  admin('Admin'),
-  manager('Manager'),
-  user('User');
-
-  final String label;
-
-  const GroupMemberRole(this.label);
+  admin,
+  manager,
+  user;
 
   String toLocalizedString(BuildContext context) {
     switch (this) {
@@ -120,10 +116,12 @@ class GroupMemberCard extends StatelessWidget {
                     child: ZiggleSelect(
                       onChanged: onChanged,
                       value: role,
+                      small: true,
                       hintText: context.t.common.memberCard.role.role,
                       entries: GroupMemberRole.values
                           .map((value) => ZiggleSelectEntry(
-                              value: value, label: value.label))
+                              value: value,
+                              label: value.toLocalizedString(context)))
                           .toList(),
                     ),
                   ),
