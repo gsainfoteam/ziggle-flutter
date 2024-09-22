@@ -15,7 +15,7 @@ import 'package:ziggle/gen/strings.g.dart';
 
 @singleton
 class FcmMessagingRepository implements MessagingRepository, LinkRepository {
-  final _tokenSubject = BehaviorSubject<String?>();
+  final _tokenSubject = BehaviorSubject<String?>.seeded(null);
   final _linkSubject = BehaviorSubject<String?>();
   final FcmApi _api;
   static final _androidNotificationChannel = AndroidNotificationChannel(

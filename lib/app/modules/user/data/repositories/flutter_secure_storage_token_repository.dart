@@ -13,7 +13,7 @@ class FlutterSecureStorageTokenRepository implements TokenRepository {
   final FlutterSecureStorage _storage;
   static const _tokenKey = '_token';
   static const _expiredAtKey = '_expiredAt';
-  final _subject = BehaviorSubject<String?>.seeded(null);
+  final _subject = BehaviorSubject<String?>();
   final _expiredAtSubject = BehaviorSubject<DateTime?>();
 
   FlutterSecureStorageTokenRepository(this._storage);
