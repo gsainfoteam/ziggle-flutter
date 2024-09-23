@@ -8,11 +8,12 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes {
     return [
+      RedirectRoute(path: '/', redirectTo: '/splash'),
+      AutoRoute(path: '/splash', page: SplashRoute.page),
       AutoRoute(
         path: '/',
         page: ZiggleBottomNavigationRoute.page,
         children: [
-          RedirectRoute(path: '', redirectTo: 'feed'),
           AutoRoute(path: 'feed', page: FeedRoute.page),
           AutoRoute(path: 'category', page: CategoryRoute.page),
           AutoRoute(path: 'mypage', page: ProfileRoute.page),

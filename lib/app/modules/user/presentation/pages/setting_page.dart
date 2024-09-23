@@ -133,10 +133,11 @@ class SettingPage extends StatelessWidget {
                                 channel: state.apiChannel.name,
                               ),
                             ),
-                            onPressed: () => context
-                                .read<DeveloperOptionBloc>()
-                                .add(
-                                    const DeveloperOptionEvent.toggleChannel()),
+                            onPressed: () {
+                              context.read<DeveloperOptionBloc>().add(
+                                  const DeveloperOptionEvent.toggleChannel());
+                              context.router.replaceAll([const SplashRoute()]);
+                            },
                           ),
                         ],
                       )

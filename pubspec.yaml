@@ -75,6 +75,7 @@ flutter:
     - assets/logo/fire.svg
     - assets/logo/short.svg
     - assets/logo/long.svg
+    - assets/logo/transparent.png
     - assets/icons/
     - assets/images/
     - assets/fonts/TossFace/LICENSE
