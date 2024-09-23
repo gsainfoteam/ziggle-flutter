@@ -9,6 +9,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button
 import 'package:ziggle/app/modules/user/domain/repositories/language_setting_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/notification_setting_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/developer_option_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -110,6 +111,23 @@ class SettingPage extends StatelessWidget {
               ZiggleRowButton(
                 title: Text(context.t.user.setting.information.title),
                 onPressed: () => const InformationRoute().push(context),
+              ),
+              BlocBuilder<DeveloperOptionBloc, DeveloperOptionState>(
+                builder: (context, state) => state.enabled
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _Title(title: context.t.user.developMode.title),
+                          ZiggleRowButton(
+                            showChevron: false,
+                            title: Text(context.t.user.developMode.disable),
+                            onPressed: () => context
+                                .read<DeveloperOptionBloc>()
+                                .add(const DeveloperOptionEvent.disable()),
+                          ),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
               ),
             ],
           ),

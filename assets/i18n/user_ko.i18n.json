@@ -34,6 +34,8 @@
   },
   "myInfo": "내 정보",
   "developMode": {
+    "title": "개발자 모드",
+    "disable": "개발자 모드 비활성화",
     "enabled": "개발자 모드가 활성화되었습니다."
   }
 }
