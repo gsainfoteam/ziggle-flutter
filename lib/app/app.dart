@@ -9,6 +9,7 @@ import 'package:ziggle/app/modules/core/presentation/bloc/messaging_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/cubit/copy_link_cubit.dart';
 import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/developer_option_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -70,6 +71,10 @@ class _Providers extends StatelessWidget {
         ),
         BlocProvider(create: (_) => sl<ShareCubit>()),
         BlocProvider(create: (_) => sl<CopyLinkCubit>()),
+        BlocProvider(
+          create: (_) =>
+              sl<DeveloperOptionBloc>()..add(const DeveloperOptionEvent.load()),
+        ),
       ],
       child: MultiBlocListener(
         listeners: [

@@ -32,5 +32,8 @@
     "withdraw": "회원 탈퇴",
     "login": "로그인"
   },
-  "myInfo": "내 정보"
+  "myInfo": "내 정보",
+  "developMode": {
+    "enabled": "개발자 모드가 활성화되었습니다."
+  }
 }

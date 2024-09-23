@@ -32,5 +32,8 @@
     "withdraw": "Withdraw",
     "login": "Login"
   },
-  "myInfo": "My Info"
+  "myInfo": "My Info",
+  "developMode": {
+    "enabled": "Developer mode is enabled."
+  }
 }
