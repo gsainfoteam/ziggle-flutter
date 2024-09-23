@@ -125,6 +125,19 @@ class SettingPage extends StatelessWidget {
                                 .read<DeveloperOptionBloc>()
                                 .add(const DeveloperOptionEvent.disable()),
                           ),
+                          const SizedBox(height: 20),
+                          ZiggleRowButton(
+                            showChevron: false,
+                            title: Text(
+                              context.t.user.developMode.toggleChannel(
+                                channel: state.apiChannel.name,
+                              ),
+                            ),
+                            onPressed: () => context
+                                .read<DeveloperOptionBloc>()
+                                .add(
+                                    const DeveloperOptionEvent.toggleChannel()),
+                          ),
                         ],
                       )
                     : const SizedBox.shrink(),

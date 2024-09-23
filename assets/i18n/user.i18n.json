@@ -36,6 +36,7 @@
   "developMode": {
     "title": "Developer mode",
     "disable": "Disable developer mode",
-    "enabled": "Developer mode is enabled."
+    "enabled": "Developer mode is enabled.",
+    "toggleChannel": "Toggle API channel (current: $channel)"
   }
 }
