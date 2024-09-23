@@ -136,7 +136,9 @@ class SettingPage extends StatelessWidget {
                             onPressed: () {
                               context.read<DeveloperOptionBloc>().add(
                                   const DeveloperOptionEvent.toggleChannel());
-                              context.router.replaceAll([const SplashRoute()]);
+                              context.router.replaceAll([
+                                SplashRoute(delay: true),
+                              ]);
                             },
                           ),
                         ],

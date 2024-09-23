@@ -6,7 +6,9 @@ import 'package:ziggle/gen/assets.gen.dart';
 
 @RoutePage()
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key});
+  const SplashPage({super.key, this.delay = false});
+
+  final bool delay;
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -17,7 +19,13 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.router.replaceAll([const FeedRoute()]);
+      Future.delayed(
+        widget.delay ? const Duration(seconds: 1) : Duration.zero,
+        () {
+          if (!mounted) return;
+          context.router.replaceAll([const FeedRoute()]);
+        },
+      );
     });
   }
 
