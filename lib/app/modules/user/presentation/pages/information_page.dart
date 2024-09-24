@@ -84,7 +84,7 @@ class _HiddenMenuState extends State<_HiddenMenu> {
 
   void _onClick() {
     if (_count >= _devModeCount) return;
-    return setState(() {
+    setState(() {
       _count++;
       if (_count != _devModeCount) return;
       context.showToast(context.t.user.developMode.enabled);
