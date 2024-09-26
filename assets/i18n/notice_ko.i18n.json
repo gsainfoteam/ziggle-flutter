@@ -7,7 +7,7 @@
     "hot": "지글픽",
     "academic": "학사",
     "all": "전체",
-    "written": "내가 쓴 공지"
+    "written": "내가 쓴 공지들"
   },
   "category(context=NoticeCategory)": {
     "academic": "학사",

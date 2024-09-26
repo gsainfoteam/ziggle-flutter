@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
@@ -74,6 +75,15 @@ class _Layout extends StatelessWidget {
               title: Text(context.t.user.setting.title),
               onPressed: () => const SettingRoute().push(context),
             ),
+            if (authenticated) ...[
+              const SizedBox(height: 20),
+              ZiggleRowButton(
+                icon: Assets.icons.write.svg(),
+                title: Text(context.t.user.written),
+                onPressed: () =>
+                    ListRoute(type: NoticeType.written).push(context),
+              ),
+            ],
             const SizedBox(height: 20),
             ZiggleRowButton(
               icon: Assets.icons.flag.svg(),
