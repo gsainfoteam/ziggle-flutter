@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
 class CategoryPage extends StatelessWidget {
@@ -16,7 +19,14 @@ class CategoryPage extends StatelessWidget {
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.main(
         onTapSearch: () => const SearchRoute().push(context),
-        onTapWrite: () => const NoticeWriteBodyRoute().push(context),
+        onTapWrite: () {
+          if (UserBloc.userOrNull(context) == null) {
+            return context.showToast(
+              context.t.user.login.description,
+            );
+          }
+          const NoticeWriteBodyRoute().push(context);
+        },
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
