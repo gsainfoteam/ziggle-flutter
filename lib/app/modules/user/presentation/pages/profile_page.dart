@@ -78,6 +78,7 @@ class _Layout extends StatelessWidget {
             if (authenticated) ...[
               const SizedBox(height: 20),
               ZiggleRowButton(
+                icon: Assets.icons.write.svg(),
                 title: Text(context.t.user.written),
                 onPressed: () =>
                     ListRoute(type: NoticeType.written).push(context),
