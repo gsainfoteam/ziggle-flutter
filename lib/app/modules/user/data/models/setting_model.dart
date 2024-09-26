@@ -12,8 +12,11 @@ class SettingModel with _$SettingModel {
 
   const factory SettingModel({
     @HiveField(0) required String language,
+    @HiveField(1, defaultValue: false) required bool developerOption,
   }) = _SettingModel;
 
-  factory SettingModel.init() =>
-      SettingModel(language: AppLocaleUtils.findDeviceLocale().name);
+  factory SettingModel.init() => SettingModel(
+        language: AppLocaleUtils.findDeviceLocale().name,
+        developerOption: false,
+      );
 }

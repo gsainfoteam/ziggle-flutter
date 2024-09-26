@@ -32,5 +32,11 @@
     "withdraw": "Withdraw",
     "login": "Login"
   },
-  "myInfo": "My Info"
+  "myInfo": "My Info",
+  "developMode": {
+    "title": "Developer mode",
+    "disable": "Disable developer mode",
+    "enabled": "Developer mode is enabled.",
+    "toggleChannel": "Toggle API channel (current: $channel)"
+  }
 }

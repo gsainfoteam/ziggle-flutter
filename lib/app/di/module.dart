@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/core/data/repositories/fcm_messaging_reposito
 import 'package:ziggle/app/modules/core/domain/repositories/messaging_repository.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/authorize_interceptor.dart';
 import 'package:ziggle/app/modules/user/data/repositories/hive_setting_repository.dart';
+import 'package:ziggle/app/modules/user/domain/repositories/developer_option_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/language_setting_repository.dart';
 
 @module
@@ -37,6 +38,10 @@ abstract class AppModule {
       );
 
   LanguageSettingRepository getLanguageSettingRepository(
+          HiveSettingRepository repo) =>
+      repo;
+
+  DeveloperOptionRepository getDeveloperOptionRepository(
           HiveSettingRepository repo) =>
       repo;
   MessagingRepository getMessagingRepository(FcmMessagingRepository repo) =>

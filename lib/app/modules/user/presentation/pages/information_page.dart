@@ -1,12 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/developer_option_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
+
+const _devModeCount = 10;
 
 @RoutePage()
 class InformationPage extends StatelessWidget {
@@ -58,15 +63,52 @@ class InformationPage extends StatelessWidget {
                   );
                 },
               ),
-              ZiggleRowButton(
-                title: Text(context.t.user.setting.information.copyright),
-                disabled: true,
-                showChevron: false,
-              ),
+              const _HiddenMenu(),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class _HiddenMenu extends StatefulWidget {
+  const _HiddenMenu();
+
+  @override
+  State<_HiddenMenu> createState() => _HiddenMenuState();
+}
+
+class _HiddenMenuState extends State<_HiddenMenu> {
+  int _count = 0;
+
+  void _onClick() {
+    if (_count >= _devModeCount) return;
+    setState(() {
+      _count++;
+      if (_count != _devModeCount) return;
+      context.showToast(context.t.user.developMode.enabled);
+      context
+          .read<DeveloperOptionBloc>()
+          .add(const DeveloperOptionEvent.enable());
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<DeveloperOptionBloc, DeveloperOptionState>(
+      builder: (context, state) => ZiggleRowButton(
+        onPressed: state.enabled ? null : _onClick,
+        title: Text(_getTitle(context)),
+        disabled: true,
+        showChevron: false,
+      ),
+    );
+  }
+
+  String _getTitle(BuildContext context) {
+    if (_count == _devModeCount) return context.t.user.developMode.enabled;
+    if (_count > _devModeCount / 2) return '${_devModeCount - _count}';
+    return context.t.user.setting.information.copyright;
   }
 }
