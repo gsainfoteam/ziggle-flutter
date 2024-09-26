@@ -7,7 +7,7 @@
     "hot": "Ziggle Pick",
     "academic": "Academic",
     "all": "All",
-    "written": "Written"
+    "written": "My Notices"
   },
   "category(context=NoticeCategory)": {
     "academic": "Academic",
