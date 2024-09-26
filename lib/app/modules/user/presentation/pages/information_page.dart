@@ -99,14 +99,16 @@ class _HiddenMenuState extends State<_HiddenMenu> {
     return BlocBuilder<DeveloperOptionBloc, DeveloperOptionState>(
       builder: (context, state) => ZiggleRowButton(
         onPressed: state.enabled ? null : _onClick,
-        title: Text(_count == _devModeCount
-            ? context.t.user.developMode.enabled
-            : _count > _devModeCount / 2
-                ? '${_devModeCount - _count}'
-                : context.t.user.setting.information.copyright),
+        title: Text(_getTitle(context)),
         disabled: true,
         showChevron: false,
       ),
     );
+  }
+
+  String _getTitle(BuildContext context) {
+    if (_count == _devModeCount) return context.t.user.developMode.enabled;
+    if (_count > _devModeCount / 2) return '${_devModeCount - _count}';
+    return context.t.user.setting.information.copyright;
   }
 }
