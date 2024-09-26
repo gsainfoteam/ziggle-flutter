@@ -53,6 +53,7 @@ dependencies:
   dynamic_fonts: ^2.2.1
   flutter_quill_delta_from_html: ^1.4.1
   share_plus: ^10.0.2
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
