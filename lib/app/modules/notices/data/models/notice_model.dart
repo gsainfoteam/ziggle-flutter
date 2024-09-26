@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
@@ -42,8 +42,8 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>
       _$NoticeModelFromJson(json);
   @override
-  List<NetworkImage> get images =>
-      imageUrls.map((e) => NetworkImage(e)).toList();
+  List<CachedNetworkImageProvider> get images =>
+      imageUrls.map((e) => CachedNetworkImageProvider(e)).toList();
 
   @override
   Map<AppLocale, String> get titles =>

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_draft_entity.dart';
@@ -100,7 +101,8 @@ class NoticeEntity {
         additionalContents: [],
         reactions: reactions,
         author: AuthorEntity(name: authorName, uuid: ''),
-        images: imageUrls.map((url) => NetworkImage(url)).toList(),
+        images:
+            imageUrls.map((url) => CachedNetworkImageProvider(url)).toList(),
         documentUrls: [],
         isReminded: isReminded,
         publishedAt: null,
@@ -205,6 +207,7 @@ extension NoticeEntityExtension on NoticeEntity {
     ];
     return copyWith(reactions: reactions);
   }
+
   bool get isPublished =>
       publishedAt != null && publishedAt!.isBefore(DateTime.now());
   NoticeEntity addDraft(NoticeWriteDraftEntity draft) => NoticeEntity(
