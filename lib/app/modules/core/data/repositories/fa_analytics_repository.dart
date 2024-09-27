@@ -6,7 +6,7 @@ import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 
 import '../../domain/repositories/analytics_repository.dart';
 
-@Singleton(as: FirebaseAnalyticsRepository)
+@Singleton(as: AnalyticsRepository)
 @prod
 class FirebaseAnalyticsRepository implements AnalyticsRepository {
   static final _analytics = FirebaseAnalytics.instance;
