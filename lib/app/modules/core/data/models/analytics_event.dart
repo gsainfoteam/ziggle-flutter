@@ -8,113 +8,116 @@ part 'analytics_event.freezed.dart';
 class AnalyticsEvent with _$AnalyticsEvent {
   const AnalyticsEvent._();
   // 메인화면 이벤트
-  const factory AnalyticsEvent.feed() = Feed;
-  const factory AnalyticsEvent.category() = Category;
+  const factory AnalyticsEvent.feed() = _$Feed;
+  const factory AnalyticsEvent.category() = _$Category;
   const factory AnalyticsEvent.categoryType(NoticeType noticeType) =
-      CategoryType;
-  const factory AnalyticsEvent.list(NoticeType noticeType) = List;
-  const factory AnalyticsEvent.profile() = Profile;
-  const factory AnalyticsEvent.search(String? from) = Search;
-  const factory AnalyticsEvent.write(String? from) = Write;
-  const factory AnalyticsEvent.back(String from) = Back;
+      _$CategoryType;
+  const factory AnalyticsEvent.list(NoticeType noticeType) = _$List;
+  const factory AnalyticsEvent.profile() = _$Profile;
+  const factory AnalyticsEvent.search(String? from) = _$Search;
+  const factory AnalyticsEvent.write(String? from) = _$Write;
+  const factory AnalyticsEvent.back(String from) = _$Back;
 
   // 공지 관련 이벤트
-  const factory AnalyticsEvent.notice(int id, String? from) = Notice;
+  const factory AnalyticsEvent.notice(int id, String? from) = _$Notice;
   const factory AnalyticsEvent.noticeReaction(
-      int id, NoticeReaction noticeReaction, String from) = _NoticeReaction;
-  const factory AnalyticsEvent.noticeShare(int id, String from) = NoticeShare;
-  const factory AnalyticsEvent.noticeCopy(int id) = NoticeCopy;
-  const factory AnalyticsEvent.noticeEdit(int id) = NoticeEdit;
-  const factory AnalyticsEvent.noticeDelete(int id) = NoticeDelete;
+      int id, NoticeReaction noticeReaction, String from) = _$NoticeReaction;
+  const factory AnalyticsEvent.noticeShare(int id, String from) = _$NoticeShare;
+  const factory AnalyticsEvent.noticeCopy(int id) = _$NoticeCopy;
+  const factory AnalyticsEvent.noticeEdit(int id) = _$NoticeEdit;
+  const factory AnalyticsEvent.noticeDelete(int id) = _$NoticeDelete;
   const factory AnalyticsEvent.noticeSendNotification(int id) =
-      NoticeSendNotification;
+      _$NoticeSendNotification;
 
   // 공지 작성 이벤트
   const factory AnalyticsEvent.writeToggleLanguage(String lang) =
-      WriteToggleLanguage;
-  const factory AnalyticsEvent.writeAddPhoto() = WriteAddPhoto;
-  const factory AnalyticsEvent.writeUseAiTranslation() = WriteUseAiTranslation;
+      _$WriteToggleLanguage;
+  const factory AnalyticsEvent.writeAddPhoto() = _$WriteAddPhoto;
+  const factory AnalyticsEvent.writeUseAiTranslation() =
+      _$WriteUseAiTranslation;
   const factory AnalyticsEvent.writeAbortUseAiTranslation() =
-      WriteAbortUseAiTranslation;
+      _$WriteAbortUseAiTranslation;
   const factory AnalyticsEvent.writeUndoUseAiTranslation() =
-      WriteUndoUseiTranslation;
-  const factory AnalyticsEvent.writeConfig() = WriteConfig;
+      _$WriteUndoUseAiTranslation;
+  const factory AnalyticsEvent.writeConfig() = _$WriteConfig;
   const factory AnalyticsEvent.writeConfigChangeAccount() =
-      WriteConfigChangeAccount;
+      _$WriteConfigChangeAccount;
   const factory AnalyticsEvent.writeConfigChangeAccountTo(int id) =
-      WriteConfigChangeAccountTo;
+      _$WriteConfigChangeAccountTo;
   const factory AnalyticsEvent.writeConfigAddDeadline() =
-      WriteConfigAddDeadline;
+      _$WriteConfigAddDeadline;
   const factory AnalyticsEvent.writeConfigSetDeadline() =
-      WriteConfigSetDeadline;
+      _$WriteConfigSetDeadline;
   const factory AnalyticsEvent.writeConfigSetDeadlineCancel() =
-      WriteConfigSetDeadlineCancel;
+      _$WriteConfigSetDeadlineCancel;
   const factory AnalyticsEvent.writeConfigChangeDeadline() =
-      WriteConfigChangeDeadline;
+      _$WriteConfigChangeDeadline;
   const factory AnalyticsEvent.writeConfigDeleteDeadline() =
-      WriteConfigDeleteDeadline;
+      _$WriteConfigDeleteDeadline;
   const factory AnalyticsEvent.writeConfigCategory(NoticeType noticeType) =
-      WriteConfigCategory;
-  const factory AnalyticsEvent.writeConfigAddHashtag() = WriteConfigAddHashtag;
+      _$WriteConfigCategory;
+  const factory AnalyticsEvent.writeConfigAddHashtag() =
+      _$WriteConfigAddHashtag;
   const factory AnalyticsEvent.writeConfigDoneHashtag() =
-      WriteConfigDoneHashtag;
+      _$WriteConfigDoneHashtag;
   const factory AnalyticsEvent.writeConfigAddHashtagAutocomplete() =
-      WriteConfigAddHashtagAutocomplete;
+      _$WriteConfigAddHashtagAutocomplete;
   const factory AnalyticsEvent.writeConfigAddHashtagDelete() =
-      WriteConfigAddHashtagDelete;
+      _$WriteConfigAddHashtagDelete;
   const factory AnalyticsEvent.writeConfigDeleteHashtag() =
-      WriteConfigDeleteHashtag;
-  const factory AnalyticsEvent.writeConfigPreview() = WriteConfigPreview;
-  const factory AnalyticsEvent.writeConfigPublish() = WriteConfigPublish;
+      _$WriteConfigDeleteHashtag;
+  const factory AnalyticsEvent.writeConfigPreview() = _$WriteConfigPreview;
+  const factory AnalyticsEvent.writeConfigPublish() = _$WriteConfigPublish;
   const factory AnalyticsEvent.writeConfigPublishAgree(bool value) =
-      WriteConfigPublishAgree;
+      _$WriteConfigPublishAgree;
   const factory AnalyticsEvent.writeConfigPublishUpload() =
-      WriteConfigPublishUpload;
+      _$WriteConfigPublishUpload;
 
 // 공지 수정 이벤트
-  const factory AnalyticsEvent.noticeEditPublish(int id) = NoticeEditPublish;
-  const factory AnalyticsEvent.noticeEditBody(int? id) = NoticeEditBody;
+  const factory AnalyticsEvent.noticeEditPublish(int id) = _$NoticeEditPublish;
+  const factory AnalyticsEvent.noticeEditBody(int? id) = _$NoticeEditBody;
   const factory AnalyticsEvent.noticeEditBodyToggleLanguage(String lang) =
-      NoticeEditBodyToggleLanguage;
+      _$NoticeEditBodyToggleLanguage;
   const factory AnalyticsEvent.noticeEditBodyUseAiTranslation() =
-      NoticeEditBodyUseAiTranslation;
+      _$NoticeEditBodyUseAiTranslation;
   const factory AnalyticsEvent.noticeEditBodyAbortUseAiTranslation() =
-      NoticeEditBodyAbortUseAiTranslation;
+      _$NoticeEditBodyAbortUseAiTranslation;
   const factory AnalyticsEvent.noticeEditBodyUndoUseAiTranslation() =
-      NoticeEditBodyUndoUseAiTranslation;
-  const factory AnalyticsEvent.noticeEditEnglish(int id) = NoticeEditEnglish;
+      _$NoticeEditBodyUndoUseAiTranslation;
+  const factory AnalyticsEvent.noticeEditEnglish(int id) = _$NoticeEditEnglish;
   const factory AnalyticsEvent.noticeEditAdditional(int? id) =
-      NoticeEditAdditional;
+      _$NoticeEditAdditional;
   const factory AnalyticsEvent.noticeEditAdditionalToggleLanguage(String lang) =
-      NoticeEditAdditionalToggleLanguage;
+      _$NoticeEditAdditionalToggleLanguage;
   const factory AnalyticsEvent.noticeEditAdditionalDone() =
-      NoticeEditAdditionalDone;
+      _$NoticeEditAdditionalDone;
   const factory AnalyticsEvent.noticeEditChangeDeadline(int? id) =
-      NoticeEditChangeDeadline;
-  const factory AnalyticsEvent.noticeEditSetDeadline() = NoticeEditSetDeadline;
+      _$NoticeEditChangeDeadline;
+  const factory AnalyticsEvent.noticeEditSetDeadline() =
+      _$NoticeEditSetDeadline;
   const factory AnalyticsEvent.noticeEditSetDeadlineCancel() =
-      NoticeEditSetDeadlineCancel;
-  const factory AnalyticsEvent.noticeEditPreview(int id) = NoticeEditPreview;
+      _$NoticeEditSetDeadlineCancel;
+  const factory AnalyticsEvent.noticeEditPreview(int id) = _$NoticeEditPreview;
 
 // 프로필 페이지 이벤트
-  const factory AnalyticsEvent.profileSetting() = ProfileSetting;
-  const factory AnalyticsEvent.profileMyNotices() = ProfileMyNotices;
-  const factory AnalyticsEvent.profileFeedback() = ProfileFeedback;
-  const factory AnalyticsEvent.profileLogout(String from) = ProfileLogout;
-  const factory AnalyticsEvent.profileWithdraw(String from) = ProfileWithdraw;
-  const factory AnalyticsEvent.profileLogin(String from) = ProfileLogin;
+  const factory AnalyticsEvent.profileSetting() = _$ProfileSetting;
+  const factory AnalyticsEvent.profileMyNotices() = _$ProfileMyNotices;
+  const factory AnalyticsEvent.profileFeedback() = _$ProfileFeedback;
+  const factory AnalyticsEvent.profileLogout(String from) = _$ProfileLogout;
+  const factory AnalyticsEvent.profileWithdraw(String from) = _$ProfileWithdraw;
+  const factory AnalyticsEvent.profileLogin(String from) = _$ProfileLogin;
   const factory AnalyticsEvent.profileSettingEnableNotification() =
-      ProfileSettingEnableNotification;
+      _$ProfileSettingEnableNotification;
   const factory AnalyticsEvent.profileSettingLanguage(String lang) =
-      ProfileSettingLanguage;
+      _$ProfileSettingLanguage;
   const factory AnalyticsEvent.profileSettingInformation() =
-      ProfileSettingInformation;
+      _$ProfileSettingInformation;
   const factory AnalyticsEvent.profileSettingInformationTos() =
-      ProfileSettingInformationTos;
+      _$ProfileSettingInformationTos;
   const factory AnalyticsEvent.profileSettingInformationPrivacy() =
-      ProfileSettingInformationPrivacy;
+      _$ProfileSettingInformationPrivacy;
   const factory AnalyticsEvent.profileSettingInformationLicense() =
-      ProfileSettingInformationLicense;
+      _$ProfileSettingInformationLicense;
 
   String get name => map(
         feed: (_) => '_feed',
