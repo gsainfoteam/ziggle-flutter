@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
@@ -14,15 +15,16 @@ class AnalyticsEvent with _$AnalyticsEvent {
       _CategoryType;
   const factory AnalyticsEvent.list(NoticeType noticeType) = _List;
   const factory AnalyticsEvent.profile() = _Profile;
-  const factory AnalyticsEvent.search(String? from) = _Search;
-  const factory AnalyticsEvent.write(String? from) = _Write;
-  const factory AnalyticsEvent.back(String from) = _Back;
+  const factory AnalyticsEvent.search(PageSource? from) = _Search;
+  const factory AnalyticsEvent.write(PageSource? from) = _Write;
+  const factory AnalyticsEvent.back(PageSource from) = _Back;
 
   // 공지 관련 이벤트
-  const factory AnalyticsEvent.notice(int id, String? from) = _Notice;
+  const factory AnalyticsEvent.notice(int id, PageSource? from) = _Notice;
   const factory AnalyticsEvent.noticeReaction(
-      int id, NoticeReaction noticeReaction, String from) = _NoticeReaction;
-  const factory AnalyticsEvent.noticeShare(int id, String from) = _NoticeShare;
+      int id, NoticeReaction noticeReaction, PageSource from) = _NoticeReaction;
+  const factory AnalyticsEvent.noticeShare(int id, PageSource from) =
+      _NoticeShare;
   const factory AnalyticsEvent.noticeCopy(int id) = _NoticeCopy;
   const factory AnalyticsEvent.noticeEdit(int id) = _NoticeEdit;
   const factory AnalyticsEvent.noticeDelete(int id) = _NoticeDelete;
@@ -100,9 +102,10 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.profileSetting() = _ProfileSetting;
   const factory AnalyticsEvent.profileMyNotices() = _ProfileMyNotices;
   const factory AnalyticsEvent.profileFeedback() = _ProfileFeedback;
-  const factory AnalyticsEvent.profileLogout(String from) = _ProfileLogout;
-  const factory AnalyticsEvent.profileWithdraw(String from) = _ProfileWithdraw;
-  const factory AnalyticsEvent.profileLogin(String from) = _ProfileLogin;
+  const factory AnalyticsEvent.profileLogout(PageSource from) = _ProfileLogout;
+  const factory AnalyticsEvent.profileWithdraw(PageSource from) =
+      _ProfileWithdraw;
+  const factory AnalyticsEvent.profileLogin(PageSource from) = _ProfileLogin;
   const factory AnalyticsEvent.profileSettingEnableNotification() =
       _ProfileSettingEnableNotification;
   const factory AnalyticsEvent.profileSettingLanguage(String lang) =
@@ -205,17 +208,17 @@ class AnalyticsEvent with _$AnalyticsEvent {
         },
         profile: (_) => {},
         search: (event) => {
-          'from': event.from ?? 'unknown',
+          'from': event.from ?? PageSource.unknown,
         },
         write: (event) => {
-          'from': event.from ?? 'unknown',
+          'from': event.from ?? PageSource.unknown,
         },
         back: (event) => {
           'from': event.from,
         },
         notice: (event) => {
           'id': event.id,
-          'from': event.from ?? 'unknown',
+          'from': event.from ?? PageSource.unknown,
         },
         noticeReaction: (event) => {
           'id': event.id,
