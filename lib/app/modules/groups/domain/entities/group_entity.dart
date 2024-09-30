@@ -1,7 +1,7 @@
 class GroupEntity {
   final String uuid;
   final String name;
-  final String? description;
+  final String description;
   final DateTime createdAt;
   final int president;
   final int memberCount;
