@@ -16,7 +16,12 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
   GroupCreateBloc(this._repository) : super(const _Draft()) {
     on<_SetName>((event, emit) async {
       emit(_Draft(state.draft.copyWith(name: event.name)));
-      print(state.draft.name);
+    });
+    on<_SetDescription>((event, emit) async {
+      emit(_Draft(state.draft.copyWith(description: event.description)));
+    });
+    on<_SetNotionPageId>((event, emit) async {
+      emit(_Draft(state.draft.copyWith(description: event.notionPageId)));
     });
     on<_Create>((event, emit) async {
       emit(const _Draft());
@@ -26,8 +31,12 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
 
 @freezed
 class GroupCreateEvent with _$GroupCreateEvent {
-  const factory GroupCreateEvent.setImages(File images) = _SetImages;
   const factory GroupCreateEvent.setName(String name) = _SetName;
+  const factory GroupCreateEvent.setImages(File images) = _SetImages;
+  const factory GroupCreateEvent.setDescription(String description) =
+      _SetDescription;
+  const factory GroupCreateEvent.setNotionPageId(String notionPageId) =
+      _SetNotionPageId;
   const factory GroupCreateEvent.create(GroupEntity group) = _Create;
 }
 
