@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 
 part 'group_model.freezed.dart';
+part 'group_model.g.dart';
 
 @freezed
 class GroupModel with _$GroupModel implements GroupEntity {

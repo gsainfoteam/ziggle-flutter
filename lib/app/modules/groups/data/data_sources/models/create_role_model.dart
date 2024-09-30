@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'create_role_model.freezed.dart';
+part 'create_role_model.g.dart';
 
 @freezed
 sealed class CreateRoleModel with _$CreateRoleModel {
