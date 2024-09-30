@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/groups/presentation/blocs/group_create_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/layouts/group_creation_layout.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -13,9 +16,12 @@ class GroupCreationIntroducePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GroupCreationLayout(
+    return GroupCreationLayout(
       step: GroupCreationStep.introduce,
-      child: _Layout(),
+      child: BlocProvider(
+        create: (_) => sl<GroupCreateBloc>(),
+        child: const _Layout(),
+      ),
     );
   }
 }
@@ -98,6 +104,9 @@ class _LayoutState extends State<_Layout> {
               child: ZiggleButton.cta(
                 onPressed: () {
                   if (_content.isEmpty) return;
+                  context
+                      .read<GroupCreateBloc>()
+                      .add(GroupCreateEvent.setDescription(_content));
                   const GroupCreationNotionRoute().push(context);
                 },
                 disabled: _content.isEmpty,
