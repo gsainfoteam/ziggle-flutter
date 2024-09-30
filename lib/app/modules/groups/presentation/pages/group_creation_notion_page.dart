@@ -126,6 +126,9 @@ class _LayoutState extends State<_Layout> {
                   context
                       .read<GroupCreateBloc>()
                       .add(GroupCreateEvent.setNotionPageId(_notionPageId));
+                  context
+                      .read<GroupCreateBloc>()
+                      .add(const GroupCreateEvent.create());
                   context.router
                       .popUntilRouteWithName(GroupCreationProfileRoute.name);
                   context.replaceRoute(const GroupCreationDoneRoute());
