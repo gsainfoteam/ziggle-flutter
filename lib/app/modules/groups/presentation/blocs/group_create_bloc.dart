@@ -21,7 +21,7 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
       emit(_Draft(state.draft.copyWith(description: event.description)));
     });
     on<_SetNotionPageId>((event, emit) async {
-      emit(_Draft(state.draft.copyWith(description: event.notionPageId)));
+      emit(_Draft(state.draft.copyWith(notionPageId: event.notionPageId)));
     });
     on<_Create>((event, emit) async {
       emit(const _Draft());
