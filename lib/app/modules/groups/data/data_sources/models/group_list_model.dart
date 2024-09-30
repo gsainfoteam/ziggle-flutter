@@ -3,6 +3,7 @@ import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.d
 import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';
 
 part 'group_list_model.freezed.dart';
+part 'group_list_model.g.dart';
 
 @freezed
 class GroupListModel with _$GroupListModel implements GroupListEntity {
