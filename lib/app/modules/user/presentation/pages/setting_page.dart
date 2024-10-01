@@ -6,7 +6,9 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/language_setting_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/notification_setting_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
@@ -18,8 +20,21 @@ import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
+
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage>
+    with AutoRouteAwareStateMixin<SettingPage> {
+  @override
+  void didPush() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.profileSetting());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.profileSetting());
 
   @override
   Widget build(BuildContext context) {
