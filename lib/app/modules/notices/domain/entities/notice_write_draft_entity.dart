@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 part 'notice_write_draft_entity.freezed.dart';
 
@@ -11,21 +11,21 @@ class NoticeWriteDraftEntity with _$NoticeWriteDraftEntity {
   const NoticeWriteDraftEntity._();
 
   const factory NoticeWriteDraftEntity({
-    @Default({}) Map<AppLocale, String> titles,
-    @Default({}) Map<AppLocale, String> bodies,
+    @Default({}) Map<Language, String> titles,
+    @Default({}) Map<Language, String> bodies,
     @Default([]) List<File> images,
     NoticeType? type,
     @Default([]) List<String> tags,
     DateTime? deadline,
-    @Default({}) Map<AppLocale, String> additionalContent,
+    @Default({}) Map<Language, String> additionalContent,
   }) = _NoticeWriteDraftEntity;
 
   bool get isValid =>
-      (!titles.empty(AppLocale.ko)) &&
-      (!bodies.empty(AppLocale.ko)) &&
+      (!titles.empty(Language.ko)) &&
+      (!bodies.empty(Language.ko)) &&
       type != null;
 }
 
-extension _LanguageContentX on Map<AppLocale, String> {
-  bool empty(AppLocale locale) => !containsKey(locale) || this[locale]!.isEmpty;
+extension _LanguageContentX on Map<Language, String> {
+  bool empty(Language locale) => !containsKey(locale) || this[locale]!.isEmpty;
 }

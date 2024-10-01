@@ -9,6 +9,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
@@ -32,10 +33,9 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
   late final _draft = context.read<NoticeWriteBloc>().state.draft;
   DateTime? _deadline;
   late final _content =
-      TextEditingController(text: _draft.additionalContent[AppLocale.ko] ?? '');
-  late final _enContent = _prevNotice.langs.contains(AppLocale.en)
-      ? TextEditingController(
-          text: _draft.additionalContent[AppLocale.en] ?? '')
+      TextEditingController(text: _draft.additionalContent[Language.ko] ?? '');
+  late final _enContent = _prevNotice.langs.contains(Language.en)
+      ? TextEditingController(text: _draft.additionalContent[Language.en] ?? '')
       : null;
   late final _tabController = TabController(
     length: _enContent != null ? 2 : 1,
@@ -78,9 +78,9 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                               NoticeWriteEvent.addAdditional(
                                 deadline: _deadline,
                                 contents: {
-                                  AppLocale.ko: _content.text,
+                                  Language.ko: _content.text,
                                   if (_enContent != null)
-                                    AppLocale.en: _enContent.text,
+                                    Language.en: _enContent.text,
                                 },
                               ),
                             );

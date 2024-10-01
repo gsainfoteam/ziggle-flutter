@@ -1,6 +1,6 @@
-import 'package:ziggle/gen/strings.g.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 
 abstract class LanguageSettingRepository {
-  Future<AppLocale> getLanguage();
-  Future<void> setLanguage(AppLocale language);
+  Future<Language> getLanguage();
+  Future<void> setLanguage(Language language);
 }

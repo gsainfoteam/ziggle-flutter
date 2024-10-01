@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 import 'author_model.dart';
 import 'notice_content_model.dart';
@@ -18,7 +18,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
   const factory NoticeModel({
     required int id,
     required int views,
-    @Default([AppLocale.ko]) List<AppLocale> langs,
+    @Default([Language.ko]) List<Language> langs,
     DateTime? deadline,
     DateTime? currentDeadline,
     required DateTime createdAt,
@@ -26,8 +26,8 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     @Default([]) List<String> tags,
     required String title,
     required String content,
-    Map<AppLocale, String>? addedTitles,
-    Map<AppLocale, String>? addedContents,
+    Map<Language, String>? addedTitles,
+    Map<Language, String>? addedContents,
     @Default([]) List<NoticeContentModel> additionalContents,
     required List<NoticeReactionModel> reactions,
     required AuthorModel author,
@@ -46,10 +46,10 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
       imageUrls.map((e) => CachedNetworkImageProvider(e)).toList();
 
   @override
-  Map<AppLocale, String> get titles =>
-      addedTitles ?? {LocaleSettings.currentLocale: title};
+  Map<Language, String> get titles =>
+      addedTitles ?? {Language.getCurrentLanguage(): title};
 
   @override
-  Map<AppLocale, String> get contents =>
-      addedContents ?? {LocaleSettings.currentLocale: content};
+  Map<Language, String> get contents =>
+      addedContents ?? {Language.getCurrentLanguage(): content};
 }
