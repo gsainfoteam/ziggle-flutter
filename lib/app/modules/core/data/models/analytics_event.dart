@@ -79,7 +79,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
 
 // 공지 수정 이벤트
   const factory AnalyticsEvent.noticeEditPublish(int id) = _NoticeEditPublish;
-  const factory AnalyticsEvent.noticeEditBody(int? id) = _NoticeEditBody;
+  const factory AnalyticsEvent.noticeEditBody(int id) = _NoticeEditBody;
   const factory AnalyticsEvent.noticeEditBodyToggleLanguage(String lang) =
       _NoticeEditBodyToggleLanguage;
   const factory AnalyticsEvent.noticeEditBodyUseAiTranslation() =

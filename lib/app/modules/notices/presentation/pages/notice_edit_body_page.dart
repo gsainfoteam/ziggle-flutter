@@ -9,7 +9,9 @@ import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
@@ -25,10 +27,24 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeEditBodyPage extends StatelessWidget {
+class NoticeEditBodyPage extends StatefulWidget {
   const NoticeEditBodyPage({super.key, this.showEnglish = false});
 
   final bool showEnglish;
+
+  @override
+  State<NoticeEditBodyPage> createState() => _NoticeEditBodyPageState();
+}
+
+class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
+    with AutoRouteAwareStateMixin<NoticeEditBodyPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(AnalyticsEvent.noticeEditBody(
+      context.read<NoticeBloc>().state.entity!.id));
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(AnalyticsEvent.noticeEditBody(
+          context.read<NoticeBloc>().state.entity!.id));
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +54,7 @@ class NoticeEditBodyPage extends StatelessWidget {
         listener: (context, state) => state.mapOrNull(
           error: (error) => context.showToast(error.message),
         ),
-        child: _Layout(showEnglish: showEnglish),
+        child: _Layout(showEnglish: widget.showEnglish),
       ),
     );
   }
