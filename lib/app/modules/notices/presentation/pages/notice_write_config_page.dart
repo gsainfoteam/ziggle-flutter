@@ -27,7 +27,15 @@ class NoticeWriteConfigPage extends StatefulWidget {
   State<NoticeWriteConfigPage> createState() => _NoticeWriteConfigPageState();
 }
 
-class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
+class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
+    with AutoRouteAwareStateMixin<NoticeWriteConfigPage> {
+  @override
+  void didPush() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.writeConfig());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.writeConfig());
+
   DateTime? _deadline;
   NoticeType? _type;
   final List<String> _tags = [];
