@@ -15,8 +15,18 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class CategoryPage extends StatelessWidget {
+class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
+
+  @override
+  State<CategoryPage> createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends State<CategoryPage>
+    with AutoRouteAwareStateMixin {
+  @override
+  void didChangeTabRoute(previousRoute) =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.category());
 
   @override
   Widget build(BuildContext context) {
