@@ -21,8 +21,20 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
+
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage>
+    with AutoRouteAwareStateMixin<SearchPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(const AnalyticsEvent.search());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.search());
 
   @override
   Widget build(BuildContext context) {
