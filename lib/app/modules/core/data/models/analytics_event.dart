@@ -24,7 +24,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.back(PageSource from) = _Back;
 
   // 공지 관련 이벤트
-  const factory AnalyticsEvent.notice(int id, PageSource? from) = _Notice;
+  const factory AnalyticsEvent.notice(int id, [PageSource? from]) = _Notice;
   const factory AnalyticsEvent.noticeReaction(
       int id, NoticeReaction noticeReaction, PageSource from) = _NoticeReaction;
   const factory AnalyticsEvent.noticeShare(int id, PageSource from) =
