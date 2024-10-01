@@ -15,8 +15,22 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeWriteSelectTagsPage extends StatelessWidget {
+class NoticeWriteSelectTagsPage extends StatefulWidget {
   const NoticeWriteSelectTagsPage({super.key});
+
+  @override
+  State<NoticeWriteSelectTagsPage> createState() =>
+      _NoticeWriteSelectTagsPageState();
+}
+
+class _NoticeWriteSelectTagsPageState extends State<NoticeWriteSelectTagsPage>
+    with AutoRouteAwareStateMixin<NoticeWriteSelectTagsPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(
+      const AnalyticsEvent.writeConfigAddHashtag());
+  @override
+  void didPopNext() => AnalyticsRepository.pageView(
+      const AnalyticsEvent.writeConfigAddHashtag());
 
   @override
   Widget build(BuildContext context) {
