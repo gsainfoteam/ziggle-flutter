@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/document_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/image_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/notice_api.dart';
@@ -20,7 +21,6 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 @Injectable(as: NoticeRepository)
 class RestNoticeRepository implements NoticeRepository {
@@ -64,7 +64,8 @@ class RestNoticeRepository implements NoticeRepository {
 
   @override
   Future<NoticeEntity> getNotice(int id, [bool getAllLanguages = false]) async {
-    final notice = await _api.getNotice(id, lang: LocaleSettings.currentLocale);
+    final notice =
+        await _api.getNotice(id, lang: Language.getCurrentLanguage());
     if (getAllLanguages) {
       final langs = notice.langs;
       final notices = await Future.wait(langs.map((lang) async {
@@ -98,7 +99,7 @@ class RestNoticeRepository implements NoticeRepository {
       tags: tags,
       my: NoticeMy.fromType(type),
       orderBy: NoticeSort.fromType(type),
-      lang: LocaleSettings.currentLocale,
+      lang: Language.getCurrentLanguage(),
       category: NoticeCategory.fromType(type),
     ));
   }
@@ -170,9 +171,9 @@ class RestNoticeRepository implements NoticeRepository {
     String? title,
     required String content,
     required int contentId,
-    required AppLocale lang,
+    required Language lang,
     DateTime? deadline,
-  }) {
+  }) async {
     return _api.addForeign(
       id,
       contentId,

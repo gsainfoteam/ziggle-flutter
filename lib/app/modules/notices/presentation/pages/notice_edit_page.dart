@@ -6,6 +6,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
@@ -91,7 +92,7 @@ class _NoticeEditPageState extends State<NoticeEditPage>
                 const SizedBox(height: 10),
                 _ActionButton(
                   disabled: !state.isLoaded ||
-                      state.entity!.contents[AppLocale.en] != null,
+                      state.entity!.contents[Language.en] != null,
                   icon: Assets.icons.language,
                   title: context.t.notice.edit.addEnglish,
                   onPressed: () =>

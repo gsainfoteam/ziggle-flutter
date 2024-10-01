@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:ziggle/gen/strings.g.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 
 class NoticeContentEntity {
   const NoticeContentEntity({
@@ -11,19 +11,19 @@ class NoticeContentEntity {
   });
 
   final int id;
-  final AppLocale lang;
+  final Language lang;
   final String content;
   final DateTime? deadline;
   final DateTime createdAt;
 }
 
 extension NoticeContentsEntityX on Iterable<NoticeContentEntity> {
-  Iterable<NoticeContentEntity> localesBy(AppLocale locale) =>
+  Iterable<NoticeContentEntity> localesBy(Language locale) =>
       where((e) => e.lang == locale);
   Iterable<NoticeContentEntity> get locales =>
       groupFoldBy<int, NoticeContentEntity>(
         (element) => element.id,
-        (p, e) => e.lang == LocaleSettings.currentLocale || p == null ? e : p,
+        (p, e) => e.lang == Language.getCurrentLanguage() || p == null ? e : p,
       ).values;
   NoticeContentEntity get main => locales.firstWhere((e) => e.id == 1);
   Iterable<NoticeContentEntity> get additionals => locales.where(

@@ -14,6 +14,7 @@ import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
@@ -123,11 +124,11 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     if (_englishTitleController.text.isNotEmpty) {
       bloc
         ..add(
-          NoticeWriteEvent.setTitle(_englishTitleController.text, AppLocale.en),
+          NoticeWriteEvent.setTitle(_englishTitleController.text, Language.en),
         )
         ..add(NoticeWriteEvent.setBody(
           _englishBodyController.html,
-          AppLocale.en,
+          Language.en,
         ));
     }
   }
@@ -309,7 +310,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     final blocker = bloc.stream.firstWhere((s) => s.hasResult);
     bloc.add(AiEvent.request(
       body: _koreanBodyController.html,
-      lang: AppLocale.en,
+      lang: Language.en,
     ));
     final result = await blocker;
     result.mapOrNull(
