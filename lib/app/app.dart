@@ -12,6 +12,7 @@ import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/developer_option_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.dart';
+import 'package:ziggle/app/router_observer.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/theme.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -31,7 +32,11 @@ class App extends StatelessWidget {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: MaterialApp.router(
           theme: AppTheme.theme,
-          routerConfig: _appRouter.config(),
+          routerConfig: _appRouter.config(
+            navigatorObservers: () => [
+              sl<AppRouterObserver>(),
+            ],
+          ),
           locale: TranslationProvider.of(context).flutterLocale,
           supportedLocales: AppLocaleUtils.supportedLocales,
           localizationsDelegates: GlobalMaterialLocalizations.delegates,
