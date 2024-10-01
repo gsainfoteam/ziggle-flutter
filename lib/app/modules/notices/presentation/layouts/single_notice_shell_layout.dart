@@ -9,7 +9,7 @@ import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 class SingleNoticeShellLayout extends StatelessWidget {
   SingleNoticeShellLayout({
     super.key,
-    int? id,
+    @PathParam() int? id,
     NoticeEntity? notice,
   })  : assert(id != null || notice != null),
         id = id ?? notice!.id,
