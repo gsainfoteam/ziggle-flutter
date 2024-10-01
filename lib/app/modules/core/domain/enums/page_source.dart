@@ -1,10 +1,10 @@
 enum PageSource {
-  feed,
   category,
-  list,
-  search,
   detail,
+  feed,
+  list,
   profile,
+  search,
   setting,
   unknown,
 }
