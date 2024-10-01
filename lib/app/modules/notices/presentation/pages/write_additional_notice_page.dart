@@ -9,6 +9,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
@@ -65,6 +66,7 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.common.cancel,
+        from: PageSource.noticeEditAdditional,
         title: Text(context.t.notice.write.configTitle),
         actions: [
           ZiggleButton.text(

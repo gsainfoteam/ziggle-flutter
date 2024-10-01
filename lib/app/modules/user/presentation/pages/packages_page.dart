@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -18,6 +19,7 @@ class PackagesPage extends StatelessWidget {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.common.back,
+        from: PageSource.unknown,
         title: Text(context.t.user.setting.information.openSourceLicense),
       ),
       body: FutureBuilder(

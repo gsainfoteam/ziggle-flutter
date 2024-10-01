@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_renderer.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -15,6 +16,7 @@ class DetailPage extends StatelessWidget {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.notice.detail.back,
+        from: PageSource.detail,
         title: Text(context.t.notice.detail.title),
       ),
       body: const _Layout(),

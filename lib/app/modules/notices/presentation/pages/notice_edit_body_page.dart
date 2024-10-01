@@ -8,8 +8,8 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
@@ -152,8 +152,9 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                     .trim()
                     .isEmpty));
     return Scaffold(
-      appBar: ZiggleAppBar(
-        leading: ZiggleBackButton(label: context.t.common.cancel),
+      appBar: ZiggleAppBar.compact(
+        backLabel: context.t.common.cancel,
+        from: PageSource.noticeEditBody,
         title: Text(
           _tabController.index == 0
               ? context.t.notice.edit.title

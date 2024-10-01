@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/developer_option_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/strings.dart';
@@ -22,6 +23,7 @@ class InformationPage extends StatelessWidget {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.user.setting.title,
+        from: PageSource.settingInformation,
         title: Text(context.t.user.setting.information.title),
       ),
       body: SingleChildScrollView(

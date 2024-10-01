@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
@@ -22,6 +23,7 @@ class PackageLicensesPage extends StatelessWidget {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.common.back,
+        from: PageSource.settingInformationLicense,
         title: Text(package),
       ),
       body: Scrollbar(

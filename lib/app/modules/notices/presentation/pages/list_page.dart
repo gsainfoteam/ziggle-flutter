@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
@@ -36,6 +37,7 @@ class _ListPageState extends State<ListPage>
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.notice.list,
+        from: PageSource.list,
         title: Text(widget.type.getName(context)),
       ),
       body: BlocProvider(
