@@ -18,8 +18,21 @@ import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class FeedPage extends StatelessWidget {
+class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
+
+  @override
+  State<FeedPage> createState() => _FeedPageState();
+}
+
+class _FeedPageState extends State<FeedPage>
+    with AutoRouteAwareStateMixin<FeedPage> {
+  @override
+  void didInitTabRoute(previousRoute) =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.feed());
+  @override
+  void didChangeTabRoute(previousRoute) =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.feed());
 
   @override
   Widget build(BuildContext context) {
