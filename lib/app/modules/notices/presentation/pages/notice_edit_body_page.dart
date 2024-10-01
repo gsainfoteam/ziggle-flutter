@@ -10,6 +10,7 @@ import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
@@ -57,12 +58,11 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
   late final _prevNotice = context.read<NoticeBloc>().state.entity!;
   late final _draft = context.read<NoticeWriteBloc>().state.draft;
   late final _koreanTitleController = TextEditingController(
-      text: _draft.titles[AppLocale.ko] ??
-          _prevNotice.titles[AppLocale.ko] ??
-          '');
+      text:
+          _draft.titles[Language.ko] ?? _prevNotice.titles[Language.ko] ?? '');
   late final _koreanBodyController = QuillController(
-    document: documentFromHtml(_draft.bodies[AppLocale.ko] ??
-        _prevNotice.contents[AppLocale.ko] ??
+    document: documentFromHtml(_draft.bodies[Language.ko] ??
+        _prevNotice.contents[Language.ko] ??
         '<br/>'),
     selection: const TextSelection.collapsed(offset: 0),
     readOnly: _prevNotice.isPublished,
@@ -70,15 +70,14 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
   final _koreanTitleFocusNode = FocusNode();
   final _koreanBodyFocusNode = FocusNode();
   late final _englishTitleController = TextEditingController(
-      text: _draft.titles[AppLocale.en] ??
-          _prevNotice.titles[AppLocale.en] ??
-          '');
+      text:
+          _draft.titles[Language.en] ?? _prevNotice.titles[Language.en] ?? '');
   late final _englishBodyController = QuillController(
-    document: documentFromHtml(_draft.bodies[AppLocale.en] ??
-        _prevNotice.contents[AppLocale.en] ??
+    document: documentFromHtml(_draft.bodies[Language.en] ??
+        _prevNotice.contents[Language.en] ??
         '<br/>'),
     selection: const TextSelection.collapsed(offset: 0),
-    readOnly: _prevNotice.contents[AppLocale.en] != null,
+    readOnly: _prevNotice.contents[Language.en] != null,
   );
   final _englishTitleFocusNode = FocusNode();
   final _englishBodyFocusNode = FocusNode();
@@ -133,11 +132,11 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     if (_englishTitleController.text.isNotEmpty) {
       bloc
         ..add(
-          NoticeWriteEvent.setTitle(_englishTitleController.text, AppLocale.en),
+          NoticeWriteEvent.setTitle(_englishTitleController.text, Language.en),
         )
         ..add(NoticeWriteEvent.setBody(
           _englishBodyController.html,
-          AppLocale.en,
+          Language.en,
         ));
     }
   }
@@ -239,7 +238,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
             bodyController: _koreanBodyController,
           ),
           Editor(
-            titleDisabled: _prevNotice.contents[AppLocale.en] != null,
+            titleDisabled: _prevNotice.contents[Language.en] != null,
             onTranslate: _englishBodyController.plainTextEditingValue.text
                     .trim()
                     .isNotEmpty
@@ -260,7 +259,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     final blocker = bloc.stream.firstWhere((s) => s.hasResult);
     bloc.add(AiEvent.request(
       body: _koreanBodyController.html,
-      lang: AppLocale.en,
+      lang: Language.en,
     ));
     final result = await blocker;
     result.mapOrNull(

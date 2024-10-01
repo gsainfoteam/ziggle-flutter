@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_draft_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 import '../enums/notice_reaction.dart';
 import 'author_entity.dart';
@@ -14,14 +14,14 @@ import 'notice_reaction_entity.dart';
 class NoticeEntity {
   final int id;
   final int views;
-  final List<AppLocale> langs;
+  final List<Language> langs;
   final DateTime? deadline;
   final DateTime? currentDeadline;
   final DateTime createdAt;
   final DateTime? deletedAt;
   final List<String> tags;
-  final Map<AppLocale, String> titles;
-  final Map<AppLocale, String> contents;
+  final Map<Language, String> titles;
+  final Map<Language, String> contents;
   final List<NoticeContentEntity> additionalContents;
   final List<NoticeReactionEntity> reactions;
   final AuthorEntity author;
@@ -63,8 +63,8 @@ class NoticeEntity {
         createdAt: DateTime.now(),
         deletedAt: null,
         tags: [],
-        titles: {LocaleSettings.currentLocale: ''},
-        contents: {LocaleSettings.currentLocale: ''},
+        titles: {Language.getCurrent(): ''},
+        contents: {Language.getCurrent(): ''},
         additionalContents: [],
         reactions: [],
         images: [],
@@ -90,14 +90,14 @@ class NoticeEntity {
       NoticeEntity(
         id: 0,
         views: 0,
-        langs: [AppLocale.ko],
+        langs: [Language.ko],
         deadline: deadline,
         currentDeadline: null,
         createdAt: createdAt,
         deletedAt: null,
         tags: tags,
-        titles: {LocaleSettings.currentLocale: title},
-        contents: {LocaleSettings.currentLocale: content},
+        titles: {Language.getCurrent(): title},
+        contents: {Language.getCurrent(): content},
         additionalContents: [],
         reactions: reactions,
         author: AuthorEntity(name: authorName, uuid: ''),
@@ -116,7 +116,7 @@ class NoticeEntity {
       NoticeEntity(
         id: 0,
         views: 0,
-        langs: [AppLocale.ko],
+        langs: [Language.ko],
         deadline: draft.deadline,
         currentDeadline: draft.deadline,
         createdAt: DateTime.now(),
@@ -244,6 +244,6 @@ extension NoticeEntityExtension on NoticeEntity {
       );
 }
 
-extension LanguageContentX on Map<AppLocale, String> {
-  String get current => this[LocaleSettings.currentLocale] ?? values.first;
+extension LanguageContentX on Map<Language, String> {
+  String get current => this[Language.getCurrent()] ?? values.first;
 }

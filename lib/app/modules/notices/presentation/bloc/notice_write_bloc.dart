@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_draft_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 part 'notice_write_bloc.freezed.dart';
 
@@ -43,44 +43,44 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
         if (event.prevNotice != null) {
           final notice = event.prevNotice!;
           if (!notice.isPublished &&
-              state.draft.bodies.containsKey(AppLocale.ko)) {
+              state.draft.bodies.containsKey(Language.ko)) {
             await _repository.modify(
               id: notice.id,
-              content: state.draft.bodies[AppLocale.ko]!,
+              content: state.draft.bodies[Language.ko]!,
             );
           }
-          if (!notice.contents.containsKey(AppLocale.en) &&
-              state.draft.bodies.containsKey(AppLocale.en)) {
+          if (!notice.contents.containsKey(Language.en) &&
+              state.draft.bodies.containsKey(Language.en)) {
             await _repository.writeForeign(
               id: notice.id,
               deadline: notice.deadline,
-              title: state.draft.titles[AppLocale.en]!,
-              content: state.draft.bodies[AppLocale.en]!,
+              title: state.draft.titles[Language.en]!,
+              content: state.draft.bodies[Language.en]!,
               contentId: 1,
-              lang: AppLocale.en,
+              lang: Language.en,
             );
           }
           if (state.draft.additionalContent.isNotEmpty) {
             final added = await _repository.addAdditionalContent(
               id: notice.id,
-              content: state.draft.additionalContent[AppLocale.ko]!,
+              content: state.draft.additionalContent[Language.ko]!,
               deadline: state.draft.deadline ?? notice.currentDeadline,
             );
-            if (state.draft.additionalContent.containsKey(AppLocale.en)) {
+            if (state.draft.additionalContent.containsKey(Language.en)) {
               await _repository.writeForeign(
                 id: notice.id,
                 contentId: added.lastContentId,
-                content: state.draft.additionalContent[AppLocale.en]!,
+                content: state.draft.additionalContent[Language.en]!,
                 deadline: state.draft.deadline ?? notice.currentDeadline,
-                lang: AppLocale.en,
+                lang: Language.en,
               );
             }
           }
           emit(_Done(state.draft, await _repository.getNotice(notice.id)));
         } else {
           final notice = await _repository.write(
-            title: state.draft.titles[AppLocale.ko]!,
-            content: state.draft.bodies[AppLocale.ko]!,
+            title: state.draft.titles[Language.ko]!,
+            content: state.draft.bodies[Language.ko]!,
             type: state.draft.type!,
             tags: state.draft.tags,
             images: state.draft.images,
@@ -98,9 +98,9 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
 @freezed
 class NoticeWriteEvent {
   const factory NoticeWriteEvent.setTitle(String title,
-      [@Default(AppLocale.ko) AppLocale lang]) = _SetTitle;
+      [@Default(Language.ko) Language lang]) = _SetTitle;
   const factory NoticeWriteEvent.setBody(String body,
-      [@Default(AppLocale.ko) AppLocale lang]) = _SetBody;
+      [@Default(Language.ko) Language lang]) = _SetBody;
   const factory NoticeWriteEvent.setImages(List<File> images) = _SetImages;
   const factory NoticeWriteEvent.setConfig({
     required NoticeType type,
@@ -109,7 +109,7 @@ class NoticeWriteEvent {
   }) = _SetConfig;
   const factory NoticeWriteEvent.addAdditional({
     DateTime? deadline,
-    required Map<AppLocale, String> contents,
+    required Map<Language, String> contents,
   }) = _AddAdditional;
   const factory NoticeWriteEvent.publish([NoticeEntity? prevNotice]) = _Publish;
 }

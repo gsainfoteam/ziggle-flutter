@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/ai_repository.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 part 'ai_bloc.freezed.dart';
 
@@ -30,7 +30,7 @@ class AiBloc extends Bloc<AiEvent, AiState> {
 sealed class AiEvent with _$AiEvent {
   const factory AiEvent.request({
     required String body,
-    required AppLocale lang,
+    required Language lang,
   }) = _Request;
 }
 

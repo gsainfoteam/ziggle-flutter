@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/document_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/image_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/notice_api.dart';
@@ -64,7 +65,7 @@ class RestNoticeRepository implements NoticeRepository {
 
   @override
   Future<NoticeEntity> getNotice(int id, [bool getAllLanguages = false]) async {
-    final notice = await _api.getNotice(id, lang: LocaleSettings.currentLocale);
+    final notice = await _api.getNotice(id, lang: Language.getCurrent());
     if (getAllLanguages) {
       final langs = notice.langs;
       final notices = await Future.wait(langs.map((lang) async {
@@ -170,9 +171,9 @@ class RestNoticeRepository implements NoticeRepository {
     String? title,
     required String content,
     required int contentId,
-    required AppLocale lang,
+    required Language lang,
     DateTime? deadline,
-  }) {
+  }) async {
     return _api.addForeign(
       id,
       contentId,

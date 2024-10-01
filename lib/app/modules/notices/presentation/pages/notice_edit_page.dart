@@ -5,6 +5,7 @@ import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
@@ -74,7 +75,7 @@ class NoticeEditPage extends StatelessWidget {
                 const SizedBox(height: 10),
                 _ActionButton(
                   disabled: !state.isLoaded ||
-                      state.entity!.contents[AppLocale.en] != null,
+                      state.entity!.contents[Language.en] != null,
                   icon: Assets.icons.language,
                   title: context.t.notice.edit.addEnglish,
                   onPressed: () =>

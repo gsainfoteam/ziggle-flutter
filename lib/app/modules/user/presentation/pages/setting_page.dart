@@ -6,6 +6,7 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/language_setting_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/notification_setting_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
@@ -95,7 +96,7 @@ class SettingPage extends StatelessWidget {
                 showChevron: false,
                 onPressed: () {
                   LocaleSettings.setLocale(AppLocale.ko);
-                  sl<LanguageSettingRepository>().setLanguage(AppLocale.ko);
+                  sl<LanguageSettingRepository>().setLanguage(Language.ko);
                 },
               ),
               const SizedBox(height: 20),
@@ -104,7 +105,7 @@ class SettingPage extends StatelessWidget {
                 showChevron: false,
                 onPressed: () {
                   LocaleSettings.setLocale(AppLocale.en);
-                  sl<LanguageSettingRepository>().setLanguage(AppLocale.en);
+                  sl<LanguageSettingRepository>().setLanguage(Language.en);
                 },
               ),
               _Title(title: context.t.user.setting.information.title),
