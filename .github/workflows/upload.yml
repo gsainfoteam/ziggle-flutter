@@ -41,7 +41,7 @@ jobs:
         env:
           KEYSTORE: ${{ secrets.KEYSTORE }}
           KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         if: matrix.os == 'Android'
       - uses: w9jds/setup-firebase@main
         if: matrix.os == 'Android'
