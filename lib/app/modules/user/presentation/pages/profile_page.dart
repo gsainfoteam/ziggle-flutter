@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
@@ -17,8 +19,18 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage>
+    with AutoRouteAwareStateMixin<ProfilePage> {
+  @override
+  void didChangeTabRoute(previousRoute) =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.profile());
 
   @override
   Widget build(BuildContext context) {
