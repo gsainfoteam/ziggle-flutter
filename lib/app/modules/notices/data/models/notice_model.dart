@@ -47,9 +47,9 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
 
   @override
   Map<Language, String> get titles =>
-      addedTitles ?? {Language.getCurrent(): title};
+      addedTitles ?? {Language.getCurrentLanguage(): title};
 
   @override
   Map<Language, String> get contents =>
-      addedContents ?? {Language.getCurrent(): content};
+      addedContents ?? {Language.getCurrentLanguage(): content};
 }

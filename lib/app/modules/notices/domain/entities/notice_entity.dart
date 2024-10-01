@@ -63,8 +63,8 @@ class NoticeEntity {
         createdAt: DateTime.now(),
         deletedAt: null,
         tags: [],
-        titles: {Language.getCurrent(): ''},
-        contents: {Language.getCurrent(): ''},
+        titles: {Language.getCurrentLanguage(): ''},
+        contents: {Language.getCurrentLanguage(): ''},
         additionalContents: [],
         reactions: [],
         images: [],
@@ -96,8 +96,8 @@ class NoticeEntity {
         createdAt: createdAt,
         deletedAt: null,
         tags: tags,
-        titles: {Language.getCurrent(): title},
-        contents: {Language.getCurrent(): content},
+        titles: {Language.getCurrentLanguage(): title},
+        contents: {Language.getCurrentLanguage(): content},
         additionalContents: [],
         reactions: reactions,
         author: AuthorEntity(name: authorName, uuid: ''),
@@ -245,5 +245,5 @@ extension NoticeEntityExtension on NoticeEntity {
 }
 
 extension LanguageContentX on Map<Language, String> {
-  String get current => this[Language.getCurrent()] ?? values.first;
+  String get current => this[Language.getCurrentLanguage()] ?? values.first;
 }

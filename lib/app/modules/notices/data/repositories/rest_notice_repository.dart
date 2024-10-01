@@ -65,7 +65,8 @@ class RestNoticeRepository implements NoticeRepository {
 
   @override
   Future<NoticeEntity> getNotice(int id, [bool getAllLanguages = false]) async {
-    final notice = await _api.getNotice(id, lang: Language.getCurrent());
+    final notice =
+        await _api.getNotice(id, lang: Language.getCurrentLanguage());
     if (getAllLanguages) {
       final langs = notice.langs;
       final notices = await Future.wait(langs.map((lang) async {

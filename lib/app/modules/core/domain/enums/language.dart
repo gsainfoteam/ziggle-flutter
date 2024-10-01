@@ -4,6 +4,10 @@ enum Language {
   en,
   ko;
 
-  static getCurrent() =>
-      LocaleSettings.currentLocale == AppLocale.ko ? Language.ko : Language.en;
+  static Language getCurrentLanguage() =>
+      {
+        AppLocale.ko: Language.ko,
+        AppLocale.en: Language.en,
+      }[LocaleSettings.currentLocale] ??
+      Language.en;
 }

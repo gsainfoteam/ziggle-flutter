@@ -23,7 +23,7 @@ extension NoticeContentsEntityX on Iterable<NoticeContentEntity> {
   Iterable<NoticeContentEntity> get locales =>
       groupFoldBy<int, NoticeContentEntity>(
         (element) => element.id,
-        (p, e) => e.lang == Language.getCurrent() || p == null ? e : p,
+        (p, e) => e.lang == Language.getCurrentLanguage() || p == null ? e : p,
       ).values;
   NoticeContentEntity get main => locales.firstWhere((e) => e.id == 1);
   Iterable<NoticeContentEntity> get additionals => locales.where(
