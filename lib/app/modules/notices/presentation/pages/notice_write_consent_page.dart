@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/consent_item.dart';
 import 'package:ziggle/app/router.gr.dart';
@@ -12,8 +14,21 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeWriteConsentPage extends StatelessWidget {
+class NoticeWriteConsentPage extends StatefulWidget {
   const NoticeWriteConsentPage({super.key});
+
+  @override
+  State<NoticeWriteConsentPage> createState() => _NoticeWriteConsentPageState();
+}
+
+class _NoticeWriteConsentPageState extends State<NoticeWriteConsentPage>
+    with AutoRouteAwareStateMixin<NoticeWriteConsentPage> {
+  @override
+  void didPush() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.writeConfigPublish());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.writeConfigPublish());
 
   @override
   Widget build(BuildContext context) {
