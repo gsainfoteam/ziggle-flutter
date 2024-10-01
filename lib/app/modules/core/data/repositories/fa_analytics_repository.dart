@@ -7,7 +7,7 @@ import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import '../../domain/repositories/analytics_repository.dart';
 
 @Singleton(as: AnalyticsRepository)
-@prod
+@dev
 class FirebaseAnalyticsRepository implements AnalyticsRepository {
   static final _analytics = FirebaseAnalytics.instance;
 
@@ -26,6 +26,8 @@ class FirebaseAnalyticsRepository implements AnalyticsRepository {
 
   @override
   logEvent(EventType type, AnalyticsEvent event) {
+    print('${type.name}_${event.name}');
+    print('${event.parameters}');
     _analytics.logEvent(
         name: '${type.name}_${event.name}', parameters: event.parameters);
   }

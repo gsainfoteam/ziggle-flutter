@@ -1,8 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
@@ -18,8 +23,18 @@ class CategoryPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.main(
-        onTapSearch: () => const SearchRoute().push(context),
+        onTapSearch: () {
+          sl<AnalyticsRepository>().logEvent(
+            EventType.click,
+            const AnalyticsEvent.search(PageSource.category),
+          );
+          const SearchRoute().push(context);
+        },
         onTapWrite: () {
+          sl<AnalyticsRepository>().logEvent(
+            EventType.click,
+            const AnalyticsEvent.write(PageSource.category),
+          );
           if (UserBloc.userOrNull(context) == null) {
             return context.showToast(
               context.t.user.login.description,
@@ -54,8 +69,13 @@ class CategoryPage extends StatelessWidget {
                               if (category.$1 != 0) const SizedBox(width: 10),
                               Expanded(
                                 child: ZigglePressable(
-                                  onPressed: () => ListRoute(type: category.$2)
-                                      .push(context),
+                                  onPressed: () {
+                                    sl<AnalyticsRepository>().logEvent(
+                                      EventType.click,
+                                      AnalyticsEvent.categoryType(category.$2),
+                                    );
+                                    ListRoute(type: category.$2).push(context);
+                                  },
                                   decoration: BoxDecoration(
                                     color: category.$2.backgroundColor,
                                     borderRadius: const BorderRadius.all(

@@ -25,7 +25,9 @@ class ListPage extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (_) => sl<NoticeListBloc>()..add(NoticeListEvent.load(type)),
-        child: const ListLayout(),
+        child: ListLayout(
+          noticeType: type,
+        ),
       ),
     );
   }

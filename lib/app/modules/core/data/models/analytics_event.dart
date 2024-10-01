@@ -125,13 +125,13 @@ class AnalyticsEvent with _$AnalyticsEvent {
 
   Map<String, Object> get parameters {
     final json = toJson();
-    json.remove('type');
+    json.remove('runtimeType');
     return json.cast<String, Object>();
   }
 
   String get name {
     final json = toJson();
-    return camelToSnake(json['type']);
+    return camelToSnake(json['runtimeType']);
   }
 
   String camelToSnake(String text) {

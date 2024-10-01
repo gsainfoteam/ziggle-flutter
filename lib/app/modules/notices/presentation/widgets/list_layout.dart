@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
+import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.dart';
@@ -12,7 +18,9 @@ import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class ListLayout extends StatelessWidget {
-  const ListLayout({super.key});
+  const ListLayout({super.key, required this.noticeType});
+
+  final NoticeType noticeType;
 
   @override
   Widget build(BuildContext context) {
@@ -58,11 +66,30 @@ class ListLayout extends StatelessWidget {
                                           : NoticeListEvent.addLike(notice),
                                     );
                               },
-                              onPressed: () =>
-                                  SingleNoticeShellRoute(notice: notice)
-                                      .push(context),
-                              onShare: () =>
-                                  context.read<ShareCubit>().share(notice),
+                              onPressed: () {
+                                sl<AnalyticsRepository>().logEvent(
+                                  EventType.click,
+                                  AnalyticsEvent.notice(
+                                      notice.id,
+                                      noticeType == NoticeType.all
+                                          ? PageSource.feed
+                                          : PageSource.list),
+                                );
+
+                                SingleNoticeShellRoute(notice: notice)
+                                    .push(context);
+                              },
+                              onShare: () {
+                                sl<AnalyticsRepository>().logEvent(
+                                  EventType.click,
+                                  AnalyticsEvent.noticeShare(
+                                      notice.id,
+                                      noticeType == NoticeType.all
+                                          ? PageSource.feed
+                                          : PageSource.list),
+                                );
+                                context.read<ShareCubit>().share(notice);
+                              },
                               notice: notice,
                             );
                           },

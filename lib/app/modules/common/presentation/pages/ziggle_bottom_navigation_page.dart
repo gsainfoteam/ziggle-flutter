@@ -1,6 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -47,7 +51,26 @@ class ZiggleBottomNavigationPage extends StatelessWidget {
                     .map(
                       (e) => Expanded(
                         child: ZigglePressable(
-                          onPressed: () => tabController.animateTo(e.$1),
+                          onPressed: () {
+                            switch (e.$1) {
+                              case 0:
+                                sl<AnalyticsRepository>().logEvent(
+                                    EventType.click,
+                                    const AnalyticsEvent.feed());
+                                break;
+                              case 1:
+                                sl<AnalyticsRepository>().logEvent(
+                                    EventType.click,
+                                    const AnalyticsEvent.category());
+                                break;
+                              case 2:
+                                sl<AnalyticsRepository>().logEvent(
+                                    EventType.click,
+                                    const AnalyticsEvent.profile());
+                                break;
+                            }
+                            tabController.animateTo(e.$1);
+                          },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Column(
