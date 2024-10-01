@@ -86,6 +86,15 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
             images: state.draft.images,
             deadline: state.draft.deadline,
           );
+          if (state.draft.bodies.containsKey(Language.en)) {
+            await _repository.writeForeign(
+              id: notice.id,
+              title: state.draft.titles[Language.en],
+              content: state.draft.bodies[Language.en]!,
+              contentId: 1,
+              lang: Language.en,
+            );
+          }
           emit(_Done(state.draft, notice));
         }
       } catch (e) {
