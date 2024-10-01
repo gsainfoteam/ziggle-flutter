@@ -9,7 +9,9 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
@@ -28,7 +30,18 @@ class WriteAdditionalNoticePage extends StatefulWidget {
 }
 
 class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
-    with SingleTickerProviderStateMixin {
+    with
+        SingleTickerProviderStateMixin,
+        AutoRouteAwareStateMixin<WriteAdditionalNoticePage> {
+  @override
+  void didPush() =>
+      AnalyticsRepository.pageView(AnalyticsEvent.noticeEditAdditional(
+          context.read<NoticeBloc>().state.entity!.id));
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(AnalyticsEvent.noticeEditAdditional(
+          context.read<NoticeBloc>().state.entity!.id));
+
   late final _prevNotice = context.read<NoticeBloc>().state.entity!;
   late final _draft = context.read<NoticeWriteBloc>().state.draft;
   DateTime? _deadline;

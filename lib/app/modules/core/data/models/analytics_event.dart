@@ -89,7 +89,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.noticeEditBodyUndoUseAiTranslation() =
       _NoticeEditBodyUndoUseAiTranslation;
   const factory AnalyticsEvent.noticeEditEnglish(int id) = _NoticeEditEnglish;
-  const factory AnalyticsEvent.noticeEditAdditional(int? id) =
+  const factory AnalyticsEvent.noticeEditAdditional(int id) =
       _NoticeEditAdditional;
   const factory AnalyticsEvent.noticeEditAdditionalToggleLanguage(String lang) =
       _NoticeEditAdditionalToggleLanguage;
