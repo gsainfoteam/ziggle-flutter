@@ -24,17 +24,13 @@ class CategoryPage extends StatelessWidget {
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.main(
         onTapSearch: () {
-          sl<AnalyticsRepository>().logEvent(
-            EventType.click,
-            const AnalyticsEvent.search(PageSource.category),
-          );
+          AnalyticsRepository.click(
+              const AnalyticsEvent.search(PageSource.category));
           const SearchRoute().push(context);
         },
         onTapWrite: () {
-          sl<AnalyticsRepository>().logEvent(
-            EventType.click,
-            const AnalyticsEvent.write(PageSource.category),
-          );
+          AnalyticsRepository.click(
+              const AnalyticsEvent.write(PageSource.category));
           if (UserBloc.userOrNull(context) == null) {
             return context.showToast(
               context.t.user.login.description,
@@ -70,10 +66,9 @@ class CategoryPage extends StatelessWidget {
                               Expanded(
                                 child: ZigglePressable(
                                   onPressed: () {
-                                    sl<AnalyticsRepository>().logEvent(
-                                      EventType.click,
-                                      AnalyticsEvent.categoryType(category.$2),
-                                    );
+                                    AnalyticsRepository.click(
+                                        AnalyticsEvent.categoryType(
+                                            category.$2));
                                     ListRoute(type: category.$2).push(context);
                                   },
                                   decoration: BoxDecoration(

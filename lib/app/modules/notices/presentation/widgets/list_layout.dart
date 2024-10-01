@@ -55,6 +55,13 @@ class ListLayout extends StatelessWidget {
                             final notice = state.notices[index];
                             return NoticeCard(
                               onLike: () {
+                                AnalyticsRepository.click(
+                                    AnalyticsEvent.noticeReaction(
+                                        notice.id,
+                                        NoticeReaction.like,
+                                        noticeType == NoticeType.all
+                                            ? PageSource.feed
+                                            : PageSource.list));
                                 if (UserBloc.userOrNull(context) == null) {
                                   return context.showToast(
                                     context.t.user.login.description,
@@ -67,27 +74,21 @@ class ListLayout extends StatelessWidget {
                                     );
                               },
                               onPressed: () {
-                                sl<AnalyticsRepository>().logEvent(
-                                  EventType.click,
-                                  AnalyticsEvent.notice(
-                                      notice.id,
-                                      noticeType == NoticeType.all
-                                          ? PageSource.feed
-                                          : PageSource.list),
-                                );
-
+                                AnalyticsRepository.click(AnalyticsEvent.notice(
+                                    notice.id,
+                                    noticeType == NoticeType.all
+                                        ? PageSource.feed
+                                        : PageSource.list));
                                 SingleNoticeShellRoute(notice: notice)
                                     .push(context);
                               },
                               onShare: () {
-                                sl<AnalyticsRepository>().logEvent(
-                                  EventType.click,
-                                  AnalyticsEvent.noticeShare(
-                                      notice.id,
-                                      noticeType == NoticeType.all
-                                          ? PageSource.feed
-                                          : PageSource.list),
-                                );
+                                AnalyticsRepository.click(
+                                    AnalyticsEvent.noticeShare(
+                                        notice.id,
+                                        noticeType == NoticeType.all
+                                            ? PageSource.feed
+                                            : PageSource.list));
                                 context.read<ShareCubit>().share(notice);
                               },
                               notice: notice,

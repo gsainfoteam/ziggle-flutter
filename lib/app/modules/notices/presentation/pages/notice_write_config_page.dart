@@ -7,6 +7,8 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_bottom_she
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
@@ -57,7 +59,13 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
         actions: [
           ZiggleButton.text(
             disabled: _type == null,
-            onPressed: _type == null ? null : _publish,
+            onPressed: () {
+              AnalyticsRepository.click(
+                  const AnalyticsEvent.writeConfigPublish());
+              if (_type != null) {
+                _publish();
+              }
+            },
             child: Text(
               context.t.notice.write.publish,
               style: const TextStyle(
@@ -83,7 +91,13 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 ZiggleButton.cta(
                   disabled: _type == null,
                   emphasize: false,
-                  onPressed: _type == null ? null : _preview,
+                  onPressed: () {
+                    AnalyticsRepository.click(
+                        const AnalyticsEvent.writeConfigPreview());
+                    if (_type != null) {
+                      _preview();
+                    }
+                  },
                   child: Text(context.t.notice.write.preview),
                 ),
               ],
@@ -220,7 +234,11 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                       child: AspectRatio(
                         aspectRatio: 1,
                         child: ZigglePressable(
-                          onPressed: () => setState(() => _type = e.$2),
+                          onPressed: () {
+                            AnalyticsRepository.click(
+                                AnalyticsEvent.writeConfigCategory(e.$2));
+                            setState(() => _type = e.$2);
+                          },
                           decoration: BoxDecoration(
                             color: _type == e.$2
                                 ? Palette.black
@@ -304,6 +322,8 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
           const SizedBox(height: 10),
           ZigglePressable(
             onPressed: () async {
+              AnalyticsRepository.click(
+                  const AnalyticsEvent.writeConfigAddHashtag());
               final tags = await const NoticeWriteSelectTagsRoute()
                   .push<List<String>>(context);
               if (!mounted || tags == null) return;
@@ -344,7 +364,11 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                     (tag) => Tag(
                       tag: tag.$2,
                       onDelete: true,
-                      onPressed: () => setState(() => _tags.removeAt(tag.$1)),
+                      onPressed: () {
+                        AnalyticsRepository.click(
+                            const AnalyticsEvent.writeConfigDeleteHashtag());
+                        setState(() => _tags.removeAt(tag.$1));
+                      },
                     ),
                   )
                   .toList(),

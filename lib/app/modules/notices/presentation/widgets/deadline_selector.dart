@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_date_time_picker.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class DeadlineSelector extends StatefulWidget {
@@ -37,7 +39,11 @@ class _DeadlineSelectorState extends State<DeadlineSelector> {
           children: [
             Expanded(
               child: ZiggleButton.cta(
-                onPressed: () => widget.onChanged(null),
+                onPressed: () {
+                  AnalyticsRepository.click(
+                      const AnalyticsEvent.writeConfigSetDeadlineCancel());
+                  widget.onChanged(null);
+                },
                 outlined: true,
                 child: Text(context.t.common.cancel),
               ),
@@ -47,7 +53,11 @@ class _DeadlineSelectorState extends State<DeadlineSelector> {
               child: ZiggleButton.cta(
                 onPressed: _dateTime == null
                     ? null
-                    : () => widget.onChanged(_dateTime),
+                    : () {
+                        AnalyticsRepository.click(
+                            const AnalyticsEvent.writeConfigSetDeadline());
+                        widget.onChanged(_dateTime);
+                      },
                 disabled: _dateTime == null,
                 child: Text(context.t.notice.write.deadline.confirm),
               ),

@@ -14,6 +14,9 @@ import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/extensions/quill.dart';
@@ -134,7 +137,10 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
         actions: [
           ZiggleButton.text(
             disabled: actionDisabled,
-            onPressed: actionDisabled ? null : _next,
+            onPressed: () {
+              AnalyticsRepository.click(const AnalyticsEvent.writeConfig());
+              if (!actionDisabled) _next();
+            },
             child: Text(
               context.t.common.done,
               style: const TextStyle(
@@ -175,7 +181,12 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
               child: Row(
                 children: [
                   LanguageToggle(
-                      onToggle: (v) => _tabController.animateTo(v ? 1 : 0),
+                      onToggle: (v) {
+                        AnalyticsRepository.click(
+                            AnalyticsEvent.writeToggleLanguage(
+                                v ? "eng" : "kor"));
+                        _tabController.animateTo(v ? 1 : 0);
+                      },
                       value: _tabController.index != 0),
                 ],
               ),
@@ -195,6 +206,8 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                     if (index == _photos.length) {
                       return GestureDetector(
                         onTap: () async {
+                          AnalyticsRepository.click(
+                              const AnalyticsEvent.writeAddPhoto());
                           final images = await ImagePicker().pickMultiImage();
                           if (!mounted) return;
                           setState(() => _photos.addAll(

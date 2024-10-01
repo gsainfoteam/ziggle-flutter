@@ -54,18 +54,15 @@ class ZiggleBottomNavigationPage extends StatelessWidget {
                           onPressed: () {
                             switch (e.$1) {
                               case 0:
-                                sl<AnalyticsRepository>().logEvent(
-                                    EventType.click,
+                                AnalyticsRepository.click(
                                     const AnalyticsEvent.feed());
                                 break;
                               case 1:
-                                sl<AnalyticsRepository>().logEvent(
-                                    EventType.click,
+                                AnalyticsRepository.click(
                                     const AnalyticsEvent.category());
                                 break;
                               case 2:
-                                sl<AnalyticsRepository>().logEvent(
-                                    EventType.click,
+                                AnalyticsRepository.click(
                                     const AnalyticsEvent.profile());
                                 break;
                             }

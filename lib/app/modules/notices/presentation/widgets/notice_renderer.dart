@@ -2,9 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
@@ -179,6 +184,8 @@ class NoticeRenderer extends StatelessWidget {
                 ...NoticeReaction.values.map(
                   (reaction) => _ChipButton(
                     onPressed: () {
+                      AnalyticsRepository.click(AnalyticsEvent.noticeReaction(
+                          notice.id, reaction, PageSource.detail));
                       if (UserBloc.userOrNull(context) == null) {
                         return context.showToast(
                           context.t.user.login.description,
@@ -196,12 +203,18 @@ class NoticeRenderer extends StatelessWidget {
                   ),
                 ),
                 _ChipButton(
-                  onPressed: () => context.read<ShareCubit>().share(notice),
+                  onPressed: () {
+                    AnalyticsRepository.click(AnalyticsEvent.noticeShare(
+                        notice.id, PageSource.detail));
+                    context.read<ShareCubit>().share(notice);
+                  },
                   icon: Assets.icons.share.svg(),
                   text: context.t.notice.detail.share,
                 ),
                 _ChipButton(
                   onPressed: () async {
+                    AnalyticsRepository.click(
+                        AnalyticsEvent.noticeCopy(notice.id));
                     final result =
                         await context.read<CopyLinkCubit>().copyLink(notice);
                     if (!result || !context.mounted) return;
@@ -333,12 +346,17 @@ class NoticeRenderer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _AuthorSettingAction(
-              onPressed: () => const NoticeEditRoute().push(context),
+              onPressed: () {
+                AnalyticsRepository.click(AnalyticsEvent.noticeEdit(notice.id));
+                const NoticeEditRoute().push(context);
+              },
               icon: Assets.icons.editPencil,
               text: context.t.notice.settings.edit.action,
             ),
             _AuthorSettingAction(
               onPressed: () async {
+                AnalyticsRepository.click(
+                    AnalyticsEvent.noticeDelete(notice.id));
                 final result = await context.showDialog<bool>(
                   title: context.t.notice.settings.delete.title,
                   content: context.t.notice.settings.delete.description,

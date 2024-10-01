@@ -5,6 +5,7 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/data/repositories/fa_analytics_repository.dart';
 import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
@@ -26,17 +27,13 @@ class FeedPage extends StatelessWidget {
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.main(
         onTapSearch: () {
-          sl<AnalyticsRepository>().logEvent(
-            EventType.click,
-            const AnalyticsEvent.search(PageSource.feed),
-          );
+          AnalyticsRepository.click(
+              const AnalyticsEvent.search(PageSource.feed));
           const SearchRoute().push(context);
         },
         onTapWrite: () {
-          sl<AnalyticsRepository>().logEvent(
-            EventType.click,
-            const AnalyticsEvent.write(PageSource.feed),
-          );
+          AnalyticsRepository.click(
+              const AnalyticsEvent.write(PageSource.feed));
           if (UserBloc.userOrNull(context) == null) {
             return context.showToast(
               context.t.user.login.description,

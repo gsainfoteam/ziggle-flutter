@@ -7,6 +7,8 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_butto
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/tag_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -58,7 +60,11 @@ class _LayoutState extends State<_Layout> {
         title: Text(context.t.notice.write.hashtag.title),
         actions: [
           ZiggleButton.text(
-            onPressed: () => context.maybePop(_tags),
+            onPressed: () {
+              AnalyticsRepository.click(
+                  const AnalyticsEvent.writeConfigDoneHashtag());
+              context.maybePop(_tags);
+            },
             child: Text(context.t.common.done),
           )
         ],
@@ -80,6 +86,8 @@ class _LayoutState extends State<_Layout> {
                 if (_controller.text.isNotEmpty)
                   ZigglePressable(
                     onPressed: () {
+                      AnalyticsRepository.click(const AnalyticsEvent
+                          .writeConfigAddHashtagAutocomplete());
                       _tags.add(_controller.text.trim().replaceAll(' ', '_'));
                       _controller.clear();
                     },
@@ -92,7 +100,11 @@ class _LayoutState extends State<_Layout> {
               Expanded(
                 child: ListView.separated(
                   itemBuilder: (context, index) => ZigglePressable(
-                    onPressed: () => setState(() => _tags.removeAt(index)),
+                    onPressed: () {
+                      AnalyticsRepository.click(
+                          const AnalyticsEvent.writeConfigAddHashtagDelete());
+                      setState(() => _tags.removeAt(index));
+                    },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Row(

@@ -1,6 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
@@ -23,6 +27,10 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
       emit(_Loaded(entity));
     });
     on<_Delete>((event, emit) async {
+      sl<AnalyticsRepository>().logEvent(
+        EventType.action,
+        AnalyticsEvent.noticeDelete(state.entity!.id),
+      );
       if (state.entity == null) return;
       emit(_Loading(state.entity!));
       await _repository.deleteNotice(state.entity!.id);

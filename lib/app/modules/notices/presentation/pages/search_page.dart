@@ -177,11 +177,8 @@ class _LayoutState extends State<_Layout> {
             ),
             child: ZigglePressable(
               onPressed: () {
-                sl<AnalyticsRepository>().logEvent(
-                  EventType.click,
-                  AnalyticsEvent.notice(notice.id, PageSource.search),
-                );
-
+                AnalyticsRepository.click(
+                    AnalyticsEvent.notice(notice.id, PageSource.search));
                 SingleNoticeShellRoute(notice: notice).push(context);
               },
               child: Column(
