@@ -19,7 +19,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
       _CategoryType;
   const factory AnalyticsEvent.list(NoticeType noticeType) = _List;
   const factory AnalyticsEvent.profile() = _Profile;
-  const factory AnalyticsEvent.search(PageSource? from) = _Search;
+  const factory AnalyticsEvent.search([PageSource? from]) = _Search;
   const factory AnalyticsEvent.write(PageSource? from) = _Write;
   const factory AnalyticsEvent.back(PageSource from) = _Back;
 
@@ -126,6 +126,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
   Map<String, Object> get parameters {
     final json = toJson();
     json.remove('runtimeType');
+    json.removeWhere((key, value) => value == null);
     return json.cast<String, Object>();
   }
 
