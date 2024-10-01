@@ -94,21 +94,29 @@ class SettingPage extends StatelessWidget {
               ZiggleRowButton(
                 title: Text(context.t.user.setting.language.setKorean),
                 showChevron: false,
-                onPressed: () {
-                  LocaleSettings.setLocale(AppLocale.ko);
-                  sl<LanguageSettingRepository>().setLanguage(Language.ko);
-                  context.router.replaceAll([SplashRoute(delay: true)]);
-                },
+                disabled: LocaleSettings.currentLocale == AppLocale.ko,
+                onPressed: LocaleSettings.currentLocale == AppLocale.ko
+                    ? null
+                    : () {
+                        LocaleSettings.setLocale(AppLocale.ko);
+                        sl<LanguageSettingRepository>()
+                            .setLanguage(Language.ko);
+                        context.router.replaceAll([SplashRoute(delay: true)]);
+                      },
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
                 title: Text(context.t.user.setting.language.setEnglish),
                 showChevron: false,
-                onPressed: () {
-                  LocaleSettings.setLocale(AppLocale.en);
-                  sl<LanguageSettingRepository>().setLanguage(Language.en);
-                  context.router.replaceAll([SplashRoute(delay: true)]);
-                },
+                disabled: LocaleSettings.currentLocale == AppLocale.en,
+                onPressed: LocaleSettings.currentLocale == AppLocale.en
+                    ? null
+                    : () {
+                        LocaleSettings.setLocale(AppLocale.en);
+                        sl<LanguageSettingRepository>()
+                            .setLanguage(Language.en);
+                        context.router.replaceAll([SplashRoute(delay: true)]);
+                      },
               ),
               _Title(title: context.t.user.setting.information.title),
               ZiggleRowButton(
