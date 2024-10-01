@@ -15,7 +15,6 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
-import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
@@ -30,8 +29,20 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeWriteBodyPage extends StatelessWidget {
+class NoticeWriteBodyPage extends StatefulWidget {
   const NoticeWriteBodyPage({super.key});
+
+  @override
+  State<NoticeWriteBodyPage> createState() => _NoticeWriteBodyPageState();
+}
+
+class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
+    with AutoRouteAwareStateMixin<NoticeWriteBodyPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(const AnalyticsEvent.write());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.write());
 
   @override
   Widget build(BuildContext context) {

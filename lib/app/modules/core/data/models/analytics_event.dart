@@ -20,7 +20,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.list(NoticeType noticeType) = _List;
   const factory AnalyticsEvent.profile() = _Profile;
   const factory AnalyticsEvent.search([PageSource? from]) = _Search;
-  const factory AnalyticsEvent.write(PageSource? from) = _Write;
+  const factory AnalyticsEvent.write([PageSource? from]) = _Write;
   const factory AnalyticsEvent.back(PageSource from) = _Back;
 
   // 공지 관련 이벤트
