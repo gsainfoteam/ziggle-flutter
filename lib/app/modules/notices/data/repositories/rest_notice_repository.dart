@@ -21,7 +21,6 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_sort.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 @Injectable(as: NoticeRepository)
 class RestNoticeRepository implements NoticeRepository {
@@ -100,7 +99,7 @@ class RestNoticeRepository implements NoticeRepository {
       tags: tags,
       my: NoticeMy.fromType(type),
       orderBy: NoticeSort.fromType(type),
-      lang: LocaleSettings.currentLocale,
+      lang: Language.getCurrentLanguage(),
       category: NoticeCategory.fromType(type),
     ));
   }
