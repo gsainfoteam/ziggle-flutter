@@ -97,6 +97,7 @@ class SettingPage extends StatelessWidget {
                 onPressed: () {
                   LocaleSettings.setLocale(AppLocale.ko);
                   sl<LanguageSettingRepository>().setLanguage(Language.ko);
+                  context.router.replaceAll([SplashRoute(delay: true)]);
                 },
               ),
               const SizedBox(height: 20),
@@ -106,6 +107,7 @@ class SettingPage extends StatelessWidget {
                 onPressed: () {
                   LocaleSettings.setLocale(AppLocale.en);
                   sl<LanguageSettingRepository>().setLanguage(Language.en);
+                  context.router.replaceAll([SplashRoute(delay: true)]);
                 },
               ),
               _Title(title: context.t.user.setting.information.title),
