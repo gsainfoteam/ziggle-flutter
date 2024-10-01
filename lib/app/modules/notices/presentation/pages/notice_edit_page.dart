@@ -5,7 +5,9 @@ import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
@@ -16,8 +18,21 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeEditPage extends StatelessWidget {
+class NoticeEditPage extends StatefulWidget {
   const NoticeEditPage({super.key});
+
+  @override
+  State<NoticeEditPage> createState() => _NoticeEditPageState();
+}
+
+class _NoticeEditPageState extends State<NoticeEditPage>
+    with AutoRouteAwareStateMixin<NoticeEditPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(
+      AnalyticsEvent.noticeEdit(context.read<NoticeBloc>().state.entity!.id));
+  @override
+  void didPopNext() => AnalyticsRepository.pageView(
+      AnalyticsEvent.noticeEdit(context.read<NoticeBloc>().state.entity!.id));
 
   Future<void> _publish(BuildContext context) async {
     final bloc = context.read<NoticeWriteBloc>();
