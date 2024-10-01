@@ -19,13 +19,17 @@ class GroupCreationLayout extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          Hero(
-            tag: 'group creation app bar',
-            child: Material(
-              color: Colors.transparent,
-              child: ZiggleAppBar.compact(
-                backLabel: context.t.common.cancel,
-                title: Text(context.t.group.creation.title),
+          MediaQuery.removePadding(
+            context: context,
+            removeBottom: true,
+            child: Hero(
+              tag: 'group creation app bar',
+              child: Material(
+                color: Colors.transparent,
+                child: ZiggleAppBar.compact(
+                  backLabel: context.t.common.cancel,
+                  title: Text(context.t.group.creation.title),
+                ),
               ),
             ),
           ),
