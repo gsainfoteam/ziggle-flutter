@@ -11,7 +11,6 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/cubit/copy_link_cubit.dart';
 import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/created_at.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_body.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/tag.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
@@ -85,26 +84,29 @@ class NoticeRenderer extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Assets.images.defaultProfile.image(width: 36),
-                const SizedBox(width: 8),
-                Text(
-                  notice.author.name,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Palette.black,
-                  ),
+                Assets.images.defaultProfile.image(width: 48),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      notice.author.name,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Palette.black,
+                      ),
+                    ),
+                    Text(
+                      DateFormat.yMd().add_Hm().format(notice.createdAt),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Palette.grayText,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 5),
-                const Text(
-                  '·',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Palette.grayText,
-                  ),
-                ),
-                const SizedBox(width: 5),
-                CreatedAt(createdAt: notice.createdAt),
               ],
             ),
           ),
