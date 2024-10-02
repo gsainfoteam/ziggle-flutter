@@ -9,6 +9,8 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
@@ -70,22 +72,23 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
           ZiggleButton.text(
             disabled:
                 _content.text.isEmpty || (_enContent?.text.isEmpty ?? false),
-            onPressed:
-                _content.text.isEmpty || (_enContent?.text.isEmpty ?? false)
-                    ? null
-                    : () {
-                        context.read<NoticeWriteBloc>().add(
-                              NoticeWriteEvent.addAdditional(
-                                deadline: _deadline,
-                                contents: {
-                                  AppLocale.ko: _content.text,
-                                  if (_enContent != null)
-                                    AppLocale.en: _enContent.text,
-                                },
-                              ),
-                            );
-                        context.maybePop();
-                      },
+            onPressed: () {
+              if (_content.text.isNotEmpty &&
+                  (_enContent?.text.isNotEmpty ?? false)) {
+                AnalyticsRepository.click(
+                    const AnalyticsEvent.noticeEditAdditionalDone());
+                context.read<NoticeWriteBloc>().add(
+                      NoticeWriteEvent.addAdditional(
+                        deadline: _deadline,
+                        contents: {
+                          AppLocale.ko: _content.text,
+                          if (_enContent != null) AppLocale.en: _enContent.text,
+                        },
+                      ),
+                    );
+                context.maybePop();
+              }
+            },
             child: Text(
               context.t.common.done,
               style: const TextStyle(
@@ -107,7 +110,12 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                 if (_prevNotice.currentDeadline != null)
                   const SizedBox(height: 20),
                 LanguageToggle(
-                  onToggle: (v) => _tabController.animateTo(v ? 1 : 0),
+                  onToggle: (v) {
+                    AnalyticsRepository.click(
+                        AnalyticsEvent.noticeEditAdditionalToggleLanguage(
+                            v ? "eng" : "kor"));
+                    _tabController.animateTo(v ? 1 : 0);
+                  },
                   value: _tabController.index != 0,
                 ),
               ],
@@ -174,6 +182,8 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
               ZiggleToggleButton(
                 value: _deadline != null,
                 onToggle: (v) async {
+                  AnalyticsRepository.click(
+                      AnalyticsEvent.noticeEditChangeDeadline(_prevNotice.id));
                   if (_deadline != null) {
                     setState(() => _deadline = null);
                     return;
@@ -182,6 +192,7 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                     context: context,
                     title: context.t.notice.write.deadline.title,
                     builder: (context) => DeadlineSelector(
+                      isEditMode: true,
                       initialDateTime: _prevNotice.currentDeadline!.toLocal(),
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
@@ -200,6 +211,7 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                   context: context,
                   title: context.t.notice.write.deadline.title,
                   builder: (context) => DeadlineSelector(
+                    isEditMode: true,
                     initialDateTime: _deadline,
                     onChanged: (v) => Navigator.pop(context, v),
                   ),

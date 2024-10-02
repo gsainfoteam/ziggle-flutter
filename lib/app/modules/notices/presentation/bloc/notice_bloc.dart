@@ -23,16 +23,20 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
     on<_SendNotification>((event, emit) async {
       if (state.entity == null) return;
       emit(_Loading(state.entity!.copyWith(publishedAt: DateTime.now())));
+      sl<AnalyticsRepository>().logEvent(
+        EventType.action,
+        AnalyticsEvent.noticeSendNotification(state.entity!.id),
+      );
       final entity = await _repository.sendNotification(state.entity!.id);
       emit(_Loaded(entity));
     });
     on<_Delete>((event, emit) async {
+      if (state.entity == null) return;
+      emit(_Loading(state.entity!));
       sl<AnalyticsRepository>().logEvent(
         EventType.action,
         AnalyticsEvent.noticeDelete(state.entity!.id),
       );
-      if (state.entity == null) return;
-      emit(_Loading(state.entity!));
       await _repository.deleteNotice(state.entity!.id);
       emit(const _Deleted());
     });

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_date_time_picker.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -10,10 +12,12 @@ class DeadlineSelector extends StatefulWidget {
     super.key,
     required this.onChanged,
     this.initialDateTime,
+    required this.isEditMode,
   });
 
   final ValueChanged<DateTime?> onChanged;
   final DateTime? initialDateTime;
+  final bool isEditMode;
 
   @override
   State<DeadlineSelector> createState() => _DeadlineSelectorState();
@@ -40,8 +44,11 @@ class _DeadlineSelectorState extends State<DeadlineSelector> {
             Expanded(
               child: ZiggleButton.cta(
                 onPressed: () {
-                  AnalyticsRepository.click(
-                      const AnalyticsEvent.writeConfigSetDeadlineCancel());
+                  widget.isEditMode
+                      ? AnalyticsRepository.click(
+                          const AnalyticsEvent.noticeEditSetDeadlineCancel())
+                      : AnalyticsRepository.click(
+                          const AnalyticsEvent.writeConfigSetDeadlineCancel());
                   widget.onChanged(null);
                 },
                 outlined: true,
@@ -54,8 +61,12 @@ class _DeadlineSelectorState extends State<DeadlineSelector> {
                 onPressed: _dateTime == null
                     ? null
                     : () {
-                        AnalyticsRepository.click(
-                            const AnalyticsEvent.writeConfigSetDeadline());
+                        widget.isEditMode
+                            ? AnalyticsRepository.click(
+                                const AnalyticsEvent.noticeEditSetDeadline())
+                            : AnalyticsRepository.click(
+                                const AnalyticsEvent.writeConfigSetDeadline());
+
                         widget.onChanged(_dateTime);
                       },
                 disabled: _dateTime == null,

@@ -10,6 +10,8 @@ import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
@@ -212,7 +214,12 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
               child: Row(
                 children: [
                   LanguageToggle(
-                      onToggle: (v) => _tabController.animateTo(v ? 1 : 0),
+                      onToggle: (v) {
+                        AnalyticsRepository.click(
+                            AnalyticsEvent.noticeEditBodyToggleLanguage(
+                                v ? "eng" : "kor"));
+                        _tabController.animateTo(v ? 1 : 0);
+                      },
                       value: _tabController.index != 0),
                 ],
               ),
@@ -240,11 +247,15 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
           ),
           Editor(
             titleDisabled: _prevNotice.contents[AppLocale.en] != null,
-            onTranslate: _englishBodyController.plainTextEditingValue.text
-                    .trim()
-                    .isNotEmpty
-                ? null
-                : _translate,
+            onTranslate: () {
+              if (!_englishBodyController.plainTextEditingValue.text
+                  .trim()
+                  .isNotEmpty) {
+                AnalyticsRepository.click(
+                    const AnalyticsEvent.noticeEditBodyUseAiTranslation());
+                _translate();
+              }
+            },
             titleFocusNode: _englishTitleFocusNode,
             bodyFocusNode: _englishBodyFocusNode,
             titleController: _englishTitleController,

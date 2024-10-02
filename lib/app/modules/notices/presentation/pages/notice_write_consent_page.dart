@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/consent_item.dart';
 import 'package:ziggle/app/router.gr.dart';
@@ -84,14 +86,24 @@ class _LayoutState extends State<_Layout> {
                   description:
                       context.t.notice.write.consent.notification.description,
                   isChecked: _notification,
-                  onChanged: (v) => setState(() => _notification = v),
+                  onChanged: (v) {
+                    AnalyticsRepository.click(
+                        AnalyticsEvent.writeConfigPublishAgree(
+                            v ? "on" : "off"));
+                    setState(() => _notification = v);
+                  },
                 ),
                 const SizedBox(height: 10),
                 ConsentItem(
                   title: context.t.notice.write.consent.edit.title,
                   description: context.t.notice.write.consent.edit.description,
                   isChecked: _edit,
-                  onChanged: (v) => setState(() => _edit = v),
+                  onChanged: (v) {
+                    AnalyticsRepository.click(
+                        AnalyticsEvent.writeConfigPublishAgree(
+                            v ? "on" : "off"));
+                    setState(() => _edit = v);
+                  },
                 ),
                 const SizedBox(height: 10),
                 ConsentItem(
@@ -99,15 +111,25 @@ class _LayoutState extends State<_Layout> {
                   description:
                       context.t.notice.write.consent.urgent.description,
                   isChecked: _urgent,
-                  onChanged: (v) => setState(() => _urgent = v),
+                  onChanged: (v) {
+                    AnalyticsRepository.click(
+                        AnalyticsEvent.writeConfigPublishAgree(
+                            v ? "on" : "off"));
+                    setState(() => _urgent = v);
+                  },
                 ),
                 const SizedBox(height: 24),
                 BlocBuilder<NoticeWriteBloc, NoticeWriteState>(
                   builder: (context, state) => ZiggleButton.cta(
                     loading: state.isLoading,
                     disabled: !_notification || !_edit || !_urgent,
-                    onPressed:
-                        !(_notification && _edit && _urgent) ? null : _publish,
+                    onPressed: () {
+                      AnalyticsRepository.click(
+                          const AnalyticsEvent.writeConfigPublishUpload());
+                      if (_notification && _edit && _urgent) {
+                        _publish();
+                      }
+                    },
                     child: Text(context.t.notice.write.consent.upload),
                   ),
                 )

@@ -210,9 +210,13 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                               const AnalyticsEvent.writeAddPhoto());
                           final images = await ImagePicker().pickMultiImage();
                           if (!mounted) return;
-                          setState(() => _photos.addAll(
-                                images.map((e) => File(e.path)),
-                              ));
+                          setState(() {
+                            _photos.addAll(
+                              images.map((e) => File(e.path)),
+                            );
+                            sl<AnalyticsRepository>().logEvent(EventType.action,
+                                const AnalyticsEvent.writeAddPhoto());
+                          });
                         },
                         child: DottedBorder(
                           color: Palette.gray,
@@ -276,11 +280,15 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
           BlocBuilder<AiBloc, AiState>(
             builder: (context, state) => Editor(
               translating: state.isLoading,
-              onTranslate: _englishBodyController.plainTextEditingValue.text
-                      .trim()
-                      .isNotEmpty
-                  ? null
-                  : _translate,
+              onTranslate: () {
+                if (!_englishBodyController.plainTextEditingValue.text
+                    .trim()
+                    .isNotEmpty) {
+                  AnalyticsRepository.click(
+                      const AnalyticsEvent.writeUseAiTranslation());
+                  _translate();
+                }
+              },
               titleFocusNode: _englishTitleFocusNode,
               bodyFocusNode: _englishBodyFocusNode,
               titleController: _englishTitleController,

@@ -6,6 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
@@ -73,22 +76,33 @@ class _Layout extends StatelessWidget {
             ZiggleRowButton(
               icon: Assets.icons.setting.svg(),
               title: Text(context.t.user.setting.title),
-              onPressed: () => const SettingRoute().push(context),
+              onPressed: () {
+                AnalyticsRepository.click(
+                    const AnalyticsEvent.profileSetting());
+                const SettingRoute().push(context);
+              },
             ),
             if (authenticated) ...[
               const SizedBox(height: 20),
               ZiggleRowButton(
                 icon: Assets.icons.write.svg(),
                 title: Text(context.t.user.written),
-                onPressed: () =>
-                    ListRoute(type: NoticeType.written).push(context),
+                onPressed: () {
+                  AnalyticsRepository.click(
+                      const AnalyticsEvent.profileMyNotices());
+                  ListRoute(type: NoticeType.written).push(context);
+                },
               ),
             ],
             const SizedBox(height: 20),
             ZiggleRowButton(
               icon: Assets.icons.flag.svg(),
               title: Text(context.t.user.feedback),
-              onPressed: () => launchUrlString(Strings.heyDeveloperUrl),
+              onPressed: () {
+                AnalyticsRepository.click(
+                    const AnalyticsEvent.profileFeedback());
+                launchUrlString(Strings.heyDeveloperUrl);
+              },
             ),
             const SizedBox(height: 40),
             if (authenticated)
@@ -96,8 +110,13 @@ class _Layout extends StatelessWidget {
                 showChevron: false,
                 title: Text(context.t.user.account.logout),
                 destructive: true,
-                onPressed: () =>
-                    context.read<AuthBloc>().add(const AuthEvent.logout()),
+                onPressed: () {
+                  AnalyticsRepository.click(
+                      const AnalyticsEvent.profileLogout(PageSource.profile));
+                  context
+                      .read<AuthBloc>()
+                      .add(const AuthEvent.logout(source: PageSource.profile));
+                },
               ),
           ],
         );
@@ -165,8 +184,13 @@ class _Login extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         ZiggleButton.cta(
-          onPressed: () =>
-              context.read<AuthBloc>().add(const AuthEvent.login()),
+          onPressed: () {
+            AnalyticsRepository.click(
+                const AnalyticsEvent.profileLogin(PageSource.profile));
+            context
+                .read<AuthBloc>()
+                .add(const AuthEvent.login(source: PageSource.profile));
+          },
           child: Text(context.t.user.login.action),
         ),
       ],

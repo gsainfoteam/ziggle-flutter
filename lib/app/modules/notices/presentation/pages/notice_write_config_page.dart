@@ -144,13 +144,18 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 value: _deadline != null,
                 onToggle: (v) async {
                   if (_deadline != null) {
+                    AnalyticsRepository.click(
+                        const AnalyticsEvent.writeConfigDeleteDeadline());
                     setState(() => _deadline = null);
                     return;
                   }
+                  AnalyticsRepository.click(
+                      const AnalyticsEvent.writeConfigAddDeadline());
                   final dateTime = await ZiggleBottomSheet.show<DateTime>(
                     context: context,
                     title: context.t.notice.write.deadline.title,
                     builder: (context) => DeadlineSelector(
+                      isEditMode: false,
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
                   );
@@ -164,10 +169,13 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
             const SizedBox(height: 10),
             ZigglePressable(
               onPressed: () async {
+                AnalyticsRepository.click(
+                    const AnalyticsEvent.writeConfigChangeDeadline());
                 final dateTime = await ZiggleBottomSheet.show<DateTime>(
                   context: context,
                   title: context.t.notice.write.deadline.title,
                   builder: (context) => DeadlineSelector(
+                    isEditMode: false,
                     initialDateTime: _deadline,
                     onChanged: (v) => Navigator.pop(context, v),
                   ),

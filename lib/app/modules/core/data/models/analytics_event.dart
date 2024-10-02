@@ -72,7 +72,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
       _WriteConfigDeleteHashtag;
   const factory AnalyticsEvent.writeConfigPreview() = _WriteConfigPreview;
   const factory AnalyticsEvent.writeConfigPublish() = _WriteConfigPublish;
-  const factory AnalyticsEvent.writeConfigPublishAgree(bool value) =
+  const factory AnalyticsEvent.writeConfigPublishAgree(String value) =
       _WriteConfigPublishAgree;
   const factory AnalyticsEvent.writeConfigPublishUpload() =
       _WriteConfigPublishUpload;
@@ -107,8 +107,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.profileMyNotices() = _ProfileMyNotices;
   const factory AnalyticsEvent.profileFeedback() = _ProfileFeedback;
   const factory AnalyticsEvent.profileLogout(PageSource from) = _ProfileLogout;
-  const factory AnalyticsEvent.profileWithdraw(PageSource from) =
-      _ProfileWithdraw;
+  const factory AnalyticsEvent.profileWithdraw() = _ProfileWithdraw;
   const factory AnalyticsEvent.profileLogin(PageSource from) = _ProfileLogin;
   const factory AnalyticsEvent.profileSettingEnableNotification() =
       _ProfileSettingEnableNotification;

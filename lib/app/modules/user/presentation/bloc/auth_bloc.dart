@@ -2,6 +2,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/auth_repository.dart';
 
 part 'auth_bloc.freezed.dart';
@@ -22,11 +27,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(const _Loading());
       try {
         await _repository.login();
+        sl<AnalyticsRepository>().logEvent(
+            EventType.action, AnalyticsEvent.profileLogin(event.source));
       } catch (e) {
         emit(_Error(e.toString()));
       }
     });
     on<_Logout>((event, emit) async {
+      sl<AnalyticsRepository>().logEvent(
+          EventType.action, AnalyticsEvent.profileLogout(event.source));
       emit(const _Unauthenticated());
       await _repository.logout();
     });
@@ -39,8 +48,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 @freezed
 sealed class AuthEvent with _$AuthEvent {
   const factory AuthEvent.load() = _Load;
-  const factory AuthEvent.login() = _Login;
-  const factory AuthEvent.logout() = _Logout;
+  const factory AuthEvent.login({required PageSource source}) = _Login;
+  const factory AuthEvent.logout({required PageSource source}) = _Logout;
 }
 
 @freezed
