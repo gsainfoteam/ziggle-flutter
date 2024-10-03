@@ -234,14 +234,29 @@ class NoticeRenderer extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      context.t.notice.additional.title,
-                      style: const TextStyle(
-                        height: 1,
-                        fontSize: 20,
-                        color: Palette.black,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    Row(
+                      children: [
+                        Text(
+                          context.t.notice.additional.title,
+                          style: const TextStyle(
+                            height: 1,
+                            fontSize: 20,
+                            color: Palette.black,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          DateFormat.yMd()
+                              .add_Hm()
+                              .format(additional.createdAt.toLocal()),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Palette.grayText,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
                     if (additional.deadline != null &&
