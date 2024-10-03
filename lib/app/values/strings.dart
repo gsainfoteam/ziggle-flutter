@@ -1,6 +1,7 @@
 abstract class Strings {
   Strings._();
 
+  static const amplitudeApiKey = '--REDACTED--';
   static const idpRedirectScheme = 'ziggle-idp-login-redirect';
   static const idpBaseUrl = 'https://idp.gistory.me';
   static const idpClientId = 'ziggle2023';

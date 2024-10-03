@@ -1,5 +1,6 @@
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/data/repositories/amplitude_analytics_repository.dart';
 import 'package:ziggle/app/modules/core/data/repositories/firebase_analytics_repository.dart';
 import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
@@ -9,11 +10,17 @@ import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 @prod
 class MultipleAnalyticsRepository implements AnalyticsRepository {
   final FirebaseAnalyticsRepository _firebaseAnalyticsRepository;
+  final AmplitudeAnalyticsRepository _amplitudeAnalyticsRepository;
+
   late final _repositories = [
     _firebaseAnalyticsRepository,
+    _amplitudeAnalyticsRepository,
   ];
 
-  MultipleAnalyticsRepository(this._firebaseAnalyticsRepository);
+  MultipleAnalyticsRepository(
+    this._firebaseAnalyticsRepository,
+    this._amplitudeAnalyticsRepository,
+  );
 
   @override
   logChangeUser(UserEntity? user) {
