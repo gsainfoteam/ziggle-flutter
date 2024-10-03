@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_date_time_picker.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
-import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
