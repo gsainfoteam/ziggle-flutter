@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_progress_bar.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -19,13 +20,18 @@ class GroupCreationLayout extends StatelessWidget {
     return Scaffold(
       body: Column(
         children: [
-          Hero(
-            tag: 'group creation app bar',
-            child: Material(
-              color: Colors.transparent,
-              child: ZiggleAppBar.compact(
-                backLabel: context.t.common.cancel,
-                title: Text(context.t.group.creation.title),
+          MediaQuery.removePadding(
+            context: context,
+            removeBottom: true,
+            child: Hero(
+              tag: 'group creation app bar',
+              child: Material(
+                color: Colors.transparent,
+                child: ZiggleAppBar.compact(
+                  backLabel: context.t.common.cancel,
+                  from: PageSource.unknown,
+                  title: Text(context.t.group.creation.title),
+                ),
               ),
             ),
           ),

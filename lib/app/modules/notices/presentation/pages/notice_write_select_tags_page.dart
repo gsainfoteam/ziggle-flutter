@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/tag_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -15,8 +15,22 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeWriteSelectTagsPage extends StatelessWidget {
+class NoticeWriteSelectTagsPage extends StatefulWidget {
   const NoticeWriteSelectTagsPage({super.key});
+
+  @override
+  State<NoticeWriteSelectTagsPage> createState() =>
+      _NoticeWriteSelectTagsPageState();
+}
+
+class _NoticeWriteSelectTagsPageState extends State<NoticeWriteSelectTagsPage>
+    with AutoRouteAwareStateMixin<NoticeWriteSelectTagsPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(
+      const AnalyticsEvent.writeConfigAddHashtag());
+  @override
+  void didPopNext() => AnalyticsRepository.pageView(
+      const AnalyticsEvent.writeConfigAddHashtag());
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +69,9 @@ class _LayoutState extends State<_Layout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ZiggleAppBar(
-        leading: ZiggleBackButton(label: context.t.notice.write.configTitle),
+      appBar: ZiggleAppBar.compact(
+        backLabel: context.t.notice.write.configTitle,
+        from: PageSource.writeConfigAddHashtag,
         title: Text(context.t.notice.write.hashtag.title),
         actions: [
           ZiggleButton.text(

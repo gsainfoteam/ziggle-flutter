@@ -20,8 +20,18 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage>
+    with AutoRouteAwareStateMixin<ProfilePage> {
+  @override
+  void didChangeTabRoute(previousRoute) =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.profile());
 
   @override
   Widget build(BuildContext context) {

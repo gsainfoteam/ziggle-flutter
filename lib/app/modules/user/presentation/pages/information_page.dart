@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/developer_option_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
@@ -16,14 +17,28 @@ import 'package:ziggle/gen/strings.g.dart';
 const _devModeCount = 10;
 
 @RoutePage()
-class InformationPage extends StatelessWidget {
+class InformationPage extends StatefulWidget {
   const InformationPage({super.key});
+
+  @override
+  State<InformationPage> createState() => _InformationPageState();
+}
+
+class _InformationPageState extends State<InformationPage>
+    with AutoRouteAwareStateMixin<InformationPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(
+      const AnalyticsEvent.profileSettingInformation());
+  @override
+  void didPopNext() => AnalyticsRepository.pageView(
+      const AnalyticsEvent.profileSettingInformation());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.user.setting.title,
+        from: PageSource.settingInformation,
         title: Text(context.t.user.setting.information.title),
       ),
       body: SingleChildScrollView(

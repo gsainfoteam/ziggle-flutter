@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/language_setting_repository.dart';
@@ -20,14 +21,28 @@ import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
+
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage>
+    with AutoRouteAwareStateMixin<SettingPage> {
+  @override
+  void didPush() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.profileSetting());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.profileSetting());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.user.myInfo,
+        from: PageSource.setting,
         title: Text(context.t.user.setting.title),
       ),
       body: SingleChildScrollView(
@@ -112,22 +127,36 @@ class SettingPage extends StatelessWidget {
               ZiggleRowButton(
                 title: Text(context.t.user.setting.language.setKorean),
                 showChevron: false,
+                disabled: LocaleSettings.currentLocale == AppLocale.ko,
                 onPressed: () {
                   AnalyticsRepository.click(
                       const AnalyticsEvent.profileSettingLanguage("kor"));
-                  LocaleSettings.setLocale(AppLocale.ko);
-                  sl<LanguageSettingRepository>().setLanguage(AppLocale.ko);
+                  LocaleSettings.currentLocale == AppLocale.ko
+                      ? null
+                      : () {
+                          LocaleSettings.setLocale(AppLocale.ko);
+                          sl<LanguageSettingRepository>()
+                              .setLanguage(Language.ko);
+                          context.router.replaceAll([SplashRoute(delay: true)]);
+                        };
                 },
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
                 title: Text(context.t.user.setting.language.setEnglish),
                 showChevron: false,
+                disabled: LocaleSettings.currentLocale == AppLocale.en,
                 onPressed: () {
                   AnalyticsRepository.click(
                       const AnalyticsEvent.profileSettingLanguage("eng"));
-                  LocaleSettings.setLocale(AppLocale.en);
-                  sl<LanguageSettingRepository>().setLanguage(AppLocale.en);
+                  LocaleSettings.currentLocale == AppLocale.en
+                      ? null
+                      : () {
+                          LocaleSettings.setLocale(AppLocale.en);
+                          sl<LanguageSettingRepository>()
+                              .setLanguage(Language.en);
+                          context.router.replaceAll([SplashRoute(delay: true)]);
+                        };
                 },
               ),
               _Title(title: context.t.user.setting.information.title),

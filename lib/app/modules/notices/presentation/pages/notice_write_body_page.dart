@@ -12,10 +12,10 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
-import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
@@ -30,8 +30,20 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeWriteBodyPage extends StatelessWidget {
+class NoticeWriteBodyPage extends StatefulWidget {
   const NoticeWriteBodyPage({super.key});
+
+  @override
+  State<NoticeWriteBodyPage> createState() => _NoticeWriteBodyPageState();
+}
+
+class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
+    with AutoRouteAwareStateMixin<NoticeWriteBodyPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(const AnalyticsEvent.write());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.write());
 
   @override
   Widget build(BuildContext context) {
@@ -112,11 +124,11 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     if (_englishTitleController.text.isNotEmpty) {
       bloc
         ..add(
-          NoticeWriteEvent.setTitle(_englishTitleController.text, AppLocale.en),
+          NoticeWriteEvent.setTitle(_englishTitleController.text, Language.en),
         )
         ..add(NoticeWriteEvent.setBody(
           _englishBodyController.html,
-          AppLocale.en,
+          Language.en,
         ));
     }
   }
@@ -131,8 +143,9 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                     .trim()
                     .isEmpty));
     return Scaffold(
-      appBar: ZiggleAppBar(
-        leading: ZiggleBackButton(label: context.t.common.cancel),
+      appBar: ZiggleAppBar.compact(
+        backLabel: context.t.common.cancel,
+        from: PageSource.write,
         title: Text(context.t.notice.write.title),
         actions: [
           ZiggleButton.text(
@@ -305,7 +318,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     final blocker = bloc.stream.firstWhere((s) => s.hasResult);
     bloc.add(AiEvent.request(
       body: _koreanBodyController.html,
-      lang: AppLocale.en,
+      lang: Language.en,
     ));
     final result = await blocker;
     result.mapOrNull(

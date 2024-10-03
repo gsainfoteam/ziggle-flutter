@@ -10,4 +10,10 @@ abstract class AnalyticsRepository {
 
   static void click(AnalyticsEvent event) =>
       sl<AnalyticsRepository>().logEvent(EventType.click, event);
+  static void pageView(AnalyticsEvent event) =>
+      sl<AnalyticsRepository>().logEvent(EventType.pageview, event);
+  static void view(AnalyticsEvent event) =>
+      sl<AnalyticsRepository>().logEvent(EventType.view, event);
+  static void action(AnalyticsEvent event) =>
+      sl<AnalyticsRepository>().logEvent(EventType.action, event);
 }

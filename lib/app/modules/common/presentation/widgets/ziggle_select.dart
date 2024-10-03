@@ -46,6 +46,7 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
   ZiggleSelectEntry<T>? _hovering;
   bool _isHovering = false;
   bool _isRecentlyHovered = false;
+  final _scrollController = ScrollController();
 
   ZiggleSelectEntry<T>? get _value => widget.value == null
       ? null
@@ -89,8 +90,10 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxHeight: 200),
           child: Scrollbar(
+            controller: _scrollController,
             thumbVisibility: true,
             child: ListView.builder(
+              controller: _scrollController,
               shrinkWrap: true,
               padding: EdgeInsets.zero,
               itemCount: widget.entries.length + 1,

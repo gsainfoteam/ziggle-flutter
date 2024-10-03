@@ -14,7 +14,7 @@ enum ZiggleButtonType {
 }
 
 class ZiggleButton extends StatelessWidget {
-  const ZiggleButton._({
+  const ZiggleButton.cta({
     super.key,
     required this.child,
     this.onPressed,
@@ -22,105 +22,57 @@ class ZiggleButton extends StatelessWidget {
     this.loading = false,
     this.disabled = false,
     this.emphasize = true,
-    required this.type,
-    required this.defaultStyle,
-  });
-
-  factory ZiggleButton.cta({
-    Key? key,
-    required Widget child,
-    VoidCallback? onPressed,
-    bool outlined = false,
-    bool loading = false,
-    bool disabled = false,
-    bool emphasize = true,
-  }) =>
-      ZiggleButton._(
-        key: key,
-        onPressed: onPressed,
-        outlined: outlined,
-        loading: loading,
-        disabled: disabled,
-        emphasize: emphasize,
-        type: ZiggleButtonType.cta,
-        defaultStyle: const TextStyle(
+  })  : type = ZiggleButtonType.cta,
+        defaultStyle = const TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.bold,
           height: 1,
-        ),
-        child: child,
-      );
+        );
 
-  factory ZiggleButton.big({
-    Key? key,
-    required Widget child,
-    VoidCallback? onPressed,
-    bool outlined = false,
-    bool loading = false,
-    bool disabled = false,
-    bool emphasize = true,
-  }) =>
-      ZiggleButton._(
-        key: key,
-        onPressed: onPressed,
-        outlined: outlined,
-        loading: loading,
-        disabled: disabled,
-        emphasize: emphasize,
-        type: ZiggleButtonType.big,
-        defaultStyle: const TextStyle(
+  const ZiggleButton.big({
+    super.key,
+    required this.child,
+    this.onPressed,
+    this.outlined = false,
+    this.loading = false,
+    this.disabled = false,
+    this.emphasize = true,
+  })  : type = ZiggleButtonType.big,
+        defaultStyle = const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w600,
           height: 1,
-        ),
-        child: child,
-      );
+        );
 
-  factory ZiggleButton.small({
-    Key? key,
-    required Widget child,
-    VoidCallback? onPressed,
-    bool outlined = false,
-    bool loading = false,
-    bool disabled = false,
-    bool emphasize = true,
-  }) =>
-      ZiggleButton._(
-        key: key,
-        onPressed: onPressed,
-        outlined: outlined,
-        loading: loading,
-        disabled: disabled,
-        emphasize: emphasize,
-        type: ZiggleButtonType.small,
-        defaultStyle: const TextStyle(
+  const ZiggleButton.small({
+    super.key,
+    required this.child,
+    this.onPressed,
+    this.outlined = false,
+    this.loading = false,
+    this.disabled = false,
+    this.emphasize = true,
+  })  : type = ZiggleButtonType.small,
+        defaultStyle = const TextStyle(
           fontSize: 14,
           fontWeight: FontWeight.w600,
           height: 1,
-        ),
-        child: child,
-      );
+        );
 
-  factory ZiggleButton.text({
-    Key? key,
-    required Widget child,
-    VoidCallback? onPressed,
-    bool loading = false,
-    bool disabled = false,
-  }) =>
-      ZiggleButton._(
-        key: key,
-        onPressed: onPressed,
-        loading: loading,
-        disabled: disabled,
-        type: ZiggleButtonType.text,
-        defaultStyle: const TextStyle(
+  const ZiggleButton.text({
+    super.key,
+    required this.child,
+    this.onPressed,
+    this.loading = false,
+    this.disabled = false,
+  })  : type = ZiggleButtonType.text,
+        defaultStyle = const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
           height: 1,
         ),
-        child: child,
-      );
+        outlined = false,
+        emphasize = false;
 
   final Widget child;
   final VoidCallback? onPressed;

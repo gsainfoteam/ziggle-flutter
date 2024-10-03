@@ -1,8 +1,8 @@
-import 'package:ziggle/gen/strings.g.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 
 abstract class AiRepository {
   Future<String> translate({
     required String text,
-    required AppLocale targetLang,
+    required Language targetLang,
   });
 }

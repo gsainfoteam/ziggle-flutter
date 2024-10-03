@@ -19,12 +19,12 @@ class AnalyticsEvent with _$AnalyticsEvent {
       _CategoryType;
   const factory AnalyticsEvent.list(NoticeType noticeType) = _List;
   const factory AnalyticsEvent.profile() = _Profile;
-  const factory AnalyticsEvent.search(PageSource? from) = _Search;
-  const factory AnalyticsEvent.write(PageSource? from) = _Write;
+  const factory AnalyticsEvent.search([PageSource? from]) = _Search;
+  const factory AnalyticsEvent.write([PageSource? from]) = _Write;
   const factory AnalyticsEvent.back(PageSource from) = _Back;
 
   // 공지 관련 이벤트
-  const factory AnalyticsEvent.notice(int id, PageSource? from) = _Notice;
+  const factory AnalyticsEvent.notice(int id, [PageSource? from]) = _Notice;
   const factory AnalyticsEvent.noticeReaction(
       int id, NoticeReaction noticeReaction, PageSource from) = _NoticeReaction;
   const factory AnalyticsEvent.noticeShare(int id, PageSource from) =
@@ -79,7 +79,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
 
 // 공지 수정 이벤트
   const factory AnalyticsEvent.noticeEditPublish(int id) = _NoticeEditPublish;
-  const factory AnalyticsEvent.noticeEditBody(int? id) = _NoticeEditBody;
+  const factory AnalyticsEvent.noticeEditBody(int id) = _NoticeEditBody;
   const factory AnalyticsEvent.noticeEditBodyToggleLanguage(String lang) =
       _NoticeEditBodyToggleLanguage;
   const factory AnalyticsEvent.noticeEditBodyUseAiTranslation() =
@@ -89,7 +89,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.noticeEditBodyUndoUseAiTranslation() =
       _NoticeEditBodyUndoUseAiTranslation;
   const factory AnalyticsEvent.noticeEditEnglish(int id) = _NoticeEditEnglish;
-  const factory AnalyticsEvent.noticeEditAdditional(int? id) =
+  const factory AnalyticsEvent.noticeEditAdditional(int id) =
       _NoticeEditAdditional;
   const factory AnalyticsEvent.noticeEditAdditionalToggleLanguage(String lang) =
       _NoticeEditAdditionalToggleLanguage;
@@ -125,6 +125,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
   Map<String, Object> get parameters {
     final json = toJson();
     json.remove('runtimeType');
+    json.removeWhere((key, value) => value == null);
     return json.cast<String, Object>();
   }
 

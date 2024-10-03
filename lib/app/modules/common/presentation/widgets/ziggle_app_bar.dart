@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_logo.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
@@ -57,11 +58,13 @@ class ZiggleAppBar extends StatelessWidget implements PreferredSizeWidget {
     required Widget title,
     List<Widget> actions = const [],
     Color? backgroundColor,
+    required PageSource from,
   }) =>
       ZiggleAppBar(
         backgroundColor: backgroundColor,
         leading: ZiggleBackButton(
           label: backLabel,
+          from: from,
         ),
         title: title,
         actions: actions,

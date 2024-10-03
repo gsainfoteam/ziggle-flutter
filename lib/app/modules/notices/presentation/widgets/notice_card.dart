@@ -86,11 +86,14 @@ class NoticeCard extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             if (notice.images.isNotEmpty)
-              Image(
-                image: notice.images.first,
-                height: 250,
-                width: double.infinity,
-                fit: BoxFit.cover,
+              ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                child: Image(
+                  image: notice.images.first,
+                  height: 250,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               )
             else
               ExtendedText(

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:ziggle/gen/strings.g.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 
 import '../entities/notice_entity.dart';
 import '../entities/notice_list_entity.dart';
@@ -46,7 +46,7 @@ abstract class NoticeRepository {
     String? title,
     required String content,
     required int contentId,
-    required AppLocale lang,
+    required Language lang,
     DateTime? deadline,
   });
 }

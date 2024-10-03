@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/developer_option_repository.dart';
-import 'package:ziggle/gen/strings.g.dart';
 
 import '../../domain/repositories/language_setting_repository.dart';
 import '../models/setting_model.dart';
@@ -20,12 +20,12 @@ class HiveSettingRepository
   }
 
   @override
-  Future<AppLocale> getLanguage() async {
-    return AppLocale.values.byName(_data.language);
+  Future<Language> getLanguage() async {
+    return Language.values.byName(_data.language);
   }
 
   @override
-  Future<void> setLanguage(AppLocale language) async {
+  Future<void> setLanguage(Language language) async {
     await _box.put(_boxKey, _data.copyWith(language: language.name));
   }
 

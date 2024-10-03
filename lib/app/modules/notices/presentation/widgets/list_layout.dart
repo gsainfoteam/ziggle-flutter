@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
-import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';

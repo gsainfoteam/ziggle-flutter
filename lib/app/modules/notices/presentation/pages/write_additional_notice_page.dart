@@ -10,6 +10,8 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
@@ -29,15 +31,25 @@ class WriteAdditionalNoticePage extends StatefulWidget {
 }
 
 class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
-    with SingleTickerProviderStateMixin {
+    with
+        SingleTickerProviderStateMixin,
+        AutoRouteAwareStateMixin<WriteAdditionalNoticePage> {
+  @override
+  void didPush() =>
+      AnalyticsRepository.pageView(AnalyticsEvent.noticeEditAdditional(
+          context.read<NoticeBloc>().state.entity!.id));
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(AnalyticsEvent.noticeEditAdditional(
+          context.read<NoticeBloc>().state.entity!.id));
+
   late final _prevNotice = context.read<NoticeBloc>().state.entity!;
   late final _draft = context.read<NoticeWriteBloc>().state.draft;
   DateTime? _deadline;
   late final _content =
-      TextEditingController(text: _draft.additionalContent[AppLocale.ko] ?? '');
-  late final _enContent = _prevNotice.langs.contains(AppLocale.en)
-      ? TextEditingController(
-          text: _draft.additionalContent[AppLocale.en] ?? '')
+      TextEditingController(text: _draft.additionalContent[Language.ko] ?? '');
+  late final _enContent = _prevNotice.langs.contains(Language.en)
+      ? TextEditingController(text: _draft.additionalContent[Language.en] ?? '')
       : null;
   late final _tabController = TabController(
     length: _enContent != null ? 2 : 1,
@@ -67,6 +79,7 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.common.cancel,
+        from: PageSource.noticeEditAdditional,
         title: Text(context.t.notice.write.configTitle),
         actions: [
           ZiggleButton.text(
@@ -81,8 +94,8 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                       NoticeWriteEvent.addAdditional(
                         deadline: _deadline,
                         contents: {
-                          AppLocale.ko: _content.text,
-                          if (_enContent != null) AppLocale.en: _enContent.text,
+                          Language.ko: _content.text,
+                          if (_enContent != null) Language.en: _enContent.text,
                         },
                       ),
                     );

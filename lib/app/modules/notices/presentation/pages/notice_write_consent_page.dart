@@ -14,8 +14,21 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeWriteConsentPage extends StatelessWidget {
+class NoticeWriteConsentPage extends StatefulWidget {
   const NoticeWriteConsentPage({super.key});
+
+  @override
+  State<NoticeWriteConsentPage> createState() => _NoticeWriteConsentPageState();
+}
+
+class _NoticeWriteConsentPageState extends State<NoticeWriteConsentPage>
+    with AutoRouteAwareStateMixin<NoticeWriteConsentPage> {
+  @override
+  void didPush() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.writeConfigPublish());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.writeConfigPublish());
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +75,7 @@ class _LayoutState extends State<_Layout> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
