@@ -102,8 +102,9 @@ class _LayoutState extends State<_Layout> {
                   isChecked: _notification,
                   onChanged: (v) {
                     AnalyticsRepository.click(
-                        AnalyticsEvent.writeConfigPublishAgree(
-                            v ? "on" : "off"));
+                      AnalyticsEvent.writeConfigPublishAgree(
+                          v ? "on" : "off", "notification"),
+                    );
                     setState(() => _notification = v);
                   },
                 ),
@@ -114,8 +115,9 @@ class _LayoutState extends State<_Layout> {
                   isChecked: _edit,
                   onChanged: (v) {
                     AnalyticsRepository.click(
-                        AnalyticsEvent.writeConfigPublishAgree(
-                            v ? "on" : "off"));
+                      AnalyticsEvent.writeConfigPublishAgree(
+                          v ? "on" : "off", "edit"),
+                    );
                     setState(() => _edit = v);
                   },
                 ),
@@ -127,8 +129,9 @@ class _LayoutState extends State<_Layout> {
                   isChecked: _urgent,
                   onChanged: (v) {
                     AnalyticsRepository.click(
-                        AnalyticsEvent.writeConfigPublishAgree(
-                            v ? "on" : "off"));
+                      AnalyticsEvent.writeConfigPublishAgree(
+                          v ? "on" : "off", "urgent"),
+                    );
                     setState(() => _urgent = v);
                   },
                 ),

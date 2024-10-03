@@ -74,8 +74,8 @@ class AnalyticsEvent with _$AnalyticsEvent {
       _WriteConfigDeleteHashtag;
   const factory AnalyticsEvent.writeConfigPreview() = _WriteConfigPreview;
   const factory AnalyticsEvent.writeConfigPublish() = _WriteConfigPublish;
-  const factory AnalyticsEvent.writeConfigPublishAgree(String value) =
-      _WriteConfigPublishAgree;
+  const factory AnalyticsEvent.writeConfigPublishAgree(
+      String value, String type) = _WriteConfigPublishAgree;
   const factory AnalyticsEvent.writeConfigPublishUpload() =
       _WriteConfigPublishUpload;
 
