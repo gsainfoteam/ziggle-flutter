@@ -230,8 +230,9 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                   LanguageToggle(
                       onToggle: (v) {
                         AnalyticsRepository.click(
-                            AnalyticsEvent.noticeEditBodyToggleLanguage(
-                                v ? "eng" : "kor"));
+                          AnalyticsEvent.noticeEditBodyToggleLanguage(
+                              v ? Language.en : Language.ko),
+                        );
                         _tabController.animateTo(v ? 1 : 0);
                       },
                       value: _tabController.index != 0),

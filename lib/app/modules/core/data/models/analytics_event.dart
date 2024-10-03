@@ -1,7 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 part 'analytics_event.freezed.dart';
 part 'analytics_event.g.dart';
@@ -36,7 +38,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
       _NoticeSendNotification;
 
   // 공지 작성 이벤트
-  const factory AnalyticsEvent.writeToggleLanguage(String lang) =
+  const factory AnalyticsEvent.writeToggleLanguage(Language lang) =
       _WriteToggleLanguage;
   const factory AnalyticsEvent.writeAddPhoto() = _WriteAddPhoto;
   const factory AnalyticsEvent.writeUseAiTranslation() = _WriteUseAiTranslation;
@@ -80,7 +82,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
 // 공지 수정 이벤트
   const factory AnalyticsEvent.noticeEditPublish(int id) = _NoticeEditPublish;
   const factory AnalyticsEvent.noticeEditBody(int id) = _NoticeEditBody;
-  const factory AnalyticsEvent.noticeEditBodyToggleLanguage(String lang) =
+  const factory AnalyticsEvent.noticeEditBodyToggleLanguage(Language lang) =
       _NoticeEditBodyToggleLanguage;
   const factory AnalyticsEvent.noticeEditBodyUseAiTranslation() =
       _NoticeEditBodyUseAiTranslation;
@@ -91,8 +93,8 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.noticeEditEnglish(int id) = _NoticeEditEnglish;
   const factory AnalyticsEvent.noticeEditAdditional(int id) =
       _NoticeEditAdditional;
-  const factory AnalyticsEvent.noticeEditAdditionalToggleLanguage(String lang) =
-      _NoticeEditAdditionalToggleLanguage;
+  const factory AnalyticsEvent.noticeEditAdditionalToggleLanguage(
+      Language lang) = _NoticeEditAdditionalToggleLanguage;
   const factory AnalyticsEvent.noticeEditAdditionalDone() =
       _NoticeEditAdditionalDone;
   const factory AnalyticsEvent.noticeEditChangeDeadline(int? id) =
@@ -111,7 +113,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.profileLogin(PageSource from) = _ProfileLogin;
   const factory AnalyticsEvent.profileSettingEnableNotification() =
       _ProfileSettingEnableNotification;
-  const factory AnalyticsEvent.profileSettingLanguage(String lang) =
+  const factory AnalyticsEvent.profileSettingLanguage(AppLocale lang) =
       _ProfileSettingLanguage;
   const factory AnalyticsEvent.profileSettingInformation() =
       _ProfileSettingInformation;

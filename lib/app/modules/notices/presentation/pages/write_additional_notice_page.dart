@@ -128,8 +128,9 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                 LanguageToggle(
                   onToggle: (v) {
                     AnalyticsRepository.click(
-                        AnalyticsEvent.noticeEditAdditionalToggleLanguage(
-                            v ? "eng" : "kor"));
+                      AnalyticsEvent.noticeEditAdditionalToggleLanguage(
+                          v ? Language.en : Language.ko),
+                    );
                     _tabController.animateTo(v ? 1 : 0);
                   },
                   value: _tabController.index != 0,

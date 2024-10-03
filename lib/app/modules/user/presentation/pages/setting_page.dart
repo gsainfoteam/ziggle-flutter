@@ -132,7 +132,9 @@ class _SettingPageState extends State<SettingPage>
                     ? null
                     : () {
                         AnalyticsRepository.click(
-                            const AnalyticsEvent.profileSettingLanguage("kor"));
+                          const AnalyticsEvent.profileSettingLanguage(
+                              AppLocale.ko),
+                        );
                         LocaleSettings.setLocale(AppLocale.ko);
                         sl<LanguageSettingRepository>()
                             .setLanguage(Language.ko);
@@ -148,7 +150,9 @@ class _SettingPageState extends State<SettingPage>
                     ? null
                     : () {
                         AnalyticsRepository.click(
-                            const AnalyticsEvent.profileSettingLanguage("eng"));
+                          const AnalyticsEvent.profileSettingLanguage(
+                              AppLocale.en),
+                        );
                         LocaleSettings.setLocale(AppLocale.en);
                         sl<LanguageSettingRepository>()
                             .setLanguage(Language.en);
