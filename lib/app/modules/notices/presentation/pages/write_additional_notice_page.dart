@@ -86,21 +86,24 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
             disabled:
                 _content.text.isEmpty || (_enContent?.text.isEmpty ?? false),
             onPressed: () {
-              if (_content.text.isNotEmpty &&
-                  (_enContent?.text.isNotEmpty ?? false)) {
-                AnalyticsRepository.click(
-                    const AnalyticsEvent.noticeEditAdditionalDone());
-                context.read<NoticeWriteBloc>().add(
-                      NoticeWriteEvent.addAdditional(
-                        deadline: _deadline,
-                        contents: {
-                          Language.ko: _content.text,
-                          if (_enContent != null) Language.en: _enContent.text,
-                        },
-                      ),
-                    );
-                context.maybePop();
+              AnalyticsRepository.click(
+                  const AnalyticsEvent.noticeEditAdditionalDone());
+              if (_content.text.isEmpty ||
+                  (_enContent?.text.isEmpty ?? false)) {
+                return;
               }
+              context.read<NoticeWriteBloc>().add(
+                    NoticeWriteEvent.addAdditional(
+                      deadline: _deadline,
+                      contents: {
+                        Language.ko: _content.text,
+                        if (_enContent != null) Language.en: _enContent.text,
+                      },
+                    ),
+                  );
+              context.maybePop();
+              AnalyticsRepository.action(
+                  const AnalyticsEvent.noticeEditAdditionalDone());
             },
             child: Text(
               context.t.common.done,
