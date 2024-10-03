@@ -131,14 +131,10 @@ class _SettingPageState extends State<SettingPage>
                 onPressed: () {
                   AnalyticsRepository.click(
                       const AnalyticsEvent.profileSettingLanguage("kor"));
-                  LocaleSettings.currentLocale == AppLocale.ko
-                      ? null
-                      : () {
-                          LocaleSettings.setLocale(AppLocale.ko);
-                          sl<LanguageSettingRepository>()
-                              .setLanguage(Language.ko);
-                          context.router.replaceAll([SplashRoute(delay: true)]);
-                        };
+                  if (LocaleSettings.currentLocale == AppLocale.ko) return;
+                  LocaleSettings.setLocale(AppLocale.ko);
+                  sl<LanguageSettingRepository>().setLanguage(Language.ko);
+                  context.router.replaceAll([SplashRoute(delay: true)]);
                 },
               ),
               const SizedBox(height: 20),
@@ -149,14 +145,10 @@ class _SettingPageState extends State<SettingPage>
                 onPressed: () {
                   AnalyticsRepository.click(
                       const AnalyticsEvent.profileSettingLanguage("eng"));
-                  LocaleSettings.currentLocale == AppLocale.en
-                      ? null
-                      : () {
-                          LocaleSettings.setLocale(AppLocale.en);
-                          sl<LanguageSettingRepository>()
-                              .setLanguage(Language.en);
-                          context.router.replaceAll([SplashRoute(delay: true)]);
-                        };
+                  if (LocaleSettings.currentLocale == AppLocale.en) return;
+                  LocaleSettings.setLocale(AppLocale.en);
+                  sl<LanguageSettingRepository>().setLanguage(Language.en);
+                  context.router.replaceAll([SplashRoute(delay: true)]);
                 },
               ),
               _Title(title: context.t.user.setting.information.title),
