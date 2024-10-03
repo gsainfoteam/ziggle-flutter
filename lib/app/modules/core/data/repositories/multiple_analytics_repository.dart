@@ -29,21 +29,27 @@ class MultipleAnalyticsRepository implements AnalyticsRepository {
   @override
   logChangeUser(UserEntity? user) {
     for (final repository in _repositories) {
-      repository.logChangeUser(user);
+      try {
+        repository.logChangeUser(user);
+      } catch (_) {}
     }
   }
 
   @override
   logEvent(EventType type, AnalyticsEvent event) {
     for (final repository in _repositories) {
-      repository.logEvent(type, event);
+      try {
+        repository.logEvent(type, event);
+      } catch (_) {}
     }
   }
 
   @override
   logScreen(String screenName) {
     for (final repository in _repositories) {
-      repository.logScreen(screenName);
+      try {
+        repository.logScreen(screenName);
+      } catch (_) {}
     }
   }
 }
