@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/data/repositories/amplitude_analytics_repository.dart';
 import 'package:ziggle/app/modules/core/data/repositories/firebase_analytics_repository.dart';
+import 'package:ziggle/app/modules/core/data/repositories/smartlook_analytics_repository.dart';
 import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
@@ -11,15 +12,18 @@ import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 class MultipleAnalyticsRepository implements AnalyticsRepository {
   final FirebaseAnalyticsRepository _firebaseAnalyticsRepository;
   final AmplitudeAnalyticsRepository _amplitudeAnalyticsRepository;
+  final SmartlookAnalyticsRepository _smartlookAnalyticsRepository;
 
   late final _repositories = [
     _firebaseAnalyticsRepository,
     _amplitudeAnalyticsRepository,
+    _smartlookAnalyticsRepository,
   ];
 
   MultipleAnalyticsRepository(
     this._firebaseAnalyticsRepository,
     this._amplitudeAnalyticsRepository,
+    this._smartlookAnalyticsRepository,
   );
 
   @override
