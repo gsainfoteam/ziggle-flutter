@@ -25,9 +25,9 @@ class FirebaseAnalyticsRepository implements AnalyticsRepository {
 
   @override
   logEvent(EventType type, AnalyticsEvent event) {
-    print('${type.name}_${event.name}');
-    print('${event.parameters}');
     _analytics.logEvent(
-        name: '${type.name}_${event.name}', parameters: event.parameters);
+      name: '${type.name}_${event.name}',
+      parameters: event.parameters,
+    );
   }
 }
