@@ -267,7 +267,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                   const AnalyticsEvent.noticeEditBodyUseAiTranslation());
               if (_englishBodyController.plainTextEditingValue.text
                   .trim()
-                  .isEmpty) return;
+                  .isNotEmpty) return;
               _translate();
             },
             titleFocusNode: _englishTitleFocusNode,

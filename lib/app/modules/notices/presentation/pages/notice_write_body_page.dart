@@ -296,13 +296,12 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
             builder: (context, state) => Editor(
               translating: state.isLoading,
               onTranslate: () {
-                if (!_englishBodyController.plainTextEditingValue.text
+                if (_englishBodyController.plainTextEditingValue.text
                     .trim()
-                    .isNotEmpty) {
-                  AnalyticsRepository.click(
-                      const AnalyticsEvent.writeUseAiTranslation());
-                  _translate();
-                }
+                    .isNotEmpty) return;
+                AnalyticsRepository.click(
+                    const AnalyticsEvent.writeUseAiTranslation());
+                _translate();
               },
               titleFocusNode: _englishTitleFocusNode,
               bodyFocusNode: _englishBodyFocusNode,
