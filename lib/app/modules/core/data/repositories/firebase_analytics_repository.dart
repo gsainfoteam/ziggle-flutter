@@ -1,10 +1,12 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 
 import '../../domain/repositories/analytics_repository.dart';
 
+@singleton
 class FirebaseAnalyticsRepository implements AnalyticsRepository {
   static final _analytics = FirebaseAnalytics.instance;
 
