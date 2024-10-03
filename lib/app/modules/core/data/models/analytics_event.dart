@@ -97,7 +97,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
       Language lang) = _NoticeEditAdditionalToggleLanguage;
   const factory AnalyticsEvent.noticeEditAdditionalDone() =
       _NoticeEditAdditionalDone;
-  const factory AnalyticsEvent.noticeEditChangeDeadline(int? id) =
+  const factory AnalyticsEvent.noticeEditChangeDeadline([int? id]) =
       _NoticeEditChangeDeadline;
   const factory AnalyticsEvent.noticeEditSetDeadline() = _NoticeEditSetDeadline;
   const factory AnalyticsEvent.noticeEditSetDeadlineCancel() =

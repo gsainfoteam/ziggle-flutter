@@ -25,6 +25,14 @@ class _DeadlineSelectorState extends State<DeadlineSelector> {
   late DateTime? _dateTime = widget.initialDateTime;
 
   @override
+  void initState() {
+    super.initState();
+    AnalyticsRepository.view(widget.isEditMode
+        ? const AnalyticsEvent.noticeEditChangeDeadline()
+        : const AnalyticsEvent.writeConfigSetDeadline());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
