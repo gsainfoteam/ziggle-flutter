@@ -1,4 +1,10 @@
 PODS:
+  - Amplitude (8.18.0):
+    - AnalyticsConnector (~> 1.0.0)
+  - amplitude_flutter (0.0.1):
+    - Amplitude (= 8.18.0)
+    - Flutter
+  - AnalyticsConnector (1.0.3)
   - Firebase/Analytics (11.2.0):
     - Firebase/Core
   - Firebase/Core (11.2.0):
@@ -100,6 +106,8 @@ PODS:
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
+  - flutter_smartlook (4.1.24):
+    - Flutter
   - flutter_web_auth_2 (3.0.0):
     - Flutter
   - GoogleAppMeasurement (11.2.0):
@@ -196,6 +204,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - amplitude_flutter (from `.symlinks/plugins/amplitude_flutter/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
@@ -206,6 +215,7 @@ DEPENDENCIES:
   - flutter_keyboard_visibility_temp_fork (from `.symlinks/plugins/flutter_keyboard_visibility_temp_fork/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_smartlook (from `.symlinks/plugins/flutter_smartlook/ios`)
   - flutter_web_auth_2 (from `.symlinks/plugins/flutter_web_auth_2/ios`)
   - GoogleUtilities
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -220,6 +230,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Amplitude
+    - AnalyticsConnector
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
@@ -239,6 +251,8 @@ SPEC REPOS:
     - PromisesSwift
 
 EXTERNAL SOURCES:
+  amplitude_flutter:
+    :path: ".symlinks/plugins/amplitude_flutter/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
@@ -257,6 +271,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_smartlook:
+    :path: ".symlinks/plugins/flutter_smartlook/ios"
   flutter_web_auth_2:
     :path: ".symlinks/plugins/flutter_web_auth_2/ios"
   image_picker_ios:
@@ -279,6 +295,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
+  Amplitude: 184def4f87aa26f94a93a7faa334e06b1cae704d
+  amplitude_flutter: 0f617f89d62b10c40a0ab14849e660a7c12e4e46
+  AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
   Firebase: 98e6bf5278170668a7983e12971a66b2cd57fc8c
   firebase_analytics: fbc57838bdb94eef1e0ff504f127d974ff2981ad
   firebase_core: 2bedc3136ec7c7b8561c6123ed0239387b53f2af
@@ -298,6 +317,7 @@ SPEC CHECKSUMS:
   flutter_keyboard_visibility_temp_fork: 442dadca3b81868a225cd6a2f605bffff1215844
   flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
+  flutter_smartlook: 2f8ffb62fb0197739e3a412ddb4e65eb67d8a237
   flutter_web_auth_2: 051cf9f5dc366f31b5dcc4e2952c2b954767be8a
   GoogleAppMeasurement: 76d4f8b36b03bd8381fa9a7fe2cc7f99c0a2e93a
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
