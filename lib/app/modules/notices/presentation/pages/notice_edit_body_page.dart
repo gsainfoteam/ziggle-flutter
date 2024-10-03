@@ -262,11 +262,11 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
           Editor(
             titleDisabled: _prevNotice.contents[Language.en] != null,
             onTranslate: () {
+              AnalyticsRepository.click(
+                  const AnalyticsEvent.noticeEditBodyUseAiTranslation());
               if (!_englishBodyController.plainTextEditingValue.text
                   .trim()
                   .isNotEmpty) {
-                AnalyticsRepository.click(
-                    const AnalyticsEvent.noticeEditBodyUseAiTranslation());
                 _translate();
               }
             },
