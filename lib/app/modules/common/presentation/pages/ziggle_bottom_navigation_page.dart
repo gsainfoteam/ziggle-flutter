@@ -68,20 +68,13 @@ class _ZiggleBottomNavigationPageState extends State<ZiggleBottomNavigationPage>
                         (e) => Expanded(
                           child: ZigglePressable(
                             onPressed: () {
-                              switch (e.$1) {
-                                case 0:
-                                  AnalyticsRepository.click(
-                                      const AnalyticsEvent.feed());
-                                  break;
-                                case 1:
-                                  AnalyticsRepository.click(
-                                      const AnalyticsEvent.category());
-                                  break;
-                                case 2:
-                                  AnalyticsRepository.click(
-                                      const AnalyticsEvent.profile());
-                                  break;
-                              }
+                              AnalyticsRepository.click(
+                                [
+                                  const AnalyticsEvent.feed(),
+                                  const AnalyticsEvent.category(),
+                                  const AnalyticsEvent.profile()
+                                ][e.$1],
+                              );
                               tabController.animateTo(e.$1);
                             },
                             child: Padding(
