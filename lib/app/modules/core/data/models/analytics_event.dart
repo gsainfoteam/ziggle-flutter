@@ -133,13 +133,13 @@ class AnalyticsEvent with _$AnalyticsEvent {
 
   String get name {
     final json = toJson();
-    return camelToSnake(json['runtimeType']);
+    return _camelToSnake(json['runtimeType']);
   }
+}
 
-  String camelToSnake(String text) {
-    return text.replaceAllMapped(
-      RegExp(r'[A-Z]'),
-      (Match match) => '_${match.group(0)!.toLowerCase()}',
-    );
-  }
+String _camelToSnake(String text) {
+  return text.replaceAllMapped(
+    RegExp(r'[A-Z]'),
+    (Match match) => '_${match.group(0)!.toLowerCase()}',
+  );
 }
