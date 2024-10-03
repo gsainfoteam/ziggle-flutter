@@ -14,7 +14,6 @@ import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
-import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
@@ -228,8 +227,9 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                             _photos.addAll(
                               images.map((e) => File(e.path)),
                             );
-                            sl<AnalyticsRepository>().logEvent(EventType.action,
-                                const AnalyticsEvent.writeAddPhoto());
+                            AnalyticsRepository.action(
+                              const AnalyticsEvent.writeAddPhoto(),
+                            );
                           });
                         },
                         child: DottedBorder(
