@@ -29,14 +29,8 @@ class NoticeEditPage extends StatefulWidget {
 class _NoticeEditPageState extends State<NoticeEditPage>
     with AutoRouteAwareStateMixin<NoticeEditPage> {
   @override
-  void didPush() async {
-    final notice = await context
-        .read<NoticeBloc>()
-        .stream
-        .firstWhere((s) => s.entity != null);
-    AnalyticsRepository.pageView(AnalyticsEvent.noticeEdit(notice.entity!.id));
-  }
-
+  void didPush() => AnalyticsRepository.pageView(
+      AnalyticsEvent.noticeEdit(context.read<NoticeBloc>().state.entity!.id));
   @override
   void didPopNext() => AnalyticsRepository.pageView(
       AnalyticsEvent.noticeEdit(context.read<NoticeBloc>().state.entity!.id));

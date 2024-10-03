@@ -20,14 +20,9 @@ class DetailPage extends StatefulWidget {
 class _DetailPageState extends State<DetailPage>
     with AutoRouteAwareStateMixin<DetailPage> {
   @override
-  void didPush() async {
-    final notice = await context
-        .read<NoticeBloc>()
-        .stream
-        .firstWhere((s) => s.entity != null);
-    AnalyticsRepository.pageView(AnalyticsEvent.notice(notice.entity!.id));
-  }
-
+  void didPush() => AnalyticsRepository.pageView(AnalyticsEvent.notice(
+        context.read<NoticeBloc>().state.entity!.id,
+      ));
   @override
   void didPopNext() => AnalyticsRepository.pageView(AnalyticsEvent.notice(
         context.read<NoticeBloc>().state.entity!.id,
