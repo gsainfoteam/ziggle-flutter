@@ -12,9 +12,11 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/extensions/quill.dart';
@@ -28,8 +30,20 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeWriteBodyPage extends StatelessWidget {
+class NoticeWriteBodyPage extends StatefulWidget {
   const NoticeWriteBodyPage({super.key});
+
+  @override
+  State<NoticeWriteBodyPage> createState() => _NoticeWriteBodyPageState();
+}
+
+class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
+    with AutoRouteAwareStateMixin<NoticeWriteBodyPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(const AnalyticsEvent.write());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.write());
 
   @override
   Widget build(BuildContext context) {
@@ -129,13 +143,17 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                     .trim()
                     .isEmpty));
     return Scaffold(
-      appBar: ZiggleAppBar(
-        leading: ZiggleBackButton(label: context.t.common.cancel),
+      appBar: ZiggleAppBar.compact(
+        backLabel: context.t.common.cancel,
+        from: PageSource.write,
         title: Text(context.t.notice.write.title),
         actions: [
           ZiggleButton.text(
             disabled: actionDisabled,
-            onPressed: actionDisabled ? null : _next,
+            onPressed: () {
+              AnalyticsRepository.click(const AnalyticsEvent.writeConfig());
+              if (!actionDisabled) _next();
+            },
             child: Text(
               context.t.common.done,
               style: const TextStyle(
@@ -176,7 +194,13 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
               child: Row(
                 children: [
                   LanguageToggle(
-                      onToggle: (v) => _tabController.animateTo(v ? 1 : 0),
+                      onToggle: (v) {
+                        AnalyticsRepository.click(
+                          AnalyticsEvent.writeToggleLanguage(
+                              v ? Language.en : Language.ko),
+                        );
+                        _tabController.animateTo(v ? 1 : 0);
+                      },
                       value: _tabController.index != 0),
                 ],
               ),
@@ -196,11 +220,18 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                     if (index == _photos.length) {
                       return GestureDetector(
                         onTap: () async {
+                          AnalyticsRepository.click(
+                              const AnalyticsEvent.writeAddPhoto());
                           final images = await ImagePicker().pickMultiImage();
                           if (!mounted) return;
-                          setState(() => _photos.addAll(
-                                images.map((e) => File(e.path)),
-                              ));
+                          setState(() {
+                            _photos.addAll(
+                              images.map((e) => File(e.path)),
+                            );
+                            AnalyticsRepository.action(
+                              const AnalyticsEvent.writeAddPhoto(),
+                            );
+                          });
                         },
                         child: DottedBorder(
                           color: Palette.gray,
@@ -264,11 +295,14 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
           BlocBuilder<AiBloc, AiState>(
             builder: (context, state) => Editor(
               translating: state.isLoading,
-              onTranslate: _englishBodyController.plainTextEditingValue.text
-                      .trim()
-                      .isNotEmpty
-                  ? null
-                  : _translate,
+              onTranslate: () {
+                if (_englishBodyController.plainTextEditingValue.text
+                    .trim()
+                    .isNotEmpty) return;
+                AnalyticsRepository.click(
+                    const AnalyticsEvent.writeUseAiTranslation());
+                _translate();
+              },
               titleFocusNode: _englishTitleFocusNode,
               bodyFocusNode: _englishBodyFocusNode,
               titleController: _englishTitleController,

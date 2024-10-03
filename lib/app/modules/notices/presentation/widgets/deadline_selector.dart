@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_date_time_picker.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class DeadlineSelector extends StatefulWidget {
@@ -8,10 +10,12 @@ class DeadlineSelector extends StatefulWidget {
     super.key,
     required this.onChanged,
     this.initialDateTime,
+    required this.isEditMode,
   });
 
   final ValueChanged<DateTime?> onChanged;
   final DateTime? initialDateTime;
+  final bool isEditMode;
 
   @override
   State<DeadlineSelector> createState() => _DeadlineSelectorState();
@@ -19,6 +23,14 @@ class DeadlineSelector extends StatefulWidget {
 
 class _DeadlineSelectorState extends State<DeadlineSelector> {
   late DateTime? _dateTime = widget.initialDateTime;
+
+  @override
+  void initState() {
+    super.initState();
+    AnalyticsRepository.view(widget.isEditMode
+        ? const AnalyticsEvent.noticeEditChangeDeadline()
+        : const AnalyticsEvent.writeConfigSetDeadline());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +49,14 @@ class _DeadlineSelectorState extends State<DeadlineSelector> {
           children: [
             Expanded(
               child: ZiggleButton.cta(
-                onPressed: () => widget.onChanged(null),
+                onPressed: () {
+                  widget.isEditMode
+                      ? AnalyticsRepository.click(
+                          const AnalyticsEvent.noticeEditSetDeadlineCancel())
+                      : AnalyticsRepository.click(
+                          const AnalyticsEvent.writeConfigSetDeadlineCancel());
+                  widget.onChanged(null);
+                },
                 outlined: true,
                 child: Text(context.t.common.cancel),
               ),
@@ -47,7 +66,15 @@ class _DeadlineSelectorState extends State<DeadlineSelector> {
               child: ZiggleButton.cta(
                 onPressed: _dateTime == null
                     ? null
-                    : () => widget.onChanged(_dateTime),
+                    : () {
+                        widget.isEditMode
+                            ? AnalyticsRepository.click(
+                                const AnalyticsEvent.noticeEditSetDeadline())
+                            : AnalyticsRepository.click(
+                                const AnalyticsEvent.writeConfigSetDeadline());
+
+                        widget.onChanged(_dateTime);
+                      },
                 disabled: _dateTime == null,
                 child: Text(context.t.notice.write.deadline.confirm),
               ),

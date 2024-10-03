@@ -8,9 +8,11 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
@@ -26,10 +28,24 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeEditBodyPage extends StatelessWidget {
+class NoticeEditBodyPage extends StatefulWidget {
   const NoticeEditBodyPage({super.key, this.showEnglish = false});
 
   final bool showEnglish;
+
+  @override
+  State<NoticeEditBodyPage> createState() => _NoticeEditBodyPageState();
+}
+
+class _NoticeEditBodyPageState extends State<NoticeEditBodyPage>
+    with AutoRouteAwareStateMixin<NoticeEditBodyPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(AnalyticsEvent.noticeEditBody(
+      context.read<NoticeBloc>().state.entity!.id));
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(AnalyticsEvent.noticeEditBody(
+          context.read<NoticeBloc>().state.entity!.id));
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +55,7 @@ class NoticeEditBodyPage extends StatelessWidget {
         listener: (context, state) => state.mapOrNull(
           error: (error) => context.showToast(error.message),
         ),
-        child: _Layout(showEnglish: showEnglish),
+        child: _Layout(showEnglish: widget.showEnglish),
       ),
     );
   }
@@ -151,8 +167,9 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                     .trim()
                     .isEmpty));
     return Scaffold(
-      appBar: ZiggleAppBar(
-        leading: ZiggleBackButton(label: context.t.common.cancel),
+      appBar: ZiggleAppBar.compact(
+        backLabel: context.t.common.cancel,
+        from: PageSource.noticeEditBody,
         title: Text(
           _tabController.index == 0
               ? context.t.notice.edit.title
@@ -211,7 +228,13 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
               child: Row(
                 children: [
                   LanguageToggle(
-                      onToggle: (v) => _tabController.animateTo(v ? 1 : 0),
+                      onToggle: (v) {
+                        AnalyticsRepository.click(
+                          AnalyticsEvent.noticeEditBodyToggleLanguage(
+                              v ? Language.en : Language.ko),
+                        );
+                        _tabController.animateTo(v ? 1 : 0);
+                      },
                       value: _tabController.index != 0),
                 ],
               ),
@@ -239,11 +262,14 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
           ),
           Editor(
             titleDisabled: _prevNotice.contents[Language.en] != null,
-            onTranslate: _englishBodyController.plainTextEditingValue.text
-                    .trim()
-                    .isNotEmpty
-                ? null
-                : _translate,
+            onTranslate: () {
+              AnalyticsRepository.click(
+                  const AnalyticsEvent.noticeEditBodyUseAiTranslation());
+              if (_englishBodyController.plainTextEditingValue.text
+                  .trim()
+                  .isNotEmpty) return;
+              _translate();
+            },
             titleFocusNode: _englishTitleFocusNode,
             bodyFocusNode: _englishBodyFocusNode,
             titleController: _englishTitleController,
@@ -263,7 +289,11 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     ));
     final result = await blocker;
     result.mapOrNull(
-      loaded: (result) => _englishBodyController.html = result.body,
+      loaded: (result) {
+        AnalyticsRepository.action(
+            const AnalyticsEvent.noticeEditBodyUseAiTranslation());
+        return _englishBodyController.html = result.body;
+      },
     );
   }
 

@@ -7,6 +7,9 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_bottom_she
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
@@ -24,7 +27,15 @@ class NoticeWriteConfigPage extends StatefulWidget {
   State<NoticeWriteConfigPage> createState() => _NoticeWriteConfigPageState();
 }
 
-class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
+class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
+    with AutoRouteAwareStateMixin<NoticeWriteConfigPage> {
+  @override
+  void didPush() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.writeConfig());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.writeConfig());
+
   DateTime? _deadline;
   NoticeType? _type;
   final List<String> _tags = [];
@@ -53,11 +64,18 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.common.cancel,
+        from: PageSource.writeConfig,
         title: Text(context.t.notice.write.configTitle),
         actions: [
           ZiggleButton.text(
             disabled: _type == null,
-            onPressed: _type == null ? null : _publish,
+            onPressed: () {
+              AnalyticsRepository.click(
+                  const AnalyticsEvent.writeConfigPublish());
+              if (_type != null) {
+                _publish();
+              }
+            },
             child: Text(
               context.t.notice.write.publish,
               style: const TextStyle(
@@ -83,7 +101,13 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 ZiggleButton.cta(
                   disabled: _type == null,
                   emphasize: false,
-                  onPressed: _type == null ? null : _preview,
+                  onPressed: () {
+                    AnalyticsRepository.click(
+                        const AnalyticsEvent.writeConfigPreview());
+                    if (_type != null) {
+                      _preview();
+                    }
+                  },
                   child: Text(context.t.notice.write.preview),
                 ),
               ],
@@ -130,13 +154,18 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                 value: _deadline != null,
                 onToggle: (v) async {
                   if (_deadline != null) {
+                    AnalyticsRepository.click(
+                        const AnalyticsEvent.writeConfigDeleteDeadline());
                     setState(() => _deadline = null);
                     return;
                   }
+                  AnalyticsRepository.click(
+                      const AnalyticsEvent.writeConfigAddDeadline());
                   final dateTime = await ZiggleBottomSheet.show<DateTime>(
                     context: context,
                     title: context.t.notice.write.deadline.title,
                     builder: (context) => DeadlineSelector(
+                      isEditMode: false,
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
                   );
@@ -150,10 +179,13 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
             const SizedBox(height: 10),
             ZigglePressable(
               onPressed: () async {
+                AnalyticsRepository.click(
+                    const AnalyticsEvent.writeConfigChangeDeadline());
                 final dateTime = await ZiggleBottomSheet.show<DateTime>(
                   context: context,
                   title: context.t.notice.write.deadline.title,
                   builder: (context) => DeadlineSelector(
+                    isEditMode: false,
                     initialDateTime: _deadline,
                     onChanged: (v) => Navigator.pop(context, v),
                   ),
@@ -220,7 +252,11 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                       child: AspectRatio(
                         aspectRatio: 1,
                         child: ZigglePressable(
-                          onPressed: () => setState(() => _type = e.$2),
+                          onPressed: () {
+                            AnalyticsRepository.click(
+                                AnalyticsEvent.writeConfigCategory(e.$2));
+                            setState(() => _type = e.$2);
+                          },
                           decoration: BoxDecoration(
                             color: _type == e.$2
                                 ? Palette.black
@@ -304,6 +340,8 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
           const SizedBox(height: 10),
           ZigglePressable(
             onPressed: () async {
+              AnalyticsRepository.click(
+                  const AnalyticsEvent.writeConfigAddHashtag());
               final tags = await const NoticeWriteSelectTagsRoute()
                   .push<List<String>>(context);
               if (!mounted || tags == null) return;
@@ -344,7 +382,11 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage> {
                     (tag) => Tag(
                       tag: tag.$2,
                       onDelete: true,
-                      onPressed: () => setState(() => _tags.removeAt(tag.$1)),
+                      onPressed: () {
+                        AnalyticsRepository.click(
+                            const AnalyticsEvent.writeConfigDeleteHashtag());
+                        setState(() => _tags.removeAt(tag.$1));
+                      },
                     ),
                   )
                   .toList(),

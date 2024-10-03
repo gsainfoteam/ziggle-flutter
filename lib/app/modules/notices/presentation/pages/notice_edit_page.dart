@@ -5,7 +5,10 @@ import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
@@ -16,8 +19,21 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class NoticeEditPage extends StatelessWidget {
+class NoticeEditPage extends StatefulWidget {
   const NoticeEditPage({super.key});
+
+  @override
+  State<NoticeEditPage> createState() => _NoticeEditPageState();
+}
+
+class _NoticeEditPageState extends State<NoticeEditPage>
+    with AutoRouteAwareStateMixin<NoticeEditPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(
+      AnalyticsEvent.noticeEdit(context.read<NoticeBloc>().state.entity!.id));
+  @override
+  void didPopNext() => AnalyticsRepository.pageView(
+      AnalyticsEvent.noticeEdit(context.read<NoticeBloc>().state.entity!.id));
 
   Future<void> _publish(BuildContext context) async {
     final bloc = context.read<NoticeWriteBloc>();
@@ -41,12 +57,17 @@ class NoticeEditPage extends StatelessWidget {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.common.cancel,
+        from: PageSource.noticeEdit,
         title: Text(context.t.notice.edit.title),
         actions: [
           BlocBuilder<NoticeWriteBloc, NoticeWriteState>(
             builder: (context, state) => ZiggleButton.text(
               disabled: !state.hasChanging,
-              onPressed: () => _publish(context),
+              onPressed: () {
+                AnalyticsRepository.click(AnalyticsEvent.noticeEditPublish(
+                    context.read<NoticeBloc>().state.entity!.id));
+                _publish(context);
+              },
               child: Text(context.t.notice.write.publish),
             ),
           ),
@@ -69,8 +90,11 @@ class NoticeEditPage extends StatelessWidget {
                   disabled: !state.isLoaded || state.entity!.isPublished,
                   icon: Assets.icons.body,
                   title: context.t.notice.edit.editBody,
-                  onPressed: () =>
-                      NoticeEditBodyRoute(showEnglish: false).push(context),
+                  onPressed: () {
+                    AnalyticsRepository.click(AnalyticsEvent.noticeEditBody(
+                        context.read<NoticeBloc>().state.entity!.id));
+                    NoticeEditBodyRoute(showEnglish: false).push(context);
+                  },
                 ),
                 const SizedBox(height: 10),
                 _ActionButton(
@@ -78,21 +102,32 @@ class NoticeEditPage extends StatelessWidget {
                       state.entity!.contents[Language.en] != null,
                   icon: Assets.icons.language,
                   title: context.t.notice.edit.addEnglish,
-                  onPressed: () =>
-                      NoticeEditBodyRoute(showEnglish: true).push(context),
+                  onPressed: () {
+                    AnalyticsRepository.click(AnalyticsEvent.noticeEditEnglish(
+                        context.read<NoticeBloc>().state.entity!.id));
+                    NoticeEditBodyRoute(showEnglish: true).push(context);
+                  },
                 ),
                 const SizedBox(height: 10),
                 _ActionButton(
                   disabled: false,
                   icon: Assets.icons.add,
                   title: context.t.notice.edit.additional.action,
-                  onPressed: () =>
-                      const WriteAdditionalNoticeRoute().push(context),
+                  onPressed: () {
+                    AnalyticsRepository.click(
+                        AnalyticsEvent.noticeEditAdditional(
+                            context.read<NoticeBloc>().state.entity!.id));
+                    const WriteAdditionalNoticeRoute().push(context);
+                  },
                 ),
                 const SizedBox(height: 25),
                 ZiggleButton.cta(
                   emphasize: false,
-                  onPressed: () => const NoticeEditPreviewRoute().push(context),
+                  onPressed: () {
+                    AnalyticsRepository.click(AnalyticsEvent.noticeEditPreview(
+                        context.read<NoticeBloc>().state.entity!.id));
+                    const NoticeEditPreviewRoute().push(context);
+                  },
                   child: Text(context.t.notice.write.preview),
                 ),
               ],

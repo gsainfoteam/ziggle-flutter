@@ -9,7 +9,10 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
@@ -28,7 +31,18 @@ class WriteAdditionalNoticePage extends StatefulWidget {
 }
 
 class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
-    with SingleTickerProviderStateMixin {
+    with
+        SingleTickerProviderStateMixin,
+        AutoRouteAwareStateMixin<WriteAdditionalNoticePage> {
+  @override
+  void didPush() =>
+      AnalyticsRepository.pageView(AnalyticsEvent.noticeEditAdditional(
+          context.read<NoticeBloc>().state.entity!.id));
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(AnalyticsEvent.noticeEditAdditional(
+          context.read<NoticeBloc>().state.entity!.id));
+
   late final _prevNotice = context.read<NoticeBloc>().state.entity!;
   late final _draft = context.read<NoticeWriteBloc>().state.draft;
   DateTime? _deadline;
@@ -65,27 +79,32 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         backLabel: context.t.common.cancel,
+        from: PageSource.noticeEditAdditional,
         title: Text(context.t.notice.write.configTitle),
         actions: [
           ZiggleButton.text(
             disabled:
                 _content.text.isEmpty || (_enContent?.text.isEmpty ?? false),
-            onPressed:
-                _content.text.isEmpty || (_enContent?.text.isEmpty ?? false)
-                    ? null
-                    : () {
-                        context.read<NoticeWriteBloc>().add(
-                              NoticeWriteEvent.addAdditional(
-                                deadline: _deadline,
-                                contents: {
-                                  Language.ko: _content.text,
-                                  if (_enContent != null)
-                                    Language.en: _enContent.text,
-                                },
-                              ),
-                            );
-                        context.maybePop();
+            onPressed: () {
+              AnalyticsRepository.click(
+                  const AnalyticsEvent.noticeEditAdditionalDone());
+              if (_content.text.isEmpty ||
+                  (_enContent?.text.isEmpty ?? false)) {
+                return;
+              }
+              context.read<NoticeWriteBloc>().add(
+                    NoticeWriteEvent.addAdditional(
+                      deadline: _deadline,
+                      contents: {
+                        Language.ko: _content.text,
+                        if (_enContent != null) Language.en: _enContent.text,
                       },
+                    ),
+                  );
+              context.maybePop();
+              AnalyticsRepository.action(
+                  const AnalyticsEvent.noticeEditAdditionalDone());
+            },
             child: Text(
               context.t.common.done,
               style: const TextStyle(
@@ -107,7 +126,13 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                 if (_prevNotice.currentDeadline != null)
                   const SizedBox(height: 20),
                 LanguageToggle(
-                  onToggle: (v) => _tabController.animateTo(v ? 1 : 0),
+                  onToggle: (v) {
+                    AnalyticsRepository.click(
+                      AnalyticsEvent.noticeEditAdditionalToggleLanguage(
+                          v ? Language.en : Language.ko),
+                    );
+                    _tabController.animateTo(v ? 1 : 0);
+                  },
                   value: _tabController.index != 0,
                 ),
               ],
@@ -174,6 +199,8 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
               ZiggleToggleButton(
                 value: _deadline != null,
                 onToggle: (v) async {
+                  AnalyticsRepository.click(
+                      AnalyticsEvent.noticeEditChangeDeadline(_prevNotice.id));
                   if (_deadline != null) {
                     setState(() => _deadline = null);
                     return;
@@ -182,6 +209,7 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                     context: context,
                     title: context.t.notice.write.deadline.title,
                     builder: (context) => DeadlineSelector(
+                      isEditMode: true,
                       initialDateTime: _prevNotice.currentDeadline!.toLocal(),
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
@@ -200,6 +228,7 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
                   context: context,
                   title: context.t.notice.write.deadline.title,
                   builder: (context) => DeadlineSelector(
+                    isEditMode: true,
                     initialDateTime: _deadline,
                     onChanged: (v) => Navigator.pop(context, v),
                   ),

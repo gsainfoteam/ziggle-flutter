@@ -7,6 +7,9 @@ import 'package:ziggle/app/modules/common/presentation/extensions/date_time.dart
 import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
@@ -17,8 +20,20 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class SearchPage extends StatelessWidget {
+class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
+
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage>
+    with AutoRouteAwareStateMixin<SearchPage> {
+  @override
+  void didPush() => AnalyticsRepository.pageView(const AnalyticsEvent.search());
+  @override
+  void didPopNext() =>
+      AnalyticsRepository.pageView(const AnalyticsEvent.search());
 
   @override
   Widget build(BuildContext context) {
@@ -172,8 +187,11 @@ class _LayoutState extends State<_Layout> {
               ),
             ),
             child: ZigglePressable(
-              onPressed: () =>
-                  SingleNoticeShellRoute(notice: notice).push(context),
+              onPressed: () {
+                AnalyticsRepository.click(
+                    AnalyticsEvent.notice(notice.id, PageSource.search));
+                SingleNoticeShellRoute(notice: notice).push(context);
+              },
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

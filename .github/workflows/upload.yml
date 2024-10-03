@@ -82,6 +82,10 @@ jobs:
             ~/Library/Caches/CocoaPods
           key: cocoapods-${{ hashFiles('ios/Podfile.lock') }}
 
+      - name: Copy dotenv
+        if: env.run == 'true'
+        run: cat ${{ secrets.DOTENV }} > .env
+
       - name: Generate files
         run: |
           dart run slang
