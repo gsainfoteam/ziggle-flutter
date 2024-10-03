@@ -289,7 +289,11 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     ));
     final result = await blocker;
     result.mapOrNull(
-      loaded: (result) => _englishBodyController.html = result.body,
+      loaded: (result) {
+        AnalyticsRepository.action(
+            const AnalyticsEvent.noticeEditBodyUseAiTranslation());
+        return _englishBodyController.html = result.body;
+      },
     );
   }
 
