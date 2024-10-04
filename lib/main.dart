@@ -17,8 +17,8 @@ import 'package:ziggle/gen/strings.g.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await dotenv.load();
   _initCrashlytics();
+  await dotenv.load();
   await _initHive();
   await configureDependencies();
   await _initLocale();
