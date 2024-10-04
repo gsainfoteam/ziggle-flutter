@@ -2,4 +2,4 @@
 
 모집, 행사, 일반 공지 뿐만 아니라 학사공지까지 지글에서 전부 볼 수 있습니다.
 
-[Minimum supported app version: 3.2.2]
+[Minimum supported app version: 4.0.3]
