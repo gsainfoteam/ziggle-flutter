@@ -66,7 +66,6 @@ jobs:
           channel: 'stable'
           cache: true
       - uses: actions/cache@v4
-        if: env.run == 'true'
         with:
           path: |
             .dart_tool
@@ -75,7 +74,7 @@ jobs:
       - name: install flutterfire
         run: flutter pub global activate flutterfire_cli
       - uses: actions/cache@v4
-        if: env.run == 'true' && matrix.os == 'macos-14'
+        if: matrix.os == 'macos-14'
         with:
           path: |
             ~/.cocoapods
@@ -83,7 +82,6 @@ jobs:
           key: cocoapods-${{ hashFiles('ios/Podfile.lock') }}
 
       - name: Copy dotenv
-        if: env.run == 'true'
         run: cat ${{ secrets.DOTENV }} > .env
 
       - name: Generate files
