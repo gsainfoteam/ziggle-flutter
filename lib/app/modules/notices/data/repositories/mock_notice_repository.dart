@@ -102,7 +102,7 @@ class MockNoticeRepository implements NoticeRepository {
 
   @override
   Future<NoticeEntity> getNotice(int id, [bool getAllLanguages = false]) {
-    throw UnimplementedError();
+    return Future.value(_notices.firstWhere((element) => element.id == id));
   }
 
   @override
