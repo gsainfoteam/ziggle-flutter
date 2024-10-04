@@ -103,7 +103,7 @@ jobs:
 
       - name: Copy dotenv
         if: env.run == 'true'
-        run: cat ${{ secrets.DOTENV }} > .env
+        run: echo ${{ secrets.DOTENV }} > .env
 
       - name: Generate files
         if: env.run == 'true'
