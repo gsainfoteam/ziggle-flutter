@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/created_at.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/d_day.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -61,9 +62,9 @@ class NoticeCard extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 2),
-                      const Text(
-                        '10분 전',
-                        style: TextStyle(
+                      CreatedAt(
+                        createdAt: notice.createdAt,
+                        style: const TextStyle(
                           fontSize: 12,
                           color: Palette.gray,
                         ),
