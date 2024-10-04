@@ -122,7 +122,10 @@ class ZiggleAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               Align(
                 alignment: Alignment.centerRight,
-                child: Row(mainAxisSize: MainAxisSize.min, children: actions),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: actions),
+                ),
               )
             ],
           ),
