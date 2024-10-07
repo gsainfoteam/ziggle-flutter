@@ -11,7 +11,7 @@ part 'user_api.g.dart';
 @RestApi(baseUrl: 'user/')
 abstract class UserApi {
   @factoryMethod
-  factory UserApi(Dio dio) = _UserApi;
+  factory UserApi(@Named('userDio') Dio dio) = _UserApi;
 
   @GET('login')
   Future<TokenModel> login(
