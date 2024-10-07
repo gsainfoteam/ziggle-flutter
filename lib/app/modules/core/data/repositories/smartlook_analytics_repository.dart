@@ -9,6 +9,11 @@ import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 class SmartlookAnalyticsRepository implements AnalyticsRepository {
   final _instance = Smartlook.instance;
 
+  @PostConstruct(preResolve: true)
+  void init() {
+    _instance.start();
+  }
+
   @override
   logChangeUser(UserEntity? user) {
     if (user == null) return;
