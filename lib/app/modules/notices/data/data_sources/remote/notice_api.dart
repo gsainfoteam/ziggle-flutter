@@ -16,7 +16,7 @@ part 'notice_api.g.dart';
 @RestApi(baseUrl: 'notice/')
 abstract class NoticeApi {
   @factoryMethod
-  factory NoticeApi(Dio dio) = _NoticeApi;
+  factory NoticeApi(@Named('ziggleDio') Dio dio) = _NoticeApi;
 
   @GET('')
   Future<NoticeListModel> getNotices(@Queries() GetNoticesQueryModel query);

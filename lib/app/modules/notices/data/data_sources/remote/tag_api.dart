@@ -10,7 +10,7 @@ part 'tag_api.g.dart';
 @RestApi(baseUrl: 'tag/')
 abstract class TagApi {
   @factoryMethod
-  factory TagApi(Dio dio) = _TagApi;
+  factory TagApi(@Named('ziggleDio') Dio dio) = _TagApi;
 
   @GET('')
   Future<List<TagModel>> searchTags(@Query('search') String search);

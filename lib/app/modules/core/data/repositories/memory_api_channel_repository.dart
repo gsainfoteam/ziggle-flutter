@@ -12,13 +12,25 @@ import '../../domain/repositories/api_channel_repository.dart';
   dispose: MemoryApiChannelRepository.dispose,
 )
 class MemoryApiChannelRepository implements ApiChannelRepository {
-  final _subject = BehaviorSubject<ApiChannel>.seeded(ApiChannel.byMode());
+  final _subject =
+      BehaviorSubject<ApiChannel>.seeded(ApiChannel.ziggleByMode());
   late final StreamSubscription<ApiChannel> _localSubscription;
-  final Dio _dio;
+  final Dio _ziggleDio;
+  final Dio _groupsDio;
 
-  MemoryApiChannelRepository(this._dio) {
+  MemoryApiChannelRepository(
+    @Named('ziggleDio') this._ziggleDio,
+    @Named('groupsDio') this._groupsDio,
+  ) {
     _localSubscription = _subject.listen(
-      (value) => _dio.options.baseUrl = value.baseUrl,
+      (value) {
+        if (value == ApiChannel.ziggleStaging ||
+            value == ApiChannel.ziggleProduction) {
+          _ziggleDio.options.baseUrl = value.baseUrl;
+        } else {
+          _groupsDio.options.baseUrl = value.baseUrl;
+        }
+      },
     );
   }
 

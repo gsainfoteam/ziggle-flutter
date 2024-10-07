@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -16,7 +14,7 @@ part 'group_api.g.dart';
 @RestApi(baseUrl: 'group/')
 abstract class GroupApi {
   @factoryMethod
-  factory GroupApi(Dio dio) = _GroupApi;
+  factory GroupApi(@Named('groupDio') Dio dio) = _GroupApi;
 
   @GET('')
   Future<GroupListModel> getGroups();
