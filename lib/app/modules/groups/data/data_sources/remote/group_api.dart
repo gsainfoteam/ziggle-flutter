@@ -14,7 +14,7 @@ part 'group_api.g.dart';
 @RestApi(baseUrl: 'group/')
 abstract class GroupApi {
   @factoryMethod
-  factory GroupApi(@Named('groupDio') Dio dio) = _GroupApi;
+  factory GroupApi(@Named('groupsDio') Dio dio) = _GroupApi;
 
   @GET('')
   Future<GroupListModel> getGroups();
