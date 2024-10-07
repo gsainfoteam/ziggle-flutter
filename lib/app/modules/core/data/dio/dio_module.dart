@@ -1,14 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ziggle/app/modules/core/domain/enums/api_channel.dart';
 
 @module
 abstract class DioModule {
-  @Named('ziggle')
+  @lazySingleton
+  @Named('ziggleDio')
   Dio get ziggleDio =>
-      Dio(BaseOptions(baseUrl: ApiChannel.ziggleByMode().baseUrl));
+      Dio(BaseOptions(baseUrl: 'https://api.ziggle.gistory.me'));
 
-  @Named('groups')
+  @lazySingleton
+  @Named('groupsDio')
   Dio get groupsDio =>
-      Dio(BaseOptions(baseUrl: ApiChannel.groupsBymode().baseUrl));
+      Dio(BaseOptions(baseUrl: 'https://api.groups.gistory.me'));
 }
