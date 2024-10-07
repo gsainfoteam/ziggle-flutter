@@ -8,7 +8,7 @@ part 'fcm_api.g.dart';
 @RestApi(baseUrl: 'user/')
 abstract class FcmApi {
   @factoryMethod
-  factory FcmApi(Dio dio) = _FcmApi;
+  factory FcmApi(@Named('ziggleDio') Dio dio) = _FcmApi;
 
   @POST('fcm')
   Future<void> fcm(@Field() String fcmToken);
