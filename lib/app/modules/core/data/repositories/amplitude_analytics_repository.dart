@@ -6,7 +6,7 @@ import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import 'package:ziggle/app/values/strings.dart';
 
-@singleton
+@lazySingleton
 class AmplitudeAnalyticsRepository implements AnalyticsRepository {
   late final _instance = Amplitude.getInstance()..init(Strings.amplitudeApiKey);
 
