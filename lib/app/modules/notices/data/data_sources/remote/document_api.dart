@@ -10,7 +10,7 @@ part 'document_api.g.dart';
 @RestApi(baseUrl: 'document/')
 abstract class DocumentApi {
   @factoryMethod
-  factory DocumentApi(Dio dio) = _DocumentApi;
+  factory DocumentApi(@Named('ziggleDio') Dio dio) = _DocumentApi;
 
   @POST('upload')
   @MultiPart()

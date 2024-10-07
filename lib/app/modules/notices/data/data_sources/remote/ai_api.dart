@@ -10,7 +10,7 @@ part 'ai_api.g.dart';
 @RestApi(baseUrl: 'ai/')
 abstract class AiApi {
   @factoryMethod
-  factory AiApi(Dio dio) = _AiApi;
+  factory AiApi(@Named('ziggleDio') Dio dio) = _AiApi;
 
   @POST('translate')
   Future<TranslationResultModel> translate(@Body() TranslateModel body);

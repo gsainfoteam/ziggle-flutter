@@ -10,7 +10,7 @@ part 'image_api.g.dart';
 @RestApi(baseUrl: 'image/')
 abstract class ImageApi {
   @factoryMethod
-  factory ImageApi(Dio dio) = _ImageApi;
+  factory ImageApi(@Named('ziggleDio') Dio dio) = _ImageApi;
 
   @POST('upload')
   @MultiPart()
