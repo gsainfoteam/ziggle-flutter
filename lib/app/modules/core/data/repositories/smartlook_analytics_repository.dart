@@ -5,11 +5,11 @@ import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 
-@singleton
+@lazySingleton
 class SmartlookAnalyticsRepository implements AnalyticsRepository {
   final _instance = Smartlook.instance;
 
-  @PostConstruct(preResolve: true)
+  @postConstruct
   void init() {
     _instance.start();
   }
