@@ -18,7 +18,7 @@ class NoticeBody extends StatefulWidget {
 }
 
 class _NoticeBodyState extends State<NoticeBody> {
-  double _height = 0;
+  double _height = 1;
   late bool _initial = Platform.isIOS;
   final _completer = Completer<void>();
   late final InAppWebViewController _controller;
