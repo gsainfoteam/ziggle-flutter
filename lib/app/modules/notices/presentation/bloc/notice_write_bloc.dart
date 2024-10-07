@@ -93,6 +93,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
               content: state.draft.bodies[Language.en]!,
               contentId: 1,
               lang: Language.en,
+              deadline: state.draft.deadline,
             );
           }
           emit(_Done(state.draft, notice));

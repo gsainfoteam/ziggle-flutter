@@ -236,7 +236,8 @@ class NoticeRenderer extends StatelessWidget {
                   : notice.additionalContents.locales
                       .elementAt(index - 1)
                       .deadline;
-              final additional = notice.additionalContents[index];
+              final additional =
+                  notice.additionalContents.locales.elementAt(index);
               return Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
