@@ -26,6 +26,7 @@ class _ZiggleBottomNavigationPageState extends State<ZiggleBottomNavigationPage>
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter.tabBar(
+      physics: const NeverScrollableScrollPhysics(),
       routes: const [
         FeedRoute(),
         CategoryRoute(),
