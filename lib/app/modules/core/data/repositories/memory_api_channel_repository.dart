@@ -4,9 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
 import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
-import 'package:ziggle/app/modules/core/domain/enums/groups_api_channel.dart';
-import 'package:ziggle/app/modules/core/domain/enums/ziggle_api_channel.dart';
-
+import 'package:ziggle/app/modules/core/domain/enums/api_channel.dart';
 import '../../domain/repositories/api_channel_repository.dart';
 
 @Singleton(
@@ -14,57 +12,42 @@ import '../../domain/repositories/api_channel_repository.dart';
   dispose: MemoryApiChannelRepository.dispose,
 )
 class MemoryApiChannelRepository implements ApiChannelRepository {
-  final _ziggleSubject =
-      BehaviorSubject<ZiggleApiChannel>.seeded(ZiggleApiChannel.byMode());
-  final _groupsSubject =
-      BehaviorSubject<GroupsApiChannel>.seeded(GroupsApiChannel.byMode());
-  late final StreamSubscription<ZiggleApiChannel> _localZiggleSubscription;
-  late final StreamSubscription<GroupsApiChannel> _localGroupsSubscription;
+  final _subject = BehaviorSubject<ApiChannel>.seeded(ApiChannel.byMode());
+  late final StreamSubscription<ApiChannel> _localSubscription;
   final ZiggleDio _ziggleDio;
   final GroupsDio _groupsDio;
 
   MemoryApiChannelRepository(this._ziggleDio, this._groupsDio) {
-    _localZiggleSubscription = _ziggleSubject.listen(
-      (value) => _ziggleDio.options.baseUrl = value.baseUrl,
-    );
-    _localGroupsSubscription = _groupsSubject.listen(
-      (value) => _groupsDio.options.baseUrl = value.baseUrl,
-    );
+    _localSubscription = _subject.listen((value) {
+      _ziggleDio.options.baseUrl = value.ziggleBaseUrl;
+      _groupsDio.options.baseUrl = value.groupsBaseUrl;
+    });
   }
 
   static FutureOr dispose(ApiChannelRepository repository) {
     final repo = repository as MemoryApiChannelRepository;
-    repo._localZiggleSubscription.cancel();
-    repo._localGroupsSubscription.cancel();
-    repo._ziggleSubject.close();
-    repo._groupsSubject.close();
-  }
-
-  // @override
-  // void setChannel(ApiChannel channel) {
-  //   _subject.add(channel);
-  // }
-
-  @override
-  ZiggleApiChannel toggleZiggleChannel() {
-    final ziggleChannel = _ziggleSubject.value.oppose;
-    _ziggleSubject.add(ziggleChannel);
-    return ziggleChannel;
+    repo._localSubscription.cancel();
+    repo._subject.close();
   }
 
   @override
-  GroupsApiChannel toggleGroupsChannel() {
-    final groupsChannel = _groupsSubject.value.oppose;
-    _groupsSubject.add(groupsChannel);
-    return groupsChannel;
+  void setChannel(ApiChannel channel) {
+    _subject.add(channel);
   }
 
-  // @override
-  // String get baseUrl => _subject.value.baseUrl;
+  @override
+  ApiChannel toggleChannel() {
+    final channel = _subject.value.oppose;
+    _subject.add(channel);
+    return channel;
+  }
 
   @override
-  Stream<ZiggleApiChannel> get ziggleChannel => _ziggleSubject.stream;
+  String get ziggleBaseUrl => _subject.value.ziggleBaseUrl;
 
   @override
-  Stream<GroupsApiChannel> get groupsChannel => _groupsSubject.stream;
+  String get groupsBaseUrl => _subject.value.groupsBaseUrl;
+
+  @override
+  Stream<ApiChannel> get channel => _subject.stream;
 }
