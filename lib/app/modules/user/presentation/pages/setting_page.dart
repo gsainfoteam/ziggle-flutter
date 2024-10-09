@@ -186,7 +186,7 @@ class _SettingPageState extends State<SettingPage>
                             showChevron: false,
                             title: Text(
                               context.t.user.developMode.toggleChannel(
-                                channel: state.ziggleApiChannel.name,
+                                channel: state.apiChannel.name,
                               ),
                             ),
                             onPressed: () {
