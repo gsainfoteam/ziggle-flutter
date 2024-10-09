@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/authorize_interceptor.dart';
 import 'package:ziggle/app/modules/user/data/models/token_model.dart';
 import 'package:ziggle/app/modules/user/data/models/user_model.dart';
@@ -11,7 +12,7 @@ part 'user_api.g.dart';
 @RestApi(baseUrl: 'user/')
 abstract class UserApi {
   @factoryMethod
-  factory UserApi(@Named('groupsDio') Dio dio) = _UserApi;
+  factory UserApi(ZiggleDio dio) = _UserApi;
 
   @GET('login')
   Future<TokenModel> login(
