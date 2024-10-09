@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 enum GroupsApiChannel {
-  staging('https://api.groups.gistory.me/'),
+  staging('https://api.stg.groups.gistory.me/'),
   production('https://api.groups.gistory.me/');
 
   final String baseUrl;
