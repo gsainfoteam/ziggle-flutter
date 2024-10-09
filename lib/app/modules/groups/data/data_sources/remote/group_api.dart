@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
@@ -14,7 +15,7 @@ part 'group_api.g.dart';
 @RestApi(baseUrl: 'group/')
 abstract class GroupApi {
   @factoryMethod
-  factory GroupApi(@Named('groupsDio') Dio dio) = _GroupApi;
+  factory GroupApi(GroupsDio dio) = _GroupApi;
 
   @GET('')
   Future<GroupListModel> getGroups();

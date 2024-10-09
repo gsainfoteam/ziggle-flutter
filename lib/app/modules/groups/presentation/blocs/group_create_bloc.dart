@@ -29,6 +29,7 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
         description: state.draft.description,
         notionPageId: state.draft.notionPageId,
       );
+      print('creation done');
     });
   }
 }

@@ -112,6 +112,9 @@ class _LayoutState extends State<_Layout> {
               child: ZiggleButton.cta(
                 emphasize: false,
                 onPressed: () {
+                  context
+                      .read<GroupCreateBloc>()
+                      .add(const GroupCreateEvent.create());
                   context.router
                       .popUntilRouteWithName(GroupCreationProfileRoute.name);
                   context.replaceRoute(const GroupCreationDoneRoute());

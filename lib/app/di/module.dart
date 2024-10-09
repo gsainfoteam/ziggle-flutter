@@ -28,11 +28,6 @@ abstract class AppModule {
   CookieManager getCookieManager(CookieJar cookieJar) =>
       CookieManager(cookieJar);
 
-  @singleton
-  Dio getDio(AuthorizeInterceptor authorizeInterceptor,
-          CookieManager cookieManager) =>
-      Dio()..interceptors.addAll([authorizeInterceptor, cookieManager]);
-
   FlutterSecureStorage get flutterSecureStorage => const FlutterSecureStorage(
         aOptions: AndroidOptions(encryptedSharedPreferences: true),
       );

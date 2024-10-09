@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mutex/mutex.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
 
@@ -15,7 +16,7 @@ class AuthorizeInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    final dio = sl<Dio>();
+    final dio = sl<ZiggleDio>();
 
     final statusCode = err.response?.statusCode;
     if (statusCode != 401) return handler.next(err);
