@@ -6,7 +6,6 @@ import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
 
-@singleton
 class AuthorizeInterceptor extends Interceptor {
   final TokenRepository _repository;
   static const retriedKey = '_retried';
