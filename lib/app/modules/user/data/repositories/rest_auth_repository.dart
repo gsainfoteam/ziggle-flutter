@@ -1,15 +1,15 @@
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
+import 'package:ziggle/app/modules/user/data/repositories/ziggle_token_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/auth_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/oauth_repository.dart';
-import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
 
 @Injectable(as: AuthRepository)
 class RestAuthRepository implements AuthRepository {
   final UserApi _api;
   // TODO: separate with wrapper repository
-  final TokenRepository _tokenRepository;
+  final ZiggleTokenRepository _tokenRepository;
   final CookieManager _cookieManager;
   final OAuthRepository _oAuthRepository;
 
