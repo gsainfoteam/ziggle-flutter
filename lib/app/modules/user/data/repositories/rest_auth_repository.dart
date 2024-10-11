@@ -12,7 +12,7 @@ abstract class RestAuthRepository implements AuthRepository {
   final OAuthRepository _oAuthRepository;
 
   RestAuthRepository({
-    required UserApi api,
+    required BaseAuthApi api,
     required TokenRepository tokenRepository,
     required CookieManager cookieManager,
     required OAuthRepository oAuthRepository,
