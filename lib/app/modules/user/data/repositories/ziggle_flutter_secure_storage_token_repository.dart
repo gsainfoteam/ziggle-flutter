@@ -3,11 +3,12 @@ import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/user/data/repositories/flutter_secure_storage_token_repository.dart';
 
 @Singleton()
-class GroupsTokenRepository extends FlutterSecureStorageTokenRepository {
-  GroupsTokenRepository(FlutterSecureStorage storage)
+class ZiggleFlutterSecureStorageTokenRepository
+    extends FlutterSecureStorageTokenRepository {
+  ZiggleFlutterSecureStorageTokenRepository(FlutterSecureStorage storage)
       : super(
           storage: storage,
-          tokenKey: '_groups_token',
-          expiredAtKey: '_groups_expiredAt',
+          tokenKey: '_ziggle_token',
+          expiredAtKey: '_ziggle_expiredAt',
         );
 }
