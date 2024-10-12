@@ -7,6 +7,6 @@ class GroupCreateEntity with _$GroupCreateEntity {
   const factory GroupCreateEntity({
     @Default('') String name,
     @Default('') String description,
-    @Default('') String notionPageId,
+    String? notionPageId,
   }) = _GroupCreateEntity;
 }
