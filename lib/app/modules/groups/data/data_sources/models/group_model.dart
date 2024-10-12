@@ -13,11 +13,12 @@ class GroupModel with _$GroupModel implements GroupEntity {
     required String name,
     required String description,
     required DateTime createdAt,
-    required int president,
+    required String presidentUuid,
     required int memberCount,
     required DateTime? verifiedAt,
     required bool verified,
-    required String notionPageId,
+    required DateTime? deletedAt,
+    required String? notionPageId,
     required String? profileImageKey,
   }) = _GroupModel;
 

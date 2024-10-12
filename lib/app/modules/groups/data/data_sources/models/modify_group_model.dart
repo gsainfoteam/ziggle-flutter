@@ -1,7 +1,7 @@
 class ModifyGroupModel {
   final String name;
-  final String description;
-  final String notionPageId;
+  final String? description;
+  final String? notionPageId;
 
   const ModifyGroupModel({
     required this.name,

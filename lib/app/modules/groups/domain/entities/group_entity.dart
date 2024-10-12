@@ -3,11 +3,12 @@ class GroupEntity {
   final String name;
   final String description;
   final DateTime createdAt;
-  final int president;
+  final String presidentUuid;
   final int memberCount;
   final DateTime? verifiedAt;
   final bool verified;
-  final String notionPageId;
+  final DateTime? deletedAt;
+  final String? notionPageId;
   final String? profileImageKey;
 
   GroupEntity({
@@ -15,10 +16,11 @@ class GroupEntity {
     required this.name,
     required this.description,
     required this.createdAt,
-    required this.president,
+    required this.presidentUuid,
     required this.memberCount,
     required this.verifiedAt,
     required this.verified,
+    required this.deletedAt,
     required this.notionPageId,
     required this.profileImageKey,
   });
