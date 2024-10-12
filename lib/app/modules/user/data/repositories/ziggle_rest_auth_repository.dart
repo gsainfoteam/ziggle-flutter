@@ -11,8 +11,7 @@ import 'package:ziggle/app/modules/user/data/repositories/ziggle_web_auth_2_oaut
 class ZiggleRestAuthRepository extends RestAuthRepository {
   ZiggleRestAuthRepository(
       UserApi api,
-      @Named.from(ZiggleFlutterSecureStorageTokenRepository)
-      FlutterSecureStorageTokenRepository tokenRepository,
+      @Named.from(ZiggleFlutterSecureStorageTokenRepository) tokenRepository,
       CookieManager cookieManager,
       ZiggleWebAuth2OauthRepository oAuthRepository)
       : super(
