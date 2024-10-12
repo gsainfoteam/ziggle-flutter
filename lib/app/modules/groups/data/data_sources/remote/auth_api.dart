@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
@@ -17,7 +18,8 @@ abstract class AuthApi extends BaseAuthApi {
   @GET('login')
   Future<AuthTokenModel> login(
     @Query('code') String code, [
-    @Query('redirectUri') String redirectUri,
+    @Query('redirectUri')
+    String redirectUri = 'ziggle-idp-login-redirect://callback',
   ]);
 
   @override

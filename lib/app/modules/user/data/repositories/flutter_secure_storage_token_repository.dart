@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
 
-class FlutterSecureStorageTokenRepository implements TokenRepository {
+abstract class FlutterSecureStorageTokenRepository implements TokenRepository {
   final FlutterSecureStorage _storage;
   final String _tokenKey;
   final String _expiredAtKey;
