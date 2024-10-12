@@ -4,7 +4,7 @@ abstract class GroupRepository {
   Future<GroupEntity> createGroup({
     required String name,
     required String description,
-    required String notionPageId,
+    required String? notionPageId,
     // required File image,
   });
 }
