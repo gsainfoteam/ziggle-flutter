@@ -12,6 +12,7 @@ import 'package:ziggle/app/modules/user/domain/repositories/user_repository.dart
 @Singleton(as: UserRepository, dispose: RestUserRepository.dispose)
 class RestUserRepository implements UserRepository {
   final UserApi _api;
+  final RestAuthRepository _authRepository;
   final _subject = BehaviorSubject<UserModel?>();
 
   static dispose(UserRepository inst) {
@@ -19,9 +20,9 @@ class RestUserRepository implements UserRepository {
     instance._subject.close();
   }
 
-  RestUserRepository(this._api,
-      @Named.from(ZiggleRestAuthRepository) RestAuthRepository authRepository) {
-    authRepository.isSignedIn.listen((signedIn) async {
+  RestUserRepository(
+      this._api, @Named.from(ZiggleRestAuthRepository) this._authRepository) {
+    _authRepository.isSignedIn.listen((signedIn) async {
       if (!signedIn) {
         _subject.add(null);
         return;
