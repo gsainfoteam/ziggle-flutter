@@ -11,7 +11,8 @@ import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.d
 class GroupsRestAuthRepository extends RestAuthRepository {
   GroupsRestAuthRepository(
       AuthApi api,
-      @Named.from(GroupsFlutterSecureStorageTokenRepository) tokenRepository,
+      @Named.from(GroupsFlutterSecureStorageTokenRepository)
+      FlutterSecureStorageTokenRepository tokenRepository,
       CookieManager cookieManager,
       GroupsWebAuth2OauthRepository oAuthRepository)
       : super(
