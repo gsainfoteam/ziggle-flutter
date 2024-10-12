@@ -3,10 +3,11 @@ import 'package:mutex/mutex.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
+import 'package:ziggle/app/modules/user/data/repositories/flutter_secure_storage_token_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
 
 abstract class AuthorizeInterceptor extends Interceptor {
-  final TokenRepository _repository;
+  final FlutterSecureStorageTokenRepository _repository;
   static const retriedKey = '_retried';
   final mutex = ReadWriteMutex();
 
@@ -50,6 +51,7 @@ abstract class AuthorizeInterceptor extends Interceptor {
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
       }
+      print('header token : $token');
       handler.next(options);
     } finally {
       mutex.release();

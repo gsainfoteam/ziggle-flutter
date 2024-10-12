@@ -5,5 +5,5 @@ import 'package:ziggle/app/modules/user/data/repositories/groups_flutter_secure_
 @singleton
 class GroupsAuthorizeInterceptor extends AuthorizeInterceptor {
   GroupsAuthorizeInterceptor(
-      GroupsFlutterSecureStorageTokenRepository super.repository);
+      @Named.from(GroupsFlutterSecureStorageTokenRepository) super.repository);
 }
