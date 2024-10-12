@@ -18,4 +18,5 @@ abstract class Strings {
   static final termsOfServiceUrl = dotenv.get('TERMS_OF_SERVICE_URL');
   static final withdrawalUrl = dotenv.get('WITHDRAWAL_URL');
   static final heyDeveloperUrl = dotenv.get('HEY_DEVELOPER_URL');
+  static const idPRedirectUri = 'ziggle-idp-login-redirect://callback';
 }
