@@ -16,12 +16,9 @@ class GroupCreationIntroducePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GroupCreationLayout(
+    return const GroupCreationLayout(
       step: GroupCreationStep.introduce,
-      child: BlocProvider(
-        create: (_) => sl<GroupCreateBloc>(),
-        child: const _Layout(),
-      ),
+      child: _Layout(),
     );
   }
 }
