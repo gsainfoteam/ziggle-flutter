@@ -19,4 +19,5 @@ abstract class Strings {
   static final withdrawalUrl = dotenv.get('WITHDRAWAL_URL');
   static String heyDeveloperUrl(String? email) =>
       "${dotenv.get('HEY_DEVELOPER_URL')}${email == null ? '' : '&email=$email'}";
+  static const idPRedirectUri = 'ziggle-idp-login-redirect://callback';
 }
