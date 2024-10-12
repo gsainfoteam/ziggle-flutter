@@ -14,16 +14,16 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
   final GroupRepository _repository;
 
   GroupCreateBloc(this._repository) : super(const _Draft()) {
-    on<_SetName>((event, emit) async {
-      emit(_Draft(state.draft.copyWith(name: event.name)));
-    });
-    on<_SetDescription>((event, emit) async {
-      emit(_Draft(state.draft.copyWith(description: event.description)));
-    });
-    on<_SetNotionPageId>((event, emit) async {
-      emit(_Draft(state.draft.copyWith(notionPageId: event.notionPageId)));
-    });
+    on<_SetName>(
+        (event, emit) => emit(_Draft(state.draft.copyWith(name: event.name))));
+    on<_SetDescription>((event, emit) => emit(_Draft(state.draft.copyWith(
+          description: event.description,
+        ))));
+    on<_SetNotionPageId>((event, emit) =>
+        emit(_Draft(state.draft.copyWith(notionPageId: event.notionPageId))));
     on<_Create>((event, emit) async {
+      print(
+          'name : ${state.draft.name}, description : ${state.draft.description}');
       _repository.createGroup(
         name: state.draft.name,
         description: state.draft.description,
