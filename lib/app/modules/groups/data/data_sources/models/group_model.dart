@@ -14,7 +14,7 @@ class GroupModel with _$GroupModel implements GroupEntity {
     required String description,
     required DateTime createdAt,
     required String presidentUuid,
-    required int memberCount,
+    required int? memberCount,
     required DateTime? verifiedAt,
     required bool verified,
     required DateTime? deletedAt,

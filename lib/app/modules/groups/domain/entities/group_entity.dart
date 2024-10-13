@@ -4,9 +4,9 @@ class GroupEntity {
   final String description;
   final DateTime createdAt;
   final String presidentUuid;
-  final int memberCount;
+  final int? memberCount;
   final DateTime? verifiedAt;
-  final bool verified;
+  final bool? verified;
   final DateTime? deletedAt;
   final String? notionPageId;
   final String? profileImageKey;
