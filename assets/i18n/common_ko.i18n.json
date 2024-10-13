@@ -11,14 +11,5 @@
       "one": "일주일",
       "other": "$n주"
     }
-  },
-  "memberCard" : {
-    "role" : {
-      "role" : "역할",
-      "admin" : "관리자",
-      "manager" : "매니저",
-      "user" : "일반"
-    },
-    "banish" : "추방"
   }
 }

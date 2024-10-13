@@ -12,11 +12,11 @@ enum GroupMemberRole {
   String toLocalizedString(BuildContext context) {
     switch (this) {
       case GroupMemberRole.admin:
-        return context.t.common.memberCard.role.admin;
+        return context.t.group.memberCard.role.admin;
       case GroupMemberRole.manager:
-        return context.t.common.memberCard.role.manager;
+        return context.t.group.memberCard.role.manager;
       case GroupMemberRole.user:
-        return context.t.common.memberCard.role.user;
+        return context.t.group.memberCard.role.user;
     }
   }
 }
@@ -117,7 +117,7 @@ class GroupMemberCard extends StatelessWidget {
                       onChanged: onChanged,
                       value: role,
                       small: true,
-                      hintText: context.t.common.memberCard.role.role,
+                      hintText: context.t.group.memberCard.role.role,
                       entries: GroupMemberRole.values
                           .map((value) => ZiggleSelectEntry(
                               value: value,
@@ -128,7 +128,7 @@ class GroupMemberCard extends StatelessWidget {
                   const SizedBox(width: 10),
                   ZiggleButton.small(
                     onPressed: onBanish,
-                    child: Text(context.t.common.memberCard.banish),
+                    child: Text(context.t.group.memberCard.banish),
                   )
                 ],
               ),
