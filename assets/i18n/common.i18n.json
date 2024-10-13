@@ -14,14 +14,5 @@
       "one": "$n week",
       "other": "$n weeks"
     }
-  },
-  "memberCard" : {
-    "role" : {
-      "role" : "Role",
-      "admin" : "Admin",
-      "manager" : "Manager",
-      "user" : "User"
-    },
-    "banish" : "Banish"
   }
 }
