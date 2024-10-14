@@ -18,46 +18,71 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
   NoticeBloc(this._repository, this._analyticsRepository)
       : super(const _Initial()) {
     on<_Load>((event, emit) async {
-      emit(_Loaded(event.entity));
-      emit(_Loaded(await _repository.getNotice(event.entity.id)));
+      try {
+        emit(_Loaded(event.entity));
+        emit(_Loaded(await _repository.getNotice(event.entity.id)));
+      } catch (e) {
+        emit(NoticeState.error(e.toString()));
+      }
     });
     on<_SendNotification>((event, emit) async {
       if (state.entity == null) return;
-      emit(_Loading(state.entity!.copyWith(publishedAt: DateTime.now())));
-      _analyticsRepository.logEvent(
-        EventType.action,
-        AnalyticsEvent.noticeSendNotification(state.entity!.id),
-      );
-      final entity = await _repository.sendNotification(state.entity!.id);
-      emit(_Loaded(entity));
+      try {
+        emit(_Loading(state.entity!.copyWith(publishedAt: DateTime.now())));
+        _analyticsRepository.logEvent(
+          EventType.action,
+          AnalyticsEvent.noticeSendNotification(state.entity!.id),
+        );
+        final entity = await _repository.sendNotification(state.entity!.id);
+        emit(_Loaded(entity));
+      } catch (e) {
+        emit(NoticeState.error(e.toString()));
+      }
     });
     on<_Delete>((event, emit) async {
       if (state.entity == null) return;
-      emit(_Loading(state.entity!));
-      _analyticsRepository.logEvent(
-        EventType.action,
-        AnalyticsEvent.noticeDelete(state.entity!.id),
-      );
-      await _repository.deleteNotice(state.entity!.id);
-      emit(const _Deleted());
+      try {
+        emit(_Loading(state.entity!));
+        _analyticsRepository.logEvent(
+          EventType.action,
+          AnalyticsEvent.noticeDelete(state.entity!.id),
+        );
+        await _repository.deleteNotice(state.entity!.id);
+        emit(const _Deleted());
+      } catch (e) {
+        emit(NoticeState.error(e.toString()));
+      }
     });
     on<_AddReaction>((event, emit) async {
       if (state.entity == null) return;
-      emit(_Loaded(state.entity!.addReaction(event.reaction)));
-      await _repository.addReaction(state.entity!.id, event.reaction.emoji);
-      emit(_Loaded(await _repository.getNotice(state.entity!.id)));
+      try {
+        emit(_Loaded(state.entity!.addReaction(event.reaction)));
+        await _repository.addReaction(state.entity!.id, event.reaction.emoji);
+        emit(_Loaded(await _repository.getNotice(state.entity!.id)));
+      } catch (e) {
+        emit(NoticeState.error(e.toString()));
+      }
     });
     on<_RemoveReaction>((event, emit) async {
       if (state.entity == null) return;
-      emit(_Loaded(state.entity!.removeReaction(event.reaction)));
-      await _repository.removeReaction(state.entity!.id, event.reaction.emoji);
-      emit(_Loaded(await _repository.getNotice(state.entity!.id)));
+      try {
+        emit(_Loaded(state.entity!.removeReaction(event.reaction)));
+        await _repository.removeReaction(
+            state.entity!.id, event.reaction.emoji);
+        emit(_Loaded(await _repository.getNotice(state.entity!.id)));
+      } catch (e) {
+        emit(NoticeState.error(e.toString()));
+      }
     });
     on<_GetFull>((event, emit) async {
       if (state.entity == null) return;
-      emit(_Loading(state.entity!));
-      final notice = await _repository.getNotice(state.entity!.id, true);
-      emit(_Loaded(notice));
+      try {
+        emit(_Loading(state.entity!));
+        final notice = await _repository.getNotice(state.entity!.id, true);
+        emit(_Loaded(notice));
+      } catch (e) {
+        emit(NoticeState.error(e.toString()));
+      }
     });
   }
 }
@@ -80,6 +105,7 @@ sealed class NoticeState with _$NoticeState {
   const factory NoticeState.loaded(NoticeEntity entity) = _Loaded;
   const factory NoticeState.loading(NoticeEntity entity) = _Loading;
   const factory NoticeState.deleted() = _Deleted;
+  const factory NoticeState.error(String message) = _Error;
 
   NoticeEntity? get entity => mapOrNull(loaded: (state) => state.entity);
   bool get isLoaded => this is _Loaded;
