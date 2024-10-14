@@ -259,6 +259,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
             bodyFocusNode: _koreanBodyFocusNode,
             titleController: _koreanTitleController,
             bodyController: _koreanBodyController,
+            isTranslateEnabled: false,
           ),
           Editor(
             titleDisabled: _prevNotice.contents[Language.en] != null,
@@ -270,6 +271,10 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                   .isNotEmpty) return;
               _translate();
             },
+            isTranslateEnabled: _englishBodyController
+                .plainTextEditingValue.text
+                .trim()
+                .isEmpty,
             titleFocusNode: _englishTitleFocusNode,
             bodyFocusNode: _englishBodyFocusNode,
             titleController: _englishTitleController,
