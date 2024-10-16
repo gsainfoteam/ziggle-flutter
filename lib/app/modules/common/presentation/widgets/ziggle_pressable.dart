@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ZigglePressable extends StatefulWidget {
   const ZigglePressable({
@@ -29,6 +30,7 @@ class _ZigglePressableState extends State<ZigglePressable> {
       behavior: widget.behavior,
       onTapDown: (_) {
         if (widget.onPressed == null) return;
+        HapticFeedback.lightImpact();
         setState(() {
           _pressed = true;
           _active = true;
