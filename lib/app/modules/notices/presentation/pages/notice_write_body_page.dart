@@ -291,6 +291,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
             bodyFocusNode: _koreanBodyFocusNode,
             titleController: _koreanTitleController,
             bodyController: _koreanBodyController,
+            isTranslateEnabled: false,
           ),
           BlocBuilder<AiBloc, AiState>(
             builder: (context, state) => Editor(
@@ -303,6 +304,10 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                     const AnalyticsEvent.writeUseAiTranslation());
                 _translate();
               },
+              isTranslateEnabled: _englishBodyController
+                  .plainTextEditingValue.text
+                  .trim()
+                  .isEmpty,
               titleFocusNode: _englishTitleFocusNode,
               bodyFocusNode: _englishBodyFocusNode,
               titleController: _englishTitleController,
