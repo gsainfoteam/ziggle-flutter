@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
+import 'package:ziggle/app/modules/groups/presentation/blocs/group_create_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/layouts/group_creation_layout.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -21,8 +24,15 @@ class GroupCreationNotionPage extends StatelessWidget {
   }
 }
 
-class _Layout extends StatelessWidget {
+class _Layout extends StatefulWidget {
   const _Layout();
+
+  @override
+  State<_Layout> createState() => _LayoutState();
+}
+
+class _LayoutState extends State<_Layout> {
+  String _notionPageId = "";
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +69,10 @@ class _Layout extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 30),
-        ZiggleInput(hintText: context.t.group.creation.notion.hint),
+        ZiggleInput(
+          onChanged: (v) => setState(() => _notionPageId = v),
+          hintText: context.t.group.creation.notion.hint,
+        ),
         const SizedBox(height: 30),
         Container(
           decoration: const BoxDecoration(
@@ -96,6 +109,9 @@ class _Layout extends StatelessWidget {
               child: ZiggleButton.cta(
                 emphasize: false,
                 onPressed: () {
+                  context
+                      .read<GroupCreateBloc>()
+                      .add(const GroupCreateEvent.create());
                   context.router
                       .popUntilRouteWithName(GroupCreationProfileRoute.name);
                   context.replaceRoute(const GroupCreationDoneRoute());
@@ -103,9 +119,16 @@ class _Layout extends StatelessWidget {
                 child: Text(context.t.common.skip),
               ),
             ),
+            const SizedBox(width: 10),
             Expanded(
               child: ZiggleButton.cta(
                 onPressed: () {
+                  context
+                      .read<GroupCreateBloc>()
+                      .add(GroupCreateEvent.setNotionPageId(_notionPageId));
+                  context
+                      .read<GroupCreateBloc>()
+                      .add(const GroupCreateEvent.create());
                   context.router
                       .popUntilRouteWithName(GroupCreationProfileRoute.name);
                   context.replaceRoute(const GroupCreationDoneRoute());

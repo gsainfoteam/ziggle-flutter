@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_additional_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_foreign_notice_model.dart';
@@ -16,7 +17,7 @@ part 'notice_api.g.dart';
 @RestApi(baseUrl: 'notice/')
 abstract class NoticeApi {
   @factoryMethod
-  factory NoticeApi(Dio dio) = _NoticeApi;
+  factory NoticeApi(ZiggleDio dio) = _NoticeApi;
 
   @GET('')
   Future<NoticeListModel> getNotices(@Queries() GetNoticesQueryModel query);

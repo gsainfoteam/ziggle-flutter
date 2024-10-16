@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
 
 part 'image_api.g.dart';
 
@@ -10,7 +11,7 @@ part 'image_api.g.dart';
 @RestApi(baseUrl: 'image/')
 abstract class ImageApi {
   @factoryMethod
-  factory ImageApi(Dio dio) = _ImageApi;
+  factory ImageApi(ZiggleDio dio) = _ImageApi;
 
   @POST('upload')
   @MultiPart()

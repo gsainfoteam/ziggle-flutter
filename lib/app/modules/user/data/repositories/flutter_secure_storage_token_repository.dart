@@ -5,18 +5,20 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
 
-@Singleton(
-  as: TokenRepository,
-  dispose: FlutterSecureStorageTokenRepository.dispose,
-)
-class FlutterSecureStorageTokenRepository implements TokenRepository {
+abstract class FlutterSecureStorageTokenRepository implements TokenRepository {
   final FlutterSecureStorage _storage;
-  static const _tokenKey = '_token';
-  static const _expiredAtKey = '_expiredAt';
-  final _subject = BehaviorSubject<String?>();
-  final _expiredAtSubject = BehaviorSubject<DateTime?>();
+  final String _tokenKey;
+  final String _expiredAtKey;
+  final _subject = BehaviorSubject<String?>.seeded(null);
+  final _expiredAtSubject = BehaviorSubject<DateTime?>.seeded(null);
 
-  FlutterSecureStorageTokenRepository(this._storage);
+  FlutterSecureStorageTokenRepository({
+    required FlutterSecureStorage storage,
+    required String tokenKey,
+    required String expiredAtKey,
+  })  : _storage = storage,
+        _tokenKey = tokenKey,
+        _expiredAtKey = expiredAtKey;
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {

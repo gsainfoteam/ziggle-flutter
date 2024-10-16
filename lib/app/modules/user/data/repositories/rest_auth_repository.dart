@@ -1,29 +1,31 @@
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:injectable/injectable.dart';
-import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
+import 'package:ziggle/app/modules/user/data/data_sources/remote/base_auth_api.dart';
+import 'package:ziggle/app/modules/user/data/repositories/flutter_secure_storage_token_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/auth_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/oauth_repository.dart';
-import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
 
-@Injectable(as: AuthRepository)
-class RestAuthRepository implements AuthRepository {
-  final UserApi _api;
-  // TODO: separate with wrapper repository
-  final TokenRepository _tokenRepository;
+abstract class RestAuthRepository implements AuthRepository {
+  final BaseAuthApi _api;
+  final FlutterSecureStorageTokenRepository _tokenRepository;
   final CookieManager _cookieManager;
   final OAuthRepository _oAuthRepository;
 
-  RestAuthRepository(
-    this._api,
-    this._tokenRepository,
-    this._cookieManager,
-    this._oAuthRepository,
-  );
+  RestAuthRepository({
+    required BaseAuthApi api,
+    required FlutterSecureStorageTokenRepository tokenRepository,
+    required CookieManager cookieManager,
+    required OAuthRepository oAuthRepository,
+  })  : _api = api,
+        _tokenRepository = tokenRepository,
+        _cookieManager = cookieManager,
+        _oAuthRepository = oAuthRepository;
 
   @override
   Future<void> login() async {
     final code = await _oAuthRepository.getAuthorizationCode();
+    print('auth code : ${code.authCode}');
     final result = await _api.login(code.authCode);
+    print('accessToken : ${result.accessToken}');
     await _tokenRepository.saveToken(result.accessToken);
   }
 

@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-
-import '../../domain/enums/api_channel.dart';
+import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
+import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
+import 'package:ziggle/app/modules/core/domain/enums/api_channel.dart';
 import '../../domain/repositories/api_channel_repository.dart';
 
 @Singleton(
@@ -14,12 +14,14 @@ import '../../domain/repositories/api_channel_repository.dart';
 class MemoryApiChannelRepository implements ApiChannelRepository {
   final _subject = BehaviorSubject<ApiChannel>.seeded(ApiChannel.byMode());
   late final StreamSubscription<ApiChannel> _localSubscription;
-  final Dio _dio;
+  final ZiggleDio _ziggleDio;
+  final GroupsDio _groupsDio;
 
-  MemoryApiChannelRepository(this._dio) {
-    _localSubscription = _subject.listen(
-      (value) => _dio.options.baseUrl = value.baseUrl,
-    );
+  MemoryApiChannelRepository(this._ziggleDio, this._groupsDio) {
+    _localSubscription = _subject.listen((value) {
+      _ziggleDio.options.baseUrl = value.ziggleBaseUrl;
+      _groupsDio.options.baseUrl = value.groupsBaseUrl;
+    });
   }
 
   static FutureOr dispose(ApiChannelRepository repository) {
@@ -41,7 +43,10 @@ class MemoryApiChannelRepository implements ApiChannelRepository {
   }
 
   @override
-  String get baseUrl => _subject.value.baseUrl;
+  String get ziggleBaseUrl => _subject.value.ziggleBaseUrl;
+
+  @override
+  String get groupsBaseUrl => _subject.value.groupsBaseUrl;
 
   @override
   Stream<ApiChannel> get channel => _subject.stream;

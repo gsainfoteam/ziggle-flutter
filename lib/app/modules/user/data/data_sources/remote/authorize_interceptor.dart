@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:injectable/injectable.dart';
 import 'package:mutex/mutex.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
+import 'package:ziggle/app/modules/user/data/repositories/flutter_secure_storage_token_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
 
-@singleton
-class AuthorizeInterceptor extends Interceptor {
-  final TokenRepository _repository;
+abstract class AuthorizeInterceptor extends Interceptor {
+  final FlutterSecureStorageTokenRepository _repository;
   static const retriedKey = '_retried';
   final mutex = ReadWriteMutex();
 
@@ -15,7 +15,7 @@ class AuthorizeInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    final dio = sl<Dio>();
+    final dio = sl<ZiggleDio>();
 
     final statusCode = err.response?.statusCode;
     if (statusCode != 401) return handler.next(err);
@@ -51,6 +51,7 @@ class AuthorizeInterceptor extends Interceptor {
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
       }
+      print('header token : $token');
       handler.next(options);
     } finally {
       mutex.release();

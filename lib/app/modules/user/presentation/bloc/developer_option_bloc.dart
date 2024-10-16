@@ -14,12 +14,19 @@ class DeveloperOptionBloc
   final ApiChannelRepository _apiChannelRepository;
 
   DeveloperOptionBloc(this._repository, this._apiChannelRepository)
-      : super(_Initial(apiChannel: ApiChannel.byMode())) {
+      : super(_Initial(
+          apiChannel: ApiChannel.byMode(),
+        )) {
     on<_Load>((event, emit) async {
       final result = await _repository.getDeveloperOption();
-      emit(_Loaded(enabled: result, apiChannel: state.apiChannel));
+      emit(_Loaded(
+        enabled: result,
+        apiChannel: state.apiChannel,
+      ));
       return emit.forEach(_apiChannelRepository.channel,
-          onData: (channel) => state.copyWith(apiChannel: channel));
+          onData: (channel) => state.copyWith(
+                apiChannel: channel,
+              ));
     });
     on<_Enable>((event, emit) async {
       await _repository.setDeveloperOption(true);
@@ -31,7 +38,9 @@ class DeveloperOptionBloc
     });
     on<_ToggleChannel>((event, emit) async {
       final channel = _apiChannelRepository.toggleChannel();
-      emit(state.copyWith(apiChannel: channel));
+      emit(state.copyWith(
+        apiChannel: channel,
+      ));
     });
   }
 }

@@ -6,17 +6,20 @@ import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
-import 'package:ziggle/app/modules/user/domain/repositories/auth_repository.dart';
+import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.dart';
+import 'package:ziggle/app/modules/user/data/repositories/ziggle_rest_auth_repository.dart';
 
 part 'auth_bloc.freezed.dart';
 
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepository _repository;
+  final RestAuthRepository _repository;
   final AnalyticsRepository _analyticsRepository;
 
-  AuthBloc(this._repository, this._analyticsRepository)
-      : super(const AuthState.initial()) {
+  AuthBloc(
+    @Named.from(ZiggleRestAuthRepository) this._repository,
+    this._analyticsRepository,
+  ) : super(const AuthState.initial()) {
     on<_Load>((event, emit) async {
       emit(const _Loading());
       return emit.forEach(
