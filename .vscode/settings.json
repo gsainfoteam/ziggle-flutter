@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["SHORTWEEKDAYS", "ziggle"]
+  "cSpell.words": ["SHORTWEEKDAYS", "ziggle"],
+  "files.readonlyInclude": { "assets/i18n/*": true }
 }
