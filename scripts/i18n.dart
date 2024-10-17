@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -8,7 +10,7 @@ const defaultLanguage = 'en';
 const defaultNamespaces = ['common', 'group', 'notice', 'user'];
 const encoder = JsonEncoder.withIndent("  ");
 
-void main(List<String> args) async {
+Future<void> main(List<String> args) async {
   final env = DotEnv()..load();
   final spreadsheetId = env['SPREADSHEET_ID']!;
   final gSheets = GSheets(
@@ -29,7 +31,11 @@ void main(List<String> args) async {
               <String, dynamic>{},
               (previousValue, element) {
                 final key = element['key'] as String;
-                final value = element[language]!;
+                final value = element[language];
+                if (value == null || value.isEmpty) {
+                  print('Value is null for key: $key in language: $language');
+                  return previousValue;
+                }
                 final keys = key.split('.');
                 Map<String, dynamic> nestedMap = previousValue;
                 for (int i = 0; i < keys.length - 1; i++) {
