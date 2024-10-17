@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dotenv/dotenv.dart';
 import 'package:gsheets/gsheets.dart';
 
 const defaultLanguage = 'en';
@@ -8,17 +9,10 @@ const defaultNamespaces = ['common', 'group', 'notice', 'user'];
 const encoder = JsonEncoder.withIndent("  ");
 
 void main(List<String> args) async {
-  final env = await File('.env').readAsString();
-  final envs = env.split('\n');
-  String getEnv(String key) => envs
-      .firstWhere((element) => element.startsWith('$key='))
-      .split('=')
-      .sublist(1)
-      .join('=');
-  final spreadsheetId = getEnv('SPREADSHEET_ID');
-
+  final env = DotEnv()..load();
+  final spreadsheetId = env['SPREADSHEET_ID']!;
   final gSheets = GSheets(
-    utf8.decode(base64.decode(getEnv('GOOGLE_CREDENTIAL_JSON'))),
+    utf8.decode(base64.decode(env['GOOGLE_CREDENTIAL_JSON']!)),
   );
   final sheet = await gSheets.spreadsheet(spreadsheetId);
   final selectedSheets = sheet.sheets.where(
