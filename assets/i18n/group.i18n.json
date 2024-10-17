@@ -37,20 +37,20 @@
       "back": "Back"
     }
   },
-  "managementMain" : {
+  "managementMain": {
     "header": "Group Management",
-    "newGroup" : "New Group",
-    "myGroup" : "My Group",
-    "noGroup" : "You are not in any group.",
-    "contact" : "If you wish to join a specific group, please contact the group’s administrator."
+    "newGroup": "New Group",
+    "myGroup": "My Group",
+    "noGroup": "You are not in any group.",
+    "contact": "If you wish to join a specific group, please contact the group’s administrator."
   },
-  "memberCard" : {
-    "role" : {
-      "role" : "Role",
-      "admin" : "Admin",
-      "manager" : "Manager",
-      "user" : "User"
+  "memberCard": {
+    "role": {
+      "role": "Role",
+      "admin": "Admin",
+      "manager": "Manager",
+      "user": "User"
     },
-    "banish" : "Banish"
+    "banish": "Banish"
   }
 }

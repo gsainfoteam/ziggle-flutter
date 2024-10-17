@@ -37,20 +37,20 @@
       "back": "돌아가기"
     }
   },
-  "managementMain" : {
+  "managementMain": {
     "header": "그룹 관리",
-    "newGroup" : "새 그룹",
-    "myGroup" : "내가 속한 그룹들",
-    "noGroup" : "속한 그룹이 없습니다.",
-    "contact" : "특정 그룹에 속하길 바라신다면, 해당 그룹의 관리자에게 문의해주세요."
+    "newGroup": "새 그룹",
+    "myGroup": "내가 속한 그룹들",
+    "noGroup": "속한 그룹이 없습니다.",
+    "contact": "특정 그룹에 속하길 바라신다면, 해당 그룹의 관리자에게 문의해주세요."
   },
-  "memberCard" : {
-    "role" : {
-      "role" : "역할",
-      "admin" : "관리자",
-      "manager" : "매니저",
-      "user" : "일반"
+  "memberCard": {
+    "role": {
+      "role": "역할",
+      "admin": "관리자",
+      "manager": "매니저",
+      "user": "일반"
     },
-    "banish" : "추방"
+    "banish": "추방"
   }
 }

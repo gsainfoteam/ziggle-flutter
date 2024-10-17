@@ -6,7 +6,10 @@
   "done": "완료",
   "confirm": "네",
   "duration": {
-    "day": "$n일",
+    "day": {
+      "one": "하루",
+      "other": "$n일"
+    },
     "week": {
       "one": "일주일",
       "other": "$n주"

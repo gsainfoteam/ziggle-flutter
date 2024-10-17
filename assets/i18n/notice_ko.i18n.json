@@ -64,34 +64,42 @@
   },
   "calendar": {
     "weeksAgo": {
+      "one": "$n주 전",
       "other": "$n주 전"
     },
     "daysAgo": {
+      "one": "$n일 전",
       "other": "$n일 전"
     },
     "hoursAgo": {
+      "one": "$n시간 전",
       "other": "$n시간 전"
     },
     "minutesAgo": {
+      "one": "$n분 전",
       "other": "$n분 전"
     },
     "secondsAgo": {
+      "one": "$n초 전",
       "other": "$n초 전"
     }
   },
   "dDay": {
     "daysLeft(rich)": {
+      "one": "$n일 남음",
       "other": "$n일 남음"
     },
     "hoursLeft(rich)": {
+      "one": "$n시간 남음",
       "other": "$n시간 남음"
     },
     "minutesLeft(rich)": {
+      "one": "$n분 남음",
       "other": "$n분 남음"
     },
     "secondsLeft(rich)": {
-      "one": "$n초 left",
-      "other": "$n초 left"
+      "one": "$n초 남음",
+      "other": "$n초 남음"
     },
     "overdue": "기한 지남"
   },
