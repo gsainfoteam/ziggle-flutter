@@ -7,7 +7,7 @@ import 'package:dotenv/dotenv.dart';
 import 'package:gsheets/gsheets.dart';
 
 const defaultLanguage = 'en';
-const defaultNamespaces = ['common', 'group', 'notice', 'user'];
+const defaultNamespaces = ['common'];
 const encoder = JsonEncoder.withIndent("  ");
 
 Future<void> main(List<String> args) async {
@@ -19,11 +19,15 @@ Future<void> main(List<String> args) async {
   final sheet = await gSheets.spreadsheet(spreadsheetId);
   final selectedSheets = sheet.sheets.where(
       (n) => defaultNamespaces.contains(n.title) || args.contains(n.title));
-  final result = await Future.wait(selectedSheets.map((sheet) async {
-    final [header, ...body] = await sheet.values.allRows();
+  final sheets =
+      await Future.wait(selectedSheets.map((sheet) => sheet.values.allRows()));
+  final result = Map.fromEntries(sheets.expand((rows) {
+    final [header, ...body] = rows;
     final languages = header.sublist(2);
-    final data = body.map((row) => Map.fromIterables(header, row));
-    final map = languages
+    final data = body
+        .where((row) => row.length == header.length)
+        .map((row) => Map.fromIterables(header, row));
+    return languages
         .map(
           (language) => MapEntry(
             language,
@@ -49,9 +53,7 @@ Future<void> main(List<String> args) async {
           ),
         )
         .map((e) => MapEntry(e.key, encoder.convert(e.value)));
-    return MapEntry(sheet.title, Map.fromEntries(map));
   }));
-  final output = Map.fromEntries(result);
 
   final outputDir = Directory('assets/i18n');
 
@@ -59,15 +61,16 @@ Future<void> main(List<String> args) async {
     outputDir.createSync(recursive: true);
   }
 
-  output.forEach((key, value) {
-    value.forEach((language, value) {
-      if (language == defaultLanguage) {
-        final file = File('${outputDir.path}/$key.i18n.json');
-        file.writeAsStringSync(value);
-        return;
-      }
-      final file = File('${outputDir.path}/${key}_$language.i18n.json');
-      file.writeAsStringSync(value);
-    });
+  await Future.forEach(await outputDir.list().toList(), (file) {
+    if (file is File) {
+      file.deleteSync();
+    }
+  });
+
+  result.forEach((language, value) {
+    final file = File(language == defaultLanguage
+        ? '${outputDir.path}/strings.i18n.json'
+        : '${outputDir.path}/strings_$language.i18n.json');
+    file.writeAsStringSync(value);
   });
 }

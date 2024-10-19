@@ -1,6 +1,5 @@
 base_locale: en
 input_directory: assets/i18n
-namespaces: true
 timestamp: false
 contexts:
   NoticeType:
