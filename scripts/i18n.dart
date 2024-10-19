@@ -21,39 +21,30 @@ Future<void> main(List<String> args) async {
       (n) => defaultNamespaces.contains(n.title) || args.contains(n.title));
   final sheets =
       await Future.wait(selectedSheets.map((sheet) => sheet.values.allRows()));
-  final result = Map.fromEntries(sheets.expand((rows) {
-    final [header, ...body] = rows;
-    final languages = header.sublist(2);
-    final data = body
-        .where((row) => row.length == header.length)
-        .map((row) => Map.fromIterables(header, row));
-    return languages
-        .map(
-          (language) => MapEntry(
-            language,
-            data.fold(
-              <String, dynamic>{},
-              (previousValue, element) {
-                final key = element['key'] as String;
-                final value = element[language];
-                if (value == null || value.isEmpty) {
-                  print('Value is null for key: $key in language: $language');
-                  return previousValue;
-                }
-                final keys = key.split('.');
-                Map<String, dynamic> nestedMap = previousValue;
-                for (int i = 0; i < keys.length - 1; i++) {
-                  nestedMap =
-                      nestedMap.putIfAbsent(keys[i], () => <String, dynamic>{});
-                }
-                nestedMap[keys.last] = value.replaceAll('\\n', '\n');
-                return previousValue;
-              },
-            ),
-          ),
-        )
-        .map((e) => MapEntry(e.key, encoder.convert(e.value)));
-  }));
+  final languages = sheets.first.first.sublist(2);
+
+  final result = Map.fromEntries(languages.map((language) => MapEntry(
+      language,
+      sheets.expand((rows) {
+        final [header, ...body] = rows;
+        return body
+            .where((row) => row.length == header.length)
+            .map((row) => Map.fromIterables(header, row));
+      }).fold(<String, dynamic>{}, (prev, element) {
+        final key = element['key'] as String;
+        final value = element[language];
+        if (value == null || value.isEmpty) {
+          print('Value is null for key: $key in language: $language');
+          return prev;
+        }
+        final keys = key.split('.');
+        Map<String, dynamic> nestedMap = prev;
+        for (int i = 0; i < keys.length - 1; i++) {
+          nestedMap = nestedMap.putIfAbsent(keys[i], () => <String, dynamic>{});
+        }
+        nestedMap[keys.last] = value.replaceAll('\\n', '\n');
+        return prev;
+      }))));
 
   final outputDir = Directory('assets/i18n');
 
@@ -71,6 +62,6 @@ Future<void> main(List<String> args) async {
     final file = File(language == defaultLanguage
         ? '${outputDir.path}/strings.i18n.json'
         : '${outputDir.path}/strings_$language.i18n.json');
-    file.writeAsStringSync(value);
+    file.writeAsStringSync(encoder.convert(value));
   });
 }
