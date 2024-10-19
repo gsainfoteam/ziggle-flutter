@@ -1,0 +1,274 @@
+{
+  "common": {
+    "cancel": "キャンセル",
+    "next": "次へ",
+    "back": "戻る",
+    "skip": "スキップ",
+    "done": "完了",
+    "confirm": "確認",
+    "duration": {
+      "day": {
+        "one": "$n日",
+        "other": "$n日"
+      },
+      "week": {
+        "one": "$n週",
+        "other": "$n週間"
+      }
+    }
+  },
+  "group": {
+    "creation": {
+      "title": "グループ作成",
+      "stage": "ステージ$count",
+      "step(context=GroupCreationStep)": {
+        "profile": "グループプロフィールを設定",
+        "introduce": "グループを紹介",
+        "notion": "Notionリンクを添付",
+        "done": "完了"
+      },
+      "setProfileImage": "グループプロフィール画像を設定",
+      "profile": {
+        "name": {
+          "label": "グループ名",
+          "hint": "インフォチーム (Infoteam)"
+        }
+      },
+      "introduce": {
+        "title": "グループの簡単な紹介文を\n書いてください。",
+        "description": "あなたが書いたグループ紹介文は、グループのメインページの上部に表示されます。",
+        "hint": "ここに説明文を記入"
+      },
+      "notion": {
+        "title": "Notionリンク",
+        "hint": "Notionリンクを入力",
+        "description(rich)": "グループ紹介に美しいNotionリンクを貼り付けることができます。\n${strong(ウェブ上でグループ紹介Notionを公開)}した後、そのリンクをここに貼り付けてください。",
+        "loading": "Notionを読み込み中..."
+      },
+      "done": {
+        "title": "$name グループ作成が\n完了しました！",
+        "description": "これでグループ名義でお知らせを作成できます。",
+        "invite": {
+          "title": "招待リンク",
+          "selectExpire": "有効期限を選択",
+          "copy": "招待リンクをコピー"
+        },
+        "back": "戻る"
+      }
+    },
+    "managementMain": {
+      "header": "グループ管理",
+      "newGroup": "新しいグループ",
+      "myGroup": "自分のグループ",
+      "noGroup": "所属しているグループはありません。",
+      "contact": "特定のグループに参加したい場合は、そのグループの管理者に連絡してください。"
+    },
+    "memberCard": {
+      "role": {
+        "role": "役割",
+        "admin": "管理者",
+        "manager": "マネージャー",
+        "user": "ユーザー"
+      },
+      "banish": "追放"
+    }
+  },
+  "notice": {
+    "type(context=NoticeType)": {
+      "deadline": "締め切り",
+      "recruit": "募集",
+      "event": "イベント",
+      "general": "一般",
+      "hot": "ジグルピック",
+      "academic": "学術",
+      "all": "すべて",
+      "written": "自分の投稿"
+    },
+    "category(context=NoticeCategory)": {
+      "academic": "学術",
+      "recruit": "募集",
+      "event": "イベント",
+      "club": "クラブ",
+      "etc": "一般"
+    },
+    "write": {
+      "title": "お知らせ作成",
+      "link": {
+        "text": "テキスト",
+        "link": "リンク",
+        "add": "追加",
+        "change": "変更",
+        "remove": "削除"
+      },
+      "titleHint": "タイトルを入力",
+      "translate": "AI翻訳を使用",
+      "bodyHint": "内容を入力",
+      "addPhoto": "写真を追加",
+      "configTitle": "公開オプション",
+      "changeAccount": "アカウントを変更",
+      "deadline": {
+        "label(rich)": "締め切り ${small((任意))}",
+        "title": "締め切りを設定",
+        "confirm": "設定",
+        "timeSelect": "締め切り時間を選択"
+      },
+      "category": "カテゴリー",
+      "hashtag": {
+        "label(rich)": "タグを設定 ${small((任意))}",
+        "hint": "タグを入力",
+        "title": "タグを追加"
+      },
+      "preview": "プレビュー",
+      "publish": "公開",
+      "consent": {
+        "title": "以下の内容をお読みいただき、\n同意してください。",
+        "upload": "お知らせを投稿",
+        "notification": {
+          "title": "通知はお知らせが投稿されてから15分後に送信されます。",
+          "description": "お知らせに誤りがあった場合、投稿者がお知らせを削除して再投稿すると通知が2回送信されることがあります。このような事態を避けるため、通知はお知らせの投稿から15分後に送信されます。"
+        },
+        "edit": {
+          "title": "通知送信前にのみ編集が可能です。",
+          "description": "多くのユーザーは通知が送信された直後にお知らせを確認します。ユーザーが確認した内容とお知らせの内容が一致するよう、通知送信後の編集は制限されます。"
+        },
+        "urgent": {
+          "title": "緊急のお知らせは、作成者設定から即時通知を送信できます。",
+          "description": "緊急の場合、各お知らせの作成者設定で「通知を即時送信」を選択すると通知が送信されます。この場合、タイトルの前に[緊急]が追加され、編集ができなくなります。"
+        }
+      }
+    },
+    "calendar": {
+      "weeksAgo": {
+        "one": "$n週間前",
+        "other": "$n週間前"
+      },
+      "daysAgo": {
+        "one": "$n日前",
+        "other": "$n日前"
+      },
+      "hoursAgo": {
+        "one": "$n時間前",
+        "other": "$n時間前"
+      },
+      "minutesAgo": {
+        "one": "$n分前",
+        "other": "$n分前"
+      },
+      "secondsAgo": {
+        "one": "$n秒前",
+        "other": "$n秒前"
+      }
+    },
+    "dDay": {
+      "daysLeft(rich)": {
+        "one": "あと$n日",
+        "other": "あと$n日"
+      },
+      "hoursLeft(rich)": {
+        "one": "あと$n時間",
+        "other": "あと$n時間"
+      },
+      "minutesLeft(rich)": {
+        "one": "あと$n分",
+        "other": "あと$n分"
+      },
+      "secondsLeft(rich)": {
+        "one": "あと$n秒",
+        "other": "あと$n秒"
+      },
+      "overdue": "期限切れ"
+    },
+    "detail": {
+      "title": "お知らせの詳細",
+      "back": "お知らせ",
+      "share": "共有",
+      "shareContent": "$title\n\nZiggleでお知らせを確認しましょう！\n$link",
+      "copy": "リンクをコピー",
+      "copied": "コピー完了",
+      "deadline": "締め切り"
+    },
+    "search": {
+      "hint": "お知らせを検索",
+      "description": "検索キーワードを入力してください"
+    },
+    "list": "リスト",
+    "viewMore(rich)": "... ${more(もっと見る)}",
+    "settings": {
+      "edit": {
+        "action": "編集 / 追加のお知らせ作成"
+      },
+      "delete": {
+        "action": "削除",
+        "title": "本当にこのお知らせを削除しますか？",
+        "description": "この操作は取り消せません。"
+      },
+      "sendNotification": {
+        "action": "今すぐ通知を送信",
+        "caution": "通知を送信した後は編集ができなくなります。",
+        "title": "今すぐ通知を送信しますか？",
+        "description": "通知を送信した後は編集できません。"
+      }
+    },
+    "edit": {
+      "title": "お知らせを編集",
+      "leftTime(rich)": "編集が無効になるまでの残り時間 $bold",
+      "cannotEdit": "編集期限が過ぎました。",
+      "editBody": "内容を編集",
+      "addEnglish": "英語のお知らせを作成",
+      "additional": {
+        "action": "追加のお知らせ作成 / 締め切りを変更",
+        "title": "追加のお知らせ作成",
+        "deadline(rich)": "締め切りを変更 ${small((任意))}"
+      }
+    },
+    "additional": {
+      "title": "追加のお知らせ",
+      "deadline": "締め切りを変更"
+    }
+  },
+  "user": {
+    "login": {
+      "title": "ログインしてください",
+      "description": "お知らせを作成し、リアクションを残すにはログインしてください。",
+      "action": "ログイン"
+    },
+    "setting": {
+      "title": "設定",
+      "notification": {
+        "title": "通知",
+        "enabled": "通知が有効です。",
+        "enable": "通知を有効にする",
+        "description": "Ziggleは新しいお知らせやイベントに関する通知を送信します。"
+      },
+      "language": {
+        "title": "言語",
+        "setKorean": "韓国語に設定",
+        "setEnglish": "英語に設定",
+        "setRussian": "Установить русский",
+        "setJapanese": "日本語に設定"
+      },
+      "information": {
+        "title": "情報",
+        "termsOfService": "利用規約",
+        "privacyPolicy": "プライバシーポリシー",
+        "openSourceLicense": "オープンソースライセンス",
+        "copyright": "GIST学生会、インフォチーム"
+      }
+    },
+    "written": "自分のお知らせ",
+    "feedback": "フィードバック · バグ報告",
+    "account": {
+      "title": "アカウント",
+      "logout": "ログアウト",
+      "withdraw": "退会",
+      "login": "ログイン"
+    },
+    "myInfo": "自分の情報",
+    "developMode": {
+      "title": "開発者モード",
+      "disable": "開発者モードを無効にする",
+      "enabled": "開発者モードが有効になっています。",
+      "toggleChannel": "APIチャンネルの切り替え (現在: $channel)"
+    }
+  }
+}

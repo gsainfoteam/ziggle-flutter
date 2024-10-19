@@ -243,7 +243,9 @@
       "language": {
         "title": "언어",
         "setKorean": "한국어로 설정",
-        "setEnglish": "Set Language to English"
+        "setEnglish": "Set Language to English",
+        "setRussian": "Установить русский",
+        "setJapanese": "日本語に設定"
       },
       "information": {
         "title": "정보",
