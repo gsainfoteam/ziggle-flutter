@@ -176,7 +176,7 @@
         "one": "あと$n秒",
         "other": "あと$n秒"
       },
-      "overdue": "期限切れ"
+      "overdue": "期限超過"
     },
     "detail": {
       "title": "お知らせの詳細",
