@@ -125,7 +125,7 @@ class NoticeCard extends StatelessWidget {
                   child: Row(
                     children: [
                       if (notice.reacted(NoticeReaction.like))
-                        Assets.icons.fire.svg(width: 30)
+                        Assets.icons.fireActivate.svg(width: 30)
                       else
                         Assets.icons.fire.svg(width: 30),
                       const SizedBox(width: 5),
