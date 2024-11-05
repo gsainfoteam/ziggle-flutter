@@ -44,10 +44,7 @@ Future<void> _initHive() async {
 }
 
 Future<void> _initLocale() async {
-  final locale = LocaleSettings.useDeviceLocale();
-  LocaleSettings.setLocale(locale);
-  await initializeDateFormatting();
-  Intl.defaultLocale = locale.languageCode;
+  final locale = await LocaleSettings.useDeviceLocale();
   LocaleSettings.setPluralResolver(
     locale: AppLocale.ko,
     cardinalResolver: (n, {few, many, one, other, two, zero}) =>
@@ -55,6 +52,9 @@ Future<void> _initLocale() async {
     ordinalResolver: (n, {few, many, one, other, two, zero}) =>
         other ?? n.toString(),
   );
+  LocaleSettings.setLocale(locale);
+  await initializeDateFormatting();
+  Intl.defaultLocale = locale.languageCode;
 }
 
 void _initBloc() {
