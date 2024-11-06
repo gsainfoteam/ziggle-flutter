@@ -24,7 +24,7 @@ class ZiggleTabBar extends StatelessWidget {
       dividerColor: Palette.gray,
       splashFactory: NoSplash.splashFactory,
       overlayColor: const WidgetStatePropertyAll(Colors.transparent),
-      labelPadding: const EdgeInsets.symmetric(vertical: 10),
+      labelPadding: const EdgeInsets.symmetric(vertical: 5),
       labelStyle: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w500,
