@@ -71,6 +71,18 @@
         "user": "Пользователь"
       },
       "banish": "Исключить"
+    },
+    "detail": {
+      "appBar": {
+        "backLabel": "-",
+        "title": "-"
+      },
+      "tab": {
+        "introduction": "-",
+        "notice": "-",
+        "member": "-"
+      },
+      "favorite": "-"
     }
   },
   "notice": {

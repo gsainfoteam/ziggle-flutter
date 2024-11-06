@@ -71,6 +71,18 @@
         "user": "ユーザー"
       },
       "banish": "追放"
+    },
+    "detail": {
+      "appBar": {
+        "backLabel": "-",
+        "title": "-"
+      },
+      "tab": {
+        "introduction": "-",
+        "notice": "-",
+        "member": "-"
+      },
+      "favorite": "-"
     }
   },
   "notice": {
@@ -176,7 +188,7 @@
         "one": "あと$n秒",
         "other": "あと$n秒"
       },
-      "overdue": "期限超過"
+      "overdue": "期限切れ"
     },
     "detail": {
       "title": "お知らせの詳細",
