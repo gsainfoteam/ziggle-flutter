@@ -74,15 +74,15 @@
     },
     "detail": {
       "appBar": {
-        "backLabel": "-",
-        "title": "-"
+        "backLabel": "Список",
+        "title": "Информация о группе"
       },
       "tab": {
-        "introduction": "-",
-        "notice": "-",
-        "member": "-"
+        "introduction": "Введение",
+        "notice": "Объявления",
+        "member": "Участники"
       },
-      "favorite": "-"
+      "favorite": "Избранное"
     }
   },
   "notice": {

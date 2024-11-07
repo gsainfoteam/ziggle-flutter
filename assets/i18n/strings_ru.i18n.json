@@ -74,15 +74,15 @@
     },
     "detail": {
       "appBar": {
-        "backLabel": "-",
-        "title": "-"
+        "backLabel": "リスト",
+        "title": "グループ情報"
       },
       "tab": {
-        "introduction": "-",
-        "notice": "-",
-        "member": "-"
+        "introduction": "紹介",
+        "notice": "お知らせ",
+        "member": "メンバー"
       },
-      "favorite": "-"
+      "favorite": "お気に入り"
     }
   },
   "notice": {
