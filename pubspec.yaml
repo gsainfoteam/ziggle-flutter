@@ -38,7 +38,7 @@ dependencies:
   rxdart: ^0.28.0
   flutter_bloc: ^8.1.6
   collection: ^1.18.0
-  flutter_inappwebview: ^5.8.0
+  flutter_inappwebview: ^6.1.5
   url_launcher: ^6.3.0
   permission_handler: ^11.3.1
   hive_flutter: ^1.1.0
