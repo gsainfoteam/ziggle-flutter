@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_renderer.dart';
+import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
@@ -35,6 +36,7 @@ class _DetailPageState extends State<DetailPage>
         backLabel: context.t.notice.detail.back,
         from: PageSource.detail,
         title: Text(context.t.notice.detail.title),
+        backgroundColor: Palette.white,
       ),
       body: const _Layout(),
     );
