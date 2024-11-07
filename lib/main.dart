@@ -44,7 +44,7 @@ Future<void> _initHive() async {
 }
 
 Future<void> _initLocale() async {
-  final locale = LocaleSettings.useDeviceLocale();
+  final locale = await LocaleSettings.useDeviceLocale();
   LocaleSettings.setPluralResolver(
     locale: AppLocale.ko,
     cardinalResolver: (n, {few, many, one, other, two, zero}) =>
