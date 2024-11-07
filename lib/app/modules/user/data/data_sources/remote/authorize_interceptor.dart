@@ -39,11 +39,6 @@ class AuthorizeInterceptor extends Interceptor {
     RequestInterceptorHandler handler,
   ) async {
     if (options.retried) return handler.next(options);
-    if (_repository.tokenExpiration != null) {
-      if (DateTime.now().isAfter(_repository.tokenExpiration!)) {
-        await _refresh();
-      }
-    }
 
     try {
       await mutex.acquireRead();
