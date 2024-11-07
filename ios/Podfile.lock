@@ -318,7 +318,7 @@ SPEC CHECKSUMS:
   flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
   flutter_smartlook: 2f8ffb62fb0197739e3a412ddb4e65eb67d8a237
-  flutter_web_auth_2: 051cf9f5dc366f31b5dcc4e2952c2b954767be8a
+  flutter_web_auth_2: 06d500582775790a0d4c323222fcb6d7990f9603
   GoogleAppMeasurement: 76d4f8b36b03bd8381fa9a7fe2cc7f99c0a2e93a
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
