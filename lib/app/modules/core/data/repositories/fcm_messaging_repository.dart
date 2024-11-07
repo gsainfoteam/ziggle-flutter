@@ -32,8 +32,10 @@ class FcmMessagingRepository implements MessagingRepository, LinkRepository {
     await instance.requestPermission(announcement: true, provisional: true);
     await _waitForIosToken();
 
-    final fcmToken = await FirebaseMessaging.instance.getToken();
-    _tokenSubject.add(fcmToken);
+    FirebaseMessaging.instance
+        .getToken()
+        .then(_tokenSubject.add)
+        .catchError((_) {});
     FirebaseMessaging.instance.onTokenRefresh.listen(_tokenSubject.add);
     await refresh();
     _tokenSubject.listen(refresh);
