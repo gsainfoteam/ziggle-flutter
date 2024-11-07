@@ -115,7 +115,7 @@ class GroupDetailPage extends StatelessWidget {
                 child: Container(
                   color: Palette.white,
                   child: ZiggleTabBar(
-                    tabs: <Tab>[
+                    tabs: [
                       Tab(text: context.t.group.detail.tab.introduction),
                       Tab(text: context.t.group.detail.tab.notice),
                       Tab(text: context.t.group.detail.tab.member),
@@ -145,17 +145,17 @@ class GroupDetailPage extends StatelessWidget {
                 const SingleChildScrollView(
                   child: Column(
                     children: [
-                      Text('소개 내용입니다.소개 내용입니다.'),
-                      Text('소개 내용입니다.소개 내용입니다.'),
-                      Text('소개 내용입니다.소개 내용입니다.'),
-                      Text('소개 내용입니다.소개 내용입니다.'),
-                      Text('소개 내용입니다.소개 내용입니다.'),
-                      Text('소개 내용입니다.소개 내용입니다.'),
-                      Text('소개 내용입니다.소개 내용입니다.'),
-                      Text('소개 내용입니다.소개 내용입니다.'),
-                      Text('소개 내용입니다.소개 내용입니다.'),
-                      Text('소개 내용입니다.소개 내용입니다.'),
-                      Text('소개 내용입니다.소개 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
+                      Text('공지 내용입니다.공지 내용입니다.'),
                     ],
                   ),
                 ),
