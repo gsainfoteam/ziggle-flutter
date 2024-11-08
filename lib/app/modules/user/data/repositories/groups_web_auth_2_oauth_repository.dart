@@ -2,7 +2,8 @@ import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/user/data/repositories/web_auth_2_oauth_repository.dart';
 import 'package:ziggle/app/values/strings.dart';
 
-@Singleton()
+@named
+@Singleton(as: WebAuth2OAuthRepository)
 class GroupsWebAuth2OauthRepository extends WebAuth2OAuthRepository {
   @override
   String get path =>

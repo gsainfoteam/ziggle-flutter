@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_create_entity.dart';
-import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
 
 part 'group_create_bloc.freezed.dart';

@@ -5,6 +5,7 @@ import 'package:ziggle/app/modules/user/data/repositories/flutter_secure_storage
 import 'package:ziggle/app/modules/user/data/repositories/groups_flutter_secure_storage_token_repository.dart';
 import 'package:ziggle/app/modules/user/data/repositories/groups_web_auth_2_oauth_repository.dart';
 import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.dart';
+import 'package:ziggle/app/modules/user/data/repositories/web_auth_2_oauth_repository.dart';
 
 @named
 @Singleton(as: RestAuthRepository)
@@ -14,7 +15,8 @@ class GroupsRestAuthRepository extends RestAuthRepository {
       @Named.from(GroupsFlutterSecureStorageTokenRepository)
       FlutterSecureStorageTokenRepository tokenRepository,
       CookieManager cookieManager,
-      GroupsWebAuth2OauthRepository oAuthRepository)
+      @Named.from(GroupsWebAuth2OauthRepository)
+      WebAuth2OAuthRepository oAuthRepository)
       : super(
             api: api,
             tokenRepository: tokenRepository,

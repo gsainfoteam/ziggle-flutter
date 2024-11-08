@@ -3,6 +3,7 @@ import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
 import 'package:ziggle/app/modules/user/data/repositories/flutter_secure_storage_token_repository.dart';
 import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.dart';
+import 'package:ziggle/app/modules/user/data/repositories/web_auth_2_oauth_repository.dart';
 import 'package:ziggle/app/modules/user/data/repositories/ziggle_flutter_secure_storage_token_repository.dart';
 import 'package:ziggle/app/modules/user/data/repositories/ziggle_web_auth_2_oauth_repository.dart';
 
@@ -14,7 +15,8 @@ class ZiggleRestAuthRepository extends RestAuthRepository {
       @Named.from(ZiggleFlutterSecureStorageTokenRepository)
       FlutterSecureStorageTokenRepository tokenRepository,
       CookieManager cookieManager,
-      ZiggleWebAuth2OauthRepository oAuthRepository)
+      @Named.from(ZiggleWebAuth2OauthRepository)
+      WebAuth2OAuthRepository oAuthRepository)
       : super(
             api: api,
             tokenRepository: tokenRepository,

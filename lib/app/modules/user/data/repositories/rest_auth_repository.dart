@@ -22,6 +22,7 @@ abstract class RestAuthRepository implements AuthRepository {
 
   @override
   Future<void> login() async {
+    print('hi');
     final code = await _oAuthRepository.getAuthorizationCode();
     print('auth code : ${code.authCode}');
     final result = await _api.login(code.authCode);

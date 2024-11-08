@@ -324,8 +324,8 @@ SPEC CHECKSUMS:
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
-  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
-  package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
+  OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
+  package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47

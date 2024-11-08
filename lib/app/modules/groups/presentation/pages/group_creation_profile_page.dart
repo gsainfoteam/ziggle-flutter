@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_create_bloc.dart';
