@@ -36,9 +36,10 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
   void didPopNext() =>
       AnalyticsRepository.pageView(const AnalyticsEvent.writeConfig());
 
-  DateTime? _deadline;
-  NoticeType? _type;
-  final List<String> _tags = [];
+  late final _draft = context.read<NoticeWriteBloc>().state.draft;
+  late DateTime? _deadline = _draft.deadline;
+  late NoticeType? _type = _draft.type;
+  late final List<String> _tags = _draft.tags;
 
   void _save() {
     if (_type == null) return;
