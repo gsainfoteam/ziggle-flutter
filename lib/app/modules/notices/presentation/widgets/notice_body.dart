@@ -41,15 +41,11 @@ class _NoticeBodyState extends State<NoticeBody> {
     return SizedBox(
       height: _height,
       child: InAppWebView(
-        initialOptions: InAppWebViewGroupOptions(
-          crossPlatform: InAppWebViewOptions(
-            supportZoom: false,
-            disableVerticalScroll: true,
-            disableHorizontalScroll: true,
-          ),
-          android: AndroidInAppWebViewOptions(
-            builtInZoomControls: false,
-          ),
+        initialSettings: InAppWebViewSettings(
+          supportZoom: false,
+          disableVerticalScroll: true,
+          disableHorizontalScroll: true,
+          builtInZoomControls: false,
         ),
         shouldOverrideUrlLoading: (controller, navigationAction) async {
           if (_initial) {
