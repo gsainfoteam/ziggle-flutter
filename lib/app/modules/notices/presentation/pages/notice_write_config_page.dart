@@ -42,6 +42,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
   late final List<String> _tags = _draft.tags;
 
   void _save() {
+    // TODO: is there any way to save when type is not set?
     if (_type == null) return;
     context.read<NoticeWriteBloc>().add(NoticeWriteEvent.setConfig(
           deadline: _deadline,
