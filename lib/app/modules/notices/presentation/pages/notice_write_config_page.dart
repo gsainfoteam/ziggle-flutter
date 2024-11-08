@@ -67,6 +67,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
         backLabel: context.t.common.cancel,
         from: PageSource.writeConfig,
         title: Text(context.t.notice.write.configTitle),
+        onBack: _save,
         actions: [
           ZiggleButton.text(
             disabled: _type == null,

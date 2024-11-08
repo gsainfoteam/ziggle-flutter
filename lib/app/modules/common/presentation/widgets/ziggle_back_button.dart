@@ -12,16 +12,19 @@ class ZiggleBackButton extends StatelessWidget {
     super.key,
     required this.label,
     this.from = PageSource.unknown,
+    this.onBack,
   });
 
   final PageSource from;
   final String label;
+  final VoidCallback? onBack;
 
   @override
   Widget build(BuildContext context) {
     return ZiggleButton.text(
       onPressed: () {
         AnalyticsRepository.click(AnalyticsEvent.back(from));
+        onBack?.call();
         context.maybePop();
       },
       child: Text.rich(

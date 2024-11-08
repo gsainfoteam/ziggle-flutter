@@ -59,12 +59,14 @@ class ZiggleAppBar extends StatelessWidget implements PreferredSizeWidget {
     List<Widget> actions = const [],
     Color? backgroundColor,
     required PageSource from,
+    VoidCallback? onBack,
   }) =>
       ZiggleAppBar(
         backgroundColor: backgroundColor,
         leading: ZiggleBackButton(
           label: backLabel,
           from: from,
+          onBack: onBack,
         ),
         title: title,
         actions: actions,
