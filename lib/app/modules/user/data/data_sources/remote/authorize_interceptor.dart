@@ -1,32 +1,29 @@
 import 'package:dio/dio.dart';
 import 'package:mutex/mutex.dart';
 import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
 import 'package:ziggle/app/modules/user/data/repositories/flutter_secure_storage_token_repository.dart';
 
 abstract class AuthorizeInterceptor extends Interceptor {
-  final FlutterSecureStorageTokenRepository _repository;
+  final FlutterSecureStorageTokenRepository repository;
   static const retriedKey = '_retried';
   final mutex = ReadWriteMutex();
 
-  AuthorizeInterceptor(this._repository);
+  AuthorizeInterceptor(this.repository);
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
-    final dio = sl<ZiggleDio>();
-
     final statusCode = err.response?.statusCode;
     if (statusCode != 401) return handler.next(err);
-    final token = await _repository.token.first;
+    final token = await repository.token.first;
     if (token == null) return handler.next(err);
     if (err.requestOptions.retried) return handler.next(err);
     err.requestOptions.retried = true;
 
     try {
       if (!(await _refresh())) return handler.next(err);
-      final retriedResponse = await dio.fetch(err.requestOptions);
-      return handler.resolve(retriedResponse);
+      // final retriedResponse = await dio.fetch(err.requestOptions);
+      // return handler.resolve(retriedResponse);
     } on DioException {
       return super.onError(err, handler);
     }
@@ -41,11 +38,11 @@ abstract class AuthorizeInterceptor extends Interceptor {
 
     try {
       await mutex.acquireRead();
-      final token = await _repository.token.first;
+      final token = await repository.token.first;
+      print('header token : $token');
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
       }
-      print('header token : $token');
       handler.next(options);
     } finally {
       mutex.release();
@@ -53,6 +50,7 @@ abstract class AuthorizeInterceptor extends Interceptor {
   }
 
   Future<bool> _refresh() async {
+    print('trying refresh');
     if (mutex.isWriteLocked) {
       await mutex.acquireRead();
       mutex.release();
@@ -62,10 +60,10 @@ abstract class AuthorizeInterceptor extends Interceptor {
     final userApi = sl<UserApi>();
     try {
       final token = await userApi.refresh();
-      await _repository.saveToken(token.accessToken);
+      await repository.saveToken(token.accessToken);
       return true;
     } catch (e) {
-      await _repository.deleteToken();
+      await repository.deleteToken();
       return false;
     } finally {
       mutex.release();

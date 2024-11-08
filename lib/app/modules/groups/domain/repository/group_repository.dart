@@ -1,7 +1,7 @@
-import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/group_response_model.dart';
 
 abstract class GroupRepository {
-  Future<GroupEntity> createGroup({
+  Future<GroupResponseModel> createGroup({
     required String name,
     required String description,
     required String? notionPageId,

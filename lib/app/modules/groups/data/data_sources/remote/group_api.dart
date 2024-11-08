@@ -5,6 +5,7 @@ import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/group_response_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/role_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/update_role_model.dart';
@@ -21,7 +22,7 @@ abstract class GroupApi {
   Future<GroupListModel> getGroups();
 
   @POST('')
-  Future<GroupModel> createGroup(@Body() CreateGroupModel model);
+  Future<GroupResponseModel> createGroup(@Body() CreateGroupModel model);
 
   @GET('{uuid}')
   Future<GroupModel> getGroup(
