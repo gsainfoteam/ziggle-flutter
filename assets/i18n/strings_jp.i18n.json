@@ -105,6 +105,13 @@
     },
     "write": {
       "title": "お知らせ作成",
+      "pop": {
+        "title": "終了",
+        "description": "作成をやめて終了しますか？",
+        "save": "下書き保存して終了",
+        "withoutSave": "保存せずに終了",
+        "cancel": "作成を続ける"
+      },
       "link": {
         "text": "テキスト",
         "link": "リンク",

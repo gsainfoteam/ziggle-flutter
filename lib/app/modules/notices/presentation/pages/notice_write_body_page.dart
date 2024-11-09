@@ -81,12 +81,12 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _koreanTitleController.addListener(() => setState(noop));
-    _koreanBodyController.addListener(() => setState(noop));
+    _koreanTitleController.addListener(() => setState(_save));
+    _koreanBodyController.addListener(() => setState(_save));
     _koreanTitleFocusNode.addListener(() => setState(noop));
     _koreanBodyFocusNode.addListener(() => setState(noop));
-    _englishTitleController.addListener(() => setState(noop));
-    _englishBodyController.addListener(() => setState(noop));
+    _englishTitleController.addListener(() => setState(_save));
+    _englishBodyController.addListener(() => setState(_save));
     _englishTitleFocusNode.addListener(() => setState(noop));
     _englishBodyFocusNode.addListener(() => setState(noop));
     _tabController.addListener(() => setState(() {

@@ -105,6 +105,13 @@
     },
     "write": {
       "title": "공지 작성",
+      "pop": {
+        "title": "그만두기",
+        "description": "공지 작성을 그만두고 나가시겠습니까?",
+        "save": "임시 저장하고 나가기",
+        "withoutSave": "저장하지 않고 나가기",
+        "cancel": "계속 작성하기"
+      },
       "link": {
         "text": "내용",
         "link": "링크",

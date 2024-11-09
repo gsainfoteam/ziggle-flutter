@@ -105,6 +105,13 @@
     },
     "write": {
       "title": "Write Notice",
+      "pop": {
+        "title": "Quit",
+        "description": "Do you want to stop writing and exit?",
+        "save": "Save as draft and exit",
+        "withoutSave": "Exit without saving",
+        "cancel": "Continue writing"
+      },
       "link": {
         "text": "Text",
         "link": "Link",

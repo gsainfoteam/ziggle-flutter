@@ -24,6 +24,11 @@ class NoticeWriteDraftEntity with _$NoticeWriteDraftEntity {
       (!titles.empty(Language.ko)) &&
       (!bodies.empty(Language.ko)) &&
       type != null;
+  bool get hasContents =>
+      Language.values.any(
+        (lang) => !titles.empty(lang) || !bodies.empty(lang),
+      ) ||
+      images.isNotEmpty;
 }
 
 extension _LanguageContentX on Map<Language, String> {
