@@ -1,6 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+part 'language.g.dart';
+
 @HiveType(typeId: 3)
 enum Language {
   @HiveField(0)
