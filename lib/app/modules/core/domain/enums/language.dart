@@ -1,8 +1,12 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+@HiveType(typeId: 3)
 enum Language {
-  en,
-  ko;
+  @HiveField(0)
+  ko,
+  @HiveField(1)
+  en;
 
   static Language getCurrentLanguage() =>
       {
