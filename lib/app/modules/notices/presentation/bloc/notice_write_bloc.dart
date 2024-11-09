@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_draft_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
+import 'package:ziggle/app/modules/notices/domain/repositories/draft_save_repository.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/notice_repository.dart';
 
 part 'notice_write_bloc.freezed.dart';
@@ -14,8 +15,14 @@ part 'notice_write_bloc.freezed.dart';
 @injectable
 class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
   final NoticeRepository _repository;
+  final DraftSaveRepository _draftSaveRepository;
 
-  NoticeWriteBloc(this._repository) : super(const _Draft()) {
+  NoticeWriteBloc(this._repository, this._draftSaveRepository)
+      : super(const _Initial()) {
+    on<_Init>((event, emit) async {
+      final draft = await _draftSaveRepository.getDraft();
+      emit(_Draft(draft ?? NoticeWriteDraftEntity()));
+    });
     on<_SetTitle>(
       (event, emit) => emit(_Draft(state.draft.copyWith(
         titles: {...state.draft.titles, event.lang: event.title},
@@ -96,6 +103,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
               deadline: state.draft.deadline,
             );
           }
+          await _draftSaveRepository.deleteDraft();
           emit(_Done(state.draft, notice));
         }
       } catch (e) {
@@ -104,6 +112,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
     });
     on<_Save>((event, emit) async {
       emit(_Loading(state.draft));
+      await _draftSaveRepository.saveDraft(state.draft);
       emit(_Saved(state.draft));
     });
   }
@@ -111,6 +120,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
 
 @freezed
 class NoticeWriteEvent {
+  const factory NoticeWriteEvent.init() = _Init;
   const factory NoticeWriteEvent.setTitle(String title,
       [@Default(Language.ko) Language lang]) = _SetTitle;
   const factory NoticeWriteEvent.setBody(String body,
@@ -132,6 +142,9 @@ class NoticeWriteEvent {
 @freezed
 class NoticeWriteState with _$NoticeWriteState {
   const NoticeWriteState._();
+  const factory NoticeWriteState.initial(
+          [@Default(NoticeWriteDraftEntity()) NoticeWriteDraftEntity draft]) =
+      _Initial;
   const factory NoticeWriteState.draft(
           [@Default(NoticeWriteDraftEntity()) NoticeWriteDraftEntity draft]) =
       _Draft;

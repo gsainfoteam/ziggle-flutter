@@ -14,7 +14,7 @@ class NoticeWriteShellLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<NoticeWriteBloc>(),
+      create: (_) => sl<NoticeWriteBloc>()..add(NoticeWriteEvent.init()),
       child: _PopScope(),
     );
   }
