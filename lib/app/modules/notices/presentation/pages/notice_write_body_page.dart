@@ -20,6 +20,7 @@ import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository
 import 'package:ziggle/app/modules/notices/presentation/bloc/ai_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/extensions/quill.dart';
+import 'package:ziggle/app/modules/notices/presentation/functions/quill.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/editor.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/link_dialog.dart';
@@ -67,12 +68,21 @@ class _Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
-  final _koreanTitleController = TextEditingController();
-  final _koreanBodyController = QuillController.basic();
+  late final _draft = context.read<NoticeWriteBloc>().state.draft;
+  late final _koreanTitleController =
+      TextEditingController(text: _draft.titles[Language.ko] ?? '');
+  late final _koreanBodyController = QuillController(
+    document: documentFromHtml(_draft.bodies[Language.ko] ?? '<br/>'),
+    selection: const TextSelection.collapsed(offset: 0),
+  );
   final _koreanTitleFocusNode = FocusNode();
   final _koreanBodyFocusNode = FocusNode();
-  final _englishTitleController = TextEditingController();
-  final _englishBodyController = QuillController.basic();
+  late final _englishTitleController =
+      TextEditingController(text: _draft.titles[Language.en] ?? '');
+  late final _englishBodyController = QuillController(
+    document: documentFromHtml(_draft.bodies[Language.en] ?? '<br/>'),
+    selection: const TextSelection.collapsed(offset: 0),
+  );
   final _englishTitleFocusNode = FocusNode();
   final _englishBodyFocusNode = FocusNode();
   final List<File> _photos = [];
