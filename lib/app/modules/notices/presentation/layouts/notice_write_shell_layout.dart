@@ -64,7 +64,6 @@ class _PopScope extends StatelessWidget {
                   final waiter = bloc.stream.firstWhere((v) => v.hasResult);
                   bloc.add(const NoticeWriteEvent.save());
                   await waiter;
-                  AnalyticsRepository.click(AnalyticsEvent.writeSaveDraft());
                 } else {
                   AnalyticsRepository.click(
                       AnalyticsEvent.writeWithoutSaveDraft());
