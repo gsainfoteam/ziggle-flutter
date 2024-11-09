@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+part 'notice_type.g.dart';
+
+@HiveType(typeId: 4)
 enum NoticeType {
+  @HiveField(3)
   deadline,
+  @HiveField(0)
   general,
+  @HiveField(1)
   event,
+  @HiveField(2)
   recruit,
+  @HiveField(4)
   hot,
+  @HiveField(5)
   academic,
+  @HiveField(6)
   all,
+  @HiveField(7)
   written;
 
   static List<NoticeType> writable = [recruit, event, general];
