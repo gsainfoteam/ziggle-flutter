@@ -105,34 +105,45 @@ class _LayoutState extends State<_Layout> {
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: ZiggleButton.cta(
-                emphasize: false,
-                onPressed: () {
-                  context
-                      .read<GroupCreateBloc>()
-                      .add(const GroupCreateEvent.create());
-                  context.router
-                      .popUntilRouteWithName(GroupCreationProfileRoute.name);
-                  context.replaceRoute(const GroupCreationDoneRoute());
+              child: BlocBuilder<GroupCreateBloc, GroupCreateState>(
+                builder: (context, state) {
+                  return ZiggleButton.cta(
+                    emphasize: false,
+                    onPressed: () {
+                      context
+                          .read<GroupCreateBloc>()
+                          .add(const GroupCreateEvent.create());
+                      context.router.popUntilRouteWithName(
+                          GroupCreationProfileRoute.name);
+                      context.replaceRoute(const GroupCreationDoneRoute());
+                    },
+                    loading: state.isLoading,
+                    child: Text(context.t.common.skip),
+                  );
                 },
-                child: Text(context.t.common.skip),
               ),
             ),
             const SizedBox(width: 10),
             Expanded(
-              child: ZiggleButton.cta(
-                onPressed: () {
-                  context
-                      .read<GroupCreateBloc>()
-                      .add(GroupCreateEvent.setNotionPageId(_notionPageId));
-                  context
-                      .read<GroupCreateBloc>()
-                      .add(const GroupCreateEvent.create());
-                  context.router
-                      .popUntilRouteWithName(GroupCreationProfileRoute.name);
-                  context.replaceRoute(const GroupCreationDoneRoute());
+              child: BlocBuilder<GroupCreateBloc, GroupCreateState>(
+                builder: (context, state) {
+                  return ZiggleButton.cta(
+                    onPressed: () {
+                      context
+                          .read<GroupCreateBloc>()
+                          .add(GroupCreateEvent.setNotionPageId(_notionPageId));
+
+                      context
+                          .read<GroupCreateBloc>()
+                          .add(const GroupCreateEvent.create());
+                      context.router.popUntilRouteWithName(
+                          GroupCreationProfileRoute.name);
+                      context.replaceRoute(const GroupCreationDoneRoute());
+                    },
+                    loading: state.isLoading,
+                    child: Text(context.t.common.next),
+                  );
                 },
-                child: Text(context.t.common.next),
               ),
             ),
           ],

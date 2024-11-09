@@ -21,7 +21,12 @@ class GroupAuthBloc extends Bloc<GroupAuthEvent, GroupAuthState> {
     });
     on<_Login>(
       (event, emit) async {
-        await _repository.login();
+        try {
+          emit(_Loading());
+          await _repository.login();
+        } on Exception catch (e) {
+          emit(_Error(e.toString()));
+        }
       },
     );
   }
@@ -37,6 +42,7 @@ sealed class GroupAuthEvent with _$GroupAuthEvent {
 sealed class GroupAuthState with _$GroupAuthState {
   const factory GroupAuthState.initial() = _Initial;
   const factory GroupAuthState.loading() = _Loading;
+  const factory GroupAuthState.error(String error) = _Error;
   const factory GroupAuthState.unauthenticated() = _Unauthenticated;
   const factory GroupAuthState.authenticated() = _Authenticated;
 }

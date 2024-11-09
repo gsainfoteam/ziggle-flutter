@@ -61,7 +61,10 @@ class _Providers extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => sl<GroupAuthBloc>()),
+        BlocProvider(
+          lazy: false,
+          create: (_) => sl<GroupAuthBloc>()..add(GroupAuthEvent.load()),
+        ),
         BlocProvider(
           lazy: false,
           create: (_) => sl<AuthBloc>()..add(const AuthEvent.load()),

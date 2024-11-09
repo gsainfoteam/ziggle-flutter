@@ -21,14 +21,17 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
     on<_SetNotionPageId>((event, emit) =>
         emit(_Draft(state.draft.copyWith(notionPageId: event.notionPageId))));
     on<_Create>((event, emit) async {
-      print(
-          'name : ${state.draft.name}, description : ${state.draft.description}');
-      _repository.createGroup(
-        name: state.draft.name,
-        description: state.draft.description,
-        notionPageId: state.draft.notionPageId,
-      );
-      print('creation done');
+      emit(_Loading(state.draft.copyWith()));
+      try {
+        _repository.createGroup(
+          name: state.draft.name,
+          description: state.draft.description,
+          notionPageId: state.draft.notionPageId,
+        );
+        emit(_Done(state.draft.copyWith()));
+      } on Exception catch (e) {
+        emit(_Error(state.draft, e.toString()));
+      }
     });
   }
 }
@@ -36,7 +39,7 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
 @freezed
 class GroupCreateEvent with _$GroupCreateEvent {
   const factory GroupCreateEvent.setName(String name) = _SetName;
-  const factory GroupCreateEvent.setImages(File images) = _SetImages;
+  const factory GroupCreateEvent.setImage(File? images) = _SetImage;
   const factory GroupCreateEvent.setDescription(String description) =
       _SetDescription;
   const factory GroupCreateEvent.setNotionPageId(String notionPageId) =
@@ -50,4 +53,10 @@ class GroupCreateState with _$GroupCreateState {
 
   const factory GroupCreateState.draft(
       [@Default(GroupCreateEntity()) GroupCreateEntity draft]) = _Draft;
+  const factory GroupCreateState.loading(GroupCreateEntity draft) = _Loading;
+  const factory GroupCreateState.done(GroupCreateEntity draft) = _Done;
+  const factory GroupCreateState.error(GroupCreateEntity draft, String error) =
+      _Error;
+
+  bool get isLoading => this is _Loading;
 }
