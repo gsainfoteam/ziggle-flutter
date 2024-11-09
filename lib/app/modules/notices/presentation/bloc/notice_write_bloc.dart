@@ -20,8 +20,13 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
   NoticeWriteBloc(this._repository, this._draftSaveRepository)
       : super(const _Initial()) {
     on<_Init>((event, emit) async {
-      final draft = await _draftSaveRepository.getDraft();
-      emit(_Draft(draft ?? NoticeWriteDraftEntity()));
+      try {
+        final draft = await _draftSaveRepository.getDraft();
+        emit(_Draft(draft ?? NoticeWriteDraftEntity()));
+      } catch (e) {
+        emit(_Error(NoticeWriteDraftEntity(), e.toString()));
+        emit(_Draft());
+      }
     });
     on<_SetTitle>(
       (event, emit) => emit(_Draft(state.draft.copyWith(
