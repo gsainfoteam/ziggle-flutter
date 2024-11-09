@@ -24,6 +24,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
         final draft = await _draftSaveRepository.getDraft();
         emit(_Draft(draft ?? NoticeWriteDraftEntity()));
       } catch (e) {
+        await _draftSaveRepository.deleteDraft().catchError((_) {});
         emit(_Error(NoticeWriteDraftEntity(), e.toString()));
         emit(_Draft());
       }
@@ -108,7 +109,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
               deadline: state.draft.deadline,
             );
           }
-          await _draftSaveRepository.deleteDraft();
+          await _draftSaveRepository.deleteDraft().catchError((_) {});
           emit(_Done(state.draft, notice));
         }
       } catch (e) {
@@ -117,7 +118,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
     });
     on<_Save>((event, emit) async {
       emit(_Loading(state.draft));
-      await _draftSaveRepository.saveDraft(state.draft);
+      await _draftSaveRepository.saveDraft(state.draft).catchError((_) {});
       emit(_Saved(state.draft));
     });
   }
