@@ -1,7 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_quill/extensions.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:ziggle/gen/strings.g.dart';
+
+final _oneLineLinkRegExp = RegExp(
+  r'^https?:\/\/[\w\-]+(\.[\w\-]+)*(:\d+)?([\/\?#].*)?$',
+  caseSensitive: false,
+);
 
 class LinkDialog extends StatefulWidget {
   const LinkDialog({
@@ -43,9 +47,7 @@ class _LinkDialogState extends State<LinkDialog> {
         CupertinoDialogAction(
           onPressed: _text.text.isEmpty ||
                   _link.text.isEmpty ||
-                  !const AutoFormatMultipleLinksRule()
-                      .oneLineLinkRegExp
-                      .hasMatch(_link.text)
+                  !_oneLineLinkRegExp.hasMatch(_link.text)
               ? null
               : () => Navigator.pop(
                     context,
