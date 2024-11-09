@@ -26,41 +26,43 @@ class _PopScope extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NoticeWriteBloc, NoticeWriteState>(
-      builder: (context, state) => PopScope(
-        canPop: !state.draft.hasContents,
-        onPopInvokedWithResult: (didPop, result) async {
-          if (didPop) return;
-          final result = await context.showDialog<bool>(
-            title: context.t.notice.write.pop.title,
-            content: context.t.notice.write.pop.description,
-            buildActions: (context) => [
-              CupertinoDialogAction(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text(context.t.notice.write.pop.save),
-              ),
-              CupertinoDialogAction(
-                isDestructiveAction: true,
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text(context.t.notice.write.pop.withoutSave),
-              ),
-              CupertinoDialogAction(
-                textStyle: const TextStyle(color: Palette.gray),
-                onPressed: () => Navigator.of(context).pop(),
-                child: Text(context.t.notice.write.pop.cancel),
-              ),
-            ],
-          );
-          if (result == null || !context.mounted) return;
-          if (result) {
-            final bloc = context.read<NoticeWriteBloc>();
-            final waiter = bloc.stream.firstWhere((v) => v.hasResult);
-            bloc.add(const NoticeWriteEvent.save());
-            await waiter;
-          }
-          if (context.mounted) Navigator.of(context).pop();
-        },
-        child: const AutoRouter(),
-      ),
+      builder: (context, state) => state.isReady
+          ? PopScope(
+              canPop: !state.draft.hasContents,
+              onPopInvokedWithResult: (didPop, result) async {
+                if (didPop) return;
+                final result = await context.showDialog<bool>(
+                  title: context.t.notice.write.pop.title,
+                  content: context.t.notice.write.pop.description,
+                  buildActions: (context) => [
+                    CupertinoDialogAction(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: Text(context.t.notice.write.pop.save),
+                    ),
+                    CupertinoDialogAction(
+                      isDestructiveAction: true,
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text(context.t.notice.write.pop.withoutSave),
+                    ),
+                    CupertinoDialogAction(
+                      textStyle: const TextStyle(color: Palette.gray),
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: Text(context.t.notice.write.pop.cancel),
+                    ),
+                  ],
+                );
+                if (result == null || !context.mounted) return;
+                if (result) {
+                  final bloc = context.read<NoticeWriteBloc>();
+                  final waiter = bloc.stream.firstWhere((v) => v.hasResult);
+                  bloc.add(const NoticeWriteEvent.save());
+                  await waiter;
+                }
+                if (context.mounted) Navigator.of(context).pop();
+              },
+              child: const AutoRouter(),
+            )
+          : const SizedBox(),
     );
   }
 }

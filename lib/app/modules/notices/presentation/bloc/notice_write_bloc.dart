@@ -160,6 +160,7 @@ class NoticeWriteState with _$NoticeWriteState {
     String error,
   ) = _Error;
 
+  bool get isReady => this is! _Initial;
   bool get hasResult => this is _Done || this is _Error || this is _Saved;
   bool get isLoading => this is _Loading;
   bool get hasChanging =>
