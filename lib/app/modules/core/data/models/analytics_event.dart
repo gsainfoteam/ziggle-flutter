@@ -38,6 +38,9 @@ class AnalyticsEvent with _$AnalyticsEvent {
       _NoticeSendNotification;
 
   // 공지 작성 이벤트
+  const factory AnalyticsEvent.writeSaveDraft() = _WriteSaveDraft;
+  const factory AnalyticsEvent.writeWithoutSaveDraft() = _WriteWithoutSaveDraft;
+  const factory AnalyticsEvent.writeContinueWriting() = _WriteContinueWriting;
   const factory AnalyticsEvent.writeToggleLanguage(Language lang) =
       _WriteToggleLanguage;
   const factory AnalyticsEvent.writeAddPhoto() = _WriteAddPhoto;

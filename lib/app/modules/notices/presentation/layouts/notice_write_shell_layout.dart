@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
+import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
+import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -51,12 +53,21 @@ class _PopScope extends StatelessWidget {
                     ),
                   ],
                 );
-                if (result == null || !context.mounted) return;
+                if (result == null || !context.mounted) {
+                  AnalyticsRepository.click(
+                      AnalyticsEvent.writeContinueWriting());
+                  return;
+                }
                 if (result) {
+                  AnalyticsRepository.click(AnalyticsEvent.writeSaveDraft());
                   final bloc = context.read<NoticeWriteBloc>();
                   final waiter = bloc.stream.firstWhere((v) => v.hasResult);
                   bloc.add(const NoticeWriteEvent.save());
                   await waiter;
+                  AnalyticsRepository.click(AnalyticsEvent.writeSaveDraft());
+                } else {
+                  AnalyticsRepository.click(
+                      AnalyticsEvent.writeWithoutSaveDraft());
                 }
                 if (context.mounted) Navigator.of(context).pop();
               },
