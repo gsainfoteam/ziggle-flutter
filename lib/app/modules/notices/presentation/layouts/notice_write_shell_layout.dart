@@ -52,9 +52,12 @@ class _PopScope extends StatelessWidget {
           );
           if (result == null || !context.mounted) return;
           if (result) {
-            // context.read<NoticeWriteBloc>().add(const NoticeWriteEvent.save());
+            final bloc = context.read<NoticeWriteBloc>();
+            final waiter = bloc.stream.firstWhere((v) => v.hasResult);
+            bloc.add(const NoticeWriteEvent.save());
+            await waiter;
           }
-          Navigator.of(context).pop();
+          if (context.mounted) Navigator.of(context).pop();
         },
         child: const AutoRouter(),
       ),

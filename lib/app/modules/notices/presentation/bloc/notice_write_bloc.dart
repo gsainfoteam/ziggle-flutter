@@ -102,6 +102,10 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
         emit(_Error(state.draft, e.toString()));
       }
     });
+    on<_Save>((event, emit) async {
+      emit(_Loading(state.draft));
+      emit(_Saved(state.draft));
+    });
   }
 }
 
@@ -122,6 +126,7 @@ class NoticeWriteEvent {
     required Map<Language, String> contents,
   }) = _AddAdditional;
   const factory NoticeWriteEvent.publish([NoticeEntity? prevNotice]) = _Publish;
+  const factory NoticeWriteEvent.save() = _Save;
 }
 
 @freezed
@@ -136,12 +141,13 @@ class NoticeWriteState with _$NoticeWriteState {
     NoticeWriteDraftEntity draft,
     NoticeEntity notice,
   ) = _Done;
+  const factory NoticeWriteState.saved(NoticeWriteDraftEntity draft) = _Saved;
   const factory NoticeWriteState.error(
     NoticeWriteDraftEntity draft,
     String error,
   ) = _Error;
 
-  bool get hasResult => this is _Done || this is _Error;
+  bool get hasResult => this is _Done || this is _Error || this is _Saved;
   bool get isLoading => this is _Loading;
   bool get hasChanging =>
       draft.bodies.isNotEmpty || draft.additionalContent.isNotEmpty;
