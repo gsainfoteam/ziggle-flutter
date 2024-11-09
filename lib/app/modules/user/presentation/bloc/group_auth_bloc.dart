@@ -12,7 +12,13 @@ class GroupAuthBloc extends Bloc<GroupAuthEvent, GroupAuthState> {
 
   GroupAuthBloc(@Named.from(GroupsRestAuthRepository) this._repository)
       : super(const GroupAuthState.initial()) {
-    on<_Load>((event, emit) {});
+    on<_Load>((event, emit) {
+      emit(_Loading());
+      return emit.forEach(
+        _repository.isSignedIn,
+        onData: (v) => v ? const _Authenticated() : const _Unauthenticated(),
+      );
+    });
     on<_Login>(
       (event, emit) async {
         await _repository.login();
@@ -30,4 +36,7 @@ sealed class GroupAuthEvent with _$GroupAuthEvent {
 @freezed
 sealed class GroupAuthState with _$GroupAuthState {
   const factory GroupAuthState.initial() = _Initial;
+  const factory GroupAuthState.loading() = _Loading;
+  const factory GroupAuthState.unauthenticated() = _Unauthenticated;
+  const factory GroupAuthState.authenticated() = _Authenticated;
 }

@@ -7,7 +7,7 @@ part 'role_list_model.g.dart';
 @freezed
 sealed class RoleListModel with _$RoleListModel {
   factory RoleListModel(
-    List<RoleModel> roleModel,
+    List<RoleModel> roles,
   ) = _RoleListModel;
 
   factory RoleListModel.fromJson(Map<String, dynamic> json) =>

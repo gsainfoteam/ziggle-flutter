@@ -25,12 +25,26 @@ class RestGroupRepository implements GroupRepository {
     String? notionPageId,
     File? image,
   }) async {
-    final createdGroup = await _api.createGroup(CreateGroupModel(
-      name: name,
-      description: description,
-      notionPageId: notionPageId,
-    ));
-    //_api.uploadImage(createdGroup.uuid, image);
-    return createdGroup;
+    if (name.trim().isEmpty) {
+      throw ArgumentError('그룹 이름은 비워둘 수 없습니다.');
+    }
+    if (description.trim().isEmpty) {
+      throw ArgumentError('그룹 설명은 비워둘 수 없습니다.');
+    }
+    try {
+      final createdGroup = await _api.createGroup(CreateGroupModel(
+        name: name,
+        description: description,
+        notionPageId: notionPageId,
+      ));
+
+      if (image != null) {
+        // await _api.uploadImage(createdGroup.uuid, image);
+      }
+
+      return createdGroup;
+    } catch (e) {
+      throw Exception('그룹 생성 중 오류가 발생했습니다: $e');
+    }
   }
 }
