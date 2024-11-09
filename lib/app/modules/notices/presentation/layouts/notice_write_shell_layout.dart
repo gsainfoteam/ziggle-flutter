@@ -33,7 +33,7 @@ class _PopScope extends StatelessWidget {
               canPop: !state.draft.hasContents,
               onPopInvokedWithResult: (didPop, result) async {
                 if (didPop) return;
-                final result = await context.showDialog<bool>(
+                final dialogResult = await context.showDialog<bool>(
                   title: context.t.notice.write.pop.title,
                   content: context.t.notice.write.pop.description,
                   buildActions: (context) => [
@@ -53,12 +53,12 @@ class _PopScope extends StatelessWidget {
                     ),
                   ],
                 );
-                if (result == null || !context.mounted) {
+                if (dialogResult == null || !context.mounted) {
                   AnalyticsRepository.click(
                       AnalyticsEvent.writeContinueWriting());
                   return;
                 }
-                if (result) {
+                if (dialogResult) {
                   AnalyticsRepository.click(AnalyticsEvent.writeSaveDraft());
                   final bloc = context.read<NoticeWriteBloc>();
                   final waiter = bloc.stream.firstWhere((v) => v.hasResult);
