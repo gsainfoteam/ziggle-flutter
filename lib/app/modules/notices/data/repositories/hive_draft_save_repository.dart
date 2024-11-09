@@ -16,7 +16,12 @@ class HiveDraftSaveRepository implements DraftSaveRepository {
     Hive.registerAdapter(NoticeWriteDraftModelImplAdapter());
     Hive.registerAdapter(LanguageAdapter());
     Hive.registerAdapter(NoticeTypeAdapter());
-    _box = await Hive.openBox(_boxKey);
+    try {
+      _box = await Hive.openBox(_boxKey);
+    } catch (_) {
+      Hive.deleteBoxFromDisk(_boxKey);
+      _box = await Hive.openBox(_boxKey);
+    }
   }
 
   @override
