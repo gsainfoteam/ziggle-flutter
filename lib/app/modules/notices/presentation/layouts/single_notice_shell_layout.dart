@@ -21,12 +21,19 @@ class SingleNoticeShellLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => sl<NoticeBloc>()..add(NoticeEvent.load(notice)),
-      child: BlocBuilder<NoticeBloc, NoticeState>(builder: (context, state) {
-        if (state.entity == null) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return const AutoRouter();
-      }),
+      child: BlocListener<NoticeBloc, NoticeState>(
+        listener: (context, state) => state.mapOrNull(
+          error: (error) => ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(error.message)),
+          ),
+        ),
+        child: BlocBuilder<NoticeBloc, NoticeState>(builder: (context, state) {
+          if (state.entity == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return const AutoRouter();
+        }),
+      ),
     );
   }
 }
