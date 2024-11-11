@@ -76,88 +76,99 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: ZiggleAppBar.compact(
-        backLabel: context.t.common.cancel,
-        from: PageSource.noticeEditAdditional,
-        title: Text(context.t.notice.write.configTitle),
-        actions: [
-          ZiggleButton.text(
-            disabled:
-                _content.text.isEmpty || (_enContent?.text.isEmpty ?? false),
-            onPressed: () {
-              AnalyticsRepository.click(
-                  const AnalyticsEvent.noticeEditAdditionalDone());
-              if (_content.text.isEmpty ||
-                  (_enContent?.text.isEmpty ?? false)) {
-                return;
-              }
-              context.read<NoticeWriteBloc>().add(
-                    NoticeWriteEvent.addAdditional(
-                      deadline: _deadline,
-                      contents: {
-                        Language.ko: _content.text,
-                        if (_enContent != null) Language.en: _enContent.text,
-                      },
-                    ),
-                  );
-              context.maybePop();
-              AnalyticsRepository.action(
-                  const AnalyticsEvent.noticeEditAdditionalDone());
-            },
-            child: Text(
-              context.t.common.done,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+    return BlocListener<NoticeBloc, NoticeState>(
+      listener: (context, state) {
+        state.mapOrNull(
+          error: (error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(error.message)),
+            );
+          },
+        );
+      },
+      child: Scaffold(
+        appBar: ZiggleAppBar.compact(
+          backLabel: context.t.common.cancel,
+          from: PageSource.noticeEditAdditional,
+          title: Text(context.t.notice.write.configTitle),
+          actions: [
+            ZiggleButton.text(
+              disabled:
+                  _content.text.isEmpty || (_enContent?.text.isEmpty ?? false),
+              onPressed: () {
+                AnalyticsRepository.click(
+                    const AnalyticsEvent.noticeEditAdditionalDone());
+                if (_content.text.isEmpty ||
+                    (_enContent?.text.isEmpty ?? false)) {
+                  return;
+                }
+                context.read<NoticeWriteBloc>().add(
+                      NoticeWriteEvent.addAdditional(
+                        deadline: _deadline,
+                        contents: {
+                          Language.ko: _content.text,
+                          if (_enContent != null) Language.en: _enContent.text,
+                        },
+                      ),
+                    );
+                context.maybePop();
+                AnalyticsRepository.action(
+                    const AnalyticsEvent.noticeEditAdditionalDone());
+              },
+              child: Text(
+                context.t.common.done,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (_prevNotice.currentDeadline != null) _buildDeadline(),
-              if (_enContent != null) ...[
-                if (_prevNotice.currentDeadline != null)
-                  const SizedBox(height: 20),
-                LanguageToggle(
-                  onToggle: (v) {
-                    AnalyticsRepository.click(
-                      AnalyticsEvent.noticeEditAdditionalToggleLanguage(
-                          v ? Language.en : Language.ko),
-                    );
-                    _tabController.animateTo(v ? 1 : 0);
-                  },
-                  value: _tabController.index != 0,
-                ),
-              ],
-              Expanded(
-                child: TabBarView(
-                  controller: _tabController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    ZiggleInput(
-                      controller: _content,
-                      maxLines: null,
-                      showBorder: false,
-                      hintText: context.t.notice.write.bodyHint,
-                    ),
-                    if (_enContent != null)
+          ],
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 18),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (_prevNotice.currentDeadline != null) _buildDeadline(),
+                if (_enContent != null) ...[
+                  if (_prevNotice.currentDeadline != null)
+                    const SizedBox(height: 20),
+                  LanguageToggle(
+                    onToggle: (v) {
+                      AnalyticsRepository.click(
+                        AnalyticsEvent.noticeEditAdditionalToggleLanguage(
+                            v ? Language.en : Language.ko),
+                      );
+                      _tabController.animateTo(v ? 1 : 0);
+                    },
+                    value: _tabController.index != 0,
+                  ),
+                ],
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
                       ZiggleInput(
-                        controller: _enContent,
+                        controller: _content,
                         maxLines: null,
                         showBorder: false,
                         hintText: context.t.notice.write.bodyHint,
                       ),
-                  ],
+                      if (_enContent != null)
+                        ZiggleInput(
+                          controller: _enContent,
+                          maxLines: null,
+                          showBorder: false,
+                          hintText: context.t.notice.write.bodyHint,
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
