@@ -44,9 +44,20 @@ class _NoticeEditPreviewPageState extends State<NoticeEditPreviewPage>
               context.select((NoticeWriteBloc bloc) => bloc.state.draft);
           final notice =
               context.select((NoticeBloc bloc) => bloc.state.entity!);
-          return NoticeRenderer(
-            notice: notice.addDraft(draft),
-            hideAuthorSetting: true,
+          return BlocListener<NoticeBloc, NoticeState>(
+            listener: (context, state) {
+              state.mapOrNull(
+                error: (error) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(error.message)),
+                  );
+                },
+              );
+            },
+            child: NoticeRenderer(
+              notice: notice.addDraft(draft),
+              hideAuthorSetting: true,
+            ),
           );
         },
       ),
