@@ -106,7 +106,7 @@ PODS:
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
-  - flutter_smartlook (4.1.25):
+  - flutter_smartlook (4.1.24):
     - Flutter
   - flutter_web_auth_2 (3.0.0):
     - Flutter
@@ -191,11 +191,11 @@ PODS:
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
-  - quill_native_bridge_ios (0.0.1):
+  - quill_native_bridge (0.0.1):
     - Flutter
   - share_plus (0.0.1):
     - Flutter
-  - sqflite_darwin (0.0.4):
+  - sqflite (0.0.3):
     - Flutter
     - FlutterMacOS
   - uni_links (0.0.1):
@@ -222,9 +222,9 @@ DEPENDENCIES:
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
-  - quill_native_bridge_ios (from `.symlinks/plugins/quill_native_bridge_ios/ios`)
+  - quill_native_bridge (from `.symlinks/plugins/quill_native_bridge/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
-  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
+  - sqflite (from `.symlinks/plugins/sqflite/darwin`)
   - uni_links (from `.symlinks/plugins/uni_links/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
 
@@ -283,12 +283,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
-  quill_native_bridge_ios:
-    :path: ".symlinks/plugins/quill_native_bridge_ios/ios"
+  quill_native_bridge:
+    :path: ".symlinks/plugins/quill_native_bridge/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
-  sqflite_darwin:
-    :path: ".symlinks/plugins/sqflite_darwin/darwin"
+  sqflite:
+    :path: ".symlinks/plugins/sqflite/darwin"
   uni_links:
     :path: ".symlinks/plugins/uni_links/ios"
   url_launcher_ios:
@@ -317,7 +317,7 @@ SPEC CHECKSUMS:
   flutter_keyboard_visibility_temp_fork: 442dadca3b81868a225cd6a2f605bffff1215844
   flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
-  flutter_smartlook: d69a8835090a32f8a1fb96e248293c7ea2cbfb4e
+  flutter_smartlook: 2f8ffb62fb0197739e3a412ddb4e65eb67d8a237
   flutter_web_auth_2: 06d500582775790a0d4c323222fcb6d7990f9603
   GoogleAppMeasurement: 76d4f8b36b03bd8381fa9a7fe2cc7f99c0a2e93a
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
@@ -325,14 +325,14 @@ SPEC CHECKSUMS:
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
-  package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
+  package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  quill_native_bridge_ios: 277bdf5bf0fa5d7a12999556b415a5c63dd76ec4
-  share_plus: 8b6f8b3447e494cca5317c8c3073de39b3600d1f
-  sqflite_darwin: a553b1fd6fe66f53bbb0fe5b4f5bab93f08d7a13
+  quill_native_bridge: e5afa7d49c08cf68c52a5e23bc272eba6925c622
+  share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
+  sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
   uni_links: d97da20c7701486ba192624d99bffaaffcfc298a
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
 
