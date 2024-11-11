@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/authorize_interceptor.dart';
 import 'package:ziggle/app/modules/user/data/repositories/ziggle_flutter_secure_storage_token_repository.dart';
@@ -10,16 +9,4 @@ class ZiggleAuthorizeInterceptor extends AuthorizeInterceptor {
   ZiggleAuthorizeInterceptor(
     @Named.from(ZiggleFlutterSecureStorageTokenRepository) super.repository,
   );
-
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    print("Using $identifier");
-    super.onRequest(options, handler);
-  }
-
-  @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
-    print("Error in $identifier");
-    super.onError(err, handler);
-  }
 }

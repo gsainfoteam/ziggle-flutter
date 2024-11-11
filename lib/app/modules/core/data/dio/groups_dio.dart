@@ -1,5 +1,4 @@
 // ignore: implementation_imports
-import 'package:dio/dio.dart';
 import 'package:dio/src/dio/dio_for_native.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:injectable/injectable.dart';

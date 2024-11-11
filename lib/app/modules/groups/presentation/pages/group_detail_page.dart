@@ -159,7 +159,7 @@ class GroupDetailPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(child: const Text('멤버 내용입니다.')),
+                const Text('멤버 내용입니다.'),
               ],
             ),
           ),
