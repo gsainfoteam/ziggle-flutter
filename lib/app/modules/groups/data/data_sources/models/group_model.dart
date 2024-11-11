@@ -16,7 +16,7 @@ class GroupModel with _$GroupModel implements GroupEntity {
     required String presidentUuid,
     required int? memberCount,
     required DateTime? verifiedAt,
-    required bool verified,
+    required bool? verified,
     required DateTime? deletedAt,
     required String? notionPageId,
     required String? profileImageKey,
