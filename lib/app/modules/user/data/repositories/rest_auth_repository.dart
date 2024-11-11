@@ -1,18 +1,18 @@
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/base_auth_api.dart';
-import 'package:ziggle/app/modules/user/data/repositories/flutter_secure_storage_token_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/auth_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/oauth_repository.dart';
+import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
 
 abstract class RestAuthRepository implements AuthRepository {
   final BaseAuthApi _api;
-  final FlutterSecureStorageTokenRepository _tokenRepository;
+  final TokenRepository _tokenRepository;
   final CookieManager _cookieManager;
   final OAuthRepository _oAuthRepository;
 
   RestAuthRepository({
     required BaseAuthApi api,
-    required FlutterSecureStorageTokenRepository tokenRepository,
+    required TokenRepository tokenRepository,
     required CookieManager cookieManager,
     required OAuthRepository oAuthRepository,
   })  : _api = api,

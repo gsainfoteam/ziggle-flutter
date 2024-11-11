@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:ziggle/app/modules/groups/domain/entities/group_create_entity.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/group_create_draft_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
 
 part 'group_create_bloc.freezed.dart';
@@ -52,11 +52,13 @@ class GroupCreateState with _$GroupCreateState {
   const GroupCreateState._();
 
   const factory GroupCreateState.draft(
-      [@Default(GroupCreateEntity()) GroupCreateEntity draft]) = _Draft;
-  const factory GroupCreateState.loading(GroupCreateEntity draft) = _Loading;
-  const factory GroupCreateState.done(GroupCreateEntity draft) = _Done;
-  const factory GroupCreateState.error(GroupCreateEntity draft, String error) =
-      _Error;
+          [@Default(GroupCreateDraftEntity()) GroupCreateDraftEntity draft]) =
+      _Draft;
+  const factory GroupCreateState.loading(GroupCreateDraftEntity draft) =
+      _Loading;
+  const factory GroupCreateState.done(GroupCreateDraftEntity draft) = _Done;
+  const factory GroupCreateState.error(
+      GroupCreateDraftEntity draft, String error) = _Error;
 
   bool get isLoading => this is _Loading;
 }
