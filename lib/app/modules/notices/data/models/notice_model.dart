@@ -36,7 +36,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     @Default(false) bool isReminded,
     required NoticeCategory category,
     String? groupName,
-    DateTime? publishedAt,
+    required DateTime publishedAt,
   }) = _NoticeModel;
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>

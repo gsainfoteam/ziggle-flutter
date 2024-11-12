@@ -28,7 +28,7 @@ class NoticeEntity {
   final List<ImageProvider> images;
   final List<String> documentUrls;
   final bool isReminded;
-  final DateTime? publishedAt;
+  final DateTime publishedAt;
   final String? groupName;
   final NoticeCategory category;
 
@@ -71,7 +71,7 @@ class NoticeEntity {
         documentUrls: [],
         author: AuthorEntity(name: '', uuid: ''),
         isReminded: false,
-        publishedAt: null,
+        publishedAt: DateTime.now(),
         groupName: null,
         category: NoticeCategory.etc,
       );
@@ -105,7 +105,7 @@ class NoticeEntity {
             imageUrls.map((url) => CachedNetworkImageProvider(url)).toList(),
         documentUrls: [],
         isReminded: isReminded,
-        publishedAt: null,
+        publishedAt: DateTime.now(),
         groupName: null,
         category: category,
       );
@@ -130,7 +130,7 @@ class NoticeEntity {
         images: draft.images.map((file) => FileImage(file)).toList(),
         documentUrls: [],
         isReminded: false,
-        publishedAt: null,
+        publishedAt: DateTime.now(),
         groupName: null,
         category: NoticeCategory.fromType(draft.type!)!,
       );
@@ -208,8 +208,7 @@ extension NoticeEntityExtension on NoticeEntity {
     return copyWith(reactions: reactions);
   }
 
-  bool get isPublished =>
-      publishedAt != null && publishedAt!.isBefore(DateTime.now());
+  bool get isPublished => publishedAt.isBefore(DateTime.now());
   NoticeEntity addDraft(NoticeWriteDraftEntity draft) => NoticeEntity(
         id: id,
         views: views,
