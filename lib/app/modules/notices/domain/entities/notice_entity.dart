@@ -137,15 +137,12 @@ class NoticeEntity {
 }
 
 extension NoticeEntityExtension on NoticeEntity {
-  static const maxTimeToEdit = Duration(minutes: 15);
-
   int reactionsBy(NoticeReaction reaction) =>
       reactions.firstWhereOrNull((e) => e.emoji == reaction.emoji)?.count ?? 0;
   int get likes => reactionsBy(NoticeReaction.like);
   bool reacted(NoticeReaction reaction) =>
       reactions.firstWhereOrNull((e) => e.emoji == reaction.emoji)?.isReacted ??
       false;
-  bool get canEdit => DateTime.now().difference(createdAt) < maxTimeToEdit;
   bool get canRemind {
     if (currentDeadline == null) return false;
     if (currentDeadline!.toLocal().isBefore(DateTime.now())) return false;

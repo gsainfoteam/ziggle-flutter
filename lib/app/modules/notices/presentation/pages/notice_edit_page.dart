@@ -81,8 +81,7 @@ class _NoticeEditPageState extends State<NoticeEditPage>
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 EditDeadline(
-                  deadline:
-                      state.entity!.createdAt.add(const Duration(minutes: 15)),
+                  deadline: state.entity!.publishedAt,
                   alreadyPassed: state.entity!.isPublished,
                 ),
                 const SizedBox(height: 25),

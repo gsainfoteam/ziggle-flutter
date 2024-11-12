@@ -218,10 +218,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(18, 16, 18, 6),
-              child: EditDeadline(
-                deadline:
-                    _prevNotice.createdAt.add(const Duration(minutes: 15)),
-              ),
+              child: EditDeadline(deadline: _prevNotice.publishedAt),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
