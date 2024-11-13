@@ -66,27 +66,29 @@ class GroupManagementPage extends StatelessWidget {
               const SizedBox(height: 48),
               ZiggleRowButton(
                 title: const Text('그룹명 변경'),
-                onPressed: () => GroupManagementRoute().push,
+                onPressed: () => GroupManagementNameRoute().push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
                 title: const Text('그룹 간단 소개 변경'),
-                onPressed: () {},
+                onPressed: () =>
+                    GroupManagementDescriptionRoute().push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
                 title: const Text('노션 페이지 링크 변경'),
-                onPressed: () {},
+                onPressed: () => GroupManagementNotionRoute().push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
                 title: const Text('초대 링크 생성'),
-                onPressed: () {},
+                onPressed: () =>
+                    GroupManagementInvitatoinLinkRoute().push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
                 title: const Text('멤버 관리'),
-                onPressed: () {},
+                onPressed: () => GroupManagementMemberRoute().push(context),
               ),
               const SizedBox(height: 40),
               ZiggleRowButton(

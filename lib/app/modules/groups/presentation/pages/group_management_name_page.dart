@@ -7,8 +7,8 @@ import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/values/palette.dart';
 
 @RoutePage()
-class GroupManagementChangeNamePage extends StatelessWidget {
-  const GroupManagementChangeNamePage({super.key});
+class GroupManagementNamePage extends StatelessWidget {
+  const GroupManagementNamePage({super.key});
 
   @override
   Widget build(BuildContext context) {

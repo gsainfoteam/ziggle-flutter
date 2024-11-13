@@ -93,6 +93,30 @@ class AppRouter extends RootStackRouter {
       ),
       AutoRoute(path: '/search', page: SearchRoute.page),
       AutoRoute(
+        path: '/group/manage',
+        page: GroupManagementRoute.page,
+      ),
+      AutoRoute(
+        path: '/group/manage/name',
+        page: GroupManagementNameRoute.page,
+      ),
+      AutoRoute(
+        path: '/group/manage/description',
+        page: GroupManagementDescriptionRoute.page,
+      ),
+      AutoRoute(
+        path: '/group/manage/notion',
+        page: GroupManagementNotionRoute.page,
+      ),
+      AutoRoute(
+        path: '/group/manage/member',
+        page: GroupManagementMemberRoute.page,
+      ),
+      AutoRoute(
+        path: '/group/manage/invitation',
+        page: GroupManagementInvitatoinLinkRoute.page,
+      ),
+      AutoRoute(
         path: '/group/create',
         page: GroupCreationShellRoute.page,
         children: [
