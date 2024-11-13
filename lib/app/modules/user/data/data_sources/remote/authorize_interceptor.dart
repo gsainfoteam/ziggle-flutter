@@ -27,8 +27,32 @@ abstract class AuthorizeInterceptor extends Interceptor {
       mutex.release();
     }
   }
+
+  Dio getDio();
+
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) async {
+    final dio = getDio();
+    final statusCode = err.response?.statusCode;
+    if (statusCode != 401) return handler.next(err);
+    final token = await repository.token.first;
+    if (token == null) return handler.next(err);
+    if (err.requestOptions.retried) return handler.next(err);
+    err.requestOptions.retried = true;
+
+    try {
+      if (!(await refresh())) return handler.next(err);
+      final retriedResponse = await dio.fetch(err.requestOptions);
+      return handler.resolve(retriedResponse);
+    } on DioException {
+      return super.onError(err, handler);
+    }
+  }
+
+  Future<bool> refresh();
 }
 
 extension _RequestOptionsX on RequestOptions {
   bool get retried => extra.containsKey(AuthorizeInterceptor.retriedKey);
+  set retried(bool value) => extra[AuthorizeInterceptor.retriedKey] = value;
 }

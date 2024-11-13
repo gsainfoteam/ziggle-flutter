@@ -15,25 +15,12 @@ class ZiggleAuthorizeInterceptor extends AuthorizeInterceptor {
   );
 
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) async {
-    final dio = sl<ZiggleDio>();
-    final statusCode = err.response?.statusCode;
-    if (statusCode != 401) return handler.next(err);
-    final token = await repository.token.first;
-    if (token == null) return handler.next(err);
-    if (err.requestOptions.retried) return handler.next(err);
-    err.requestOptions.retried = true;
-
-    try {
-      if (!(await _refresh())) return handler.next(err);
-      final retriedResponse = await dio.fetch(err.requestOptions);
-      return handler.resolve(retriedResponse);
-    } on DioException {
-      return super.onError(err, handler);
-    }
+  Dio getDio() {
+    return sl<ZiggleDio>();
   }
 
-  Future<bool> _refresh() async {
+  @override
+  Future<bool> refresh() async {
     if (mutex.isWriteLocked) {
       await mutex.acquireRead();
       mutex.release();
@@ -52,9 +39,4 @@ class ZiggleAuthorizeInterceptor extends AuthorizeInterceptor {
       mutex.release();
     }
   }
-}
-
-extension _RequestOptionsX on RequestOptions {
-  bool get retried => extra.containsKey(AuthorizeInterceptor.retriedKey);
-  set retried(bool value) => extra[AuthorizeInterceptor.retriedKey] = value;
 }
