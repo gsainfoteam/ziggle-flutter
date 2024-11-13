@@ -85,7 +85,18 @@ class _Layout extends StatelessWidget {
                   ],
                 ),
               ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40),
+            if (authenticated) ...[
+              ZiggleRowButton(
+                icon: Assets.icons.colorFilter.svg(),
+                title: Text(context.t.user.groups),
+                onPressed: () {
+                  AnalyticsRepository.click(AnalyticsEvent.profileGroup());
+                  GroupManagementMainRoute().push(context);
+                },
+              ),
+              const SizedBox(height: 20),
+            ],
             ZiggleRowButton(
               leadingIcon: Assets.icons.setting.svg(),
               title: Text(context.t.user.setting.title),
