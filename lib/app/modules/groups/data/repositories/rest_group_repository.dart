@@ -24,23 +24,11 @@ class RestGroupRepository implements GroupRepository {
     String? notionPageId,
     File? image,
   }) async {
-    if (name.trim().isEmpty) {
-      throw ArgumentError('Group name can' ' be empty');
-    }
-    try {
-      final createdGroup = await _api.createGroup(CreateGroupModel(
-        name: name,
-        description: description,
-        notionPageId: notionPageId,
-      ));
-
-      if (image != null) {
-        // await _api.uploadImage(createdGroup.uuid, image);
-      }
-
-      return createdGroup;
-    } catch (e) {
-      throw Exception(e);
-    }
+    final createdGroup = await _api.createGroup(CreateGroupModel(
+      name: name,
+      description: description,
+      notionPageId: notionPageId,
+    ));
+    return createdGroup;
   }
 }
