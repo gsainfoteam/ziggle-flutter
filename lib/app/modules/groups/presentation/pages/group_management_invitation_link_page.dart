@@ -9,16 +9,16 @@ import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class GroupManagementInvitatoinLinkPage extends StatefulWidget {
-  const GroupManagementInvitatoinLinkPage({super.key});
+class GroupManagementInvitationLinkPage extends StatefulWidget {
+  const GroupManagementInvitationLinkPage({super.key});
 
   @override
-  State<GroupManagementInvitatoinLinkPage> createState() =>
-      _GroupManagementInvitatoinLinkPageState();
+  State<GroupManagementInvitationLinkPage> createState() =>
+      _GroupManagementInvitationLinkPageState();
 }
 
-class _GroupManagementInvitatoinLinkPageState
-    extends State<GroupManagementInvitatoinLinkPage> {
+class _GroupManagementInvitationLinkPageState
+    extends State<GroupManagementInvitationLinkPage> {
   int? _duration;
 
   @override
