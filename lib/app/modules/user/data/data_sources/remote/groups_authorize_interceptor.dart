@@ -19,8 +19,8 @@ class GroupsAuthorizeInterceptor extends AuthorizeInterceptor {
   }
 
   @override
-  Future<bool> refresh() {
-    // TODO: implement refresh
-    throw UnimplementedError();
+  Future<bool> refresh() async {
+    await repository.deleteToken();
+    return false;
   }
 }
