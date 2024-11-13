@@ -63,6 +63,11 @@
       "noGroup": "속한 그룹이 없습니다.",
       "contact": "특정 그룹에 속하길 바라신다면, 해당 그룹의 관리자에게 문의해주세요."
     },
+    "manage": {
+      "header": "그룹 관리",
+      "back": "돌아가기",
+      "change": "변경"
+    },
     "memberCard": {
       "role": {
         "role": "역할",
@@ -251,6 +256,8 @@
       "description": "공지를 작성하고, 반응을 남기려면 로그인해주세요.",
       "action": "로그인하기"
     },
+    "groups": "그룹",
+    "myGroups": "내가 속한 그룹들",
     "setting": {
       "title": "설정",
       "notification": {

@@ -63,6 +63,11 @@
       "noGroup": "所属しているグループはありません。",
       "contact": "特定のグループに参加したい場合は、そのグループの管理者に連絡してください。"
     },
+    "manage": {
+      "header": "グループ管理",
+      "back": "戻る",
+      "change": "変更"
+    },
     "memberCard": {
       "role": {
         "role": "役割",
@@ -251,6 +256,8 @@
       "description": "お知らせを作成し、リアクションを残すにはログインしてください。",
       "action": "ログイン"
     },
+    "groups": "グループ",
+    "myGroups": "マイグループ",
     "setting": {
       "title": "設定",
       "notification": {
