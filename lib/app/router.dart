@@ -114,7 +114,7 @@ class AppRouter extends RootStackRouter {
       ),
       AutoRoute(
         path: '/group/manage/invitation',
-        page: GroupManagementInvitatoinLinkRoute.page,
+        page: GroupManagementInvitationLinkRoute.page,
       ),
       AutoRoute(
         path: '/group/create',
