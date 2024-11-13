@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
@@ -47,11 +48,7 @@ class _NoticeEditPreviewPageState extends State<NoticeEditPreviewPage>
           return BlocListener<NoticeBloc, NoticeState>(
             listener: (context, state) {
               state.mapOrNull(
-                error: (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(error.message)),
-                  );
-                },
+                error: (error) => context.showToast(error.message),
               );
             },
             child: NoticeRenderer(

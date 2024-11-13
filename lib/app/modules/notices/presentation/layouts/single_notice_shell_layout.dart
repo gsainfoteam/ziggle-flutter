@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 
@@ -23,9 +24,7 @@ class SingleNoticeShellLayout extends StatelessWidget {
       create: (_) => sl<NoticeBloc>()..add(NoticeEvent.load(notice)),
       child: BlocListener<NoticeBloc, NoticeState>(
         listener: (context, state) => state.mapOrNull(
-          error: (error) => ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(error.message)),
-          ),
+          error: (error) => context.showToast(error.message),
         ),
         child: BlocBuilder<NoticeBloc, NoticeState>(builder: (context, state) {
           if (state.entity == null) {
