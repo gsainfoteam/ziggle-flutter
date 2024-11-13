@@ -83,7 +83,7 @@ class GroupManagementPage extends StatelessWidget {
               ZiggleRowButton(
                 title: const Text('초대 링크 생성'),
                 onPressed: () =>
-                    GroupManagementInvitatoinLinkRoute().push(context),
+                    GroupManagementInvitationLinkRoute().push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
