@@ -6,17 +6,27 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_select.dar
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class GroupManagementInvitatoinLinkPage extends StatelessWidget {
+class GroupManagementInvitatoinLinkPage extends StatefulWidget {
   const GroupManagementInvitatoinLinkPage({super.key});
+
+  @override
+  State<GroupManagementInvitatoinLinkPage> createState() =>
+      _GroupManagementInvitatoinLinkPageState();
+}
+
+class _GroupManagementInvitatoinLinkPageState
+    extends State<GroupManagementInvitatoinLinkPage> {
+  int? _duration;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         from: PageSource.groupManagement,
-        backLabel: '그룹 관리',
+        backLabel: context.t.group.manage.header,
         title: const Text('초대 링크 생성'),
       ),
       body: Padding(
@@ -41,27 +51,32 @@ class GroupManagementInvitatoinLinkPage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  // ZiggleSelect(
-                  //   hintText: '만료 기간 선택',
-                  //   entries: [
-                  //     ZiggleSelectEntry(label: '1일', value: '1일'),
-                  //     ZiggleSelectEntry(label: '3일', value: '3일'),
-                  //     ZiggleSelectEntry(label: '1주일', value: '1주일'),
-                  //   ],
-                  // )
+                  ZiggleSelect(
+                    value: _duration,
+                    onChanged: (v) => setState(() => _duration = v),
+                    hintText: context.t.group.creation.done.invite.selectExpire,
+                    entries: [
+                      ZiggleSelectEntry(
+                        value: 1,
+                        label: context.t.common.duration.day(n: 1),
+                      ),
+                      ZiggleSelectEntry(
+                        value: 3,
+                        label: context.t.common.duration.day(n: 3),
+                      ),
+                      ZiggleSelectEntry(
+                        value: 7,
+                        label: context.t.common.duration.week(n: 1),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
             const SizedBox(height: 30),
             ZiggleButton.cta(
-              child: const Text(
-                '돌아가기',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onPressed: () {},
+              child: Text(context.t.group.manage.change),
+              onPressed: () => context.maybePop(),
             ),
           ],
         ),

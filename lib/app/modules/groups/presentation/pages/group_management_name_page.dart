@@ -5,6 +5,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
 class GroupManagementNamePage extends StatelessWidget {
@@ -15,7 +16,7 @@ class GroupManagementNamePage extends StatelessWidget {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         from: PageSource.setting,
-        backLabel: '그룹 관리',
+        backLabel: context.t.group.manage.header,
         title: const Text('그룹명 변경'),
       ),
       body: Padding(
@@ -37,7 +38,7 @@ class GroupManagementNamePage extends StatelessWidget {
             const ZiggleInput(hintText: '현재 그룹 이름'),
             const SizedBox(height: 30),
             ZiggleButton.cta(
-              child: const Text('변경'),
+              child: Text(context.t.group.manage.change),
             )
           ],
         ),
