@@ -295,9 +295,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
             const AnalyticsEvent.noticeEditBodyUseAiTranslation());
         return _englishBodyController.html = result.body;
       },
-      error: (error) {
-        context.showToast(error.message);
-      },
+      error: (error) => context.showToast(error.message),
     );
   }
 

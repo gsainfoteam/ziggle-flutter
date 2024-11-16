@@ -338,9 +338,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     final result = await blocker;
     result.mapOrNull(
       loaded: (result) => _englishBodyController.html = result.body,
-      error: (error) {
-        context.showToast(error.message);
-      },
+      error: (error) => context.showToast(error.message),
     );
   }
 
