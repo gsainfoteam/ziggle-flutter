@@ -329,16 +329,25 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
   }
 
   Future<void> _translate() async {
-    final bloc = context.read<AiBloc>();
-    final blocker = bloc.stream.firstWhere((s) => s.hasResult);
-    bloc.add(AiEvent.request(
-      body: _koreanBodyController.html,
-      lang: Language.en,
-    ));
-    final result = await blocker;
-    result.mapOrNull(
-      loaded: (result) => _englishBodyController.html = result.body,
-    );
+    try {
+      final bloc = context.read<AiBloc>();
+      final blocker = bloc.stream.firstWhere((s) => s.hasResult);
+      bloc.add(AiEvent.request(
+        body: _koreanBodyController.html,
+        lang: Language.en,
+      ));
+      final result = await blocker;
+      result.mapOrNull(
+        loaded: (result) => _englishBodyController.html = result.body,
+        error: (error) {
+          context.showToast(error.message);
+        },
+      );
+    } catch (e) {
+      if (mounted) {
+        context.showToast(e.toString());
+      }
+    }
   }
 
   List<ButtonBuilder> _buildToolbarButtons(QuillController controller) {
