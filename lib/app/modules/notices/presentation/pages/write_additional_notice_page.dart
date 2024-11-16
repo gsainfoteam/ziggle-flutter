@@ -93,8 +93,6 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
               disabled:
                   _content.text.isEmpty || (_enContent?.text.isEmpty ?? false),
               onPressed: () {
-                AnalyticsRepository.click(
-                    const AnalyticsEvent.noticeEditAdditionalDone());
                 if (_content.text.isEmpty ||
                     (_enContent?.text.isEmpty ?? false)) {
                   return;
