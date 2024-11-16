@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/date_time.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
@@ -39,7 +40,12 @@ class _SearchPageState extends State<SearchPage>
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => sl<NoticeListBloc>(),
-      child: const _Layout(),
+      child: BlocListener<NoticeListBloc, NoticeListState>(
+        listener: (context, state) => state.mapOrNull(
+          error: (error) => context.showToast(error.message),
+        ),
+        child: const _Layout(),
+      ),
     );
   }
 }

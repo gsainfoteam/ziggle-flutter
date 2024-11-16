@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
@@ -43,8 +44,13 @@ class _ListPageState extends State<ListPage>
       body: BlocProvider(
         create: (_) =>
             sl<NoticeListBloc>()..add(NoticeListEvent.load(widget.type)),
-        child: ListLayout(
-          noticeType: widget.type,
+        child: BlocListener<NoticeListBloc, NoticeListState>(
+          listener: (context, state) => state.mapOrNull(
+            error: (error) => context.showToast(error.message),
+          ),
+          child: ListLayout(
+            noticeType: widget.type,
+          ),
         ),
       ),
     );

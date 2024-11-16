@@ -56,8 +56,13 @@ class _FeedPageState extends State<FeedPage>
       body: BlocProvider(
         create: (_) => sl<NoticeListBloc>()
           ..add(const NoticeListEvent.load(NoticeType.all)),
-        child: const ListLayout(
-          noticeType: NoticeType.all,
+        child: BlocListener<NoticeListBloc, NoticeListState>(
+          listener: (context, state) => state.mapOrNull(
+            error: (error) => context.showToast(error.message),
+          ),
+          child: const ListLayout(
+            noticeType: NoticeType.all,
+          ),
         ),
       ),
     );

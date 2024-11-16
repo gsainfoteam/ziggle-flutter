@@ -142,7 +142,7 @@ sealed class NoticeListState with _$NoticeListState {
   const factory NoticeListState.loading(
       [@Default([]) List<NoticeEntity> notices]) = _Loading;
   const factory NoticeListState.loaded(List<NoticeEntity> notices) = _Loaded;
-  const factory NoticeListState.error(String error,
+  const factory NoticeListState.error(String message,
       [@Default([]) List<NoticeEntity> notices]) = _Error;
 
   bool get isLoading => this is _Loading;
