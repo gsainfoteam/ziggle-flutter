@@ -69,6 +69,7 @@ class _InnerState extends State<_Inner> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      physics: AlwaysScrollableScrollPhysics(),
       controller: widget.controller,
       slivers: widget.slivers,
     );
