@@ -39,13 +39,13 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
     }, transformer: makeEventThrottler());
     on<_Refresh>((event, emit) async {
       try {
-        emit(const _Loading());
+        emit(_Loading(state.notices));
         final notices =
             await _repository.getNotices(type: _type, search: query);
         total = notices.total;
         emit(_Loaded(notices.list));
       } catch (e) {
-        emit(NoticeListState.error(e.toString()));
+        emit(NoticeListState.error(e.toString(), state.notices));
       }
     });
     on<_LoadMore>((event, emit) async {
