@@ -34,7 +34,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           emit(const _Initial());
         }
       } catch (e) {
-        emit(NoticeListState.error(e.toString()));
+        emit(NoticeListState.error(e.toString(), state.notices));
       }
     }, transformer: makeEventThrottler());
     on<_Refresh>((event, emit) async {
@@ -61,7 +61,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
         total = notices.total;
         emit(_Loaded([...state.notices, ...notices.list]));
       } catch (e) {
-        emit(NoticeListState.error(e.toString()));
+        emit(NoticeListState.error(e.toString(), state.notices));
       }
     });
     on<_AddLike>((event, emit) async {
@@ -78,7 +78,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
         notices[index] = notices[index].copyWith(reactions: result.reactions);
         emit(_Loaded(notices));
       } catch (e) {
-        emit(NoticeListState.error(e.toString()));
+        emit(NoticeListState.error(e.toString(), state.notices));
       }
     });
     on<_RemoveLike>((event, emit) async {
@@ -95,7 +95,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
         notices[index] = notices[index].copyWith(reactions: result.reactions);
         emit(_Loaded(notices));
       } catch (e) {
-        emit(NoticeListState.error(e.toString()));
+        emit(NoticeListState.error(e.toString(), state.notices));
       }
     });
   }
