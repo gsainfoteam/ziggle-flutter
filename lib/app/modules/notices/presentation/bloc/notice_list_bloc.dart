@@ -20,62 +20,83 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
 
   NoticeListBloc(this._repository) : super(const _Initial()) {
     on<_SearchEvent>((event, emit) async {
-      if (event is _Load) {
+      try {
+        if (event is _Load) {
+          emit(const _Loading());
+          _type = event.type;
+          query = event.query;
+          final notices =
+              await _repository.getNotices(type: _type, search: query);
+          total = notices.total;
+          emit(_Loaded(notices.list));
+        } else if (event is _Reset) {
+          query = null;
+          emit(const _Initial());
+        }
+      } catch (e) {
+        emit(NoticeListState.error(e.toString()));
+      }
+    }, transformer: makeEventThrottler());
+    on<_Refresh>((event, emit) async {
+      try {
         emit(const _Loading());
-        _type = event.type;
-        query = event.query;
         final notices =
             await _repository.getNotices(type: _type, search: query);
         total = notices.total;
         emit(_Loaded(notices.list));
-      } else if (event is _Reset) {
-        query = null;
-        emit(const _Initial());
+      } catch (e) {
+        emit(NoticeListState.error(e.toString()));
       }
-    }, transformer: makeEventThrottler());
-    on<_Refresh>((event, emit) async {
-      emit(const _Loading());
-      final notices = await _repository.getNotices(type: _type, search: query);
-      total = notices.total;
-      emit(_Loaded(notices.list));
     });
     on<_LoadMore>((event, emit) async {
       if (state is! _Loaded) return;
-      if (state.notices.length >= total) return;
-      emit(_Loading(state.notices));
-      final notices = await _repository.getNotices(
-        type: _type,
-        offset: state.notices.length,
-        search: query,
-      );
-      total = notices.total;
-      emit(_Loaded([...state.notices, ...notices.list]));
+      try {
+        if (state.notices.length >= total) return;
+        emit(_Loading(state.notices));
+        final notices = await _repository.getNotices(
+          type: _type,
+          offset: state.notices.length,
+          search: query,
+        );
+        total = notices.total;
+        emit(_Loaded([...state.notices, ...notices.list]));
+      } catch (e) {
+        emit(NoticeListState.error(e.toString()));
+      }
     });
     on<_AddLike>((event, emit) async {
       if (state is! _Loaded) return;
-      final notice = event.notice;
-      final index = state.notices.indexWhere((n) => n.id == notice.id);
-      if (index == -1) return;
-      final notices = List<NoticeEntity>.from(state.notices);
-      notices[index] = notice.addReaction(NoticeReaction.like);
-      emit(_Loaded(notices));
-      final result =
-          await _repository.addReaction(notice.id, NoticeReaction.like.emoji);
-      notices[index] = notices[index].copyWith(reactions: result.reactions);
-      emit(_Loaded(notices));
+      try {
+        final notice = event.notice;
+        final index = state.notices.indexWhere((n) => n.id == notice.id);
+        if (index == -1) return;
+        final notices = List<NoticeEntity>.from(state.notices);
+        notices[index] = notice.addReaction(NoticeReaction.like);
+        emit(_Loaded(notices));
+        final result =
+            await _repository.addReaction(notice.id, NoticeReaction.like.emoji);
+        notices[index] = notices[index].copyWith(reactions: result.reactions);
+        emit(_Loaded(notices));
+      } catch (e) {
+        emit(NoticeListState.error(e.toString()));
+      }
     });
     on<_RemoveLike>((event, emit) async {
       if (state is! _Loaded) return;
-      final notice = event.notice;
-      final index = state.notices.indexWhere((n) => n.id == notice.id);
-      if (index == -1) return;
-      final notices = List<NoticeEntity>.from(state.notices);
-      notices[index] = notice.removeReaction(NoticeReaction.like);
-      emit(_Loaded(notices));
-      final result = await _repository.removeReaction(
-          notice.id, NoticeReaction.like.emoji);
-      notices[index] = notices[index].copyWith(reactions: result.reactions);
-      emit(_Loaded(notices));
+      try {
+        final notice = event.notice;
+        final index = state.notices.indexWhere((n) => n.id == notice.id);
+        if (index == -1) return;
+        final notices = List<NoticeEntity>.from(state.notices);
+        notices[index] = notice.removeReaction(NoticeReaction.like);
+        emit(_Loaded(notices));
+        final result = await _repository.removeReaction(
+            notice.id, NoticeReaction.like.emoji);
+        notices[index] = notices[index].copyWith(reactions: result.reactions);
+        emit(_Loaded(notices));
+      } catch (e) {
+        emit(NoticeListState.error(e.toString()));
+      }
     });
   }
 
