@@ -104,6 +104,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                         ),
                         child: AnimatedSize(
                           duration: const Duration(milliseconds: 100),
+                          curve: Curves.easeOut,
                           child: AnimatedDefaultTextStyle(
                             duration: const Duration(milliseconds: 100),
                             style: DefaultTextStyle.of(context)
