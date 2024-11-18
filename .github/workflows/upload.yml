@@ -82,7 +82,7 @@ jobs:
           key: cocoapods-${{ hashFiles('ios/Podfile.lock') }}
 
       - name: Copy dotenv
-        run: echo '${{ secrets.DOTENV }}' > .env
+        run: echo '${{ vars.DOTENV }}' > .env
 
       - name: Generate files
         run: |
