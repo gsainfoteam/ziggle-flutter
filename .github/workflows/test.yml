@@ -68,8 +68,8 @@ jobs:
       - uses: subosito/flutter-action@v2
         if: env.run == 'true'
         with:
-          flutter-version: '3.24.5'
-          channel: 'stable'
+          flutter-version: "3.24.5"
+          channel: "stable"
           cache: true
       - uses: actions/cache@v4
         if: env.run == 'true'
@@ -91,19 +91,22 @@ jobs:
       - uses: actions/setup-java@v4
         if: env.run == 'true' && matrix.os == 'Android'
         with:
-          java-version: '17'
-          distribution: 'adopt'
+          java-version: "17"
+          distribution: "adopt"
 
       - uses: ruby/setup-ruby@v1
         if: env.run == 'true'
         with:
-          ruby-version: '3.2.0'
+          ruby-version: "3.2.0"
           bundler-cache: true
           working-directory: ${{ env.directory }}
 
       - name: Copy dotenv
         if: env.run == 'true'
-        run: echo '${{ vars.DOTENV }}' > .env
+        run: |
+          echo '${{ vars.DOTENV }}' > .env
+          echo "AMPLITUDE_API_KEY=${{ secrets.AMPLITUDE_API_KEY }}" >> .env
+          echo "SMARTLOOK_API_KEY=${{ secrets.SMARTLOOK_API_KEY }}" >> .env
 
       - name: Generate files
         if: env.run == 'true'

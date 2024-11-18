@@ -51,19 +51,19 @@ jobs:
       - uses: actions/setup-java@v4
         if: matrix.os == 'Android'
         with:
-          java-version: '17'
-          distribution: 'adopt'
+          java-version: "17"
+          distribution: "adopt"
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2.0'
+          ruby-version: "3.2.0"
           bundler-cache: true
           working-directory: ${{ env.directory }}
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.5'
-          channel: 'stable'
+          flutter-version: "3.24.5"
+          channel: "stable"
           cache: true
       - uses: actions/cache@v4
         with:
@@ -82,7 +82,10 @@ jobs:
           key: cocoapods-${{ hashFiles('ios/Podfile.lock') }}
 
       - name: Copy dotenv
-        run: echo '${{ vars.DOTENV }}' > .env
+        run: |
+          echo '${{ vars.DOTENV }}' > .env
+          echo "AMPLITUDE_API_KEY=${{ secrets.AMPLITUDE_API_KEY }}" >> .env
+          echo "SMARTLOOK_API_KEY=${{ secrets.SMARTLOOK_API_KEY }}" >> .env
 
       - name: Generate files
         run: |
@@ -107,7 +110,7 @@ jobs:
           status: ${{ job.status }}
           author_name: Github Action Build
           mention: ${{ secrets.SLACK_MENTION }}
-          if_mention: 'failure,cancelled'
+          if_mention: "failure,cancelled"
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
