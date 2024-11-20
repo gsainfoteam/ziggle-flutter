@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -8,7 +9,7 @@ part 'group_management_main_bloc.freezed.dart';
 
 @injectable
 class GroupManagementMainBloc
-    extends Bloc<GroupManagementMainBlocEvent, GroupManagementMainBlocState> {
+    extends Bloc<GroupManagementMainEvent, GroupManagementMainState> {
   final GroupRepository _repository;
 
   GroupManagementMainBloc(this._repository) : super(_Initial()) {
@@ -21,20 +22,40 @@ class GroupManagementMainBloc
         emit(_Error(e.toString()));
       }
     });
+    on<_Refresh>((event, emit) async {
+      emit(_Loading());
+      try {
+        final groups = await _repository.getGroups();
+        emit(_Loaded(groups));
+      } on Exception catch (e) {
+        emit(_Error(e.toString()));
+      }
+    });
+  }
+  static Future<void> refresh(BuildContext context) async {
+    final bloc = context.read<GroupManagementMainBloc>();
+    final blocker = bloc.stream.firstWhere((state) => !state.isLoading);
+    bloc.add(_Refresh());
+    await blocker;
   }
 }
 
 @freezed
-class GroupManagementMainBlocEvent with _$GroupManagementMainBlocEvent {
-  const factory GroupManagementMainBlocEvent.started() = _Started;
-  const factory GroupManagementMainBlocEvent.load() = _Load;
+class GroupManagementMainEvent with _$GroupManagementMainEvent {
+  const factory GroupManagementMainEvent.load() = _Load;
+  const factory GroupManagementMainEvent.refresh() = _Refresh;
 }
 
 @freezed
-class GroupManagementMainBlocState with _$GroupManagementMainBlocState {
-  const factory GroupManagementMainBlocState.initial() = _Initial;
-  const factory GroupManagementMainBlocState.loading() = _Loading;
-  const factory GroupManagementMainBlocState.loaded(GroupListEntity groups) =
+class GroupManagementMainState with _$GroupManagementMainState {
+  const GroupManagementMainState._();
+
+  const factory GroupManagementMainState.initial() = _Initial;
+  const factory GroupManagementMainState.loading() = _Loading;
+  const factory GroupManagementMainState.loaded(GroupListEntity groups) =
       _Loaded;
-  const factory GroupManagementMainBlocState.error(String message) = _Error;
+  const factory GroupManagementMainState.error(String message) = _Error;
+
+  GroupListEntity? get groups => mapOrNull(loaded: (e) => e.groups);
+  bool get isLoading => this is _Loading;
 }

@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_main_bloc.dart';
+import 'package:ziggle/app/modules/groups/presentation/widgets/group_list_item.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -16,92 +19,116 @@ class GroupManagementMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<GroupManagementMainBloc>()
-        ..add(GroupManagementMainBlocEvent.load()),
-      child: Scaffold(
-        appBar: ZiggleAppBar.compact(
-          backLabel: context.t.user.myInfo,
-          from: PageSource.unknown,
-          title: Text(context.t.group.managementMain.header),
-          actions: [
-            GestureDetector(
-              child: Text(
-                context.t.group.managementMain.newGroup,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: Palette.primary,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            )
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.fromLTRB(16, 25, 16, 10),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                context.t.group.managementMain.myGroup,
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      Assets.images.bonfire.svg(),
-                      const SizedBox(height: 20),
-                      Text(
-                        context.t.group.managementMain.noGroup,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Palette.grayText,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      )
-                    ],
+      create: (context) =>
+          sl<GroupManagementMainBloc>()..add(GroupManagementMainEvent.load()),
+      child: BlocBuilder<GroupManagementMainBloc, GroupManagementMainState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: ZiggleAppBar.compact(
+              backLabel: context.t.user.myInfo,
+              from: PageSource.unknown,
+              title: Text(context.t.group.managementMain.header),
+              actions: [
+                ZiggleButton.text(
+                  child: Text(
+                    context.t.group.managementMain.newGroup,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      color: Palette.primary,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Container(
+                  onPressed: () => GroupCreationProfileRoute().push(context),
+                ),
+              ],
+            ),
+            body: RefreshIndicator(
+              onRefresh: () => GroupManagementMainBloc.refresh(context),
+              child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                decoration: ShapeDecoration(
-                  color: Palette.grayLight,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 25),
+                child: Column(
                   children: [
-                    Expanded(
-                      child: SizedBox(
-                        child: Text(
-                          context.t.group.managementMain.contact,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.t.group.managementMain.myGroup,
                           style: const TextStyle(
-                            color: Palette.grayText,
-                            fontSize: 14,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    // if (state is GroupManagementMainState.loading)
+                    //   const Center(
+                    //     child: CircularProgressIndicator(),
+                    //   )
+                    if (state.groups != null)
+                      Expanded(
+                        child: ListView.separated(
+                          itemBuilder: (context, index) => GroupListItem(
+                            name: state.groups!.list[index].name,
+                            onPressed: () {},
+                          ),
+                          separatorBuilder: (context, ixndex) =>
+                              const SizedBox(height: 5),
+                          itemCount: state.groups!.list.length,
+                        ),
+                      )
+                    else if (state.isLoading)
+                      CircularProgressIndicator()
+                    else
+                      Column(
+                        children: [
+                          Assets.images.bonfire.svg(),
+                          const SizedBox(height: 20),
+                          Text(
+                            context.t.group.managementMain.noGroup,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Palette.grayText,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 10),
+                      decoration: ShapeDecoration(
+                        color: Palette.grayLight,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              child: Text(
+                                context.t.group.managementMain.contact,
+                                style: const TextStyle(
+                                  color: Palette.grayText,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              )
-            ],
-          ),
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
