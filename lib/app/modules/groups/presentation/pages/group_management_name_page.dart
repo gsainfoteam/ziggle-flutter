@@ -17,7 +17,7 @@ class GroupManagementNamePage extends StatelessWidget {
       appBar: ZiggleAppBar.compact(
         from: PageSource.setting,
         backLabel: context.t.group.manage.header,
-        title: const Text('그룹명 변경'),
+        title: Text(context.t.group.manage.name.header),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -26,10 +26,10 @@ class GroupManagementNamePage extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const Row(
+            Row(
               children: [
                 Text(
-                  '그룹명',
+                  context.t.group.manage.name.groupName,
                   style: TextStyle(fontSize: 16, color: Palette.black),
                 ),
               ],

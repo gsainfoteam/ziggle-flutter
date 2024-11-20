@@ -66,7 +66,29 @@
     "manage": {
       "header": "Group Management",
       "back": "Back",
-      "change": "Change"
+      "change": "Change",
+      "profileImage": "Change Group Profile Image",
+      "name": {
+        "header": "Change Group Name",
+        "groupName": "Group Name"
+      },
+      "description": {
+        "header": "Change Group Description"
+      },
+      "notionLink": {
+        "header": "Update Notion Page Link",
+        "hintText": "Enter Notion Link",
+        "loading": "Loading Notion"
+      },
+      "invite": {
+        "header": "Generate Invite Link",
+        "invitationLink": "Invitation Link"
+      },
+      "member": {
+        "header": "Manage Members"
+      },
+      "delete": "Delete Group",
+      "leave": "Leave Group"
     },
     "memberCard": {
       "role": {

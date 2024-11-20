@@ -27,7 +27,7 @@ class _GroupManagementInvitationLinkPageState
       appBar: ZiggleAppBar.compact(
         from: PageSource.groupManagement,
         backLabel: context.t.group.manage.header,
-        title: const Text('초대 링크 생성'),
+        title: Text(context.t.group.manage.invite.header),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
@@ -47,7 +47,7 @@ class _GroupManagementInvitationLinkPageState
                     children: [
                       Assets.icons.link.svg(),
                       const SizedBox(width: 6),
-                      const Text('초대 링크'),
+                      Text(context.t.group.manage.invite.invitationLink),
                     ],
                   ),
                   const SizedBox(height: 10),

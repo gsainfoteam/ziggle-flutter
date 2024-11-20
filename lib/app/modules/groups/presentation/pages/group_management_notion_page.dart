@@ -16,13 +16,13 @@ class GroupManagementNotionPage extends StatelessWidget {
       appBar: ZiggleAppBar.compact(
         from: PageSource.groupManagement,
         backLabel: context.t.group.manage.header,
-        title: Text('노션 링크 변경'),
+        title: Text(context.t.group.manage.notionLink.header),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
         child: Column(
           children: [
-            ZiggleInput(hintText: '노션 링크 입력'),
+            ZiggleInput(hintText: context.t.group.manage.notionLink.hintText),
             SizedBox(height: 30),
             ZiggleButton.cta(
               child: Text(context.t.group.manage.change),

@@ -6,6 +6,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
 class GroupManagementPage extends StatelessWidget {
@@ -16,8 +17,8 @@ class GroupManagementPage extends StatelessWidget {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         from: PageSource.groupManagementMain,
-        backLabel: '그룹 관리',
-        title: const Text('그룹 관리'),
+        backLabel: context.t.group.managementMain.header,
+        title: Text(context.t.group.manage.header),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -55,8 +56,8 @@ class GroupManagementPage extends StatelessWidget {
               ),
               ZiggleButton.cta(
                 emphasize: false,
-                child: const Text(
-                  '그룹 프로필 사진 변경',
+                child: Text(
+                  context.t.group.manage.profileImage,
                   style: TextStyle(
                     color: Palette.black,
                     fontSize: 18,
@@ -65,35 +66,35 @@ class GroupManagementPage extends StatelessWidget {
               ),
               const SizedBox(height: 48),
               ZiggleRowButton(
-                title: const Text('그룹명 변경'),
+                title: Text(context.t.group.manage.name.header),
                 onPressed: () => GroupManagementNameRoute().push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
-                title: const Text('그룹 간단 소개 변경'),
+                title: Text(context.t.group.manage.description.header),
                 onPressed: () =>
                     GroupManagementDescriptionRoute().push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
-                title: const Text('노션 페이지 링크 변경'),
+                title: Text(context.t.group.manage.notionLink.header),
                 onPressed: () => GroupManagementNotionRoute().push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
-                title: const Text('초대 링크 생성'),
+                title: Text(context.t.group.manage.invite.header),
                 onPressed: () =>
                     GroupManagementInvitationLinkRoute().push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
-                title: const Text('멤버 관리'),
+                title: Text(context.t.group.manage.member.header),
                 onPressed: () => GroupManagementMemberRoute().push(context),
               ),
               const SizedBox(height: 40),
               ZiggleRowButton(
-                title: const Text(
-                  '그룹 삭제',
+                title: Text(
+                  context.t.group.manage.delete,
                   style: TextStyle(
                     color: Palette.primary,
                   ),
@@ -102,8 +103,8 @@ class GroupManagementPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
-                title: const Text(
-                  '그룹 나가기',
+                title: Text(
+                  context.t.group.manage.leave,
                   style: TextStyle(
                     color: Palette.primary,
                   ),

@@ -27,7 +27,7 @@ class _GroupManagementDescriptionPageState
       appBar: ZiggleAppBar.compact(
         from: PageSource.groupManagement,
         backLabel: context.t.group.manage.header,
-        title: Text('간단 소개 변경'),
+        title: Text(context.t.group.manage.description.header),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),

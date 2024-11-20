@@ -66,7 +66,29 @@
     "manage": {
       "header": "グループ管理",
       "back": "戻る",
-      "change": "変更"
+      "change": "変更",
+      "profileImage": "グループのプロフィール写真を変更",
+      "name": {
+        "header": "グループ名を変更",
+        "groupName": "グループ名"
+      },
+      "description": {
+        "header": "グループの簡単な紹介を変更"
+      },
+      "notionLink": {
+        "header": "ノーションページリンクを更新",
+        "hintText": "ノーションリンクを入力してください",
+        "loading": "ノーションを読み込んでいます"
+      },
+      "invite": {
+        "header": "招待リンクを生成",
+        "invitationLink": "招待リンク"
+      },
+      "member": {
+        "header": "メンバーを管理"
+      },
+      "delete": "グループを削除",
+      "leave": "グループから退出"
     },
     "memberCard": {
       "role": {
