@@ -64,29 +64,22 @@ class GroupManagementMainPage extends StatelessWidget {
                     if (state.groups != null)
                       Expanded(
                         child: ListView.separated(
-                          itemBuilder: (context, index) {
-                            if (index < state.groups!.list.length) {
-                              return GroupListItem(
-                                name: state.groups!.list[index].name,
-                                onPressed: () {},
-                              );
-                            } else if (index == state.groups!.list.length) {
-                              return Column(
-                                children: [
-                                  InquiryWidget(),
-                                  SizedBox(height: 25),
-                                ],
-                              );
-                            }
-                            return null;
-                          },
-                          separatorBuilder: (context, index) {
-                            if (index < state.groups!.list.length - 1) {
-                              return const SizedBox(height: 5);
-                            }
-                            return SizedBox(height: 20);
-                          },
                           itemCount: state.groups!.list.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index == state.groups!.list.length) {
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 15, 0, 25),
+                                child: _InquiryWidget(),
+                              );
+                            }
+                            return GroupListItem(
+                              name: state.groups!.list[index].name,
+                              onPressed: () {},
+                            );
+                          },
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 5),
                         ),
                       )
                     else if (state.isLoading)
@@ -108,7 +101,7 @@ class GroupManagementMainPage extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 20),
-                          InquiryWidget(),
+                          _InquiryWidget(),
                         ],
                       ),
                   ],
@@ -122,11 +115,7 @@ class GroupManagementMainPage extends StatelessWidget {
   }
 }
 
-class InquiryWidget extends StatelessWidget {
-  const InquiryWidget({
-    super.key,
-  });
-
+class _InquiryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
