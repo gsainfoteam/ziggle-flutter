@@ -1,39 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/values/palette.dart';
 
-class ZiggleCheckbox extends StatefulWidget {
+class ZiggleCheckbox extends StatelessWidget {
   const ZiggleCheckbox({
     super.key,
+    required this.isChecked,
     required this.onToggle,
-    this.initialState = false,
     this.loading = false,
     this.disabled = false,
   });
 
+  final bool isChecked;
   final ValueChanged<bool> onToggle;
-  final bool initialState;
   final bool loading;
   final bool disabled;
 
-  @override
-  State<ZiggleCheckbox> createState() => _ZiggleCheckboxState();
-}
-
-class _ZiggleCheckboxState extends State<ZiggleCheckbox> {
-  bool _checked = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _checked = widget.initialState;
-  }
-
   void _handleCheck() {
-    if (widget.disabled || widget.loading) return;
-    setState(() {
-      _checked = !_checked;
-    });
-    widget.onToggle(_checked);
+    if (disabled || loading) return;
+    onToggle(!isChecked);
   }
 
   @override
@@ -44,16 +28,16 @@ class _ZiggleCheckboxState extends State<ZiggleCheckbox> {
         width: 24.0,
         height: 24.0,
         decoration: BoxDecoration(
-          color: _checked ? Palette.primary : Palette.white,
+          color: isChecked ? Palette.primary : Palette.white,
           borderRadius: BorderRadius.circular(7.0),
           border: Border.all(
-            color: _checked ? Palette.primary : Palette.gray,
+            color: isChecked ? Palette.primary : Palette.gray,
             width: 1.5,
           ),
         ),
         child: Center(
           child: AnimatedOpacity(
-            opacity: _checked ? 1.0 : 0.0,
+            opacity: isChecked ? 1.0 : 0.0,
             duration: const Duration(milliseconds: 100),
             child: const Icon(
               Icons.check,

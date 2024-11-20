@@ -18,45 +18,49 @@ class ConsentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: Durations.medium1,
-      decoration: ShapeDecoration(
-        color: isChecked ? Palette.primaryLight : Palette.grayLight,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ZiggleCheckbox(
-            onToggle: onChanged,
+    return GestureDetector(
+      onTap: () => onChanged(!isChecked),
+      child: AnimatedContainer(
+        duration: Durations.medium1,
+        decoration: ShapeDecoration(
+          color: isChecked ? Palette.primaryLight : Palette.grayLight,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
           ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Palette.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: -0.45,
-                  ),
-                ),
-                Text(
-                  description,
-                )
-              ],
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 14),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ZiggleCheckbox(
+              isChecked: isChecked,
+              onToggle: onChanged,
             ),
-          )
-        ],
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Palette.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: -0.45,
+                    ),
+                  ),
+                  Text(
+                    description,
+                  )
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
