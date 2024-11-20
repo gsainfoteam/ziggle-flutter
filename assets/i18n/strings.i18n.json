@@ -70,7 +70,8 @@
       "profileImage": "Change Group Profile Image",
       "name": {
         "header": "Change Group Name",
-        "groupName": "Group Name"
+        "groupName": "Group Name",
+        "helpText": "InfoTeam"
       },
       "description": {
         "header": "Change Group Description"

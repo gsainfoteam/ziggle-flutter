@@ -70,7 +70,8 @@
       "profileImage": "グループのプロフィール写真を変更",
       "name": {
         "header": "グループ名を変更",
-        "groupName": "グループ名"
+        "groupName": "グループ名",
+        "helpText": "インフォチーム"
       },
       "description": {
         "header": "グループの簡単な紹介を変更"

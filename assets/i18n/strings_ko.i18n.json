@@ -70,7 +70,8 @@
       "profileImage": "그룹 프로필 사진 변경",
       "name": {
         "header": "그룹명 변경",
-        "groupName": "그룹명"
+        "groupName": "그룹명",
+        "helpText": "인포팀"
       },
       "description": {
         "header": "그룹 간단 소개 변경"

@@ -35,7 +35,7 @@ class GroupManagementNamePage extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            const ZiggleInput(hintText: '현재 그룹 이름'),
+            ZiggleInput(hintText: context.t.group.manage.name.helpText),
             const SizedBox(height: 30),
             ZiggleButton.cta(
               child: Text(context.t.group.manage.change),
