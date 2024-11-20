@@ -13,25 +13,20 @@ class GroupManagementMainBloc
   final GroupRepository _repository;
 
   GroupManagementMainBloc(this._repository) : super(_Initial()) {
-    on<_Load>((event, emit) async {
-      emit(_Loading());
-      try {
-        final groups = await _repository.getGroups();
-        emit(_Loaded(groups));
-      } on Exception catch (e) {
-        emit(_Error(e.toString()));
-      }
-    });
-    on<_Refresh>((event, emit) async {
-      emit(_Loading());
-      try {
-        final groups = await _repository.getGroups();
-        emit(_Loaded(groups));
-      } on Exception catch (e) {
-        emit(_Error(e.toString()));
-      }
-    });
+    on<_Load>(_handleLoadOrRefresh);
+    on<_Refresh>(_handleLoadOrRefresh);
   }
+
+  void _handleLoadOrRefresh(event, emit) async {
+    emit(_Loading());
+    try {
+      final groups = await _repository.getGroups();
+      emit(_Loaded(groups));
+    } on Exception catch (e) {
+      emit(_Error(e.toString()));
+    }
+  }
+
   static Future<void> refresh(BuildContext context) async {
     final bloc = context.read<GroupManagementMainBloc>();
     final blocker = bloc.stream.firstWhere((state) => !state.isLoading);
