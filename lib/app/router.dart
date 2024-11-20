@@ -115,6 +115,10 @@ class AppRouter extends RootStackRouter {
         ],
       ),
       AutoRoute(
+        path: '/group/managementMain',
+        page: GroupManagementMainRoute.page,
+      ),
+      AutoRoute(
         path: '/group/detail',
         page: GroupDetailRoute.page,
       )

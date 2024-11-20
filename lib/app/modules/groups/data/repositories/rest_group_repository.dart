@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/notion_api.dart';
@@ -30,5 +31,10 @@ class RestGroupRepository implements GroupRepository {
       notionPageId: notionPageId,
     ));
     return createdGroup;
+  }
+
+  @override
+  Future<GroupListModel> getGroups() {
+    return _api.getGroups();
   }
 }
