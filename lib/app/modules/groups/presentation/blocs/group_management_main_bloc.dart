@@ -17,7 +17,8 @@ class GroupManagementMainBloc
     on<_Refresh>(_handleLoadOrRefresh);
   }
 
-  void _handleLoadOrRefresh(event, emit) async {
+  void _handleLoadOrRefresh(
+      event, Emitter<GroupManagementMainState> emit) async {
     emit(_Loading());
     try {
       final groups = await _repository.getGroups();
