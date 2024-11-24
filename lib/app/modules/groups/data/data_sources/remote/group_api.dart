@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -42,11 +44,12 @@ abstract class GroupApi {
   @GET('{name}/exist')
   Future<String> checkGroupExistence(@Path('name') String name);
 
-  // @POST('{uuid}/image')
-  // Future<void> uploadImage(
-  //   @Path('uuid') String uuid,
-  //   @Part() File? image,
-  // );
+  @POST('{uuid}/image')
+  @MultiPart()
+  Future<void> uploadImage(
+    @Path('uuid') String uuid,
+    @Part(name: 'file') File image,
+  );
 
   @POST('{uuid}/invite')
   Future<Map<String, String>> createInviteCode(@Path('uuid') String uuid);

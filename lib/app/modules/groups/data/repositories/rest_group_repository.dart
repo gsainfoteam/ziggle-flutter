@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
@@ -21,15 +22,17 @@ class RestGroupRepository implements GroupRepository {
   @override
   Future<GroupModel> createGroup({
     required String name,
+    File? image,
     required String description,
     String? notionPageId,
-    File? image,
   }) async {
     final createdGroup = await _api.createGroup(CreateGroupModel(
       name: name,
       description: description,
       notionPageId: notionPageId,
     ));
+
+    if (image != null) await _api.uploadImage(createdGroup.uuid, image);
     return createdGroup;
   }
 
