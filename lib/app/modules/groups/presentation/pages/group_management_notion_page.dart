@@ -7,8 +7,30 @@ import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
-class GroupManagementNotionPage extends StatelessWidget {
-  const GroupManagementNotionPage({super.key});
+class GroupManagementNotionPage extends StatefulWidget {
+  const GroupManagementNotionPage({super.key, this.notionLink});
+
+  final String? notionLink;
+
+  @override
+  State<GroupManagementNotionPage> createState() =>
+      _GroupManagementNotionPageState();
+}
+
+class _GroupManagementNotionPageState extends State<GroupManagementNotionPage> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.notionLink);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +44,10 @@ class GroupManagementNotionPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
         child: Column(
           children: [
-            ZiggleInput(hintText: context.t.group.manage.notionLink.hintText),
+            ZiggleInput(
+              hintText: context.t.group.manage.notionLink.hintText,
+              controller: _controller,
+            ),
             SizedBox(height: 30),
             ZiggleButton.cta(
               child: Text(context.t.group.manage.change),

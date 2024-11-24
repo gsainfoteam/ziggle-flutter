@@ -1,7 +1,7 @@
 class GroupEntity {
   final String uuid;
   final String name;
-  final String description;
+  final String? description;
   final DateTime createdAt;
   final String presidentUuid;
   final int? memberCount;
@@ -10,6 +10,7 @@ class GroupEntity {
   final DateTime? deletedAt;
   final String? notionPageId;
   final String? profileImageKey;
+  final String? profileImageUrl;
 
   GroupEntity({
     required this.uuid,
@@ -23,5 +24,6 @@ class GroupEntity {
     required this.deletedAt,
     required this.notionPageId,
     required this.profileImageKey,
+    required this.profileImageUrl,
   });
 }

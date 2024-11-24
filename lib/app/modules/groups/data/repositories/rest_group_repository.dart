@@ -1,9 +1,11 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/notion_api.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
@@ -38,5 +40,22 @@ class RestGroupRepository implements GroupRepository {
   @override
   Future<GroupListModel> getGroups() {
     return _api.getGroups();
+  }
+
+  @override
+  Future<void> modifyName({required String uuid, required String name}) async {
+    await _api.modifyGroup(uuid, ModifyGroupModel(name: name));
+  }
+
+  @override
+  Future<void> modifyDescription(
+      {required String uuid, required String description}) async {
+    await _api.modifyGroup(uuid, ModifyGroupModel(description: description));
+  }
+
+  @override
+  Future<void> modifyNotionLink(
+      {required String uuid, required String notionPageId}) async {
+    await _api.modifyGroup(uuid, ModifyGroupModel(notionPageId: notionPageId));
   }
 }

@@ -11,6 +11,7 @@ class ZiggleRowButton extends StatelessWidget {
     this.disabled = false,
     this.showChevron = true,
     this.destructive = false,
+    this.isLocked = false,
     this.onPressed,
   });
 
@@ -18,13 +19,14 @@ class ZiggleRowButton extends StatelessWidget {
   final Widget title;
   final bool disabled;
   final bool destructive;
+  final bool isLocked;
   final bool showChevron;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ZigglePressable(
-      onPressed: onPressed,
+      onPressed: disabled ? null : onPressed,
       decoration: const BoxDecoration(
         color: Palette.grayLight,
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -46,7 +48,15 @@ class ZiggleRowButton extends StatelessWidget {
                           ? Palette.primary
                           : Palette.black,
                 ),
-                child: title,
+                child: Row(
+                  children: [
+                    title,
+                    if (isLocked) ...[
+                      SizedBox(width: 5),
+                      Assets.icons.lock.svg(),
+                    ]
+                  ],
+                ),
               ),
             ),
             if (showChevron) Assets.icons.chevronRight.svg(),

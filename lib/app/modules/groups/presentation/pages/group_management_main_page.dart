@@ -76,7 +76,11 @@ class GroupManagementMainPage extends StatelessWidget {
                             }
                             return GroupListItem(
                               name: state.groups!.list[index].name,
-                              onPressed: () {},
+                              onPressed: () {
+                                GroupManagementRoute(
+                                        group: state.groups!.list[index])
+                                    .push(context);
+                              },
                             );
                           },
                           separatorBuilder: (context, index) =>

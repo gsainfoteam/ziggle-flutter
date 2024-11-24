@@ -5,11 +5,11 @@ part 'modify_group_model.g.dart';
 
 @freezed
 class ModifyGroupModel with _$ModifyGroupModel {
-  factory ModifyGroupModel(
+  factory ModifyGroupModel({
     String? name,
     String? description,
     String? notionPageId,
-  ) = _ModifyGroupModel;
+  }) = _ModifyGroupModel;
 
   factory ModifyGroupModel.fromJson(Map<String, dynamic> json) =>
       _$ModifyGroupModelFromJson(json);

@@ -11,7 +11,7 @@ class GroupModel with _$GroupModel implements GroupEntity {
   const factory GroupModel({
     required String uuid,
     required String name,
-    required String description,
+    required String? description,
     required DateTime createdAt,
     required String presidentUuid,
     required int? memberCount,
@@ -20,6 +20,7 @@ class GroupModel with _$GroupModel implements GroupEntity {
     required DateTime? deletedAt,
     required String? notionPageId,
     required String? profileImageKey,
+    required String? profileImageUrl,
   }) = _GroupModel;
 
   factory GroupModel.fromJson(Map<String, dynamic> json) =>

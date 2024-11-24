@@ -1,16 +1,25 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
+import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
 class GroupManagementPage extends StatelessWidget {
-  const GroupManagementPage({super.key});
+  const GroupManagementPage({
+    super.key,
+    this.group,
+  });
+  final GroupEntity? group;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +37,10 @@ class GroupManagementPage extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const Row(
+              Row(
                 children: [
                   Text(
-                    '그룹 이름',
+                    group!.name,
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,
@@ -44,11 +53,21 @@ class GroupManagementPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 300,
-                    width: 300,
-                    color: Colors.green,
-                  )
+                  if (group!.profileImageKey != null)
+                    SizedBox(
+                      width: 300,
+                      height: 300,
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(150)),
+                        child: Image.network(
+                          group!.profileImageUrl!,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
+                  else
+                    Assets.images.groupDefaultProfile.image(width: 300),
                 ],
               ),
               const SizedBox(
@@ -66,28 +85,39 @@ class GroupManagementPage extends StatelessWidget {
               ),
               const SizedBox(height: 48),
               ZiggleRowButton(
+                showChevron: true,
                 title: Text(context.t.group.manage.name.header),
-                onPressed: () => GroupManagementNameRoute().push(context),
+                onPressed: () => GroupManagementNameRoute(
+                  uuid: group!.uuid,
+                  name: group!.name,
+                ).push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
+                showChevron: true,
                 title: Text(context.t.group.manage.description.header),
                 onPressed: () =>
-                    GroupManagementDescriptionRoute().push(context),
+                    GroupManagementDescriptionRoute(content: group!.description)
+                        .push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
+                showChevron: true,
                 title: Text(context.t.group.manage.notionLink.header),
-                onPressed: () => GroupManagementNotionRoute().push(context),
+                onPressed: () =>
+                    GroupManagementNotionRoute(notionLink: group!.notionPageId)
+                        .push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
+                showChevron: true,
                 title: Text(context.t.group.manage.invite.header),
                 onPressed: () =>
                     GroupManagementInvitationLinkRoute().push(context),
               ),
               const SizedBox(height: 20),
               ZiggleRowButton(
+                showChevron: true,
                 title: Text(context.t.group.manage.member.header),
                 onPressed: () => GroupManagementMemberRoute().push(context),
               ),

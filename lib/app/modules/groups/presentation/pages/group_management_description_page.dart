@@ -9,7 +9,12 @@ import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
 class GroupManagementDescriptionPage extends StatefulWidget {
-  const GroupManagementDescriptionPage({super.key});
+  const GroupManagementDescriptionPage({
+    super.key,
+    required this.content,
+  });
+
+  final String? content;
 
   @override
   State<GroupManagementDescriptionPage> createState() =>
@@ -18,7 +23,19 @@ class GroupManagementDescriptionPage extends StatefulWidget {
 
 class _GroupManagementDescriptionPageState
     extends State<GroupManagementDescriptionPage> {
-  String _content = '';
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.content);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +55,7 @@ class _GroupManagementDescriptionPageState
                 Assets.icons.editPencil.svg(width: 24),
                 const SizedBox(width: 10),
                 Text(
-                  '${_content.length}/200',
+                  '${_controller.text.length}/200',
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
@@ -53,7 +70,8 @@ class _GroupManagementDescriptionPageState
               minLines: 7,
               maxLines: 10,
               maxLength: 200,
-              onChanged: (v) => setState(() => _content = v),
+              controller: _controller,
+              // onChanged: (v) => setState(() =>  = v),
               decoration: InputDecoration(
                 counter: const SizedBox.shrink(),
                 border: const OutlineInputBorder(borderSide: BorderSide.none),
@@ -64,7 +82,10 @@ class _GroupManagementDescriptionPageState
             ),
             Container(height: 1, color: Palette.grayBorder),
             SizedBox(height: 30),
-            ZiggleButton.cta(child: Text(context.t.group.manage.change))
+            ZiggleButton.cta(
+              disabled: _controller.text.isEmpty,
+              child: Text(context.t.group.manage.change),
+            )
           ],
         ),
       ),

@@ -12,4 +12,19 @@ abstract class GroupRepository {
   });
 
   Future<GroupListEntity> getGroups();
+
+  Future<void> modifyName({
+    required String uuid,
+    required String name,
+  });
+
+  Future<void> modifyDescription({
+    required String uuid,
+    required String description,
+  });
+
+  Future<void> modifyNotionLink({
+    required String uuid,
+    required String notionPageId,
+  });
 }
