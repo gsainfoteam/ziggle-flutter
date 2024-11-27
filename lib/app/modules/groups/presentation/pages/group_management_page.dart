@@ -124,7 +124,8 @@ class GroupManagementPage extends StatelessWidget {
                 ZiggleRowButton(
                   showChevron: true,
                   title: Text(context.t.group.manage.member.header),
-                  onPressed: () => GroupManagementMemberRoute().push(context),
+                  onPressed: () => GroupManagementMemberRoute(uuid: group!.uuid)
+                      .push(context),
                 ),
                 const SizedBox(height: 40),
                 BlocBuilder<GroupManagementBloc, GroupManagementState>(
