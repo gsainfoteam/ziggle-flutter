@@ -169,7 +169,8 @@ class _LayoutState extends State<_Layout> {
           return Padding(
             padding: EdgeInsets.all(8.0),
             child: Center(
-              child: Lottie.asset(Assets.lotties.loading),
+              child:
+                  Lottie.asset(Assets.lotties.loading, width: 80, height: 80),
             ),
           );
         }
