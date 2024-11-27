@@ -29,6 +29,11 @@ class GroupManagementBloc
           uuid: event.uuid, notionPageId: event.notionLink);
       emit(_Done());
     });
+    on<_Delete>((event, emit) async {
+      emit(_Loading());
+      _repository.deleteGroup(event.uuid);
+      emit(_Done());
+    });
   }
 }
 
@@ -40,6 +45,8 @@ class GroupManagementEvent with _$GroupManagementEvent {
       String uuid, String? description) = _UpdateDescription;
   const factory GroupManagementEvent.updateNotionLink(
       String uuid, String? notionLink) = _UpdateNotionLink;
+  const factory GroupManagementEvent.delete(String uuid) = _Delete;
+  const factory GroupManagementEvent.leave() = _Leave;
 }
 
 @freezed

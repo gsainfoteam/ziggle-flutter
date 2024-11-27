@@ -27,4 +27,6 @@ abstract class GroupRepository {
     required String uuid,
     required String? notionPageId,
   });
+
+  Future<void> deleteGroup(String uuid);
 }

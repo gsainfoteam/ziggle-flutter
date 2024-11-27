@@ -59,4 +59,9 @@ class RestGroupRepository implements GroupRepository {
       {required String uuid, required String? notionPageId}) async {
     await _api.modifyGroup(uuid, ModifyGroupModel(notionPageId: notionPageId));
   }
+
+  @override
+  Future<void> deleteGroup(String uuid) async {
+    await _api.deleteGroup(uuid);
+  }
 }
