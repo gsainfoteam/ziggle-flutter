@@ -72,10 +72,15 @@
       "deleteConfirmationTitle": "グループを削除してもよろしいですか？",
       "deleteConfirmationMessage": "このグループ名で投稿された以前の通知には影響しません。",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "leaveConfirmationTitle": "グループを退会してもよろしいですか？",
       "leaveConfirmationMessage": "このグループ名で投稿された以前の通知には影響しません。",
 =======
 >>>>>>> 91f990f (feat: group delete confirmation dialog)
+=======
+      "leaveConfirmationTitle": "グループを退会してもよろしいですか？",
+      "leaveConfirmationMessage": "このグループ名で投稿された以前の通知には影響しません。",
+>>>>>>> 4992ab1 (feat: group leave dialog)
       "change": "変更",
       "profileImage": "グループのプロフィール写真を変更",
       "name": {

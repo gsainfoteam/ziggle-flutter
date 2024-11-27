@@ -34,6 +34,11 @@ class GroupManagementBloc
       _repository.deleteGroup(event.uuid);
       emit(_Done());
     });
+    on<_Leave>((event, emit) async {
+      emit(_Loading());
+      // _repository.leaveGroup(event.uuid);
+      emit(_Done());
+    });
   }
 }
 

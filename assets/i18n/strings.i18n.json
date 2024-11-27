@@ -72,10 +72,15 @@
       "deleteConfirmationTitle": "Are you sure you want to delete the group?",
       "deleteConfirmationMessage": "This will not affect the notices previously posted under this group name.",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "leaveConfirmationTitle": "Are you sure you want to leave the group?",
       "leaveConfirmationMessage": "This will not affect the notices previously posted under this group name.",
 =======
 >>>>>>> 91f990f (feat: group delete confirmation dialog)
+=======
+      "leaveConfirmationTitle": "Are you sure you want to leave the group?",
+      "leaveConfirmationMessage": "This will not affect the notices previously posted under this group name.",
+>>>>>>> 4992ab1 (feat: group leave dialog)
       "change": "Change",
       "profileImage": "Change Group Profile Image",
       "name": {

@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_alert.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
@@ -178,15 +177,47 @@ class GroupManagementPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 ZiggleRowButton(
-                  showChevron: false,
-                  title: Text(
-                    context.t.group.manage.leave,
-                    style: TextStyle(
-                      color: Palette.primary,
+                    showChevron: false,
+                    title: Text(
+                      context.t.group.manage.leave,
+                      style: TextStyle(
+                        color: Palette.primary,
+                      ),
                     ),
-                  ),
-                  onPressed: () {},
-                ),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          return CupertinoAlertDialog(
+                            title: Text(
+                                context.t.group.manage.leaveConfirmationTitle),
+                            content: Text(context
+                                .t.group.manage.leaveConfirmationMessage),
+                            actions: [
+                              CupertinoDialogAction(
+                                isDestructiveAction: true,
+                                child: Text(context.t.common.confirm),
+                                onPressed: () {
+                                  Navigator.of(dialogContext).pop();
+                                  context.read<GroupManagementBloc>().add(
+                                        GroupManagementEvent.leave(),
+                                      );
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                  child: Text(
+                                    context.t.common.cancel,
+                                    style: TextStyle(
+                                      color: Palette.grayText,
+                                    ),
+                                  ),
+                                  onPressed: () =>
+                                      Navigator.of(dialogContext).pop()),
+                            ],
+                          );
+                        },
+                      );
+                    }),
               ],
             ),
           ),

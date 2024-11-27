@@ -72,10 +72,15 @@
       "deleteConfirmationTitle": "Вы уверены, что хотите удалить группу?",
       "deleteConfirmationMessage": "Это не повлияет на ранее опубликованные уведомления под этим именем группы.",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "leaveConfirmationTitle": "Вы уверены, что хотите покинуть группу?",
       "leaveConfirmationMessage": "Это не повлияет на ранее опубликованные уведомления под этим именем группы.",
 =======
 >>>>>>> 91f990f (feat: group delete confirmation dialog)
+=======
+      "leaveConfirmationTitle": "Вы уверены, что хотите покинуть группу?",
+      "leaveConfirmationMessage": "Это не повлияет на ранее опубликованные уведомления под этим именем группы.",
+>>>>>>> 4992ab1 (feat: group leave dialog)
       "change": "изменение",
       "profileImage": "Изменить изображение профиля группы",
       "name": {

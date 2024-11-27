@@ -72,10 +72,15 @@
       "deleteConfirmationTitle": "정말 그룹을 삭제하시겠습니까?",
       "deleteConfirmationMessage": "기존에 본 그룹 명의로 작성된 공지에는 영향을 끼치지 않습니다.",
 <<<<<<< HEAD
+<<<<<<< HEAD
       "leaveConfirmationTitle": "정말 그룹을 나가시겠습니까?",
       "leaveConfirmationMessage": "기존에 본 그룹 명의로 작성된 공지에는 영향을 끼치지 않습니다.",
 =======
 >>>>>>> 91f990f (feat: group delete confirmation dialog)
+=======
+      "leaveConfirmationTitle": "정말 그룹을 나가시겠습니까?",
+      "leaveConfirmationMessage": "기존에 본 그룹 명의로 작성된 공지에는 영향을 끼치지 않습니다.",
+>>>>>>> 4992ab1 (feat: group leave dialog)
       "change": "변경",
       "profileImage": "그룹 프로필 사진 변경",
       "name": {
