@@ -131,6 +131,7 @@ class GroupManagementPage extends StatelessWidget {
                 BlocBuilder<GroupManagementBloc, GroupManagementState>(
                   builder: (context, state) {
                     return ZiggleRowButton(
+                      showChevron: false,
                       title: Text(
                         context.t.group.manage.delete,
                         style: TextStyle(
@@ -177,6 +178,7 @@ class GroupManagementPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 ZiggleRowButton(
+                  showChevron: false,
                   title: Text(
                     context.t.group.manage.leave,
                     style: TextStyle(
