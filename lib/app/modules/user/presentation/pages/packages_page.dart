@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
@@ -44,7 +45,9 @@ class PackagesPage extends StatelessWidget {
         ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+                child: Lottie.asset(Assets.lotties.loading,
+                    height: 80, width: 80));
           }
           if (!snapshot.hasData) {
             return const Center(child: Text('No data'));

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/date_time.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
@@ -142,8 +143,9 @@ class _LayoutState extends State<_Layout> {
                 return RefreshIndicator(
                   onRefresh: () => NoticeListBloc.refresh(context),
                   child: state.showLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(),
+                      ? Center(
+                          child: Lottie.asset(Assets.lotties.loading,
+                              height: 80, width: 80),
                         )
                       : InfiniteScroll(
                           onLoadMore: () => NoticeListBloc.loadMore(context),
@@ -164,10 +166,10 @@ class _LayoutState extends State<_Layout> {
     return SliverList.builder(
       itemBuilder: (context, index) {
         if (index >= state.notices.length) {
-          return const Padding(
+          return Padding(
             padding: EdgeInsets.all(8.0),
             child: Center(
-              child: CircularProgressIndicator(),
+              child: Lottie.asset(Assets.lotties.loading),
             ),
           );
         }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -75,8 +76,9 @@ class Editor extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 18),
             child: translating
-                ? const Center(
-                    child: CircularProgressIndicator(),
+                ? Center(
+                    child: Lottie.asset(Assets.lotties.loading,
+                        height: 80, width: 80),
                   )
                 : Opacity(
                     opacity: bodyController.readOnly ? 0.5 : 1,

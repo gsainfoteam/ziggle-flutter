@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 
 @RoutePage()
 class SingleNoticeShellLayout extends StatelessWidget {
@@ -28,7 +30,9 @@ class SingleNoticeShellLayout extends StatelessWidget {
         ),
         child: BlocBuilder<NoticeBloc, NoticeState>(builder: (context, state) {
           if (state.entity == null) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+                child: Lottie.asset(Assets.lotties.loading,
+                    height: 80, width: 80));
           }
           return const AutoRouter();
         }),
