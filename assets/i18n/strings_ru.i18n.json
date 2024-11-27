@@ -71,8 +71,11 @@
       "back": "Назад",
       "deleteConfirmationTitle": "Вы уверены, что хотите удалить группу?",
       "deleteConfirmationMessage": "Это не повлияет на ранее опубликованные уведомления под этим именем группы.",
+<<<<<<< HEAD
       "leaveConfirmationTitle": "Вы уверены, что хотите покинуть группу?",
       "leaveConfirmationMessage": "Это не повлияет на ранее опубликованные уведомления под этим именем группы.",
+=======
+>>>>>>> 91f990f (feat: group delete confirmation dialog)
       "change": "изменение",
       "profileImage": "Изменить изображение профиля группы",
       "name": {

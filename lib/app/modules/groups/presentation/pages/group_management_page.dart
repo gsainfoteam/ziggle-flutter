@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
@@ -130,47 +131,48 @@ class GroupManagementPage extends StatelessWidget {
                 BlocBuilder<GroupManagementBloc, GroupManagementState>(
                   builder: (context, state) {
                     return ZiggleRowButton(
-                        title: Text(
-                          context.t.group.manage.delete,
-                          style: TextStyle(
-                            color: Palette.primary,
-                          ),
+                      title: Text(
+                        context.t.group.manage.delete,
+                        style: TextStyle(
+                          color: Palette.primary,
                         ),
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext dialogContext) {
-                                return AlertDialog(
-                                  title: Text('제목'),
-                                  content: Text('내용'),
-                                  // title: Text(context
-                                  //     .t.group.manage.deleteConfirmationTitle),
-                                  // content: Text(context.t.group.manage
-                                  //     .deleteConfirmationMessage),
-                                  actions: [
-                                    TextButton(
-                                      child: Text(context.t.common.cancel),
-                                      onPressed: () {
-                                        Navigator.of(dialogContext)
-                                            .pop(); // Dismiss the dialog
-                                      },
+                      ),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext dialogContext) {
+                            return CupertinoAlertDialog(
+                              title: Text(context
+                                  .t.group.manage.deleteConfirmationTitle),
+                              content: Text(context
+                                  .t.group.manage.deleteConfirmationMessage),
+                              actions: [
+                                CupertinoDialogAction(
+                                  isDestructiveAction: true,
+                                  child: Text(context.t.common.confirm),
+                                  onPressed: () {
+                                    Navigator.of(dialogContext).pop();
+                                    context.read<GroupManagementBloc>().add(
+                                          GroupManagementEvent.delete(
+                                              group!.uuid),
+                                        );
+                                  },
+                                ),
+                                CupertinoDialogAction(
+                                    child: Text(
+                                      context.t.common.cancel,
+                                      style: TextStyle(
+                                        color: Palette.grayText,
+                                      ),
                                     ),
-                                    TextButton(
-                                      child: Text('ok'),
-                                      // child: Text(context.t.common.ok),
-                                      onPressed: () {
-                                        Navigator.of(dialogContext)
-                                            .pop(); // Dismiss the dialog
-                                        context.read<GroupManagementBloc>().add(
-                                              GroupManagementEvent.delete(
-                                                  group!.uuid),
-                                            );
-                                      },
-                                    ),
-                                  ],
-                                );
-                              });
-                        });
+                                    onPressed: () =>
+                                        Navigator.of(dialogContext).pop()),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
                   },
                 ),
                 const SizedBox(height: 20),
