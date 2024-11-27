@@ -35,7 +35,7 @@ class _LayoutState extends State<_Layout> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Lottie.asset(Assets.lotties.complete),
+        Lottie.asset(Assets.lotties.complete, repeat: false),
         const SizedBox(height: 20),
         Text(
           context.t.group.creation.done.title(name: "인포팀"),

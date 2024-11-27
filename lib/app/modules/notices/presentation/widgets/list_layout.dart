@@ -49,7 +49,8 @@ class ListLayout extends StatelessWidget {
                               return Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Center(
-                                  child: Lottie.asset(Assets.lotties.loading),
+                                  child: Lottie.asset(Assets.lotties.loading,
+                                      height: 80, width: 80),
                                 ),
                               );
                             }
