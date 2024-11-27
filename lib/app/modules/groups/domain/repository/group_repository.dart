@@ -20,11 +20,11 @@ abstract class GroupRepository {
 
   Future<void> modifyDescription({
     required String uuid,
-    required String description,
+    required String? description,
   });
 
   Future<void> modifyNotionLink({
     required String uuid,
-    required String notionPageId,
+    required String? notionPageId,
   });
 }

@@ -87,7 +87,7 @@ class _Layout extends StatelessWidget {
               ),
             const SizedBox(height: 40),
             ZiggleRowButton(
-              icon: Assets.icons.setting.svg(),
+              leadingIcon: Assets.icons.setting.svg(),
               title: Text(context.t.user.setting.title),
               onPressed: () {
                 AnalyticsRepository.click(
@@ -98,7 +98,7 @@ class _Layout extends StatelessWidget {
             if (authenticated) ...[
               const SizedBox(height: 20),
               ZiggleRowButton(
-                icon: Assets.icons.write.svg(),
+                leadingIcon: Assets.icons.write.svg(),
                 title: Text(context.t.user.written),
                 onPressed: () {
                   AnalyticsRepository.click(
@@ -109,7 +109,7 @@ class _Layout extends StatelessWidget {
             ],
             const SizedBox(height: 20),
             ZiggleRowButton(
-              icon: Assets.icons.flag.svg(),
+              leadingIcon: Assets.icons.flag.svg(),
               title: Text(context.t.user.feedback),
               onPressed: () {
                 AnalyticsRepository.click(

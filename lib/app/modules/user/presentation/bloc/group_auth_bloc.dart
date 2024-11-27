@@ -24,6 +24,7 @@ class GroupAuthBloc extends Bloc<GroupAuthEvent, GroupAuthState> {
         try {
           emit(_Loading());
           await _repository.login();
+          emit(_Authenticated());
         } on Exception catch (e) {
           emit(_Error(e.toString()));
         }

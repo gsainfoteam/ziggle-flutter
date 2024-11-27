@@ -2,11 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
-import 'package:ziggle/app/modules/groups/presentation/blocs/group_create_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -28,20 +28,17 @@ class GroupManagementNamePage extends StatefulWidget {
 }
 
 class _GroupManagementNamePageState extends State<GroupManagementNamePage> {
-  late final TextEditingController _controller;
+  late final TextEditingController _controller =
+      TextEditingController(text: widget.name);
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.name);
-    _controller.addListener(() {
-      setState(() {});
-    });
+    _controller.addListener(() => setState(noop));
   }
 
   @override
   void dispose() {
-    _controller.removeListener(() {});
     _controller.dispose();
     super.dispose();
   }
