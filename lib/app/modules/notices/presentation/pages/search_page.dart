@@ -145,7 +145,8 @@ class _LayoutState extends State<_Layout> {
                   child: state.showLoading
                       ? Center(
                           child: Lottie.asset(Assets.lotties.loading,
-                              height: 80, width: 80),
+                              height: MediaQuery.of(context).size.width * 0.2,
+                              width: MediaQuery.of(context).size.width * 0.2),
                         )
                       : InfiniteScroll(
                           onLoadMore: () => NoticeListBloc.loadMore(context),
@@ -169,8 +170,9 @@ class _LayoutState extends State<_Layout> {
           return Padding(
             padding: EdgeInsets.all(8.0),
             child: Center(
-              child:
-                  Lottie.asset(Assets.lotties.loading, width: 80, height: 80),
+              child: Lottie.asset(Assets.lotties.loading,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  height: MediaQuery.of(context).size.width * 0.2),
             ),
           );
         }

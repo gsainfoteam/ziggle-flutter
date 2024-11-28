@@ -32,7 +32,8 @@ class SingleNoticeShellLayout extends StatelessWidget {
           if (state.entity == null) {
             return Center(
                 child: Lottie.asset(Assets.lotties.loading,
-                    height: 80, width: 80));
+                    height: MediaQuery.of(context).size.width * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.2));
           }
           return const AutoRouter();
         }),

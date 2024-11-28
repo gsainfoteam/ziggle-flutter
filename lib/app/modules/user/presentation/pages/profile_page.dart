@@ -79,7 +79,8 @@ class _Layout extends StatelessWidget {
                     if (authState.isLoading)
                       Center(
                         child: Lottie.asset(Assets.lotties.loading,
-                            height: 60, width: 60),
+                            height: MediaQuery.of(context).size.width * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.15),
                       )
                   ],
                 ),

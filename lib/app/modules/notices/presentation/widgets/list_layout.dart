@@ -28,10 +28,11 @@ class ListLayout extends StatelessWidget {
       builder: (context, state) {
         return RefreshIndicator(
           onRefresh: () => NoticeListBloc.refresh(context),
-          child: state.showLoading
+          child: !state.showLoading
               ? Center(
                   child: Lottie.asset(Assets.lotties.loading,
-                      height: 80, width: 80),
+                      height: MediaQuery.of(context).size.width * 0.2,
+                      width: MediaQuery.of(context).size.width * 0.2),
                 )
               : InfiniteScroll(
                   onLoadMore: () => NoticeListBloc.loadMore(context),
@@ -50,7 +51,11 @@ class ListLayout extends StatelessWidget {
                                 padding: EdgeInsets.all(8.0),
                                 child: Center(
                                   child: Lottie.asset(Assets.lotties.loading,
-                                      height: 80, width: 80),
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.2,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2),
                                 ),
                               );
                             }

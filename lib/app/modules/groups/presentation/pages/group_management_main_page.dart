@@ -86,7 +86,8 @@ class GroupManagementMainPage extends StatelessWidget {
                     else if (state.isLoading)
                       Expanded(
                         child: Lottie.asset(Assets.lotties.loading,
-                            height: 80, width: 80),
+                            height: MediaQuery.of(context).size.width * 0.2,
+                            width: MediaQuery.of(context).size.width * 0.2),
                       )
                     else
                       Column(

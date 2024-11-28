@@ -47,7 +47,8 @@ class PackagesPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
                 child: Lottie.asset(Assets.lotties.loading,
-                    height: 80, width: 80));
+                    height: MediaQuery.of(context).size.width * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.2));
           }
           if (!snapshot.hasData) {
             return const Center(child: Text('No data'));
