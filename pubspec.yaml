@@ -57,6 +57,7 @@ dependencies:
   amplitude_flutter: ^3.16.4
   flutter_smartlook: ^4.1.24
   flutter_dotenv: ^5.1.0
+  flutter_launcher_icons: ^0.14.2
 
 dev_dependencies:
   flutter_test:
