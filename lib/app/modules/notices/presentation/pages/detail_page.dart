@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
@@ -8,6 +9,7 @@ import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_renderer.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
@@ -50,7 +52,8 @@ class _Layout extends StatelessWidget {
   Widget build(BuildContext context) {
     final notice = context.select((NoticeBloc bloc) => bloc.state.entity);
     if (notice == null) {
-      return const Center(child: CircularProgressIndicator());
+      return Center(
+          child: Lottie.asset(Assets.lotties.loading, height: 80, width: 80));
     }
     return NoticeRenderer(notice: notice);
   }

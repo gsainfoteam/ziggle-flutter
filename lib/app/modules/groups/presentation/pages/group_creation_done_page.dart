@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_select.dart';
 import 'package:ziggle/app/modules/groups/presentation/layouts/group_creation_layout.dart';
@@ -34,7 +35,7 @@ class _LayoutState extends State<_Layout> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Assets.icons.doneCheck.svg(width: 100),
+        Lottie.asset(Assets.lotties.complete, repeat: false),
         const SizedBox(height: 20),
         Text(
           context.t.group.creation.done.title(name: "인포팀"),

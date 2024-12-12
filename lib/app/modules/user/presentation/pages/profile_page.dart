@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
@@ -76,8 +77,10 @@ class _Layout extends StatelessWidget {
                       child: const _Login(),
                     ),
                     if (authState.isLoading)
-                      const Center(
-                        child: CircularProgressIndicator(),
+                      Center(
+                        child: Lottie.asset(Assets.lotties.loading,
+                            height: MediaQuery.of(context).size.width * 0.15,
+                            width: MediaQuery.of(context).size.width * 0.15),
                       )
                   ],
                 ),

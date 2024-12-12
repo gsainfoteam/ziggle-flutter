@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 
 enum ZiggleButtonType {
   cta(EdgeInsets.symmetric(vertical: 15, horizontal: 20)),
@@ -143,7 +145,8 @@ class ZiggleButton extends StatelessWidget {
               child: Center(
                 child: Opacity(
                   opacity: loading ? 1 : 0,
-                  child: const CircularProgressIndicator(),
+                  child: Lottie.asset(Assets.lotties.loading,
+                      width: 30, height: 30),
                 ),
               ),
             ),

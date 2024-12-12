@@ -10,7 +10,6 @@ class GroupListModel with _$GroupListModel implements GroupListEntity {
   const GroupListModel._();
 
   const factory GroupListModel({
-    required int total,
     required List<GroupModel> list,
   }) = _GroupListModel;
 

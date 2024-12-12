@@ -100,6 +100,7 @@ class _LayoutState extends State<_Layout> {
             Expanded(
               child: ZiggleButton.cta(
                 outlined: true,
+                onPressed: () => context.maybePop(),
                 child: Text(context.t.common.back),
               ),
             ),

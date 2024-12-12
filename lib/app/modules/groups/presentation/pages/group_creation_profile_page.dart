@@ -81,6 +81,11 @@ class _LayoutState extends State<_Layout> {
             context
                 .read<GroupCreateBloc>()
                 .add(GroupCreateEvent.setName(_name));
+            if (_image != null) {
+              context
+                  .read<GroupCreateBloc>()
+                  .add(GroupCreateEvent.setImage(_image));
+            }
             const GroupCreationIntroduceRoute().push(context);
           },
           disabled: _name.isEmpty,

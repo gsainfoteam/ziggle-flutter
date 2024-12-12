@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
@@ -13,6 +14,7 @@ import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 class ListLayout extends StatelessWidget {
@@ -26,9 +28,11 @@ class ListLayout extends StatelessWidget {
       builder: (context, state) {
         return RefreshIndicator(
           onRefresh: () => NoticeListBloc.refresh(context),
-          child: state.showLoading
-              ? const Center(
-                  child: CircularProgressIndicator(),
+          child: !state.showLoading
+              ? Center(
+                  child: Lottie.asset(Assets.lotties.loading,
+                      height: MediaQuery.of(context).size.width * 0.2,
+                      width: MediaQuery.of(context).size.width * 0.2),
                 )
               : InfiniteScroll(
                   onLoadMore: () => NoticeListBloc.loadMore(context),
@@ -43,10 +47,15 @@ class ListLayout extends StatelessWidget {
                         sliver: SliverList.separated(
                           itemBuilder: (context, index) {
                             if (index >= state.notices.length) {
-                              return const Padding(
+                              return Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Center(
-                                  child: CircularProgressIndicator(),
+                                  child: Lottie.asset(Assets.lotties.loading,
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.2,
+                                      width: MediaQuery.of(context).size.width *
+                                          0.2),
                                 ),
                               );
                             }
