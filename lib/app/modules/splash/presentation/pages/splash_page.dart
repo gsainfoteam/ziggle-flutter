@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Palette.primary,
+      backgroundColor: Palette.white,
       body: Center(
         child: Assets.logo.transparent.image(),
       ),
