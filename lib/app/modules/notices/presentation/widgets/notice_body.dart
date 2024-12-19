@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -19,7 +18,6 @@ class NoticeBody extends StatefulWidget {
 
 class _NoticeBodyState extends State<NoticeBody> {
   double _height = 1;
-  late bool _initial = Platform.isIOS;
   final _completer = Completer<void>();
   late final InAppWebViewController _controller;
 
@@ -48,8 +46,7 @@ class _NoticeBodyState extends State<NoticeBody> {
           builtInZoomControls: false,
         ),
         shouldOverrideUrlLoading: (controller, navigationAction) async {
-          if (_initial) {
-            _initial = false;
+          if (navigationAction.request.url.toString() == 'about:blank') {
             return NavigationActionPolicy.ALLOW;
           }
           final uri = navigationAction.request.url;
