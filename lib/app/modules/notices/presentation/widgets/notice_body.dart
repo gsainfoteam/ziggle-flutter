@@ -105,7 +105,7 @@ class _NoticeBodyState extends State<NoticeBody> {
                     margin-bottom: 1rem;
                   }
                   a {
-                    color: #${Palette.grayText.css};
+                    color: ${Palette.grayText.css};
                   }
                   img {
                     max-width: 100%;
