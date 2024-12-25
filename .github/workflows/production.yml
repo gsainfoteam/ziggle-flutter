@@ -10,12 +10,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-os: [ubuntu-latest, macos-14]
+        build-os: [ubuntu-latest, macos-15]
         include:
           - os: Android
             build-os: ubuntu-latest
           - os: iOS
-            build-os: macos-14
+            build-os: macos-15
     name: Promote ${{ matrix.os }} App to Production
     runs-on: ${{ matrix.build-os }}
     concurrency:
@@ -28,7 +28,7 @@ jobs:
           echo "directory=$(echo ${{ matrix.os }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2.0'
+          ruby-version: "3.2.0"
       - name: Run fastlane
         run: |
           bundle install
@@ -48,7 +48,7 @@ jobs:
           status: ${{ job.status }}
           author_name: Github Action Build
           mention: ${{ secrets.SLACK_MENTION }}
-          if_mention: 'failure,cancelled'
+          if_mention: "failure,cancelled"
           fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

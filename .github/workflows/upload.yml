@@ -10,12 +10,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-os: [ubuntu-latest, macos-14]
+        build-os: [ubuntu-latest, macos-15]
         include:
           - os: Android
             build-os: ubuntu-latest
           - os: iOS
-            build-os: macos-14
+            build-os: macos-15
     name: Build ${{ matrix.os }} App and Upload
     runs-on: ${{ matrix.build-os }}
     concurrency:
@@ -74,7 +74,7 @@ jobs:
       - name: install flutterfire
         run: flutter pub global activate flutterfire_cli
       - uses: actions/cache@v4
-        if: matrix.os == 'macos-14'
+        if: matrix.os == 'macos-15'
         with:
           path: |
             ~/.cocoapods

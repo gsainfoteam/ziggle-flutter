@@ -45,11 +45,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-os: [ubuntu-latest, macos-14]
+        build-os: [ubuntu-latest, macos-15]
         include:
           - build-os: ubuntu-latest
             os: Android
-          - build-os: macos-14
+          - build-os: macos-15
             os: iOS
     runs-on: ${{ matrix.build-os }}
     concurrency:
