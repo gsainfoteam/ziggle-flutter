@@ -1,23 +1,23 @@
 import 'dart:async';
 
+import 'package:app_links/app_links.dart';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:uni_links/uni_links.dart';
 
 import '../../domain/repositories/link_repository.dart';
 
 @singleton
-class UniLinksLinkRepository implements LinkRepository {
+class AppLinksLinkRepository implements LinkRepository {
   final _linkSubject = BehaviorSubject<String>();
   late final StreamSubscription<String?> _subscription;
+  final appLinks = AppLinks();
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    final initialLink = await getInitialLink().catchError((_) => null);
+    final initialLink =
+        await appLinks.getInitialLinkString().catchError((_) => null);
     if (initialLink != null) _linkSubject.add(initialLink);
-    _subscription = linkStream.listen((link) {
-      if (link != null) _linkSubject.add(link);
-    });
+    _subscription = appLinks.stringLinkStream.listen(_linkSubject.add);
   }
 
   @disposeMethod
