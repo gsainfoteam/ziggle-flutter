@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "343325951427",
     "project_id": "gsainfoteam-ziggle",
-    "storage_bucket": "gsainfoteam-ziggle.appspot.com"
+    "storage_bucket": "gsainfoteam-ziggle.firebasestorage.app"
   },
   "client": [
     {

@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:343325951427:android:7ad83fe8345942b9e6e976',
     messagingSenderId: '343325951427',
     projectId: 'gsainfoteam-ziggle',
-    storageBucket: 'gsainfoteam-ziggle.appspot.com',
+    storageBucket: 'gsainfoteam-ziggle.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -62,7 +62,7 @@ class DefaultFirebaseOptions {
     appId: '1:343325951427:ios:630d75333b29826ee6e976',
     messagingSenderId: '343325951427',
     projectId: 'gsainfoteam-ziggle',
-    storageBucket: 'gsainfoteam-ziggle.appspot.com',
+    storageBucket: 'gsainfoteam-ziggle.firebasestorage.app',
     iosClientId: '343325951427-or72df25mic7p6slr09d1sov9sb24h4s.apps.googleusercontent.com',
     iosBundleId: 'me.gistory.ziggle',
   );
