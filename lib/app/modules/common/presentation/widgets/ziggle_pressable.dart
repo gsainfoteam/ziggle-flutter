@@ -49,10 +49,10 @@ class _ZigglePressableState extends State<ZigglePressable> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 100),
           decoration: widget.decoration.copyWith(
-            color: widget.decoration.color?.withOpacity(
-              widget.onPressed != null && pressed
-                  ? widget.decoration.color!.opacity * 0.8
-                  : widget.decoration.color!.opacity,
+            color: widget.decoration.color?.withValues(
+              alpha: widget.onPressed != null && pressed
+                  ? widget.decoration.color!.a * 0.8
+                  : widget.decoration.color!.a,
             ),
           ),
           child: widget.child,

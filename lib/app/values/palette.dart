@@ -18,6 +18,5 @@ abstract class Palette {
 }
 
 extension ColorHex on Color {
-  String get hex =>
-      '#${value.toRadixString(16).padLeft(8, '0').substring(2, 8)}';
+  String get css => 'rgba(${r * 256}, ${g * 256}, ${b * 256}, $a)';
 }

@@ -11,7 +11,7 @@ abstract class AppTheme {
     scaffoldBackgroundColor: Palette.white,
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: Palette.primary,
-      selectionColor: Palette.primary.withOpacity(0.4),
+      selectionColor: Palette.primary.withValues(alpha: 0.4),
       selectionHandleColor: Palette.primary,
     ),
     cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(

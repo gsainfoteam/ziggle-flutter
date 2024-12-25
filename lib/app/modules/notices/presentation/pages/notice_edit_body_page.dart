@@ -264,7 +264,9 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                   const AnalyticsEvent.noticeEditBodyUseAiTranslation());
               if (_englishBodyController.plainTextEditingValue.text
                   .trim()
-                  .isNotEmpty) return;
+                  .isNotEmpty) {
+                return;
+              }
               _translate();
             },
             translateEnabled: _englishBodyController.plainTextEditingValue.text
@@ -379,7 +381,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: isToggled ? Palette.primary.withOpacity(0.4) : null,
+            color: isToggled ? Palette.primary.withValues(alpha: 0.4) : null,
           ),
           child: child,
         ),

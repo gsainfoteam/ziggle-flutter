@@ -90,7 +90,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                         ),
                         decoration: ShapeDecoration(
                           color: _scrolled
-                              ? Palette.white.withOpacity(0.8)
+                              ? Palette.white.withValues(alpha: 0.8)
                               : widget.notice.currentDeadline!
                                       .isBefore(DateTime.now())
                                   ? Palette.grayText

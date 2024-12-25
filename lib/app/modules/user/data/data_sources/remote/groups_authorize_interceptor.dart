@@ -1,4 +1,4 @@
-import 'package:dio/src/dio.dart';
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
