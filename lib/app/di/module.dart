@@ -1,3 +1,4 @@
+import 'package:app_links/app_links.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,6 +22,9 @@ abstract class AppModule {
       storage: FileStorage("$appDocPath/.cookies/"),
     );
   }
+
+  @singleton
+  AppLinks get appLinks => AppLinks();
 
   @singleton
   CookieManager getCookieManager(CookieJar cookieJar) =>

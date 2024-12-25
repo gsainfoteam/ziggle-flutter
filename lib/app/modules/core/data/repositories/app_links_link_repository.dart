@@ -10,7 +10,9 @@ import '../../domain/repositories/link_repository.dart';
 class AppLinksLinkRepository implements LinkRepository {
   final _linkSubject = BehaviorSubject<String>();
   late final StreamSubscription<String?> _subscription;
-  final appLinks = AppLinks();
+  final AppLinks appLinks;
+
+  AppLinksLinkRepository(this.appLinks);
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
