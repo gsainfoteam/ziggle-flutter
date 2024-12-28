@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/group_item_model.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';
 
 part 'group_list_model.freezed.dart';
@@ -10,7 +10,7 @@ class GroupListModel with _$GroupListModel implements GroupListEntity {
   const GroupListModel._();
 
   const factory GroupListModel({
-    required List<GroupModel> list,
+    required List<GroupItemModel> groups,
   }) = _GroupListModel;
 
   factory GroupListModel.fromJson(Map<String, dynamic> json) =>

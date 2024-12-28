@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dart';
 
@@ -12,7 +13,10 @@ abstract class GroupRepository {
     String? notionPageId,
   });
 
+  Stream<GroupListEntity> watchGroups();
   Future<GroupListEntity> getGroups();
+
+  Future<GroupEntity> getGroup(String uuid);
 
   Future<void> modifyName({
     required String uuid,

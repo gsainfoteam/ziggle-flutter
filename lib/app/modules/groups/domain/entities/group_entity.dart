@@ -1,9 +1,12 @@
+import 'package:ziggle/app/modules/groups/domain/entities/president_entity.dart';
+
 class GroupEntity {
   final String uuid;
   final String name;
   final String? description;
   final DateTime createdAt;
-  final String presidentUuid;
+  final PresidentEntity? president;
+  final String? presidentUuid;
   final int? memberCount;
   final DateTime? verifiedAt;
   final bool? verified;
@@ -17,7 +20,8 @@ class GroupEntity {
     required this.name,
     required this.description,
     required this.createdAt,
-    required this.presidentUuid,
+    this.president,
+    this.presidentUuid,
     required this.memberCount,
     required this.verifiedAt,
     required this.verified,

@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
@@ -45,54 +44,52 @@ class _GroupManagementNamePageState extends State<GroupManagementNamePage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<GroupManagementBloc>(),
-      child: Scaffold(
-        appBar: ZiggleAppBar.compact(
-          from: PageSource.setting,
-          backLabel: context.t.group.manage.header,
-          title: Text(context.t.group.manage.name.header),
+    return Scaffold(
+      appBar: ZiggleAppBar.compact(
+        from: PageSource.setting,
+        backLabel: context.t.group.manage.header,
+        title: Text(context.t.group.manage.name.header),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 20,
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 18,
-            vertical: 20,
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Text(
-                    context.t.group.manage.name.groupName,
-                    style: TextStyle(fontSize: 16, color: Palette.black),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              ZiggleInput(
-                hintText: context.t.group.manage.name.helpText,
-                controller: _controller,
-              ),
-              const SizedBox(height: 30),
-              BlocBuilder<GroupManagementBloc, GroupManagementState>(
-                builder: (context, state) {
-                  return ZiggleButton.cta(
-                    onPressed: () {
-                      context
-                          .read<GroupManagementBloc>()
-                          .add(GroupManagementEvent.updateName(
-                            widget.uuid,
-                            _controller.text,
-                          ));
-                    },
-                    disabled: _controller.text.isEmpty ||
-                        _controller.text == widget.name,
-                    child: Text(context.t.group.manage.change),
-                  );
-                },
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  context.t.group.manage.name.groupName,
+                  style: TextStyle(fontSize: 16, color: Palette.black),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            ZiggleInput(
+              hintText: context.t.group.manage.name.helpText,
+              controller: _controller,
+            ),
+            const SizedBox(height: 30),
+            BlocBuilder<GroupManagementBloc, GroupManagementState>(
+              builder: (context, state) {
+                return ZiggleButton.cta(
+                  onPressed: () {
+                    context
+                        .read<GroupManagementBloc>()
+                        .add(GroupManagementEvent.updateName(
+                          widget.uuid,
+                          _controller.text,
+                        ));
+                    context.router.maybePop();
+                  },
+                  disabled: _controller.text.isEmpty ||
+                      _controller.text == widget.name,
+                  child: Text(context.t.group.manage.change),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

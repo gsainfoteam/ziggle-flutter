@@ -1,21 +1,21 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/president_model.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/president_entity.dart';
 
-part 'group_model.freezed.dart';
-part 'group_model.g.dart';
+part 'group_item_model.freezed.dart';
+part 'group_item_model.g.dart';
 
 @freezed
-class GroupModel with _$GroupModel implements GroupEntity {
-  const GroupModel._();
+class GroupItemModel with _$GroupItemModel implements GroupEntity {
+  const GroupItemModel._();
 
-  const factory GroupModel({
+  const factory GroupItemModel({
     required String uuid,
     required String name,
     required String? description,
     required DateTime createdAt,
-    required PresidentModel president,
-    required int? memberCount,
+    required String presidentUuid,
     required DateTime? verifiedAt,
     required bool? verified,
     required DateTime? deletedAt,
@@ -24,9 +24,12 @@ class GroupModel with _$GroupModel implements GroupEntity {
     required String? profileImageUrl,
   }) = _GroupModel;
 
-  factory GroupModel.fromJson(Map<String, dynamic> json) =>
-      _$GroupModelFromJson(json);
+  factory GroupItemModel.fromJson(Map<String, dynamic> json) =>
+      _$GroupItemModelFromJson(json);
 
   @override
-  String? get presidentUuid => null;
+  PresidentEntity? get president => null; // 목록에는 회장 상세정보 없음
+
+  @override
+  int? get memberCount => null; // 목록에는 memberCount 없음
 }

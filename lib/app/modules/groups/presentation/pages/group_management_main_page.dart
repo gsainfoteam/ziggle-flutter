@@ -65,9 +65,9 @@ class GroupManagementMainPage extends StatelessWidget {
                     if (state.groups != null)
                       Expanded(
                         child: ListView.separated(
-                          itemCount: state.groups!.list.length + 1,
+                          itemCount: state.groups!.groups.length + 1,
                           itemBuilder: (context, index) {
-                            if (index == state.groups!.list.length) {
+                            if (index == state.groups!.groups.length) {
                               return Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(0, 15, 0, 25),
@@ -75,11 +75,13 @@ class GroupManagementMainPage extends StatelessWidget {
                               );
                             }
                             return GroupListItem(
-                              name: state.groups!.list[index].name,
+                              name: state.groups!.groups[index].name,
                               onPressed: () {
-                                GroupManagementRoute(
-                                        group: state.groups!.list[index])
-                                    .push(context);
+                                context.router.push(
+                                  GroupManagementShellRoute(
+                                    group: state.groups!.groups[index],
+                                  ),
+                                );
                               },
                             );
                           },

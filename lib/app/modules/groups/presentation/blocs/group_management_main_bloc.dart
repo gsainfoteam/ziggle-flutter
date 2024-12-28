@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -11,10 +13,16 @@ part 'group_management_main_bloc.freezed.dart';
 class GroupManagementMainBloc
     extends Bloc<GroupManagementMainEvent, GroupManagementMainState> {
   final GroupRepository _repository;
+  late final StreamSubscription<GroupListEntity> _groupsSubscription;
 
   GroupManagementMainBloc(this._repository) : super(_Initial()) {
     on<_Load>(_handleLoadOrRefresh);
     on<_Refresh>(_handleLoadOrRefresh);
+    on<_GroupsUpdated>((event, emit) => emit(_Loaded(event.groups)));
+
+    _groupsSubscription = _repository.watchGroups().listen((groupListEntity) {
+      add(GroupManagementMainEvent.groupsUpdated(groupListEntity));
+    });
   }
 
   void _handleLoadOrRefresh(
@@ -40,6 +48,8 @@ class GroupManagementMainBloc
 class GroupManagementMainEvent with _$GroupManagementMainEvent {
   const factory GroupManagementMainEvent.load() = _Load;
   const factory GroupManagementMainEvent.refresh() = _Refresh;
+  const factory GroupManagementMainEvent.groupsUpdated(GroupListEntity groups) =
+      _GroupsUpdated;
 }
 
 @freezed

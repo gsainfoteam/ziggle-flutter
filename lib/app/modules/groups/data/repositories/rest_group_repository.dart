@@ -2,12 +2,15 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:injectable/injectable.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/notion_api.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
 
@@ -15,6 +18,9 @@ import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dar
 class RestGroupRepository implements GroupRepository {
   final GroupApi _api;
   final NotionApi _notionApi;
+
+  final BehaviorSubject<GroupListEntity> _groupsSubject =
+      BehaviorSubject.seeded(GroupListEntity(groups: []));
 
   RestGroupRepository(
     this._api,
@@ -39,8 +45,18 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<GroupListModel> getGroups() {
-    return _api.getGroups();
+  Stream<GroupListEntity> watchGroups() => _groupsSubject.stream;
+
+  @override
+  Future<GroupListEntity> getGroups() async {
+    final GroupListModel fetched = await _api.getGroups();
+    _groupsSubject.add(fetched);
+    return fetched;
+  }
+
+  @override
+  Future<GroupEntity> getGroup(String uuid) {
+    return _api.getGroup(uuid);
   }
 
   @override
@@ -104,5 +120,17 @@ class RestGroupRepository implements GroupRepository {
       {required String uuid, required String targetUuid, required int roleId}) {
     // TODO: implement removeRoleFromUser
     throw UnimplementedError();
+  }
+
+  Future<void> _refreshGroups() async {
+    try {
+      final newList = await getGroups();
+      // 위 getGroups()가 끝나면 _groupsSubject에 add까지 이미 해둠
+      log('Groups refreshed: ${newList.groups.length} items found');
+    } catch (e, st) {
+      // 실제 프로젝트에선 예외처리/에러 로깅
+      log('Failed to refresh groups: $e', stackTrace: st);
+      rethrow;
+    }
   }
 }
