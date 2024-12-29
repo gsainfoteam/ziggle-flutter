@@ -10,7 +10,7 @@ class GroupListModel with _$GroupListModel implements GroupListEntity {
   const GroupListModel._();
 
   const factory GroupListModel({
-    required List<GroupItemModel> groups,
+    required List<GroupItemModel> list,
   }) = _GroupListModel;
 
   factory GroupListModel.fromJson(Map<String, dynamic> json) =>

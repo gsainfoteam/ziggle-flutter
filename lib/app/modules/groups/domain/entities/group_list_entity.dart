@@ -1,7 +1,7 @@
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 
 class GroupListEntity {
-  final List<GroupEntity> groups;
+  final List<GroupEntity> list;
 
-  GroupListEntity({required this.groups});
+  GroupListEntity({required this.list});
 }

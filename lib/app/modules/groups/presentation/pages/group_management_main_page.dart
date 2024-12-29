@@ -22,52 +22,69 @@ class GroupManagementMainPage extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           sl<GroupManagementMainBloc>()..add(GroupManagementMainEvent.load()),
-      child: BlocBuilder<GroupManagementMainBloc, GroupManagementMainState>(
-        builder: (context, state) {
-          return Scaffold(
-            appBar: ZiggleAppBar.compact(
-              backLabel: context.t.user.myInfo,
-              from: PageSource.unknown,
-              title: Text(context.t.group.managementMain.header),
-              actions: [
-                ZiggleButton.text(
-                  child: Text(
-                    context.t.group.managementMain.newGroup,
+      child: _Layout(),
+    );
+  }
+}
+
+class _Layout extends StatelessWidget {
+  const _Layout();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: ZiggleAppBar.compact(
+        backLabel: context.t.user.myInfo,
+        from: PageSource.unknown,
+        title: Text(context.t.group.managementMain.header),
+        actions: [
+          ZiggleButton.text(
+            child: Text(
+              context.t.group.managementMain.newGroup,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Palette.primary,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            onPressed: () => GroupCreationProfileRoute().push(context),
+          ),
+        ],
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => GroupManagementMainBloc.refresh(context),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 25, 16, 0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    context.t.group.managementMain.myGroup,
                     style: const TextStyle(
-                      fontSize: 16,
-                      color: Palette.primary,
-                      fontWeight: FontWeight.w400,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onPressed: () => GroupCreationProfileRoute().push(context),
-                ),
-              ],
-            ),
-            body: RefreshIndicator(
-              onRefresh: () => GroupManagementMainBloc.refresh(context),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(16, 25, 16, 0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.t.group.managementMain.myGroup,
-                          style: const TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                ],
+              ),
+              const SizedBox(height: 20),
+              BlocBuilder<GroupManagementMainBloc, GroupManagementMainState>(
+                builder: (context, state) {
+                  return state.when(
+                    initial: () => Container(),
+                    loading: () => Center(
+                      child: Lottie.asset(Assets.lotties.loading,
+                          height: MediaQuery.of(context).size.width * 0.2,
+                          width: MediaQuery.of(context).size.width * 0.2),
                     ),
-                    const SizedBox(height: 20),
-                    if (state.groups != null)
-                      Expanded(
+                    loaded: (groups) {
+                      return Expanded(
                         child: ListView.separated(
-                          itemCount: state.groups!.groups.length + 1,
+                          itemCount: state.groups!.list.length + 1,
                           itemBuilder: (context, index) {
-                            if (index == state.groups!.groups.length) {
+                            if (index == groups.list.length) {
                               return Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(0, 15, 0, 25),
@@ -75,11 +92,11 @@ class GroupManagementMainPage extends StatelessWidget {
                               );
                             }
                             return GroupListItem(
-                              name: state.groups!.groups[index].name,
+                              name: groups.list[index].name,
                               onPressed: () {
                                 context.router.push(
                                   GroupManagementShellRoute(
-                                    group: state.groups!.groups[index],
+                                    group: groups.list[index],
                                   ),
                                 );
                               },
@@ -88,37 +105,31 @@ class GroupManagementMainPage extends StatelessWidget {
                           separatorBuilder: (context, index) =>
                               SizedBox(height: 5),
                         ),
-                      )
-                    else if (state.isLoading)
-                      Expanded(
-                        child: Lottie.asset(Assets.lotties.loading,
-                            height: MediaQuery.of(context).size.width * 0.2,
-                            width: MediaQuery.of(context).size.width * 0.2),
-                      )
-                    else
-                      Column(
-                        children: [
-                          Assets.images.bonfire.svg(),
-                          const SizedBox(height: 20),
-                          Text(
-                            context.t.group.managementMain.noGroup,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Palette.grayText,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
+                      );
+                    },
+                    error: (message) => Column(
+                      children: [
+                        Assets.images.bonfire.svg(),
+                        const SizedBox(height: 20),
+                        Text(
+                          context.t.group.managementMain.noGroup,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Palette.grayText,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
                           ),
-                          SizedBox(height: 20),
-                          _InquiryWidget(),
-                        ],
-                      ),
-                  ],
-                ),
+                        ),
+                        SizedBox(height: 20),
+                        _InquiryWidget(),
+                      ],
+                    ),
+                  );
+                },
               ),
-            ),
-          );
-        },
+            ],
+          ),
+        ),
       ),
     );
   }

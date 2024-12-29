@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:injectable/injectable.dart';
@@ -14,18 +13,19 @@ import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart
 import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
 
-@Injectable(as: GroupRepository)
+@Singleton(as: GroupRepository)
 class RestGroupRepository implements GroupRepository {
   final GroupApi _api;
   final NotionApi _notionApi;
-
   final BehaviorSubject<GroupListEntity> _groupsSubject =
-      BehaviorSubject.seeded(GroupListEntity(groups: []));
+      BehaviorSubject.seeded(GroupListEntity(list: []));
 
-  RestGroupRepository(
-    this._api,
-    this._notionApi,
-  );
+  RestGroupRepository(this._api, this._notionApi);
+
+  Future<void> _refreshGroups() async {
+    final newList = await _api.getGroups();
+    _groupsSubject.add(newList);
+  }
 
   @override
   Future<GroupModel> createGroup({
@@ -39,7 +39,6 @@ class RestGroupRepository implements GroupRepository {
       description: description,
       notionPageId: notionPageId,
     ));
-
     if (image != null) await _api.uploadImage(createdGroup.uuid, image);
     return createdGroup;
   }
@@ -62,12 +61,12 @@ class RestGroupRepository implements GroupRepository {
   @override
   Future<void> modifyName({required String uuid, required String name}) async {
     await _api.modifyGroup(uuid, ModifyGroupModel(name: name));
+    await _refreshGroups();
   }
 
   @override
   Future<void> modifyDescription(
       {required String uuid, required String? description}) async {
-    print(ModifyGroupModel(description: description));
     await _api.modifyGroup(uuid, ModifyGroupModel(description: description));
   }
 
@@ -120,17 +119,5 @@ class RestGroupRepository implements GroupRepository {
       {required String uuid, required String targetUuid, required int roleId}) {
     // TODO: implement removeRoleFromUser
     throw UnimplementedError();
-  }
-
-  Future<void> _refreshGroups() async {
-    try {
-      final newList = await getGroups();
-      // 위 getGroups()가 끝나면 _groupsSubject에 add까지 이미 해둠
-      log('Groups refreshed: ${newList.groups.length} items found');
-    } catch (e, st) {
-      // 실제 프로젝트에선 예외처리/에러 로깅
-      log('Failed to refresh groups: $e', stackTrace: st);
-      rethrow;
-    }
   }
 }
