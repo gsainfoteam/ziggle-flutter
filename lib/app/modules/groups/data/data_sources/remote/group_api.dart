@@ -8,8 +8,8 @@ import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_invite_code_response_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_item_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
-import 'package:ziggle/app/modules/groups/data/data_sources/models/memeber_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/memeber_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/role_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/update_role_model.dart';
