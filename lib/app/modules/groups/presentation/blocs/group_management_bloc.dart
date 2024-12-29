@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -17,6 +19,13 @@ class GroupManagementBloc
       emit(GroupManagementState.loading());
       final fetchedGroup = await _repository.getGroup(event.uuid);
       emit(GroupManagementState.success(fetchedGroup));
+    });
+    on<_UpdateProfileImage>((event, emit) async {
+      emit(GroupManagementState.loading());
+      await _repository.modifyProfileImage(
+          uuid: event.uuid, image: event.image);
+      final updatedGroup = await _repository.getGroup(event.uuid);
+      emit(GroupManagementState.success(updatedGroup));
     });
     on<_UpdateName>((event, emit) async {
       emit(GroupManagementState.loading());
@@ -47,9 +56,6 @@ class GroupManagementBloc
       );
       final updatedGroup = await _repository.getGroup(event.uuid);
       emit(GroupManagementState.success(updatedGroup));
-    });
-    on<_CreateInviteLink>((event, emit) async {
-      emit(GroupManagementState.loading());
     });
     on<_GetMembers>((event, emit) async {
       emit(GroupManagementState.loading());
@@ -99,14 +105,14 @@ class GroupManagementBloc
 class GroupManagementEvent with _$GroupManagementEvent {
   const factory GroupManagementEvent.load(String uuid) = _Load;
 
+  const factory GroupManagementEvent.updateProfileImage(
+      String uuid, File image) = _UpdateProfileImage;
   const factory GroupManagementEvent.updateName(String uuid, String name) =
       _UpdateName;
   const factory GroupManagementEvent.updateDescription(
       String uuid, String? description) = _UpdateDescription;
   const factory GroupManagementEvent.updateNotionLink(
       String uuid, String? notionLink) = _UpdateNotionLink;
-  const factory GroupManagementEvent.createInviteLink(String uuid) =
-      _CreateInviteLink;
   const factory GroupManagementEvent.getMembers(String uuid) = _GetMembers;
   const factory GroupManagementEvent.removeMember(
       String uuid, String targetUuid) = _RemoveMember;
@@ -120,8 +126,12 @@ class GroupManagementEvent with _$GroupManagementEvent {
 
 @freezed
 class GroupManagementState with _$GroupManagementState {
+  const GroupManagementState._();
+
   const factory GroupManagementState.initial() = _Initial;
   const factory GroupManagementState.loading() = _Loading;
-  const factory GroupManagementState.success(GroupEntity group) = _Done;
+  const factory GroupManagementState.success(GroupEntity group) = _Success;
+  const factory GroupManagementState.inviteCode(String code) = _InviteCode;
+  const factory GroupManagementState.done() = _Done;
   const factory GroupManagementState.error(String message) = _Error;
 }

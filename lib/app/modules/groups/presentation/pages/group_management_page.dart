@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
@@ -85,6 +88,16 @@ class GroupManagementPage extends StatelessWidget {
                         height: 27,
                       ),
                       ZiggleButton.cta(
+                        onPressed: () async {
+                          final bloc = context.read<GroupManagementBloc>();
+                          final image = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          if (image == null) return;
+                          bloc.add(GroupManagementEvent.updateProfileImage(
+                            group.uuid,
+                            File(image.path),
+                          ));
+                        },
                         emphasize: false,
                         child: Text(
                           context.t.group.manage.profileImage,
@@ -123,7 +136,8 @@ class GroupManagementPage extends StatelessWidget {
                         showChevron: true,
                         title: Text(context.t.group.manage.invite.header),
                         onPressed: () =>
-                            GroupManagementInvitationLinkRoute().push(context),
+                            GroupManagementInvitationLinkRoute(uuid: group.uuid)
+                                .push(context),
                       ),
                       const SizedBox(height: 20),
                       ZiggleRowButton(

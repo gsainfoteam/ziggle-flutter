@@ -5,6 +5,8 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/group_invite_code_request_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/group_invite_code_response_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_item_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
@@ -53,7 +55,8 @@ abstract class GroupApi {
   );
 
   @POST('{uuid}/invite')
-  Future<Map<String, String>> createInviteCode(@Path('uuid') String uuid);
+  Future<GroupInviteCodeResponseModel> createInviteCode(
+      @Path('uuid') String uuid, @Query('duration') int duration);
 
   @POST('join')
   Future<void> joinGroup(@Body() Map<String, String> code);

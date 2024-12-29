@@ -17,6 +17,10 @@ abstract class GroupRepository {
 
   Future<GroupEntity> getGroup(String uuid);
 
+  Future<void> modifyProfileImage({
+    required String uuid,
+    required File image,
+  });
   Future<void> modifyName({
     required String uuid,
     required String name,

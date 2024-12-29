@@ -44,37 +44,37 @@ class _GroupManagementNotionPageState extends State<GroupManagementNotionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<GroupManagementBloc>(),
-      child: Scaffold(
-        appBar: ZiggleAppBar.compact(
-          from: PageSource.groupManagement,
-          backLabel: context.t.group.manage.header,
-          title: Text(context.t.group.manage.notionLink.header),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
-          child: Column(
-            children: [
-              ZiggleInput(
-                hintText: context.t.group.manage.notionLink.hintText,
-                controller: _controller,
-              ),
-              SizedBox(height: 30),
-              BlocBuilder<GroupManagementBloc, GroupManagementState>(
-                builder: (context, state) {
-                  return ZiggleButton.cta(
-                    disabled: _controller.text.isEmpty ||
-                        _controller.text == widget.notionLink,
-                    child: Text(context.t.group.manage.change),
-                    onPressed: () => context.read<GroupManagementBloc>().add(
+    return Scaffold(
+      appBar: ZiggleAppBar.compact(
+        from: PageSource.groupManagement,
+        backLabel: context.t.group.manage.header,
+        title: Text(context.t.group.manage.notionLink.header),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+        child: Column(
+          children: [
+            ZiggleInput(
+              hintText: context.t.group.manage.notionLink.hintText,
+              controller: _controller,
+            ),
+            SizedBox(height: 30),
+            BlocBuilder<GroupManagementBloc, GroupManagementState>(
+              builder: (context, state) {
+                return ZiggleButton.cta(
+                  disabled: _controller.text.isEmpty ||
+                      _controller.text == widget.notionLink,
+                  child: Text(context.t.group.manage.change),
+                  onPressed: () {
+                    context.read<GroupManagementBloc>().add(
                         GroupManagementEvent.updateNotionLink(
-                            widget.uuid, _controller.text)),
-                  );
-                },
-              ),
-            ],
-          ),
+                            widget.uuid, _controller.text));
+                    context.router.maybePop();
+                  },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

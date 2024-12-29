@@ -74,6 +74,8 @@ class _GroupManagementNamePageState extends State<GroupManagementNamePage> {
             BlocBuilder<GroupManagementBloc, GroupManagementState>(
               builder: (context, state) {
                 return ZiggleButton.cta(
+                  disabled: _controller.text.isEmpty ||
+                      _controller.text == widget.name,
                   onPressed: () {
                     context
                         .read<GroupManagementBloc>()
@@ -83,8 +85,6 @@ class _GroupManagementNamePageState extends State<GroupManagementNamePage> {
                         ));
                     context.router.maybePop();
                   },
-                  disabled: _controller.text.isEmpty ||
-                      _controller.text == widget.name,
                   child: Text(context.t.group.manage.change),
                 );
               },

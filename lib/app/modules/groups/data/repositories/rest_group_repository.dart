@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/group_invite_code_request_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
@@ -46,13 +47,17 @@ class RestGroupRepository implements GroupRepository {
   @override
   Future<GroupListEntity> getGroups() async {
     final GroupListModel fetched = await _api.getGroups();
-    // _groupsSubject.add(fetched);
     return fetched;
   }
 
   @override
   Future<GroupEntity> getGroup(String uuid) {
     return _api.getGroup(uuid);
+  }
+
+  @override
+  Future<void> modifyProfileImage({required String uuid, required File image}) {
+    return _api.uploadImage(uuid, image);
   }
 
   @override
@@ -65,7 +70,6 @@ class RestGroupRepository implements GroupRepository {
   Future<void> modifyDescription(
       {required String uuid, required String? description}) async {
     await _api.modifyGroup(uuid, ModifyGroupModel(description: description));
-    await _refreshGroups();
   }
 
   @override
@@ -82,9 +86,9 @@ class RestGroupRepository implements GroupRepository {
 
   @override
   Future<String> createInviteLink(
-      {required String uuid, required int duration}) {
-    // TODO: implement createInviteLink
-    throw UnimplementedError();
+      {required String uuid, required int duration}) async {
+    final response = await _api.createInviteCode(uuid, duration);
+    return response.code;
   }
 
   @override
