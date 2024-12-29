@@ -46,66 +46,65 @@ class _GroupManagementDescriptionPageState
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<GroupManagementBloc>(),
-      child: Scaffold(
-        appBar: ZiggleAppBar.compact(
-          from: PageSource.groupManagement,
-          backLabel: context.t.group.manage.header,
-          title: Text(context.t.group.manage.description.header),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Assets.icons.editPencil.svg(width: 24),
-                    const SizedBox(width: 10),
-                    Text(
-                      '${_controller.text.length}/200',
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Palette.grayText,
-                      ),
+    return Scaffold(
+      appBar: ZiggleAppBar.compact(
+        from: PageSource.groupManagement,
+        backLabel: context.t.group.manage.header,
+        title: Text(context.t.group.manage.description.header),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Assets.icons.editPencil.svg(width: 24),
+                  const SizedBox(width: 10),
+                  Text(
+                    '${_controller.text.length}/200',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Palette.grayText,
                     ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Container(height: 1, color: Palette.grayBorder),
-                TextFormField(
-                  minLines: 7,
-                  maxLines: 10,
-                  maxLength: 200,
-                  controller: _controller,
-                  decoration: InputDecoration(
-                    counter: const SizedBox.shrink(),
-                    border:
-                        const OutlineInputBorder(borderSide: BorderSide.none),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 13),
-                    hintText: context.t.group.creation.introduce.hint,
-                    hintStyle: const TextStyle(color: Palette.grayText),
                   ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              Container(height: 1, color: Palette.grayBorder),
+              TextFormField(
+                minLines: 7,
+                maxLines: 10,
+                maxLength: 200,
+                controller: _controller,
+                decoration: InputDecoration(
+                  counter: const SizedBox.shrink(),
+                  border: const OutlineInputBorder(borderSide: BorderSide.none),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 13),
+                  hintText: context.t.group.creation.introduce.hint,
+                  hintStyle: const TextStyle(color: Palette.grayText),
                 ),
-                Container(height: 1, color: Palette.grayBorder),
-                SizedBox(height: 30),
-                BlocBuilder<GroupManagementBloc, GroupManagementState>(
-                  builder: (context, state) {
-                    return ZiggleButton.cta(
-                      onPressed: () => context.read<GroupManagementBloc>().add(
+              ),
+              Container(height: 1, color: Palette.grayBorder),
+              SizedBox(height: 30),
+              BlocBuilder<GroupManagementBloc, GroupManagementState>(
+                builder: (context, state) {
+                  return ZiggleButton.cta(
+                    onPressed: () {
+                      context.read<GroupManagementBloc>().add(
                           GroupManagementEvent.updateDescription(
-                              widget.uuid, _controller.text)),
-                      disabled: _controller.text.isEmpty ||
-                          _controller.text == widget.description,
-                      child: Text(context.t.group.manage.change),
-                    );
-                  },
-                )
-              ],
-            ),
+                              widget.uuid, _controller.text));
+                      context.router.maybePop();
+                    },
+                    disabled: _controller.text.isEmpty ||
+                        _controller.text == widget.description,
+                    child: Text(context.t.group.manage.change),
+                  );
+                },
+              )
+            ],
           ),
         ),
       ),

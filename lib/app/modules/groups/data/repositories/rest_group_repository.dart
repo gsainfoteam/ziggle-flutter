@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
-import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/notion_api.dart';
@@ -22,25 +21,23 @@ class RestGroupRepository implements GroupRepository {
 
   RestGroupRepository(this._api, this._notionApi);
 
-  Future<void> _refreshGroups() async {
-    final newList = await _api.getGroups();
-    _groupsSubject.add(newList);
-  }
-
   @override
-  Future<GroupModel> createGroup({
+  Future<GroupEntity> createGroup({
     required String name,
     File? image,
     required String description,
     String? notionPageId,
   }) async {
     final createdGroup = await _api.createGroup(CreateGroupModel(
-      name: name,
-      description: description,
-      notionPageId: notionPageId,
-    ));
+        name: name, description: description, notionPageId: notionPageId));
     if (image != null) await _api.uploadImage(createdGroup.uuid, image);
+    await _refreshGroups();
     return createdGroup;
+  }
+
+  Future<void> _refreshGroups() async {
+    final newList = await _api.getGroups();
+    _groupsSubject.add(newList);
   }
 
   @override
@@ -49,7 +46,7 @@ class RestGroupRepository implements GroupRepository {
   @override
   Future<GroupListEntity> getGroups() async {
     final GroupListModel fetched = await _api.getGroups();
-    _groupsSubject.add(fetched);
+    // _groupsSubject.add(fetched);
     return fetched;
   }
 
@@ -68,6 +65,7 @@ class RestGroupRepository implements GroupRepository {
   Future<void> modifyDescription(
       {required String uuid, required String? description}) async {
     await _api.modifyGroup(uuid, ModifyGroupModel(description: description));
+    await _refreshGroups();
   }
 
   @override
@@ -79,6 +77,7 @@ class RestGroupRepository implements GroupRepository {
   @override
   Future<void> deleteGroup(String uuid) async {
     await _api.deleteGroup(uuid);
+    await _refreshGroups();
   }
 
   @override

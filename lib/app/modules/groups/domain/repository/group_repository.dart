@@ -1,12 +1,11 @@
 import 'dart:io';
 
-import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dart';
 
 abstract class GroupRepository {
-  Future<GroupModel> createGroup({
+  Future<GroupEntity> createGroup({
     required String name,
     File? image,
     required String description,

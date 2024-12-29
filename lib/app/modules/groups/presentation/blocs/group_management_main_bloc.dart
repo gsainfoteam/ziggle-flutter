@@ -24,14 +24,22 @@ class GroupManagementMainBloc
       emit(_Loading());
       try {
         final groups = await _repository.getGroups();
-        emit(_Loaded(groups));
+        if (groups.list.isNotEmpty) {
+          emit(_Loaded(groups));
+          return;
+        }
+        emit(_Error("No groups found"));
       } on Exception catch (e) {
         emit(_Error(e.toString()));
       }
     });
     on<_GroupsUpdated>((event, emit) {
       emit(_Loading());
-      emit(_Loaded(event.groups));
+      if (event.groups.list.isNotEmpty) {
+        emit(_Loaded(event.groups));
+        return;
+      }
+      emit(_Error("No groups found"));
     });
   }
 

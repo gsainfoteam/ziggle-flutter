@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/group_item_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
@@ -19,11 +20,11 @@ abstract class GroupApi {
   @factoryMethod
   factory GroupApi(GroupsDio dio) = _GroupApi;
 
+  @POST('')
+  Future<GroupItemModel> createGroup(@Body() CreateGroupModel model);
+
   @GET('')
   Future<GroupListModel> getGroups();
-
-  @POST('')
-  Future<GroupModel> createGroup(@Body() CreateGroupModel model);
 
   @GET('{uuid}')
   Future<GroupModel> getGroup(

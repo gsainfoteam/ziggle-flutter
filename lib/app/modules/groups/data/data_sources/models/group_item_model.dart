@@ -28,8 +28,8 @@ class GroupItemModel with _$GroupItemModel implements GroupEntity {
       _$GroupItemModelFromJson(json);
 
   @override
-  PresidentEntity? get president => null; // 목록에는 회장 상세정보 없음
+  PresidentEntity? get president => null;
 
   @override
-  int? get memberCount => null; // 목록에는 memberCount 없음
+  int? get memberCount => null;
 }

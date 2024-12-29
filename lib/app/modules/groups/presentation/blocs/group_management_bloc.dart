@@ -16,7 +16,7 @@ class GroupManagementBloc
     on<_Load>((event, emit) async {
       emit(GroupManagementState.loading());
       final fetchedGroup = await _repository.getGroup(event.uuid);
-      emit(GroupManagementState.loaded(fetchedGroup));
+      emit(GroupManagementState.success(fetchedGroup));
     });
     on<_UpdateName>((event, emit) async {
       emit(GroupManagementState.loading());
@@ -30,12 +30,14 @@ class GroupManagementBloc
     });
     on<_UpdateDescription>((event, emit) async {
       emit(GroupManagementState.loading());
-      await _repository.modifyDescription(
-        uuid: event.uuid,
-        description: event.description,
-      );
-      final updatedGroup = await _repository.getGroup(event.uuid);
-      emit(GroupManagementState.success(updatedGroup));
+      try {
+        await _repository.modifyDescription(
+            uuid: event.uuid, description: event.description);
+        final updatedGroup = await _repository.getGroup(event.uuid);
+        emit(GroupManagementState.success(updatedGroup));
+      } on Exception catch (e) {
+        emit(GroupManagementState.error(e.toString()));
+      }
     });
     on<_UpdateNotionLink>((event, emit) async {
       emit(GroupManagementState.loading());
@@ -120,7 +122,6 @@ class GroupManagementEvent with _$GroupManagementEvent {
 class GroupManagementState with _$GroupManagementState {
   const factory GroupManagementState.initial() = _Initial;
   const factory GroupManagementState.loading() = _Loading;
-  const factory GroupManagementState.loaded(GroupEntity group) = _Loaded;
   const factory GroupManagementState.success(GroupEntity group) = _Done;
   const factory GroupManagementState.error(String message) = _Error;
 }
