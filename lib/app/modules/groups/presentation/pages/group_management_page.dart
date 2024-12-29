@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -172,49 +171,29 @@ class GroupManagementPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       ZiggleRowButton(
-                          showChevron: false,
-                          title: Text(
-                            context.t.group.manage.leave,
-                            style: TextStyle(
-                              color: Palette.primary,
-                            ),
+                        showChevron: false,
+                        title: Text(
+                          context.t.group.manage.leave,
+                          style: TextStyle(
+                            color: Palette.primary,
                           ),
-                          onPressed: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext dialogContext) {
-                                return CupertinoAlertDialog(
-                                  title: Text(context
-                                      .t.group.manage.leaveConfirmationTitle),
-                                  content: Text(context
-                                      .t.group.manage.leaveConfirmationMessage),
-                                  actions: [
-                                    CupertinoDialogAction(
-                                      isDestructiveAction: true,
-                                      child: Text(context.t.common.confirm),
-                                      onPressed: () {
-                                        context.router.navigate(
-                                            GroupManagementMainRoute());
-                                        context.read<GroupManagementBloc>().add(
-                                              GroupManagementEvent.leave(
-                                                  group.uuid),
-                                            );
-                                      },
-                                    ),
-                                    CupertinoDialogAction(
-                                        child: Text(
-                                          context.t.common.cancel,
-                                          style: TextStyle(
-                                            color: Palette.grayText,
-                                          ),
-                                        ),
-                                        onPressed: () =>
-                                            Navigator.of(dialogContext).pop()),
-                                  ],
-                                );
-                              },
-                            );
-                          }),
+                        ),
+                        onPressed: () async {
+                          await context.showDialog<bool>(
+                            title:
+                                context.t.group.manage.leaveConfirmationTitle,
+                            content:
+                                context.t.group.manage.leaveConfirmationMessage,
+                            onConfirm: (dialogContext) {
+                              context.read<GroupManagementBloc>().add(
+                                    GroupManagementEvent.leave(group.uuid),
+                                  );
+                              context.router
+                                  .navigate(GroupManagementMainRoute());
+                            },
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
