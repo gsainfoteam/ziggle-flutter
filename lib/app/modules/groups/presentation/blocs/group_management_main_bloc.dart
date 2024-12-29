@@ -9,7 +9,7 @@ import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dar
 
 part 'group_management_main_bloc.freezed.dart';
 
-@Singleton()
+@injectable
 class GroupManagementMainBloc
     extends Bloc<GroupManagementMainEvent, GroupManagementMainState> {
   final GroupRepository _repository;
