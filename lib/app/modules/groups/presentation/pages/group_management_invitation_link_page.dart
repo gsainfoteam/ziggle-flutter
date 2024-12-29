@@ -102,7 +102,7 @@ class _GroupManagementInvitationLinkPageState
               ),
               const SizedBox(height: 30),
               ZiggleButton.cta(
-                child: Text(context.t.group.manage.change),
+                child: Text(context.t.group.manage.back),
                 onPressed: () => context.maybePop(),
               ),
             ],

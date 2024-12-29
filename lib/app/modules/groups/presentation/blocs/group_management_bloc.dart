@@ -57,39 +57,6 @@ class GroupManagementBloc
       final updatedGroup = await _repository.getGroup(event.uuid);
       emit(GroupManagementState.success(updatedGroup));
     });
-    on<_GetMembers>((event, emit) async {
-      emit(GroupManagementState.loading());
-      final members = await _repository.getMembers(event.uuid);
-    });
-    on<_RemoveMember>((event, emit) async {
-      emit(GroupManagementState.loading());
-      await _repository.removeMember(
-        uuid: event.uuid,
-        targetUuid: event.targetUuid,
-      );
-      final updatedGroup = await _repository.getGroup(event.uuid);
-      emit(GroupManagementState.success(updatedGroup));
-    });
-    on<_GrantRoleToUser>((event, emit) async {
-      emit(GroupManagementState.loading());
-      await _repository.grantRoleToUser(
-        uuid: event.uuid,
-        targetUuid: event.targetUuid,
-        roleId: event.roleId,
-      );
-      final updatedGroup = await _repository.getGroup(event.uuid);
-      emit(GroupManagementState.success(updatedGroup));
-    });
-    on<_RemoveRoleFromUser>((event, emit) async {
-      emit(GroupManagementState.loading());
-      await _repository.removeRoleFromUser(
-        uuid: event.uuid,
-        targetUuid: event.targetUuid,
-        roleId: event.roleId,
-      );
-      final updatedGroup = await _repository.getGroup(event.uuid);
-      emit(GroupManagementState.success(updatedGroup));
-    });
     on<_Delete>((event, emit) async {
       emit(GroupManagementState.loading());
       await _repository.deleteGroup(event.uuid);

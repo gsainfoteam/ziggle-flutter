@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
-import 'package:ziggle/app/modules/groups/data/data_sources/models/group_invite_code_request_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
@@ -92,9 +91,8 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<MemberListEntity> getMembers(String uuid) {
-    // TODO: implement getMembers
-    throw UnimplementedError();
+  Future<MemberListEntity> getMembers(String uuid) async {
+    return _api.getMembers(uuid);
   }
 
   @override

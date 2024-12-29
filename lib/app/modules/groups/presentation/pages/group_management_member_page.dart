@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
-import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dart';
-import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_bloc.dart';
+import 'package:ziggle/app/modules/groups/presentation/blocs/group_member_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_member_card.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
@@ -15,13 +16,12 @@ class GroupManagementMemberPage extends StatelessWidget {
   const GroupManagementMemberPage({super.key, required this.uuid});
 
   final String uuid;
-  // final MemberListEntity members;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          sl<GroupManagementBloc>()..add(GroupManagementEvent.getMembers(uuid)),
+          sl<GroupMemberBloc>()..add(GroupMemberEvent.getMembers(uuid)),
       child: Scaffold(
         appBar: ZiggleAppBar.compact(
           from: PageSource.groupManagement,
@@ -30,21 +30,44 @@ class GroupManagementMemberPage extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
-          child: Column(
-            children: [
-              GroupMemberCard.editMode(
-                name: 'test',
-                email: 'test@naver.com',
-                role: GroupMemberRole.admin,
-                onBanish: () {},
-                onChanged: (e) {},
-              ),
-              SizedBox(height: 30),
-              ZiggleButton.cta(
-                child: Text(context.t.group.manage.back),
-                onPressed: () => context.maybePop(),
-              ),
-            ],
+          child: BlocBuilder<GroupMemberBloc, GroupMemberState>(
+            builder: (context, state) {
+              return state.maybeWhen(
+                orElse: () => Container(),
+                initial: () => Container(),
+                loading: () => Center(
+                  child: Lottie.asset(Assets.lotties.loading,
+                      height: MediaQuery.of(context).size.width * 0.2,
+                      width: MediaQuery.of(context).size.width * 0.2),
+                ),
+                loaded: (members) {
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: ListView.separated(
+                          itemBuilder: (context, index) =>
+                              GroupMemberCard.editMode(
+                            name: members.list[index].name,
+                            email: members.list[index].email,
+                            role: GroupMemberRole.admin,
+                            onBanish: () {},
+                            onChanged: (e) {},
+                          ),
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 10),
+                          itemCount: members.list.length,
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      ZiggleButton.cta(
+                        child: Text(context.t.group.manage.back),
+                        onPressed: () => context.maybePop(),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
           ),
         ),
       ),
