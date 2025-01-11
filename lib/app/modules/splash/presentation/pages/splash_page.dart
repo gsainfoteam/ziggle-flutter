@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ziggle/app/modules/core/presentation/bloc/link_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -23,6 +25,14 @@ class _SplashPageState extends State<SplashPage> {
         widget.delay ? const Duration(seconds: 1) : Duration.zero,
         () {
           if (!mounted) return;
+          final linkData =
+              context.read<LinkBloc>().state.whenOrNull(loaded: (link) => link);
+          if (linkData != null) {
+            context.router
+              ..replaceAll([const FeedRoute()])
+              ..replaceNamed(linkData);
+            return;
+          }
           context.router.replaceAll([const FeedRoute()]);
         },
       );

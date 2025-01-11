@@ -13,7 +13,7 @@ class LinkBloc extends Bloc<LinkEvent, LinkState> {
     on<_Init>((event, emit) {
       emit(const LinkState.loading());
       return emit.forEach(
-        _repository.getLinkStream().expand((event) => [event, null]),
+        _repository.getLinkStream().expand((event) => [null, event]),
         onData: (state) => state != null ? _Loaded(state) : const _Initial(),
         onError: (error, _) => const _Error(),
       );
