@@ -28,10 +28,12 @@ class _SplashPageState extends State<SplashPage> {
           final linkData =
               context.read<LinkBloc>().state.whenOrNull(loaded: (link) => link);
           if (linkData != null) {
-            context.router
-              ..replaceAll([const FeedRoute()])
-              ..replaceNamed(linkData);
-            return;
+            try {
+              context.router
+                ..replaceAll([const FeedRoute()])
+                ..replaceNamed(linkData);
+              return;
+            } catch (_) {}
           }
           context.router.replaceAll([const FeedRoute()]);
         },
