@@ -1,25 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_bottom_sheet.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_button.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/language_toggle.dart';
-import 'package:ziggle/app/values/palette.dart';
-import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
@@ -126,7 +119,6 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (_prevNotice.currentDeadline != null) _buildDeadline(),
                 if (_enContent != null) ...[
                   if (_prevNotice.currentDeadline != null)
                     const SizedBox(height: 20),
@@ -166,103 +158,6 @@ class _WriteAdditionalNoticePageState extends State<WriteAdditionalNoticePage>
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildDeadline() {
-    return Container(
-      padding: const EdgeInsets.all(15),
-      decoration: const BoxDecoration(
-        color: Palette.grayLight,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Assets.icons.clock.svg(),
-              const SizedBox(width: 6),
-              Text.rich(
-                context.t.notice.edit.additional.deadline(
-                  small: (text) => TextSpan(
-                    text: text,
-                    style: const TextStyle(
-                      color: Palette.gray,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-                style: const TextStyle(
-                  color: Palette.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const Spacer(),
-              ZiggleToggleButton(
-                value: _deadline != null,
-                onToggle: (v) async {
-                  AnalyticsRepository.click(
-                      AnalyticsEvent.noticeEditChangeDeadline(_prevNotice.id));
-                  if (_deadline != null) {
-                    setState(() => _deadline = null);
-                    return;
-                  }
-                  final dateTime = await ZiggleBottomSheet.show<DateTime>(
-                    context: context,
-                    title: context.t.notice.write.deadline.title,
-                    builder: (context) => DeadlineSelector(
-                      isEditMode: true,
-                      initialDateTime: _prevNotice.currentDeadline!.toLocal(),
-                      onChanged: (v) => Navigator.pop(context, v),
-                    ),
-                  );
-                  if (dateTime == null || !mounted) return;
-                  setState(() => _deadline = dateTime);
-                },
-              ),
-            ],
-          ),
-          if (_deadline != null) ...[
-            const SizedBox(height: 10),
-            ZigglePressable(
-              onPressed: () async {
-                final dateTime = await ZiggleBottomSheet.show<DateTime>(
-                  context: context,
-                  title: context.t.notice.write.deadline.title,
-                  builder: (context) => DeadlineSelector(
-                    isEditMode: true,
-                    initialDateTime: _deadline,
-                    onChanged: (v) => Navigator.pop(context, v),
-                  ),
-                );
-                if (dateTime == null || !mounted) return;
-                setState(() => _deadline = dateTime);
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF0F0F0),
-                  borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  border: Border.all(color: Palette.grayBorder),
-                ),
-                child: Center(
-                  child: Text(
-                    DateFormat.yMd().add_jm().format(_deadline!),
-                    style: const TextStyle(
-                      color: Palette.grayText,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ],
       ),
     );
   }
