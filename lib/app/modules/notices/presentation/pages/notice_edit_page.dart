@@ -158,7 +158,7 @@ class _NoticeEditPageState extends State<NoticeEditPage>
                     });
                     if (!mounted) return;
                   },
-                  deadline: state.entity!.deadline,
+                  deadline: _prevNotice.currentDeadline,
                 ),
                 const SizedBox(height: 25),
                 ZiggleButton.cta(
