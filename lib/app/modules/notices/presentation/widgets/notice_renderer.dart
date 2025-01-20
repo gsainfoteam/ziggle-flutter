@@ -172,7 +172,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                       Text(
                         DateFormat.yMd()
                             .add_Hm()
-                            .format(widget.notice.createdAt),
+                            .format(widget.notice.createdAt.toLocal()),
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
