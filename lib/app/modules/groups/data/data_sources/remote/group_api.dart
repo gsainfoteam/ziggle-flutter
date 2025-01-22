@@ -9,7 +9,7 @@ import 'package:ziggle/app/modules/groups/data/data_sources/models/group_invite_
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_item_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.dart';
-import 'package:ziggle/app/modules/groups/data/data_sources/models/memeber_list_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/member_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/role_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/update_role_model.dart';
@@ -59,7 +59,7 @@ abstract class GroupApi {
       @Path('uuid') String uuid, @Query('duration') int duration);
 
   @GET('{uuid}/member')
-  Future<MemeberListModel> getMembers(
+  Future<MemberListModel> getMembers(
     @Path('uuid') String uuid,
   );
 
@@ -99,7 +99,7 @@ abstract class GroupApi {
   );
 
   @GET('{groupUuid}/role')
-  Future<RoleListModel> getRole(
+  Future<RoleListModel> getRoles(
     @Path('groupUuid') String groupUuid,
   );
 

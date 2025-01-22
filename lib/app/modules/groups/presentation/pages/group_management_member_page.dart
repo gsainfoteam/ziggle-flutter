@@ -6,6 +6,7 @@ import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_member_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_member_card.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -50,8 +51,16 @@ class GroupManagementMemberPage extends StatelessWidget {
                             name: members.list[index].name,
                             email: members.list[index].email,
                             role: GroupMemberRole.admin,
-                            onBanish: () {},
-                            onChanged: (e) {},
+                            onBanish: () {
+                              context.read<GroupManagementBloc>().add(
+                                  GroupManagementEvent.removeMember(
+                                      uuid, members.list[index].uuid));
+                            },
+                            onChanged: (e) {
+                              context.read<GroupMemberBloc>().add(
+                                  GroupMemberEvent.grantRoleToUser(
+                                      uuid, members.list[index].uuid, 3));
+                            },
                           ),
                           separatorBuilder: (context, index) =>
                               SizedBox(height: 10),

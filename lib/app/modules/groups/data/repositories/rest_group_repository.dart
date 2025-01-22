@@ -7,9 +7,12 @@ import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_mo
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/notion_api.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/authority_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/role_entity.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/role_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
 
 @Singleton(as: GroupRepository)
@@ -110,15 +113,38 @@ class RestGroupRepository implements GroupRepository {
 
   @override
   Future<void> removeMember(
-      {required String uuid, required String targetUuid}) {
-    // TODO: implement removeMember
-    throw UnimplementedError();
+      {required String uuid, required String targetUuid}) async {
+    await _api.banishUser(uuid, targetUuid);
   }
 
   @override
   Future<void> removeRoleFromUser(
       {required String uuid, required String targetUuid, required int roleId}) {
     // TODO: implement removeRoleFromUser
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> createRole(String groupUuid, RoleEntity role) {
+    // TODO: implement createRole
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteRole(String groupUuid, int roleId) {
+    // TODO: implement deleteRole
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<RoleListEntity> getRoles(String groupUuid) {
+    return _api.getRoles(groupUuid);
+  }
+
+  @override
+  Future<void> updateRole(
+      String groupUuid, int roleId, AuthorityEntity authority) {
+    // TODO: implement updateRole
     throw UnimplementedError();
   }
 }

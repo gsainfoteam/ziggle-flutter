@@ -1,8 +1,11 @@
 import 'dart:io';
 
+import 'package:ziggle/app/modules/groups/domain/entities/authority_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/role_entity.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/role_list_entity.dart';
 
 abstract class GroupRepository {
   Future<GroupEntity> createGroup({
@@ -52,6 +55,15 @@ abstract class GroupRepository {
     required String targetUuid,
     required int roleId,
   });
+
+  Future<RoleListEntity> getRoles(String groupUuid);
+
+  Future<void> createRole(String groupUuid, RoleEntity role);
+
+  Future<void> updateRole(
+      String groupUuid, int roleId, AuthorityEntity authority);
+
+  Future<void> deleteRole(String groupUuid, int roleId);
 
   Future<void> deleteGroup(String uuid);
   Future<void> leaveGroup(String uuid);

@@ -3,6 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
+import 'package:ziggle/app/modules/groups/domain/repository/group_role_repository.dart';
 
 part 'group_member_bloc.freezed.dart';
 
@@ -29,6 +30,8 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
     });
     on<_GrantRoleToUser>((event, emit) async {
       emit(GroupMemberState.loading());
+      final roles = await _repository.getRoles(event.uuid);
+      print(roles);
       await _repository.grantRoleToUser(
         uuid: event.uuid,
         targetUuid: event.targetUuid,
