@@ -177,14 +177,14 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
               ZigglePressable(
                 onPressed: () async {
                   context.read<GroupAuthBloc>().add(GroupAuthEvent.login());
-                  final userAccount = await ZiggleBottomSheet.show<String>(
+                  final groupId = await ZiggleBottomSheet.show<String>(
                     context: context,
                     title: context.t.notice.write.changeAccount,
                     builder: (context) => AccountSelector(
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
                   );
-                  setState(() => _groupId = userAccount);
+                  setState(() => _groupId = groupId);
                 },
                 child: Row(
                   children: [
