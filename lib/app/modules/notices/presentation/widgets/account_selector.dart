@@ -25,48 +25,43 @@ class _AccountSelectorState extends State<AccountSelector> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        BlocBuilder<UserBloc, UserState>(
-          builder: (context, userState) {
-            return BlocBuilder<GroupBloc, GroupState>(
-              builder: (context, groupState) {
-                if (groupState.isLoading || userState.isLoading) {
-                  return Lottie.asset(Assets.lotties.loading,
-                      width: 30, height: 30);
-                }
-                final groupList = groupState.groups;
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: groupList == null
-                      ? null
-                      : ListView.separated(
-                          shrinkWrap: true,
-                          itemCount: groupList.list.length + 1,
-                          itemBuilder: (context, index) {
-                            if (index == 0) {
-                              return GroupListItem(
-                                name: userState.user!.name,
-                                profileImage: Assets.images.defaultProfile
-                                    .image(width: 36),
-                                onPressed: () {
-                                  widget.onChanged(NoticeGroupEntity());
-                                },
-                              );
-                            } else {
-                              return GroupListItem(
-                                name: groupList.list[index - 1].name,
-                                onPressed: () {
-                                  widget.onChanged(
-                                      NoticeGroupEntity.fromGroupModel(
-                                          groupList.list[index - 1]));
-                                },
-                              );
-                            }
-                          },
-                          separatorBuilder: (context, index) =>
-                              const SizedBox(height: 12),
-                        ),
-                );
-              },
+        BlocBuilder<GroupBloc, GroupState>(
+          builder: (context, groupState) {
+            if (groupState.isLoading) {
+              return Lottie.asset(Assets.lotties.loading,
+                  width: 30, height: 30);
+            }
+            final groupList = groupState.groups;
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: groupList == null
+                  ? null
+                  : ListView.separated(
+                      shrinkWrap: true,
+                      itemCount: groupList.list.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == 0) {
+                          return GroupListItem(
+                            name: UserBloc.userOrNull(context)!.name,
+                            profileImage:
+                                Assets.images.defaultProfile.image(width: 36),
+                            onPressed: () {
+                              widget.onChanged(NoticeGroupEntity());
+                            },
+                          );
+                        } else {
+                          return GroupListItem(
+                            name: groupList.list[index - 1].name,
+                            onPressed: () {
+                              widget.onChanged(NoticeGroupEntity.fromGroupModel(
+                                  groupList.list[index - 1]));
+                            },
+                          );
+                        }
+                      },
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 12),
+                    ),
             );
           },
         ),
