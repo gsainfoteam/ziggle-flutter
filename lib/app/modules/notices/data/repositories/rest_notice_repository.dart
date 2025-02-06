@@ -160,9 +160,8 @@ class RestNoticeRepository implements NoticeRepository {
     final uploadedDocuments = documents.isEmpty
         ? <String>[]
         : await _documentApi.uploadDocuments(documents);
-    final groupsTokenResponse = await _groupApi.getGroupToken();
-    String groupsToken = jsonDecode(groupsTokenResponse)['groupsToken'];
-    if (groupId == null) {
+    final groupsTokenResponce = await _groupApi.getGroupToken();
+    if (groupId != null) {
       return _api.createNotice(
         CreateNoticeModel(
           title: title,
@@ -174,21 +173,21 @@ class RestNoticeRepository implements NoticeRepository {
           documents: uploadedDocuments,
           groupId: groupId,
         ),
+        groupsTokenResponce.groupsToken,
       );
     }
-    return _api.createGroupNotice(
-      CreateNoticeModel(
-        title: title,
-        body: content,
-        deadline: deadline,
-        category: NoticeCategory.fromType(type)!,
-        tags: uploadedTags.map((tag) => tag.id).toList(),
-        images: uploadedImages,
-        documents: uploadedDocuments,
-        groupId: groupId,
-      ),
-      groupsToken,
-    );
+    return _api.createNotice(
+        CreateNoticeModel(
+          title: title,
+          body: content,
+          deadline: deadline,
+          category: NoticeCategory.fromType(type)!,
+          tags: uploadedTags.map((tag) => tag.id).toList(),
+          images: uploadedImages,
+          documents: uploadedDocuments,
+          groupId: groupId,
+        ),
+        null);
   }
 
   @override

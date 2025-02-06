@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_list_item.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_group_entity.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 
@@ -12,7 +13,7 @@ class AccountSelector extends StatefulWidget {
     required this.onChanged,
   });
 
-  final ValueChanged<String?> onChanged;
+  final ValueChanged<NoticeGroupEntity?> onChanged;
 
   @override
   State<AccountSelector> createState() => _AccountSelectorState();
@@ -32,13 +33,14 @@ class _AccountSelectorState extends State<AccountSelector> {
                   return Lottie.asset(Assets.lotties.loading,
                       width: 30, height: 30);
                 }
+                final groupList = groupState.groups;
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: groupState.groups == null
+                  child: groupList == null
                       ? null
                       : ListView.separated(
                           shrinkWrap: true,
-                          itemCount: groupState.groups!.list.length + 1,
+                          itemCount: groupList.list.length + 1,
                           itemBuilder: (context, index) {
                             if (index == 0) {
                               return GroupListItem(
@@ -46,15 +48,16 @@ class _AccountSelectorState extends State<AccountSelector> {
                                 profileImage: Assets.images.defaultProfile
                                     .image(width: 36),
                                 onPressed: () {
-                                  widget.onChanged(null);
+                                  widget.onChanged(NoticeGroupEntity());
                                 },
                               );
                             } else {
                               return GroupListItem(
-                                name: groupState.groups!.list[index - 1].name,
+                                name: groupList.list[index - 1].name,
                                 onPressed: () {
                                   widget.onChanged(
-                                      groupState.groups!.list[index - 1].uuid);
+                                      NoticeGroupEntity.fromGroupModel(
+                                          groupList.list[index - 1]));
                                 },
                               );
                             }

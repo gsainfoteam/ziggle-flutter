@@ -11,6 +11,7 @@ import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_bloc.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_group_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/account_selector.dart';
@@ -44,8 +45,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
   late DateTime? _deadline = _draft.deadline;
   late NoticeType? _type = _draft.type;
   late final List<String> _tags = _draft.tags.toList();
-  late String? _groupId = _draft.groupId;
-  String? _groupName;
+  late NoticeGroupEntity _groupEntity = NoticeGroupEntity();
 
   void _save() {
     // TODO: is there any way to save when type is not set?
@@ -54,7 +54,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
           deadline: _deadline,
           type: _type!,
           tags: _tags,
-          groupId: _groupId,
+          groupId: _groupEntity.uuid,
         ));
   }
 
@@ -149,19 +149,10 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                   builder: (context, groupState) {
                 return BlocBuilder<UserBloc, UserState>(
                   builder: (context, userState) {
-                    if (groupState.groups != null) {
-                      for (int i = 0; i < groupState.groups!.list.length; i++) {
-                        if (groupState.groups!.list[i].uuid == _groupId) {
-                          _groupName = groupState.groups!.list[i].name;
-                          break;
-                        }
-                        _groupName = null;
-                      }
-                    }
                     return Row(children: [
                       Text(
-                        _groupId != null
-                            ? (_groupName ?? "Unknown Group")
+                        _groupEntity.uuid != null
+                            ? (_groupEntity.name ?? "Unknown Group")
                             : userState.user!.name,
                         style: TextStyle(
                           fontSize: 18,
@@ -178,14 +169,15 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                 onPressed: () async {
                   // TODO: Remove after implementing the GroupAuth
                   context.read<GroupAuthBloc>().add(GroupAuthEvent.login());
-                  final groupId = await ZiggleBottomSheet.show<String>(
+                  final groupEntity =
+                      await ZiggleBottomSheet.show<NoticeGroupEntity>(
                     context: context,
                     title: context.t.notice.write.changeAccount,
                     builder: (context) => AccountSelector(
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
                   );
-                  setState(() => _groupId = groupId);
+                  setState(() => _groupEntity = groupEntity!);
                 },
                 child: Row(
                   children: [
