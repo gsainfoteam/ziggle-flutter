@@ -26,12 +26,7 @@ abstract class NoticeApi {
   @POST('')
   Future<NoticeModel> createNotice(
     @Body() CreateNoticeModel model,
-  );
-
-  @POST('')
-  Future<NoticeModel> createGroupNotice(
-    @Body() CreateNoticeModel model,
-    @Header('Groups-Token') String groupsToken,
+    @Header('Groups-Token') String? groupsToken,
   );
 
   @GET('{id}')
