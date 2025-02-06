@@ -17,6 +17,7 @@ class NoticeWriteDraftEntity with _$NoticeWriteDraftEntity {
     NoticeType? type,
     @Default([]) List<String> tags,
     DateTime? deadline,
+    String? groupId,
     @Default({}) Map<Language, String> additionalContent,
   }) = _NoticeWriteDraftEntity;
 

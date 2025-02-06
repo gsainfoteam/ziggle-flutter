@@ -132,14 +132,16 @@ class MockNoticeRepository implements NoticeRepository {
   }
 
   @override
-  Future<NoticeEntity> write(
-      {required String title,
-      required String content,
-      DateTime? deadline,
-      required NoticeType type,
-      List<String> tags = const [],
-      List<File> images = const [],
-      List<File> documents = const []}) {
+  Future<NoticeEntity> write({
+    required String title,
+    required String content,
+    DateTime? deadline,
+    required NoticeType type,
+    List<String> tags = const [],
+    List<File> images = const [],
+    List<File> documents = const [],
+    String? groupId,
+  }) {
     throw UnimplementedError();
   }
 

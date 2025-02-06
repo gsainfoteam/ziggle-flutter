@@ -28,6 +28,7 @@ abstract class NoticeRepository {
     List<String> tags = const [],
     List<File> images = const [],
     List<File> documents = const [],
+    String? groupId,
   });
   Future<NoticeEntity> modify({
     required int id,

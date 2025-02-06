@@ -45,6 +45,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
           type: event.type,
           tags: event.tags,
           deadline: event.deadline,
+          groupId: event.groupId,
         ))));
     on<_AddAdditional>((event, emit) => emit(_Draft(state.draft.copyWith(
           deadline: event.deadline,
@@ -98,6 +99,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
             tags: state.draft.tags,
             images: state.draft.images,
             deadline: state.draft.deadline,
+            groupId: state.draft.groupId,
           );
           if (state.draft.bodies.containsKey(Language.en)) {
             await _repository.writeForeign(
@@ -136,6 +138,7 @@ class NoticeWriteEvent {
     required NoticeType type,
     required List<String> tags,
     DateTime? deadline,
+    String? groupId,
   }) = _SetConfig;
   const factory NoticeWriteEvent.addAdditional({
     DateTime? deadline,

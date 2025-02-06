@@ -11,6 +11,7 @@ class CreateNoticeModel with _$CreateNoticeModel {
     required String body,
     DateTime? deadline,
     required NoticeCategory category,
+    String? groupId,
     @Default([]) List<int> tags,
     @Default([]) List<String> images,
     @Default([]) List<String> documents,

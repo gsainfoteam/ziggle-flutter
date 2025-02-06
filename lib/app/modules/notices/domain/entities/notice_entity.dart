@@ -29,7 +29,7 @@ class NoticeEntity {
   final List<String> documentUrls;
   final bool isReminded;
   final DateTime publishedAt;
-  final String? groupName;
+  final String? groupId;
   final NoticeCategory category;
 
   NoticeEntity({
@@ -50,7 +50,7 @@ class NoticeEntity {
     required this.documentUrls,
     required this.isReminded,
     required this.publishedAt,
-    required this.groupName,
+    required this.groupId,
     required this.category,
   });
 
@@ -72,7 +72,7 @@ class NoticeEntity {
         author: AuthorEntity(name: '', uuid: ''),
         isReminded: false,
         publishedAt: DateTime.now(),
-        groupName: null,
+        groupId: null,
         category: NoticeCategory.etc,
       );
   factory NoticeEntity.mock({
@@ -106,7 +106,7 @@ class NoticeEntity {
         documentUrls: [],
         isReminded: isReminded,
         publishedAt: DateTime.now(),
-        groupName: null,
+        groupId: null,
         category: category,
       );
   factory NoticeEntity.fromDraft({
@@ -131,7 +131,7 @@ class NoticeEntity {
         documentUrls: [],
         isReminded: false,
         publishedAt: DateTime.now(),
-        groupName: null,
+        groupId: draft.groupId,
         category: NoticeCategory.fromType(draft.type!)!,
       );
 }
@@ -175,7 +175,7 @@ extension NoticeEntityExtension on NoticeEntity {
         documentUrls: documentUrls,
         isReminded: isReminded,
         publishedAt: publishedAt ?? this.publishedAt,
-        groupName: groupName,
+        groupId: groupId,
         category: category,
       );
 
@@ -235,7 +235,7 @@ extension NoticeEntityExtension on NoticeEntity {
         documentUrls: documentUrls,
         isReminded: isReminded,
         publishedAt: publishedAt,
-        groupName: groupName,
+        groupId: groupId,
         category: category,
       );
 }
