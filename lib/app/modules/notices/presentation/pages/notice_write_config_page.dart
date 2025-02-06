@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_bottom_sheet.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
@@ -11,17 +10,18 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_but
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
+import 'package:ziggle/app/modules/groups/presentation/blocs/group_bloc.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/account_selector.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/tag.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/group_auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
-import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_main_bloc.dart';
 
 @RoutePage()
 class NoticeWriteConfigPage extends StatefulWidget {
@@ -44,6 +44,8 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
   late DateTime? _deadline = _draft.deadline;
   late NoticeType? _type = _draft.type;
   late final List<String> _tags = _draft.tags.toList();
+  late String? _groupId = _draft.groupId;
+  String? _groupName;
 
   void _save() {
     // TODO: is there any way to save when type is not set?
@@ -52,6 +54,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
           deadline: _deadline,
           type: _type!,
           tags: _tags,
+          groupId: _groupId,
         ));
   }
 
@@ -142,28 +145,46 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
               const SizedBox(width: 5),
               Assets.images.defaultProfile.image(width: 40),
               const SizedBox(width: 10),
-              BlocBuilder<UserBloc, UserState>(
-                builder: (context, userState) {
-                  return Row(children: [
-                    Text(
-                      userState.user!.name,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Palette.black,
-                        fontWeight: FontWeight.w600,
+              BlocBuilder<GroupBloc, GroupState>(
+                  builder: (context, groupState) {
+                return BlocBuilder<UserBloc, UserState>(
+                  builder: (context, userState) {
+                    if (groupState.groups != null) {
+                      for (int i = 0; i < groupState.groups!.list.length; i++) {
+                        if (groupState.groups!.list[i].uuid == _groupId) {
+                          _groupName = groupState.groups!.list[i].name;
+                          break;
+                        }
+                        _groupName = null;
+                      }
+                    }
+                    return Row(children: [
+                      Text(
+                        _groupId != null
+                            ? (_groupName ?? "Unknown Group")
+                            : userState.user!.name,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Palette.black,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
-                    ),
-                  ]);
-                },
-              ),
+                    ]);
+                  },
+                );
+              }),
               const Spacer(),
               ZigglePressable(
                 onPressed: () async {
-                  final userAccount = await ZiggleBottomSheet.show<DateTime>(
+                  context.read<GroupAuthBloc>().add(GroupAuthEvent.login());
+                  final userAccount = await ZiggleBottomSheet.show<String>(
                     context: context,
                     title: context.t.notice.write.changeAccount,
-                    builder: (context) => AccountSelector(),
+                    builder: (context) => AccountSelector(
+                      onChanged: (v) => Navigator.pop(context, v),
+                    ),
                   );
+                  setState(() => _groupId = userAccount);
                 },
                 child: Row(
                   children: [
