@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_main_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:ziggle/app/modules/groups/presentation/blocs/group_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_list_item.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 
 class AccountSelector extends StatefulWidget {
   const AccountSelector({
     super.key,
+    required this.onChanged,
   });
+
+  final ValueChanged<String?> onChanged;
 
   @override
   State<AccountSelector> createState() => _AccountSelectorState();
@@ -16,26 +21,53 @@ class AccountSelector extends StatefulWidget {
 class _AccountSelectorState extends State<AccountSelector> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          sl<GroupManagementMainBloc>()..add(GroupManagementMainEvent.load()),
-      child: BlocBuilder<GroupManagementMainBloc, GroupManagementMainState>(
-        builder: (context, state) => Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15),
-          child: ListView.separated(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              return GroupListItem(
-                name: "Test",
-                onPressed: () {},
-              );
-            },
-            separatorBuilder: (context, index) => SizedBox(height: 12),
-          ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        BlocBuilder<UserBloc, UserState>(
+          builder: (context, userState) {
+            return BlocBuilder<GroupBloc, GroupState>(
+              builder: (context, groupState) {
+                if (groupState.isLoading || userState.isLoading) {
+                  return Lottie.asset(Assets.lotties.loading,
+                      width: 30, height: 30);
+                }
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: groupState.groups == null
+                      ? null
+                      : ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: groupState.groups!.list.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index == 0) {
+                              return GroupListItem(
+                                name: userState.user!.name,
+                                profileImage: Assets.images.defaultProfile
+                                    .image(width: 36),
+                                onPressed: () {
+                                  widget.onChanged(null);
+                                },
+                              );
+                            } else {
+                              return GroupListItem(
+                                name: groupState.groups!.list[index - 1].name,
+                                onPressed: () {
+                                  widget.onChanged(
+                                      groupState.groups!.list[index - 1].uuid);
+                                },
+                              );
+                            }
+                          },
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 12),
+                        ),
+                );
+              },
+            );
+          },
         ),
-      ),
+      ],
     );
   }
 }
