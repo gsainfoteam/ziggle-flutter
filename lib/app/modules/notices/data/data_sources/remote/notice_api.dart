@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -10,7 +12,6 @@ import 'package:ziggle/app/modules/notices/data/models/get_notices_query_model.d
 import 'package:ziggle/app/modules/notices/data/models/modify_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_list_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_model.dart';
-
 part 'notice_api.g.dart';
 
 @injectable
@@ -23,7 +24,15 @@ abstract class NoticeApi {
   Future<NoticeListModel> getNotices(@Queries() GetNoticesQueryModel query);
 
   @POST('')
-  Future<NoticeModel> createNotice(@Body() CreateNoticeModel model);
+  Future<NoticeModel> createNotice(
+    @Body() CreateNoticeModel model,
+  );
+
+  @POST('')
+  Future<NoticeModel> createGroupNotice(
+    @Body() CreateNoticeModel model,
+    @Header('Groups-Token') String groupsToken,
+  );
 
   @GET('{id}')
   Future<NoticeModel> getNotice(
