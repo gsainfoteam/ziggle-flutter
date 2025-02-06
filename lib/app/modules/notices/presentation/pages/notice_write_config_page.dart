@@ -176,6 +176,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
               const Spacer(),
               ZigglePressable(
                 onPressed: () async {
+                  // TODO: Remove after implementing the GroupAuth
                   context.read<GroupAuthBloc>().add(GroupAuthEvent.login());
                   final groupId = await ZiggleBottomSheet.show<String>(
                     context: context,
