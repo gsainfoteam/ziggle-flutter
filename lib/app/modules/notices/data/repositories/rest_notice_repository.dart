@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
+import 'package:ziggle/app/modules/notices/data/data_sources/remote/ziggle_group_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/document_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/image_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/notice_api.dart';
@@ -28,12 +30,14 @@ class RestNoticeRepository implements NoticeRepository {
   final TagApi _tagApi;
   final ImageApi _imageApi;
   final DocumentApi _documentApi;
+  final ZiggleGroupApi _groupApi;
 
   RestNoticeRepository(
     this._api,
     this._tagApi,
     this._imageApi,
     this._documentApi,
+    this._groupApi,
   );
 
   @override
@@ -135,14 +139,16 @@ class RestNoticeRepository implements NoticeRepository {
   }
 
   @override
-  Future<NoticeEntity> write(
-      {required String title,
-      required String content,
-      DateTime? deadline,
-      required NoticeType type,
-      List<String> tags = const [],
-      List<File> images = const [],
-      List<File> documents = const []}) async {
+  Future<NoticeEntity> write({
+    required String title,
+    required String content,
+    DateTime? deadline,
+    required NoticeType type,
+    List<String> tags = const [],
+    List<File> images = const [],
+    List<File> documents = const [],
+    String? groupId,
+  }) async {
     final uploadedTags = await Future.wait(
       tags.map((tag) async {
         final existingTag = await _getTag(tag);
@@ -154,15 +160,35 @@ class RestNoticeRepository implements NoticeRepository {
     final uploadedDocuments = documents.isEmpty
         ? <String>[]
         : await _documentApi.uploadDocuments(documents);
-    return _api.createNotice(CreateNoticeModel(
-      title: title,
-      body: content,
-      deadline: deadline,
-      category: NoticeCategory.fromType(type)!,
-      tags: uploadedTags.map((tag) => tag.id).toList(),
-      images: uploadedImages,
-      documents: uploadedDocuments,
-    ));
+    final groupsTokenResponse = await _groupApi.getGroupToken();
+    String groupsToken = jsonDecode(groupsTokenResponse)['groupsToken'];
+    if (groupId == null) {
+      return _api.createNotice(
+        CreateNoticeModel(
+          title: title,
+          body: content,
+          deadline: deadline,
+          category: NoticeCategory.fromType(type)!,
+          tags: uploadedTags.map((tag) => tag.id).toList(),
+          images: uploadedImages,
+          documents: uploadedDocuments,
+          groupId: groupId,
+        ),
+      );
+    }
+    return _api.createGroupNotice(
+      CreateNoticeModel(
+        title: title,
+        body: content,
+        deadline: deadline,
+        category: NoticeCategory.fromType(type)!,
+        tags: uploadedTags.map((tag) => tag.id).toList(),
+        images: uploadedImages,
+        documents: uploadedDocuments,
+        groupId: groupId,
+      ),
+      groupsToken,
+    );
   }
 
   @override
