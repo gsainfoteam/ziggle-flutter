@@ -13,6 +13,7 @@ import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/developer_option_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/group_auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
+import 'package:ziggle/app/modules/groups/presentation/blocs/group_bloc.dart';
 import 'package:ziggle/app/router.dart';
 import 'package:ziggle/app/router_observer.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -87,6 +88,10 @@ class _Providers extends StatelessWidget {
           create: (_) =>
               sl<DeveloperOptionBloc>()..add(const DeveloperOptionEvent.load()),
         ),
+        BlocProvider(
+          lazy: false,
+          create: (_) => sl<GroupBloc>()..add(GroupEvent.load()),
+        ),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -112,6 +117,17 @@ class _Providers extends StatelessWidget {
                 _appRouter.pushNamed(s.link);
               }),
             ),
+          ),
+          BlocListener<GroupAuthBloc, GroupAuthState>(
+            listenWhen: (previous, current) =>
+                current.mapOrNull(
+                  unauthenticated: (_) => true,
+                  authenticated: (_) => true,
+                ) ??
+                false,
+            listener: (context, state) {
+              context.read<GroupBloc>().add(GroupEvent.load());
+            },
           ),
         ],
         child: child,
