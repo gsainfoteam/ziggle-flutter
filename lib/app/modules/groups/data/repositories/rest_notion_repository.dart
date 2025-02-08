@@ -11,14 +11,12 @@ class RestNotionRepository implements NotionRepository {
 
   @override
   Future<Map<String, dynamic>> getGroups(String pageId) async {
-    String raw = '';
     try {
-      raw = await _api.getGroups(pageId);
+      final raw = await _api.getGroups(pageId);
       final Map<String, dynamic> parse = await notionParser(raw);
       return parse;
     } on Exception catch (e) {
-      Exception(e);
+      throw Exception(e);
     }
-    return ({});
   }
 }
