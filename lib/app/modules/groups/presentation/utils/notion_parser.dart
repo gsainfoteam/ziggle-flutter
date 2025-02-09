@@ -3,7 +3,7 @@ import 'dart:convert';
 /// Notion API에서 받은 raw JSON 문자열을 받아서
 /// 1) jsonDecode 수행
 /// 2) 각 블록의 주요 필드만 추출하여 Map<String, dynamic> 형태로 재구성
-Future<Map<String, dynamic>> notionParser(String raw) async {
+Map<String, dynamic> notionParser(String raw) {
   // 1) JSON 문자열 -> Map (Key: 블록 UUID, Value: 블록 정보)
   final Map<String, dynamic> originalJson = jsonDecode(raw);
 
@@ -38,7 +38,6 @@ Future<Map<String, dynamic>> notionParser(String raw) async {
       "properties": properties,
       "content": content, // 자식 블록들의 id 배열
       "format": format,
-      // 필요하다면 기타 필드도 추가
       "parent_id": blockValue["parent_id"],
       "last_edited_time": blockValue["last_edited_time"],
       // ...
