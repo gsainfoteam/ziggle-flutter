@@ -76,7 +76,7 @@ abstract class GroupApi {
   Future<void> grantUserRole(
     @Path('uuid') String uuid,
     @Path('targetUuid') String targetUuid,
-    @Query('roleId') String roleId,
+    @Query('roleId') int roleId,
   );
 
   @DELETE('{uuid}/member/{targetUuid}/role')

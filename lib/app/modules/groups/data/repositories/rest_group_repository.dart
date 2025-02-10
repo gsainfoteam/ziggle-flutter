@@ -101,8 +101,7 @@ class RestGroupRepository implements GroupRepository {
   @override
   Future<void> grantRoleToUser(
       {required String uuid, required String targetUuid, required int roleId}) {
-    // TODO: implement grantRoleToUser
-    throw UnimplementedError();
+    return _api.grantUserRole(uuid, targetUuid, roleId);
   }
 
   @override

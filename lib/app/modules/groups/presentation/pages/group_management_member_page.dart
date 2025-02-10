@@ -50,7 +50,7 @@ class GroupManagementMemberPage extends StatelessWidget {
                               GroupMemberCard.editMode(
                             name: members.list[index].name,
                             email: members.list[index].email,
-                            role: GroupMemberRole.admin,
+                            role: members.list[index].role,
                             onBanish: () {
                               context.read<GroupManagementBloc>().add(
                                   GroupManagementEvent.removeMember(
@@ -59,7 +59,7 @@ class GroupManagementMemberPage extends StatelessWidget {
                             onChanged: (e) {
                               context.read<GroupMemberBloc>().add(
                                   GroupMemberEvent.grantRoleToUser(
-                                      uuid, members.list[index].uuid, 3));
+                                      uuid, members.list[index].uuid, e!));
                             },
                           ),
                           separatorBuilder: (context, index) =>
