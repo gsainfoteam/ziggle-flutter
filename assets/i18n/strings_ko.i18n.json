@@ -94,8 +94,13 @@
       "notionLink": {
         "header": "노션 페이지 링크 변경",
         "hintText": "노션 링크 입력",
+<<<<<<< HEAD
         "loading": "노션 불러오는 중...",
         "error": "노션 불러오기 실패"
+=======
+        "loading": "노션 불러오는 중",
+        "error": "노션 링크를 불러오는데 실패했습니다"
+>>>>>>> e5c2873 (feat: edit notion link)
       },
       "invite": {
         "header": "초대 링크 생성",

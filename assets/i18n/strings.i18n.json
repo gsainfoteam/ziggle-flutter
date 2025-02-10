@@ -94,7 +94,11 @@
       "notionLink": {
         "header": "Update Notion Page Link",
         "hintText": "Enter Notion Link",
+<<<<<<< HEAD
         "loading": "Loading Notion...",
+=======
+        "loading": "Loading Notion",
+>>>>>>> e5c2873 (feat: edit notion link)
         "error": "Failed Loading Notion Link"
       },
       "invite": {

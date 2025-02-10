@@ -94,7 +94,11 @@
       "notionLink": {
         "header": "ノーションページリンクを更新",
         "hintText": "ノーションリンクを入力してください",
+<<<<<<< HEAD
         "loading": "Notionを読み込み中...",
+=======
+        "loading": "ノーションを読み込んでいます",
+>>>>>>> e5c2873 (feat: edit notion link)
         "error": "ノーションのリンクの読み込みに失敗しました"
       },
       "invite": {

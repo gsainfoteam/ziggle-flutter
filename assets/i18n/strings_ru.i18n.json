@@ -94,7 +94,11 @@
       "notionLink": {
         "header": "Обновить ссылку на страницу Notion",
         "hintText": "Введите ссылку на Notion",
+<<<<<<< HEAD
         "loading": "Загрузка Notion...",
+=======
+        "loading": "Загрузка Notion",
+>>>>>>> e5c2873 (feat: edit notion link)
         "error": "Не удалось загрузить ссылку на Notion"
       },
       "invite": {
