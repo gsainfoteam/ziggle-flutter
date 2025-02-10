@@ -26,34 +26,21 @@ class RestNotionRepository implements NotionRepository {
 Map<String, dynamic> notionParser(String raw) {
   final Map<String, dynamic> originalJson = jsonDecode(raw);
 
-  final Map<String, dynamic> parsedResult = {};
-
-  for (final entry in originalJson.entries) {
-    final blockId = entry.key;
-    final blockContainer = entry.value;
-
+  return originalJson.map((blockId, blockContainer) {
     final blockValue = blockContainer["value"];
     if (blockValue == null) {
-      continue;
+      return MapEntry(blockId, null);
     }
 
-    final String type = blockValue["type"] ?? "";
-    final Map<String, dynamic> properties =
-        (blockValue["properties"] as Map<String, dynamic>?) ?? {};
-    final List<dynamic> content = (blockValue["content"] as List?) ?? [];
-    final Map<String, dynamic> format =
-        (blockValue["format"] as Map<String, dynamic>?) ?? {};
-
-    parsedResult[blockId] = {
+    return MapEntry(blockId, {
       "id": blockId,
-      "type": type,
-      "properties": properties,
-      "content": content,
-      "format": format,
+      "type": blockValue["type"] ?? "",
+      "properties": (blockValue["properties"] as Map<String, dynamic>?) ?? {},
+      "content": (blockValue["content"] as List?) ?? [],
+      "format": (blockValue["format"] as Map<String, dynamic>?) ?? {},
       "parent_id": blockValue["parent_id"],
       "last_edited_time": blockValue["last_edited_time"],
-    };
-  }
-
-  return parsedResult;
+    });
+  })
+    ..removeWhere((key, value) => value == null);
 }
