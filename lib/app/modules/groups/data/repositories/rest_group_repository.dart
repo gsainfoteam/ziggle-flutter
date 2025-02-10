@@ -114,6 +114,7 @@ class RestGroupRepository implements GroupRepository {
   Future<void> removeMember(
       {required String uuid, required String targetUuid}) async {
     await _api.banishUser(uuid, targetUuid);
+    await _refreshGroups();
   }
 
   @override

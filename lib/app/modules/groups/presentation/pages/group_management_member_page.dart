@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
@@ -52,14 +53,26 @@ class GroupManagementMemberPage extends StatelessWidget {
                             email: members.list[index].email,
                             role: members.list[index].role,
                             onBanish: () {
-                              context.read<GroupManagementBloc>().add(
-                                  GroupManagementEvent.removeMember(
-                                      uuid, members.list[index].uuid));
+                              context.showDialog<bool>(
+                                title: 'title',
+                                content: 'content',
+                                onConfirm: (_) {
+                                  context.read<GroupManagementBloc>().add(
+                                      GroupManagementEvent.removeMember(
+                                          uuid, members.list[index].uuid));
+                                  context
+                                      .read<GroupMemberBloc>()
+                                      .add(GroupMemberEvent.getMembers(uuid));
+                                },
+                              );
                             },
                             onChanged: (e) {
                               context.read<GroupMemberBloc>().add(
                                   GroupMemberEvent.grantRoleToUser(
                                       uuid, members.list[index].uuid, e!));
+                              context
+                                  .read<GroupMemberBloc>()
+                                  .add(GroupMemberEvent.getMembers(uuid));
                             },
                           ),
                           separatorBuilder: (context, index) =>
