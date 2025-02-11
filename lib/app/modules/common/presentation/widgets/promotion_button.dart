@@ -24,45 +24,57 @@ class PromotionButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: Palette.grayBorder,
-          width: 1,
+        gradient: LinearGradient(
+          begin: Alignment(-1, 0.5),
+          end: Alignment(1, -0.5),
+          stops: const [0.3, 1.0],
+          colors: const [
+            Palette.primary,
+            Color(0xFFFFA17F),
+          ],
         ),
       ),
       child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    subtitle,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      color: Palette.grayText,
-                      fontWeight: FontWeight.w500,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+        ),
+        margin: const EdgeInsets.all(1),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      subtitle,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Palette.grayText,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(height: 6),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            if (icon != null) ...[
-              const SizedBox(width: 10),
-              SizedBox(width: 40, height: 40, child: icon!),
+              if (icon != null) ...[
+                const SizedBox(width: 10),
+                SizedBox(width: 40, height: 40, child: icon!),
+              ],
+              const SizedBox(width: 2),
+              Assets.icons.chevronRight.svg(width: 24, height: 24),
             ],
-            const SizedBox(width: 2),
-            Assets.icons.chevronRight.svg(width: 24, height: 24),
-          ],
+          ),
         ),
       ),
     );
