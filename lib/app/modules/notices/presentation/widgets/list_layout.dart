@@ -46,8 +46,10 @@ class ListLayout extends StatelessWidget {
                         child: PromotionButton(
                           title: context.t.promotion.recruiting.title,
                           subtitle: context.t.promotion.recruiting.description,
-                          onPressed: () =>
-                              launchUrl(Uri.parse(Strings.recruitmentUrl)),
+                          onPressed: () => launchUrl(
+                            Uri.parse(Strings.recruitmentUrl),
+                            mode: LaunchMode.externalApplication,
+                          ),
                           icon: Assets.logo.infoteam.svg(),
                         ),
                       ),
