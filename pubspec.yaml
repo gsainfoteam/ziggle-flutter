@@ -86,6 +86,7 @@ flutter:
     - assets/logo/short.svg
     - assets/logo/long.svg
     - assets/logo/transparent.png
+    - assets/logo/infoteam.svg
     - assets/icons/
     - assets/images/
     - assets/fonts/TossFace/LICENSE
