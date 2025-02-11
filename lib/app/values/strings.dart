@@ -19,4 +19,6 @@ abstract class Strings {
   static String heyDeveloperUrl(String? email) =>
       "${dotenv.get('HEY_DEVELOPER_URL')}${email == null ? '' : '&email=$email'}";
   static const idPRedirectUri = 'ziggle-idp-login-redirect://callback';
+  static const recruitmentUrl =
+      'https://infoteam-rulrudino.notion.site/185365ea27df802683e0c7374f964784?pvs=105';
 }
