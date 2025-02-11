@@ -322,8 +322,8 @@
   },
   "promotion": {
     "recruiting": {
-      "title": "지글을 만든 건 인포팀?",
-      "description": "인포팀 지원하러 가기"
+      "title": "인포팀 지원하러 가기",
+      "description": "지글을 만든 건 인포팀?"
     }
   }
 }

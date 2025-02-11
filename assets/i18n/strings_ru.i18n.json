@@ -322,8 +322,8 @@
   },
   "promotion": {
     "recruiting": {
-      "title": "Эту платформу объявлений создал Infoteam?",
-      "description": "Подай заявку в Infoteam"
+      "title": "Подай заявку в Infoteam",
+      "description": "Эту платформу объявлений создал Infoteam?"
     }
   }
 }
