@@ -319,5 +319,11 @@
       "enabled": "開発者モードが有効になっています。",
       "toggleChannel": "APIチャンネルの切り替え (現在: $channel)"
     }
+  },
+  "promotion": {
+    "recruiting": {
+      "title": "このお知らせプラットフォームを作ったのはInfoteam？",
+      "description": "Infoteamに応募しよう"
+    }
   }
 }

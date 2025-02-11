@@ -319,5 +319,11 @@
       "enabled": "Режим разработчика включен.",
       "toggleChannel": "Переключить API канал (текущий: $channel)"
     }
+  },
+  "promotion": {
+    "recruiting": {
+      "title": "Эту платформу объявлений создал Infoteam?",
+      "description": "Подай заявку в Infoteam"
+    }
   }
 }
