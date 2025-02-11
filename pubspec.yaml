@@ -1,7 +1,7 @@
 name: ziggle
 description: ziggle
-publish_to: 'none'
-version: 4.2.0
+publish_to: "none"
+version: 4.2.1
 
 environment:
   sdk: ^3.5.1
@@ -76,8 +76,6 @@ dev_dependencies:
   flutter_launcher_icons: ^0.14.2
   flutter_native_splash: ^2.4.3
 
-
-
 flutter:
   uses-material-design: true
   assets:
@@ -99,3 +97,4 @@ flutter:
 flutter_gen:
   integrations:
     flutter_svg: true
+
