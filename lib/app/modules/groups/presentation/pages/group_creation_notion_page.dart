@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_create_bloc.dart';
@@ -81,7 +82,11 @@ class _LayoutState extends State<_Layout> {
           padding: const EdgeInsets.symmetric(vertical: 25),
           child: Column(
             children: [
-              const Text('...'),
+              Lottie.asset(
+                Assets.lotties.loading,
+                width: 80,
+                height: 80,
+              ),
               const SizedBox(height: 10),
               Text(
                 context.t.group.creation.notion.loading,
@@ -100,7 +105,6 @@ class _LayoutState extends State<_Layout> {
             Expanded(
               child: ZiggleButton.cta(
                 outlined: true,
-                onPressed: () => context.maybePop(),
                 child: Text(context.t.common.back),
               ),
             ),
