@@ -10,32 +10,34 @@ class NotionBloc extends Bloc<NotionEvent, NotionState> {
   final NotionRepository _repository;
 
   NotionBloc(this._repository) : super(const NotionState.initial()) {
-    on<_Load>((event, emit) => _loadNotionPage(emit, event.notionLink));
-  }
-
-  Future<void> _loadNotionPage(
-    Emitter<NotionState> emit,
-    String notionLink,
-  ) async {
-    emit(const NotionState.loading());
-    try {
-      RegExp regex = RegExp(r'([a-f0-9]{32})');
-      Match? notionId = regex.firstMatch(notionLink);
-      if (notionId != null) {
-        final data = await _repository.getGroups(notionId.group(0)!);
-        emit(NotionState.done(data));
-      } else {
-        emit(NotionState.error(t.group.manage.notionLink.error));
+    on<_Edit>((event, emit) => emit(const NotionState.loading()));
+    on<_Load>((event, emit) async {
+      emit(const NotionState.loading());
+      final notionLink = event.notionLink;
+      if (notionLink.isEmpty) {
+        emit(NotionState.error(t.group.manage.notionLink.loading));
+        return;
       }
-    } catch (e) {
-      emit(NotionState.error(e.toString()));
-    }
+      try {
+        RegExp regex = RegExp(r'([a-f0-9]{32})');
+        Match? notionId = regex.firstMatch(notionLink);
+        if (notionId != null) {
+          final data = await _repository.getGroups(notionId.group(0)!);
+          emit(NotionState.done(data));
+        } else {
+          emit(NotionState.error(t.group.manage.notionLink.error));
+        }
+      } catch (e) {
+        emit(NotionState.error(e.toString()));
+      }
+    });
   }
 }
 
 @freezed
 class NotionEvent with _$NotionEvent {
   const factory NotionEvent.load({required String notionLink}) = _Load;
+  const factory NotionEvent.edit() = _Edit;
 }
 
 @freezed

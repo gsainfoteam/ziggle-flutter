@@ -83,7 +83,7 @@
       "notionLink": {
         "header": "Update Notion Page Link",
         "hintText": "Enter Notion Link",
-        "loading": "Loading Notion",
+        "loading": "Loading Notion...",
         "error": "Failed Loading Notion Link"
       },
       "invite": {

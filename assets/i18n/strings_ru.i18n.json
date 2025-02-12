@@ -83,7 +83,7 @@
       "notionLink": {
         "header": "Обновить ссылку на страницу Notion",
         "hintText": "Введите ссылку на Notion",
-        "loading": "Загрузка Notion",
+        "loading": "Загрузка Notion...",
         "error": "Не удалось загрузить ссылку на Notion"
       },
       "invite": {

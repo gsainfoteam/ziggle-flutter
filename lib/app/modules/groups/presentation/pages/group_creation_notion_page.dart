@@ -56,6 +56,7 @@ class _LayoutState extends State<_Layout> {
       _notionBloc.add(NotionEvent.load(notionLink: event));
     });
     _controller.addListener(() {
+      _notionBloc.add(const NotionEvent.edit());
       _subject.add(_controller.text);
       setState(noop);
     });
@@ -109,7 +110,6 @@ class _LayoutState extends State<_Layout> {
             controller: _controller,
             hintText: context.t.group.creation.notion.hint,
           ),
-          const SizedBox(height: 30),
           BlocBuilder<NotionBloc, NotionState>(
             builder: (context, state) {
               return state.when(
@@ -134,9 +134,9 @@ class _LayoutState extends State<_Layout> {
                     ],
                   );
                 },
-                error: (error) => loading(),
-                initial: () => loading(),
-                loading: () => loading(),
+                error: (error) => loading(error),
+                initial: () => loading(context.t.group.creation.notion.loading),
+                loading: () => loading(context.t.group.creation.notion.loading),
               );
             },
           ),
@@ -177,7 +177,6 @@ class _LayoutState extends State<_Layout> {
                       onPressed: () {
                         context.read<GroupCreateBloc>().add(
                             GroupCreateEvent.setNotionPageId(_notionPageId));
-
                         context
                             .read<GroupCreateBloc>()
                             .add(const GroupCreateEvent.create());
@@ -198,9 +197,10 @@ class _LayoutState extends State<_Layout> {
     );
   }
 
-  Widget loading() {
+  Widget loading(String message) {
     return Column(
       children: [
+        SizedBox(height: 30),
         Container(
           width: double.infinity,
           decoration: const BoxDecoration(
@@ -217,7 +217,7 @@ class _LayoutState extends State<_Layout> {
               ),
               const SizedBox(height: 10),
               Text(
-                context.t.group.creation.notion.loading,
+                message,
                 style: const TextStyle(
                   color: Palette.grayText,
                   fontSize: 16,
