@@ -1,11 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
+import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_tab_bar.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/groups/presentation/blocs/notion_bloc.dart';
+import 'package:ziggle/app/modules/groups/presentation/pages/notion_page_builder.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/sliver_pinned_box_adapter.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
@@ -126,21 +132,51 @@ class GroupDetailPage extends StatelessWidget {
             ],
             body: TabBarView(
               children: [
-                Builder(
-                  builder: (context) {
-                    return CustomScrollView(
-                      slivers: [
-                        SliverList.builder(
-                          itemCount: 20,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text('Item $index'),
-                            );
-                          },
-                        ),
-                      ],
-                    );
-                  },
+                BlocProvider(
+                  create: (context) => sl<NotionBloc>(),
+                  child: BlocBuilder<NotionBloc, NotionState>(
+                    builder: (context, state) {
+                      return state.when(
+                        done: (data) {
+                          final rootBlockId = data.keys.firstWhere(
+                            (id) => (data[id]['type'] == 'page'),
+                            orElse: () => '',
+                          );
+                          if (rootBlockId.isEmpty) {
+                            return const Center(
+                                child: Text('No page block found'));
+                          }
+                          return Column(
+                            children: [
+                              SizedBox(
+                                height: 397,
+                                child: NotionPageBuilder(
+                                  blocksMap: data,
+                                  rootBlockId: rootBlockId,
+                                ),
+                              ),
+                              SizedBox(height: 30),
+                            ],
+                          );
+                        },
+                        error: (error) => Container(),
+                        initial: () => Container(),
+                        loading: () => Lottie.asset(Assets.lotties.loading),
+                      );
+                    },
+                  ),
+                ),
+                CustomScrollView(
+                  slivers: [
+                    SliverList.builder(
+                      itemCount: 20,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text('Item $index'),
+                        );
+                      },
+                    ),
+                  ],
                 ),
                 const SingleChildScrollView(
                   child: Column(
