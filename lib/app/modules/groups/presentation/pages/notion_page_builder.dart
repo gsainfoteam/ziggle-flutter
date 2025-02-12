@@ -13,7 +13,7 @@ class NotionPageBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(5.0),
       child: _buildBlock(rootBlockId, 0),
     );
   }

@@ -53,9 +53,7 @@ class _LayoutState extends State<_Layout> {
       ..add(NotionEvent.load(notionLink: _notionPageId));
     _subject = BehaviorSubject<String>();
     _subscription = _subject.debounceTime(Duration(seconds: 1)).listen((event) {
-      if (mounted) {
-        _notionBloc.add(NotionEvent.load(notionLink: event));
-      }
+      _notionBloc.add(NotionEvent.load(notionLink: event));
     });
     _controller.addListener(() {
       _subject.add(_controller.text);
@@ -108,7 +106,7 @@ class _LayoutState extends State<_Layout> {
           ),
           const SizedBox(height: 30),
           ZiggleInput(
-            controller: TextEditingController(text: _notionPageId),
+            controller: _controller,
             hintText: context.t.group.creation.notion.hint,
           ),
           const SizedBox(height: 30),
@@ -126,7 +124,7 @@ class _LayoutState extends State<_Layout> {
                   return Column(
                     children: [
                       SizedBox(
-                        height: 446,
+                        height: 397,
                         child: NotionPageBuilder(
                           blocksMap: data,
                           rootBlockId: rootBlockId,
@@ -136,90 +134,18 @@ class _LayoutState extends State<_Layout> {
                     ],
                   );
                 },
-                error: (error) => Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF5F5F7),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 25),
-                  child: Column(
-                    children: [
-                      Lottie.asset(
-                        Assets.lotties.loading,
-                        width: 80,
-                        height: 80,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        context.t.group.creation.notion.loading,
-                        style: const TextStyle(
-                          color: Palette.grayText,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                initial: () => Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF5F5F7),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 25),
-                  child: Column(
-                    children: [
-                      Lottie.asset(
-                        Assets.lotties.loading,
-                        width: 80,
-                        height: 80,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        context.t.group.creation.notion.loading,
-                        style: const TextStyle(
-                          color: Palette.grayText,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                loading: () => Container(
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF5F5F7),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 25),
-                  child: Column(
-                    children: [
-                      Lottie.asset(
-                        Assets.lotties.loading,
-                        width: 80,
-                        height: 80,
-                      ),
-                      const SizedBox(height: 10),
-                      Text(
-                        context.t.group.creation.notion.loading,
-                        style: const TextStyle(
-                          color: Palette.grayText,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                error: (error) => loading(),
+                initial: () => loading(),
+                loading: () => loading(),
               );
             },
           ),
-          const SizedBox(height: 30),
           Row(
             children: [
               Expanded(
                 child: ZiggleButton.cta(
                   outlined: true,
+                  onPressed: () => context.maybePop(),
                   child: Text(context.t.common.back),
                 ),
               ),
@@ -273,30 +199,36 @@ class _LayoutState extends State<_Layout> {
   }
 
   Widget loading() {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xFFF5F5F7),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 25),
-      child: Column(
-        children: [
-          Lottie.asset(
-            Assets.lotties.loading,
-            width: 80,
-            height: 80,
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Color(0xFFF5F5F7),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
-          const SizedBox(height: 10),
-          Text(
-            context.t.group.creation.notion.loading,
-            style: const TextStyle(
-              color: Palette.grayText,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
+          padding: const EdgeInsets.symmetric(vertical: 25),
+          child: Column(
+            children: [
+              Lottie.asset(
+                Assets.lotties.loading,
+                width: 80,
+                height: 80,
+              ),
+              const SizedBox(height: 10),
+              Text(
+                context.t.group.creation.notion.loading,
+                style: const TextStyle(
+                  color: Palette.grayText,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+        SizedBox(height: 30),
+      ],
     );
   }
 }
