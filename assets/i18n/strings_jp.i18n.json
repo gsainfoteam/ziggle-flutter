@@ -66,6 +66,10 @@
     "manage": {
       "header": "グループ管理",
       "back": "戻る",
+      "deleteConfirmationTitle": "グループを削除してもよろしいですか？",
+      "deleteConfirmationMessage": "このグループ名で投稿された以前の通知には影響しません。",
+      "leaveConfirmationTitle": "グループを退会してもよろしいですか？",
+      "leaveConfirmationMessage": "このグループ名で投稿された以前の通知には影響しません。",
       "change": "変更",
       "profileImage": "グループのプロフィール写真を変更",
       "name": {
@@ -79,11 +83,13 @@
       "notionLink": {
         "header": "ノーションページリンクを更新",
         "hintText": "ノーションリンクを入力してください",
-        "loading": "ノーションを読み込んでいます"
+        "loading": "ノーションを読み込んでいます",
+        "error": "ノーションのリンクの読み込みに失敗しました"
       },
       "invite": {
         "header": "招待リンクを生成",
-        "invitationLink": "招待リンク"
+        "invitationLink": "招待リンク",
+        "copy": "招待リンクをコピー"
       },
       "member": {
         "header": "メンバーを管理"
@@ -96,7 +102,7 @@
         "role": "役割",
         "admin": "管理者",
         "manager": "マネージャー",
-        "user": "ユーザー"
+        "member": "メンバー"
       },
       "banish": "追放"
     },

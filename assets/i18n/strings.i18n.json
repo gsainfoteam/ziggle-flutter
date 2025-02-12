@@ -66,6 +66,10 @@
     "manage": {
       "header": "Group Management",
       "back": "Back",
+      "deleteConfirmationTitle": "Are you sure you want to delete the group?",
+      "deleteConfirmationMessage": "This will not affect the notices previously posted under this group name.",
+      "leaveConfirmationTitle": "Are you sure you want to leave the group?",
+      "leaveConfirmationMessage": "This will not affect the notices previously posted under this group name.",
       "change": "Change",
       "profileImage": "Change Group Profile Image",
       "name": {
@@ -79,11 +83,13 @@
       "notionLink": {
         "header": "Update Notion Page Link",
         "hintText": "Enter Notion Link",
-        "loading": "Loading Notion"
+        "loading": "Loading Notion",
+        "error": "Failed Loading Notion Link"
       },
       "invite": {
         "header": "Generate Invite Link",
-        "invitationLink": "Invitation Link"
+        "invitationLink": "Invitation Link",
+        "copy": "Copy invitation link"
       },
       "member": {
         "header": "Manage Members"
@@ -96,7 +102,7 @@
         "role": "Role",
         "admin": "Admin",
         "manager": "Manager",
-        "user": "User"
+        "member": "Member"
       },
       "banish": "Banish"
     },

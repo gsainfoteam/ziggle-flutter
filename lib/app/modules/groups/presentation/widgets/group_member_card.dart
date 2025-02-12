@@ -1,25 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_select.dart';
+import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/strings.g.dart';
-
-enum GroupMemberRole {
-  admin,
-  manager,
-  user;
-
-  String toLocalizedString(BuildContext context) {
-    switch (this) {
-      case GroupMemberRole.admin:
-        return context.t.group.memberCard.role.admin;
-      case GroupMemberRole.manager:
-        return context.t.group.memberCard.role.manager;
-      case GroupMemberRole.user:
-        return context.t.group.memberCard.role.user;
-    }
-  }
-}
 
 class GroupMemberCard extends StatelessWidget {
   final String name;
