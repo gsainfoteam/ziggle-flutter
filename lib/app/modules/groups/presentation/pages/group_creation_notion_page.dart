@@ -176,7 +176,7 @@ class _LayoutState extends State<_Layout> {
                     return ZiggleButton.cta(
                       onPressed: () {
                         context.read<GroupCreateBloc>().add(
-                            GroupCreateEvent.setNotionPageId(_notionPageId));
+                            GroupCreateEvent.setNotionPageId(_controller.text));
                         context
                             .read<GroupCreateBloc>()
                             .add(const GroupCreateEvent.create());
