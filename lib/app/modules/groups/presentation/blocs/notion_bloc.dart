@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/notion_repository.dart';
-
+import 'package:ziggle/gen/strings.g.dart';
 part 'notion_bloc.freezed.dart';
 
 @injectable
@@ -10,17 +10,23 @@ class NotionBloc extends Bloc<NotionEvent, NotionState> {
   final NotionRepository _repository;
 
   NotionBloc(this._repository) : super(const NotionState.initial()) {
-    on<_Load>((event, emit) => _loadNotionPage(emit, event.pageId));
+    on<_Load>((event, emit) => _loadNotionPage(emit, event.notionLink));
   }
 
   Future<void> _loadNotionPage(
     Emitter<NotionState> emit,
-    String pageId,
+    String notionLink,
   ) async {
     emit(const NotionState.loading());
     try {
-      final data = await _repository.getGroups(pageId);
-      emit(NotionState.done(data));
+      RegExp regex = RegExp(r'([a-f0-9]{32})');
+      Match? notionId = regex.firstMatch(notionLink);
+      if (notionId != null) {
+        final data = await _repository.getGroups(notionId.group(0)!);
+        emit(NotionState.done(data));
+      } else {
+        emit(NotionState.error(t.group.manage.notionLink.error));
+      }
     } catch (e) {
       emit(NotionState.error(e.toString()));
     }
@@ -29,7 +35,7 @@ class NotionBloc extends Bloc<NotionEvent, NotionState> {
 
 @freezed
 class NotionEvent with _$NotionEvent {
-  const factory NotionEvent.load({required String pageId}) = _Load;
+  const factory NotionEvent.load({required String notionLink}) = _Load;
 }
 
 @freezed
