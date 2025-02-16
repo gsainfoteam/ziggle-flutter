@@ -137,17 +137,7 @@ class GroupDetailPage extends StatelessWidget {
                   child: BlocBuilder<NotionBloc, NotionState>(
                     builder: (context, state) {
                       return state.when(
-                        done: (data) {
-                          return Column(
-                            children: [
-                              SizedBox(
-                                height: 397,
-                                child: NotionPageBuilder(blocksMap: data),
-                              ),
-                              SizedBox(height: 30),
-                            ],
-                          );
-                        },
+                        done: (data) => NotionPageBuilder(blocksMap: data),
                         error: (error) => Container(),
                         initial: () => Container(),
                         loading: () => Lottie.asset(Assets.lotties.loading),

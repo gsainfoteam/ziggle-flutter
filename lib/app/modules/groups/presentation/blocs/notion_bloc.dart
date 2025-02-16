@@ -10,19 +10,19 @@ class NotionBloc extends Bloc<NotionEvent, NotionState> {
   final NotionRepository _repository;
 
   NotionBloc(this._repository) : super(const NotionState.initial()) {
-    on<_Edit>((event, emit) => emit(const NotionState.loading()));
+    on<_Edit>((event, emit) => emit(NotionState.loading()));
     on<_Load>((event, emit) async {
-      emit(const NotionState.loading());
+      emit(NotionState.loading());
       final notionLink = event.notionLink;
       if (notionLink.isEmpty) {
-        emit(NotionState.error(t.group.manage.notionLink.loading));
+        emit(NotionState.loading());
         return;
       }
       try {
         RegExp regex = RegExp(r'([a-f0-9]{32})');
-        Match? notionId = regex.firstMatch(notionLink);
+        String? notionId = regex.firstMatch(notionLink)?.group(0);
         if (notionId != null) {
-          final data = await _repository.getNotionPage(notionId.group(0)!);
+          final data = await _repository.getNotionPage(notionId);
           emit(NotionState.done(data));
         } else {
           emit(NotionState.error(t.group.manage.notionLink.error));

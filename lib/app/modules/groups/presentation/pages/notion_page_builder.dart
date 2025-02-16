@@ -10,19 +10,24 @@ class NotionPageBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rootBlockId = blocksMap.keys.firstWhere(
-      (id) => blocksMap[id]['type'] == 'page',
-      orElse: () => '',
-    );
-
-    if (rootBlockId.isEmpty) {
+    final firstBlock = blocksMap.keys.first;
+    if (_isRootBlock(firstBlock)) {
+      return SingleChildScrollView(
+        padding: const EdgeInsets.all(5.0),
+        child: _buildBlock(firstBlock, 0),
+      );
+    } else {
       return const Center(child: Text('No page block found'));
     }
+  }
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(5.0),
-      child: _buildBlock(rootBlockId, 0),
-    );
+  bool _isRootBlock(String blockId) {
+    final blockData = blocksMap[blockId];
+    if (blockData == null) {
+      return false;
+    }
+    final type = blockData['type'] as String? ?? 'unknown';
+    return type == 'page';
   }
 
   Widget _buildBlock(String blockId, int indentLevel) {
@@ -36,12 +41,7 @@ class NotionPageBuilder extends StatelessWidget {
     final content = blockData['content'] as List<dynamic>? ?? [];
     final format = blockData['format'] as Map<String, dynamic>? ?? {};
 
-    final rootBlockId = blocksMap.keys.firstWhere(
-      (id) => blocksMap[id]['type'] == 'page',
-      orElse: () => '',
-    );
-
-    if (type == 'page' && blockId == rootBlockId) {
+    if (_isRootBlock(blockId)) {
       return _buildPageBlock(blockId, properties, content, indentLevel);
     } else if (type == 'page') {
       return _buildSubPageBlock(blockId, properties, content, indentLevel);

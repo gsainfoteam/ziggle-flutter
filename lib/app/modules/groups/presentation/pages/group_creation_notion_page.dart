@@ -113,15 +113,8 @@ class _LayoutState extends State<_Layout> {
           ),
           BlocBuilder<NotionBloc, NotionState>(
             builder: (context, state) {
-              return state.when(
+              return state.maybeWhen(
                 done: (data) {
-                  final rootBlockId = data.keys.firstWhere(
-                    (id) => (data[id]['type'] == 'page'),
-                    orElse: () => '',
-                  );
-                  if (rootBlockId.isEmpty) {
-                    return const Center(child: Text('No page block found'));
-                  }
                   return Column(
                     children: [
                       SizedBox(
@@ -133,8 +126,7 @@ class _LayoutState extends State<_Layout> {
                   );
                 },
                 error: (error) => loading(error),
-                initial: () => loading(context.t.group.creation.notion.loading),
-                loading: () => loading(context.t.group.creation.notion.loading),
+                orElse: () => loading(context.t.group.creation.notion.loading),
               );
             },
           ),
