@@ -83,7 +83,7 @@ abstract class GroupApi {
   Future<void> deleteUserRole(
     @Path('uuid') String uuid,
     @Path('targetUuid') String targetUuid,
-    @Query('roleId') String roleId,
+    @Query('roleId') int roleId,
   );
 
   @PATCH('{uuid}/visibility')

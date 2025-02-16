@@ -63,6 +63,7 @@ class GroupManagementBloc
           uuid: event.uuid, targetUuid: event.targetUuid);
       final updatedGroup = await _repository.getGroup(event.uuid);
       emit(GroupManagementState.success(updatedGroup));
+      add(GroupManagementEvent.getMembers(event.uuid));
     });
     on<_Delete>((event, emit) async {
       emit(GroupManagementState.loading());

@@ -120,8 +120,7 @@ class RestGroupRepository implements GroupRepository {
   @override
   Future<void> removeRoleFromUser(
       {required String uuid, required String targetUuid, required int roleId}) {
-    // TODO: implement removeRoleFromUser
-    throw UnimplementedError();
+    return _api.deleteUserRole(uuid, targetUuid, roleId);
   }
 
   @override

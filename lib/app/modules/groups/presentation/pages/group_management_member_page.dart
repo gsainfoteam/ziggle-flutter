@@ -52,27 +52,25 @@ class GroupManagementMemberPage extends StatelessWidget {
                             name: members.list[index].name,
                             email: members.list[index].email,
                             role: members.list[index].role,
+                            onChanged: (e) {
+                              context.read<GroupMemberBloc>().add(
+                                  GroupMemberEvent.grantRoleToUser(
+                                      uuid,
+                                      members.list[index].uuid,
+                                      e!,
+                                      members.list[index].role));
+                            },
                             onBanish: () {
                               context.showDialog<bool>(
-                                title: 'title',
-                                content: 'content',
+                                title: context.t.group.memberCard.banishTitle,
+                                content: context
+                                    .t.group.memberCard.banishDescription,
                                 onConfirm: (_) {
                                   context.read<GroupManagementBloc>().add(
                                       GroupManagementEvent.removeMember(
                                           uuid, members.list[index].uuid));
-                                  context
-                                      .read<GroupMemberBloc>()
-                                      .add(GroupMemberEvent.getMembers(uuid));
                                 },
                               );
-                            },
-                            onChanged: (e) {
-                              context.read<GroupMemberBloc>().add(
-                                  GroupMemberEvent.grantRoleToUser(
-                                      uuid, members.list[index].uuid, e!));
-                              context
-                                  .read<GroupMemberBloc>()
-                                  .add(GroupMemberEvent.getMembers(uuid));
                             },
                           ),
                           separatorBuilder: (context, index) =>

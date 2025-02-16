@@ -31,21 +31,22 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
     });
     on<_GrantRoleToUser>((event, emit) async {
       emit(GroupMemberState.loading());
-      await _repository.grantRoleToUser(
-        uuid: event.uuid,
-        targetUuid: event.targetUuid,
-        roleId: event.role.toInt(),
-      );
+      try {
+        await _repository.removeRoleFromUser(
+          uuid: event.uuid,
+          targetUuid: event.targetUuid,
+          roleId: event.previousRole.toInt(),
+        );
+        await _repository.grantRoleToUser(
+          uuid: event.uuid,
+          targetUuid: event.targetUuid,
+          roleId: event.role.toInt(),
+        );
+      } on Exception catch (e) {
+        emit(_Error(e.toString()));
+      }
       emit(GroupMemberState.success());
-    });
-    on<_RemoveRoleFromUser>((event, emit) async {
-      emit(GroupMemberState.loading());
-      await _repository.removeRoleFromUser(
-        uuid: event.uuid,
-        targetUuid: event.targetUuid,
-        roleId: event.roleId,
-      );
-      emit(GroupMemberState.success());
+      add(GroupMemberEvent.getMembers(event.uuid));
     });
   }
 }
@@ -56,10 +57,8 @@ class GroupMemberEvent with _$GroupMemberEvent {
   const factory GroupMemberEvent.getMembers(String uuid) = _GetMembers;
   const factory GroupMemberEvent.removeMember(String uuid, String targetUuid) =
       _RemoveMember;
-  const factory GroupMemberEvent.grantRoleToUser(
-      String uuid, String targetUuid, GroupMemberRole role) = _GrantRoleToUser;
-  const factory GroupMemberEvent.removeRoleFromUser(
-      String uuid, String targetUuid, int roleId) = _RemoveRoleFromUser;
+  const factory GroupMemberEvent.grantRoleToUser(String uuid, String targetUuid,
+      GroupMemberRole role, GroupMemberRole previousRole) = _GrantRoleToUser;
 }
 
 @freezed
@@ -68,4 +67,5 @@ class GroupMemberState with _$GroupMemberState {
   const factory GroupMemberState.loading() = _Loading;
   const factory GroupMemberState.loaded(MemberListEntity list) = _Loaded;
   const factory GroupMemberState.success() = _Success;
+  const factory GroupMemberState.error(String error) = _Error;
 }
