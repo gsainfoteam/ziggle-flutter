@@ -22,7 +22,7 @@ class NotionBloc extends Bloc<NotionEvent, NotionState> {
         RegExp regex = RegExp(r'([a-f0-9]{32})');
         Match? notionId = regex.firstMatch(notionLink);
         if (notionId != null) {
-          final data = await _repository.getGroups(notionId.group(0)!);
+          final data = await _repository.getNotionPage(notionId.group(0)!);
           emit(NotionState.done(data));
         } else {
           emit(NotionState.error(t.group.manage.notionLink.error));

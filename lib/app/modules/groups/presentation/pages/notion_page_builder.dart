@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 
 class NotionPageBuilder extends StatelessWidget {
   final Map<String, dynamic> blocksMap;
-  final String rootBlockId;
 
   const NotionPageBuilder({
     super.key,
     required this.blocksMap,
-    required this.rootBlockId,
   });
 
   @override
   Widget build(BuildContext context) {
+    final rootBlockId = blocksMap.keys.firstWhere(
+      (id) => blocksMap[id]['type'] == 'page',
+      orElse: () => '',
+    );
+
+    if (rootBlockId.isEmpty) {
+      return const Center(child: Text('No page block found'));
+    }
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(5.0),
       child: _buildBlock(rootBlockId, 0),
@@ -29,13 +36,18 @@ class NotionPageBuilder extends StatelessWidget {
     final content = blockData['content'] as List<dynamic>? ?? [];
     final format = blockData['format'] as Map<String, dynamic>? ?? {};
 
+    final rootBlockId = blocksMap.keys.firstWhere(
+      (id) => blocksMap[id]['type'] == 'page',
+      orElse: () => '',
+    );
+
+    if (type == 'page' && blockId == rootBlockId) {
+      return _buildPageBlock(blockId, properties, content, indentLevel);
+    } else if (type == 'page') {
+      return _buildSubPageBlock(blockId, properties, content, indentLevel);
+    }
+
     switch (type) {
-      case 'page':
-        if (blockId == rootBlockId) {
-          return _buildPageBlock(blockId, properties, content, indentLevel);
-        } else {
-          return _buildSubPageBlock(blockId, properties, content, indentLevel);
-        }
       case 'text':
         return _buildTextBlock(properties, indentLevel);
       case 'header':

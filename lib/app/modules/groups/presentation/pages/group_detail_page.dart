@@ -138,22 +138,11 @@ class GroupDetailPage extends StatelessWidget {
                     builder: (context, state) {
                       return state.when(
                         done: (data) {
-                          final rootBlockId = data.keys.firstWhere(
-                            (id) => (data[id]['type'] == 'page'),
-                            orElse: () => '',
-                          );
-                          if (rootBlockId.isEmpty) {
-                            return const Center(
-                                child: Text('No page block found'));
-                          }
                           return Column(
                             children: [
                               SizedBox(
                                 height: 397,
-                                child: NotionPageBuilder(
-                                  blocksMap: data,
-                                  rootBlockId: rootBlockId,
-                                ),
+                                child: NotionPageBuilder(blocksMap: data),
                               ),
                               SizedBox(height: 30),
                             ],

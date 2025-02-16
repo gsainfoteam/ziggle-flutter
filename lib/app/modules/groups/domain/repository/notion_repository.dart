@@ -1,3 +1,3 @@
 abstract class NotionRepository {
-  Future<Map<String, dynamic>> getGroups(String pageId);
+  Future<Map<String, dynamic>> getNotionPage(String pageId);
 }

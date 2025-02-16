@@ -10,7 +10,7 @@ class RestNotionRepository implements NotionRepository {
   RestNotionRepository(this._api);
 
   @override
-  Future<Map<String, dynamic>> getGroups(String pageId) async {
+  Future<Map<String, dynamic>> getNotionPage(String pageId) async {
     try {
       final raw = await _api.getGroups(pageId);
 

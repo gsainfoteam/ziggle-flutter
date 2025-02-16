@@ -66,6 +66,7 @@ class _LayoutState extends State<_Layout> {
   void dispose() {
     _subscription.cancel();
     _subject.close();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -125,10 +126,7 @@ class _LayoutState extends State<_Layout> {
                     children: [
                       SizedBox(
                         height: 397,
-                        child: NotionPageBuilder(
-                          blocksMap: data,
-                          rootBlockId: rootBlockId,
-                        ),
+                        child: NotionPageBuilder(blocksMap: data),
                       ),
                       SizedBox(height: 30),
                     ],
