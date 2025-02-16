@@ -10,7 +10,6 @@ import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/list_layout.dart';
-import 'package:ziggle/app/modules/user/presentation/bloc/group_auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -39,21 +38,19 @@ class _FeedPageState extends State<FeedPage>
       backgroundColor: Palette.grayLight,
       appBar: ZiggleAppBar.main(
         onTapSearch: () {
-          GroupManagementMainRoute().push(context);
-          // AnalyticsRepository.click(
-          //     const AnalyticsEvent.search(PageSource.feed));
-          // const SearchRoute().push(context);
+          AnalyticsRepository.click(
+              const AnalyticsEvent.search(PageSource.feed));
+          const SearchRoute().push(context);
         },
         onTapWrite: () {
-          context.read<GroupAuthBloc>().add(GroupAuthEvent.login());
-          // AnalyticsRepository.click(
-          //     const AnalyticsEvent.write(PageSource.feed));
-          // if (UserBloc.userOrNull(context) == null) {
-          //   return context.showToast(
-          //     context.t.user.login.description,
-          //   );
-          // }
-          // const NoticeWriteBodyRoute().push(context);
+          AnalyticsRepository.click(
+              const AnalyticsEvent.write(PageSource.feed));
+          if (UserBloc.userOrNull(context) == null) {
+            return context.showToast(
+              context.t.user.login.description,
+            );
+          }
+          const NoticeWriteBodyRoute().push(context);
         },
       ),
       body: BlocProvider(
