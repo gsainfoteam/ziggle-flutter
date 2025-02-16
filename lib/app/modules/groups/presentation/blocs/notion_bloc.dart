@@ -19,7 +19,7 @@ class NotionBloc extends Bloc<NotionEvent, NotionState> {
         return;
       }
       try {
-        RegExp regex = RegExp(r'([a-f0-9]{32})');
+        RegExp regex = RegExp(r'(?:notion\.so/)?(?:[^/]+/)?([a-f0-9]{32})');
         String? notionId = regex.firstMatch(notionLink)?.group(0);
         if (notionId != null) {
           final data = await _repository.getNotionPage(notionId);

@@ -90,8 +90,14 @@ class _GroupManagementInvitationLinkPageState
                         state.maybeWhen(
                           orElse: () => Container(),
                           success: (code) => ZiggleButton.cta(
-                              onPressed: () =>
-                                  Clipboard.setData(ClipboardData(text: code)),
+                              onPressed: () {
+                                Clipboard.setData(ClipboardData(text: code));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          context.t.common.clipboard.success)),
+                                );
+                              },
                               emphasize: false,
                               child: Text(context.t.group.manage.invite.copy)),
                         ),

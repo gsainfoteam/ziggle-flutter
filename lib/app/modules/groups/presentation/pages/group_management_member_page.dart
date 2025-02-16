@@ -36,7 +36,6 @@ class GroupManagementMemberPage extends StatelessWidget {
             builder: (context, state) {
               return state.maybeWhen(
                 orElse: () => Container(),
-                initial: () => Container(),
                 loading: () => Center(
                   child: Lottie.asset(Assets.lotties.loading,
                       height: MediaQuery.of(context).size.width * 0.2,

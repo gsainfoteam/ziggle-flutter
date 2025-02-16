@@ -68,10 +68,12 @@ class GroupManagementBloc
     on<_Delete>((event, emit) async {
       emit(GroupManagementState.loading());
       await _repository.deleteGroup(event.uuid);
+      emit(GroupManagementState.done());
     });
     on<_Leave>((event, emit) async {
       emit(GroupManagementState.loading());
       await _repository.leaveGroup(event.uuid);
+      emit(GroupManagementState.done());
     });
   }
 }
