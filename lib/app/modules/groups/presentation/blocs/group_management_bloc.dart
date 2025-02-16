@@ -63,7 +63,6 @@ class GroupManagementBloc
           uuid: event.uuid, targetUuid: event.targetUuid);
       final updatedGroup = await _repository.getGroup(event.uuid);
       emit(GroupManagementState.success(updatedGroup));
-      add(GroupManagementEvent.getMembers(event.uuid));
     });
     on<_Delete>((event, emit) async {
       emit(GroupManagementState.loading());
@@ -90,13 +89,8 @@ class GroupManagementEvent with _$GroupManagementEvent {
       String uuid, String? description) = _UpdateDescription;
   const factory GroupManagementEvent.updateNotionLink(
       String uuid, String? notionLink) = _UpdateNotionLink;
-  const factory GroupManagementEvent.getMembers(String uuid) = _GetMembers;
   const factory GroupManagementEvent.removeMember(
       String uuid, String targetUuid) = _RemoveMember;
-  const factory GroupManagementEvent.grantRoleToUser(
-      String uuid, String targetUuid, int roleId) = _GrantRoleToUser;
-  const factory GroupManagementEvent.removeRoleFromUser(
-      String uuid, String targetUuid, int roleId) = _RemoveRoleFromUser;
   const factory GroupManagementEvent.delete(String uuid) = _Delete;
   const factory GroupManagementEvent.leave(String uuid) = _Leave;
 }
