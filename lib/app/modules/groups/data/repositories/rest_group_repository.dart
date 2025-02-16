@@ -18,11 +18,10 @@ import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dar
 @Singleton(as: GroupRepository)
 class RestGroupRepository implements GroupRepository {
   final GroupApi _api;
-  final NotionApi _notionApi;
   final BehaviorSubject<GroupListEntity> _groupsSubject =
       BehaviorSubject.seeded(GroupListEntity(list: []));
 
-  RestGroupRepository(this._api, this._notionApi);
+  RestGroupRepository(this._api);
 
   @override
   Future<GroupEntity> createGroup({
@@ -48,8 +47,9 @@ class RestGroupRepository implements GroupRepository {
 
   @override
   Future<GroupListEntity> getGroups() async {
-    final GroupListModel fetched = await _api.getGroups();
-    return fetched;
+    final GroupListModel groups = await _api.getGroups();
+    _groupsSubject.add(groups);
+    return groups;
   }
 
   @override
