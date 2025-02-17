@@ -134,10 +134,7 @@ class _GroupManagementNotionPageState extends State<GroupManagementNotionPage> {
                         children: [
                           SizedBox(
                             height: 446,
-                            child: NotionPageBuilder(
-                              blocksMap: data,
-                              rootBlockId: rootBlockId,
-                            ),
+                            child: NotionPageBuilder(blocksMap: data),
                           ),
                           SizedBox(height: 30),
                         ],
