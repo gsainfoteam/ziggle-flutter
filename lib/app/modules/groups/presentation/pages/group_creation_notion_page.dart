@@ -111,24 +111,21 @@ class _LayoutState extends State<_Layout> {
             controller: _controller,
             hintText: context.t.group.creation.notion.hint,
           ),
-          BlocBuilder<NotionBloc, NotionState>(
-            builder: (context, state) {
-              return state.maybeWhen(
-                done: (data) {
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: 397,
-                        child: NotionPageBuilder(blocksMap: data),
-                      ),
-                      SizedBox(height: 30),
-                    ],
+          Column(
+            children: [
+              SizedBox(height: 30),
+              BlocBuilder<NotionBloc, NotionState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    done: (data) => NotionPageBuilder(blocksMap: data),
+                    error: (error) => loading(error),
+                    orElse: () =>
+                        loading(context.t.group.creation.notion.loading),
                   );
                 },
-                error: (error) => loading(error),
-                orElse: () => loading(context.t.group.creation.notion.loading),
-              );
-            },
+              ),
+              SizedBox(height: 30),
+            ],
           ),
           Row(
             children: [
@@ -141,41 +138,32 @@ class _LayoutState extends State<_Layout> {
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: BlocBuilder<GroupCreateBloc, GroupCreateState>(
-                  builder: (context, state) {
-                    return ZiggleButton.cta(
-                      emphasize: false,
-                      onPressed: () {
-                        context
-                            .read<GroupCreateBloc>()
-                            .add(const GroupCreateEvent.create());
-                        context.router.popUntilRouteWithName(
-                            GroupCreationProfileRoute.name);
-                        context.replaceRoute(const GroupCreationDoneRoute());
+                child: BlocBuilder<NotionBloc, NotionState>(
+                  builder: (context, notionState) {
+                    return BlocBuilder<GroupCreateBloc, GroupCreateState>(
+                      builder: (context, state) {
+                        return ZiggleButton.cta(
+                          emphasize: _controller.text.isNotEmpty,
+                          onPressed: () {
+                            context.read<GroupCreateBloc>().add(
+                                GroupCreateEvent.setNotionPageId(
+                                    _controller.text));
+                            context
+                                .read<GroupCreateBloc>()
+                                .add(const GroupCreateEvent.create());
+                            context.router.popUntilRouteWithName(
+                                GroupCreationProfileRoute.name);
+                            context
+                                .replaceRoute(const GroupCreationDoneRoute());
+                          },
+                          disabled: _controller.text.isNotEmpty &&
+                              !notionState.isNotionIdValid,
+                          loading: state.isLoading,
+                          child: _controller.text.isEmpty
+                              ? Text(context.t.common.skip)
+                              : Text(context.t.common.next),
+                        );
                       },
-                      loading: state.isLoading,
-                      child: Text(context.t.common.skip),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: BlocBuilder<GroupCreateBloc, GroupCreateState>(
-                  builder: (context, state) {
-                    return ZiggleButton.cta(
-                      onPressed: () {
-                        context.read<GroupCreateBloc>().add(
-                            GroupCreateEvent.setNotionPageId(_controller.text));
-                        context
-                            .read<GroupCreateBloc>()
-                            .add(const GroupCreateEvent.create());
-                        context.router.popUntilRouteWithName(
-                            GroupCreationProfileRoute.name);
-                        context.replaceRoute(const GroupCreationDoneRoute());
-                      },
-                      loading: state.isLoading,
-                      child: Text(context.t.common.next),
                     );
                   },
                 ),
@@ -188,37 +176,31 @@ class _LayoutState extends State<_Layout> {
   }
 
   Widget loading(String message) {
-    return Column(
-      children: [
-        SizedBox(height: 30),
-        Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Color(0xFFF5F5F7),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        color: Color(0xFFF5F5F7),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 25),
+      child: Column(
+        children: [
+          Lottie.asset(
+            Assets.lotties.loading,
+            width: 80,
+            height: 80,
           ),
-          padding: const EdgeInsets.symmetric(vertical: 25),
-          child: Column(
-            children: [
-              Lottie.asset(
-                Assets.lotties.loading,
-                width: 80,
-                height: 80,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                message,
-                style: const TextStyle(
-                  color: Palette.grayText,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
+          const SizedBox(height: 10),
+          Text(
+            message,
+            style: const TextStyle(
+              color: Palette.grayText,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-        SizedBox(height: 30),
-      ],
+        ],
+      ),
     );
   }
 }

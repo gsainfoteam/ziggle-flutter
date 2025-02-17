@@ -42,8 +42,12 @@ class NotionEvent with _$NotionEvent {
 
 @freezed
 class NotionState with _$NotionState {
+  const NotionState._();
+
   const factory NotionState.initial() = _Initial;
   const factory NotionState.loading() = _Loading;
   const factory NotionState.done(Map<String, dynamic> data) = _Done;
   const factory NotionState.error(String message) = _Error;
+
+  bool get isNotionIdValid => this is _Done;
 }
