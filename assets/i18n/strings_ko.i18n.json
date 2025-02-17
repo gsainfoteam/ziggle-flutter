@@ -15,6 +15,9 @@
         "one": "일주일",
         "other": "$n주"
       }
+    },
+    "clipboard": {
+      "success": "클립보드에 복사되었습니다."
     }
   },
   "group": {
@@ -104,7 +107,9 @@
         "manager": "매니저",
         "member": "멤버"
       },
-      "banish": "추방"
+      "banish": "추방",
+      "banishTitle": "정말 이 멤버를 추방하시겠습니까?",
+      "banishDescription": "이 작업은 되돌릴 수 없습니다."
     },
     "detail": {
       "appBar": {

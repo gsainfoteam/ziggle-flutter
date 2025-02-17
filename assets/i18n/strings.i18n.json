@@ -15,6 +15,9 @@
         "one": "$n week",
         "other": "$n weeks"
       }
+    },
+    "clipboard": {
+      "success": "Copied to clipboard"
     }
   },
   "group": {
@@ -104,7 +107,9 @@
         "manager": "Manager",
         "member": "Member"
       },
-      "banish": "Banish"
+      "banish": "Banish",
+      "banishTitle": "Are you sure you want to banish this member?",
+      "banishDescription": "This action cannot be undone."
     },
     "detail": {
       "appBar": {
