@@ -71,16 +71,8 @@
       "back": "戻る",
       "deleteConfirmationTitle": "グループを削除してもよろしいですか？",
       "deleteConfirmationMessage": "このグループ名で投稿された以前の通知には影響しません。",
-<<<<<<< HEAD
-<<<<<<< HEAD
       "leaveConfirmationTitle": "グループを退会してもよろしいですか？",
       "leaveConfirmationMessage": "このグループ名で投稿された以前の通知には影響しません。",
-=======
->>>>>>> 91f990f (feat: group delete confirmation dialog)
-=======
-      "leaveConfirmationTitle": "グループを退会してもよろしいですか？",
-      "leaveConfirmationMessage": "このグループ名で投稿された以前の通知には影響しません。",
->>>>>>> 4992ab1 (feat: group leave dialog)
       "change": "変更",
       "profileImage": "グループのプロフィール写真を変更",
       "name": {
@@ -94,15 +86,7 @@
       "notionLink": {
         "header": "ノーションページリンクを更新",
         "hintText": "ノーションリンクを入力してください",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "loading": "Notionを読み込み中...",
-=======
-        "loading": "ノーションを読み込んでいます",
->>>>>>> e5c2873 (feat: edit notion link)
-=======
-        "loading": "Notionを読み込み中...",
->>>>>>> 1b2a7a6 (group management page logic done)
         "error": "ノーションのリンクの読み込みに失敗しました"
       },
       "invite": {

@@ -71,16 +71,8 @@
       "back": "Назад",
       "deleteConfirmationTitle": "Вы уверены, что хотите удалить группу?",
       "deleteConfirmationMessage": "Это не повлияет на ранее опубликованные уведомления под этим именем группы.",
-<<<<<<< HEAD
-<<<<<<< HEAD
       "leaveConfirmationTitle": "Вы уверены, что хотите покинуть группу?",
       "leaveConfirmationMessage": "Это не повлияет на ранее опубликованные уведомления под этим именем группы.",
-=======
->>>>>>> 91f990f (feat: group delete confirmation dialog)
-=======
-      "leaveConfirmationTitle": "Вы уверены, что хотите покинуть группу?",
-      "leaveConfirmationMessage": "Это не повлияет на ранее опубликованные уведомления под этим именем группы.",
->>>>>>> 4992ab1 (feat: group leave dialog)
       "change": "изменение",
       "profileImage": "Изменить изображение профиля группы",
       "name": {
@@ -94,15 +86,7 @@
       "notionLink": {
         "header": "Обновить ссылку на страницу Notion",
         "hintText": "Введите ссылку на Notion",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "loading": "Загрузка Notion...",
-=======
-        "loading": "Загрузка Notion",
->>>>>>> e5c2873 (feat: edit notion link)
-=======
-        "loading": "Загрузка Notion...",
->>>>>>> 1b2a7a6 (group management page logic done)
         "error": "Не удалось загрузить ссылку на Notion"
       },
       "invite": {

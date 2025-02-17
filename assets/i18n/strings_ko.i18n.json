@@ -71,16 +71,8 @@
       "back": "돌아가기",
       "deleteConfirmationTitle": "정말 그룹을 삭제하시겠습니까?",
       "deleteConfirmationMessage": "기존에 본 그룹 명의로 작성된 공지에는 영향을 끼치지 않습니다.",
-<<<<<<< HEAD
-<<<<<<< HEAD
       "leaveConfirmationTitle": "정말 그룹을 나가시겠습니까?",
       "leaveConfirmationMessage": "기존에 본 그룹 명의로 작성된 공지에는 영향을 끼치지 않습니다.",
-=======
->>>>>>> 91f990f (feat: group delete confirmation dialog)
-=======
-      "leaveConfirmationTitle": "정말 그룹을 나가시겠습니까?",
-      "leaveConfirmationMessage": "기존에 본 그룹 명의로 작성된 공지에는 영향을 끼치지 않습니다.",
->>>>>>> 4992ab1 (feat: group leave dialog)
       "change": "변경",
       "profileImage": "그룹 프로필 사진 변경",
       "name": {
@@ -94,18 +86,8 @@
       "notionLink": {
         "header": "노션 페이지 링크 변경",
         "hintText": "노션 링크 입력",
-<<<<<<< HEAD
-<<<<<<< HEAD
         "loading": "노션 불러오는 중...",
         "error": "노션 불러오기 실패"
-=======
-        "loading": "노션 불러오는 중",
-        "error": "노션 링크를 불러오는데 실패했습니다"
->>>>>>> e5c2873 (feat: edit notion link)
-=======
-        "loading": "노션 불러오는 중...",
-        "error": "노션 불러오기 실패"
->>>>>>> 1b2a7a6 (group management page logic done)
       },
       "invite": {
         "header": "초대 링크 생성",
