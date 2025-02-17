@@ -10,11 +10,12 @@ class NotionPageBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final firstBlock = blocksMap.keys.first;
+    final firstBlock =
+        blocksMap.keys.firstWhere((id) => (blocksMap[id]['type'] == 'page'));
     if (_isRootBlock(firstBlock)) {
       return SingleChildScrollView(
         padding: const EdgeInsets.all(5.0),
-        child: _buildBlock(firstBlock, 0),
+        child: _buildPageBlock(firstBlock),
       );
     } else {
       return const Center(child: Text('No page block found'));
@@ -41,13 +42,9 @@ class NotionPageBuilder extends StatelessWidget {
     final content = blockData['content'] as List<dynamic>? ?? [];
     final format = blockData['format'] as Map<String, dynamic>? ?? {};
 
-    if (_isRootBlock(blockId)) {
-      return _buildPageBlock(blockId, properties, content, indentLevel);
-    } else if (type == 'page') {
-      return _buildSubPageBlock(blockId, properties, content, indentLevel);
-    }
-
     switch (type) {
+      case 'page':
+        return _buildSubPageBlock(properties, content, indentLevel);
       case 'text':
         return _buildTextBlock(properties, indentLevel);
       case 'header':
@@ -84,35 +81,31 @@ class NotionPageBuilder extends StatelessWidget {
   // 1) Page Block
   // --------------------------------------------------------------------------
   Widget _buildPageBlock(
-    String blockId,
-    Map<String, dynamic> properties,
-    List<dynamic> content,
-    int indentLevel,
+    String firstBlockId,
   ) {
+    final properties =
+        blocksMap[firstBlockId]['properties'] as Map<String, dynamic>? ?? {};
+    final content = blocksMap[firstBlockId]['content'] as List<dynamic>? ?? [];
     final pageTitle = _extractPlainText(properties['title']);
     final children = content
         .whereType<String>()
-        .map((childId) => _buildBlock(childId, indentLevel))
+        .map((childId) => _buildBlock(childId, 0))
         .toList();
 
-    return Padding(
-      padding: EdgeInsets.only(left: indentLevel * 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            pageTitle,
-            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 16),
-          ...children,
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          pageTitle,
+          style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 16),
+        ...children,
+      ],
     );
   }
 
   Widget _buildSubPageBlock(
-    String blockId,
     Map<String, dynamic> properties,
     List<dynamic> content,
     int indentLevel,
