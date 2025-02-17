@@ -8,7 +8,6 @@ part 'member_list_model.g.dart';
 
 @freezed
 class MemberListModel with _$MemberListModel implements MemberListEntity {
-  @JsonSerializable(explicitToJson: true)
   factory MemberListModel({
     required List<MemberModel> list,
   }) = _MemberListModel;

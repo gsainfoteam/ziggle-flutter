@@ -7,7 +7,6 @@ part 'member_model.g.dart';
 
 @freezed
 class MemberModel with _$MemberModel implements MemberEntity {
-  @JsonSerializable(explicitToJson: true)
   factory MemberModel({
     required String uuid,
     required String name,
