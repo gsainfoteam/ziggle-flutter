@@ -14,7 +14,7 @@ class NotionPageBuilder extends StatelessWidget {
         blocksMap.keys.firstWhere((id) => (blocksMap[id]['type'] == 'page'));
     if (_isRootBlock(firstBlock)) {
       return SingleChildScrollView(
-        padding: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         child: _buildPageBlock(firstBlock),
       );
     } else {
