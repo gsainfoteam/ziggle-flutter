@@ -1,31 +1,29 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 
-class NoticeGroupEntity {
-  final String? uuid;
-  final String? name;
-  final String? description;
-  final DateTime? createdAt;
-  final String? presidentUuid;
-  final int? memberCount;
-  final DateTime? verifiedAt;
-  final bool? verified;
-  final DateTime? deletedAt;
-  final String? notionPageId;
-  final String? profileImageKey;
+part 'notice_group_entity.freezed.dart';
+part 'notice_group_entity.g.dart';
 
-  NoticeGroupEntity({
-    this.uuid,
-    this.name,
-    this.description,
-    this.createdAt,
-    this.presidentUuid,
-    this.memberCount,
-    this.verifiedAt,
-    this.verified,
-    this.deletedAt,
-    this.notionPageId,
-    this.profileImageKey,
-  });
+@freezed
+class NoticeGroupEntity with _$NoticeGroupEntity {
+  const NoticeGroupEntity._();
+
+  const factory NoticeGroupEntity({
+    required String uuid,
+    required String name,
+    required String description,
+    required DateTime createdAt,
+    required String presidentUuid,
+    required int? memberCount,
+    required DateTime? verifiedAt,
+    required bool? verified,
+    required DateTime? deletedAt,
+    required String? notionPageId,
+    required String? profileImageKey,
+  }) = _NoticeGroupEntity;
+
+  factory NoticeGroupEntity.fromJson(Map<String, dynamic> json) =>
+      _$NoticeGroupEntityFromJson(json);
 
   factory NoticeGroupEntity.fromGroupModel(GroupEntity model) {
     return NoticeGroupEntity(
@@ -34,9 +32,9 @@ class NoticeGroupEntity {
       description: model.description,
       createdAt: model.createdAt,
       presidentUuid: model.presidentUuid,
-      memberCount: model.memberCount,
+      memberCount: model.memberCount ?? 0,
       verifiedAt: model.verifiedAt,
-      verified: model.verified,
+      verified: model.verified ?? false,
       deletedAt: model.deletedAt,
       notionPageId: model.notionPageId,
       profileImageKey: model.profileImageKey,
