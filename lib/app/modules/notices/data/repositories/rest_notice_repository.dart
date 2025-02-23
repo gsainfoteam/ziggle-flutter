@@ -17,6 +17,7 @@ import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart'
 import 'package:ziggle/app/modules/notices/data/models/get_notices_query_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/modify_notice_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_group_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_list_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/tag_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
@@ -147,7 +148,7 @@ class RestNoticeRepository implements NoticeRepository {
     List<String> tags = const [],
     List<File> images = const [],
     List<File> documents = const [],
-    String? groupId,
+    NoticeGroupEntity? group,
   }) async {
     final uploadedTags = await Future.wait(
       tags.map((tag) async {
@@ -161,33 +162,20 @@ class RestNoticeRepository implements NoticeRepository {
         ? <String>[]
         : await _documentApi.uploadDocuments(documents);
     final groupsTokenResponce = await _groupApi.getGroupToken();
-    if (groupId != null) {
-      return _api.createNotice(
-        CreateNoticeModel(
-          title: title,
-          body: content,
-          deadline: deadline,
-          category: NoticeCategory.fromType(type)!,
-          tags: uploadedTags.map((tag) => tag.id).toList(),
-          images: uploadedImages,
-          documents: uploadedDocuments,
-          groupId: groupId,
-        ),
-        groupsTokenResponce.groupsToken,
-      );
-    }
+
     return _api.createNotice(
-        CreateNoticeModel(
-          title: title,
-          body: content,
-          deadline: deadline,
-          category: NoticeCategory.fromType(type)!,
-          tags: uploadedTags.map((tag) => tag.id).toList(),
-          images: uploadedImages,
-          documents: uploadedDocuments,
-          groupId: groupId,
-        ),
-        null);
+      CreateNoticeModel(
+        title: title,
+        body: content,
+        deadline: deadline,
+        category: NoticeCategory.fromType(type)!,
+        tags: uploadedTags.map((tag) => tag.id).toList(),
+        images: uploadedImages,
+        documents: uploadedDocuments,
+        groupId: group?.uuid,
+      ),
+      group?.uuid != null ? groupsTokenResponce.groupsToken : null,
+    );
   }
 
   @override
