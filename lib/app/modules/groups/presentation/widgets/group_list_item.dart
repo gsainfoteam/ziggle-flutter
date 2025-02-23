@@ -26,7 +26,10 @@ class GroupListItem extends StatelessWidget {
             SizedBox(
               height: 36,
               width: 36,
-              child: profileImage,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(20)),
+                child: profileImage,
+              ),
             )
           else
             SizedBox(
