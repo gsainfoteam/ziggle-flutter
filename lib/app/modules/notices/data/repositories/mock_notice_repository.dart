@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_group_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_list_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_reaction_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
@@ -140,7 +141,7 @@ class MockNoticeRepository implements NoticeRepository {
     List<String> tags = const [],
     List<File> images = const [],
     List<File> documents = const [],
-    String? groupId,
+    NoticeGroupEntity? group,
   }) {
     throw UnimplementedError();
   }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_group_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 
 import 'author_model.dart';
@@ -35,7 +36,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     @Default([]) List<String> documentUrls,
     @Default(false) bool isReminded,
     required NoticeCategory category,
-    String? groupId,
+    @Default(null) NoticeGroupEntity? group,
     required DateTime publishedAt,
   }) = _NoticeModel;
 

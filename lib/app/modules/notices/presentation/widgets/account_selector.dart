@@ -46,7 +46,7 @@ class _AccountSelectorState extends State<AccountSelector> {
                             profileImage:
                                 Assets.images.defaultProfile.image(width: 36),
                             onPressed: () {
-                              widget.onChanged(NoticeGroupEntity());
+                              widget.onChanged(null);
                             },
                           );
                         } else {

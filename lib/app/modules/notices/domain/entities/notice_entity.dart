@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_group_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_draft_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
@@ -29,7 +30,7 @@ class NoticeEntity {
   final List<String> documentUrls;
   final bool isReminded;
   final DateTime publishedAt;
-  final String? groupId;
+  final NoticeGroupEntity? group;
   final NoticeCategory category;
 
   NoticeEntity({
@@ -50,7 +51,7 @@ class NoticeEntity {
     required this.documentUrls,
     required this.isReminded,
     required this.publishedAt,
-    required this.groupId,
+    required this.group,
     required this.category,
   });
 
@@ -72,7 +73,7 @@ class NoticeEntity {
         author: AuthorEntity(name: '', uuid: ''),
         isReminded: false,
         publishedAt: DateTime.now(),
-        groupId: null,
+        group: null,
         category: NoticeCategory.etc,
       );
   factory NoticeEntity.mock({
@@ -106,7 +107,7 @@ class NoticeEntity {
         documentUrls: [],
         isReminded: isReminded,
         publishedAt: DateTime.now(),
-        groupId: null,
+        group: null,
         category: category,
       );
   factory NoticeEntity.fromDraft({
@@ -131,7 +132,7 @@ class NoticeEntity {
         documentUrls: [],
         isReminded: false,
         publishedAt: DateTime.now(),
-        groupId: draft.groupId,
+        group: draft.group,
         category: NoticeCategory.fromType(draft.type!)!,
       );
 }
@@ -175,7 +176,7 @@ extension NoticeEntityExtension on NoticeEntity {
         documentUrls: documentUrls,
         isReminded: isReminded,
         publishedAt: publishedAt ?? this.publishedAt,
-        groupId: groupId,
+        group: group,
         category: category,
       );
 
@@ -235,7 +236,7 @@ extension NoticeEntityExtension on NoticeEntity {
         documentUrls: documentUrls,
         isReminded: isReminded,
         publishedAt: publishedAt,
-        groupId: groupId,
+        group: group,
         category: category,
       );
 }

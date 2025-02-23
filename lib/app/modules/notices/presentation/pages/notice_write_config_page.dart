@@ -45,7 +45,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
   late DateTime? _deadline = _draft.deadline;
   late NoticeType? _type = _draft.type;
   late final List<String> _tags = _draft.tags.toList();
-  late NoticeGroupEntity _groupEntity = NoticeGroupEntity();
+  NoticeGroupEntity? _groupEntity;
 
   void _save() {
     // TODO: is there any way to save when type is not set?
@@ -54,7 +54,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
           deadline: _deadline,
           type: _type!,
           tags: _tags,
-          groupId: _groupEntity.uuid,
+          group: _groupEntity,
         ));
   }
 
@@ -151,8 +151,8 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                   builder: (context, userState) {
                     return Row(children: [
                       Text(
-                        _groupEntity.uuid != null
-                            ? (_groupEntity.name ?? "Unknown Group")
+                        _groupEntity?.uuid != null
+                            ? (_groupEntity?.name ?? "Unknown Group")
                             : userState.user!.name,
                         style: TextStyle(
                           fontSize: 18,
@@ -177,7 +177,8 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                       onChanged: (v) => Navigator.pop(context, v),
                     ),
                   );
-                  setState(() => _groupEntity = groupEntity!);
+
+                  setState(() => _groupEntity = groupEntity);
                 },
                 child: Row(
                   children: [

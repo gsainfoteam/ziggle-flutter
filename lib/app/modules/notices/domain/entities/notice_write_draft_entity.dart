@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_group_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 part 'notice_write_draft_entity.freezed.dart';
@@ -17,7 +18,7 @@ class NoticeWriteDraftEntity with _$NoticeWriteDraftEntity {
     NoticeType? type,
     @Default([]) List<String> tags,
     DateTime? deadline,
-    String? groupId,
+    NoticeGroupEntity? group,
     @Default({}) Map<Language, String> additionalContent,
   }) = _NoticeWriteDraftEntity;
 
