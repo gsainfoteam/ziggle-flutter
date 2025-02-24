@@ -25,8 +25,6 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           emit(const _Loading());
           _type = event.type;
           query = event.query;
-          print(_type);
-          print(query);
           if (event.type != NoticeType.group) {
             final notices =
                 await _repository.getNotices(type: _type, search: query);
@@ -49,10 +47,17 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
     on<_Refresh>((event, emit) async {
       try {
         emit(_Loading(state.notices));
-        final notices =
-            await _repository.getNotices(type: _type, search: query);
-        total = notices.total;
-        emit(_Loaded(notices.list));
+        if (_type != NoticeType.group) {
+          final notices =
+              await _repository.getNotices(type: _type, search: query);
+          total = notices.total;
+          emit(_Loaded(notices.list));
+        } else {
+          final notices =
+              await _repository.getNotices(type: _type, groupId: query);
+          total = notices.total;
+          emit(_Loaded(notices.list));
+        }
       } catch (e) {
         emit(NoticeListState.error(e.toString(), state.notices));
       }
@@ -62,13 +67,23 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       try {
         if (state.notices.length >= total) return;
         emit(_Loading(state.notices));
-        final notices = await _repository.getNotices(
-          type: _type,
-          offset: state.notices.length,
-          search: query,
-        );
-        total = notices.total;
-        emit(_Loaded([...state.notices, ...notices.list]));
+        if (_type != NoticeType.group) {
+          final notices = await _repository.getNotices(
+            type: _type,
+            offset: state.notices.length,
+            search: query,
+          );
+          total = notices.total;
+          emit(_Loaded([...state.notices, ...notices.list]));
+        } else {
+          final notices = await _repository.getNotices(
+            type: _type,
+            offset: state.notices.length,
+            groupId: query,
+          );
+          total = notices.total;
+          emit(_Loaded([...state.notices, ...notices.list]));
+        }
       } catch (e) {
         emit(NoticeListState.error(e.toString(), state.notices));
       }
