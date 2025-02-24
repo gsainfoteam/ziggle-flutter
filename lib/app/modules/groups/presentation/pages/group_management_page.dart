@@ -77,8 +77,13 @@ class GroupManagementPage extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(150)),
-                                child: Image.network(group.profileImageUrl!,
-                                    fit: BoxFit.cover),
+                                child: Image.network(
+                                  group.profileImageUrl!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Assets.images.groupDefaultProfile
+                                          .image(width: 90),
+                                ),
                               ),
                             )
                           else
