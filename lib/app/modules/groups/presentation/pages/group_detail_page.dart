@@ -120,7 +120,7 @@ class GroupDetailPage extends StatelessWidget {
                                   BlocBuilder<NoticeListBloc, NoticeListState>(
                                     builder: (context, state) {
                                       return Text(
-                                        '게시물 ${state.notices.length.toString()}개',
+                                        '게시물 ${state.total}개',
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: Palette.grayText,
