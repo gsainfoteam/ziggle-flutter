@@ -56,7 +56,7 @@ class GroupDetailPage extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => sl<NotionBloc>()
-              ..add(NotionEvent.load(notionLink: group.notionPageId!)),
+              ..add(NotionEvent.load(notionLink: group.notionPageId ?? '')),
           ),
           BlocProvider(
             create: (context) => sl<NoticeListBloc>()
@@ -117,12 +117,16 @@ class GroupDetailPage extends StatelessWidget {
                               ),
                               Row(
                                 children: [
-                                  Text(
-                                    '게시글 n개',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Palette.grayText,
-                                    ),
+                                  BlocBuilder<NoticeListBloc, NoticeListState>(
+                                    builder: (context, state) {
+                                      return Text(
+                                        '게시물 ${state.notices.length.toString()}개',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Palette.grayText,
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
@@ -194,7 +198,33 @@ class GroupDetailPage extends StatelessWidget {
                     builder: (context, state) {
                       return state.when(
                         done: (data) => NotionPageBuilder(blocksMap: data),
-                        error: (error) => Text(error),
+                        error: (error) => Column(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              decoration: ShapeDecoration(
+                                color: Palette.grayLight,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      '노션 페이지를 등록해주세요.',
+                                      style: const TextStyle(
+                                        color: Palette.grayText,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                         initial: () => Container(),
                         loading: () => Center(
                           child: Lottie.asset(Assets.lotties.loading,
@@ -248,9 +278,9 @@ class GroupDetailPage extends StatelessWidget {
                                 itemBuilder: (context, index) {
                                   final member = value.list.list[index];
                                   return GroupMemberCard.viewMode(
-                                      name: value.list.list[index].name,
-                                      email: value.list.list[index].email,
-                                      role: value.list.list[index].role);
+                                      name: member.name,
+                                      email: member.email,
+                                      role: member.role);
                                 },
                                 separatorBuilder: (context, index) =>
                                     const SizedBox(height: 5),
