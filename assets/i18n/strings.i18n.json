@@ -133,7 +133,8 @@
       "hot": "Ziggle Pick",
       "academic": "Academic",
       "all": "All",
-      "written": "My Notices"
+      "written": "My Notices",
+      "group": "Group Notice"
     },
     "category(context=NoticeCategory)": {
       "academic": "Academic",

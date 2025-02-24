@@ -61,6 +61,8 @@ class GroupManagementPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Palette.black,
                             ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ],
                       ),

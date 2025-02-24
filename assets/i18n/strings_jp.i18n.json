@@ -133,7 +133,8 @@
       "hot": "ジグルピック",
       "academic": "学術",
       "all": "すべて",
-      "written": "自分の投稿"
+      "written": "自分の投稿",
+      "group": "グループのお知らせ"
     },
     "category(context=NoticeCategory)": {
       "academic": "学術",

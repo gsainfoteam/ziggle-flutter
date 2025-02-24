@@ -106,12 +106,14 @@ class MockNoticeRepository implements NoticeRepository {
   }
 
   @override
-  Future<NoticeListEntity> getNotices(
-      {int? offset,
-      int? limit,
-      String? search,
-      List<String> tags = const [],
-      NoticeType type = NoticeType.all}) async {
+  Future<NoticeListEntity> getNotices({
+    int? offset,
+    int? limit,
+    String? search,
+    List<String> tags = const [],
+    NoticeType type = NoticeType.all,
+    String? groupId,
+  }) async {
     return NoticeListEntity(total: _notices.length, list: _notices);
   }
 

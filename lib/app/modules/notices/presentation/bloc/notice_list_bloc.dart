@@ -25,10 +25,19 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           emit(const _Loading());
           _type = event.type;
           query = event.query;
-          final notices =
-              await _repository.getNotices(type: _type, search: query);
-          total = notices.total;
-          emit(_Loaded(notices.list));
+          print(_type);
+          print(query);
+          if (event.type != NoticeType.group) {
+            final notices =
+                await _repository.getNotices(type: _type, search: query);
+            total = notices.total;
+            emit(_Loaded(notices.list));
+          } else {
+            final notices =
+                await _repository.getNotices(type: _type, groupId: query);
+            total = notices.total;
+            emit(_Loaded(notices.list));
+          }
         } else if (event is _Reset) {
           query = null;
           emit(const _Initial());

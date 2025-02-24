@@ -133,7 +133,8 @@
       "hot": "지글픽",
       "academic": "학사",
       "all": "전체",
-      "written": "내가 쓴 공지들"
+      "written": "내가 쓴 공지들",
+      "group": "그룹 공지"
     },
     "category(context=NoticeCategory)": {
       "academic": "학사",

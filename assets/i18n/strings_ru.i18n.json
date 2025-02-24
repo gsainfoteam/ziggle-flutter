@@ -133,7 +133,8 @@
       "hot": "Выбор Ziggle",
       "academic": "Академическое",
       "all": "Все",
-      "written": "Мои уведомления"
+      "written": "Мои уведомления",
+      "group": "Групповое объявление"
     },
     "category(context=NoticeCategory)": {
       "academic": "Академическое",

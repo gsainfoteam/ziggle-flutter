@@ -14,3 +14,13 @@ class ModifyGroupModel with _$ModifyGroupModel {
   factory ModifyGroupModel.fromJson(Map<String, dynamic> json) =>
       _$ModifyGroupModelFromJson(json);
 }
+
+extension ModifyGroupModelX on ModifyGroupModel {
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (name != null) json['name'] = name;
+    if (description != null) json['description'] = description;
+    if (notionPageId != null) json['notionPageId'] = notionPageId;
+    return json;
+  }
+}
