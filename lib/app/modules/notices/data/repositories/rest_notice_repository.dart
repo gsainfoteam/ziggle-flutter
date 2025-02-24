@@ -94,7 +94,6 @@ class RestNoticeRepository implements NoticeRepository {
     NoticeType type = NoticeType.all,
     String? groupId,
   }) {
-    print(groupId);
     return _api.getNotices(
       GetNoticesQueryModel(
           offset: offset,
