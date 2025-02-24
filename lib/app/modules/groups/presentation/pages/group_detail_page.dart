@@ -85,8 +85,13 @@ class GroupDetailPage extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(150)),
-                                child: Image.network(group.profileImageUrl!,
-                                    fit: BoxFit.cover),
+                                child: Image.network(
+                                  group.profileImageUrl!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Assets.images.groupDefaultProfile
+                                          .image(width: 90),
+                                ),
                               ),
                             )
                           else
@@ -189,7 +194,7 @@ class GroupDetailPage extends StatelessWidget {
                     builder: (context, state) {
                       return state.when(
                         done: (data) => NotionPageBuilder(blocksMap: data),
-                        error: (error) => Container(),
+                        error: (error) => Text(error),
                         initial: () => Container(),
                         loading: () => Center(
                           child: Lottie.asset(Assets.lotties.loading,
