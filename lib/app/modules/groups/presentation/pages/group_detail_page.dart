@@ -38,7 +38,7 @@ class GroupDetailPage extends StatelessWidget {
         actions: [
           ZiggleButton.text(
             child: Text(
-              context.t.group.manage.header,
+              context.t.group.detail.appBar.action,
               style: const TextStyle(
                 fontSize: 16,
                 color: Palette.primary,
@@ -120,7 +120,8 @@ class GroupDetailPage extends StatelessWidget {
                                   BlocBuilder<NoticeListBloc, NoticeListState>(
                                     builder: (context, state) {
                                       return Text(
-                                        '게시물 ${state.total}개',
+                                        t.group.detail
+                                            .noticeCount(n: state.total),
                                         style: TextStyle(
                                           fontSize: 16,
                                           color: Palette.grayText,
@@ -213,7 +214,7 @@ class GroupDetailPage extends StatelessWidget {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      '노션 페이지를 등록해주세요.',
+                                      t.group.detail.notionRequest,
                                       style: const TextStyle(
                                         color: Palette.grayText,
                                         fontSize: 14,

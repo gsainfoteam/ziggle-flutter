@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 enum ApiChannel {
   staging(
     'https://api.stg.ziggle.gistory.me/',
-    'https://api.stg.groups.gistory.me/',
+    'https://api.groups.gistory.me/',
   ),
   production(
     'https://api.ziggle.gistory.me/',

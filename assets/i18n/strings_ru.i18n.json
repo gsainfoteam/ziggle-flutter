@@ -114,14 +114,17 @@
     "detail": {
       "appBar": {
         "backLabel": "リスト",
-        "title": "グループ情報"
+        "title": "グループ情報",
+        "action": "管理"
       },
+      "noticeCount": "$n 通知",
       "tab": {
         "introduction": "紹介",
         "notice": "お知らせ",
         "member": "メンバー"
       },
-      "favorite": "お気に入り"
+      "favorite": "お気に入り",
+      "notionRequest": "ノーションページを登録してください。"
     }
   },
   "notice": {

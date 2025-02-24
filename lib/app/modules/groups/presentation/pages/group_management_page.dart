@@ -25,7 +25,7 @@ class GroupManagementPage extends StatelessWidget {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         from: PageSource.groupManagementMain,
-        backLabel: context.t.group.managementMain.header,
+        backLabel: context.t.group.manage.back,
         title: Text(context.t.group.manage.header),
       ),
       body: BlocBuilder<GroupManagementBloc, GroupManagementState>(
