@@ -24,15 +24,12 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           emit(const _Loading());
           _type = event.type;
           query = event.query;
-          if (_type != NoticeType.group) {
-            final notices =
-                await _repository.getNotices(type: _type, search: query);
-            emit(_Loaded(notices: notices.list, total: notices.total));
-          } else {
-            final notices =
-                await _repository.getNotices(type: _type, groupId: query);
-            emit(_Loaded(notices: notices.list, total: notices.total));
-          }
+          final notices = await _repository.getNotices(
+            type: _type,
+            search: _type != NoticeType.group ? query : null,
+            groupId: _type == NoticeType.group ? query : null,
+          );
+          emit(_Loaded(notices: notices.list, total: notices.total));
         } else if (event is _Reset) {
           query = null;
           emit(const _Initial());
@@ -44,15 +41,12 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
     on<_Refresh>((event, emit) async {
       try {
         emit(_Loading(notices: state.notices, total: state.total));
-        if (_type != NoticeType.group) {
-          final notices =
-              await _repository.getNotices(type: _type, search: query);
-          emit(_Loaded(notices: notices.list, total: notices.total));
-        } else {
-          final notices =
-              await _repository.getNotices(type: _type, groupId: query);
-          emit(_Loaded(notices: notices.list, total: notices.total));
-        }
+        final notices = await _repository.getNotices(
+          type: _type,
+          search: _type != NoticeType.group ? query : null,
+          groupId: _type == NoticeType.group ? query : null,
+        );
+        emit(_Loaded(notices: notices.list, total: notices.total));
       } catch (e) {
         emit(_Error(e.toString(), state.notices, state.total));
       }
@@ -62,25 +56,15 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       try {
         if (state.notices.length >= state.total) return;
         emit(_Loading(notices: state.notices, total: state.total));
-        if (_type != NoticeType.group) {
-          final notices = await _repository.getNotices(
-            type: _type,
-            offset: state.notices.length,
-            search: query,
-          );
-          emit(_Loaded(
-              notices: [...state.notices, ...notices.list],
-              total: notices.total));
-        } else {
-          final notices = await _repository.getNotices(
-            type: _type,
-            offset: state.notices.length,
-            groupId: query,
-          );
-          emit(_Loaded(
-              notices: [...state.notices, ...notices.list],
-              total: notices.total));
-        }
+        final notices = await _repository.getNotices(
+          type: _type,
+          offset: state.notices.length,
+          search: _type != NoticeType.group ? query : null,
+          groupId: _type == NoticeType.group ? query : null,
+        );
+        emit(_Loaded(
+            notices: [...state.notices, ...notices.list],
+            total: notices.total));
       } catch (e) {
         emit(NoticeListState.error(e.toString(), state.notices));
       }
