@@ -15,15 +15,19 @@ class NotionBloc extends Bloc<NotionEvent, NotionState> {
       emit(NotionState.loading());
       final notionLink = event.notionLink;
       if (notionLink.isEmpty) {
-        emit(NotionState.loading());
+        emit(NotionState.error(t.group.manage.notionLink.error));
         return;
       }
       try {
         RegExp regex = RegExp(r'(?:notion\.so/)?(?:[^/]+/)?([a-f0-9]{32})');
         String? notionId = regex.firstMatch(notionLink)?.group(0);
-        if (notionId != null) {
+        if (notionId != null && notionId != '') {
           final data = await _repository.getNotionPage(notionId);
-          emit(NotionState.done(data));
+          if (data.isNotEmpty) {
+            emit(NotionState.done(data));
+          } else {
+            emit(NotionState.error(t.group.manage.notionLink.error));
+          }
         } else {
           emit(NotionState.error(t.group.manage.notionLink.error));
         }
