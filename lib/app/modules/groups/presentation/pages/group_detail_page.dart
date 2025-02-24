@@ -249,7 +249,7 @@ class GroupDetailPage extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
                       child: state.maybeMap(
-                        loaded: (value) => SingleChildScrollView(
+                        loaded: (members) => SingleChildScrollView(
                           child: Column(
                             children: [
                               Center(
@@ -260,7 +260,7 @@ class GroupDetailPage extends StatelessWidget {
                                         .svg(width: 24, height: 24),
                                     SizedBox(width: 5),
                                     Text(
-                                      '${value.list.list.length}명',
+                                      '${members.list.length}명',
                                       style: TextStyle(
                                         color: Palette.grayText,
                                         fontSize: 18,
@@ -275,9 +275,9 @@ class GroupDetailPage extends StatelessWidget {
                               ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
-                                itemCount: value.list.list.length,
+                                itemCount: members.list.length,
                                 itemBuilder: (context, index) {
-                                  final member = value.list.list[index];
+                                  final member = members.list[index];
                                   return GroupMemberCard.viewMode(
                                       name: member.name,
                                       email: member.email,
