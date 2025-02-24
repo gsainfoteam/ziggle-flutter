@@ -99,7 +99,7 @@ class _Layout extends StatelessWidget {
                                       ? Image.network(
                                           state.groups!.list[index]
                                               .profileImageUrl!,
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.cover,
                                         )
                                       : null,
                               onPressed: () {
