@@ -63,21 +63,17 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<void> modifyName({required String uuid, required String name}) async {
-    await _api.modifyGroup(uuid, ModifyGroupModel(name: name));
+  Future<void> modifyGroup({
+    required String uuid,
+    required String name,
+    required String description,
+    required String? notionPageId,
+  }) async {
+    await _api.modifyGroup(
+        uuid,
+        ModifyGroupModel(
+            name: name, description: description, notionPageId: notionPageId));
     await _refreshGroups();
-  }
-
-  @override
-  Future<void> modifyDescription(
-      {required String uuid, required String? description}) async {
-    await _api.modifyGroup(uuid, ModifyGroupModel(description: description));
-  }
-
-  @override
-  Future<void> modifyNotionLink(
-      {required String uuid, required String? notionPageId}) async {
-    await _api.modifyGroup(uuid, ModifyGroupModel(notionPageId: notionPageId));
   }
 
   @override

@@ -12,12 +12,14 @@ part 'group_management_bloc.freezed.dart';
 class GroupManagementBloc
     extends Bloc<GroupManagementEvent, GroupManagementState> {
   final GroupRepository _repository;
+  late GroupEntity _group;
 
   GroupManagementBloc(this._repository)
       : super(GroupManagementState.initial()) {
     on<_Load>((event, emit) async {
       emit(GroupManagementState.loading());
-      final fetchedGroup = await _repository.getGroup(event.uuid);
+      _group = event.group;
+      final fetchedGroup = await _repository.getGroup(_group.uuid);
       emit(GroupManagementState.success(fetchedGroup));
     });
     on<_UpdateProfileImage>((event, emit) async {
@@ -30,7 +32,11 @@ class GroupManagementBloc
     on<_UpdateName>((event, emit) async {
       emit(GroupManagementState.loading());
       try {
-        await _repository.modifyName(uuid: event.uuid, name: event.name);
+        await _repository.modifyGroup(
+            uuid: event.uuid,
+            name: event.name,
+            description: _group.description,
+            notionPageId: _group.notionPageId);
         final updatedGroup = await _repository.getGroup(event.uuid);
         emit(GroupManagementState.success(updatedGroup));
       } catch (e) {
@@ -40,8 +46,11 @@ class GroupManagementBloc
     on<_UpdateDescription>((event, emit) async {
       emit(GroupManagementState.loading());
       try {
-        await _repository.modifyDescription(
-            uuid: event.uuid, description: event.description);
+        await _repository.modifyGroup(
+            uuid: event.uuid,
+            name: _group.name,
+            description: event.description,
+            notionPageId: _group.notionPageId);
         final updatedGroup = await _repository.getGroup(event.uuid);
         emit(GroupManagementState.success(updatedGroup));
       } on Exception catch (e) {
@@ -50,8 +59,10 @@ class GroupManagementBloc
     });
     on<_UpdateNotionLink>((event, emit) async {
       emit(GroupManagementState.loading());
-      await _repository.modifyNotionLink(
+      await _repository.modifyGroup(
         uuid: event.uuid,
+        name: _group.name,
+        description: _group.description,
         notionPageId: event.notionLink,
       );
       final updatedGroup = await _repository.getGroup(event.uuid);
@@ -79,14 +90,14 @@ class GroupManagementBloc
 
 @freezed
 class GroupManagementEvent with _$GroupManagementEvent {
-  const factory GroupManagementEvent.load(String uuid) = _Load;
+  const factory GroupManagementEvent.load(GroupEntity group) = _Load;
 
   const factory GroupManagementEvent.updateProfileImage(
       String uuid, File image) = _UpdateProfileImage;
   const factory GroupManagementEvent.updateName(String uuid, String name) =
       _UpdateName;
   const factory GroupManagementEvent.updateDescription(
-      String uuid, String? description) = _UpdateDescription;
+      String uuid, String description) = _UpdateDescription;
   const factory GroupManagementEvent.updateNotionLink(
       String uuid, String? notionLink) = _UpdateNotionLink;
   const factory GroupManagementEvent.removeMember(

@@ -3,7 +3,7 @@ import 'package:ziggle/app/modules/groups/domain/entities/president_entity.dart'
 class GroupEntity {
   final String uuid;
   final String name;
-  final String? description;
+  final String description;
   final DateTime createdAt;
   final PresidentEntity? president;
   final String? presidentUuid;

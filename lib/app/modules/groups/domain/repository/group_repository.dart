@@ -24,16 +24,10 @@ abstract class GroupRepository {
     required String uuid,
     required File image,
   });
-  Future<void> modifyName({
+  Future<void> modifyGroup({
     required String uuid,
     required String name,
-  });
-  Future<void> modifyDescription({
-    required String uuid,
-    required String? description,
-  });
-  Future<void> modifyNotionLink({
-    required String uuid,
+    required String description,
     required String? notionPageId,
   });
 

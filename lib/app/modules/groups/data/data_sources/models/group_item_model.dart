@@ -12,7 +12,7 @@ class GroupItemModel with _$GroupItemModel implements GroupEntity {
   const factory GroupItemModel({
     required String uuid,
     required String name,
-    required String? description,
+    required String description,
     required DateTime createdAt,
     required String presidentUuid,
     required DateTime? verifiedAt,
