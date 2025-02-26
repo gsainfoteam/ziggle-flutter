@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/promotion_button.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
@@ -16,7 +14,6 @@ import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
-import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -40,20 +37,6 @@ class ListLayout extends StatelessWidget {
               : InfiniteScroll(
                   onLoadMore: () => NoticeListBloc.loadMore(context),
                   slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      sliver: SliverToBoxAdapter(
-                        child: PromotionButton(
-                          title: context.t.promotion.recruiting.title,
-                          subtitle: context.t.promotion.recruiting.description,
-                          onPressed: () => launchUrl(
-                            Uri.parse(Strings.recruitmentUrl),
-                            mode: LaunchMode.externalApplication,
-                          ),
-                          icon: Assets.logo.infoteam.svg(),
-                        ),
-                      ),
-                    ),
                     SliverSafeArea(
                       top: false,
                       sliver: SliverPadding(
