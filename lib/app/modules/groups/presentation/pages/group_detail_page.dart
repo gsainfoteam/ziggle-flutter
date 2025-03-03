@@ -169,7 +169,7 @@ class GroupDetailPage extends StatelessWidget {
                       //       ),
                       //     ),
                       //   ],
-                      // ),
+                      // ), TODO: 즐겨찾기 기능 구현 예정
                     ],
                   ),
                 ),
@@ -193,117 +193,148 @@ class GroupDetailPage extends StatelessWidget {
             ],
             body: TabBarView(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 15, 16, 0),
-                  child: BlocBuilder<NotionBloc, NotionState>(
-                    builder: (context, state) {
-                      return state.when(
-                        done: (data) => NotionPageBuilder(blocksMap: data),
-                        error: (error) => Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 10),
-                              decoration: ShapeDecoration(
-                                color: Palette.grayLight,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      t.group.detail.notionRequest,
-                                      style: const TextStyle(
-                                        color: Palette.grayText,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        initial: () => Container(),
-                        loading: () => Center(
-                          child: Lottie.asset(Assets.lotties.loading,
-                              height: MediaQuery.of(context).size.width * 0.2,
-                              width: MediaQuery.of(context).size.width * 0.2),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                BlocListener<NoticeListBloc, NoticeListState>(
-                  listener: (context, state) => state.mapOrNull(
-                    error: (error) => context.showToast(error.message),
-                  ),
-                  child: const ListLayout(
-                    noticeType: NoticeType.group,
-                  ),
-                ),
-                BlocBuilder<GroupMemberBloc, GroupMemberState>(
-                  builder: (context, state) {
-                    return Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
-                      child: state.maybeMap(
-                        loaded: (members) => SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Assets.icons.userCircle
-                                        .svg(width: 24, height: 24),
-                                    SizedBox(width: 5),
-                                    Text(
-                                      t.group.detail
-                                          .memberCount(n: members.list.length),
-                                      style: TextStyle(
-                                        color: Palette.grayText,
-                                        fontSize: 18,
-                                        fontFamily: 'Pretendard Variable',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: members.list.length,
-                                itemBuilder: (context, index) {
-                                  final member = members.list[index];
-                                  return GroupMemberCard.viewMode(
-                                      name: member.name,
-                                      email: member.email,
-                                      role: member.role);
-                                },
-                                separatorBuilder: (context, index) =>
-                                    const SizedBox(height: 5),
-                              ),
-                            ],
-                          ),
-                        ),
-                        orElse: () => Center(
-                          child: Lottie.asset(Assets.lotties.loading,
-                              height: MediaQuery.of(context).size.width * 0.2,
-                              width: MediaQuery.of(context).size.width * 0.2),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                NotionTabBarView(),
+                NoticeTabBarView(),
+                MemberTabBarView(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class NotionTabBarView extends StatelessWidget {
+  const NotionTabBarView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 15, 16, 0),
+      child: BlocBuilder<NotionBloc, NotionState>(
+        builder: (context, state) {
+          return state.when(
+            done: (data) => NotionPageBuilder(blocksMap: data),
+            error: (error) => Column(
+              children: [
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  decoration: ShapeDecoration(
+                    color: Palette.grayLight,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          t.group.detail.notionRequest,
+                          style: const TextStyle(
+                            color: Palette.grayText,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            initial: () => Container(),
+            loading: () => Center(
+              child: Lottie.asset(Assets.lotties.loading,
+                  height: MediaQuery.of(context).size.width * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.2),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class NoticeTabBarView extends StatelessWidget {
+  const NoticeTabBarView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<NoticeListBloc, NoticeListState>(
+      listener: (context, state) => state.mapOrNull(
+        error: (error) => context.showToast(error.message),
+      ),
+      child: const ListLayout(
+        noticeType: NoticeType.group,
+      ),
+    );
+  }
+}
+
+class MemberTabBarView extends StatelessWidget {
+  const MemberTabBarView({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<GroupMemberBloc, GroupMemberState>(
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+          child: state.maybeMap(
+            loaded: (members) => SingleChildScrollView(
+              child: Column(
+                children: [
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Assets.icons.userCircle.svg(width: 24, height: 24),
+                        SizedBox(width: 5),
+                        Text(
+                          t.group.detail.memberCount(n: members.list.length),
+                          style: TextStyle(
+                            color: Palette.grayText,
+                            fontSize: 18,
+                            fontFamily: 'Pretendard Variable',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: members.list.length,
+                    itemBuilder: (context, index) {
+                      final member = members.list[index];
+                      return GroupMemberCard.viewMode(
+                          name: member.name,
+                          email: member.email,
+                          role: member.role);
+                    },
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 5),
+                  ),
+                ],
+              ),
+            ),
+            orElse: () => Center(
+              child: Lottie.asset(Assets.lotties.loading,
+                  height: MediaQuery.of(context).size.width * 0.2,
+                  width: MediaQuery.of(context).size.width * 0.2),
+            ),
+          ),
+        );
+      },
     );
   }
 }
