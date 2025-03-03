@@ -117,6 +117,7 @@
         "title": "그룹 정보",
         "action": "관리"
       },
+      "memberCount": "$n명",
       "noticeCount": "게시물 $n개",
       "tab": {
         "introduction": "소개",

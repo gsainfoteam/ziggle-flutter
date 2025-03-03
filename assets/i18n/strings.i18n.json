@@ -117,6 +117,7 @@
         "title": "Group Info",
         "action": "Manage"
       },
+      "memberCount": "$n people",
       "noticeCount": "$n Notices",
       "tab": {
         "introduction": "Intro",

@@ -117,6 +117,7 @@
         "title": "グループ情報",
         "action": "管理"
       },
+      "memberCount": "$n человек",
       "noticeCount": "$n 通知",
       "tab": {
         "introduction": "紹介",

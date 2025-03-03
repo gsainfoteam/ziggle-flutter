@@ -260,7 +260,8 @@ class GroupDetailPage extends StatelessWidget {
                                         .svg(width: 24, height: 24),
                                     SizedBox(width: 5),
                                     Text(
-                                      '${members.list.length}명',
+                                      t.group.detail
+                                          .memberCount(n: members.list.length),
                                       style: TextStyle(
                                         color: Palette.grayText,
                                         fontSize: 18,
