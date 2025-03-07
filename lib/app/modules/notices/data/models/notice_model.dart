@@ -36,7 +36,7 @@ class NoticeModel with _$NoticeModel implements NoticeEntity {
     @Default([]) List<String> documentUrls,
     @Default(false) bool isReminded,
     required NoticeCategory category,
-    @Default(null) NoticeGroupEntity? group,
+    NoticeGroupEntity? group,
     required DateTime publishedAt,
   }) = _NoticeModel;
 
