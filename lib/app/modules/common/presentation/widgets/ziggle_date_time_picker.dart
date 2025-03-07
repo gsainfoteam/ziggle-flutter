@@ -173,7 +173,7 @@ class _ZiggleDateTimePickerState extends State<ZiggleDateTimePicker> {
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),
                             child: Text(
-                              DateFormat.d().format(day),
+                              DateFormat.d('en_US').format(day),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: widget.dateTime?.isSameDate(day) ?? false
