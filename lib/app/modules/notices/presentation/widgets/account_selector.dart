@@ -35,7 +35,14 @@ class _AccountSelectorState extends State<AccountSelector> {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: groupList == null
-                  ? null
+                  ? GroupListItem(
+                      name: UserBloc.userOrNull(context)!.name,
+                      profileImage:
+                          Assets.images.defaultProfile.image(width: 36),
+                      onPressed: () {
+                        widget.onChanged(null);
+                      },
+                    )
                   : ListView.separated(
                       shrinkWrap: true,
                       itemCount: groupList.list.length + 1,
