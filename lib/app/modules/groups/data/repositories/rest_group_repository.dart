@@ -105,12 +105,6 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<void> leaveGroup(String uuid) {
-    // TODO: implement leaveGroup
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> removeMember(
       {required String uuid, required String targetUuid}) async {
     await _api.banishUser(uuid, targetUuid);
