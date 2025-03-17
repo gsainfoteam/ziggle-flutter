@@ -28,7 +28,7 @@ abstract class GroupRepository {
     required String? notionPageId,
   });
   Future<String> createInviteLink(
-      {required String uuid, required int duration});
+      {required String uuid, required int roleId, required int duration});
   Future<MemberListEntity> getMembers(String uuid);
   Future<void> removeMember({
     required String uuid,

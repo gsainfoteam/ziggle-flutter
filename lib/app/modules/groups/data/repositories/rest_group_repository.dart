@@ -82,9 +82,12 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<String> createInviteLink(
-      {required String uuid, required int duration}) async {
-    final response = await _api.createInviteCode(uuid, duration);
+  Future<String> createInviteLink({
+    required String uuid,
+    required int roleId,
+    required int duration,
+  }) async {
+    final response = await _api.createInviteCode(uuid, roleId, duration);
     return response.code;
   }
 
