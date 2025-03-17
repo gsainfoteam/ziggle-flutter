@@ -41,7 +41,7 @@ class GroupManagementMemberPage extends StatelessWidget {
                       height: MediaQuery.of(context).size.width * 0.2,
                       width: MediaQuery.of(context).size.width * 0.2),
                 ),
-                loaded: (members, role) {
+                loaded: (members) {
                   return Column(
                     children: [
                       Expanded(
