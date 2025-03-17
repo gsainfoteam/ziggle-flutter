@@ -10,8 +10,8 @@ class MemberModel with _$MemberModel implements MemberEntity {
   factory MemberModel({
     required String uuid,
     required String name,
-    required String email,
-    required GroupMemberRole role,
+    required String? email,
+    required GroupMemberRole? role,
   }) = _MemberModel;
 
   factory MemberModel.fromJson(Map<String, dynamic> json) =>

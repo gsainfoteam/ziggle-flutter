@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_tab_bar.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_member_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/notion_bloc.dart';
@@ -317,9 +318,10 @@ class MemberTabBarView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final member = members.list[index];
                       return GroupMemberCard.viewMode(
-                          name: member.name,
-                          email: member.email,
-                          role: member.role);
+                        name: member.name,
+                        email: member.email,
+                        role: member.role,
+                      );
                     },
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 5),

@@ -94,6 +94,11 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
+  Future<RoleEntity> getUserRoleInGroup(String uuid) {
+    return _api.getUserRoleInGroup(uuid);
+  }
+
+  @override
   Future<void> grantRoleToUser(
       {required String uuid, required String targetUuid, required int roleId}) {
     return _api.grantUserRole(uuid, targetUuid, roleId);

@@ -12,6 +12,7 @@ import 'package:ziggle/app/modules/groups/data/data_sources/models/group_model.d
 import 'package:ziggle/app/modules/groups/data/data_sources/models/member_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/role_list_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/role_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/update_role_model.dart';
 
 part 'group_api.g.dart';
@@ -52,6 +53,11 @@ abstract class GroupApi {
   Future<void> uploadImage(
     @Path('uuid') String uuid,
     @Part(name: 'file') File image,
+  );
+
+  @GET('{uuid}/role')
+  Future<RoleModel> getUserRoleInGroup(
+    @Path('uuid') String uuid,
   );
 
   @POST('{uuid}/invite')

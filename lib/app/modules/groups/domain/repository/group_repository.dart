@@ -50,6 +50,8 @@ abstract class GroupRepository {
     required int roleId,
   });
 
+  Future<RoleEntity> getUserRoleInGroup(String uuid);
+
   Future<RoleListEntity> getRoles(String groupUuid);
 
   Future<void> createRole(String groupUuid, RoleEntity role);
