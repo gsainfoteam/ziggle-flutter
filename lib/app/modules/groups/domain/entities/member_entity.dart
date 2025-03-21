@@ -9,7 +9,7 @@ class MemberEntity {
   MemberEntity({
     required this.uuid,
     required this.name,
-    required this.email,
-    required this.role,
+    this.email,
+    this.role,
   });
 }
