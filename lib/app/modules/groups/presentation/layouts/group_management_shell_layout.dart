@@ -27,7 +27,7 @@ class GroupManagementShellLayout extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) =>
-              sl<GroupRoleBloc>()..add(GroupRoleEvent.getRolese(group.uuid)),
+              sl<GroupRoleBloc>()..add(GroupRoleEvent.getRoles(group.uuid)),
         )
       ],
       child: AutoRouter(),

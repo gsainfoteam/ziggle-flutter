@@ -25,7 +25,7 @@ class GroupRoleBloc extends Bloc<GroupRoleEvent, GroupRoleState> {
 @freezed
 class GroupRoleEvent with _$GroupRoleEvent {
   const factory GroupRoleEvent.load() = _Load;
-  const factory GroupRoleEvent.getRolese(String uuid) = _GetRoles;
+  const factory GroupRoleEvent.getRoles(String uuid) = _GetRoles;
 }
 
 @freezed
