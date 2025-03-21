@@ -63,7 +63,7 @@ abstract class GroupApi {
   @POST('{uuid}/invite')
   Future<GroupInviteCodeResponseModel> createInviteCode(
     @Path('uuid') String uuid,
-    @Query('roleId') int roldId,
+    @Query('roleId') int roleId,
     @Query('duration') int duration,
   );
 
