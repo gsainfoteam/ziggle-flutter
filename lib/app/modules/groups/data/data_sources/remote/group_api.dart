@@ -130,4 +130,7 @@ abstract class GroupApi {
     @Path('groupUuid') String groupUuid,
     @Path('id') String id,
   );
+
+  @DELETE('{groupUuid}/member/leave')
+  Future<void> leaveGroup(@Path('groupUuid') String groupUuid);
 }

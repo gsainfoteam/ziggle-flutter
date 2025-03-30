@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
@@ -38,10 +39,6 @@ class GroupManagementPage extends StatelessWidget {
               child: Lottie.asset(Assets.lotties.loading,
                   height: MediaQuery.of(context).size.width * 0.2,
                   width: MediaQuery.of(context).size.width * 0.2),
-            ),
-            error: (message) => Text(
-              '오류 발생: $message',
-              style: TextStyle(color: Colors.red),
             ),
             success: (group) {
               return SingleChildScrollView(
@@ -245,26 +242,34 @@ class GroupManagementPage extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 20),
-                      ZiggleRowButton(
-                        showChevron: false,
-                        destructive: true,
-                        title: Text(context.t.group.manage.leave),
-                        onPressed: () async {
-                          await context.showDialog<bool>(
-                            title:
-                                context.t.group.manage.leaveConfirmationTitle,
-                            content:
-                                context.t.group.manage.leaveConfirmationMessage,
-                            onConfirm: (dialogContext) {
-                              context.read<GroupManagementBloc>().add(
-                                    GroupManagementEvent.leave(group.uuid),
-                                  );
-                              context.router
-                                  .navigate(GroupManagementMainRoute());
-                            },
-                          );
+                      BlocListener<GroupManagementBloc, GroupManagementState>(
+                        listener: (context, state) {
+                          state.mapOrNull(
+                              error: (error) =>
+                                  context.showToast(error.message));
                         },
-                      ),
+                        child: ZiggleRowButton(
+                          showChevron: false,
+                          destructive: true,
+                          title: Text(context.t.group.manage.leave),
+                          onPressed: () async {
+                            await context.showDialog<bool>(
+                              title:
+                                  context.t.group.manage.leaveConfirmationTitle,
+                              content: context
+                                  .t.group.manage.leaveConfirmationMessage,
+                              onConfirm: (dialogContext) {
+                                context.read<GroupManagementBloc>().add(
+                                      GroupManagementEvent.leave(group.uuid),
+                                    );
+                                Navigator.of(dialogContext)
+                                    .pop(); // Close the dialog
+                                // context.router.navigate(GroupManagementMainRoute()); // Navigate back
+                              },
+                            );
+                          },
+                        ),
+                      )
                     ],
                   ),
                 ),

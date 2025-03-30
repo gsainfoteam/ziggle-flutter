@@ -86,9 +86,14 @@ class GroupManagementBloc
     });
     on<_Leave>((event, emit) async {
       emit(GroupManagementState.loading());
-      final user = await _authRepository.info();
-      await _repository.removeMember(uuid: event.uuid, targetUuid: user.uuid);
-      emit(GroupManagementState.done());
+      try {
+        final user = await _authRepository.info();
+        await _repository.removeMember(uuid: event.uuid, targetUuid: user.uuid);
+        emit(GroupManagementState.done());
+      } on Exception catch (e) {
+        emit(GroupManagementState.error('그룹 president는 나갈 수 없습니다.'));
+        return;
+      }
     });
   }
 }

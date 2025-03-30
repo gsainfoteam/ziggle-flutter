@@ -29,6 +29,7 @@ abstract class GroupRepository {
   });
   Future<String> createInviteLink(
       {required String uuid, required int roleId, required int duration});
+
   Future<MemberListEntity> getMembers(String uuid);
   Future<void> removeMember({
     required String uuid,
@@ -51,4 +52,5 @@ abstract class GroupRepository {
       String groupUuid, int roleId, AuthorityEntity authority);
   Future<void> deleteRole(String groupUuid, int roleId);
   Future<void> deleteGroup(String uuid);
+  Future<void> leaveGroup(String groupUuid);
 }
