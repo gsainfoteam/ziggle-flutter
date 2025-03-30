@@ -10,9 +10,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
-import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_bloc.dart';
-import 'package:ziggle/app/modules/groups/presentation/blocs/group_member_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_role_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -116,16 +114,15 @@ class GroupManagementPage extends StatelessWidget {
                       const SizedBox(height: 48),
                       BlocBuilder<GroupRoleBloc, GroupRoleState>(
                         builder: (context, state) {
-                          final disabled = state.maybeWhen(
-                            loaded: (role) =>
-                                role == GroupMemberRole.admin ? false : true,
-                            orElse: () => true,
+                          final enabled = state.maybeWhen(
+                            loaded: (role) => role.isAdmin(),
+                            orElse: () => false,
                           );
                           return ZiggleRowButton(
                             showChevron: true,
-                            disabled: disabled,
+                            disabled: !enabled,
                             trailingIcon:
-                                disabled ? Assets.icons.lock.svg() : null,
+                                enabled ? null : Assets.icons.lock.svg(),
                             title: Text(context.t.group.manage.name.header),
                             onPressed: () => GroupManagementNameRoute(
                               uuid: group.uuid,
@@ -137,16 +134,15 @@ class GroupManagementPage extends StatelessWidget {
                       const SizedBox(height: 20),
                       BlocBuilder<GroupRoleBloc, GroupRoleState>(
                         builder: (context, state) {
-                          final disabled = state.maybeWhen(
-                            loaded: (role) =>
-                                role == GroupMemberRole.admin ? false : true,
-                            orElse: () => true,
+                          final enabled = state.maybeWhen(
+                            loaded: (role) => role.isAdmin(),
+                            orElse: () => false,
                           );
                           return ZiggleRowButton(
                             showChevron: true,
-                            disabled: disabled,
+                            disabled: !enabled,
                             trailingIcon:
-                                disabled ? Assets.icons.lock.svg() : null,
+                                enabled ? null : Assets.icons.lock.svg(),
                             title:
                                 Text(context.t.group.manage.description.header),
                             onPressed: () => GroupManagementDescriptionRoute(
@@ -159,16 +155,15 @@ class GroupManagementPage extends StatelessWidget {
                       const SizedBox(height: 20),
                       BlocBuilder<GroupRoleBloc, GroupRoleState>(
                         builder: (context, state) {
-                          final disabled = state.maybeWhen(
-                            loaded: (role) =>
-                                role == GroupMemberRole.admin ? false : true,
-                            orElse: () => true,
+                          final enabled = state.maybeWhen(
+                            loaded: (role) => role.isAdmin(),
+                            orElse: () => false,
                           );
                           return ZiggleRowButton(
                             showChevron: true,
-                            disabled: disabled,
+                            disabled: !enabled,
                             trailingIcon:
-                                disabled ? Assets.icons.lock.svg() : null,
+                                enabled ? null : Assets.icons.lock.svg(),
                             title:
                                 Text(context.t.group.manage.notionLink.header),
                             onPressed: () => GroupManagementNotionRoute(
@@ -181,18 +176,16 @@ class GroupManagementPage extends StatelessWidget {
                       const SizedBox(height: 20),
                       BlocBuilder<GroupRoleBloc, GroupRoleState>(
                         builder: (context, state) {
-                          final disabled = state.maybeWhen(
-                            loaded: (role) => role == GroupMemberRole.admin ||
-                                    role == GroupMemberRole.manager
-                                ? false
-                                : true,
-                            orElse: () => true,
+                          final enabled = state.maybeWhen(
+                            loaded: (role) =>
+                                role.isAdmin() || role.isManager(),
+                            orElse: () => false,
                           );
                           return ZiggleRowButton(
                             showChevron: true,
-                            disabled: disabled,
+                            disabled: !enabled,
                             trailingIcon:
-                                disabled ? Assets.icons.lock.svg() : null,
+                                enabled ? null : Assets.icons.lock.svg(),
                             title: Text(context.t.group.manage.invite.header),
                             onPressed: () => GroupManagementInvitationLinkRoute(
                                     uuid: group.uuid)
@@ -203,16 +196,15 @@ class GroupManagementPage extends StatelessWidget {
                       const SizedBox(height: 20),
                       BlocBuilder<GroupRoleBloc, GroupRoleState>(
                         builder: (context, state) {
-                          final disabled = state.maybeWhen(
-                            loaded: (role) =>
-                                role == GroupMemberRole.admin ? false : true,
-                            orElse: () => true,
+                          final enabled = state.maybeWhen(
+                            loaded: (role) => role.isAdmin(),
+                            orElse: () => false,
                           );
                           return ZiggleRowButton(
                             showChevron: true,
-                            disabled: disabled,
+                            disabled: !enabled,
                             trailingIcon:
-                                disabled ? Assets.icons.lock.svg() : null,
+                                enabled ? null : Assets.icons.lock.svg(),
                             title: Text(context.t.group.manage.member.header),
                             onPressed: () =>
                                 GroupManagementMemberRoute(uuid: group.uuid)
@@ -223,17 +215,16 @@ class GroupManagementPage extends StatelessWidget {
                       const SizedBox(height: 40),
                       BlocBuilder<GroupRoleBloc, GroupRoleState>(
                         builder: (context, state) {
-                          final disabled = state.maybeWhen(
-                            loaded: (role) =>
-                                role == GroupMemberRole.admin ? false : true,
-                            orElse: () => true,
+                          final enabled = state.maybeWhen(
+                            loaded: (role) => role.isAdmin(),
+                            orElse: () => false,
                           );
                           return ZiggleRowButton(
                             destructive: true,
                             showChevron: false,
-                            disabled: disabled,
+                            disabled: !enabled,
                             trailingIcon:
-                                disabled ? Assets.icons.lock.svg() : null,
+                                enabled ? null : Assets.icons.lock.svg(),
                             title: Text(context.t.group.manage.delete),
                             onPressed: () async {
                               await context.showDialog<bool>(
