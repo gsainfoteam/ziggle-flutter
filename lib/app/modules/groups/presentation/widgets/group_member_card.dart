@@ -80,7 +80,7 @@ class GroupMemberCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: Text(
-                    role != null ? role!.toLocalizedString(context) : '',
+                    role?.toLocalizedString(context) ?? '',
                     style: const TextStyle(
                       color: Palette.grayText,
                       fontSize: 14,
