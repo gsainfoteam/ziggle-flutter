@@ -9,11 +9,11 @@ class NoticeGroupEntity with _$NoticeGroupEntity {
   const NoticeGroupEntity._();
 
   const factory NoticeGroupEntity({
-    required String uuid,
-    required String name,
-    required String description,
-    required DateTime createdAt,
-    required String presidentUuid,
+    required String? uuid,
+    required String? name,
+    required String? description,
+    required DateTime? createdAt,
+    required String? presidentUuid,
     required int? memberCount,
     required DateTime? verifiedAt,
     required bool? verified,
