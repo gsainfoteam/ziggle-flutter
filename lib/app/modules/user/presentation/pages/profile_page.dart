@@ -13,6 +13,7 @@ import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/group_auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
@@ -87,12 +88,21 @@ class _Layout extends StatelessWidget {
               ),
             SizedBox(height: 40),
             if (authenticated) ...[
-              ZiggleRowButton(
-                icon: Assets.icons.colorFilter.svg(),
-                title: Text(context.t.user.groups),
-                onPressed: () {
-                  AnalyticsRepository.click(AnalyticsEvent.profileGroup());
-                  GroupManagementMainRoute().push(context);
+              BlocBuilder<GroupAuthBloc, GroupAuthState>(
+                builder: (context, state) {
+                  return ZiggleRowButton(
+                    leadingIcon: Assets.icons.colorFilter.svg(),
+                    title: Text(context.t.user.groups),
+                    onPressed: () {
+                      state.whenOrNull(
+                          authenticated: () =>
+                              GroupManagementMainRoute().push(context),
+                          unauthenticated: () => context
+                              .read<GroupAuthBloc>()
+                              .add(GroupAuthEvent.login()));
+                      AnalyticsRepository.click(AnalyticsEvent.profileGroup());
+                    },
+                  );
                 },
               ),
               const SizedBox(height: 20),
