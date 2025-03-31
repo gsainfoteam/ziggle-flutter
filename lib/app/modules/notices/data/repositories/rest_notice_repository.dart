@@ -86,22 +86,26 @@ class RestNoticeRepository implements NoticeRepository {
   }
 
   @override
-  Future<NoticeListEntity> getNotices(
-      {int? offset,
-      int? limit,
-      String? search,
-      List<String> tags = const [],
-      NoticeType type = NoticeType.all}) {
-    return _api.getNotices(GetNoticesQueryModel(
-      offset: offset,
-      limit: limit,
-      search: search,
-      tags: tags,
-      my: NoticeMy.fromType(type),
-      orderBy: NoticeSort.fromType(type),
-      lang: Language.getCurrentLanguage(),
-      category: NoticeCategory.fromType(type),
-    ));
+  Future<NoticeListEntity> getNotices({
+    int? offset,
+    int? limit,
+    String? search,
+    List<String> tags = const [],
+    NoticeType type = NoticeType.all,
+    String? groupId,
+  }) {
+    return _api.getNotices(
+      GetNoticesQueryModel(
+          offset: offset,
+          limit: limit,
+          search: search,
+          tags: tags,
+          my: NoticeMy.fromType(type),
+          orderBy: NoticeSort.fromType(type),
+          lang: Language.getCurrentLanguage(),
+          category: NoticeCategory.fromType(type),
+          groupId: groupId),
+    );
   }
 
   @override

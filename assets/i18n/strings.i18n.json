@@ -114,14 +114,18 @@
     "detail": {
       "appBar": {
         "backLabel": "List",
-        "title": "Group Info"
+        "title": "Group Info",
+        "action": "Manage"
       },
+      "memberCount": "$n people",
+      "noticeCount": "$n Notices",
       "tab": {
         "introduction": "Intro",
         "notice": "Notice",
         "member": "Member"
       },
-      "favorite": "Favorite"
+      "favorite": "Favorite",
+      "notionRequest": "Register the Notion page."
     }
   },
   "notice": {
@@ -133,7 +137,8 @@
       "hot": "Ziggle Pick",
       "academic": "Academic",
       "all": "All",
-      "written": "My Notices"
+      "written": "My Notices",
+      "group": "Group Notice"
     },
     "category(context=NoticeCategory)": {
       "academic": "Academic",

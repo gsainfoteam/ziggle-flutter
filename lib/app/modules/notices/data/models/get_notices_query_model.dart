@@ -19,5 +19,6 @@ class GetNoticesQueryModel with _$GetNoticesQueryModel {
     NoticeSort? orderBy,
     NoticeMy? my,
     NoticeCategory? category,
+    @JsonKey(name: 'group-id') String? groupId,
   }) = _GetNoticesQueryModel;
 }

@@ -25,7 +25,7 @@ class GroupManagementPage extends StatelessWidget {
     return Scaffold(
       appBar: ZiggleAppBar.compact(
         from: PageSource.groupManagementMain,
-        backLabel: context.t.group.managementMain.header,
+        backLabel: context.t.group.manage.back,
         title: Text(context.t.group.manage.header),
       ),
       body: BlocBuilder<GroupManagementBloc, GroupManagementState>(
@@ -61,6 +61,8 @@ class GroupManagementPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               color: Palette.black,
                             ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ],
                       ),
@@ -75,8 +77,13 @@ class GroupManagementPage extends StatelessWidget {
                               child: ClipRRect(
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(150)),
-                                child: Image.network(group.profileImageUrl!,
-                                    fit: BoxFit.cover),
+                                child: Image.network(
+                                  group.profileImageUrl!,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      Assets.images.groupDefaultProfile
+                                          .image(width: 90),
+                                ),
                               ),
                             )
                           else

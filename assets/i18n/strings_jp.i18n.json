@@ -114,14 +114,18 @@
     "detail": {
       "appBar": {
         "backLabel": "Список",
-        "title": "Информация о группе"
+        "title": "Информация о группе",
+        "action": "Управление"
       },
+      "memberCount": "$n 人",
+      "noticeCount": "$n Уведомлений",
       "tab": {
         "introduction": "Введение",
         "notice": "Объявления",
         "member": "Участники"
       },
-      "favorite": "Избранное"
+      "favorite": "Избранное",
+      "notionRequest": "Зарегистрируйте страницу в Notion."
     }
   },
   "notice": {
@@ -133,7 +137,8 @@
       "hot": "ジグルピック",
       "academic": "学術",
       "all": "すべて",
-      "written": "自分の投稿"
+      "written": "自分の投稿",
+      "group": "グループのお知らせ"
     },
     "category(context=NoticeCategory)": {
       "academic": "学術",

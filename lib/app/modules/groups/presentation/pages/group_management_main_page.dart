@@ -93,20 +93,22 @@ class _Layout extends StatelessWidget {
                             }
                             return GroupListItem(
                               name: groups.list[index].name,
-                              profileImage:
-                                  state.groups!.list[index].profileImageUrl !=
-                                          null
-                                      ? Image.network(
-                                          state.groups!.list[index]
-                                              .profileImageUrl!,
-                                          fit: BoxFit.cover,
-                                        )
-                                      : null,
+                              profileImage: state.groups!.list[index]
+                                          .profileImageUrl !=
+                                      null
+                                  ? Image.network(
+                                      state
+                                          .groups!.list[index].profileImageUrl!,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) => Assets
+                                              .images.groupDefaultProfile
+                                              .image(),
+                                    )
+                                  : null,
                               onPressed: () {
                                 context.router.push(
-                                  GroupManagementShellRoute(
-                                    group: groups.list[index],
-                                  ),
+                                  GroupDetailRoute(group: groups.list[index]),
                                 );
                               },
                             );

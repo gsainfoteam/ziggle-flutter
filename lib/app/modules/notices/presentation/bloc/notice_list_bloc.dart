@@ -16,7 +16,6 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
 
   late NoticeType _type;
   String? query;
-  late int total;
 
   NoticeListBloc(this._repository) : super(const _Initial()) {
     on<_SearchEvent>((event, emit) async {
@@ -25,41 +24,47 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           emit(const _Loading());
           _type = event.type;
           query = event.query;
-          final notices =
-              await _repository.getNotices(type: _type, search: query);
-          total = notices.total;
-          emit(_Loaded(notices.list));
+          final notices = await _repository.getNotices(
+            type: _type,
+            search: _type != NoticeType.group ? query : null,
+            groupId: _type == NoticeType.group ? query : null,
+          );
+          emit(_Loaded(notices: notices.list, total: notices.total));
         } else if (event is _Reset) {
           query = null;
           emit(const _Initial());
         }
       } catch (e) {
-        emit(NoticeListState.error(e.toString(), state.notices));
+        emit(_Error(e.toString()));
       }
-    }, transformer: makeEventThrottler());
+    });
     on<_Refresh>((event, emit) async {
       try {
-        emit(_Loading(state.notices));
-        final notices =
-            await _repository.getNotices(type: _type, search: query);
-        total = notices.total;
-        emit(_Loaded(notices.list));
+        emit(_Loading(notices: state.notices, total: state.total));
+        final notices = await _repository.getNotices(
+          type: _type,
+          search: _type != NoticeType.group ? query : null,
+          groupId: _type == NoticeType.group ? query : null,
+        );
+        emit(_Loaded(notices: notices.list, total: notices.total));
       } catch (e) {
-        emit(NoticeListState.error(e.toString(), state.notices));
+        emit(_Error(e.toString(), state.notices, state.total));
       }
     });
     on<_LoadMore>((event, emit) async {
       if (state is! _Loaded) return;
       try {
-        if (state.notices.length >= total) return;
-        emit(_Loading(state.notices));
+        if (state.notices.length >= state.total) return;
+        emit(_Loading(notices: state.notices, total: state.total));
         final notices = await _repository.getNotices(
           type: _type,
           offset: state.notices.length,
-          search: query,
+          search: _type != NoticeType.group ? query : null,
+          groupId: _type == NoticeType.group ? query : null,
         );
-        total = notices.total;
-        emit(_Loaded([...state.notices, ...notices.list]));
+        emit(_Loaded(
+            notices: [...state.notices, ...notices.list],
+            total: notices.total));
       } catch (e) {
         emit(NoticeListState.error(e.toString(), state.notices));
       }
@@ -72,11 +77,11 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
         if (index == -1) return;
         final notices = List<NoticeEntity>.from(state.notices);
         notices[index] = notice.addReaction(NoticeReaction.like);
-        emit(_Loaded(notices));
+        emit(_Loaded(notices: notices, total: state.total));
         final result =
             await _repository.addReaction(notice.id, NoticeReaction.like.emoji);
         notices[index] = notices[index].copyWith(reactions: result.reactions);
-        emit(_Loaded(notices));
+        emit(_Loaded(notices: notices, total: state.total));
       } catch (e) {
         emit(NoticeListState.error(e.toString(), state.notices));
       }
@@ -89,11 +94,11 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
         if (index == -1) return;
         final notices = List<NoticeEntity>.from(state.notices);
         notices[index] = notice.removeReaction(NoticeReaction.like);
-        emit(_Loaded(notices));
+        emit(_Loaded(notices: notices, total: state.total));
         final result = await _repository.removeReaction(
             notice.id, NoticeReaction.like.emoji);
         notices[index] = notices[index].copyWith(reactions: result.reactions);
-        emit(_Loaded(notices));
+        emit(_Loaded(notices: notices, total: state.total));
       } catch (e) {
         emit(NoticeListState.error(e.toString(), state.notices));
       }
@@ -128,7 +133,6 @@ sealed class NoticeListEvent {
   const factory NoticeListEvent.loadMore() = _LoadMore;
   @With<_SearchEvent>()
   const factory NoticeListEvent.reset() = _Reset;
-
   const factory NoticeListEvent.addLike(NoticeEntity notice) = _AddLike;
   const factory NoticeListEvent.removeLike(NoticeEntity notice) = _RemoveLike;
 }
@@ -138,12 +142,16 @@ sealed class NoticeListState with _$NoticeListState {
   const NoticeListState._();
 
   const factory NoticeListState.initial(
-      [@Default([]) List<NoticeEntity> notices]) = _Initial;
+      {@Default([]) List<NoticeEntity> notices,
+      @Default(0) int total}) = _Initial;
   const factory NoticeListState.loading(
-      [@Default([]) List<NoticeEntity> notices]) = _Loading;
-  const factory NoticeListState.loaded(List<NoticeEntity> notices) = _Loaded;
+      {@Default([]) List<NoticeEntity> notices,
+      @Default(0) int total}) = _Loading;
+  const factory NoticeListState.loaded(
+      {required List<NoticeEntity> notices, required int total}) = _Loaded;
   const factory NoticeListState.error(String message,
-      [@Default([]) List<NoticeEntity> notices]) = _Error;
+      [@Default([]) List<NoticeEntity> notices,
+      @Default(0) int total]) = _Error;
 
   bool get isLoading => this is _Loading;
   bool get showLoading => isLoading && notices.isEmpty;

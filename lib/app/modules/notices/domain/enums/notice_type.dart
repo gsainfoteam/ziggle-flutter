@@ -22,7 +22,9 @@ enum NoticeType {
   @HiveField(6)
   all,
   @HiveField(7)
-  written;
+  written,
+  @HiveField(8)
+  group;
 
   static List<NoticeType> writable = [recruit, event, general];
   static List<NoticeType> categories = [

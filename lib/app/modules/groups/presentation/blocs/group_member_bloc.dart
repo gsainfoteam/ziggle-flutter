@@ -2,9 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
-import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/member_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
-import 'package:ziggle/app/modules/groups/domain/repository/group_role_repository.dart';
 
 part 'group_member_bloc.freezed.dart';
 
@@ -19,7 +18,7 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
     on<_GetMembers>((event, emit) async {
       emit(GroupMemberState.loading());
       final members = await _repository.getMembers(event.uuid);
-      emit(GroupMemberState.loaded(members));
+      emit(GroupMemberState.loaded(members.list));
     });
     on<_RemoveMember>((event, emit) async {
       emit(GroupMemberState.loading());
@@ -65,7 +64,7 @@ class GroupMemberEvent with _$GroupMemberEvent {
 class GroupMemberState with _$GroupMemberState {
   const factory GroupMemberState.initial() = _Initial;
   const factory GroupMemberState.loading() = _Loading;
-  const factory GroupMemberState.loaded(MemberListEntity list) = _Loaded;
+  const factory GroupMemberState.loaded(List<MemberEntity> list) = _Loaded;
   const factory GroupMemberState.success() = _Success;
   const factory GroupMemberState.error(String error) = _Error;
 }

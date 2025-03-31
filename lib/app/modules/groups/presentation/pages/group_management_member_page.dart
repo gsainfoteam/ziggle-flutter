@@ -48,16 +48,16 @@ class GroupManagementMemberPage extends StatelessWidget {
                         child: ListView.separated(
                           itemBuilder: (context, index) =>
                               GroupMemberCard.editMode(
-                            name: members.list[index].name,
-                            email: members.list[index].email,
-                            role: members.list[index].role,
+                            name: members[index].name,
+                            email: members[index].email,
+                            role: members[index].role,
                             onChanged: (e) {
                               context.read<GroupMemberBloc>().add(
                                   GroupMemberEvent.grantRoleToUser(
                                       uuid,
-                                      members.list[index].uuid,
+                                      members[index].uuid,
                                       e!,
-                                      members.list[index].role));
+                                      members[index].role));
                             },
                             onBanish: () {
                               context.showDialog<bool>(
@@ -67,14 +67,14 @@ class GroupManagementMemberPage extends StatelessWidget {
                                 onConfirm: (_) {
                                   context.read<GroupManagementBloc>().add(
                                       GroupManagementEvent.removeMember(
-                                          uuid, members.list[index].uuid));
+                                          uuid, members[index].uuid));
                                 },
                               );
                             },
                           ),
                           separatorBuilder: (context, index) =>
                               SizedBox(height: 10),
-                          itemCount: members.list.length,
+                          itemCount: members.length,
                         ),
                       ),
                       SizedBox(height: 30),

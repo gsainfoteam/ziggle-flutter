@@ -13,6 +13,7 @@ abstract class NoticeRepository {
     String? search,
     List<String> tags = const [],
     NoticeType type = NoticeType.all,
+    String? groupId,
   });
 
   Future<NoticeEntity> getNotice(int id, [bool getAllLanguages = false]);
