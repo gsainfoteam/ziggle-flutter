@@ -125,7 +125,7 @@
         "member": "Member"
       },
       "favorite": "Favorite",
-      "notionRequest": "Register the Notion page."
+      "noGroupNotionPage": "There is no group introduction"
     }
   },
   "notice": {

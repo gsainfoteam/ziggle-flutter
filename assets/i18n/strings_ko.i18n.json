@@ -125,7 +125,7 @@
         "member": "멤버"
       },
       "favorite": "즐겨찾기",
-      "notionRequest": "노션 페이지를 등록해주세요."
+      "noGroupNotionPage": "그룹 소개가 없습니다."
     }
   },
   "notice": {
