@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
 import 'package:ziggle/app/modules/user/data/repositories/groups_rest_auth_repository.dart';
 import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 part 'group_management_bloc.freezed.dart';
 
@@ -90,8 +91,8 @@ class GroupManagementBloc
         final user = await _authRepository.info();
         await _repository.removeMember(uuid: event.uuid, targetUuid: user.uuid);
         emit(GroupManagementState.done());
-      } on Exception catch (e) {
-        emit(GroupManagementState.error('그룹 president는 나갈 수 없습니다.'));
+      } on Exception {
+        emit(GroupManagementState.error(t.group.manage.leave.error));
         return;
       }
     });

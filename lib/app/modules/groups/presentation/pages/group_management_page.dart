@@ -251,7 +251,7 @@ class GroupManagementPage extends StatelessWidget {
                         child: ZiggleRowButton(
                           showChevron: false,
                           destructive: true,
-                          title: Text(context.t.group.manage.leave),
+                          title: Text(context.t.group.manage.leave.name),
                           onPressed: () async {
                             await context.showDialog<bool>(
                               title:
