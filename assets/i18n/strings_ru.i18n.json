@@ -117,7 +117,7 @@
         "title": "Информация о группе",
         "action": "Управление"
       },
-      "memberCount": "$n 人",
+      "memberCount": "$n человек",
       "noticeCount": "$n Уведомлений",
       "tab": {
         "introduction": "Введение",
