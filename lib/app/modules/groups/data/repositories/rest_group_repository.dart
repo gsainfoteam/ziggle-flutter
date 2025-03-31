@@ -6,6 +6,8 @@ import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/remote/notion_api.dart';
+import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/authority_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';
@@ -84,10 +86,10 @@ class RestGroupRepository implements GroupRepository {
   @override
   Future<String> createInviteLink({
     required String uuid,
-    required int roleId,
+    required GroupMemberRole role,
     required int duration,
   }) async {
-    final response = await _api.createInviteCode(uuid, roleId, duration);
+    final response = await _api.createInviteCode(uuid, role.toInt(), duration);
     return response.code;
   }
 
