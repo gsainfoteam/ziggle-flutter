@@ -88,7 +88,12 @@ class _Layout extends StatelessWidget {
               ),
             SizedBox(height: 40),
             if (authenticated) ...[
-              BlocBuilder<GroupAuthBloc, GroupAuthState>(
+              BlocConsumer<GroupAuthBloc, GroupAuthState>(
+                listener: (context, state) {
+                  state.whenOrNull(
+                      authenticated: () =>
+                          GroupManagementMainRoute().push(context));
+                },
                 builder: (context, state) {
                   return ZiggleRowButton(
                     leadingIcon: Assets.icons.colorFilter.svg(),
@@ -97,9 +102,11 @@ class _Layout extends StatelessWidget {
                       state.whenOrNull(
                           authenticated: () =>
                               GroupManagementMainRoute().push(context),
-                          unauthenticated: () => context
-                              .read<GroupAuthBloc>()
-                              .add(GroupAuthEvent.login()));
+                          unauthenticated: () {
+                            context
+                                .read<GroupAuthBloc>()
+                                .add(GroupAuthEvent.login());
+                          });
                       AnalyticsRepository.click(AnalyticsEvent.profileGroup());
                     },
                   );
