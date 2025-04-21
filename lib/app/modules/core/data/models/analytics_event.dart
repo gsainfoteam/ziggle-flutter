@@ -114,6 +114,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.profileLogout(PageSource from) = _ProfileLogout;
   const factory AnalyticsEvent.profileWithdraw() = _ProfileWithdraw;
   const factory AnalyticsEvent.profileLogin(PageSource from) = _ProfileLogin;
+  const factory AnalyticsEvent.profileGroup() = _ProfileGroup;
   const factory AnalyticsEvent.profileSettingEnableNotification() =
       _ProfileSettingEnableNotification;
   const factory AnalyticsEvent.profileSettingLanguage(AppLocale lang) =
