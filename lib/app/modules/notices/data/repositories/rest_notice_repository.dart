@@ -1,14 +1,13 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
-import 'package:ziggle/app/modules/notices/data/data_sources/remote/ziggle_group_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/document_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/image_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/notice_api.dart';
 import 'package:ziggle/app/modules/notices/data/data_sources/remote/tag_api.dart';
+import 'package:ziggle/app/modules/notices/data/data_sources/remote/ziggle_group_api.dart';
 import 'package:ziggle/app/modules/notices/data/enums/notice_my.dart';
 import 'package:ziggle/app/modules/notices/data/enums/notice_to.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_additional_notice_model.dart';
@@ -165,7 +164,7 @@ class RestNoticeRepository implements NoticeRepository {
     final uploadedDocuments = documents.isEmpty
         ? <String>[]
         : await _documentApi.uploadDocuments(documents);
-    final groupsTokenResponce = await _groupApi.getGroupToken();
+    final groupsTokenResponse = await _groupApi.getGroupToken();
 
     return _api.createNotice(
       CreateNoticeModel(
@@ -178,7 +177,7 @@ class RestNoticeRepository implements NoticeRepository {
         documents: uploadedDocuments,
         groupId: group?.uuid,
       ),
-      group?.uuid != null ? groupsTokenResponce.groupsToken : null,
+      group?.uuid != null ? groupsTokenResponse.groupsToken : null,
     );
   }
 
