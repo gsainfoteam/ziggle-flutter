@@ -5,7 +5,6 @@ import 'package:ziggle/app/values/strings.dart';
 @named
 @Singleton(as: WebAuth2OAuthRepository)
 class GroupsWebAuth2OauthRepository extends WebAuth2OAuthRepository {
-  @override
-  String get path =>
-      recentLogout ? Strings.groupsIdpReLoginPath : Strings.groupsIdpPath;
+  GroupsWebAuth2OauthRepository(super.api)
+      : super(clientId: Strings.groupsIdpClientId);
 }

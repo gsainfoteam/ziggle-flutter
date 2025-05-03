@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:nonce/nonce.dart';
+import 'package:ziggle/app/modules/auth/data/data_sources/remote/oauth_api.dart';
 import 'package:ziggle/app/modules/user/domain/exceptions/invalid_authorization_state_exception.dart';
 import 'package:ziggle/app/values/strings.dart';
 
@@ -11,17 +12,36 @@ import '../../domain/repositories/oauth_repository.dart';
 
 abstract class WebAuth2OAuthRepository implements OAuthRepository {
   bool recentLogout = false;
-  String get path;
+  final String clientId;
+  final OAuthApi _api;
+
+  WebAuth2OAuthRepository(this._api, {required this.clientId});
 
   @override
   Future<String> getToken() async {
     final state = Nonce.secure().toString();
     final codeVerifier = Nonce.secure().toString();
-    final codeChallenge = sha256.convert(utf8.encode(codeVerifier)).toString();
+    final codeChallenge =
+        base64Url.encode(sha256.convert(utf8.encode(codeVerifier)).bytes);
+
+    final scopes = [
+      'profile',
+      'email',
+      'student_id',
+      'offline_access',
+    ].join('%20');
+    final prompt = recentLogout ? 'login' : 'consent';
 
     final result = await FlutterWebAuth2.authenticate(
-      url: '${Strings.idpBaseUrl}$path'
-          '&state=$state&code_challenge=$codeChallenge&code_challenge_method=S256',
+      url: '${Strings.idpBaseUrl}/authorize'
+          '?client_id=$clientId'
+          '&redirect_uri=${Strings.idPRedirectUri}'
+          '&scope=$scopes'
+          '&response_type=code'
+          '&state=$state'
+          '&code_challenge=$codeChallenge'
+          '&code_challenge_method=S256'
+          '&prompt=$prompt',
       callbackUrlScheme: Strings.idpRedirectScheme,
     );
     final uri = Uri.parse(result);
