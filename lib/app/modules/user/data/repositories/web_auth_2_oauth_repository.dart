@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
+import 'package:nonce/nonce.dart';
+import 'package:ziggle/app/modules/user/domain/exceptions/invalid_authorization_state_exception.dart';
 import 'package:ziggle/app/values/strings.dart';
 
 import '../../domain/entities/oauth_entity.dart';
@@ -11,11 +16,20 @@ abstract class WebAuth2OAuthRepository implements OAuthRepository {
 
   @override
   Future<OAuthEntity> getAuthorizationCode() async {
+    final state = Nonce.secure().toString();
+    final codeVerifier = Nonce.secure().toString();
+    final codeChallenge = sha256.convert(utf8.encode(codeVerifier)).toString();
+
     final result = await FlutterWebAuth2.authenticate(
-      url: '${Strings.idpBaseUrl}$path',
+      url: '${Strings.idpBaseUrl}$path'
+          '&state=$state&code_challenge=$codeChallenge&code_challenge_method=S256',
       callbackUrlScheme: Strings.idpRedirectScheme,
     );
     final uri = Uri.parse(result);
+
+    final receivedState = uri.queryParameters['state'];
+    if (receivedState != state) throw InvalidAuthorizationStateException();
+
     final authCode = uri.queryParameters['code'];
     if (authCode == null) throw InvalidAuthorizationCodeException();
     return OAuthEntity(authCode);
