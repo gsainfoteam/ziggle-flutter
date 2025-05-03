@@ -15,4 +15,10 @@ class GroupsFlutterSecureStorageTokenRepository
           refreshTokenKey: '_groups_refreshToken',
           refreshTokenExpiredAtKey: '_groups_refreshTokenExpiredAt',
         );
+
+  @override
+  @PostConstruct(preResolve: true)
+  Future<void> init() async {
+    await super.init();
+  }
 }

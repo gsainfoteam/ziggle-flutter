@@ -15,4 +15,10 @@ class ZiggleFlutterSecureStorageTokenRepository
           refreshTokenKey: '_ziggle_refreshToken',
           refreshTokenExpiredAtKey: '_ziggle_refreshTokenExpiredAt',
         );
+
+  @override
+  @PostConstruct(preResolve: true)
+  Future<void> init() async {
+    await super.init();
+  }
 }

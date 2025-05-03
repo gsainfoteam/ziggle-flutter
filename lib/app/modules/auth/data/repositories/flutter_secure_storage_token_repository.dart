@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
 
@@ -12,10 +11,10 @@ abstract class FlutterSecureStorageTokenRepository implements TokenRepository {
   final String _refreshTokenKey;
   final String _refreshTokenExpiredAtKey;
 
-  final _subject = BehaviorSubject<String?>.seeded(null);
-  final _expiredAtSubject = BehaviorSubject<DateTime?>.seeded(null);
-  final _refreshTokenSubject = BehaviorSubject<String?>.seeded(null);
-  final _refreshTokenExpiredAtSubject = BehaviorSubject<DateTime?>.seeded(null);
+  final _subject = BehaviorSubject<String?>();
+  final _expiredAtSubject = BehaviorSubject<DateTime?>();
+  final _refreshTokenSubject = BehaviorSubject<String?>();
+  final _refreshTokenExpiredAtSubject = BehaviorSubject<DateTime?>();
 
   FlutterSecureStorageTokenRepository({
     required FlutterSecureStorage storage,
@@ -29,7 +28,6 @@ abstract class FlutterSecureStorageTokenRepository implements TokenRepository {
         _refreshTokenKey = refreshTokenKey,
         _refreshTokenExpiredAtKey = refreshTokenExpiredAtKey;
 
-  @PostConstruct(preResolve: true)
   Future<void> init() async {
     await Future.wait([
       _storage.read(key: _tokenKey).then(_subject.add),
