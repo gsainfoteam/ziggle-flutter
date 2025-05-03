@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
+part 'group_member_role.g.dart';
+
 @JsonEnum(alwaysCreate: true)
 enum GroupMemberRole {
   @JsonValue('admin')
