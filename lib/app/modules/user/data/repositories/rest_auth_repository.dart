@@ -23,7 +23,10 @@ abstract class RestAuthRepository implements AuthRepository {
   @override
   Future<void> login() async {
     final token = await _oAuthRepository.getToken();
-    await _tokenRepository.saveToken(token);
+    await _tokenRepository.saveToken(token.accessToken);
+    if (token.refreshToken != null) {
+      await _tokenRepository.saveRefreshToken(token.refreshToken!);
+    }
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:nonce/nonce.dart';
 import 'package:ziggle/app/modules/auth/data/data_sources/remote/oauth_api.dart';
 import 'package:ziggle/app/modules/auth/data/models/token_request_with_code_model.dart';
+import 'package:ziggle/app/modules/auth/domain/entity/token_entity.dart';
 import 'package:ziggle/app/modules/user/domain/exceptions/invalid_authorization_state_exception.dart';
 import 'package:ziggle/app/values/strings.dart';
 
@@ -19,7 +20,7 @@ abstract class WebAuth2OAuthRepository implements OAuthRepository {
   WebAuth2OAuthRepository(this._api, {required this.clientId});
 
   @override
-  Future<String> getToken() async {
+  Future<TokenEntity> getToken() async {
     final state = Nonce.secure().toString();
     final codeVerifier = Nonce.secure().toString();
     final codeChallenge = base64Url
@@ -63,7 +64,10 @@ abstract class WebAuth2OAuthRepository implements OAuthRepository {
         scope: scopes.join(' '),
       ),
     );
-    return res.accessToken;
+    return TokenEntity(
+      accessToken: res.accessToken,
+      refreshToken: res.refreshToken,
+    );
   }
 
   @override
