@@ -62,7 +62,7 @@ abstract class AuthorizeInterceptor extends Interceptor {
     }
     await mutex.acquireWrite();
     try {
-      final token = await repository.token.first;
+      final token = await repository.refreshToken.first;
       if (token == null) return false;
       final res = await _oAuthApi.getTokenFromRefresh(
         TokenRequestWithRefreshModel(
@@ -71,6 +71,7 @@ abstract class AuthorizeInterceptor extends Interceptor {
         ),
       );
       await repository.saveToken(res.accessToken);
+      await repository.saveRefreshToken(res.refreshToken!);
       return true;
     } catch (e) {
       await repository.deleteToken();
