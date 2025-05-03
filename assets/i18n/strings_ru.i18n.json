@@ -116,19 +116,19 @@
     },
     "detail": {
       "appBar": {
-        "backLabel": "リスト",
-        "title": "グループ情報",
-        "action": "管理"
+        "backLabel": "Список",
+        "title": "Информация о группе",
+        "action": "Управление"
       },
       "memberCount": "$n человек",
-      "noticeCount": "$n 通知",
+      "noticeCount": "$n Уведомлений",
       "tab": {
-        "introduction": "紹介",
-        "notice": "お知らせ",
-        "member": "メンバー"
+        "introduction": "Введение",
+        "notice": "Объявления",
+        "member": "Участники"
       },
-      "favorite": "お気に入り",
-      "notionRequest": "ノーションページを登録してください。"
+      "favorite": "Избранное",
+      "noGroupNotionPage": "Нет представления о группе."
     }
   },
   "notice": {

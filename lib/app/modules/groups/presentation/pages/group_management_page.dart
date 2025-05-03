@@ -262,9 +262,7 @@ class GroupManagementPage extends StatelessWidget {
                                 context.read<GroupManagementBloc>().add(
                                       GroupManagementEvent.leave(group.uuid),
                                     );
-                                Navigator.of(dialogContext)
-                                    .pop(); // Close the dialog
-                                // context.router.navigate(GroupManagementMainRoute()); // Navigate back
+                                Navigator.of(dialogContext).pop();
                               },
                             );
                           },

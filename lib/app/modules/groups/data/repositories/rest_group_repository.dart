@@ -109,12 +109,7 @@ class RestGroupRepository implements GroupRepository {
 
   @override
   Future<void> leaveGroup(String groupUuid) async {
-    try {
-      print('no error');
-      await _api.leaveGroup(groupUuid);
-    } on Exception catch (e) {
-      print(e);
-    }
+    await _api.leaveGroup(groupUuid);
   }
 
   @override

@@ -88,8 +88,7 @@ class GroupManagementBloc
     on<_Leave>((event, emit) async {
       emit(GroupManagementState.loading());
       try {
-        final user = await _authRepository.info();
-        await _repository.removeMember(uuid: event.uuid, targetUuid: user.uuid);
+        await _repository.leaveGroup(event.uuid);
         emit(GroupManagementState.done());
       } on Exception {
         emit(GroupManagementState.error(t.group.manage.leave.error));
