@@ -319,7 +319,7 @@ packages:
     source: hosted
     version: "0.3.4+2"
   crypto:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: crypto
       sha256: "1e445881f28f22d6140f181e07737b22f1e099a5e1ff94b0af2f9e4a463f4855"
@@ -1362,6 +1362,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  nonce:
+    dependency: "direct main"
+    description:
+      name: nonce
+      sha256: bd279f698c9f641a64375a17040bd899061e46bdb9aa65bf846838bd3b8b437f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   octo_image:
     dependency: transitive
     description:
