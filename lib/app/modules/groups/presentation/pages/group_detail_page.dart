@@ -233,7 +233,7 @@ class NotionTabBarView extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          t.group.detail.notionRequest,
+                          t.group.detail.noGroupNotionPage,
                           style: const TextStyle(
                             color: Palette.grayText,
                             fontSize: 14,
