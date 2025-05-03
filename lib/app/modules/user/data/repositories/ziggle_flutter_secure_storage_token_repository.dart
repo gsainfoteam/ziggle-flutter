@@ -12,5 +12,7 @@ class ZiggleFlutterSecureStorageTokenRepository
           storage: storage,
           tokenKey: '_ziggle_token',
           expiredAtKey: '_ziggle_expiredAt',
+          refreshTokenKey: '_ziggle_refreshToken',
+          refreshTokenExpiredAtKey: '_ziggle_refreshTokenExpiredAt',
         );
 }

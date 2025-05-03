@@ -33,17 +33,18 @@ abstract class WebAuth2OAuthRepository implements OAuthRepository {
       'offline_access',
     ];
     final prompt = recentLogout ? 'login' : 'consent';
+    final url = '${Strings.idpBaseUrl}/authorize'
+        '?client_id=$clientId'
+        '&redirect_uri=${Strings.idPRedirectUri}'
+        '&scope=${scopes.join('%20')}'
+        '&response_type=code'
+        '&state=$state'
+        '&code_challenge=$codeChallenge'
+        '&code_challenge_method=S256'
+        '&prompt=$prompt';
 
     final result = await FlutterWebAuth2.authenticate(
-      url: '${Strings.idpBaseUrl}/authorize'
-          '?client_id=$clientId'
-          '&redirect_uri=${Strings.idPRedirectUri}'
-          '&scope=${scopes.join('%20')}'
-          '&response_type=code'
-          '&state=$state'
-          '&code_challenge=$codeChallenge'
-          '&code_challenge_method=S256'
-          '&prompt=$prompt',
+      url: url,
       callbackUrlScheme: Strings.idpRedirectScheme,
     );
     final uri = Uri.parse(result);

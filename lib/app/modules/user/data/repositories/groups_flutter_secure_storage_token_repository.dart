@@ -12,5 +12,7 @@ class GroupsFlutterSecureStorageTokenRepository
           storage: storage,
           tokenKey: '_groups_token',
           expiredAtKey: '_groups_expiredAt',
+          refreshTokenKey: '_groups_refreshToken',
+          refreshTokenExpiredAtKey: '_groups_refreshTokenExpiredAt',
         );
 }
