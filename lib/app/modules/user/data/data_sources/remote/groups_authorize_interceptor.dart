@@ -19,10 +19,4 @@ class GroupsAuthorizeInterceptor extends AuthorizeInterceptor {
   Dio getDio() {
     return sl<GroupsDio>();
   }
-
-  @override
-  Future<bool> refresh() async {
-    await repository.deleteToken();
-    return false;
-  }
 }
