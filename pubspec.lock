@@ -34,10 +34,10 @@ packages:
     dependency: "direct main"
     description:
       name: amplitude_flutter
-      sha256: cc0f22b03444e02bbaf36f0041b60282f9947ca849d6b3e6fe69e6b7b4d49565
+      sha256: b21110afd236d4fd597e29debfd6fac28adfe344178401e0c85cea33ac9de8dd
       url: "https://pub.dev"
     source: hosted
-    version: "3.16.4"
+    version: "4.3.1"
   analyzer:
     dependency: transitive
     description:
