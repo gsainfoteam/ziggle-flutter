@@ -61,7 +61,6 @@ abstract class WebAuth2OAuthRepository implements OAuthRepository {
         code: authCode,
         codeVerifier: codeVerifier,
         clientId: clientId,
-        scope: scopes.join(' '),
       ),
     );
     return TokenEntity(
