@@ -1,8 +1,8 @@
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:ziggle/app/modules/user/data/data_sources/remote/base_auth_api.dart';
-import 'package:ziggle/app/modules/user/domain/repositories/auth_repository.dart';
-import 'package:ziggle/app/modules/user/domain/repositories/oauth_repository.dart';
-import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
+import 'package:ziggle/app/modules/auth/data/data_sources/remote/base_auth_api.dart';
+import 'package:ziggle/app/modules/auth/domain/repositories/auth_repository.dart';
+import 'package:ziggle/app/modules/auth/domain/repositories/oauth_repository.dart';
+import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
 
 abstract class RestAuthRepository implements AuthRepository {
   final BaseAuthApi _api;

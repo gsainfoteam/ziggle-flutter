@@ -6,7 +6,7 @@ import 'package:nonce/nonce.dart';
 import 'package:ziggle/app/modules/user/domain/exceptions/invalid_authorization_state_exception.dart';
 import 'package:ziggle/app/values/strings.dart';
 
-import '../../domain/exceptions/invalid_authorization_code_exception.dart';
+import '../../../user/domain/exceptions/invalid_authorization_code_exception.dart';
 import '../../domain/repositories/oauth_repository.dart';
 
 abstract class WebAuth2OAuthRepository implements OAuthRepository {

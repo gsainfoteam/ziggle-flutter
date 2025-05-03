@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 
 import '../../../../values/strings.dart';
-import 'web_auth_2_oauth_repository.dart';
+import '../../../auth/data/repositories/web_auth_2_oauth_repository.dart';
 
 @named
 @Singleton(as: WebAuth2OAuthRepository)

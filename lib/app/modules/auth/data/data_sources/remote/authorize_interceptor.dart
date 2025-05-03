@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:mutex/mutex.dart';
-import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
+import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
 
 abstract class AuthorizeInterceptor extends Interceptor {
   final TokenRepository repository;
