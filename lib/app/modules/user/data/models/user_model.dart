@@ -10,7 +10,7 @@ class UserModel with _$UserModel implements UserEntity {
   const factory UserModel({
     required String email,
     required String name,
-    @JsonKey(name: 'studentNumber') required String studentId,
+    @JsonKey(name: 'studentNumber') String? studentId,
     required String uuid,
   }) = _UserModel;
 

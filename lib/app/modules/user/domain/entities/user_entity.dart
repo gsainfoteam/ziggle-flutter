@@ -1,7 +1,7 @@
 class UserEntity {
   final String email;
   final String name;
-  final String studentId;
+  final String? studentId;
   final String uuid;
 
   UserEntity({
