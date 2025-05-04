@@ -45,5 +45,6 @@ abstract class RestAuthRepository implements AuthRepository {
   Future<void> logout() async {
     await _tokenRepository.deleteToken();
     await _cookieManager.cookieJar.deleteAll();
+    await _oAuthRepository.setRecentLogout();
   }
 }

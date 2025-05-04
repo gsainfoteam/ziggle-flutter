@@ -69,6 +69,9 @@ abstract class WebAuth2OAuthRepository implements OAuthRepository {
         clientId: clientId,
       ),
     );
+
+    setRecentLogout(false);
+
     return TokenEntity(
       accessToken: res.accessToken,
       refreshToken: res.refreshToken,
