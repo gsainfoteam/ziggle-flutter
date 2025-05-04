@@ -1,9 +1,9 @@
 name: promote to production (android, iOS)
 
 on:
-  create:
-    tags:
-      - v*
+  release:
+    types:
+      - released
 
 jobs:
   promote:
