@@ -164,7 +164,14 @@ class RestNoticeRepository implements NoticeRepository {
     final uploadedDocuments = documents.isEmpty
         ? <String>[]
         : await _documentApi.uploadDocuments(documents);
-    final groupsTokenResponse = await _groupApi.getGroupToken();
+
+    String? groupsToken;
+    try {
+      final groupsTokenResponse = await _groupApi.getGroupToken();
+      groupsToken = groupsTokenResponse.groupsToken;
+    } catch (e) {
+      groupsToken = null;
+    }
 
     return _api.createNotice(
       CreateNoticeModel(
@@ -177,7 +184,7 @@ class RestNoticeRepository implements NoticeRepository {
         documents: uploadedDocuments,
         groupId: group?.uuid,
       ),
-      group?.uuid != null ? groupsTokenResponse.groupsToken : null,
+      groupsToken,
     );
   }
 
