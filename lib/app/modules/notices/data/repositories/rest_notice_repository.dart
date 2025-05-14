@@ -142,6 +142,15 @@ class RestNoticeRepository implements NoticeRepository {
     }
   }
 
+  Future<String?> _getGroupsToken() async {
+    try {
+      final response = await _groupApi.getGroupToken();
+      return response.groupsToken;
+    } catch (e) {
+      return null;
+    }
+  }
+
   @override
   Future<NoticeEntity> write({
     required String title,
@@ -165,13 +174,7 @@ class RestNoticeRepository implements NoticeRepository {
         ? <String>[]
         : await _documentApi.uploadDocuments(documents);
 
-    String? groupsToken;
-    try {
-      final groupsTokenResponse = await _groupApi.getGroupToken();
-      groupsToken = groupsTokenResponse.groupsToken;
-    } catch (e) {
-      groupsToken = null;
-    }
+    final groupsToken = await _getGroupsToken();
 
     return _api.createNotice(
       CreateNoticeModel(
