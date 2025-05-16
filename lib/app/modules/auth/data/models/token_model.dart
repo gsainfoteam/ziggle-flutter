@@ -13,7 +13,7 @@ class TokenModel with _$TokenModel {
     String? refreshToken,
     int? refreshTokenExpiresIn,
     String? idToken,
-    required List<String> scope,
+    required String scope,
   }) = _TokenModel;
 
   factory TokenModel.fromJson(Map<String, dynamic> json) =>
