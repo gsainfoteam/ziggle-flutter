@@ -11,7 +11,7 @@ import 'package:ziggle/gen/strings.g.dart';
 class PackageLicensesPage extends StatelessWidget {
   const PackageLicensesPage({
     super.key,
-    @PathParam('package') required this.package,
+    required this.package,
     required this.licenses,
   });
 

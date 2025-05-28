@@ -1,13 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:mutex/mutex.dart';
-import 'package:ziggle/app/modules/user/domain/repositories/token_repository.dart';
+import 'package:ziggle/app/modules/auth/data/data_sources/remote/oauth_api.dart';
+import 'package:ziggle/app/modules/auth/data/models/token_request_with_refresh_model.dart';
+import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
 
 abstract class AuthorizeInterceptor extends Interceptor {
   final TokenRepository repository;
   static const retriedKey = '_retried';
   final mutex = ReadWriteMutex();
+  final OAuthApi _oAuthApi;
+  final String clientId;
 
-  AuthorizeInterceptor(this.repository);
+  AuthorizeInterceptor(this.repository, this._oAuthApi,
+      {required this.clientId});
 
   @override
   void onRequest(
@@ -49,7 +54,32 @@ abstract class AuthorizeInterceptor extends Interceptor {
     }
   }
 
-  Future<bool> refresh();
+  Future<bool> refresh() async {
+    if (mutex.isWriteLocked) {
+      await mutex.acquireRead();
+      mutex.release();
+      return true;
+    }
+    await mutex.acquireWrite();
+    try {
+      final token = await repository.refreshToken.first;
+      if (token == null) return false;
+      final res = await _oAuthApi.getTokenFromRefresh(
+        TokenRequestWithRefreshModel(
+          refreshToken: token,
+          clientId: clientId,
+        ),
+      );
+      await repository.saveToken(res.accessToken);
+      await repository.saveRefreshToken(res.refreshToken!);
+      return true;
+    } catch (e) {
+      await repository.deleteToken();
+      return false;
+    } finally {
+      mutex.release();
+    }
+  }
 }
 
 extension _RequestOptionsX on RequestOptions {

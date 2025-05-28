@@ -7,6 +7,7 @@ abstract class Strings {
   static final smartlookApiKey = dotenv.get('SMARTLOOK_API_KEY');
   static final idpRedirectScheme = dotenv.get('IDP_REDIRECT_SCHEME');
   static final idpBaseUrl = dotenv.get('IDP_BASE_URL');
+  static final idpApiBaseUrl = dotenv.get('IDP_API_BASE_URL');
   static final ziggleIdpClientId = dotenv.get('ZIGGLE_IDP_CLIENT_ID');
   static final groupsIdpClientId = dotenv.get('GROUPS_IDP_CLIENT_ID');
   static final ziggleIdpPath = dotenv.get('ZIGGLE_IDP_PATH');

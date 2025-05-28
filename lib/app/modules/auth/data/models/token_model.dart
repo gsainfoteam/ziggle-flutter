@@ -5,8 +5,15 @@ part 'token_model.g.dart';
 
 @freezed
 class TokenModel with _$TokenModel {
+  @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TokenModel({
-    @JsonKey(name: 'access_token') required String accessToken,
+    required String accessToken,
+    required String tokenType,
+    required int expiresIn,
+    String? refreshToken,
+    int? refreshTokenExpiresIn,
+    String? idToken,
+    required String scope,
   }) = _TokenModel;
 
   factory TokenModel.fromJson(Map<String, dynamic> json) =>

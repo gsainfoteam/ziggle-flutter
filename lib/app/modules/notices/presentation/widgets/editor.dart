@@ -85,7 +85,7 @@ class Editor extends StatelessWidget {
                     child: QuillEditor.basic(
                       focusNode: bodyFocusNode,
                       controller: bodyController,
-                      configurations: QuillEditorConfigurations(
+                      config: QuillEditorConfig(
                         placeholder: context.t.notice.write.bodyHint,
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         customStyles: const DefaultStyles(

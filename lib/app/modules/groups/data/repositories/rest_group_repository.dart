@@ -6,7 +6,6 @@ import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
-import 'package:ziggle/app/modules/groups/data/data_sources/remote/notion_api.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/authority_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';

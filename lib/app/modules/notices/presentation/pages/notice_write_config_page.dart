@@ -102,8 +102,9 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
             child: Column(
               children: [
-                _buildChangeAccount(),
-                const SizedBox(height: 25),
+                // TODO: uncomment after implementing the GroupAuth
+                // _buildChangeAccount(),
+                // const SizedBox(height: 25),
                 _buildDeadline(),
                 const SizedBox(height: 25),
                 _buildCategory(),

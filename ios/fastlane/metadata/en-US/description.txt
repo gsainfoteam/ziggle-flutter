@@ -2,4 +2,4 @@ See all announcements in your GIST at a glance with Ziggle.
 
 Recruitment, events, general announcements, and even academic announcements are all available in Ziggle.
 
-[:mav: 4.1.1]
+[:mav: 4.3.0]
