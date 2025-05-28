@@ -245,7 +245,7 @@ class GroupManagementPage extends StatelessWidget {
                       ZiggleRowButton(
                         showChevron: false,
                         title: Text(
-                          t.group.manage.leave.name,
+                          context.t.group.manage.leave.name,
                           style: TextStyle(
                             color: Palette.primary,
                           ),

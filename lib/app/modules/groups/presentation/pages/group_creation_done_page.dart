@@ -48,8 +48,8 @@ class _LayoutState extends State<_Layout> {
             builder: (context, state) {
               return Text(
                 state.maybeMap(
-                  done: (data) =>
-                      context.t.group.creation.done.title(name: "인포팀"),
+                  done: (data) => context.t.group.creation.done
+                      .title(name: data.group.name),
                   orElse: () => context.t.group.creation.done.title(name: ""),
                 ),
                 style: const TextStyle(
@@ -106,7 +106,8 @@ class _LayoutState extends State<_Layout> {
                                   GroupInviteEvent.create(
                                       groupState.maybeMap(
                                           done: (data) => data.group,
-                                          orElse: () => throw Exception()),
+                                          orElse: () => throw StateError(
+                                              'Group creation not completed')),
                                       v!),
                                 );
                           },
