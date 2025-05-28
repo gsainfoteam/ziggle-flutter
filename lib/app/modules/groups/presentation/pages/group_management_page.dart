@@ -184,9 +184,9 @@ class GroupManagementPage extends StatelessWidget {
                             trailingIcon:
                                 enabled ? null : Assets.icons.lock.svg(),
                             title: Text(context.t.group.manage.invite.header),
-                            onPressed: () => GroupManagementInvitationLinkRoute(
-                                    uuid: group.uuid)
-                                .push(context),
+                            onPressed: () =>
+                                GroupManagementInvitationLinkRoute(group: group)
+                                    .push(context),
                           );
                         },
                       ),
@@ -242,32 +242,54 @@ class GroupManagementPage extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 20),
-                      BlocListener<GroupManagementBloc, GroupManagementState>(
-                        listener: (context, state) {
-                          state.mapOrNull(
-                              error: (error) =>
-                                  context.showToast(error.message));
-                        },
-                        child: ZiggleRowButton(
-                          showChevron: false,
-                          destructive: true,
-                          title: Text(context.t.group.manage.leave.name),
-                          onPressed: () async {
-                            await context.showDialog<bool>(
-                              title:
-                                  context.t.group.manage.leaveConfirmationTitle,
-                              content: context
-                                  .t.group.manage.leaveConfirmationMessage,
-                              onConfirm: (dialogContext) {
-                                context.read<GroupManagementBloc>().add(
-                                      GroupManagementEvent.leave(group.uuid),
-                                    );
-                                Navigator.of(dialogContext).pop();
-                              },
-                            );
-                          },
+                      ZiggleRowButton(
+                        showChevron: false,
+                        title: Text(
+                          t.group.manage.leave.name,
+                          style: TextStyle(
+                            color: Palette.primary,
+                          ),
                         ),
-                      )
+                        onPressed: () async {
+                          await context.showDialog<bool>(
+                            title:
+                                context.t.group.manage.leaveConfirmationTitle,
+                            content:
+                                context.t.group.manage.leaveConfirmationMessage,
+                            onConfirm: (dialogContext) {
+                              context.read<GroupManagementBloc>().add(
+                                    GroupManagementEvent.leave(group.uuid),
+                                  );
+                              context.router
+                                  .navigate(GroupManagementMainRoute());
+                            },
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      ZiggleRowButton(
+                        showChevron: false,
+                        title: Text(
+                          t.group.manage.leave.name,
+                          style: TextStyle(
+                            color: Palette.primary,
+                          ),
+                        ),
+                        onPressed: () async {
+                          await context.showDialog<bool>(
+                            title:
+                                context.t.group.manage.leaveConfirmationTitle,
+                            content:
+                                context.t.group.manage.leaveConfirmationMessage,
+                            onConfirm: (dialogContext) {
+                              context.read<GroupManagementBloc>().add(
+                                    GroupManagementEvent.leave(group.uuid),
+                                  );
+                              Navigator.of(dialogContext).pop();
+                            },
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),

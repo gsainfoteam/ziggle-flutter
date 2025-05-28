@@ -44,14 +44,22 @@ class _LayoutState extends State<_Layout> {
         children: [
           Lottie.asset(Assets.lotties.complete, repeat: false),
           const SizedBox(height: 20),
-          Text(
-            context.t.group.creation.done.title(name: "인포팀"),
-            style: const TextStyle(
-              fontSize: 24,
-              color: Palette.black,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
+          BlocBuilder<GroupCreateBloc, GroupCreateState>(
+            builder: (context, state) {
+              return Text(
+                state.maybeMap(
+                  done: (data) =>
+                      context.t.group.creation.done.title(name: "인포팀"),
+                  orElse: () => context.t.group.creation.done.title(name: ""),
+                ),
+                style: const TextStyle(
+                  fontSize: 24,
+                  color: Palette.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              );
+            },
           ),
           const SizedBox(height: 10),
           Text(
@@ -97,8 +105,8 @@ class _LayoutState extends State<_Layout> {
                             context.read<GroupInviteBloc>().add(
                                   GroupInviteEvent.create(
                                       groupState.maybeMap(
-                                          done: (data) => data.group.uuid,
-                                          orElse: () => ""),
+                                          done: (data) => data.group,
+                                          orElse: () => throw Exception()),
                                       v!),
                                 );
                           },

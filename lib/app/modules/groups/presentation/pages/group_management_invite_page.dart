@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.da
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_select.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_invite_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -14,9 +15,9 @@ import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
 class GroupManagementInvitationLinkPage extends StatefulWidget {
-  const GroupManagementInvitationLinkPage({super.key, required this.uuid});
+  const GroupManagementInvitationLinkPage({super.key, required this.group});
 
-  final String uuid;
+  final GroupEntity group;
 
   @override
   State<GroupManagementInvitationLinkPage> createState() =>
@@ -66,7 +67,7 @@ class _GroupManagementInvitationLinkPageState
                           onChanged: (v) {
                             setState(() => _duration = v);
                             context.read<GroupInviteBloc>().add(
-                                  GroupInviteEvent.create(widget.uuid, v!),
+                                  GroupInviteEvent.create(widget.group, v!),
                                 );
                           },
                           hintText:

@@ -29,7 +29,7 @@ abstract class GroupRepository {
     required String? notionPageId,
   });
   Future<String> createInviteLink({
-    required String uuid,
+    required GroupEntity group,
     required GroupMemberRole role,
     required int duration,
   });
