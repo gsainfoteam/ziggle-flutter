@@ -111,8 +111,6 @@ PODS:
     - Flutter
   - flutter_secure_storage (6.0.0):
     - Flutter
-  - flutter_smartlook (4.1.25):
-    - Flutter
   - flutter_web_auth_2 (3.0.0):
     - Flutter
   - GoogleAppMeasurement (11.4.0):
@@ -220,7 +218,6 @@ DEPENDENCIES:
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
-  - flutter_smartlook (from `.symlinks/plugins/flutter_smartlook/ios`)
   - flutter_web_auth_2 (from `.symlinks/plugins/flutter_web_auth_2/ios`)
   - GoogleUtilities
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -279,8 +276,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
-  flutter_smartlook:
-    :path: ".symlinks/plugins/flutter_smartlook/ios"
   flutter_web_auth_2:
     :path: ".symlinks/plugins/flutter_web_auth_2/ios"
   image_picker_ios:
@@ -301,9 +296,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
-  Amplitude: 184def4f87aa26f94a93a7faa334e06b1cae704d
-  amplitude_flutter: 0f617f89d62b10c40a0ab14849e660a7c12e4e46
-  AnalyticsConnector: a53214d38ae22734c6266106c0492b37832633a9
+  amplitude_flutter: fd9bf76a1885fe760055877777da18ca4d087088
+  AmplitudeSwift: 7269c77825aac5cd8427a2d99bd87aa675fba75a
+  AnalyticsConnector: 3def11199b4ddcad7202c778bde982ec5da0ebb3
   app_links: e7a6750a915a9e161c58d91bc610e8cd1d4d0ad0
   Firebase: cf1b19f21410b029b6786a54e9764a0cacad3c99
   firebase_analytics: 2815af29d49c1a994652abd37a5b001a88bc7b75
@@ -325,7 +320,6 @@ SPEC CHECKSUMS:
   flutter_local_notifications: df98d66e515e1ca797af436137b4459b160ad8c9
   flutter_native_splash: e8a1e01082d97a8099d973f919f57904c925008a
   flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
-  flutter_smartlook: d69a8835090a32f8a1fb96e248293c7ea2cbfb4e
   flutter_web_auth_2: 06d500582775790a0d4c323222fcb6d7990f9603
   GoogleAppMeasurement: 987769c4ca6b968f2479fbcc9fe3ce34af454b8e
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
