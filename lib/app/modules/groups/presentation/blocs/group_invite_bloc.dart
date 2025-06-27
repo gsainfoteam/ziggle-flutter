@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
-import 'package:ziggle/app/values/strings.dart';
 
 part 'group_invite_bloc.freezed.dart';
 
@@ -15,12 +14,10 @@ class GroupInviteBloc extends Bloc<GroupInviteEvent, GroupInviteState> {
   GroupInviteBloc(this._repository) : super(const GroupInviteState.initial()) {
     on<_Create>((event, emit) async {
       emit(const GroupInviteState.loading());
-      final inviteCode = await _repository.createInviteLink(
+      final inviteLink = await _repository.createInviteLink(
           group: event.group,
           role: GroupMemberRole.member,
-          duration: event.duration * Duration.secondsPerDay);
-      final inviteLink =
-          "${Strings.groupsBaseUrl}/invite/$inviteCode/${event.group.uuid}";
+          durationDays: Duration(days: event.duration));
       emit(GroupInviteState.success(inviteLink));
     });
   }

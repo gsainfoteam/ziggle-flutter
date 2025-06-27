@@ -31,7 +31,7 @@ abstract class GroupRepository {
   Future<String> createInviteLink({
     required GroupEntity group,
     required GroupMemberRole role,
-    required int duration,
+    required Duration durationDays,
   });
   Future<MemberListEntity> getMembers(String uuid);
   Future<void> removeMember({

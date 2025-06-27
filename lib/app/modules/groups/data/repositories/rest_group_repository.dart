@@ -15,6 +15,7 @@ import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dar
 import 'package:ziggle/app/modules/groups/domain/entities/role_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/role_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
+import 'package:ziggle/app/values/strings.dart';
 
 @Singleton(as: GroupRepository)
 class RestGroupRepository implements GroupRepository {
@@ -87,10 +88,13 @@ class RestGroupRepository implements GroupRepository {
   Future<String> createInviteLink({
     required GroupEntity group,
     required GroupMemberRole role,
-    required int duration,
+    required Duration durationDays,
   }) async {
-    final response = await _api.createInviteCode(group.uuid, role.toInt(), duration);
-    return response.code;
+    final response = await _api.createInviteCode(
+        group.uuid, role.toInt(), durationDays.inDays);
+    final inviteLink =
+        "${Strings.groupsBaseUrl}/invite/${response.code}/${group.uuid}";
+    return inviteLink;
   }
 
   @override
