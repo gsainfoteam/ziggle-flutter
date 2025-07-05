@@ -92,7 +92,7 @@ jobs:
         if: env.run == 'true' && matrix.os == 'Android'
         with:
           java-version: "17"
-          distribution: "adopt"
+          distribution: "temurin"
 
       - uses: ruby/setup-ruby@v1
         if: env.run == 'true'
