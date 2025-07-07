@@ -93,6 +93,7 @@ jobs:
         with:
           java-version: "17"
           distribution: "temurin"
+          cache: "gradle"
 
       - uses: ruby/setup-ruby@v1
         if: env.run == 'true'
