@@ -38,6 +38,7 @@ abstract class GroupRepository {
     required String uuid,
     required String targetUuid,
   });
+  Future<RoleEntity> getUserRoleInGroup(String uuid);
   Future<void> grantRoleToUser({
     required String uuid,
     required String targetUuid,
