@@ -63,31 +63,16 @@ class _Layout extends StatefulWidget {
 
 class _LayoutState extends State<_Layout> {
   final _controller = TextEditingController();
-  final _textSubject = PublishSubject<String>();
-  late StreamSubscription<String> _textSubscription;
 
   @override
   void initState() {
     super.initState();
     _controller.addListener(() => setState(noop));
-    _textSubscription = _textSubject
-        .debounceTime(const Duration(milliseconds: 500))
-        .distinct()
-        .listen((query) {
-      final bloc = context.read<NoticeListBloc>();
-      if (query.isNotEmpty) {
-        bloc.add(NoticeListEvent.load(NoticeType.all, query: query));
-      } else {
-        bloc.add(const NoticeListEvent.reset());
-      }
-    });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _textSubscription.cancel();
-    _textSubject.close();
     _controller.dispose();
   }
 
@@ -105,7 +90,16 @@ class _LayoutState extends State<_Layout> {
                 Expanded(
                   child: CupertinoSearchTextField(
                     controller: _controller,
-                    onChanged: (value) => _textSubject.add(value),
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        context.read<NoticeListBloc>().add(
+                            NoticeListEvent.load(NoticeType.all, query: value));
+                      } else {
+                        context
+                            .read<NoticeListBloc>()
+                            .add(const NoticeListEvent.reset());
+                      }
+                    },
                     prefixIcon: Assets.icons.search.svg(width: 20),
                     placeholder: context.t.notice.search.hint,
                     suffixIcon: const Icon(Icons.cancel),
