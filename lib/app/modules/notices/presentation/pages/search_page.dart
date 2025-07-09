@@ -90,16 +90,8 @@ class _LayoutState extends State<_Layout> {
                 Expanded(
                   child: CupertinoSearchTextField(
                     controller: _controller,
-                    onChanged: (value) {
-                      if (value.isNotEmpty) {
-                        context.read<NoticeListBloc>().add(
-                            NoticeListEvent.load(NoticeType.all, query: value));
-                      } else {
-                        context
-                            .read<NoticeListBloc>()
-                            .add(const NoticeListEvent.reset());
-                      }
-                    },
+                    onChanged: (value) => context.read<NoticeListBloc>().add(
+                        NoticeListEvent.load(NoticeType.all, query: value)),
                     prefixIcon: Assets.icons.search.svg(width: 20),
                     placeholder: context.t.notice.search.hint,
                     suffixIcon: const Icon(Icons.cancel),
