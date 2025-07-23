@@ -97,41 +97,46 @@ class GroupDetailPage extends StatelessWidget {
                           else
                             Assets.images.groupDefaultProfile.image(width: 90),
                           const SizedBox(width: 15),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    group.name,
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                  // SizedBox(width: 5),
-                                  // Assets.icons.badgeCheck.svg()
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  BlocBuilder<NoticeListBloc, NoticeListState>(
-                                    builder: (context, state) {
-                                      return Text(
-                                        t.group.detail
-                                            .noticeCount(n: state.total),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        group.name,
                                         style: TextStyle(
-                                          fontSize: 16,
-                                          color: Palette.grayText,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                    // SizedBox(width: 5),
+                                    // Assets.icons.badgeCheck.svg()
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    BlocBuilder<NoticeListBloc,
+                                        NoticeListState>(
+                                      builder: (context, state) {
+                                        return Text(
+                                          t.group.detail
+                                              .noticeCount(n: state.total),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Palette.grayText,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           )
                         ],
                       ),
