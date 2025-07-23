@@ -14,6 +14,10 @@ abstract class UserApi extends BaseAuthApi {
   factory UserApi(ZiggleDio dio) = _UserApi;
 
   @override
+  @GET('login')
+  Future<void> login(@Query('token') String token);
+
+  @override
   @GET('info')
   Future<UserModel> info();
 }

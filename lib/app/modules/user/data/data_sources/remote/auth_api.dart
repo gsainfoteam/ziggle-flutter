@@ -14,6 +14,10 @@ abstract class AuthApi extends BaseAuthApi {
   factory AuthApi(GroupsDio dio) = _AuthApi;
 
   @override
+  @GET('login')
+  Future<void> login(@Query('token') String token);
+
+  @override
   @GET('info')
   Future<GroupUserModel> info();
 }

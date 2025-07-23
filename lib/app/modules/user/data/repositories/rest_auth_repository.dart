@@ -28,6 +28,7 @@ abstract class RestAuthRepository implements AuthRepository {
     if (token.refreshToken != null) {
       await _tokenRepository.saveRefreshToken(token.refreshToken!);
     }
+    await _api.login(token.accessToken);
   }
 
   @override
