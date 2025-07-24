@@ -30,7 +30,10 @@ class GroupManagementPage extends StatelessWidget {
         backLabel: context.t.group.manage.back,
         title: Text(context.t.group.manage.header),
       ),
-      body: BlocBuilder<GroupManagementBloc, GroupManagementState>(
+      body: BlocConsumer<GroupManagementBloc, GroupManagementState>(
+        listener: (context, state) {
+          state.whenOrNull(error: (error) => context.showToast(error));
+        },
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => Container(),
