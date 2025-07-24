@@ -114,6 +114,7 @@ class GroupDetailPage extends StatelessWidget {
                                         maxLines: 1,
                                       ),
                                     ),
+                                    // TODO : 그룹 인증 기능 추가 시 개발 필요
                                     // SizedBox(width: 5),
                                     // Assets.icons.badgeCheck.svg()
                                   ],
