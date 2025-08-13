@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class InfiniteScroll extends StatelessWidget {
+class InfiniteScroll extends StatefulWidget {
   const InfiniteScroll({
     super.key,
     required this.onLoadMore,
@@ -15,50 +15,32 @@ class InfiniteScroll extends StatelessWidget {
   final ScrollController? controller;
 
   @override
-  Widget build(BuildContext context) {
-    return _Inner(
-      controller: controller ?? PrimaryScrollController.of(context),
-      onLoadMore: onLoadMore,
-      slivers: slivers,
-      threshold: threshold,
-    );
-  }
+  State<InfiniteScroll> createState() => _InfiniteScrollState();
 }
 
-class _Inner extends StatefulWidget {
-  const _Inner({
-    required this.onLoadMore,
-    required this.slivers,
-    this.threshold = 200,
-    required this.controller,
-  });
+class _InfiniteScrollState extends State<InfiniteScroll> {
+  late final ScrollController _controller;
 
-  final ScrollController controller;
-  final VoidCallback onLoadMore;
-  final List<Widget> slivers;
-  final int threshold;
-
-  @override
-  State<_Inner> createState() => _InnerState();
-}
-
-class _InnerState extends State<_Inner> {
   @override
   void initState() {
     super.initState();
-    widget.controller.addListener(_onScroll);
+    _controller = widget.controller ?? ScrollController();
+    _controller.addListener(_onScroll);
   }
 
   @override
   void dispose() {
-    widget.controller.removeListener(_onScroll);
+    _controller.removeListener(_onScroll);
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
   bool get _isBottom {
-    if (!widget.controller.hasClients) return false;
-    final maxScroll = widget.controller.position.maxScrollExtent;
-    final currentScroll = widget.controller.offset;
+    if (!_controller.hasClients) return false;
+    final maxScroll = _controller.position.maxScrollExtent;
+    final currentScroll = _controller.offset;
     return currentScroll >= maxScroll - widget.threshold;
   }
 
@@ -69,8 +51,8 @@ class _InnerState extends State<_Inner> {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
-      physics: AlwaysScrollableScrollPhysics(),
-      controller: widget.controller,
+      physics: const AlwaysScrollableScrollPhysics(),
+      controller: _controller,
       slivers: widget.slivers,
     );
   }
