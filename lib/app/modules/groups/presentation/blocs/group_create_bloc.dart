@@ -94,5 +94,5 @@ sealed class GroupCreateState with _$GroupCreateState {
   bool get isNameEmpty => draft.name.isEmpty;
   bool get isImageEmpty => draft.image == null;
   bool get isDescriptionEmpty => draft.description.isEmpty;
-  bool get isNotionPageIdEmpty => draft.notionPageId!.isEmpty;
+  bool get isNotionPageIdEmpty => draft.notionPageId?.isEmpty ?? true;
 }
