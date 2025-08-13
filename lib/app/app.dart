@@ -35,6 +35,7 @@ class App extends StatelessWidget {
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           theme: AppTheme.theme,
           routerConfig: _appRouter.config(
             navigatorObservers: () => [
