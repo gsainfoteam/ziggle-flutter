@@ -35,109 +35,126 @@ class _Layout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Assets.images.notion.image(width: 30),
-            const SizedBox(width: 10),
-            Text(
-              context.t.group.creation.notion.title,
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Palette.black,
+    return BlocListener<GroupCreateBloc, GroupCreateState>(
+      listener: (context, state) {
+        state.whenOrNull(
+          done: (_, __) {
+            context.router
+                .popUntilRouteWithName(GroupCreationProfileRoute.name);
+            context.replaceRoute(const GroupCreationDoneRoute());
+          },
+          error: (_, error) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(error),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Text.rich(
-          context.t.group.creation.notion.description(
-            strong: (text) => TextSpan(
-              text: text,
-              style: const TextStyle(color: Palette.primary),
-            ),
-          ),
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: Palette.grayText,
-          ),
-        ),
-        const SizedBox(height: 30),
-        BlocBuilder<GroupCreateBloc, GroupCreateState>(
-          builder: (context, state) {
-            return ZiggleInput(
-              onChanged: (v) {
-                context
-                    .read<GroupCreateBloc>()
-                    .add(GroupCreateEvent.setNotionPageId(v));
-                context.read<NotionBloc>().add(NotionEvent.load(notionLink: v));
-              },
-              hintText: context.t.group.creation.notion.hint,
             );
           },
-        ),
-        Column(
-          children: [
-            SizedBox(height: 30),
-            BlocBuilder<NotionBloc, NotionState>(
-              builder: (context, state) {
-                return state.maybeWhen(
-                  done: (data) => NotionPageBuilder(blocksMap: data),
-                  error: (error) => loading(error),
-                  orElse: () =>
-                      loading(context.t.group.creation.notion.loading),
-                );
-              },
-            ),
-            SizedBox(height: 30),
-          ],
-        ),
-        Row(
-          children: [
-            Expanded(
-              child: ZiggleButton.cta(
-                outlined: true,
-                onPressed: () => context.maybePop(),
-                child: Text(context.t.common.back),
+        );
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Assets.images.notion.image(width: 30),
+              const SizedBox(width: 10),
+              Text(
+                context.t.group.creation.notion.title,
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Palette.black,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text.rich(
+            context.t.group.creation.notion.description(
+              strong: (text) => TextSpan(
+                text: text,
+                style: const TextStyle(color: Palette.primary),
               ),
             ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: BlocBuilder<NotionBloc, NotionState>(
-                builder: (context, notionState) {
-                  return BlocBuilder<GroupCreateBloc, GroupCreateState>(
-                    builder: (context, state) {
-                      return ZiggleButton.cta(
-                        onPressed: () {
-                          context
-                              .read<GroupCreateBloc>()
-                              .add(const GroupCreateEvent.create());
-                          context.router.popUntilRouteWithName(
-                              GroupCreationProfileRoute.name);
-                          context.replaceRoute(const GroupCreationDoneRoute());
-                        },
-                        loading: state.isLoading,
-                        emphasize: !state.isNotionPageIdEmpty &&
-                            notionState.isNotionIdValid,
-                        disabled: !state.isNotionPageIdEmpty &&
-                            !notionState.isNotionIdValid,
-                        child: state.isNotionPageIdEmpty
-                            ? Text(context.t.common.skip)
-                            : Text(context.t.common.next),
-                      );
-                    },
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Palette.grayText,
+            ),
+          ),
+          const SizedBox(height: 30),
+          BlocBuilder<GroupCreateBloc, GroupCreateState>(
+            builder: (context, state) {
+              return ZiggleInput(
+                onChanged: (v) {
+                  context
+                      .read<GroupCreateBloc>()
+                      .add(GroupCreateEvent.setNotionPageId(v));
+                  context
+                      .read<NotionBloc>()
+                      .add(NotionEvent.load(notionLink: v));
+                },
+                hintText: context.t.group.creation.notion.hint,
+              );
+            },
+          ),
+          Column(
+            children: [
+              SizedBox(height: 30),
+              BlocBuilder<NotionBloc, NotionState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                    done: (data) => NotionPageBuilder(blocksMap: data),
+                    error: (error) => loading(error),
+                    orElse: () =>
+                        loading(context.t.group.creation.notion.loading),
                   );
                 },
               ),
-            ),
-          ],
-        )
-      ],
+              SizedBox(height: 30),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: ZiggleButton.cta(
+                  outlined: true,
+                  onPressed: () => context.maybePop(),
+                  child: Text(context.t.common.back),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: BlocBuilder<NotionBloc, NotionState>(
+                  builder: (context, notionState) {
+                    return BlocBuilder<GroupCreateBloc, GroupCreateState>(
+                      builder: (context, state) {
+                        return ZiggleButton.cta(
+                          onPressed: () {
+                            context
+                                .read<GroupCreateBloc>()
+                                .add(const GroupCreateEvent.create());
+                          },
+                          loading: state.isLoading,
+                          emphasize: !state.isNotionPageIdEmpty &&
+                              notionState.isNotionIdValid,
+                          disabled: !state.isNotionPageIdEmpty &&
+                              !notionState.isNotionIdValid,
+                          child: state.isNotionPageIdEmpty
+                              ? Text(context.t.common.skip)
+                              : Text(context.t.common.next),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 
