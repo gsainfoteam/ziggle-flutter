@@ -16,7 +16,7 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
 
   GroupCreateBloc(this._repository) : super(const _Draft()) {
     on<_SetName>((event, emit) async {
-      if (!state.isNameEmpty) {
+      if (event.name.isNotEmpty) {
         final isExisted = await _repository.checkGroupExistence(event.name);
         if (isExisted) {
           emit(_Error(state.draft, 'Group name already exists'));
