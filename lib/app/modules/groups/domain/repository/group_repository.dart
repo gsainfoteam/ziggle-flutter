@@ -56,4 +56,5 @@ abstract class GroupRepository {
   Future<void> deleteRole(String groupUuid, int roleId);
   Future<void> deleteGroup(String uuid);
   Future<void> leaveGroup(String groupUuid);
+  Future<bool> checkGroupExistence(String name);
 }

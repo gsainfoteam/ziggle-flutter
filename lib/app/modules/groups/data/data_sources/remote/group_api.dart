@@ -5,6 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/group_existence_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_invite_code_response_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_item_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
@@ -46,7 +47,7 @@ abstract class GroupApi {
   );
 
   @GET('{name}/exist')
-  Future<String> checkGroupExistence(@Path('name') String name);
+  Future<GroupExistenceModel> checkGroupExistence(@Path('name') String name);
 
   @POST('{uuid}/image')
   @MultiPart()

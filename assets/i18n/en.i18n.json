@@ -87,7 +87,8 @@
         "header": "Update Notion Page Link",
         "hintText": "Enter Notion Link",
         "loading": "Loading Notion...",
-        "error": "Failed Loading Notion Link"
+        "error": "Failed Loading Notion Link",
+        "empty": "Please enter the Notion link"
       },
       "invite": {
         "header": "Generate Invite Link",

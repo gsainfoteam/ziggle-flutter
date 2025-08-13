@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/common/presentation/utils/reactive.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/notion_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 part 'notion_bloc.freezed.dart';
@@ -15,26 +16,16 @@ class NotionBloc extends Bloc<NotionEvent, NotionState> {
       emit(NotionState.loading());
       final notionLink = event.notionLink;
       if (notionLink.isEmpty) {
-        emit(NotionState.error(t.group.manage.notionLink.error));
+        emit(NotionState.error(t.group.manage.notionLink.empty));
         return;
       }
       try {
-        RegExp regex = RegExp(r'(?:notion\.so/)?(?:[^/]+/)?([a-f0-9]{32})');
-        String? notionId = regex.firstMatch(notionLink)?.group(0);
-        if (notionId != null && notionId != '') {
-          final data = await _repository.getNotionPage(notionId);
-          if (data.isNotEmpty) {
-            emit(NotionState.done(data));
-          } else {
-            emit(NotionState.error(t.group.manage.notionLink.error));
-          }
-        } else {
-          emit(NotionState.error(t.group.manage.notionLink.error));
-        }
+        final data = await _repository.getNotionPage(notionLink);
+        emit(NotionState.done(data));
       } catch (e) {
         emit(NotionState.error(e.toString()));
       }
-    });
+    }, transformer: makeEventThrottler());
   }
 }
 

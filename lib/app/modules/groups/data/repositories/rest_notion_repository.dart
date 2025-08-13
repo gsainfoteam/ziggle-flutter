@@ -10,8 +10,13 @@ class RestNotionRepository implements NotionRepository {
   RestNotionRepository(this._api);
 
   @override
-  Future<Map<String, dynamic>> getNotionPage(String pageId) async {
+  Future<Map<String, dynamic>> getNotionPage(String notionLink) async {
     try {
+      RegExp regex = RegExp(r'(?:notion\.so/)?(?:[^/]+/)?([a-f0-9]{32})');
+      String? pageId = regex.firstMatch(notionLink)?.group(0);
+      if (pageId == null) {
+        throw Exception('Invalid notion link');
+      }
       final raw = await _api.getGroups(pageId);
 
       final Map<String, dynamic> parse = notionParser(raw);
