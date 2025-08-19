@@ -36,8 +36,9 @@ class _ProfilePageState extends State<ProfilePage>
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SingleChildScrollView(
+        controller: ScrollController(),
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
