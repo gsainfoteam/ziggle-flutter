@@ -34,7 +34,8 @@
       "profile": {
         "name": {
           "label": "Group Name",
-          "hint": "인포팀 (Infoteam)"
+          "hint": "인포팀 (Infoteam)",
+          "sameNameError": "Group name already exists"
         }
       },
       "introduce": {

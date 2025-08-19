@@ -7,6 +7,7 @@ import 'package:ziggle/app/modules/common/presentation/utils/reactive.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_create_draft_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 part 'group_create_bloc.freezed.dart';
 
@@ -19,7 +20,8 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
       if (event.name.isNotEmpty) {
         final isExisted = await _repository.checkGroupExistence(event.name);
         if (isExisted) {
-          emit(_Error(state.draft, 'Group name already exists'));
+          emit(
+              _Error(state.draft, t.group.creation.profile.name.sameNameError));
           return;
         }
       }
