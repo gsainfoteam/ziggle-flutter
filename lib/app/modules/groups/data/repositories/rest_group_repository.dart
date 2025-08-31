@@ -6,6 +6,7 @@ import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
+import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/authority_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';
@@ -13,6 +14,7 @@ import 'package:ziggle/app/modules/groups/domain/entities/member_list_entity.dar
 import 'package:ziggle/app/modules/groups/domain/entities/role_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/role_list_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
+import 'package:ziggle/app/values/strings.dart';
 
 @Singleton(as: GroupRepository)
 class RestGroupRepository implements GroupRepository {
@@ -82,15 +84,26 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<String> createInviteLink(
-      {required String uuid, required int duration}) async {
-    final response = await _api.createInviteCode(uuid, duration);
-    return response.code;
+  Future<String> createInviteLink({
+    required GroupEntity group,
+    required GroupMemberRole role,
+    required Duration durationDays,
+  }) async {
+    final response = await _api.createInviteCode(
+        group.uuid, role.toInt(), durationDays.inDays);
+    final inviteLink =
+        "${Strings.groupsBaseUrl}/invite/${response.code}/${group.uuid}";
+    return inviteLink;
   }
 
   @override
   Future<MemberListEntity> getMembers(String uuid) async {
     return _api.getMembers(uuid);
+  }
+
+  @override
+  Future<RoleEntity> getUserRoleInGroup(String uuid) {
+    return _api.getUserRoleInGroup(uuid);
   }
 
   @override
@@ -100,9 +113,8 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<void> leaveGroup(String uuid) {
-    // TODO: implement leaveGroup
-    throw UnimplementedError();
+  Future<void> leaveGroup(String groupUuid) async {
+    await _api.leaveGroup(groupUuid);
   }
 
   @override

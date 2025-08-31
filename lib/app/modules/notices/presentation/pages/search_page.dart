@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/date_time.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
@@ -64,15 +67,7 @@ class _LayoutState extends State<_Layout> {
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() {
-      setState(noop);
-      final bloc = context.read<NoticeListBloc>();
-      if (_controller.text.isNotEmpty) {
-        bloc.add(NoticeListEvent.load(NoticeType.all, query: _controller.text));
-      } else {
-        bloc.add(const NoticeListEvent.reset());
-      }
-    });
+    _controller.addListener(() => setState(noop));
   }
 
   @override
@@ -95,6 +90,8 @@ class _LayoutState extends State<_Layout> {
                 Expanded(
                   child: CupertinoSearchTextField(
                     controller: _controller,
+                    onChanged: (value) => context.read<NoticeListBloc>().add(
+                        NoticeListEvent.load(NoticeType.all, query: value)),
                     prefixIcon: Assets.icons.search.svg(width: 20),
                     placeholder: context.t.notice.search.hint,
                     suffixIcon: const Icon(Icons.cancel),

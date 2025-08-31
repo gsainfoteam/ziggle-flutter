@@ -49,15 +49,15 @@ class GroupManagementMemberPage extends StatelessWidget {
                           itemBuilder: (context, index) =>
                               GroupMemberCard.editMode(
                             name: members[index].name,
-                            email: members[index].email,
-                            role: members[index].role,
+                            email: members[index].email!,
+                            role: members[index].role!,
                             onChanged: (e) {
                               context.read<GroupMemberBloc>().add(
                                   GroupMemberEvent.grantRoleToUser(
                                       uuid,
                                       members[index].uuid,
                                       e!,
-                                      members[index].role));
+                                      members[index].role!));
                             },
                             onBanish: () {
                               context.showDialog<bool>(

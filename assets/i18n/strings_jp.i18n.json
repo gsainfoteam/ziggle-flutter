@@ -98,7 +98,10 @@
         "header": "メンバーを管理"
       },
       "delete": "グループを削除",
-      "leave": "グループから退出"
+      "leave": {
+        "name": "グループから退出",
+        "error": "グループのリーダーはグループを離れることができません"
+      }
     },
     "memberCard": {
       "role": {
@@ -113,19 +116,19 @@
     },
     "detail": {
       "appBar": {
-        "backLabel": "Список",
-        "title": "Информация о группе",
-        "action": "Управление"
+        "backLabel": "リスト",
+        "title": "グループ情報",
+        "action": "管理"
       },
       "memberCount": "$n 人",
-      "noticeCount": "$n Уведомлений",
+      "noticeCount": "$n 通知",
       "tab": {
-        "introduction": "Введение",
-        "notice": "Объявления",
-        "member": "Участники"
+        "introduction": "紹介",
+        "notice": "お知らせ",
+        "member": "メンバー"
       },
-      "favorite": "Избранное",
-      "notionRequest": "Зарегистрируйте страницу в Notion."
+      "favorite": "お気に入り",
+      "noGroupNotionPage": "グループの紹介はありません。"
     }
   },
   "notice": {

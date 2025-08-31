@@ -3,13 +3,13 @@ import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
 class MemberEntity {
   final String uuid;
   final String name;
-  final String email;
-  final GroupMemberRole role;
+  final String? email;
+  final GroupMemberRole? role;
 
   MemberEntity({
     required this.uuid,
     required this.name,
-    required this.email,
-    required this.role,
+    this.email,
+    this.role,
   });
 }

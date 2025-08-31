@@ -7,10 +7,10 @@ import 'package:ziggle/gen/strings.g.dart';
 
 class GroupMemberCard extends StatelessWidget {
   final String name;
-  final String email;
+  final String? email;
   final VoidCallback? onBanish;
   final bool editMode;
-  final GroupMemberRole role;
+  final GroupMemberRole? role;
   final ValueChanged<GroupMemberRole?>? onChanged;
 
   const GroupMemberCard.editMode({
@@ -65,21 +65,22 @@ class GroupMemberCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 2),
-                  Text(
-                    email,
-                    style: const TextStyle(
-                      color: Palette.black,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
+                  if (email != null)
+                    Text(
+                      email!,
+                      style: const TextStyle(
+                        color: Palette.black,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
                 ],
               ),
               if (editMode != true)
                 Padding(
                   padding: const EdgeInsets.only(right: 5),
                   child: Text(
-                    role.toLocalizedString(context),
+                    role?.toLocalizedString(context) ?? '',
                     style: const TextStyle(
                       color: Palette.grayText,
                       fontSize: 14,

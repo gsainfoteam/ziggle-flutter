@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/common/presentation/utils/reactive.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
@@ -36,7 +37,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
       } catch (e) {
         emit(_Error(e.toString()));
       }
-    });
+    }, transformer: makeEventThrottler());
     on<_Refresh>((event, emit) async {
       try {
         emit(_Loading(notices: state.notices, total: state.total));

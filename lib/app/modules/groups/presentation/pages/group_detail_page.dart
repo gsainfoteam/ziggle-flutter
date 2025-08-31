@@ -97,41 +97,47 @@ class GroupDetailPage extends StatelessWidget {
                           else
                             Assets.images.groupDefaultProfile.image(width: 90),
                           const SizedBox(width: 15),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    group.name,
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                  // SizedBox(width: 5),
-                                  // Assets.icons.badgeCheck.svg()
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  BlocBuilder<NoticeListBloc, NoticeListState>(
-                                    builder: (context, state) {
-                                      return Text(
-                                        t.group.detail
-                                            .noticeCount(n: state.total),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        group.name,
                                         style: TextStyle(
-                                          fontSize: 16,
-                                          color: Palette.grayText,
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                    // TODO : 그룹 인증 기능 추가 시 개발 필요
+                                    // SizedBox(width: 5),
+                                    // Assets.icons.badgeCheck.svg()
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    BlocBuilder<NoticeListBloc,
+                                        NoticeListState>(
+                                      builder: (context, state) {
+                                        return Text(
+                                          t.group.detail
+                                              .noticeCount(n: state.total),
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Palette.grayText,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           )
                         ],
                       ),
@@ -233,7 +239,7 @@ class NotionTabBarView extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          t.group.detail.notionRequest,
+                          t.group.detail.noGroupNotionPage,
                           style: const TextStyle(
                             color: Palette.grayText,
                             fontSize: 14,
@@ -317,9 +323,10 @@ class MemberTabBarView extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final member = members.list[index];
                       return GroupMemberCard.viewMode(
-                          name: member.name,
-                          email: member.email,
-                          role: member.role);
+                        name: member.name,
+                        email: member.email,
+                        role: member.role,
+                      );
                     },
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 5),

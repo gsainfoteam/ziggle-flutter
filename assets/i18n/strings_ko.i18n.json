@@ -98,7 +98,10 @@
         "header": "멤버 관리"
       },
       "delete": "그룹 삭제",
-      "leave": "그룹 나가기"
+      "leave": {
+        "name": "그룹 나가기",
+        "error": "그룹장은 그룹을 나갈 수 없습니다"
+      }
     },
     "memberCard": {
       "role": {
@@ -125,7 +128,7 @@
         "member": "멤버"
       },
       "favorite": "즐겨찾기",
-      "notionRequest": "노션 페이지를 등록해주세요."
+      "noGroupNotionPage": "그룹 소개가 없습니다."
     }
   },
   "notice": {

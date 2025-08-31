@@ -3,6 +3,7 @@ import 'package:ziggle/app/modules/auth/data/data_sources/remote/base_auth_api.d
 import 'package:ziggle/app/modules/auth/domain/repositories/auth_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/oauth_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/group_user_entity.dart';
 
 abstract class RestAuthRepository implements AuthRepository {
   final BaseAuthApi _api;
@@ -46,5 +47,10 @@ abstract class RestAuthRepository implements AuthRepository {
     await _tokenRepository.deleteToken();
     await _cookieManager.cookieJar.deleteAll();
     await _oAuthRepository.setRecentLogout();
+  }
+
+  @override
+  Future<GroupUserEntity> info() async {
+    return await _api.info();
   }
 }

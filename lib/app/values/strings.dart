@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class Strings {
@@ -22,4 +23,7 @@ abstract class Strings {
   static const idPRedirectUri = 'ziggle-idp-login-redirect://callback';
   static const recruitmentUrl =
       'https://infoteam-rulrudino.notion.site/185365ea27df802683e0c7374f964784?pvs=105';
+  static final groupsBaseUrl = kDebugMode
+      ? "https://stg.groups.gistory.me"
+      : "https://groups.gistory.me";
 }

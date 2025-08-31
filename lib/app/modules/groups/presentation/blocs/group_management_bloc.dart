@@ -5,6 +5,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
+import 'package:ziggle/app/modules/user/data/repositories/groups_rest_auth_repository.dart';
+import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 part 'group_management_bloc.freezed.dart';
 
@@ -12,9 +15,11 @@ part 'group_management_bloc.freezed.dart';
 class GroupManagementBloc
     extends Bloc<GroupManagementEvent, GroupManagementState> {
   final GroupRepository _repository;
+  final RestAuthRepository _authRepository;
   late GroupEntity _group;
 
-  GroupManagementBloc(this._repository)
+  GroupManagementBloc(this._repository,
+      @Named.from(GroupsRestAuthRepository) this._authRepository)
       : super(GroupManagementState.initial()) {
     on<_Load>((event, emit) async {
       emit(GroupManagementState.loading());
@@ -82,8 +87,13 @@ class GroupManagementBloc
     });
     on<_Leave>((event, emit) async {
       emit(GroupManagementState.loading());
-      await _repository.leaveGroup(event.uuid);
-      emit(GroupManagementState.done());
+      try {
+        await _repository.leaveGroup(event.uuid);
+        emit(GroupManagementState.done());
+      } on Exception {
+        emit(GroupManagementState.error(t.group.manage.leave.error));
+        return;
+      }
     });
   }
 }

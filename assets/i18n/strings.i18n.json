@@ -98,7 +98,10 @@
         "header": "Manage Members"
       },
       "delete": "Delete Group",
-      "leave": "Leave Group"
+      "leave": {
+        "name": "Leave Group",
+        "error": "The group leader cannot leave the group."
+      }
     },
     "memberCard": {
       "role": {
@@ -125,7 +128,7 @@
         "member": "Member"
       },
       "favorite": "Favorite",
-      "notionRequest": "Register the Notion page."
+      "noGroupNotionPage": "There is no group introduction"
     }
   },
   "notice": {

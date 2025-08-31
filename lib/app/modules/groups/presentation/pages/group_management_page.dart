@@ -6,11 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_row_button.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_bloc.dart';
+import 'package:ziggle/app/modules/groups/presentation/blocs/group_role_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -28,7 +30,10 @@ class GroupManagementPage extends StatelessWidget {
         backLabel: context.t.group.manage.back,
         title: Text(context.t.group.manage.header),
       ),
-      body: BlocBuilder<GroupManagementBloc, GroupManagementState>(
+      body: BlocConsumer<GroupManagementBloc, GroupManagementState>(
+        listener: (context, state) {
+          state.whenOrNull(error: (error) => context.showToast(error));
+        },
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => Container(),
@@ -37,10 +42,6 @@ class GroupManagementPage extends StatelessWidget {
               child: Lottie.asset(Assets.lotties.loading,
                   height: MediaQuery.of(context).size.width * 0.2,
                   width: MediaQuery.of(context).size.width * 0.2),
-            ),
-            error: (message) => Text(
-              '오류 발생: $message',
-              style: TextStyle(color: Colors.red),
             ),
             success: (group) {
               return SingleChildScrollView(
@@ -111,67 +112,134 @@ class GroupManagementPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 48),
-                      ZiggleRowButton(
-                        showChevron: true,
-                        title: Text(context.t.group.manage.name.header),
-                        onPressed: () => GroupManagementNameRoute(
-                          uuid: group.uuid,
-                          name: group.name,
-                        ).push(context),
+                      BlocBuilder<GroupRoleBloc, GroupRoleState>(
+                        builder: (context, state) {
+                          final enabled = state.maybeWhen(
+                            loaded: (role) => role.isAdmin(),
+                            orElse: () => false,
+                          );
+                          return ZiggleRowButton(
+                            showChevron: true,
+                            disabled: !enabled,
+                            trailingIcon:
+                                enabled ? null : Assets.icons.lock.svg(),
+                            title: Text(context.t.group.manage.name.header),
+                            onPressed: () => GroupManagementNameRoute(
+                              uuid: group.uuid,
+                              name: group.name,
+                            ).push(context),
+                          );
+                        },
                       ),
                       const SizedBox(height: 20),
-                      ZiggleRowButton(
-                        showChevron: true,
-                        title: Text(context.t.group.manage.description.header),
-                        onPressed: () => GroupManagementDescriptionRoute(
-                          uuid: group.uuid,
-                          description: group.description,
-                        ).push(context),
+                      BlocBuilder<GroupRoleBloc, GroupRoleState>(
+                        builder: (context, state) {
+                          final enabled = state.maybeWhen(
+                            loaded: (role) => role.isAdmin(),
+                            orElse: () => false,
+                          );
+                          return ZiggleRowButton(
+                            showChevron: true,
+                            disabled: !enabled,
+                            trailingIcon:
+                                enabled ? null : Assets.icons.lock.svg(),
+                            title:
+                                Text(context.t.group.manage.description.header),
+                            onPressed: () => GroupManagementDescriptionRoute(
+                              uuid: group.uuid,
+                              description: group.description,
+                            ).push(context),
+                          );
+                        },
                       ),
                       const SizedBox(height: 20),
-                      ZiggleRowButton(
-                        showChevron: true,
-                        title: Text(context.t.group.manage.notionLink.header),
-                        onPressed: () => GroupManagementNotionRoute(
-                          uuid: group.uuid,
-                          notionLink: group.notionPageId,
-                        ).push(context),
+                      BlocBuilder<GroupRoleBloc, GroupRoleState>(
+                        builder: (context, state) {
+                          final enabled = state.maybeWhen(
+                            loaded: (role) => role.isAdmin(),
+                            orElse: () => false,
+                          );
+                          return ZiggleRowButton(
+                            showChevron: true,
+                            disabled: !enabled,
+                            trailingIcon:
+                                enabled ? null : Assets.icons.lock.svg(),
+                            title:
+                                Text(context.t.group.manage.notionLink.header),
+                            onPressed: () => GroupManagementNotionRoute(
+                              uuid: group.uuid,
+                              notionLink: group.notionPageId,
+                            ).push(context),
+                          );
+                        },
                       ),
                       const SizedBox(height: 20),
-                      ZiggleRowButton(
-                        showChevron: true,
-                        title: Text(context.t.group.manage.invite.header),
-                        onPressed: () =>
-                            GroupManagementInvitationLinkRoute(uuid: group.uuid)
-                                .push(context),
+                      BlocBuilder<GroupRoleBloc, GroupRoleState>(
+                        builder: (context, state) {
+                          final enabled = state.maybeWhen(
+                            loaded: (role) =>
+                                role.isAdmin() || role.isManager(),
+                            orElse: () => false,
+                          );
+                          return ZiggleRowButton(
+                            showChevron: true,
+                            disabled: !enabled,
+                            trailingIcon:
+                                enabled ? null : Assets.icons.lock.svg(),
+                            title: Text(context.t.group.manage.invite.header),
+                            onPressed: () =>
+                                GroupManagementInvitationLinkRoute(group: group)
+                                    .push(context),
+                          );
+                        },
                       ),
                       const SizedBox(height: 20),
-                      ZiggleRowButton(
-                        showChevron: true,
-                        title: Text(context.t.group.manage.member.header),
-                        onPressed: () =>
-                            GroupManagementMemberRoute(uuid: group.uuid)
-                                .push(context),
+                      BlocBuilder<GroupRoleBloc, GroupRoleState>(
+                        builder: (context, state) {
+                          final enabled = state.maybeWhen(
+                            loaded: (role) => role.isAdmin(),
+                            orElse: () => false,
+                          );
+                          return ZiggleRowButton(
+                            showChevron: true,
+                            disabled: !enabled,
+                            trailingIcon:
+                                enabled ? null : Assets.icons.lock.svg(),
+                            title: Text(context.t.group.manage.member.header),
+                            onPressed: () =>
+                                GroupManagementMemberRoute(uuid: group.uuid)
+                                    .push(context),
+                          );
+                        },
                       ),
                       const SizedBox(height: 40),
-                      ZiggleRowButton(
-                        showChevron: false,
-                        title: Text(
-                          context.t.group.manage.delete,
-                          style: TextStyle(color: Palette.primary),
-                        ),
-                        onPressed: () async {
-                          await context.showDialog<bool>(
-                            title:
-                                context.t.group.manage.deleteConfirmationTitle,
-                            content: context
-                                .t.group.manage.deleteConfirmationMessage,
-                            onConfirm: (dialogContext) {
-                              context.read<GroupManagementBloc>().add(
-                                    GroupManagementEvent.delete(group.uuid),
-                                  );
-                              context.router
-                                  .navigate(GroupManagementMainRoute());
+                      BlocBuilder<GroupRoleBloc, GroupRoleState>(
+                        builder: (context, state) {
+                          final enabled = state.maybeWhen(
+                            loaded: (role) => role.isAdmin(),
+                            orElse: () => false,
+                          );
+                          return ZiggleRowButton(
+                            destructive: true,
+                            showChevron: false,
+                            disabled: !enabled,
+                            trailingIcon:
+                                enabled ? null : Assets.icons.lock.svg(),
+                            title: Text(context.t.group.manage.delete),
+                            onPressed: () async {
+                              await context.showDialog<bool>(
+                                title: context
+                                    .t.group.manage.deleteConfirmationTitle,
+                                content: context
+                                    .t.group.manage.deleteConfirmationMessage,
+                                onConfirm: (dialogContext) {
+                                  context.read<GroupManagementBloc>().add(
+                                        GroupManagementEvent.delete(group.uuid),
+                                      );
+                                  context.router
+                                      .navigate(GroupManagementMainRoute());
+                                },
+                              );
                             },
                           );
                         },
@@ -180,7 +248,7 @@ class GroupManagementPage extends StatelessWidget {
                       ZiggleRowButton(
                         showChevron: false,
                         title: Text(
-                          context.t.group.manage.leave,
+                          context.t.group.manage.leave.name,
                           style: TextStyle(
                             color: Palette.primary,
                           ),

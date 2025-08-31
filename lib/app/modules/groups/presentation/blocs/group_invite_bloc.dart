@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
 
 part 'group_invite_bloc.freezed.dart';
@@ -12,16 +14,19 @@ class GroupInviteBloc extends Bloc<GroupInviteEvent, GroupInviteState> {
   GroupInviteBloc(this._repository) : super(const GroupInviteState.initial()) {
     on<_Create>((event, emit) async {
       emit(const GroupInviteState.loading());
-      final inviteCode = await _repository.createInviteLink(
-          uuid: event.uuid, duration: event.duration);
-      emit(GroupInviteState.success(inviteCode));
+      final inviteLink = await _repository.createInviteLink(
+          group: event.group,
+          role: GroupMemberRole.member,
+          durationDays: Duration(days: event.duration));
+      emit(GroupInviteState.success(inviteLink));
     });
   }
 }
 
 @freezed
 class GroupInviteEvent with _$GroupInviteEvent {
-  const factory GroupInviteEvent.create(String uuid, int duration) = _Create;
+  const factory GroupInviteEvent.create(GroupEntity group, int duration) =
+      _Create;
 }
 
 @freezed

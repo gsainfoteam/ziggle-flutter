@@ -25,6 +25,12 @@ enum GroupMemberRole {
         return 3;
     }
   }
+
+  bool isAdmin() => this == GroupMemberRole.admin;
+
+  bool isManager() => this == GroupMemberRole.manager;
+
+  bool isMember() => this == GroupMemberRole.member;
 }
 
 extension GroupMemberRoleX on GroupMemberRole {
