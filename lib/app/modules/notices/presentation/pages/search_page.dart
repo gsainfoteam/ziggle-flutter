@@ -149,7 +149,8 @@ class _LayoutState extends State<_Layout> {
                           onLoadMore: () => NoticeListBloc.loadMore(context),
                           slivers: [
                             SliverPadding(
-                              padding: const EdgeInsets.only(left: 16),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               sliver: _buildList(state),
                             ),
                           ],
