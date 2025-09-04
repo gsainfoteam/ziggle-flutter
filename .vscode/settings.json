@@ -1,4 +1,7 @@
 {
   "cSpell.words": ["pressable", "SHORTWEEKDAYS", "ziggle"],
-  "files.readonlyInclude": { "assets/i18n/*": true }
+  "files.readonlyInclude": {
+    "assets/i18n/*": true
+  },
+  "java.configuration.updateBuildConfiguration": "interactive"
 }
