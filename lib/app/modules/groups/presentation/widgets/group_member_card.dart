@@ -11,6 +11,9 @@ class GroupMemberCard extends StatelessWidget {
   final VoidCallback? onBanish;
   final bool editMode;
   final GroupMemberRole? role;
+  final String uuid;
+  final String myUuid;
+  final String presidentUuid;
   final ValueChanged<GroupMemberRole?>? onChanged;
 
   const GroupMemberCard.editMode({
@@ -20,6 +23,9 @@ class GroupMemberCard extends StatelessWidget {
     required this.role,
     required this.onBanish,
     required this.onChanged,
+    required this.uuid,
+    required this.myUuid,
+    required this.presidentUuid,
   }) : editMode = true;
 
   const GroupMemberCard.viewMode({
@@ -29,7 +35,10 @@ class GroupMemberCard extends StatelessWidget {
     required this.role,
   })  : editMode = false,
         onBanish = null,
-        onChanged = null;
+        onChanged = null,
+        uuid = "3141592",
+        myUuid = "1618033",
+        presidentUuid = "2718281";
 
   @override
   Widget build(BuildContext context) {
@@ -98,23 +107,55 @@ class GroupMemberCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: ZiggleSelect(
-                      onChanged: onChanged,
-                      value: role,
-                      small: true,
-                      hintText: context.t.group.memberCard.role.role,
-                      entries: GroupMemberRole.values
-                          .map((value) => ZiggleSelectEntry(
-                              value: value,
-                              label: value.toLocalizedString(context)))
-                          .toList(),
-                    ),
+                    child: (uuid == presidentUuid)
+                        ? Container(
+                            padding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10) +
+                                const EdgeInsets.only(left: 2),
+                            decoration: const BoxDecoration(
+                              border: Border.fromBorderSide(
+                                BorderSide(
+                                    color: Palette.grayBorder, strokeAlign: 1),
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Palette.grayLight,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  context.t.group.memberCard.role.president,
+                                  style: TextStyle(
+                                    color: Palette.primary,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : ZiggleSelect(
+                            onChanged: onChanged,
+                            value: role,
+                            small: true,
+                            hintText: context.t.group.memberCard.role.role,
+                            entries: (presidentUuid == myUuid
+                                    ? GroupMemberRole.values
+                                    : GroupMemberRole.values.where(
+                                        (r) => r != GroupMemberRole.president))
+                                .map((value) => ZiggleSelectEntry(
+                                    value: value,
+                                    label: value.toLocalizedString(context)))
+                                .toList(),
+                          ),
                   ),
-                  const SizedBox(width: 10),
-                  ZiggleButton.small(
-                    onPressed: onBanish,
-                    child: Text(context.t.group.memberCard.banish),
-                  )
+                  if (uuid != presidentUuid) const SizedBox(width: 10),
+                  if (uuid != presidentUuid)
+                    ZiggleButton.small(
+                      onPressed: onBanish,
+                      child: Text(context.t.group.memberCard.banish),
+                    )
                 ],
               ),
             )
