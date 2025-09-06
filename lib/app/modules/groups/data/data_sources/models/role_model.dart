@@ -11,7 +11,7 @@ sealed class RoleModel with _$RoleModel implements RoleEntity {
     required int id,
     required GroupMemberRole name,
     required String groupUuid,
-    required List<String> authorities,
+    required List<String> permissions,
   }) = _RoleModel;
 
   factory RoleModel.fromJson(Map<String, dynamic> json) =>
