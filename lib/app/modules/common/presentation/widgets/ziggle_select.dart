@@ -102,14 +102,16 @@ class _ZiggleSelectState<T> extends State<ZiggleSelect<T>> {
                     index == 0 ? null : widget.entries.elementAt(index - 1);
                 return GestureDetector(
                   onTap: () {
-                    widget.onChanged?.call(item?.value);
-                    Future.delayed(
-                      const Duration(milliseconds: 100),
-                      () {
-                        if (!mounted) return;
-                        _overlayController.hide();
-                      },
-                    );
+                    if (index != 0) {
+                      widget.onChanged?.call(item?.value);
+                      Future.delayed(
+                        const Duration(milliseconds: 100),
+                        () {
+                          if (!mounted) return;
+                          _overlayController.hide();
+                        },
+                      );
+                    }
                   },
                   onTapDown: (_) => setState(() {
                     _hovering = item;
