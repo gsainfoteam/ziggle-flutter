@@ -4,11 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/app.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/core/data/data_sources/object_box.dart';
 import 'package:ziggle/app/values/fonts.dart';
 import 'package:ziggle/app_bloc_observer.dart';
 import 'package:ziggle/firebase_options.dart';
@@ -19,7 +19,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   _initCrashlytics();
   await dotenv.load();
-  await _initHive();
+  await _initObjectBox();
   await configureDependencies();
   await _initLocale();
   _initBloc();
@@ -39,8 +39,8 @@ void _initCrashlytics() {
   }
 }
 
-Future<void> _initHive() async {
-  await Hive.initFlutter();
+Future<void> _initObjectBox() async {
+  await ObjectBox.create();
 }
 
 Future<void> _initLocale() async {
