@@ -1,7 +1,6 @@
-import 'package:objectbox/objectbox.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'objectbox.g.dart';
+import 'package:ziggle/objectbox.g.dart';
 
 class ObjectBox {
   late final Store store;
