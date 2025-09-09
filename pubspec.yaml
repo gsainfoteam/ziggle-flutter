@@ -40,6 +40,7 @@ dependencies:
   collection: ^1.18.0
   flutter_inappwebview: ^6.1.5
   url_launcher: ^6.3.0
+  path: ^1.9.1
   permission_handler: ^11.3.1
   objectbox: ^4.3.1
   objectbox_flutter_libs: ^4.3.1
