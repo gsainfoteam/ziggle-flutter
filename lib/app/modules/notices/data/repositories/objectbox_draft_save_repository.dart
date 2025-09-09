@@ -1,0 +1,32 @@
+import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/notices/data/models/notice_write_draft_model.dart';
+import 'package:ziggle/app/modules/notices/domain/entities/notice_write_draft_entity.dart';
+import 'package:ziggle/app/modules/notices/domain/repositories/draft_save_repository.dart';
+import 'package:ziggle/objectbox.g.dart';
+
+@Singleton(as: DraftSaveRepository)
+class ObjectBoxDraftSaveRepository implements DraftSaveRepository {
+  static const _boxKey = '_ziggle_4_draft';
+  late final Box<NoticeWriteDraftModel> _box;
+
+  @PostConstruct(preResolve: true)
+  Future<void> init() async {
+    final Store store = await openStore(directory: _boxKey);
+    _box = store.box<NoticeWriteDraftModel>();
+  }
+
+  @override
+  Future<void> deleteDraft() async {
+    _box.remove(0);
+  }
+
+  @override
+  Future<NoticeWriteDraftEntity?> getDraft() async {
+    return _box.get(0)?.toEntity();
+  }
+
+  @override
+  Future<void> saveDraft(NoticeWriteDraftEntity draft) async {
+    _box.put(NoticeWriteDraftModel.fromEntity(draft));
+  }
+}
