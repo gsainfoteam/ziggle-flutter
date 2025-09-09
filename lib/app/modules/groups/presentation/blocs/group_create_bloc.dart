@@ -42,7 +42,7 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
 }
 
 @freezed
-class GroupCreateEvent with _$GroupCreateEvent {
+sealed class GroupCreateEvent with _$GroupCreateEvent {
   const factory GroupCreateEvent.setName(String name) = _SetName;
   const factory GroupCreateEvent.setImage(File? image) = _SetImage;
   const factory GroupCreateEvent.setDescription(String description) =
@@ -53,7 +53,7 @@ class GroupCreateEvent with _$GroupCreateEvent {
 }
 
 @freezed
-class GroupCreateState with _$GroupCreateState {
+sealed class GroupCreateState with _$GroupCreateState {
   const GroupCreateState._();
 
   const factory GroupCreateState.draft(

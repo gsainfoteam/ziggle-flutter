@@ -7,7 +7,9 @@ part 'member_list_model.freezed.dart';
 part 'member_list_model.g.dart';
 
 @freezed
-class MemberListModel with _$MemberListModel implements MemberListEntity {
+sealed class MemberListModel
+    with _$MemberListModel
+    implements MemberListEntity {
   factory MemberListModel({
     required List<MemberModel> list,
   }) = _MemberListModel;

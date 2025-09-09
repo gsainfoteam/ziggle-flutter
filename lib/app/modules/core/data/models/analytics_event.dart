@@ -6,10 +6,9 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 part 'analytics_event.freezed.dart';
-part 'analytics_event.g.dart';
 
 @freezed
-class AnalyticsEvent with _$AnalyticsEvent {
+sealed class AnalyticsEvent with _$AnalyticsEvent {
   const AnalyticsEvent._();
   factory AnalyticsEvent.fromJson(Map<String, dynamic> json) =>
       _$AnalyticsEventFromJson(json);

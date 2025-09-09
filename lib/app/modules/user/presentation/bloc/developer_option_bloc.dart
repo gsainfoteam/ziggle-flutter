@@ -37,7 +37,7 @@ class DeveloperOptionBloc
 }
 
 @freezed
-sealed class DeveloperOptionEvent {
+sealed class DeveloperOptionEvent with _$DeveloperOptionEvent {
   const factory DeveloperOptionEvent.load() = _Load;
   const factory DeveloperOptionEvent.enable() = _Enable;
   const factory DeveloperOptionEvent.disable() = _Disable;

@@ -6,7 +6,7 @@ part 'group_item_model.freezed.dart';
 part 'group_item_model.g.dart';
 
 @freezed
-class GroupItemModel with _$GroupItemModel implements GroupEntity {
+sealed class GroupItemModel with _$GroupItemModel implements GroupEntity {
   const GroupItemModel._();
 
   const factory GroupItemModel({

@@ -129,7 +129,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
 }
 
 @freezed
-class NoticeWriteEvent {
+sealed class NoticeWriteEvent with _$NoticeWriteEvent {
   const factory NoticeWriteEvent.init() = _Init;
   const factory NoticeWriteEvent.setTitle(String title,
       [@Default(Language.ko) Language lang]) = _SetTitle;
@@ -151,7 +151,7 @@ class NoticeWriteEvent {
 }
 
 @freezed
-class NoticeWriteState with _$NoticeWriteState {
+sealed class NoticeWriteState with _$NoticeWriteState {
   const NoticeWriteState._();
   const factory NoticeWriteState.initial(
           [@Default(NoticeWriteDraftEntity()) NoticeWriteDraftEntity draft]) =

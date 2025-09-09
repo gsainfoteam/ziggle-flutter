@@ -8,7 +8,7 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 part 'notice_write_draft_entity.freezed.dart';
 
 @freezed
-class NoticeWriteDraftEntity with _$NoticeWriteDraftEntity {
+sealed class NoticeWriteDraftEntity with _$NoticeWriteDraftEntity {
   const NoticeWriteDraftEntity._();
 
   const factory NoticeWriteDraftEntity({

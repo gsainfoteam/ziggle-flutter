@@ -24,7 +24,7 @@ class GroupInviteBloc extends Bloc<GroupInviteEvent, GroupInviteState> {
 }
 
 @freezed
-class GroupInviteEvent with _$GroupInviteEvent {
+sealed class GroupInviteEvent with _$GroupInviteEvent {
   const factory GroupInviteEvent.create(GroupEntity group, int duration) =
       _Create;
 }

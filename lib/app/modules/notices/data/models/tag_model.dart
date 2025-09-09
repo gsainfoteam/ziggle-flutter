@@ -5,7 +5,7 @@ part 'tag_model.freezed.dart';
 part 'tag_model.g.dart';
 
 @freezed
-class TagModel with _$TagModel implements TagEntity {
+sealed class TagModel with _$TagModel implements TagEntity {
   const factory TagModel({
     required int id,
     required String name,

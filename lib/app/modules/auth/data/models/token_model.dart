@@ -4,7 +4,7 @@ part 'token_model.freezed.dart';
 part 'token_model.g.dart';
 
 @freezed
-class TokenModel with _$TokenModel {
+sealed class TokenModel with _$TokenModel {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory TokenModel({
     required String accessToken,

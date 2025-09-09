@@ -5,7 +5,7 @@ part 'president_model.freezed.dart';
 part 'president_model.g.dart';
 
 @freezed
-class PresidentModel with _$PresidentModel implements PresidentEntity {
+sealed class PresidentModel with _$PresidentModel implements PresidentEntity {
   const PresidentModel._();
 
   const factory PresidentModel({

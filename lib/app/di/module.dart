@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:ziggle/app/modules/core/data/repositories/fcm_messaging_repository.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/messaging_repository.dart';
-import 'package:ziggle/app/modules/user/data/repositories/hive_setting_repository.dart';
+import 'package:ziggle/app/modules/user/data/repositories/objectbox_setting_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/developer_option_repository.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/language_setting_repository.dart';
 
@@ -31,11 +31,11 @@ abstract class AppModule {
       );
 
   LanguageSettingRepository getLanguageSettingRepository(
-          HiveSettingRepository repo) =>
+          ObjectboxSettingRepository repo) =>
       repo;
 
   DeveloperOptionRepository getDeveloperOptionRepository(
-          HiveSettingRepository repo) =>
+          ObjectboxSettingRepository repo) =>
       repo;
   MessagingRepository getMessagingRepository(FcmMessagingRepository repo) =>
       repo;

@@ -5,7 +5,7 @@ part 'author_model.freezed.dart';
 part 'author_model.g.dart';
 
 @freezed
-class AuthorModel with _$AuthorModel implements AuthorEntity {
+sealed class AuthorModel with _$AuthorModel implements AuthorEntity {
   const factory AuthorModel({required String name, required String uuid}) =
       _AuthorModel;
 

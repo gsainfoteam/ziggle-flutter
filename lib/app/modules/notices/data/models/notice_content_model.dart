@@ -6,7 +6,7 @@ part 'notice_content_model.freezed.dart';
 part 'notice_content_model.g.dart';
 
 @freezed
-class NoticeContentModel
+sealed class NoticeContentModel
     with _$NoticeContentModel
     implements NoticeContentEntity {
   const NoticeContentModel._();
