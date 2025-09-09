@@ -30,6 +30,7 @@ class App extends StatelessWidget {
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
         systemNavigationBarColor: Palette.white,
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
