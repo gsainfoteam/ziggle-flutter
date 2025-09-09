@@ -1,22 +1,21 @@
-import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
+import 'package:ziggle/app/modules/user/data/models/setting_model.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/developer_option_repository.dart';
-
-import '../../domain/repositories/language_setting_repository.dart';
-import '../models/setting_model.dart';
+import 'package:ziggle/app/modules/user/domain/repositories/language_setting_repository.dart';
+import 'package:ziggle/objectbox.g.dart';
 
 @singleton
-class HiveSettingRepository
+class ObjectboxSettingRepository
     implements LanguageSettingRepository, DeveloperOptionRepository {
   static const _boxKey = '_ziggle_3_setting';
   late final Box<SettingModel> _box;
-  SettingModel get _data => _box.get(_boxKey) ?? SettingModel.init();
+  SettingModel get _data => _box.get(0) ?? SettingModel.init();
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    Hive.registerAdapter(SettingModelAdapter());
-    _box = await Hive.openBox(_boxKey);
+    final Store store = await openStore(directory: _boxKey);
+    _box = store.box<SettingModel>();
   }
 
   @override
@@ -26,7 +25,7 @@ class HiveSettingRepository
 
   @override
   Future<void> setLanguage(Language language) async {
-    await _box.put(_boxKey, _data.copyWith(language: language.name));
+    _box.put(_data.copyWith(language: language.name));
   }
 
   @override
@@ -35,7 +34,7 @@ class HiveSettingRepository
   }
 
   @override
-  Future<void> setDeveloperOption(bool value) {
-    return _box.put(_boxKey, _data.copyWith(developerOption: value));
+  Future<void> setDeveloperOption(bool value) async {
+    _box.put(_data.copyWith(developerOption: value));
   }
 }

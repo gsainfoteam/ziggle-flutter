@@ -1,22 +1,30 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hive/hive.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
-part 'setting_model.freezed.dart';
-part 'setting_model.g.dart';
-
-@HiveType(typeId: 1)
+@Entity()
 @freezed
-class SettingModel with _$SettingModel {
-  const SettingModel._();
+class SettingModel {
+  @Id()
+  int id;
+  String language;
+  bool developerOption;
 
-  const factory SettingModel({
-    @HiveField(0) required String language,
-    @HiveField(1, defaultValue: false) required bool developerOption,
-  }) = _SettingModel;
+  SettingModel(
+      {this.id = 0, required this.language, required this.developerOption});
 
   factory SettingModel.init() => SettingModel(
         language: AppLocaleUtils.findDeviceLocale().name,
         developerOption: false,
+      );
+
+  SettingModel copyWith({
+    String? language,
+    bool? developerOption,
+  }) =>
+      SettingModel(
+        id: id,
+        language: language ?? this.language,
+        developerOption: developerOption ?? this.developerOption,
       );
 }
