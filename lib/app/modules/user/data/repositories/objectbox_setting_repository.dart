@@ -1,4 +1,6 @@
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/core/data/data_sources/object_box.dart';
 import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/user/data/models/setting_model.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/developer_option_repository.dart';
@@ -8,14 +10,12 @@ import 'package:ziggle/objectbox.g.dart';
 @singleton
 class ObjectboxSettingRepository
     implements LanguageSettingRepository, DeveloperOptionRepository {
-  static const _boxKey = '_ziggle_3_setting';
+  final ObjectBox objectBox = sl<ObjectBox>();
   late final Box<SettingModel> _box;
-  SettingModel get _data => _box.get(0) ?? SettingModel.init();
+  SettingModel get _data => _box.get(1) ?? SettingModel.init();
 
-  @PostConstruct(preResolve: true)
-  Future<void> init() async {
-    final Store store = await openStore(directory: _boxKey);
-    _box = store.box<SettingModel>();
+  ObjectboxSettingRepository() {
+    _box = objectBox.store.box<SettingModel>();
   }
 
   @override
@@ -25,7 +25,12 @@ class ObjectboxSettingRepository
 
   @override
   Future<void> setLanguage(Language language) async {
-    _box.put(_data.copyWith(language: language.name));
+    final setting = _data.copyWith(language: language.name);
+    _box.put(SettingModel(
+      id: setting.id == 0 ? 0 : setting.id,
+      language: setting.language,
+      developerOption: setting.developerOption,
+    ));
   }
 
   @override
@@ -35,6 +40,11 @@ class ObjectboxSettingRepository
 
   @override
   Future<void> setDeveloperOption(bool value) async {
-    _box.put(_data.copyWith(developerOption: value));
+    final setting = _data.copyWith(developerOption: value);
+    _box.put(SettingModel(
+      id: setting.id == 0 ? 0 : setting.id,
+      language: setting.language,
+      developerOption: setting.developerOption,
+    ));
   }
 }
