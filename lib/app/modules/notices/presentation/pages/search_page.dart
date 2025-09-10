@@ -136,6 +136,8 @@ class _LayoutState extends State<_Layout> {
               builder: (context, state) {
                 return RefreshIndicator(
                   onRefresh: () => NoticeListBloc.refresh(context),
+                  backgroundColor: Palette.white,
+                  color: Palette.primary,
                   child: state.showLoading
                       ? Center(
                           child: Lottie.asset(

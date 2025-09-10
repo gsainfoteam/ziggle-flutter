@@ -14,6 +14,7 @@ import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
+import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -28,6 +29,8 @@ class ListLayout extends StatelessWidget {
       builder: (context, state) {
         return RefreshIndicator(
           onRefresh: () => NoticeListBloc.refresh(context),
+          backgroundColor: Palette.white,
+          color: Palette.primary,
           child: state.showLoading
               ? Center(
                   child: Lottie.asset(

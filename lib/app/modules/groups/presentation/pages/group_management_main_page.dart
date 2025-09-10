@@ -53,6 +53,8 @@ class _Layout extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: () => GroupManagementMainBloc.refresh(context),
+        backgroundColor: Palette.white,
+        color: Palette.primary,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 25, 16, 0),
           child: Column(
