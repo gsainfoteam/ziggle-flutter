@@ -26,9 +26,48 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:7651126145768196257",
+      "lastPropertyId": "6:4800559249403713115",
+      "name": "NoticeWriteDraftModel",
+      "properties": [
+        {
+          "id": "1:521308291260074883",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1570227353906790434",
+          "name": "titlesJson",
+          "type": 9
+        },
+        {
+          "id": "3:7052492067101544835",
+          "name": "bodiesJson",
+          "type": 9
+        },
+        {
+          "id": "4:796798997830254793",
+          "name": "typeIndex",
+          "type": 6
+        },
+        {
+          "id": "5:6490203174628108043",
+          "name": "tagsJson",
+          "type": 9
+        },
+        {
+          "id": "6:4800559249403713115",
+          "name": "deadline",
+          "type": 10
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:8920452186241553261",
+  "lastEntityId": "2:7651126145768196257",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

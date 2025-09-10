@@ -8,7 +8,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/app.dart';
 import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/core/data/data_sources/object_box.dart';
 import 'package:ziggle/app/values/fonts.dart';
 import 'package:ziggle/app_bloc_observer.dart';
 import 'package:ziggle/firebase_options.dart';
@@ -19,7 +18,6 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   _initCrashlytics();
   await dotenv.load();
-  await _initObjectBox();
   await configureDependencies();
   await _initLocale();
   _initBloc();
@@ -37,10 +35,6 @@ void _initCrashlytics() {
       return true;
     };
   }
-}
-
-Future<void> _initObjectBox() async {
-  await ObjectBox.create();
 }
 
 Future<void> _initLocale() async {

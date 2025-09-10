@@ -3,6 +3,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:ziggle/app/modules/core/data/data_sources/object_box.dart';
 import 'package:ziggle/app/modules/core/data/repositories/fcm_messaging_repository.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/messaging_repository.dart';
 import 'package:ziggle/app/modules/user/data/repositories/objectbox_setting_repository.dart';
@@ -21,6 +22,10 @@ abstract class AppModule {
       storage: FileStorage("$appDocPath/.cookies/"),
     );
   }
+
+  @preResolve
+  @singleton
+  Future<ObjectBox> getObjectBox() async => await ObjectBox.create();
 
   @singleton
   CookieManager getCookieManager(CookieJar cookieJar) =>
