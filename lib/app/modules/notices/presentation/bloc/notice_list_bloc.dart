@@ -123,7 +123,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
 mixin _SearchEvent implements NoticeListEvent {}
 
 @freezed
-sealed class NoticeListEvent with _$NoticeListEvent {
+class NoticeListEvent with _$NoticeListEvent {
   @With<_SearchEvent>()
   const factory NoticeListEvent.load(
     NoticeType type, {

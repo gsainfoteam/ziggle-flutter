@@ -1,4 +1,6 @@
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/core/data/data_sources/object_box.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_write_draft_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_write_draft_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/repositories/draft_save_repository.dart';
@@ -6,13 +8,12 @@ import 'package:ziggle/objectbox.g.dart';
 
 @Singleton(as: DraftSaveRepository)
 class ObjectBoxDraftSaveRepository implements DraftSaveRepository {
-  static const _boxKey = '_ziggle_4_draft';
+  final ObjectBox objectBox = sl<ObjectBox>();
   late final Box<NoticeWriteDraftModel> _box;
 
   @PostConstruct(preResolve: true)
-  Future<void> init() async {
-    final Store store = await openStore(directory: _boxKey);
-    _box = store.box<NoticeWriteDraftModel>();
+  ObjectBoxDraftSaveRepository() {
+    _box = objectBox.store.box<NoticeWriteDraftModel>();
   }
 
   @override

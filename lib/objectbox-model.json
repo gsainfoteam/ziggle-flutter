@@ -28,38 +28,38 @@
       "relations": []
     },
     {
-      "id": "2:7651126145768196257",
-      "lastPropertyId": "6:4800559249403713115",
+      "id": "3:4058980007525081723",
+      "lastPropertyId": "6:7610323012543539914",
       "name": "NoticeWriteDraftModel",
       "properties": [
         {
-          "id": "1:521308291260074883",
+          "id": "1:4954323983360901956",
           "name": "id",
           "type": 6,
-          "flags": 1
+          "flags": 129
         },
         {
-          "id": "2:1570227353906790434",
+          "id": "2:8468705649303780344",
           "name": "titlesJson",
           "type": 9
         },
         {
-          "id": "3:7052492067101544835",
+          "id": "3:7666913378287724125",
           "name": "bodiesJson",
           "type": 9
         },
         {
-          "id": "4:796798997830254793",
+          "id": "4:1206278049666576492",
           "name": "typeIndex",
           "type": 6
         },
         {
-          "id": "5:6490203174628108043",
+          "id": "5:5706974957337851157",
           "name": "tagsJson",
           "type": 9
         },
         {
-          "id": "6:4800559249403713115",
+          "id": "6:7610323012543539914",
           "name": "deadline",
           "type": 10
         }
@@ -67,15 +67,24 @@
       "relations": []
     }
   ],
-  "lastEntityId": "2:7651126145768196257",
+  "lastEntityId": "3:4058980007525081723",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    7651126145768196257
+  ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    521308291260074883,
+    1570227353906790434,
+    7052492067101544835,
+    796798997830254793,
+    6490203174628108043,
+    4800559249403713115
+  ],
   "retiredRelationUids": [],
   "version": 1
 }
