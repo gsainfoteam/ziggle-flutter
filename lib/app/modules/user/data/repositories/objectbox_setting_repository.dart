@@ -12,7 +12,8 @@ class ObjectboxSettingRepository
     implements LanguageSettingRepository, DeveloperOptionRepository {
   final ObjectBox objectBox = sl<ObjectBox>();
   late final Box<SettingModel> _box;
-  SettingModel get _data => _box.get(1) ?? SettingModel.init();
+  static const int _id = 1;
+  SettingModel get _data => _box.get(_id) ?? SettingModel.init();
 
   ObjectboxSettingRepository() {
     _box = objectBox.store.box<SettingModel>();
@@ -26,11 +27,13 @@ class ObjectboxSettingRepository
   @override
   Future<void> setLanguage(Language language) async {
     final setting = _data.copyWith(language: language.name);
-    _box.put(SettingModel(
-      id: setting.id == 0 ? 0 : setting.id,
-      language: setting.language,
-      developerOption: setting.developerOption,
-    ));
+    _box.put(
+      SettingModel(
+        id: setting.id == _id ? _id : setting.id,
+        language: setting.language,
+        developerOption: setting.developerOption,
+      ),
+    );
   }
 
   @override
@@ -41,10 +44,12 @@ class ObjectboxSettingRepository
   @override
   Future<void> setDeveloperOption(bool value) async {
     final setting = _data.copyWith(developerOption: value);
-    _box.put(SettingModel(
-      id: setting.id == 0 ? 0 : setting.id,
-      language: setting.language,
-      developerOption: setting.developerOption,
-    ));
+    _box.put(
+      SettingModel(
+        id: setting.id == _id ? _id : setting.id,
+        language: setting.language,
+        developerOption: setting.developerOption,
+      ),
+    );
   }
 }

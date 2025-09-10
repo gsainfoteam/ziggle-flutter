@@ -10,6 +10,7 @@ import 'package:ziggle/objectbox.g.dart';
 class ObjectBoxDraftSaveRepository implements DraftSaveRepository {
   final ObjectBox objectBox = sl<ObjectBox>();
   late final Box<NoticeWriteDraftModel> _box;
+  static const int _id = 1;
 
   @PostConstruct(preResolve: true)
   ObjectBoxDraftSaveRepository() {
@@ -18,16 +19,16 @@ class ObjectBoxDraftSaveRepository implements DraftSaveRepository {
 
   @override
   Future<void> deleteDraft() async {
-    _box.remove(1);
+    _box.remove(_id);
   }
 
   @override
   Future<NoticeWriteDraftEntity?> getDraft() async {
-    return _box.get(1)?.toEntity();
+    return _box.get(_id)?.toEntity();
   }
 
   @override
   Future<void> saveDraft(NoticeWriteDraftEntity draft) async {
-    _box.put(NoticeWriteDraftModel.fromEntity(draft).copyWith(id: 1));
+    _box.put(NoticeWriteDraftModel.fromEntity(draft).copyWith(id: _id));
   }
 }
