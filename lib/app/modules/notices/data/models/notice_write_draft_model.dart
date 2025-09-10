@@ -24,8 +24,9 @@ sealed class NoticeWriteDraftModel with _$NoticeWriteDraftModel {
   Map<Language, String> get titles {
     try {
       final Map<String, dynamic> json = jsonDecode(titlesJson);
-      return json.map((key, value) => 
-          MapEntry(Language.values.byName(key), value.toString()));
+      return json.map(
+        (key, value) => MapEntry(Language.values.byName(key), value.toString()),
+      );
     } catch (e) {
       return {};
     }
@@ -34,15 +35,15 @@ sealed class NoticeWriteDraftModel with _$NoticeWriteDraftModel {
   Map<Language, String> get bodies {
     try {
       final Map<String, dynamic> json = jsonDecode(bodiesJson);
-      return json.map((key, value) => 
-          MapEntry(Language.values.byName(key), value.toString()));
+      return json.map(
+        (key, value) => MapEntry(Language.values.byName(key), value.toString()),
+      );
     } catch (e) {
       return {};
     }
   }
 
-  NoticeType? get type => 
-      typeIndex >= 0 ? NoticeType.values[typeIndex] : null;
+  NoticeType? get type => typeIndex >= 0 ? NoticeType.values[typeIndex] : null;
 
   List<String> get tags {
     try {
@@ -53,19 +54,21 @@ sealed class NoticeWriteDraftModel with _$NoticeWriteDraftModel {
   }
 
   NoticeWriteDraftEntity toEntity() => NoticeWriteDraftEntity(
-        titles: titles,
-        bodies: bodies,
-        type: type,
-        tags: tags,
-        deadline: deadline,
-      );
+    titles: titles,
+    bodies: bodies,
+    type: type,
+    tags: tags,
+    deadline: deadline,
+  );
 
   factory NoticeWriteDraftModel.fromEntity(NoticeWriteDraftEntity entity) =>
       NoticeWriteDraftModel(
-        titlesJson: jsonEncode(entity.titles.map((key, value) => 
-            MapEntry(key.name, value))),
-        bodiesJson: jsonEncode(entity.bodies.map((key, value) => 
-            MapEntry(key.name, value))),
+        titlesJson: jsonEncode(
+          entity.titles.map((key, value) => MapEntry(key.name, value)),
+        ),
+        bodiesJson: jsonEncode(
+          entity.bodies.map((key, value) => MapEntry(key.name, value)),
+        ),
         typeIndex: entity.type?.index ?? -1,
         tagsJson: entity.tags.join(','),
         deadline: entity.deadline,

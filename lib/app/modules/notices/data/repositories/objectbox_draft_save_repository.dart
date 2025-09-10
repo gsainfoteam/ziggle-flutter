@@ -18,16 +18,16 @@ class ObjectBoxDraftSaveRepository implements DraftSaveRepository {
 
   @override
   Future<void> deleteDraft() async {
-    _box.remove(0);
+    _box.remove(1);
   }
 
   @override
   Future<NoticeWriteDraftEntity?> getDraft() async {
-    return _box.get(0)?.toEntity();
+    return _box.get(1)?.toEntity();
   }
 
   @override
   Future<void> saveDraft(NoticeWriteDraftEntity draft) async {
-    _box.put(NoticeWriteDraftModel.fromEntity(draft));
+    _box.put(NoticeWriteDraftModel.fromEntity(draft).copyWith(id: 1));
   }
 }
