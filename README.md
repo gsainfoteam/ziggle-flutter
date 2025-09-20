@@ -1,6 +1,6 @@
 # 🔥 ziggle flutter
 
-본 프로젝트는 Flutter 3.24 버전을 기반으로 작성되었습니다.
+본 프로젝트는 Flutter 3.32 버전을 기반으로 작성되었습니다.
 
 [bloc](https://bloclibrary.dev/)을 기반으로 아키텍쳐를 구성했습니다.
 
@@ -55,18 +55,18 @@
 ├── flutter_native_splash.yaml: 앱 스플래시 자동 생성 설정 파일 (dart run flutter_native_splash:create)
 ├── pubspec.lock
 ├── pubspec.yaml: package.json 같은 파일. 앱의 버전, 패키지들이 저장 됨
-└── slang.yaml: 번역을
+└── slang.yaml: 번역을 위한 설정 파일.
 ```
 
 ## 실행법
 
-build_runner를 사용하여 코드를 생성하고, slang을 사용하여 번역 파일을 생성합니다.
+slang을 사용하여 번역 파일을 생성하고, build_runner를 사용하여 코드를 생성합니다.
 
 ```bash
-dart run build_runner build
-dart run build_runner watch
 dart run slang
 dart run slang watch
+dart run build_runner build
+dart run build_runner watch
 ```
 
 또는 watchexec를 사용해서 pubspec.lock 파일이 수정 될 때에
@@ -79,4 +79,10 @@ apt install watchexec
 brew install watchexec
 watchexec -w ./pubspec.lock dart run build_runner watch
 watchexec -r -w ./build.yaml dart run slang watch
+```
+
+IOS 앱 빌드를 위해선 flutterfire_cli가 설치되어야 합니다.
+
+```bash
+dart pub global activate flutterfire_cli
 ```
