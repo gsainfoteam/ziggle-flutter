@@ -1,10 +1,29 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sheet/route.dart';
+import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page|Layout,Route')
 class AppRouter extends RootStackRouter {
+  @override
+  List<AutoRouteGuard> get guards => [
+    AutoRouteGuard.simple((resolver, router) {
+      final authenticated = sl<AuthBloc>().state.hasUser;
+      if (authenticated || resolver.routeName == LoginRoute.name) {
+        resolver.next(true);
+      } else {
+        resolver.redirectUntil(
+          LoginRoute(
+            onResult: (success) {
+              resolver.next(success);
+            },
+          ),
+        );
+      }
+    }),
+  ];
   @override
   List<AutoRoute> get routes {
     return [
