@@ -9,7 +9,7 @@ part 'analytics_event.freezed.dart';
 part 'analytics_event.g.dart';
 
 @freezed
-class AnalyticsEvent with _$AnalyticsEvent {
+sealed class AnalyticsEvent with _$AnalyticsEvent {
   const AnalyticsEvent._();
   factory AnalyticsEvent.fromJson(Map<String, dynamic> json) =>
       _$AnalyticsEventFromJson(json);
@@ -28,7 +28,10 @@ class AnalyticsEvent with _$AnalyticsEvent {
   // 공지 관련 이벤트
   const factory AnalyticsEvent.notice(int id, [PageSource? from]) = _Notice;
   const factory AnalyticsEvent.noticeReaction(
-      int id, NoticeReaction noticeReaction, PageSource from) = _NoticeReaction;
+    int id,
+    NoticeReaction noticeReaction,
+    PageSource from,
+  ) = _NoticeReaction;
   const factory AnalyticsEvent.noticeShare(int id, PageSource from) =
       _NoticeShare;
   const factory AnalyticsEvent.noticeCopy(int id) = _NoticeCopy;
@@ -78,11 +81,13 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.writeConfigPreview() = _WriteConfigPreview;
   const factory AnalyticsEvent.writeConfigPublish() = _WriteConfigPublish;
   const factory AnalyticsEvent.writeConfigPublishAgree(
-      String value, String type) = _WriteConfigPublishAgree;
+    String value,
+    String type,
+  ) = _WriteConfigPublishAgree;
   const factory AnalyticsEvent.writeConfigPublishUpload() =
       _WriteConfigPublishUpload;
 
-// 공지 수정 이벤트
+  // 공지 수정 이벤트
   const factory AnalyticsEvent.noticeEditPublish(int id) = _NoticeEditPublish;
   const factory AnalyticsEvent.noticeEditBody(int id) = _NoticeEditBody;
   const factory AnalyticsEvent.noticeEditBodyToggleLanguage(Language lang) =
@@ -97,7 +102,8 @@ class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.noticeEditAdditional(int id) =
       _NoticeEditAdditional;
   const factory AnalyticsEvent.noticeEditAdditionalToggleLanguage(
-      Language lang) = _NoticeEditAdditionalToggleLanguage;
+    Language lang,
+  ) = _NoticeEditAdditionalToggleLanguage;
   const factory AnalyticsEvent.noticeEditAdditionalDone() =
       _NoticeEditAdditionalDone;
   const factory AnalyticsEvent.noticeEditChangeDeadline([int? id]) =
@@ -107,7 +113,7 @@ class AnalyticsEvent with _$AnalyticsEvent {
       _NoticeEditSetDeadlineCancel;
   const factory AnalyticsEvent.noticeEditPreview(int id) = _NoticeEditPreview;
 
-// 프로필 페이지 이벤트
+  // 프로필 페이지 이벤트
   const factory AnalyticsEvent.profileSetting() = _ProfileSetting;
   const factory AnalyticsEvent.profileMyNotices() = _ProfileMyNotices;
   const factory AnalyticsEvent.profileFeedback() = _ProfileFeedback;

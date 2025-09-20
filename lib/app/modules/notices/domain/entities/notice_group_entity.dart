@@ -5,7 +5,7 @@ part 'notice_group_entity.freezed.dart';
 part 'notice_group_entity.g.dart';
 
 @freezed
-class NoticeGroupEntity with _$NoticeGroupEntity {
+sealed class NoticeGroupEntity with _$NoticeGroupEntity {
   const NoticeGroupEntity._();
 
   const factory NoticeGroupEntity({

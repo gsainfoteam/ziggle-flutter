@@ -5,7 +5,7 @@ part 'notice_reaction_model.freezed.dart';
 part 'notice_reaction_model.g.dart';
 
 @freezed
-class NoticeReactionModel
+sealed class NoticeReactionModel
     with _$NoticeReactionModel
     implements NoticeReactionEntity {
   const NoticeReactionModel._();

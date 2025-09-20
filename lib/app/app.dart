@@ -45,9 +45,8 @@ class App extends StatelessWidget {
           locale: TranslationProvider.of(context).flutterLocale,
           supportedLocales: AppLocaleUtils.supportedLocales,
           localizationsDelegates: GlobalMaterialLocalizations.delegates,
-          builder: (context, child) => _Providers(
-            child: child ?? const SizedBox.shrink(),
-          ),
+          builder: (context, child) =>
+              _Providers(child: child ?? const SizedBox.shrink()),
         ),
       ),
     );
@@ -108,14 +107,14 @@ class _Providers extends StatelessWidget {
                   unauthenticated: (_) => true,
                 ) ??
                 false,
-            listener: (context, state) => context
-                .read<MessagingBloc>()
-                .add(const MessagingEvent.refresh()),
+            listener: (context, state) => context.read<MessagingBloc>().add(
+              const MessagingEvent.refresh(),
+            ),
           ),
           BlocListener<LinkBloc, LinkState>(
             listener: (context, state) => state.mapOrNull(
               loaded: (s) => WidgetsBinding.instance.addPostFrameCallback((_) {
-                _appRouter.pushNamed(s.link);
+                _appRouter.pushPath(s.link);
               }),
             ),
           ),

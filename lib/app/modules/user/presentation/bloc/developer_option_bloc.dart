@@ -14,12 +14,14 @@ class DeveloperOptionBloc
   final ApiChannelRepository _apiChannelRepository;
 
   DeveloperOptionBloc(this._repository, this._apiChannelRepository)
-      : super(_Initial(apiChannel: ApiChannel.byMode())) {
+    : super(_Initial(apiChannel: ApiChannel.byMode())) {
     on<_Load>((event, emit) async {
       final result = await _repository.getDeveloperOption();
       emit(_Loaded(enabled: result, apiChannel: state.apiChannel));
-      return emit.forEach(_apiChannelRepository.channel,
-          onData: (channel) => state.copyWith(apiChannel: channel));
+      return emit.forEach(
+        _apiChannelRepository.channel,
+        onData: (channel) => state.copyWith(apiChannel: channel),
+      );
     });
     on<_Enable>((event, emit) async {
       await _repository.setDeveloperOption(true);
@@ -37,7 +39,7 @@ class DeveloperOptionBloc
 }
 
 @freezed
-sealed class DeveloperOptionEvent {
+sealed class DeveloperOptionEvent with _$DeveloperOptionEvent {
   const factory DeveloperOptionEvent.load() = _Load;
   const factory DeveloperOptionEvent.enable() = _Enable;
   const factory DeveloperOptionEvent.disable() = _Disable;

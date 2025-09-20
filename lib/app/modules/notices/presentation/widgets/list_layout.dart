@@ -30,9 +30,11 @@ class ListLayout extends StatelessWidget {
           onRefresh: () => NoticeListBloc.refresh(context),
           child: state.showLoading
               ? Center(
-                  child: Lottie.asset(Assets.lotties.loading,
-                      height: MediaQuery.of(context).size.width * 0.2,
-                      width: MediaQuery.of(context).size.width * 0.2),
+                  child: Lottie.asset(
+                    Assets.lotties.loading,
+                    height: MediaQuery.of(context).size.width * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.2,
+                  ),
                 )
               : InfiniteScroll(
                   onLoadMore: () => NoticeListBloc.loadMore(context),
@@ -50,12 +52,13 @@ class ListLayout extends StatelessWidget {
                               return Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: Center(
-                                  child: Lottie.asset(Assets.lotties.loading,
-                                      height:
-                                          MediaQuery.of(context).size.width *
-                                              0.2,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.2),
+                                  child: Lottie.asset(
+                                    Assets.lotties.loading,
+                                    height:
+                                        MediaQuery.of(context).size.width * 0.2,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
+                                  ),
                                 ),
                               );
                             }
@@ -63,45 +66,53 @@ class ListLayout extends StatelessWidget {
                             return NoticeCard(
                               onLike: () {
                                 AnalyticsRepository.click(
-                                    AnalyticsEvent.noticeReaction(
-                                        notice.id,
-                                        NoticeReaction.like,
-                                        noticeType == NoticeType.all
-                                            ? PageSource.feed
-                                            : PageSource.list));
+                                  AnalyticsEvent.noticeReaction(
+                                    notice.id,
+                                    NoticeReaction.like,
+                                    noticeType == NoticeType.all
+                                        ? PageSource.feed
+                                        : PageSource.list,
+                                  ),
+                                );
                                 if (UserBloc.userOrNull(context) == null) {
                                   return context.showToast(
                                     context.t.user.login.description,
                                   );
                                 }
                                 context.read<NoticeListBloc>().add(
-                                      notice.reacted(NoticeReaction.like)
-                                          ? NoticeListEvent.removeLike(notice)
-                                          : NoticeListEvent.addLike(notice),
-                                    );
+                                  notice.reacted(NoticeReaction.like)
+                                      ? NoticeListEvent.removeLike(notice)
+                                      : NoticeListEvent.addLike(notice),
+                                );
                               },
                               onPressed: () {
-                                AnalyticsRepository.click(AnalyticsEvent.notice(
+                                AnalyticsRepository.click(
+                                  AnalyticsEvent.notice(
                                     notice.id,
                                     noticeType == NoticeType.all
                                         ? PageSource.feed
-                                        : PageSource.list));
-                                SingleNoticeShellRoute(notice: notice)
-                                    .push(context);
+                                        : PageSource.list,
+                                  ),
+                                );
+                                SingleNoticeShellRoute(
+                                  notice: notice,
+                                ).push(context);
                               },
                               onShare: () {
                                 AnalyticsRepository.click(
-                                    AnalyticsEvent.noticeShare(
-                                        notice.id,
-                                        noticeType == NoticeType.all
-                                            ? PageSource.feed
-                                            : PageSource.list));
+                                  AnalyticsEvent.noticeShare(
+                                    notice.id,
+                                    noticeType == NoticeType.all
+                                        ? PageSource.feed
+                                        : PageSource.list,
+                                  ),
+                                );
                                 context.read<ShareCubit>().share(notice);
                               },
                               notice: notice,
                             );
                           },
-                          separatorBuilder: (_, __) =>
+                          separatorBuilder: (_, _) =>
                               const SizedBox(height: 15),
                           itemCount:
                               state.notices.length + (state.isLoading ? 1 : 0),

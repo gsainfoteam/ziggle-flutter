@@ -19,7 +19,7 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
   final DraftSaveRepository _draftSaveRepository;
 
   NoticeWriteBloc(this._repository, this._draftSaveRepository)
-      : super(const _Initial()) {
+    : super(const _Initial()) {
     on<_Init>((event, emit) async {
       try {
         final draft = await _draftSaveRepository.getDraft();
@@ -31,27 +31,48 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
       }
     });
     on<_SetTitle>(
-      (event, emit) => emit(_Draft(state.draft.copyWith(
-        titles: {...state.draft.titles, event.lang: event.title},
-      ))),
+      (event, emit) => emit(
+        _Draft(
+          state.draft.copyWith(
+            titles: {...state.draft.titles, event.lang: event.title},
+          ),
+        ),
+      ),
     );
     on<_SetBody>(
-      (event, emit) => emit(_Draft(state.draft.copyWith(
-        bodies: {...state.draft.bodies, event.lang: event.body},
-      ))),
+      (event, emit) => emit(
+        _Draft(
+          state.draft.copyWith(
+            bodies: {...state.draft.bodies, event.lang: event.body},
+          ),
+        ),
+      ),
     );
-    on<_SetImages>((event, emit) =>
-        emit(_Draft(state.draft.copyWith(images: event.images))));
-    on<_SetConfig>((event, emit) => emit(_Draft(state.draft.copyWith(
-          type: event.type,
-          tags: event.tags,
-          deadline: event.deadline,
-          group: event.group,
-        ))));
-    on<_AddAdditional>((event, emit) => emit(_Draft(state.draft.copyWith(
-          deadline: event.deadline,
-          additionalContent: event.contents,
-        ))));
+    on<_SetImages>(
+      (event, emit) => emit(_Draft(state.draft.copyWith(images: event.images))),
+    );
+    on<_SetConfig>(
+      (event, emit) => emit(
+        _Draft(
+          state.draft.copyWith(
+            type: event.type,
+            tags: event.tags,
+            deadline: event.deadline,
+            group: event.group,
+          ),
+        ),
+      ),
+    );
+    on<_AddAdditional>(
+      (event, emit) => emit(
+        _Draft(
+          state.draft.copyWith(
+            deadline: event.deadline,
+            additionalContent: event.contents,
+          ),
+        ),
+      ),
+    );
     on<_Publish>((event, emit) async {
       try {
         emit(_Loading(state.draft));
@@ -129,12 +150,16 @@ class NoticeWriteBloc extends Bloc<NoticeWriteEvent, NoticeWriteState> {
 }
 
 @freezed
-class NoticeWriteEvent {
+class NoticeWriteEvent with _$NoticeWriteEvent {
   const factory NoticeWriteEvent.init() = _Init;
-  const factory NoticeWriteEvent.setTitle(String title,
-      [@Default(Language.ko) Language lang]) = _SetTitle;
-  const factory NoticeWriteEvent.setBody(String body,
-      [@Default(Language.ko) Language lang]) = _SetBody;
+  const factory NoticeWriteEvent.setTitle(
+    String title, [
+    @Default(Language.ko) Language lang,
+  ]) = _SetTitle;
+  const factory NoticeWriteEvent.setBody(
+    String body, [
+    @Default(Language.ko) Language lang,
+  ]) = _SetBody;
   const factory NoticeWriteEvent.setImages(List<File> images) = _SetImages;
   const factory NoticeWriteEvent.setConfig({
     required NoticeType type,
@@ -151,14 +176,14 @@ class NoticeWriteEvent {
 }
 
 @freezed
-class NoticeWriteState with _$NoticeWriteState {
+sealed class NoticeWriteState with _$NoticeWriteState {
   const NoticeWriteState._();
-  const factory NoticeWriteState.initial(
-          [@Default(NoticeWriteDraftEntity()) NoticeWriteDraftEntity draft]) =
-      _Initial;
-  const factory NoticeWriteState.draft(
-          [@Default(NoticeWriteDraftEntity()) NoticeWriteDraftEntity draft]) =
-      _Draft;
+  const factory NoticeWriteState.initial([
+    @Default(NoticeWriteDraftEntity()) NoticeWriteDraftEntity draft,
+  ]) = _Initial;
+  const factory NoticeWriteState.draft([
+    @Default(NoticeWriteDraftEntity()) NoticeWriteDraftEntity draft,
+  ]) = _Draft;
   const factory NoticeWriteState.loading(NoticeWriteDraftEntity draft) =
       _Loading;
   const factory NoticeWriteState.done(

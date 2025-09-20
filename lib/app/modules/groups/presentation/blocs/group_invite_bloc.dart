@@ -15,16 +15,17 @@ class GroupInviteBloc extends Bloc<GroupInviteEvent, GroupInviteState> {
     on<_Create>((event, emit) async {
       emit(const GroupInviteState.loading());
       final inviteLink = await _repository.createInviteLink(
-          group: event.group,
-          role: GroupMemberRole.member,
-          durationDays: Duration(days: event.duration));
+        group: event.group,
+        role: GroupMemberRole.member,
+        durationDays: Duration(days: event.duration),
+      );
       emit(GroupInviteState.success(inviteLink));
     });
   }
 }
 
 @freezed
-class GroupInviteEvent with _$GroupInviteEvent {
+sealed class GroupInviteEvent with _$GroupInviteEvent {
   const factory GroupInviteEvent.create(GroupEntity group, int duration) =
       _Create;
 }

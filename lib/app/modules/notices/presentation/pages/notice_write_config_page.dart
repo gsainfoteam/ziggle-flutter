@@ -50,20 +50,22 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
   void _save() {
     // TODO: is there any way to save when type is not set?
     if (_type == null) return;
-    context.read<NoticeWriteBloc>().add(NoticeWriteEvent.setConfig(
-          deadline: _deadline,
-          type: _type!,
-          tags: _tags,
-          group: _groupEntity,
-        ));
+    context.read<NoticeWriteBloc>().add(
+      NoticeWriteEvent.setConfig(
+        deadline: _deadline,
+        type: _type!,
+        tags: _tags,
+        group: _groupEntity,
+      ),
+    );
   }
 
-  _publish() {
+  void _publish() {
     _save();
     const NoticeWriteConsentRoute().push(context);
   }
 
-  _preview() {
+  void _preview() {
     _save();
     const NoticeWritePreviewRoute().push(context);
   }
@@ -81,17 +83,15 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
             disabled: _type == null,
             onPressed: () {
               AnalyticsRepository.click(
-                  const AnalyticsEvent.writeConfigPublish());
+                const AnalyticsEvent.writeConfigPublish(),
+              );
               if (_type != null) {
                 _publish();
               }
             },
             child: Text(
               context.t.notice.write.publish,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
           ),
         ],
@@ -116,7 +116,8 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                   emphasize: false,
                   onPressed: () {
                     AnalyticsRepository.click(
-                        const AnalyticsEvent.writeConfigPreview());
+                      const AnalyticsEvent.writeConfigPreview(),
+                    );
                     if (_type != null) {
                       _preview();
                     }
@@ -147,24 +148,27 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
               Assets.images.defaultProfile.image(width: 40),
               const SizedBox(width: 10),
               BlocBuilder<GroupBloc, GroupState>(
-                  builder: (context, groupState) {
-                return BlocBuilder<UserBloc, UserState>(
-                  builder: (context, userState) {
-                    return Row(children: [
-                      Text(
-                        _groupEntity?.uuid != null
-                            ? (_groupEntity?.name ?? "Unknown Group")
-                            : userState.user!.name,
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Palette.black,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ]);
-                  },
-                );
-              }),
+                builder: (context, groupState) {
+                  return BlocBuilder<UserBloc, UserState>(
+                    builder: (context, userState) {
+                      return Row(
+                        children: [
+                          Text(
+                            _groupEntity?.uuid != null
+                                ? (_groupEntity?.name ?? "Unknown Group")
+                                : userState.user!.name,
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Palette.black,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
               const Spacer(),
               ZigglePressable(
                 onPressed: () async {
@@ -172,12 +176,12 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                   context.read<GroupAuthBloc>().add(GroupAuthEvent.login());
                   final groupEntity =
                       await ZiggleBottomSheet.show<NoticeGroupEntity>(
-                    context: context,
-                    title: context.t.notice.write.changeAccount,
-                    builder: (context) => AccountSelector(
-                      onChanged: (v) => Navigator.pop(context, v),
-                    ),
-                  );
+                        context: context,
+                        title: context.t.notice.write.changeAccount,
+                        builder: (context) => AccountSelector(
+                          onChanged: (v) => Navigator.pop(context, v),
+                        ),
+                      );
 
                   setState(() => _groupEntity = groupEntity);
                 },
@@ -192,13 +196,10 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                       ),
                     ),
                     const SizedBox(width: 5),
-                    Assets.icons.arrowRight.svg(
-                      width: 20,
-                      height: 20,
-                    ),
+                    Assets.icons.arrowRight.svg(width: 20, height: 20),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ],
@@ -243,12 +244,14 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                 onToggle: (v) async {
                   if (_deadline != null) {
                     AnalyticsRepository.click(
-                        const AnalyticsEvent.writeConfigDeleteDeadline());
+                      const AnalyticsEvent.writeConfigDeleteDeadline(),
+                    );
                     setState(() => _deadline = null);
                     return;
                   }
                   AnalyticsRepository.click(
-                      const AnalyticsEvent.writeConfigAddDeadline());
+                    const AnalyticsEvent.writeConfigAddDeadline(),
+                  );
                   final dateTime = await ZiggleBottomSheet.show<DateTime>(
                     context: context,
                     title: context.t.notice.write.deadline.title,
@@ -268,7 +271,8 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
             ZigglePressable(
               onPressed: () async {
                 AnalyticsRepository.click(
-                    const AnalyticsEvent.writeConfigChangeDeadline());
+                  const AnalyticsEvent.writeConfigChangeDeadline(),
+                );
                 final dateTime = await ZiggleBottomSheet.show<DateTime>(
                   context: context,
                   title: context.t.notice.write.deadline.title,
@@ -342,7 +346,8 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                         child: ZigglePressable(
                           onPressed: () {
                             AnalyticsRepository.click(
-                                AnalyticsEvent.writeConfigCategory(e.$2));
+                              AnalyticsEvent.writeConfigCategory(e.$2),
+                            );
                             setState(() => _type = e.$2);
                           },
                           decoration: BoxDecoration(
@@ -365,7 +370,9 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                                 height: 36,
                                 colorFilter: _type == e.$2
                                     ? const ColorFilter.mode(
-                                        Palette.white, BlendMode.srcIn)
+                                        Palette.white,
+                                        BlendMode.srcIn,
+                                      )
                                     : null,
                               ),
                               const SizedBox(height: 5),
@@ -429,13 +436,16 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
           ZigglePressable(
             onPressed: () async {
               AnalyticsRepository.click(
-                  const AnalyticsEvent.writeConfigAddHashtag());
+                const AnalyticsEvent.writeConfigAddHashtag(),
+              );
               final tags = await const NoticeWriteSelectTagsRoute()
                   .push<List<String>>(context);
               if (!mounted || tags == null) return;
-              setState(() => _tags
-                ..clear()
-                ..addAll(tags));
+              setState(
+                () => _tags
+                  ..clear()
+                  ..addAll(tags),
+              );
             },
             decoration: BoxDecoration(
               color: Palette.white,
@@ -472,13 +482,14 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                       onDelete: true,
                       onPressed: () {
                         AnalyticsRepository.click(
-                            const AnalyticsEvent.writeConfigDeleteHashtag());
+                          const AnalyticsEvent.writeConfigDeleteHashtag(),
+                        );
                         setState(() => _tags.removeAt(tag.$1));
                       },
                     ),
                   )
                   .toList(),
-            )
+            ),
           ],
         ],
       ),

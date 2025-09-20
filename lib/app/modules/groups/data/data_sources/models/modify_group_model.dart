@@ -4,7 +4,7 @@ part 'modify_group_model.freezed.dart';
 part 'modify_group_model.g.dart';
 
 @freezed
-class ModifyGroupModel with _$ModifyGroupModel {
+sealed class ModifyGroupModel with _$ModifyGroupModel {
   factory ModifyGroupModel({
     @JsonKey(includeIfNull: false) String? name,
     @JsonKey(includeIfNull: false) String? description,

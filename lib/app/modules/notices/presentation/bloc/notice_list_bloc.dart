@@ -62,9 +62,12 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
           search: _type != NoticeType.group ? query : null,
           groupId: _type == NoticeType.group ? query : null,
         );
-        emit(_Loaded(
+        emit(
+          _Loaded(
             notices: [...state.notices, ...notices.list],
-            total: notices.total));
+            total: notices.total,
+          ),
+        );
       } catch (e) {
         emit(NoticeListState.error(e.toString(), state.notices));
       }
@@ -78,8 +81,10 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
         final notices = List<NoticeEntity>.from(state.notices);
         notices[index] = notice.addReaction(NoticeReaction.like);
         emit(_Loaded(notices: notices, total: state.total));
-        final result =
-            await _repository.addReaction(notice.id, NoticeReaction.like.emoji);
+        final result = await _repository.addReaction(
+          notice.id,
+          NoticeReaction.like.emoji,
+        );
         notices[index] = notices[index].copyWith(reactions: result.reactions);
         emit(_Loaded(notices: notices, total: state.total));
       } catch (e) {
@@ -96,7 +101,9 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
         notices[index] = notice.removeReaction(NoticeReaction.like);
         emit(_Loaded(notices: notices, total: state.total));
         final result = await _repository.removeReaction(
-            notice.id, NoticeReaction.like.emoji);
+          notice.id,
+          NoticeReaction.like.emoji,
+        );
         notices[index] = notices[index].copyWith(reactions: result.reactions);
         emit(_Loaded(notices: notices, total: state.total));
       } catch (e) {
@@ -122,13 +129,10 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
 
 mixin _SearchEvent implements NoticeListEvent {}
 
-@freezed
-sealed class NoticeListEvent {
+@Freezed(map: FreezedMapOptions.none, when: FreezedWhenOptions.none)
+sealed class NoticeListEvent with _$NoticeListEvent {
   @With<_SearchEvent>()
-  const factory NoticeListEvent.load(
-    NoticeType type, {
-    String? query,
-  }) = _Load;
+  const factory NoticeListEvent.load(NoticeType type, {String? query}) = _Load;
   const factory NoticeListEvent.refresh() = _Refresh;
   const factory NoticeListEvent.loadMore() = _LoadMore;
   @With<_SearchEvent>()
@@ -141,17 +145,23 @@ sealed class NoticeListEvent {
 sealed class NoticeListState with _$NoticeListState {
   const NoticeListState._();
 
-  const factory NoticeListState.initial(
-      {@Default([]) List<NoticeEntity> notices,
-      @Default(0) int total}) = _Initial;
-  const factory NoticeListState.loading(
-      {@Default([]) List<NoticeEntity> notices,
-      @Default(0) int total}) = _Loading;
-  const factory NoticeListState.loaded(
-      {required List<NoticeEntity> notices, required int total}) = _Loaded;
-  const factory NoticeListState.error(String message,
-      [@Default([]) List<NoticeEntity> notices,
-      @Default(0) int total]) = _Error;
+  const factory NoticeListState.initial({
+    @Default([]) List<NoticeEntity> notices,
+    @Default(0) int total,
+  }) = _Initial;
+  const factory NoticeListState.loading({
+    @Default([]) List<NoticeEntity> notices,
+    @Default(0) int total,
+  }) = _Loading;
+  const factory NoticeListState.loaded({
+    required List<NoticeEntity> notices,
+    required int total,
+  }) = _Loaded;
+  const factory NoticeListState.error(
+    String message, [
+    @Default([]) List<NoticeEntity> notices,
+    @Default(0) int total,
+  ]) = _Error;
 
   bool get isLoading => this is _Loading;
   bool get showLoading => isLoading && notices.isEmpty;

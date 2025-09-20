@@ -16,7 +16,7 @@ class GroupBloc extends Bloc<GroupEvent, GroupState> {
     on<_Refresh>(_handleLoadOrRefresh);
   }
 
-  void _handleLoadOrRefresh(event, Emitter<GroupState> emit) async {
+  void _handleLoadOrRefresh(GroupEvent event, Emitter<GroupState> emit) async {
     emit(_Loading());
     try {
       final groups = await _repository.getGroups();

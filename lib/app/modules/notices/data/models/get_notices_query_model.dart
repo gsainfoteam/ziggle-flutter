@@ -8,7 +8,7 @@ part 'get_notices_query_model.freezed.dart';
 part 'get_notices_query_model.g.dart';
 
 @Freezed(toJson: true)
-class GetNoticesQueryModel with _$GetNoticesQueryModel {
+sealed class GetNoticesQueryModel with _$GetNoticesQueryModel {
   @JsonSerializable(includeIfNull: false)
   const factory GetNoticesQueryModel({
     int? offset,

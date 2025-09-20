@@ -6,7 +6,7 @@ part 'member_model.freezed.dart';
 part 'member_model.g.dart';
 
 @freezed
-class MemberModel with _$MemberModel implements MemberEntity {
+sealed class MemberModel with _$MemberModel implements MemberEntity {
   factory MemberModel({
     required String uuid,
     required String name,
