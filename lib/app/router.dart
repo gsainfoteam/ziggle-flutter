@@ -10,6 +10,7 @@ class AppRouter extends RootStackRouter {
     return [
       RedirectRoute(path: '/', redirectTo: '/splash'),
       AutoRoute(path: '/splash', page: SplashRoute.page),
+      AutoRoute(path: '/login', page: LoginRoute.page),
       AutoRoute(
         path: '/',
         page: ZiggleBottomNavigationRoute.page,
@@ -33,10 +34,7 @@ class AppRouter extends RootStackRouter {
         path: '/write',
         page: NoticeWriteShellRoute.page,
         children: [
-          AutoRoute(
-            path: '',
-            page: NoticeWriteBodyRoute.page,
-          ),
+          AutoRoute(path: '', page: NoticeWriteBodyRoute.page),
           CustomRoute(
             path: 'config',
             page: NoticeWriteConfigRoute.page,
@@ -46,18 +44,9 @@ class AppRouter extends RootStackRouter {
             page: NoticeWriteSheetShellRoute.page,
             customRouteBuilder: _sheetRoute,
             children: [
-              AutoRoute(
-                path: 'tags',
-                page: NoticeWriteSelectTagsRoute.page,
-              ),
-              AutoRoute(
-                path: 'preview',
-                page: NoticeWritePreviewRoute.page,
-              ),
-              AutoRoute(
-                path: 'consent',
-                page: NoticeWriteConsentRoute.page,
-              ),
+              AutoRoute(path: 'tags', page: NoticeWriteSelectTagsRoute.page),
+              AutoRoute(path: 'preview', page: NoticeWritePreviewRoute.page),
+              AutoRoute(path: 'consent', page: NoticeWriteConsentRoute.page),
             ],
           ),
         ],
@@ -97,77 +86,55 @@ class AppRouter extends RootStackRouter {
         page: GroupManagementMainRoute.page,
       ),
       AutoRoute(
-          path: '/group/management',
-          page: GroupManagementShellRoute.page,
-          children: [
-            AutoRoute(
-              path: '',
-              page: GroupManagementRoute.page,
-            ),
-            AutoRoute(
-              path: 'name',
-              page: GroupManagementNameRoute.page,
-            ),
-            AutoRoute(
-              path: 'description',
-              page: GroupManagementDescriptionRoute.page,
-            ),
-            AutoRoute(
-              path: 'notion',
-              page: GroupManagementNotionRoute.page,
-            ),
-            AutoRoute(
-              path: 'member',
-              page: GroupManagementMemberRoute.page,
-            ),
-            AutoRoute(
-              path: 'invitation',
-              page: GroupManagementInvitationLinkRoute.page,
-            ),
-          ]),
-      AutoRoute(
-        path: '/group/create',
-        page: GroupCreationShellRoute.page,
+        path: '/group/management',
+        page: GroupManagementShellRoute.page,
         children: [
+          AutoRoute(path: '', page: GroupManagementRoute.page),
+          AutoRoute(path: 'name', page: GroupManagementNameRoute.page),
           AutoRoute(
-            path: ':step',
-            page: GroupCreationProfileRoute.page,
+            path: 'description',
+            page: GroupManagementDescriptionRoute.page,
           ),
+          AutoRoute(path: 'notion', page: GroupManagementNotionRoute.page),
+          AutoRoute(path: 'member', page: GroupManagementMemberRoute.page),
           AutoRoute(
-            path: 'introduce',
-            page: GroupCreationIntroduceRoute.page,
-          ),
-          AutoRoute(
-            path: 'notion',
-            page: GroupCreationNotionRoute.page,
-          ),
-          AutoRoute(
-            path: 'done',
-            page: GroupCreationDoneRoute.page,
+            path: 'invitation',
+            page: GroupManagementInvitationLinkRoute.page,
           ),
         ],
       ),
       AutoRoute(
-        path: '/group/detail',
-        page: GroupDetailRoute.page,
-      )
+        path: '/group/create',
+        page: GroupCreationShellRoute.page,
+        children: [
+          AutoRoute(path: ':step', page: GroupCreationProfileRoute.page),
+          AutoRoute(path: 'introduce', page: GroupCreationIntroduceRoute.page),
+          AutoRoute(path: 'notion', page: GroupCreationNotionRoute.page),
+          AutoRoute(path: 'done', page: GroupCreationDoneRoute.page),
+        ],
+      ),
+      AutoRoute(path: '/group/detail', page: GroupDetailRoute.page),
     ];
   }
 
   Route<T> _sheetRoute<T>(
-          BuildContext _, Widget child, AutoRoutePage<T> page) =>
-      CupertinoSheetRoute<T>(
-        settings: page,
-        builder: (context) => child,
-        maintainState: page.maintainState,
-      );
+    BuildContext _,
+    Widget child,
+    AutoRoutePage<T> page,
+  ) => CupertinoSheetRoute<T>(
+    settings: page,
+    builder: (context) => child,
+    maintainState: page.maintainState,
+  );
 
   Route<T> _extendedRoute<T>(
-          BuildContext _, Widget child, AutoRoutePage<T> page) =>
-      MaterialExtendedPageRoute<T>(
-        fullscreenDialog: page.fullscreenDialog,
-        settings: page,
-        builder: (context) => child,
-        maintainState: page.maintainState,
-      );
+    BuildContext _,
+    Widget child,
+    AutoRoutePage<T> page,
+  ) => MaterialExtendedPageRoute<T>(
+    fullscreenDialog: page.fullscreenDialog,
+    settings: page,
+    builder: (context) => child,
+    maintainState: page.maintainState,
+  );
 }
