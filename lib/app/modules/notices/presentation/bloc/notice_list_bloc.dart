@@ -129,7 +129,7 @@ class NoticeListBloc extends Bloc<NoticeListEvent, NoticeListState> {
 
 mixin _SearchEvent implements NoticeListEvent {}
 
-@freezed
+@Freezed(map: FreezedMapOptions.none, when: FreezedWhenOptions.none)
 sealed class NoticeListEvent with _$NoticeListEvent {
   @With<_SearchEvent>()
   const factory NoticeListEvent.load(NoticeType type, {String? query}) = _Load;
