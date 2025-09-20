@@ -6,8 +6,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
@@ -15,6 +17,7 @@ import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/api_channel_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
+import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -26,7 +29,8 @@ bool _isValidPassword(String password) {
 
 @RoutePage()
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  final Function(bool) onResult;
+  const LoginPage({super.key, required this.onResult});
 
   @override
   Widget build(BuildContext context) {
@@ -76,20 +80,20 @@ class _Layout extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Assets.logo.transparent.image(height: 100),
-                      // Text.rich(
-                      //   t.setting.promotion(
-                      //     red: (text) => TextSpan(
-                      //       text: text,
-                      //       style: const TextStyle(color: Palette.primary100),
-                      //     ),
-                      //   ),
-                      //   textAlign: TextAlign.center,
-                      //   style: const TextStyle(
-                      //     fontSize: 16,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
+                      Assets.logo.long.svg(height: 50),
+                      Text.rich(
+                        context.t.promotion.ziggle(
+                          red: (text) => TextSpan(
+                            text: text,
+                            style: const TextStyle(color: Palette.primary),
+                          ),
+                        ),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -104,24 +108,31 @@ class _Layout extends StatelessWidget {
                           orElse: () => false,
                           loading: () => true,
                         ),
-                        child: Text(context.t.user.login.action),
+                        child: Text(context.t.user.account.login),
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Text.rich(
-                  //   t.setting.consent(
-                  //     terms: (text) => TextSpan(
-                  //       text: text,
-                  //       style: const TextStyle(color: Palette.primary100),
-                  //       recognizer: TapGestureRecognizer()
-                  //         ..onTap = () =>
-                  //             launchUrlString(Strings.termsOfServiceUrl),
-                  //     ),
-                  //   ),
-                  //   style: const TextStyle(fontSize: 12),
-                  //   textAlign: TextAlign.center,
-                  // ),
+                  Text.rich(
+                    context.t.user.login.consent(
+                      terms: (text) => TextSpan(
+                        text: text,
+                        style: const TextStyle(color: Palette.primary),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () =>
+                              launchUrlString(Strings.termsOfServiceUrl),
+                      ),
+                      privacy: (text) => TextSpan(
+                        text: text,
+                        style: const TextStyle(color: Palette.primary),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () =>
+                              launchUrlString(Strings.privacyPolicyUrl),
+                      ),
+                    ),
+                    style: const TextStyle(fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             ),
@@ -249,8 +260,12 @@ class _Article extends StatelessWidget {
       rect: rect,
       child: ZigglePressable(
         onPressed: () => onTap?.call(opacity),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-        child: Container(color: Palette.primary.withValues(alpha: opacity)),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Palette.primary.withValues(alpha: opacity),
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
       ),
     );
   }
