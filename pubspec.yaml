@@ -9,10 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  firebase_core: ^3.4.0
-  firebase_crashlytics: ^4.1.0
-  firebase_analytics: ^11.3.0
-  firebase_messaging: ^15.1.3
+  firebase_core: ^4.1.0
+  firebase_crashlytics: ^5.0.1
+  firebase_analytics: ^12.0.1
+  firebase_messaging: ^16.0.1
   get_it: ^8.0.2
   injectable: ^2.5.1
   slang: ^4.1.0
@@ -23,7 +23,7 @@ dependencies:
   image_picker: ^1.1.2
   flutter_quill: ^11.4.1
   keyboard_actions: ^4.2.0
-  dotted_border: ^2.1.0
+  dotted_border: ^3.1.0
   intl: ^0.20.0
   sheet: ^1.0.0
   flutter_secure_storage: ^9.2.2
@@ -36,23 +36,23 @@ dependencies:
   json_annotation: ^4.9.0
   freezed_annotation: ^3.1.0
   rxdart: ^0.28.0
-  flutter_bloc: ^8.1.6
+  flutter_bloc: ^9.1.1
   collection: ^1.18.0
   flutter_inappwebview: ^6.1.5
   url_launcher: ^6.3.0
-  permission_handler: ^11.3.1
-  package_info_plus: ^8.0.2
+  permission_handler: ^12.0.1
+  package_info_plus: ^9.0.0
   extended_text: ^15.0.2
   mutex: ^3.1.0
   auto_route: ^10.1.2
-  flutter_local_notifications: ^18.0.1
+  flutter_local_notifications: ^19.4.2
   vsc_quill_delta_to_html: ^1.0.5
   dynamic_fonts: ^2.2.1
   flutter_quill_delta_from_html: ^1.4.1
-  share_plus: ^10.0.2
+  share_plus: ^12.0.0
   cached_network_image: ^3.4.1
   amplitude_flutter: ^4.3.1
-  flutter_dotenv: ^5.1.0
+  flutter_dotenv: ^6.0.0
   lottie: ^3.1.3
   app_links: ^6.3.3
   nonce: ^1.2.0

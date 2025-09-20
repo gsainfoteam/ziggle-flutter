@@ -51,9 +51,8 @@ class _NoticeWriteBodyPageState extends State<NoticeWriteBodyPage>
     return BlocProvider(
       create: (_) => sl<AiBloc>(),
       child: BlocListener<AiBloc, AiState>(
-        listener: (context, state) => state.mapOrNull(
-          error: (error) => context.showToast(error.message),
-        ),
+        listener: (context, state) =>
+            state.mapOrNull(error: (error) => context.showToast(error.message)),
         child: const _Layout(),
       ),
     );
@@ -69,16 +68,18 @@ class _Layout extends StatefulWidget {
 
 class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
   late final _draft = context.read<NoticeWriteBloc>().state.draft;
-  late final _koreanTitleController =
-      TextEditingController(text: _draft.titles[Language.ko] ?? '');
+  late final _koreanTitleController = TextEditingController(
+    text: _draft.titles[Language.ko] ?? '',
+  );
   late final _koreanBodyController = QuillController(
     document: documentFromHtml(_draft.bodies[Language.ko] ?? '<br/>'),
     selection: const TextSelection.collapsed(offset: 0),
   );
   final _koreanTitleFocusNode = FocusNode();
   final _koreanBodyFocusNode = FocusNode();
-  late final _englishTitleController =
-      TextEditingController(text: _draft.titles[Language.en] ?? '');
+  late final _englishTitleController = TextEditingController(
+    text: _draft.titles[Language.en] ?? '',
+  );
   late final _englishBodyController = QuillController(
     document: documentFromHtml(_draft.bodies[Language.en] ?? '<br/>'),
     selection: const TextSelection.collapsed(offset: 0),
@@ -99,12 +100,14 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     _englishBodyController.addListener(() => setState(_save));
     _englishTitleFocusNode.addListener(() => setState(noop));
     _englishBodyFocusNode.addListener(() => setState(noop));
-    _tabController.addListener(() => setState(() {
-          _koreanBodyFocusNode.unfocus();
-          _koreanTitleFocusNode.unfocus();
-          _englishBodyFocusNode.unfocus();
-          _englishTitleFocusNode.unfocus();
-        }));
+    _tabController.addListener(
+      () => setState(() {
+        _koreanBodyFocusNode.unfocus();
+        _koreanTitleFocusNode.unfocus();
+        _englishBodyFocusNode.unfocus();
+        _englishTitleFocusNode.unfocus();
+      }),
+    );
   }
 
   @override
@@ -136,16 +139,16 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
         ..add(
           NoticeWriteEvent.setTitle(_englishTitleController.text, Language.en),
         )
-        ..add(NoticeWriteEvent.setBody(
-          _englishBodyController.html,
-          Language.en,
-        ));
+        ..add(
+          NoticeWriteEvent.setBody(_englishBodyController.html, Language.en),
+        );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final actionDisabled = _koreanTitleController.text.trim().isEmpty ||
+    final actionDisabled =
+        _koreanTitleController.text.trim().isEmpty ||
         _koreanBodyController.plainTextEditingValue.text.trim().isEmpty ||
         (_tabController.index == 1 &&
             (_englishTitleController.text.trim().isEmpty ||
@@ -166,10 +169,7 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
             },
             child: Text(
               context.t.common.done,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
           ),
         ],
@@ -204,14 +204,16 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
               child: Row(
                 children: [
                   LanguageToggle(
-                      onToggle: (v) {
-                        AnalyticsRepository.click(
-                          AnalyticsEvent.writeToggleLanguage(
-                              v ? Language.en : Language.ko),
-                        );
-                        _tabController.animateTo(v ? 1 : 0);
-                      },
-                      value: _tabController.index != 0),
+                    onToggle: (v) {
+                      AnalyticsRepository.click(
+                        AnalyticsEvent.writeToggleLanguage(
+                          v ? Language.en : Language.ko,
+                        ),
+                      );
+                      _tabController.animateTo(v ? 1 : 0);
+                    },
+                    value: _tabController.index != 0,
+                  ),
                 ],
               ),
             ),
@@ -231,25 +233,25 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                       return GestureDetector(
                         onTap: () async {
                           AnalyticsRepository.click(
-                              const AnalyticsEvent.writeAddPhoto());
+                            const AnalyticsEvent.writeAddPhoto(),
+                          );
                           final images = await ImagePicker().pickMultiImage();
                           if (!mounted) return;
                           setState(() {
-                            _photos.addAll(
-                              images.map((e) => File(e.path)),
-                            );
+                            _photos.addAll(images.map((e) => File(e.path)));
                             AnalyticsRepository.action(
                               const AnalyticsEvent.writeAddPhoto(),
                             );
                           });
                         },
                         child: DottedBorder(
-                          color: Palette.gray,
-                          strokeWidth: 2,
-                          borderType: BorderType.RRect,
-                          radius: const Radius.circular(10),
-                          borderPadding: const EdgeInsets.all(1),
-                          dashPattern: const [10, 4],
+                          options: RoundedRectDottedBorderOptions(
+                            color: Palette.gray,
+                            strokeWidth: 2,
+                            radius: const Radius.circular(10),
+                            borderPadding: const EdgeInsets.all(1),
+                            dashPattern: const [10, 4],
+                          ),
                           child: SizedBox(
                             width: 140,
                             height: 140,
@@ -312,11 +314,13 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
                   return;
                 }
                 AnalyticsRepository.click(
-                    const AnalyticsEvent.writeUseAiTranslation());
+                  const AnalyticsEvent.writeUseAiTranslation(),
+                );
                 _translate();
               },
               translateEnabled: _englishBodyController
-                  .plainTextEditingValue.text
+                  .plainTextEditingValue
+                  .text
                   .trim()
                   .isEmpty,
               titleFocusNode: _englishTitleFocusNode,
@@ -333,10 +337,9 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
   Future<void> _translate() async {
     final bloc = context.read<AiBloc>();
     final blocker = bloc.stream.firstWhere((s) => s.hasResult);
-    bloc.add(AiEvent.request(
-      body: _koreanBodyController.html,
-      lang: Language.en,
-    ));
+    bloc.add(
+      AiEvent.request(body: _koreanBodyController.html, lang: Language.en),
+    );
     final result = await blocker;
     result.mapOrNull(
       loaded: (result) => _englishBodyController.html = result.body,
@@ -347,52 +350,52 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
   List<ButtonBuilder> _buildToolbarButtons(QuillController controller) {
     return [
       (_) => _buildToggleButton(
-            controller: controller,
-            attribute: Attribute.h1,
-            child: Assets.icons.heading.svg(),
-          ),
+        controller: controller,
+        attribute: Attribute.h1,
+        child: Assets.icons.heading.svg(),
+      ),
       (_) => _buildToggleButton(
-            controller: controller,
-            attribute: Attribute.h2,
-            child: Assets.icons.subheading.svg(),
-          ),
+        controller: controller,
+        attribute: Attribute.h2,
+        child: Assets.icons.subheading.svg(),
+      ),
       (_) => _buildToggleButton(
-            controller: controller,
-            attribute: Attribute.bold,
-            child: Assets.icons.bold.svg(),
-          ),
+        controller: controller,
+        attribute: Attribute.bold,
+        child: Assets.icons.bold.svg(),
+      ),
       (_) => _buildToggleButton(
-            controller: controller,
-            attribute: Attribute.italic,
-            child: Assets.icons.italic.svg(),
-          ),
+        controller: controller,
+        attribute: Attribute.italic,
+        child: Assets.icons.italic.svg(),
+      ),
       (_) => QuillToolbarLinkStyleButton(
-            controller: controller,
-            options: QuillToolbarLinkStyleButtonOptions(
-              childBuilder: (options, extraOptions) => _buildIcon(
-                onPressed: () {
-                  showCupertinoDialog<QuillTextLink>(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (context) => LinkDialog(controller: controller),
-                  ).then((link) => link?.submit(controller));
-                  options.afterButtonPressed?.call();
-                },
-                isToggled: QuillTextLink.isSelected(controller),
-                child: Assets.icons.link.svg(),
-              ),
-            ),
+        controller: controller,
+        options: QuillToolbarLinkStyleButtonOptions(
+          childBuilder: (options, extraOptions) => _buildIcon(
+            onPressed: () {
+              showCupertinoDialog<QuillTextLink>(
+                context: context,
+                barrierDismissible: true,
+                builder: (context) => LinkDialog(controller: controller),
+              ).then((link) => link?.submit(controller));
+              options.afterButtonPressed?.call();
+            },
+            isToggled: QuillTextLink.isSelected(controller),
+            child: Assets.icons.link.svg(),
           ),
+        ),
+      ),
       (_) => _buildToggleButton(
-            controller: controller,
-            attribute: Attribute.ul,
-            child: Assets.icons.list.svg(),
-          ),
+        controller: controller,
+        attribute: Attribute.ul,
+        child: Assets.icons.list.svg(),
+      ),
       (_) => _buildToggleButton(
-            controller: controller,
-            attribute: Attribute.underline,
-            child: Assets.icons.underline.svg(),
-          ),
+        controller: controller,
+        attribute: Attribute.underline,
+        child: Assets.icons.underline.svg(),
+      ),
     ];
   }
 
@@ -400,33 +403,31 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     required Attribute<dynamic> attribute,
     required Widget child,
     required QuillController controller,
-  }) =>
-      QuillToolbarToggleStyleButton(
-        attribute: attribute,
-        controller: controller,
-        options: QuillToolbarToggleStyleButtonOptions(
-          childBuilder: (options, extraOptions) => _buildIcon(
-            onPressed: extraOptions.onPressed,
-            isToggled: extraOptions.isToggled,
-            child: child,
-          ),
-        ),
-      );
+  }) => QuillToolbarToggleStyleButton(
+    attribute: attribute,
+    controller: controller,
+    options: QuillToolbarToggleStyleButtonOptions(
+      childBuilder: (options, extraOptions) => _buildIcon(
+        onPressed: extraOptions.onPressed,
+        isToggled: extraOptions.isToggled,
+        child: child,
+      ),
+    ),
+  );
 
   Widget _buildIcon({
     required VoidCallback? onPressed,
     required bool isToggled,
     required Widget child,
-  }) =>
-      GestureDetector(
-        onTap: onPressed,
-        child: Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: isToggled ? Palette.primary.withValues(alpha: 0.4) : null,
-          ),
-          child: child,
-        ),
-      );
+  }) => GestureDetector(
+    onTap: onPressed,
+    child: Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isToggled ? Palette.primary.withValues(alpha: 0.4) : null,
+      ),
+      child: child,
+    ),
+  );
 }
