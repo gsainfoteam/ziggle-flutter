@@ -13,10 +13,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository _repository;
   final AnalyticsRepository _analyticsRepository;
 
-  UserBloc(
-    this._repository,
-    this._analyticsRepository,
-  ) : super(const _Initial()) {
+  UserBloc(this._repository, this._analyticsRepository)
+    : super(const _Initial()) {
     on<_Init>((event, emit) async {
       return emit.forEach(
         _repository.me,
@@ -24,7 +22,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           _analyticsRepository.logChangeUser(data);
           return _Done(data);
         },
-        onError: (_, __) => const _Initial(),
+        onError: (_, _) => const _Initial(),
       );
     });
     on<_Fetch>((event, emit) async {

@@ -28,7 +28,7 @@ class TagBloc extends Bloc<TagEvent, TagState> {
 }
 
 @freezed
-sealed class TagEvent {
+sealed class TagEvent with _$TagEvent {
   const factory TagEvent.reset() = _Reset;
   const factory TagEvent.search(String search) = _Search;
 }

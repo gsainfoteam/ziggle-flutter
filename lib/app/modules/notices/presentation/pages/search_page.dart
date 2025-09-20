@@ -1,11 +1,8 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/date_time.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
@@ -45,9 +42,8 @@ class _SearchPageState extends State<SearchPage>
     return BlocProvider(
       create: (_) => sl<NoticeListBloc>(),
       child: BlocListener<NoticeListBloc, NoticeListState>(
-        listener: (context, state) => state.mapOrNull(
-          error: (error) => context.showToast(error.message),
-        ),
+        listener: (context, state) =>
+            state.mapOrNull(error: (error) => context.showToast(error.message)),
         child: const _Layout(),
       ),
     );
@@ -91,7 +87,8 @@ class _LayoutState extends State<_Layout> {
                   child: CupertinoSearchTextField(
                     controller: _controller,
                     onChanged: (value) => context.read<NoticeListBloc>().add(
-                        NoticeListEvent.load(NoticeType.all, query: value)),
+                      NoticeListEvent.load(NoticeType.all, query: value),
+                    ),
                     prefixIcon: Assets.icons.search.svg(width: 20),
                     placeholder: context.t.notice.search.hint,
                     suffixIcon: const Icon(Icons.cancel),
@@ -131,7 +128,7 @@ class _LayoutState extends State<_Layout> {
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
-                  )
+                  ),
                 ],
               ),
             )
@@ -141,16 +138,19 @@ class _LayoutState extends State<_Layout> {
                   onRefresh: () => NoticeListBloc.refresh(context),
                   child: state.showLoading
                       ? Center(
-                          child: Lottie.asset(Assets.lotties.loading,
-                              height: MediaQuery.of(context).size.width * 0.2,
-                              width: MediaQuery.of(context).size.width * 0.2),
+                          child: Lottie.asset(
+                            Assets.lotties.loading,
+                            height: MediaQuery.of(context).size.width * 0.2,
+                            width: MediaQuery.of(context).size.width * 0.2,
+                          ),
                         )
                       : InfiniteScroll(
                           onLoadMore: () => NoticeListBloc.loadMore(context),
                           slivers: [
                             SliverPadding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
                               sliver: _buildList(state),
                             ),
                           ],
@@ -168,9 +168,11 @@ class _LayoutState extends State<_Layout> {
           return Padding(
             padding: EdgeInsets.all(8.0),
             child: Center(
-              child: Lottie.asset(Assets.lotties.loading,
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.width * 0.2),
+              child: Lottie.asset(
+                Assets.lotties.loading,
+                width: MediaQuery.of(context).size.width * 0.2,
+                height: MediaQuery.of(context).size.width * 0.2,
+              ),
             ),
           );
         }
@@ -180,16 +182,11 @@ class _LayoutState extends State<_Layout> {
               ? null
               : const BoxDecoration(
                   border: Border(
-                    bottom: BorderSide(
-                      color: Color(0x5B3C3C43),
-                      width: 0.33,
-                    ),
+                    bottom: BorderSide(color: Color(0x5B3C3C43), width: 0.33),
                   ),
                 ),
           child: Container(
-            padding: const EdgeInsets.symmetric(
-              vertical: 9,
-            ),
+            padding: const EdgeInsets.symmetric(vertical: 9),
             decoration: const BoxDecoration(
               border: Border(
                 top: BorderSide(color: Color(0x5B3C3C43), width: 0.33),
@@ -198,7 +195,8 @@ class _LayoutState extends State<_Layout> {
             child: ZigglePressable(
               onPressed: () {
                 AnalyticsRepository.click(
-                    AnalyticsEvent.notice(notice.id, PageSource.search));
+                  AnalyticsEvent.notice(notice.id, PageSource.search),
+                );
                 SingleNoticeShellRoute(notice: notice).push(context);
               },
               child: Column(

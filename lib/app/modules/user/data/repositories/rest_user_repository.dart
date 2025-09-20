@@ -15,13 +15,15 @@ class RestUserRepository implements UserRepository {
   final RestAuthRepository _authRepository;
   final _subject = BehaviorSubject<UserModel?>();
 
-  static dispose(UserRepository inst) {
+  static void dispose(UserRepository inst) {
     final instance = inst as RestUserRepository;
     instance._subject.close();
   }
 
   RestUserRepository(
-      this._api, @Named.from(ZiggleRestAuthRepository) this._authRepository) {
+    this._api,
+    @Named.from(ZiggleRestAuthRepository) this._authRepository,
+  ) {
     _authRepository.isSignedIn.listen((signedIn) async {
       if (!signedIn) {
         _subject.add(null);

@@ -14,16 +14,27 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
   final GroupRepository _repository;
 
   GroupCreateBloc(this._repository) : super(const _Draft()) {
-    on<_SetName>((event, emit) => emit(_Draft(state.draft
-        .copyWith(name: event.name, description: state.draft.description))));
+    on<_SetName>(
+      (event, emit) => emit(
+        _Draft(
+          state.draft.copyWith(
+            name: event.name,
+            description: state.draft.description,
+          ),
+        ),
+      ),
+    );
     on<_SetImage>(
       (event, emit) => emit(_Draft(state.draft.copyWith(image: event.image))),
     );
-    on<_SetDescription>((event, emit) => emit(_Draft(state.draft.copyWith(
-          description: event.description,
-        ))));
-    on<_SetNotionPageId>((event, emit) =>
-        emit(_Draft(state.draft.copyWith(notionPageId: event.notionPageId))));
+    on<_SetDescription>(
+      (event, emit) =>
+          emit(_Draft(state.draft.copyWith(description: event.description))),
+    );
+    on<_SetNotionPageId>(
+      (event, emit) =>
+          emit(_Draft(state.draft.copyWith(notionPageId: event.notionPageId))),
+    );
     on<_Create>((event, emit) async {
       emit(_Loading(state.draft.copyWith()));
       try {
@@ -53,18 +64,22 @@ class GroupCreateEvent with _$GroupCreateEvent {
 }
 
 @freezed
-class GroupCreateState with _$GroupCreateState {
+sealed class GroupCreateState with _$GroupCreateState {
   const GroupCreateState._();
 
-  const factory GroupCreateState.draft(
-          [@Default(GroupCreateDraftEntity()) GroupCreateDraftEntity draft]) =
-      _Draft;
+  const factory GroupCreateState.draft([
+    @Default(GroupCreateDraftEntity()) GroupCreateDraftEntity draft,
+  ]) = _Draft;
   const factory GroupCreateState.loading(GroupCreateDraftEntity draft) =
       _Loading;
   const factory GroupCreateState.done(
-      GroupCreateDraftEntity draft, GroupEntity group) = _Done;
+    GroupCreateDraftEntity draft,
+    GroupEntity group,
+  ) = _Done;
   const factory GroupCreateState.error(
-      GroupCreateDraftEntity draft, String error) = _Error;
+    GroupCreateDraftEntity draft,
+    String error,
+  ) = _Error;
 
   bool get isLoading => this is _Loading;
 }

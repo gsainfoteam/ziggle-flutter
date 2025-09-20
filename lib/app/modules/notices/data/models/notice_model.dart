@@ -13,7 +13,7 @@ part 'notice_model.freezed.dart';
 part 'notice_model.g.dart';
 
 @freezed
-class NoticeModel with _$NoticeModel implements NoticeEntity {
+sealed class NoticeModel with _$NoticeModel implements NoticeEntity {
   const NoticeModel._();
 
   const factory NoticeModel({

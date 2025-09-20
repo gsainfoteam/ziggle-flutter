@@ -15,7 +15,6 @@ class HiveSettingRepository
 
   @PostConstruct(preResolve: true)
   Future<void> init() async {
-    Hive.registerAdapter(SettingModelAdapter());
     _box = await Hive.openBox(_boxKey);
   }
 

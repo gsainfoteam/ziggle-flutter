@@ -91,10 +91,11 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                         decoration: ShapeDecoration(
                           color: _scrolled
                               ? Palette.white.withValues(alpha: 0.8)
-                              : widget.notice.currentDeadline!
-                                      .isBefore(DateTime.now())
-                                  ? Palette.grayText
-                                  : Palette.primary,
+                              : widget.notice.currentDeadline!.isBefore(
+                                  DateTime.now(),
+                                )
+                              ? Palette.grayText
+                              : Palette.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: _scrolled
                                 ? BorderRadius.circular(30)
@@ -107,31 +108,31 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                           curve: Curves.easeOut,
                           child: AnimatedDefaultTextStyle(
                             duration: const Duration(milliseconds: 100),
-                            style: DefaultTextStyle.of(context)
-                                .style
-                                .merge(TextStyle(
-                                  color: _scrolled
-                                      ? widget.notice.currentDeadline!
-                                              .isBefore(DateTime.now())
+                            style: DefaultTextStyle.of(context).style.merge(
+                              TextStyle(
+                                color: _scrolled
+                                    ? widget.notice.currentDeadline!.isBefore(
+                                            DateTime.now(),
+                                          )
                                           ? Palette.grayText
                                           : Palette.primary
-                                      : Palette.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500,
-                                )),
+                                    : Palette.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: _scrolled
                                   ? MainAxisSize.min
                                   : MainAxisSize.max,
                               children: [
-                                Text(
-                                  context.t.notice.detail.deadline,
-                                ),
+                                Text(context.t.notice.detail.deadline),
                                 const SizedBox(width: 10),
                                 Text(
                                   DateFormat.yMd().add_Hm().format(
-                                      widget.notice.currentDeadline!.toLocal()),
+                                    widget.notice.currentDeadline!.toLocal(),
+                                  ),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -170,9 +171,9 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                         ),
                       ),
                       Text(
-                        DateFormat.yMd()
-                            .add_Hm()
-                            .format(widget.notice.createdAt.toLocal()),
+                        DateFormat.yMd().add_Hm().format(
+                          widget.notice.createdAt.toLocal(),
+                        ),
                         style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -236,7 +237,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                   ),
                 ),
               ),
-              separatorBuilder: (_, __) => const SizedBox(height: 18),
+              separatorBuilder: (_, _) => const SizedBox(height: 18),
             ),
           ),
           SliverPadding(
@@ -255,18 +256,23 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                   ...NoticeReaction.values.map(
                     (reaction) => _ChipButton(
                       onPressed: () {
-                        AnalyticsRepository.click(AnalyticsEvent.noticeReaction(
-                            widget.notice.id, reaction, PageSource.detail));
+                        AnalyticsRepository.click(
+                          AnalyticsEvent.noticeReaction(
+                            widget.notice.id,
+                            reaction,
+                            PageSource.detail,
+                          ),
+                        );
                         if (UserBloc.userOrNull(context) == null) {
                           return context.showToast(
                             context.t.user.login.description,
                           );
                         }
                         context.read<NoticeBloc>().add(
-                              widget.notice.reacted(reaction)
-                                  ? NoticeEvent.removeReaction(reaction)
-                                  : NoticeEvent.addReaction(reaction),
-                            );
+                          widget.notice.reacted(reaction)
+                              ? NoticeEvent.removeReaction(reaction)
+                              : NoticeEvent.addReaction(reaction),
+                        );
                       },
                       isSelected: widget.notice.reacted(reaction),
                       icon: reaction.icon(widget.notice.reacted(reaction)),
@@ -275,8 +281,12 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                   ),
                   _ChipButton(
                     onPressed: () {
-                      AnalyticsRepository.click(AnalyticsEvent.noticeShare(
-                          widget.notice.id, PageSource.detail));
+                      AnalyticsRepository.click(
+                        AnalyticsEvent.noticeShare(
+                          widget.notice.id,
+                          PageSource.detail,
+                        ),
+                      );
                       context.read<ShareCubit>().share(widget.notice);
                     },
                     icon: Assets.icons.share.svg(),
@@ -285,7 +295,8 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                   _ChipButton(
                     onPressed: () async {
                       AnalyticsRepository.click(
-                          AnalyticsEvent.noticeCopy(widget.notice.id));
+                        AnalyticsEvent.noticeCopy(widget.notice.id),
+                      );
                       final result = await context
                           .read<CopyLinkCubit>()
                           .copyLink(widget.notice);
@@ -306,13 +317,15 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                 final previousDeadline = index == 0
                     ? widget.notice.deadline
                     : widget.notice.additionalContents.locales
-                        .elementAt(index - 1)
-                        .deadline;
-                final additional =
-                    widget.notice.additionalContents.locales.elementAt(index);
+                          .elementAt(index - 1)
+                          .deadline;
+                final additional = widget.notice.additionalContents.locales
+                    .elementAt(index);
                 return Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 18,
+                    horizontal: 20,
+                  ),
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                     color: Palette.grayLight,
@@ -333,9 +346,9 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                           ),
                           const SizedBox(width: 10),
                           Text(
-                            DateFormat.yMd()
-                                .add_Hm()
-                                .format(additional.createdAt.toLocal()),
+                            DateFormat.yMd().add_Hm().format(
+                              additional.createdAt.toLocal(),
+                            ),
                             style: const TextStyle(
                               fontSize: 16,
                               color: Palette.grayText,
@@ -349,7 +362,9 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                           additional.deadline != previousDeadline) ...[
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 15, vertical: 13),
+                            horizontal: 15,
+                            vertical: 13,
+                          ),
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(15)),
                             border: Border.fromBorderSide(
@@ -371,23 +386,25 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                               Row(
                                 children: [
                                   Text(
-                                    DateFormat.yMd()
-                                        .add_Hm()
-                                        .format(previousDeadline!.toLocal()),
+                                    DateFormat.yMd().add_Hm().format(
+                                      previousDeadline!.toLocal(),
+                                    ),
                                     style: const TextStyle(
                                       fontSize: 18,
                                       color: Palette.black,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  Assets.icons.nextArrow
-                                      .svg(width: 20, height: 20),
+                                  Assets.icons.nextArrow.svg(
+                                    width: 20,
+                                    height: 20,
+                                  ),
                                 ],
                               ),
                               Text(
-                                DateFormat.yMd()
-                                    .add_Hm()
-                                    .format(additional.deadline!.toLocal()),
+                                DateFormat.yMd().add_Hm().format(
+                                  additional.deadline!.toLocal(),
+                                ),
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Palette.primary,
@@ -411,7 +428,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                   ),
                 );
               },
-              separatorBuilder: (_, __) => const SizedBox(height: 18),
+              separatorBuilder: (_, _) => const SizedBox(height: 18),
               itemCount: widget.notice.additionalContents.locales.length,
             ),
           ),
@@ -437,7 +454,8 @@ class _NoticeRendererState extends State<NoticeRenderer> {
             _AuthorSettingAction(
               onPressed: () {
                 AnalyticsRepository.click(
-                    AnalyticsEvent.noticeEdit(widget.notice.id));
+                  AnalyticsEvent.noticeEdit(widget.notice.id),
+                );
                 const NoticeEditRoute().push(context);
               },
               icon: Assets.icons.editPencil,
@@ -446,7 +464,8 @@ class _NoticeRendererState extends State<NoticeRenderer> {
             _AuthorSettingAction(
               onPressed: () async {
                 AnalyticsRepository.click(
-                    AnalyticsEvent.noticeDelete(widget.notice.id));
+                  AnalyticsEvent.noticeDelete(widget.notice.id),
+                );
                 final result = await context.showDialog<bool>(
                   title: context.t.notice.settings.delete.title,
                   content: context.t.notice.settings.delete.description,
@@ -470,12 +489,16 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                   _AuthorSettingAction(
                     onPressed: () async {
                       AnalyticsRepository.click(
-                          AnalyticsEvent.noticeSendNotification(
-                              widget.notice.id));
+                        AnalyticsEvent.noticeSendNotification(widget.notice.id),
+                      );
                       final result = await context.showDialog<bool>(
                         title: context.t.notice.settings.sendNotification.title,
                         content: context
-                            .t.notice.settings.sendNotification.description,
+                            .t
+                            .notice
+                            .settings
+                            .sendNotification
+                            .description,
                         onConfirm: (context) => Navigator.pop(context, true),
                       );
                       if (result != true || !context.mounted) return;
@@ -491,7 +514,9 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                     padding: const EdgeInsets.fromLTRB(18, 0, 18, 9),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
                       decoration: const BoxDecoration(
                         border: Border.fromBorderSide(
                           BorderSide(color: Palette.primary),
@@ -546,10 +571,7 @@ class _AuthorSettingAction extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               text,
-              style: const TextStyle(
-                color: Palette.grayText,
-                fontSize: 16,
-              ),
+              style: const TextStyle(color: Palette.grayText, fontSize: 16),
             ),
           ],
         ),
@@ -580,18 +602,11 @@ class _ChipButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(25),
       ),
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          vertical: 5,
-          horizontal: 10,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              width: 30,
-              height: 30,
-              child: icon,
-            ),
+            SizedBox(width: 30, height: 30, child: icon),
             const SizedBox(width: 4),
             Text(
               text,

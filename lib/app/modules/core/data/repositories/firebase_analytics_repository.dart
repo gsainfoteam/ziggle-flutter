@@ -11,7 +11,7 @@ class FirebaseAnalyticsRepository implements AnalyticsRepository {
   static final _analytics = FirebaseAnalytics.instance;
 
   @override
-  logChangeUser(UserEntity? user) {
+  void logChangeUser(UserEntity? user) {
     _analytics
       ..setUserId(id: user?.uuid)
       ..setUserProperty(name: 'studentId', value: user?.studentId)
@@ -19,12 +19,12 @@ class FirebaseAnalyticsRepository implements AnalyticsRepository {
   }
 
   @override
-  logScreen(String screenName) {
+  void logScreen(String screenName) {
     _analytics.logScreenView(screenName: screenName);
   }
 
   @override
-  logEvent(EventType type, AnalyticsEvent event) {
+  void logEvent(EventType type, AnalyticsEvent event) {
     _analytics.logEvent(
       name: '${type.name}_${event.name}',
       parameters: event.parameters,

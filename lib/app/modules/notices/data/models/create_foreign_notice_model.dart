@@ -5,7 +5,7 @@ part 'create_foreign_notice_model.freezed.dart';
 part 'create_foreign_notice_model.g.dart';
 
 @freezed
-class CreateForeignNoticeModel with _$CreateForeignNoticeModel {
+sealed class CreateForeignNoticeModel with _$CreateForeignNoticeModel {
   const factory CreateForeignNoticeModel({
     required Language lang,
     String? title,

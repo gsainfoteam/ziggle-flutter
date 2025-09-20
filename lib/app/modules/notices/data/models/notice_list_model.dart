@@ -7,7 +7,9 @@ part 'notice_list_model.freezed.dart';
 part 'notice_list_model.g.dart';
 
 @freezed
-class NoticeListModel with _$NoticeListModel implements NoticeListEntity {
+sealed class NoticeListModel
+    with _$NoticeListModel
+    implements NoticeListEntity {
   const NoticeListModel._();
 
   const factory NoticeListModel({

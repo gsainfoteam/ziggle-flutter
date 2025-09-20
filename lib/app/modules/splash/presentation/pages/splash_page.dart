@@ -25,8 +25,9 @@ class _SplashPageState extends State<SplashPage> {
         widget.delay ? const Duration(seconds: 1) : Duration.zero,
         () {
           if (!mounted) return;
-          final linkData =
-              context.read<LinkBloc>().state.whenOrNull(loaded: (link) => link);
+          final linkData = context.read<LinkBloc>().state.whenOrNull(
+            loaded: (link) => link,
+          );
           if (linkData != null) {
             try {
               context.router
@@ -45,9 +46,7 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Palette.white,
-      body: Center(
-        child: Assets.logo.transparent.image(),
-      ),
+      body: Center(child: Assets.logo.transparent.image()),
     );
   }
 }

@@ -7,10 +7,10 @@ part 'member_list_model.freezed.dart';
 part 'member_list_model.g.dart';
 
 @freezed
-class MemberListModel with _$MemberListModel implements MemberListEntity {
-  factory MemberListModel({
-    required List<MemberModel> list,
-  }) = _MemberListModel;
+sealed class MemberListModel
+    with _$MemberListModel
+    implements MemberListEntity {
+  factory MemberListModel({required List<MemberModel> list}) = _MemberListModel;
 
   factory MemberListModel.fromJson(Map<String, dynamic> json) =>
       _$MemberListModelFromJson(json);

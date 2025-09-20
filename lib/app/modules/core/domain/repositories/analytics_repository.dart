@@ -4,9 +4,9 @@ import 'package:ziggle/app/modules/core/domain/enums/event_type.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 
 abstract class AnalyticsRepository {
-  logChangeUser(UserEntity? user);
-  logScreen(String screenName);
-  logEvent(EventType type, AnalyticsEvent event);
+  void logChangeUser(UserEntity? user);
+  void logScreen(String screenName);
+  void logEvent(EventType type, AnalyticsEvent event);
 
   static AnalyticsRepository get _instance => sl<AnalyticsRepository>();
 

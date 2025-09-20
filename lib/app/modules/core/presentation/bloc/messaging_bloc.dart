@@ -24,7 +24,7 @@ class MessagingBloc extends Bloc<MessagingEvent, MessagingState> {
 }
 
 @freezed
-sealed class MessagingEvent {
+sealed class MessagingEvent with _$MessagingEvent {
   const factory MessagingEvent.init() = _Init;
   const factory MessagingEvent.refresh() = _Refresh;
 }

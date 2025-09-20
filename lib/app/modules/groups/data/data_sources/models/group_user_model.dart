@@ -5,7 +5,7 @@ part 'group_user_model.freezed.dart';
 part 'group_user_model.g.dart';
 
 @freezed
-class GroupUserModel with _$GroupUserModel implements GroupUserEntity {
+sealed class GroupUserModel with _$GroupUserModel implements GroupUserEntity {
   const GroupUserModel._();
   const factory GroupUserModel({
     required String uuid,
