@@ -53,6 +53,7 @@ app.*.map.json
 *.freezed.dart
 *.gen.dart
 locator.config.dart
+!lib/hive/hive_registrar.g.dart
 
 # env
 .env
