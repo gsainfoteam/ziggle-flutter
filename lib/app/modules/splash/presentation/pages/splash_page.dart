@@ -32,7 +32,7 @@ class _SplashPageState extends State<SplashPage> {
             try {
               context.router
                 ..replaceAll([const FeedRoute()])
-                ..replaceNamed(linkData);
+                ..replacePath(linkData);
               return;
             } catch (_) {}
           }
