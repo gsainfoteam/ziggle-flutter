@@ -343,6 +343,7 @@
     "recruiting": {
       "title": "Apply to join the Infoteam",
       "description": "Did Infoteam create this Ziggle?"
-    }
+    },
+    "ziggle(rich)": "All ${red(GIST)} notices at a glance"
   }
 }

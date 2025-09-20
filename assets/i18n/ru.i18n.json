@@ -343,6 +343,7 @@
     "recruiting": {
       "title": "Подай заявку в Infoteam",
       "description": "Эту платформу объявлений создал Infoteam?"
-    }
+    },
+    "ziggle(rich)": "Все уведомления ${red(GIST)} с одного взгляда"
   }
 }

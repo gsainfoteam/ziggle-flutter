@@ -343,6 +343,7 @@
     "recruiting": {
       "title": "Infoteamに応募しよう",
       "description": "このお知らせプラットフォームを作ったのはInfoteam？"
-    }
+    },
+    "ziggle(rich)": "${red(GIST)}の全てのお知らせを一目で"
   }
 }
