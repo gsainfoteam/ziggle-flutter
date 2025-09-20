@@ -5,19 +5,17 @@ import 'package:ziggle/app/modules/notices/domain/entities/notice_write_draft_en
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 
 part 'notice_write_draft_model.freezed.dart';
-part 'notice_write_draft_model.g.dart';
 
 @freezed
-class NoticeWriteDraftModel with _$NoticeWriteDraftModel {
-  const NoticeWriteDraftModel._();
+class NoticeWriteDraftModel extends HiveObject with _$NoticeWriteDraftModel {
+  NoticeWriteDraftModel._();
 
-  @HiveType(typeId: 2)
   const factory NoticeWriteDraftModel({
-    @HiveField(0) @Default({}) Map<Language, String> titles,
-    @HiveField(1) @Default({}) Map<Language, String> bodies,
-    @HiveField(2) NoticeType? type,
-    @HiveField(3) @Default([]) List<String> tags,
-    @HiveField(4) DateTime? deadline,
+    @Default({}) Map<Language, String> titles,
+    @Default({}) Map<Language, String> bodies,
+    NoticeType? type,
+    @Default([]) List<String> tags,
+    DateTime? deadline,
   }) = _NoticeWriteDraftModel;
 
   NoticeWriteDraftEntity toEntity() => NoticeWriteDraftEntity(

@@ -3,16 +3,14 @@ import 'package:hive_ce/hive.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 part 'setting_model.freezed.dart';
-part 'setting_model.g.dart';
 
-@HiveType(typeId: 1)
 @freezed
-class SettingModel with _$SettingModel {
-  const SettingModel._();
+class SettingModel extends HiveObject with _$SettingModel {
+  SettingModel._();
 
   const factory SettingModel({
-    @HiveField(0) required String language,
-    @HiveField(1, defaultValue: false) required bool developerOption,
+    required String language,
+    @Default(false) bool developerOption,
   }) = _SettingModel;
 
   factory SettingModel.init() => SettingModel(
