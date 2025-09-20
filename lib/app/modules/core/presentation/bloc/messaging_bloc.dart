@@ -12,8 +12,12 @@ class MessagingBloc extends Bloc<MessagingEvent, MessagingState> {
   MessagingBloc(this._repository) : super(const _Initial()) {
     on<_Init>((event, emit) async {
       emit(const _Loading());
-      await _repository.init();
-      emit(const _Loaded());
+      try {
+        await _repository.init();
+        emit(const _Loaded());
+      } catch (e) {
+        emit(_Error(e.toString()));
+      }
     });
     on<_Refresh>((event, emit) async {
       emit(const _Loading());
@@ -34,4 +38,5 @@ sealed class MessagingState with _$MessagingState {
   const factory MessagingState.initial() = _Initial;
   const factory MessagingState.loading() = _Loading;
   const factory MessagingState.loaded() = _Loaded;
+  const factory MessagingState.error(String message) = _Error;
 }
