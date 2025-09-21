@@ -9,9 +9,7 @@ import 'package:ziggle/gen/assets.gen.dart';
 
 @RoutePage()
 class SplashPage extends StatefulWidget {
-  const SplashPage({super.key, this.delay = false});
-
-  final bool delay;
+  const SplashPage({super.key});
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -24,22 +22,20 @@ class _SplashPageState extends State<SplashPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final authBloc = context.read<AuthBloc>();
       await Future.wait([
-        if (widget.delay) Future.delayed(const Duration(seconds: 1)),
+        Future.delayed(const Duration(seconds: 1)),
         authBloc.stream.firstWhere((s) => !s.isLoading),
       ]);
       if (!mounted) return;
       final linkData = context.read<LinkBloc>().state.whenOrNull(
         loaded: (link) => link,
       );
+      final router = context.router;
+      await router.replace(FeedRoute());
       if (linkData != null) {
         try {
-          final router = context.router;
-          await router.replaceAll([const FeedRoute()]);
           await router.pushPath(linkData);
         } catch (_) {}
-        return;
       }
-      await context.router.replaceAll([const FeedRoute()]);
     });
   }
 
