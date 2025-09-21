@@ -342,11 +342,12 @@
       "title": "Terms and Conditions Agreement",
       "description": "Please agree to the terms and conditions to use Ziggle",
       "fields": {
-        "tos(rich)": "I agree to the ${link(Terms of Service)}",
-        "privacy(rich)": "I agree to the ${link(Privacy Policy)}"
+        "tos": "Ziggle Terms of Service",
+        "privacy": "Ziggle Privacy Policy"
       },
       "actions": {
-        "agree": "Agree"
+        "agree": "Agree",
+        "disagree": "Disagree"
       }
     }
   },

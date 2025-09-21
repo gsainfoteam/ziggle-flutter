@@ -342,11 +342,12 @@
       "title": "利用規約への同意",
       "description": "Ziggleを利用するには利用規約に同意してください",
       "fields": {
-        "tos(rich)": "${link(利用規約)}に同意します",
-        "privacy(rich)": "${link(プライバシーポリシー)}に同意します"
+        "tos": "Ziggle利用規約",
+        "privacy": "Ziggleプライバシーポリシー"
       },
       "actions": {
-        "agree": "同意する"
+        "agree": "同意する",
+        "disagree": "不同意"
       }
     }
   },

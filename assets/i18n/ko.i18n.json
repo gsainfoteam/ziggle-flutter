@@ -342,11 +342,12 @@
       "title": "약관 동의",
       "description": "지글을 사용하려면 약관에 동의해주세요",
       "fields": {
-        "tos(rich)": "${link(이용약관)}에 동의합니다",
-        "privacy(rich)": "${link(개인정보 처리방침)}에 동의합니다"
+        "tos": "지글 이용약관",
+        "privacy": "지글 개인정보 처리방침"
       },
       "actions": {
-        "agree": "동의하기"
+        "agree": "동의하기",
+        "disagree": "비동의"
       }
     }
   },
