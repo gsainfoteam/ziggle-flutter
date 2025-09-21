@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
@@ -50,6 +51,11 @@ class _Layout extends StatelessWidget {
             const SizedBox(width: 10),
             Expanded(
               child: ZiggleButton.cta(
+                onPressed: () => context.showDialog(
+                  title: context.t.user.withdraw.title,
+                  content: context.t.user.withdraw.confirm,
+                  onConfirm: (_) {},
+                ),
                 child: Text(context.t.user.withdraw.actions.withdraw),
               ),
             ),

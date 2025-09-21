@@ -355,7 +355,8 @@
       "description": "If you withdraw your membership, all your posts and reactions will be deleted.",
       "actions": {
         "withdraw": "Withdraw"
-      }
+      },
+      "confirm": "Your posts and reactions will be permanently deleted and cannot be recovered.\nAre you sure you want to continue?"
     }
   },
   "promotion": {
