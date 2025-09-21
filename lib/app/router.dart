@@ -30,12 +30,11 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes {
     return [
-      RedirectRoute(path: '/', redirectTo: '/splash'),
-      AutoRoute(path: '/splash', page: SplashRoute.page),
+      AutoRoute(path: '/', page: SplashRoute.page),
       AutoRoute(path: '/login', page: LoginRoute.page),
       AutoRoute(path: '/consent', page: ConsentRoute.page),
       AutoRoute(
-        path: '/',
+        path: '/home',
         page: ZiggleBottomNavigationRoute.page,
         children: [
           AutoRoute(path: 'feed', page: FeedRoute.page),
