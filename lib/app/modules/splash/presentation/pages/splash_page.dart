@@ -33,13 +33,13 @@ class _SplashPageState extends State<SplashPage> {
       );
       if (linkData != null) {
         try {
-          context.router
-            ..replaceAll([const FeedRoute()])
-            ..replacePath(linkData);
-          return;
+          final router = context.router;
+          await router.replaceAll([const FeedRoute()]);
+          await router.pushPath(linkData);
         } catch (_) {}
+        return;
       }
-      context.router.replaceAll([const FeedRoute()]);
+      await context.router.replaceAll([const FeedRoute()]);
     });
   }
 
