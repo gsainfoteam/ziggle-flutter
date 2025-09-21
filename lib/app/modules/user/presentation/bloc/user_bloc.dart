@@ -50,4 +50,5 @@ sealed class UserState with _$UserState {
 
   bool get isLoading => whenOrNull(loading: () => true) ?? false;
   UserEntity? get user => mapOrNull(done: (e) => e.user);
+  bool get isConsent => user?.consent ?? false;
 }
