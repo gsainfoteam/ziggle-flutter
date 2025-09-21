@@ -12,6 +12,7 @@ sealed class UserModel with _$UserModel implements UserEntity {
     required String name,
     @JsonKey(name: 'studentNumber') String? studentId,
     required String uuid,
+    required bool consent,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
