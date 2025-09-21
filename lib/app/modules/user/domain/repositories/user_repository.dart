@@ -4,4 +4,5 @@ abstract class UserRepository {
   Future<UserEntity?> refetchMe();
   Stream<UserEntity?> get me;
   Future<void> consent();
+  Future<void> withdraw();
 }

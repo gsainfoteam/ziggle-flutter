@@ -1,9 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_back_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
@@ -54,7 +58,18 @@ class _Layout extends StatelessWidget {
                 onPressed: () => context.showDialog(
                   title: context.t.user.withdraw.title,
                   content: context.t.user.withdraw.confirm,
-                  onConfirm: (_) {},
+                  onConfirm: (_) async {
+                    final bloc = context.read<UserBloc>();
+                    final authBloc = context.read<AuthBloc>();
+                    final waiter = bloc.stream.firstWhere(
+                      (state) => state.user == null,
+                    );
+                    bloc.add(const UserEvent.withdraw());
+                    await waiter;
+                    authBloc.add(
+                      const AuthEvent.logout(source: PageSource.withdraw),
+                    );
+                  },
                 ),
                 child: Text(context.t.user.withdraw.actions.withdraw),
               ),

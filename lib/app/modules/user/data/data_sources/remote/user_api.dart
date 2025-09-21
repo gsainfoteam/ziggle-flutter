@@ -19,4 +19,7 @@ abstract class UserApi extends BaseAuthApi {
 
   @POST('consent')
   Future<void> consent();
+
+  @DELETE('')
+  Future<void> withdraw();
 }

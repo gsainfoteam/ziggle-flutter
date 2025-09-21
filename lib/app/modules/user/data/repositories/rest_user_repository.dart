@@ -57,4 +57,9 @@ class RestUserRepository implements UserRepository {
   Future<void> consent() async {
     await _api.consent();
   }
+
+  @override
+  Future<void> withdraw() async {
+    await _api.withdraw();
+  }
 }

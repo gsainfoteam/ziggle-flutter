@@ -101,7 +101,7 @@ class _Layout extends StatelessWidget {
                     child: BlocBuilder<AuthBloc, AuthState>(
                       builder: (context, state) => ZiggleButton.cta(
                         onPressed: () => context.read<AuthBloc>().add(
-                          const AuthEvent.login(source: PageSource.unknown),
+                          const AuthEvent.login(source: PageSource.login),
                         ),
                         loading: state.maybeWhen(
                           orElse: () => false,

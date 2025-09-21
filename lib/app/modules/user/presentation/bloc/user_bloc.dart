@@ -32,6 +32,10 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       await _repository.consent();
       await _repository.refetchMe();
     });
+    on<_Withdraw>((event, emit) async {
+      await _repository.withdraw();
+      await _repository.refetchMe();
+    });
   }
 
   static UserEntity? userOrNull(BuildContext context) =>
@@ -43,6 +47,7 @@ sealed class UserEvent with _$UserEvent {
   const factory UserEvent.init() = _Init;
   const factory UserEvent.fetch() = _Fetch;
   const factory UserEvent.consent() = _Consent;
+  const factory UserEvent.withdraw() = _Withdraw;
 }
 
 @freezed

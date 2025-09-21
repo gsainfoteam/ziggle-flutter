@@ -19,4 +19,6 @@ enum PageSource {
   unknown,
   groupManagement,
   groupManagementMain,
+  login,
+  withdraw,
 }
