@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sheet/route.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page|Layout,Route')
@@ -10,20 +11,33 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRouteGuard> get guards => [
     AutoRouteGuard.simple((resolver, router) {
-      final authenticated = sl<AuthBloc>().state.hasUser;
-      if (authenticated ||
-          resolver.routeName == LoginRoute.name ||
-          resolver.routeName == SplashRoute.name) {
+      if (resolver.routeName == SplashRoute.name) {
         resolver.next(true);
-      } else {
-        resolver.redirectUntil(
-          LoginRoute(
-            onResult: (success) {
-              resolver.next(success);
-            },
-          ),
-        );
+        return;
       }
+      final authenticated = sl<AuthBloc>().state.hasUser;
+      if (resolver.routeName == LoginRoute.name) {
+        resolver.next(true);
+        return;
+      }
+      if (!authenticated) {
+        resolver.redirectUntil(
+          LoginRoute(onResult: (success) => resolver.next(success)),
+        );
+        return;
+      }
+      if (resolver.routeName == ConsentRoute.name) {
+        resolver.next(true);
+        return;
+      }
+      final consented = sl<UserBloc>().state.isConsent;
+      if (!consented) {
+        resolver.redirectUntil(
+          ConsentRoute(onResult: (success) => resolver.next(success)),
+        );
+        return;
+      }
+      resolver.next(true);
     }),
   ];
 
