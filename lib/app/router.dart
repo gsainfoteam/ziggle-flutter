@@ -33,6 +33,7 @@ class AppRouter extends RootStackRouter {
       RedirectRoute(path: '/', redirectTo: '/splash'),
       AutoRoute(path: '/splash', page: SplashRoute.page),
       AutoRoute(path: '/login', page: LoginRoute.page),
+      AutoRoute(path: '/consent', page: ConsentRoute.page),
       AutoRoute(
         path: '/',
         page: ZiggleBottomNavigationRoute.page,
