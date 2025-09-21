@@ -34,7 +34,13 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _Layout();
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) => state.mapOrNull(
+        authenticated: (_) => onResult(true),
+        unauthenticated: (_) => onResult(false),
+      ),
+      child: const _Layout(),
+    );
   }
 }
 
