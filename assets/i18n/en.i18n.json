@@ -296,8 +296,7 @@
     "login": {
       "title": "Please log in",
       "description": "Please log in to write notices and leave reactions.",
-      "action": "Login",
-      "consent(rich)": "By logging in, you are deemed to have agreed to the ${terms(Terms of Service)} and ${privacy(Privacy Policy)}"
+      "action": "Login"
     },
     "groups": "Group",
     "myGroups": "My Groups",

@@ -296,8 +296,7 @@
     "login": {
       "title": "로그인해주세요",
       "description": "공지를 작성하고, 반응을 남기려면 로그인해주세요.",
-      "action": "로그인하기",
-      "consent(rich)": "로그인 시 ${terms(이용약관)}과 ${privacy(개인정보 처리방침)}에 동의하는 것으로 간주합니다"
+      "action": "로그인하기"
     },
     "groups": "그룹",
     "myGroups": "내가 속한 그룹들",
