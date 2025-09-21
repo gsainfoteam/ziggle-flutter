@@ -6,10 +6,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
@@ -17,7 +15,6 @@ import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/api_channel_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
-import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -29,15 +26,15 @@ bool _isValidPassword(String password) {
 
 @RoutePage()
 class LoginPage extends StatelessWidget {
-  final Function(bool) onResult;
-  const LoginPage({super.key, required this.onResult});
+  final Function(bool)? onResult;
+  const LoginPage({super.key, this.onResult});
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) => state.mapOrNull(
-        authenticated: (_) => onResult(true),
-        unauthenticated: (_) => onResult(false),
+        authenticated: (_) => onResult?.call(true),
+        unauthenticated: (_) => onResult?.call(false),
       ),
       child: const _Layout(),
     );
@@ -117,27 +114,6 @@ class _Layout extends StatelessWidget {
                         child: Text(context.t.user.account.login),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text.rich(
-                    context.t.user.login.consent(
-                      terms: (text) => TextSpan(
-                        text: text,
-                        style: const TextStyle(color: Palette.primary),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () =>
-                              launchUrlString(Strings.termsOfServiceUrl),
-                      ),
-                      privacy: (text) => TextSpan(
-                        text: text,
-                        style: const TextStyle(color: Palette.primary),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () =>
-                              launchUrlString(Strings.privacyPolicyUrl),
-                      ),
-                    ),
-                    style: const TextStyle(fontSize: 12),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),
