@@ -70,6 +70,6 @@ sealed class AuthState with _$AuthState {
   const factory AuthState.error(String message) = _Error;
 
   bool get hasUser => this is _Authenticated;
-  bool get isLoading => this is _Loading;
+  bool get isLoading => this is _Loading || this is _Initial;
   bool get hasError => this is _Error;
 }
