@@ -8,7 +8,7 @@ import 'package:ziggle/app/modules/user/domain/repositories/user_repository.dart
 
 part 'user_bloc.freezed.dart';
 
-@injectable
+@singleton
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository _repository;
   final AnalyticsRepository _analyticsRepository;
@@ -26,7 +26,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       );
     });
     on<_Fetch>((event, emit) async {
-      _repository.refetchMe();
+      await _repository.refetchMe();
+    });
+    on<_Consent>((event, emit) async {
+      await _repository.consent();
+      await _repository.refetchMe();
     });
   }
 
@@ -38,6 +42,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 sealed class UserEvent with _$UserEvent {
   const factory UserEvent.init() = _Init;
   const factory UserEvent.fetch() = _Fetch;
+  const factory UserEvent.consent() = _Consent;
 }
 
 @freezed

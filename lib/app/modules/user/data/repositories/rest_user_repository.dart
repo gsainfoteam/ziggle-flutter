@@ -52,4 +52,9 @@ class RestUserRepository implements UserRepository {
       return null;
     }
   }
+
+  @override
+  Future<void> consent() async {
+    await _api.consent();
+  }
 }

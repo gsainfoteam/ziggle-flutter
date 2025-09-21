@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/strings.dart';
@@ -21,7 +23,7 @@ class ConsentPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-          child: _Layout(),
+          child: _Layout(onResult: onResult),
         ),
       ),
     );
@@ -29,7 +31,9 @@ class ConsentPage extends StatelessWidget {
 }
 
 class _Layout extends StatelessWidget {
-  const _Layout();
+  const _Layout({this.onResult});
+
+  final Function(bool)? onResult;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +75,13 @@ class _Layout extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         ZiggleButton.cta(
-          onPressed: () {},
+          onPressed: () async {
+            final bloc = context.read<UserBloc>();
+            final waiter = bloc.stream.firstWhere((state) => state.isConsent);
+            bloc.add(const UserEvent.consent());
+            await waiter;
+            onResult?.call(true);
+          },
           child: Text(context.t.user.consent.actions.agree),
         ),
       ],
