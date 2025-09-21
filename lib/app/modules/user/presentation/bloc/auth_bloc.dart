@@ -11,7 +11,7 @@ import 'package:ziggle/app/modules/user/data/repositories/ziggle_rest_auth_repos
 
 part 'auth_bloc.freezed.dart';
 
-@injectable
+@singleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final RestAuthRepository _repository;
   final AnalyticsRepository _analyticsRepository;
@@ -41,7 +41,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
     on<_Logout>((event, emit) async {
       _analyticsRepository.logEvent(
-          EventType.action, AnalyticsEvent.profileLogout(event.source));
+        EventType.action,
+        AnalyticsEvent.profileLogout(event.source),
+      );
       emit(const _Unauthenticated());
       await _repository.logout();
     });
