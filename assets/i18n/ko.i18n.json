@@ -337,6 +337,17 @@
       "disable": "개발자 모드 비활성화",
       "enabled": "개발자 모드가 활성화되었습니다.",
       "toggleChannel": "API 채널 전환 (현재: $channel)"
+    },
+    "consent": {
+      "title": "약관 동의",
+      "description": "지글을 사용하려면 약관에 동의해주세요",
+      "fields": {
+        "tos(rich)": "${link(이용약관)}에 동의합니다",
+        "privacy(rich)": "${link(개인정보 처리방침)}에 동의합니다"
+      },
+      "actions": {
+        "agree": "동의하기"
+      }
     }
   },
   "promotion": {

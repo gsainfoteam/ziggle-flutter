@@ -337,6 +337,17 @@
       "disable": "Disable developer mode",
       "enabled": "Developer mode is enabled.",
       "toggleChannel": "Toggle API channel (current: $channel)"
+    },
+    "consent": {
+      "title": "Terms and Conditions Agreement",
+      "description": "Please agree to the terms and conditions to use Ziggle",
+      "fields": {
+        "tos(rich)": "I agree to the ${link(Terms of Service)}",
+        "privacy(rich)": "I agree to the ${link(Privacy Policy)}"
+      },
+      "actions": {
+        "agree": "Agree"
+      }
     }
   },
   "promotion": {
