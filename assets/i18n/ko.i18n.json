@@ -347,7 +347,14 @@
       },
       "actions": {
         "agree": "동의하기",
-        "disagree": "비동의"
+        "disagree": "비동의 후 탈퇴"
+      }
+    },
+    "withdraw": {
+      "title": "탈퇴",
+      "description": "회원 탈퇴를 하시면 작성된 글, 반응이 모두 삭제 됩니다",
+      "actions": {
+        "withdraw": "탈퇴하기"
       }
     }
   },

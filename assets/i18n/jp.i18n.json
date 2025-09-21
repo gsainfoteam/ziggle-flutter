@@ -347,7 +347,14 @@
       },
       "actions": {
         "agree": "同意する",
-        "disagree": "不同意"
+        "disagree": "同意せずに退会"
+      }
+    },
+    "withdraw": {
+      "title": "退会",
+      "description": "退会すると、作成した投稿やリアクションはすべて削除されます。",
+      "actions": {
+        "withdraw": "退会する"
       }
     }
   },

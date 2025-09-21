@@ -347,7 +347,14 @@
       },
       "actions": {
         "agree": "Agree",
-        "disagree": "Disagree"
+        "disagree": "Disagree and Withdraw"
+      }
+    },
+    "withdraw": {
+      "title": "Withdrawal",
+      "description": "If you withdraw your membership, all your posts and reactions will be deleted.",
+      "actions": {
+        "withdraw": "Withdraw"
       }
     }
   },

@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -61,21 +62,17 @@ class _Layout extends StatelessWidget {
           ),
         ),
         Spacer(),
-        Row(
-          children: [
-            Expanded(
-              child: ZiggleButton.cta(
-                outlined: true,
-                child: Text(context.t.user.consent.actions.disagree),
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: ZiggleButton.cta(
-                child: Text(context.t.user.consent.actions.agree),
-              ),
-            ),
-          ],
+        ZiggleButton.text(
+          onPressed: () => WithdrawRoute().push(context),
+          child: Text(
+            context.t.user.consent.actions.disagree,
+            style: TextStyle(color: Palette.grayText),
+          ),
+        ),
+        const SizedBox(height: 10),
+        ZiggleButton.cta(
+          onPressed: () {},
+          child: Text(context.t.user.consent.actions.agree),
         ),
       ],
     );

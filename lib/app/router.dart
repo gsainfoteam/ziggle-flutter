@@ -26,7 +26,8 @@ class AppRouter extends RootStackRouter {
         );
         return;
       }
-      if (resolver.routeName == ConsentRoute.name) {
+      if (resolver.routeName == ConsentRoute.name ||
+          resolver.routeName == WithdrawRoute.name) {
         resolver.next(true);
         return;
       }
@@ -47,6 +48,7 @@ class AppRouter extends RootStackRouter {
       AutoRoute(path: '/', page: SplashRoute.page),
       AutoRoute(path: '/login', page: LoginRoute.page),
       AutoRoute(path: '/consent', page: ConsentRoute.page),
+      AutoRoute(path: '/withdraw', page: WithdrawRoute.page),
       AutoRoute(
         path: '/home',
         page: ZiggleBottomNavigationRoute.page,
