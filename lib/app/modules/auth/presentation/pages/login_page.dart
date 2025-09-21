@@ -78,26 +78,22 @@ class _Layout extends StatelessWidget {
           SafeArea(
             top: false,
             child: Padding(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8) + EdgeInsets.only(top: 40),
               child: Column(
                 children: [
-                  Column(
-                    children: [
-                      Assets.logo.long.svg(height: 50),
-                      Text.rich(
-                        context.t.promotion.ziggle(
-                          red: (text) => TextSpan(
-                            text: text,
-                            style: const TextStyle(color: Palette.primary),
-                          ),
-                        ),
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                  Assets.logo.long.svg(height: 50),
+                  Text.rich(
+                    context.t.promotion.ziggle(
+                      red: (text) => TextSpan(
+                        text: text,
+                        style: const TextStyle(color: Palette.primary),
                       ),
-                    ],
+                    ),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 20),
                   SizedBox(
