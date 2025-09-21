@@ -11,7 +11,9 @@ class AppRouter extends RootStackRouter {
   List<AutoRouteGuard> get guards => [
     AutoRouteGuard.simple((resolver, router) {
       final authenticated = sl<AuthBloc>().state.hasUser;
-      if (authenticated || resolver.routeName == LoginRoute.name) {
+      if (authenticated ||
+          resolver.routeName == LoginRoute.name ||
+          resolver.routeName == SplashRoute.name) {
         resolver.next(true);
       } else {
         resolver.redirectUntil(
