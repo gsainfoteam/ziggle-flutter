@@ -41,6 +41,9 @@ class App extends StatelessWidget {
               AutoRouteObserver(),
               sl<AppRouterObserver>(),
             ],
+            reevaluateListenable: ReevaluateListenable.stream(
+              sl<AuthBloc>().stream,
+            ),
           ),
           locale: TranslationProvider.of(context).flutterLocale,
           supportedLocales: AppLocaleUtils.supportedLocales,
