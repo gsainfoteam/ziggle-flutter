@@ -25,18 +25,14 @@ class RestGroupRepository implements GroupRepository {
   RestGroupRepository(this._api);
 
   @override
-  Future<GroupEntity> createGroup({
-    required String name,
-    File? image,
-    required String description,
-    String? notionPageId,
-  }) async {
-    final createdGroup = await _api.createGroup(CreateGroupModel(
-        name: name, description: description, notionPageId: notionPageId));
-    if (image != null) await _api.uploadImage(createdGroup.uuid, image);
-    await _refreshGroups();
-    return createdGroup;
+  Future<GroupListEntity> getGroups() async {
+    final GroupListModel groups = await _api.getGroups();
+    _groupsSubject.add(groups);
+    return groups;
   }
+
+  @override
+  Stream<GroupListEntity> watchGroups() => _groupsSubject.stream;
 
   Future<void> _refreshGroups() async {
     final newList = await _api.getGroups();
@@ -44,13 +40,22 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Stream<GroupListEntity> watchGroups() => _groupsSubject.stream;
-
-  @override
-  Future<GroupListEntity> getGroups() async {
-    final GroupListModel groups = await _api.getGroups();
-    _groupsSubject.add(groups);
-    return groups;
+  Future<GroupEntity> createGroup({
+    required String name,
+    File? image,
+    required String description,
+    String? notionPageId,
+  }) async {
+    final createdGroup = await _api.createGroup(
+      CreateGroupModel(
+        name: name,
+        description: description,
+        notionPageId: notionPageId,
+      ),
+    );
+    if (image != null) await _api.uploadImage(createdGroup.uuid, image);
+    await _refreshGroups();
+    return createdGroup;
   }
 
   @override
@@ -59,21 +64,20 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<void> modifyProfileImage({required String uuid, required File image}) {
-    return _api.uploadImage(uuid, image);
-  }
-
-  @override
-  Future<void> modifyGroup({
+  Future<void> updateGroup({
     required String uuid,
     required String name,
     required String description,
     required String? notionPageId,
   }) async {
-    await _api.modifyGroup(
-        uuid,
-        ModifyGroupModel(
-            name: name, description: description, notionPageId: notionPageId));
+    await _api.updateGroup(
+      uuid,
+      ModifyGroupModel(
+        name: name,
+        description: description,
+        notionPageId: notionPageId,
+      ),
+    );
     await _refreshGroups();
   }
 
@@ -84,32 +88,24 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
+  Future<void> modifyProfileImage({required String uuid, required File image}) {
+    return _api.uploadImage(uuid, image);
+  }
+
+  @override
   Future<String> createInviteLink({
     required GroupEntity group,
     required GroupMemberRole role,
     required Duration durationDays,
   }) async {
     final response = await _api.createInviteCode(
-        group.uuid, role.toInt(), durationDays.inDays);
+      group.uuid,
+      role.toInt(),
+      durationDays.inDays,
+    );
     final inviteLink =
         "${Strings.groupsBaseUrl}/invite/${response.code}/${group.uuid}";
     return inviteLink;
-  }
-
-  @override
-  Future<MemberListEntity> getMembers(String uuid) async {
-    return _api.getMembers(uuid);
-  }
-
-  @override
-  Future<RoleEntity> getUserRoleInGroup(String uuid) {
-    return _api.getUserRoleInGroup(uuid);
-  }
-
-  @override
-  Future<void> grantRoleToUser(
-      {required String uuid, required String targetUuid, required int roleId}) {
-    return _api.grantUserRole(uuid, targetUuid, roleId);
   }
 
   @override
@@ -118,28 +114,35 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<void> removeMember(
-      {required String uuid, required String targetUuid}) async {
+  Future<MemberListEntity> getMembers(String uuid) async {
+    return _api.getMembers(uuid);
+  }
+
+  @override
+  Future<void> removeMember({
+    required String uuid,
+    required String targetUuid,
+  }) async {
     await _api.banishUser(uuid, targetUuid);
     await _refreshGroups();
   }
 
   @override
-  Future<void> removeRoleFromUser(
-      {required String uuid, required String targetUuid, required int roleId}) {
+  Future<void> grantRoleToUser({
+    required String uuid,
+    required String targetUuid,
+    required int roleId,
+  }) {
+    return _api.grantUserRole(uuid, targetUuid, roleId);
+  }
+
+  @override
+  Future<void> removeRoleFromUser({
+    required String uuid,
+    required String targetUuid,
+    required int roleId,
+  }) {
     return _api.deleteUserRole(uuid, targetUuid, roleId);
-  }
-
-  @override
-  Future<void> createRole(String groupUuid, RoleEntity role) {
-    // TODO: implement createRole
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> deleteRole(String groupUuid, int roleId) {
-    // TODO: implement deleteRole
-    throw UnimplementedError();
   }
 
   @override
@@ -148,9 +151,7 @@ class RestGroupRepository implements GroupRepository {
   }
 
   @override
-  Future<void> updateRole(
-      String groupUuid, int roleId, AuthorityEntity authority) {
-    // TODO: implement updateRole
+  Future<void> createRole(String groupUuid, RoleEntity role) {
     throw UnimplementedError();
   }
 
@@ -158,5 +159,24 @@ class RestGroupRepository implements GroupRepository {
   Future<bool> checkGroupExistence(String name) async {
     final response = await _api.checkGroupExistence(name);
     return response.exist;
+  }
+
+  @override
+  Future<void> updateRole(
+    String groupUuid,
+    int roleId,
+    AuthorityEntity authority,
+  ) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> deleteRole(String groupUuid, int roleId) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<RoleEntity> getUserRoleInGroup(String uuid) {
+    return _api.getUserRoleInGroup(uuid);
   }
 }
