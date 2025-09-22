@@ -23,7 +23,8 @@ class _SplashPageState extends State<SplashPage> {
       final authBloc = context.read<AuthBloc>();
       await Future.wait([
         Future.delayed(const Duration(seconds: 1)),
-        authBloc.stream.firstWhere((s) => !s.isLoading),
+        if (authBloc.state.isLoading)
+          authBloc.stream.firstWhere((s) => !s.isLoading),
       ]);
       if (!mounted) return;
       final linkData = context.read<LinkBloc>().state.whenOrNull(
