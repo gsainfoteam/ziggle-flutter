@@ -16,10 +16,10 @@ abstract class RestAuthRepository implements AuthRepository {
     required TokenRepository tokenRepository,
     required CookieManager cookieManager,
     required OAuthRepository oAuthRepository,
-  })  : _api = api,
-        _tokenRepository = tokenRepository,
-        _cookieManager = cookieManager,
-        _oAuthRepository = oAuthRepository;
+  }) : _api = api,
+       _tokenRepository = tokenRepository,
+       _cookieManager = cookieManager,
+       _oAuthRepository = oAuthRepository;
 
   @override
   Future<void> login() async {
@@ -31,16 +31,17 @@ abstract class RestAuthRepository implements AuthRepository {
   }
 
   @override
-  Stream<bool> get isSignedIn => _tokenRepository.token.asyncMap(
-        (_) async {
-          try {
-            await _api.info();
-            return true;
-          } catch (_) {
-            return false;
-          }
-        },
-      );
+  Stream<bool> get isSignedIn => _tokenRepository.token.asyncMap((t) async {
+    if (t == null) {
+      return false;
+    }
+    try {
+      await _api.info();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  });
 
   @override
   Future<void> logout() async {
