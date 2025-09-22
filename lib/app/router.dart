@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:sheet/route.dart';
 import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 
@@ -11,28 +10,39 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRouteGuard> get guards => [
     AutoRouteGuard.simple((resolver, router) async {
+      final context = router.navigatorKey.currentContext;
       if (resolver.routeName == SplashRoute.name) {
         return resolver.next(true);
       }
-      final authenticated = sl<AuthBloc>().state.hasUser;
-      if (resolver.routeName == LoginRoute.name) {
-        return resolver.next(true);
-      }
+      final user = sl<UserBloc>().state.user;
+      final authenticated = user != null;
       if (!authenticated) {
+        if (resolver.routeName == LoginRoute.name) {
+          return resolver.next(true);
+        }
         resolver.redirectUntil(
           LoginRoute(onResult: (success) => resolver.next(success)),
         );
         return;
       }
-      if (resolver.routeName == ConsentRoute.name ||
-          resolver.routeName == WithdrawRoute.name) {
-        return resolver.next(true);
-      }
-      final consented = sl<UserBloc>().state.isConsent;
+      final consented = user.consent;
       if (!consented) {
+        if (resolver.routeName == ConsentRoute.name ||
+            resolver.routeName == WithdrawRoute.name) {
+          return resolver.next(true);
+        }
         resolver.redirectUntil(
           ConsentRoute(onResult: (success) => resolver.next(success)),
         );
+        return;
+      }
+      if ([
+        LoginRoute.name,
+        ConsentRoute.name,
+        WithdrawRoute.name,
+      ].contains(resolver.routeName)) {
+        resolver.next(false);
+        context!.router.replaceAll([FeedRoute()]);
         return;
       }
       return resolver.next(true);
