@@ -14,6 +14,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/api_channel_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -31,10 +32,12 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthBloc, AuthState>(
+    return BlocListener<UserBloc, UserState>(
       listener: (context, state) => state.mapOrNull(
-        authenticated: (_) => onResult?.call(true),
-        unauthenticated: (_) => onResult?.call(false),
+        done: (u) {
+          if (u.user == null) return;
+          return onResult?.call(true);
+        },
       ),
       child: const _Layout(),
     );
