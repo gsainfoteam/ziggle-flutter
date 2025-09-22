@@ -36,11 +36,7 @@ class AppRouter extends RootStackRouter {
         );
         return;
       }
-      if ([
-        LoginRoute.name,
-        ConsentRoute.name,
-        WithdrawRoute.name,
-      ].contains(resolver.routeName)) {
+      if ([LoginRoute.name, ConsentRoute.name].contains(resolver.routeName)) {
         resolver.next(false);
         context!.router.replaceAll([FeedRoute()]);
         return;
