@@ -65,8 +65,8 @@ abstract class GroupApi {
     @Query('duration') int duration,
   );
 
-  @DELETE('{uuid}/member/leave')
-  Future<void> leaveGroup(@Path('uuid') String uuid);
+  @DELETE('{groupUuid}/member/leave')
+  Future<void> leaveGroup(@Path('groupUuid') String groupUuid);
 
   @GET('{uuid}/member')
   Future<MemberListModel> getMembers(@Path('uuid') String uuid);
