@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
         loaded: (link) => link,
       );
       final router = context.router;
-      await router.replace(FeedRoute());
+      await router.replaceAll([FeedRoute()]);
       if (linkData != null) {
         try {
           await router.pushPath(linkData);
