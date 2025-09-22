@@ -10,15 +10,13 @@ import 'package:ziggle/app/router.gr.dart';
 class AppRouter extends RootStackRouter {
   @override
   List<AutoRouteGuard> get guards => [
-    AutoRouteGuard.simple((resolver, router) {
+    AutoRouteGuard.simple((resolver, router) async {
       if (resolver.routeName == SplashRoute.name) {
-        resolver.next(true);
-        return;
+        return resolver.next(true);
       }
       final authenticated = sl<AuthBloc>().state.hasUser;
       if (resolver.routeName == LoginRoute.name) {
-        resolver.next(true);
-        return;
+        return resolver.next(true);
       }
       if (!authenticated) {
         resolver.redirectUntil(
@@ -28,8 +26,7 @@ class AppRouter extends RootStackRouter {
       }
       if (resolver.routeName == ConsentRoute.name ||
           resolver.routeName == WithdrawRoute.name) {
-        resolver.next(true);
-        return;
+        return resolver.next(true);
       }
       final consented = sl<UserBloc>().state.isConsent;
       if (!consented) {
@@ -38,7 +35,7 @@ class AppRouter extends RootStackRouter {
         );
         return;
       }
-      resolver.next(true);
+      return resolver.next(true);
     }),
   ];
 
