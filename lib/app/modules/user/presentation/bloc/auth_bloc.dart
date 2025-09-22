@@ -41,13 +41,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
     }, transformer: droppable());
     on<_Logout>((event, emit) async {
-      _analyticsRepository.logEvent(
-        EventType.action,
-        AnalyticsEvent.profileLogout(event.source),
-      );
-      emit(const _Unauthenticated());
-      await _repository.logout();
-    });
+      emit(const _Loading());
+      try {
+        await _repository.logout();
+        _analyticsRepository.logEvent(
+          EventType.action,
+          AnalyticsEvent.profileLogout(event.source),
+        );
+      } on Exception catch (e) {
+        emit(_Error(e.toString()));
+      } finally {
+        emit(const _Unauthenticated());
+      }
+    }, transformer: droppable());
   }
 
   static bool hasUser(BuildContext context) =>
