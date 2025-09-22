@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart' hide CupertinoSheetRoute;
 import 'package:sheet/route.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
@@ -89,9 +89,10 @@ class AppRouter extends RootStackRouter {
         ],
       ),
       AutoRoute(path: '/:type', page: ListRoute.page),
-      AutoRoute(
+      CustomRoute(
         path: '/notice/:id',
         page: SingleNoticeShellRoute.page,
+        customRouteBuilder: _cupertinoRoute,
         children: [
           AutoRoute(path: '', page: DetailRoute.page),
           AutoRoute(
@@ -173,5 +174,16 @@ class AppRouter extends RootStackRouter {
     settings: page,
     builder: (context) => child,
     maintainState: page.maintainState,
+  );
+
+  Route<T> _cupertinoRoute<T>(
+    BuildContext _,
+    Widget child,
+    AutoRoutePage<T> page,
+  ) => CupertinoPageRoute<T>(
+    settings: page,
+    builder: (context) => child,
+    maintainState: page.maintainState,
+    fullscreenDialog: page.fullscreenDialog,
   );
 }
