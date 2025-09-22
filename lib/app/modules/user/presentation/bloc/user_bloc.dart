@@ -32,11 +32,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<_Consent>((event, emit) async {
       await _repository.consent();
       await _repository.refetchMe();
-    });
+    }, transformer: droppable());
     on<_Withdraw>((event, emit) async {
       await _repository.withdraw();
       emit(const _Initial());
-    });
+    }, transformer: droppable());
   }
 
   static UserEntity? userOrNull(BuildContext context) =>

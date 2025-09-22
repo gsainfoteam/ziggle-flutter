@@ -39,7 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {
         emit(_Error(e.toString()));
       }
-    });
+    }, transformer: droppable());
     on<_Logout>((event, emit) async {
       _analyticsRepository.logEvent(
         EventType.action,
