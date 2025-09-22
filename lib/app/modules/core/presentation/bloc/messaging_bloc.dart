@@ -21,7 +21,11 @@ class MessagingBloc extends Bloc<MessagingEvent, MessagingState> {
     });
     on<_Refresh>((event, emit) async {
       emit(const _Loading());
-      await _repository.refresh();
+      try {
+        await _repository.refresh();
+      } catch (e) {
+        emit(_Error(e.toString()));
+      }
       emit(const _Loaded());
     });
   }
