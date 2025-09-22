@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dar
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
+import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
@@ -59,6 +60,7 @@ class _Layout extends StatelessWidget {
                   title: context.t.user.withdraw.title,
                   content: context.t.user.withdraw.confirm,
                   onConfirm: (_) async {
+                    final router = context.router;
                     final bloc = context.read<UserBloc>();
                     final authBloc = context.read<AuthBloc>();
                     final waiter = bloc.stream.firstWhere(
@@ -69,6 +71,7 @@ class _Layout extends StatelessWidget {
                     authBloc.add(
                       const AuthEvent.logout(source: PageSource.withdraw),
                     );
+                    router.replaceAll([LoginRoute()]);
                   },
                 ),
                 child: Text(context.t.user.withdraw.actions.withdraw),

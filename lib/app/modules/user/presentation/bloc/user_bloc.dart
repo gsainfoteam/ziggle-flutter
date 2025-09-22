@@ -34,7 +34,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     });
     on<_Withdraw>((event, emit) async {
       await _repository.withdraw();
-      await _repository.refetchMe();
+      emit(const _Initial());
     });
   }
 
