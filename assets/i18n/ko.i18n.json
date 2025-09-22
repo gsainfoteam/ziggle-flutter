@@ -337,12 +337,33 @@
       "disable": "개발자 모드 비활성화",
       "enabled": "개발자 모드가 활성화되었습니다.",
       "toggleChannel": "API 채널 전환 (현재: $channel)"
+    },
+    "consent": {
+      "title": "약관 동의",
+      "description": "지글을 사용하려면 약관에 동의해주세요",
+      "fields": {
+        "tos": "지글 이용약관",
+        "privacy": "지글 개인정보 처리방침"
+      },
+      "actions": {
+        "agree": "동의하기",
+        "disagree": "비동의 후 탈퇴"
+      }
+    },
+    "withdraw": {
+      "title": "탈퇴",
+      "description": "회원 탈퇴를 하시면 작성된 글, 반응이 모두 삭제 됩니다",
+      "actions": {
+        "withdraw": "탈퇴하기"
+      },
+      "confirm": "작성한 글, 반응은 영구히 삭제되며, 복구할 수 없습니다.\n계속하시겠습니까?"
     }
   },
   "promotion": {
     "recruiting": {
       "title": "인포팀 지원하러 가기",
       "description": "지글을 만든 건 인포팀?"
-    }
+    },
+    "ziggle(rich)": "${red(지)}스트의 모든 공지를 한눈에"
   }
 }

@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -11,7 +12,7 @@ import 'package:ziggle/app/modules/user/data/repositories/ziggle_rest_auth_repos
 
 part 'auth_bloc.freezed.dart';
 
-@injectable
+@singleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final RestAuthRepository _repository;
   final AnalyticsRepository _analyticsRepository;
@@ -26,7 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _repository.isSignedIn,
         onData: (v) => v ? const _Authenticated() : const _Unauthenticated(),
       );
-    });
+    }, transformer: restartable());
     on<_Login>((event, emit) async {
       emit(const _Loading());
       try {
@@ -38,13 +39,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {
         emit(_Error(e.toString()));
       }
-    });
+    }, transformer: droppable());
     on<_Logout>((event, emit) async {
-      _analyticsRepository.logEvent(
-          EventType.action, AnalyticsEvent.profileLogout(event.source));
-      emit(const _Unauthenticated());
-      await _repository.logout();
-    });
+      emit(const _Loading());
+      try {
+        await _repository.logout();
+        _analyticsRepository.logEvent(
+          EventType.action,
+          AnalyticsEvent.profileLogout(event.source),
+        );
+      } on Exception catch (e) {
+        emit(_Error(e.toString()));
+      } finally {
+        emit(const _Unauthenticated());
+      }
+    }, transformer: droppable());
   }
 
   static bool hasUser(BuildContext context) =>
@@ -68,6 +77,6 @@ sealed class AuthState with _$AuthState {
   const factory AuthState.error(String message) = _Error;
 
   bool get hasUser => this is _Authenticated;
-  bool get isLoading => this is _Loading;
+  bool get isLoading => this is _Loading || this is _Initial;
   bool get hasError => this is _Error;
 }

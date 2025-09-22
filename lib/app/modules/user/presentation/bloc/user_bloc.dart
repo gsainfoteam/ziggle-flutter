@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -8,7 +9,7 @@ import 'package:ziggle/app/modules/user/domain/repositories/user_repository.dart
 
 part 'user_bloc.freezed.dart';
 
-@injectable
+@singleton
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository _repository;
   final AnalyticsRepository _analyticsRepository;
@@ -24,10 +25,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         },
         onError: (_, _) => const _Initial(),
       );
-    });
+    }, transformer: restartable());
     on<_Fetch>((event, emit) async {
-      _repository.refetchMe();
+      await _repository.refetchMe();
     });
+    on<_Consent>((event, emit) async {
+      await _repository.consent();
+      await _repository.refetchMe();
+    }, transformer: droppable());
+    on<_Withdraw>((event, emit) async {
+      await _repository.withdraw();
+      emit(const _Initial());
+    }, transformer: droppable());
   }
 
   static UserEntity? userOrNull(BuildContext context) =>
@@ -38,6 +47,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 sealed class UserEvent with _$UserEvent {
   const factory UserEvent.init() = _Init;
   const factory UserEvent.fetch() = _Fetch;
+  const factory UserEvent.consent() = _Consent;
+  const factory UserEvent.withdraw() = _Withdraw;
 }
 
 @freezed
@@ -50,4 +61,5 @@ sealed class UserState with _$UserState {
 
   bool get isLoading => whenOrNull(loading: () => true) ?? false;
   UserEntity? get user => mapOrNull(done: (e) => e.user);
+  bool get isConsent => user?.consent ?? false;
 }

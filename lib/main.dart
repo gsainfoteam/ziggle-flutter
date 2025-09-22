@@ -18,12 +18,12 @@ import 'package:ziggle/hive/hive_registrar.g.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  _initBloc();
   _initCrashlytics();
   await dotenv.load();
   await _initHive();
   await configureDependencies();
   await _initLocale();
-  _initBloc();
   _initFont();
   runApp(TranslationProvider(child: const App()));
 }

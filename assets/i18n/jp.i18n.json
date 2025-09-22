@@ -337,12 +337,33 @@
       "disable": "開発者モードを無効にする",
       "enabled": "開発者モードが有効になっています。",
       "toggleChannel": "APIチャンネルの切り替え (現在: $channel)"
+    },
+    "consent": {
+      "title": "利用規約への同意",
+      "description": "Ziggleを利用するには利用規約に同意してください",
+      "fields": {
+        "tos": "Ziggle利用規約",
+        "privacy": "Ziggleプライバシーポリシー"
+      },
+      "actions": {
+        "agree": "同意する",
+        "disagree": "同意せずに退会"
+      }
+    },
+    "withdraw": {
+      "title": "退会",
+      "description": "退会すると、作成した投稿やリアクションはすべて削除されます。",
+      "actions": {
+        "withdraw": "退会する"
+      },
+      "confirm": "作成した投稿とリアクションは永久に削除され、復元することはできません。\n続行しますか？"
     }
   },
   "promotion": {
     "recruiting": {
       "title": "Infoteamに応募しよう",
       "description": "このお知らせプラットフォームを作ったのはInfoteam？"
-    }
+    },
+    "ziggle(rich)": "${red(G)}ISTの全てのお知らせを一目で"
   }
 }

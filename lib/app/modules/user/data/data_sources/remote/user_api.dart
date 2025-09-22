@@ -16,4 +16,10 @@ abstract class UserApi extends BaseAuthApi {
   @override
   @GET('info')
   Future<UserModel> info();
+
+  @POST('consent')
+  Future<void> consent();
+
+  @DELETE('')
+  Future<void> withdraw();
 }

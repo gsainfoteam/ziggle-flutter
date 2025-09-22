@@ -337,12 +337,33 @@
       "disable": "Disable developer mode",
       "enabled": "Developer mode is enabled.",
       "toggleChannel": "Toggle API channel (current: $channel)"
+    },
+    "consent": {
+      "title": "Terms and Conditions Agreement",
+      "description": "Please agree to the terms and conditions to use Ziggle",
+      "fields": {
+        "tos": "Ziggle Terms of Service",
+        "privacy": "Ziggle Privacy Policy"
+      },
+      "actions": {
+        "agree": "Agree",
+        "disagree": "Disagree and Withdraw"
+      }
+    },
+    "withdraw": {
+      "title": "Withdrawal",
+      "description": "If you withdraw your membership, all your posts and reactions will be deleted.",
+      "actions": {
+        "withdraw": "Withdraw"
+      },
+      "confirm": "Your posts and reactions will be permanently deleted and cannot be recovered.\nAre you sure you want to continue?"
     }
   },
   "promotion": {
     "recruiting": {
       "title": "Apply to join the Infoteam",
       "description": "Did Infoteam create this Ziggle?"
-    }
+    },
+    "ziggle(rich)": "All ${red(G)}IST notices at a glance"
   }
 }

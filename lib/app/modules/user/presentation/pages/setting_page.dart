@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
@@ -17,7 +16,6 @@ import 'package:ziggle/app/modules/user/presentation/bloc/developer_option_bloc.
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
-import 'package:ziggle/app/values/strings.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
@@ -52,56 +50,65 @@ class _SettingPageState extends State<SettingPage>
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               _Title(title: context.t.user.account.title),
-              BlocBuilder<UserBloc, UserState>(builder: (context, state) {
-                if (state.user == null) {
-                  return BlocBuilder<AuthBloc, AuthState>(
-                    builder: (context, authState) {
-                      return ZiggleButton.cta(
-                        loading: authState.isLoading,
-                        child: Text(context.t.user.account.login),
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  if (state.user == null) {
+                    return BlocBuilder<AuthBloc, AuthState>(
+                      builder: (context, authState) {
+                        return ZiggleButton.cta(
+                          loading: authState.isLoading,
+                          child: Text(context.t.user.account.login),
+                          onPressed: () {
+                            AnalyticsRepository.click(
+                              const AnalyticsEvent.profileLogin(
+                                PageSource.setting,
+                              ),
+                            );
+                            context.read<AuthBloc>().add(
+                              const AuthEvent.login(source: PageSource.setting),
+                            );
+                          },
+                        );
+                      },
+                    );
+                  }
+                  return Column(
+                    children: [
+                      ZiggleRowButton(
+                        title: Text(context.t.user.account.logout),
+                        destructive: true,
+                        showChevron: false,
                         onPressed: () {
                           AnalyticsRepository.click(
-                              const AnalyticsEvent.profileLogin(
-                                  PageSource.setting));
-                          context.read<AuthBloc>().add(const AuthEvent.login(
-                              source: PageSource.setting));
-                        },
-                      );
-                    },
-                  );
-                }
-                return Column(
-                  children: [
-                    ZiggleRowButton(
-                      title: Text(context.t.user.account.logout),
-                      destructive: true,
-                      showChevron: false,
-                      onPressed: () {
-                        AnalyticsRepository.click(
                             const AnalyticsEvent.profileLogout(
-                                PageSource.setting));
-                        context.read<AuthBloc>().add(
-                            const AuthEvent.logout(source: PageSource.setting));
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    ZiggleRowButton(
-                      title: Text(context.t.user.account.withdraw),
-                      destructive: true,
-                      showChevron: false,
-                      onPressed: () {
-                        AnalyticsRepository.click(
-                            const AnalyticsEvent.profileWithdraw());
-                        launchUrlString(Strings.withdrawalUrl);
-                      },
-                    ),
-                  ],
-                );
-              }),
+                              PageSource.setting,
+                            ),
+                          );
+                          context.read<AuthBloc>().add(
+                            const AuthEvent.logout(source: PageSource.setting),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      ZiggleRowButton(
+                        title: Text(context.t.user.account.withdraw),
+                        destructive: true,
+                        showChevron: false,
+                        onPressed: () {
+                          AnalyticsRepository.click(
+                            const AnalyticsEvent.profileWithdraw(),
+                          );
+                          WithdrawRoute().push(context);
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
               _Title(title: context.t.user.setting.notification.title),
               FutureBuilder(
-                future:
-                    sl<NotificationSettingRepository>().isNotificationEnabled(),
+                future: sl<NotificationSettingRepository>()
+                    .isNotificationEnabled(),
                 builder: (context, snapshot) {
                   final data = snapshot.data;
                   if (data == null) return const SizedBox.shrink();
@@ -109,8 +116,9 @@ class _SettingPageState extends State<SettingPage>
                     return ZiggleRowButton(
                       title: Text(context.t.user.setting.notification.enable),
                       onPressed: () {
-                        AnalyticsRepository.click(const AnalyticsEvent
-                            .profileSettingEnableNotification());
+                        AnalyticsRepository.click(
+                          const AnalyticsEvent.profileSettingEnableNotification(),
+                        );
                         sl<NotificationSettingRepository>()
                             .enableNotification();
                       },
@@ -133,12 +141,14 @@ class _SettingPageState extends State<SettingPage>
                     : () {
                         AnalyticsRepository.click(
                           const AnalyticsEvent.profileSettingLanguage(
-                              AppLocale.ko),
+                            AppLocale.ko,
+                          ),
                         );
                         LocaleSettings.setLocale(AppLocale.ko);
-                        sl<LanguageSettingRepository>()
-                            .setLanguage(Language.ko);
-                        context.router.replaceAll([SplashRoute(delay: true)]);
+                        sl<LanguageSettingRepository>().setLanguage(
+                          Language.ko,
+                        );
+                        context.router.replaceAll([SplashRoute()]);
                       },
               ),
               const SizedBox(height: 20),
@@ -151,12 +161,14 @@ class _SettingPageState extends State<SettingPage>
                     : () {
                         AnalyticsRepository.click(
                           const AnalyticsEvent.profileSettingLanguage(
-                              AppLocale.en),
+                            AppLocale.en,
+                          ),
                         );
                         LocaleSettings.setLocale(AppLocale.en);
-                        sl<LanguageSettingRepository>()
-                            .setLanguage(Language.en);
-                        context.router.replaceAll([SplashRoute(delay: true)]);
+                        sl<LanguageSettingRepository>().setLanguage(
+                          Language.en,
+                        );
+                        context.router.replaceAll([SplashRoute()]);
                       },
               ),
               _Title(title: context.t.user.setting.information.title),
@@ -164,7 +176,8 @@ class _SettingPageState extends State<SettingPage>
                 title: Text(context.t.user.setting.information.title),
                 onPressed: () {
                   AnalyticsRepository.click(
-                      const AnalyticsEvent.profileSettingInformation());
+                    const AnalyticsEvent.profileSettingInformation(),
+                  );
                   const InformationRoute().push(context);
                 },
               ),
@@ -191,10 +204,9 @@ class _SettingPageState extends State<SettingPage>
                             ),
                             onPressed: () {
                               context.read<DeveloperOptionBloc>().add(
-                                  const DeveloperOptionEvent.toggleChannel());
-                              context.router.replaceAll([
-                                SplashRoute(delay: true),
-                              ]);
+                                const DeveloperOptionEvent.toggleChannel(),
+                              );
+                              context.router.replaceAll([SplashRoute()]);
                             },
                           ),
                         ],
