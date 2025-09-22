@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -26,7 +27,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _repository.isSignedIn,
         onData: (v) => v ? const _Authenticated() : const _Unauthenticated(),
       );
-    });
+    }, transformer: restartable());
     on<_Login>((event, emit) async {
       emit(const _Loading());
       try {

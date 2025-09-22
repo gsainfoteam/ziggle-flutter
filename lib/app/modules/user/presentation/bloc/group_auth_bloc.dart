@@ -1,3 +1,4 @@
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -18,7 +19,7 @@ class GroupAuthBloc extends Bloc<GroupAuthEvent, GroupAuthState> {
         _repository.isSignedIn,
         onData: (v) => v ? const _Authenticated() : const _Unauthenticated(),
       );
-    });
+    }, transformer: restartable());
     on<_Login>((event, emit) async {
       try {
         emit(_Loading());
