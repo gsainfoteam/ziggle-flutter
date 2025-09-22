@@ -65,8 +65,9 @@ class _Layout extends StatelessWidget {
                     content: CupertinoTextField(controller: text),
                   ),
                 );
+                final password = text.text;
                 text.dispose();
-                if (!_isValidPassword(text.text)) return;
+                if (!_isValidPassword(password)) return;
                 final channel = sl<ApiChannelRepository>().toggleChannel();
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
