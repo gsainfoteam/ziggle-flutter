@@ -41,12 +41,10 @@ class _Layout extends StatelessWidget {
                     width: 300,
                     height: 300,
                     child: ClipRRect(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(150)),
-                      child: Image.file(
-                        state.draft.image!,
-                        fit: BoxFit.cover,
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(150),
                       ),
+                      child: Image.file(state.draft.image!, fit: BoxFit.cover),
                     ),
                   );
           },
@@ -58,13 +56,14 @@ class _Layout extends StatelessWidget {
               child: ZiggleButton.cta(
                 emphasize: false,
                 onPressed: () async {
-                  final image = await ImagePicker()
-                      .pickImage(source: ImageSource.gallery);
+                  final image = await ImagePicker().pickImage(
+                    source: ImageSource.gallery,
+                  );
                   if (image == null) return;
                   if (context.mounted) {
-                    context
-                        .read<GroupCreateBloc>()
-                        .add(GroupCreateEvent.setImage(File(image.path)));
+                    context.read<GroupCreateBloc>().add(
+                      GroupCreateEvent.setImage(File(image.path)),
+                    );
                   }
                 },
                 child: Text(context.t.group.creation.setProfileImage),
@@ -73,17 +72,13 @@ class _Layout extends StatelessWidget {
           },
         ),
         const SizedBox(height: 60),
-        BlocBuilder<GroupCreateBloc, GroupCreateState>(
-          builder: (context, state) {
-            return ZiggleInput(
-              onChanged: (v) => context
-                  .read<GroupCreateBloc>()
-                  .add(GroupCreateEvent.setName(v)),
-              hintText: context.t.group.creation.profile.name.hint,
-              label: Text(context.t.group.creation.profile.name.label),
-            );
-          },
+        ZiggleInput(
+          onChanged: (v) =>
+              context.read<GroupCreateBloc>().add(GroupCreateEvent.setName(v)),
+          hintText: context.t.group.creation.profile.name.hint,
+          label: Text(context.t.group.creation.profile.name.label),
         ),
+
         const SizedBox(height: 60),
         BlocBuilder<GroupCreateBloc, GroupCreateState>(
           builder: (context, state) {

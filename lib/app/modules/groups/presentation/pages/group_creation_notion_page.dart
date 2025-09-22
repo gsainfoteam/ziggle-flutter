@@ -39,16 +39,15 @@ class _Layout extends StatelessWidget {
       listener: (context, state) {
         state.whenOrNull(
           done: (_, __) {
-            context.router
-                .popUntilRouteWithName(GroupCreationProfileRoute.name);
+            context.router.popUntilRouteWithName(
+              GroupCreationProfileRoute.name,
+            );
             context.replaceRoute(const GroupCreationDoneRoute());
           },
           error: (_, error) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(error),
-              ),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(error)));
           },
         );
       },
@@ -85,20 +84,14 @@ class _Layout extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-          BlocBuilder<GroupCreateBloc, GroupCreateState>(
-            builder: (context, state) {
-              return ZiggleInput(
-                onChanged: (v) {
-                  context
-                      .read<GroupCreateBloc>()
-                      .add(GroupCreateEvent.setNotionPageId(v));
-                  context
-                      .read<NotionBloc>()
-                      .add(NotionEvent.load(notionLink: v));
-                },
-                hintText: context.t.group.creation.notion.hint,
+          ZiggleInput(
+            onChanged: (v) {
+              context.read<GroupCreateBloc>().add(
+                GroupCreateEvent.setNotionPageId(v),
               );
+              context.read<NotionBloc>().add(NotionEvent.load(notionLink: v));
             },
+            hintText: context.t.group.creation.notion.hint,
           ),
           Column(
             children: [
@@ -133,14 +126,16 @@ class _Layout extends StatelessWidget {
                       builder: (context, state) {
                         return ZiggleButton.cta(
                           onPressed: () {
-                            context
-                                .read<GroupCreateBloc>()
-                                .add(const GroupCreateEvent.create());
+                            context.read<GroupCreateBloc>().add(
+                              const GroupCreateEvent.create(),
+                            );
                           },
                           loading: state.isLoading,
-                          emphasize: !state.isNotionPageIdEmpty &&
+                          emphasize:
+                              !state.isNotionPageIdEmpty &&
                               notionState.isNotionIdValid,
-                          disabled: !state.isNotionPageIdEmpty &&
+                          disabled:
+                              !state.isNotionPageIdEmpty &&
                               !notionState.isNotionIdValid,
                           child: state.isNotionPageIdEmpty
                               ? Text(context.t.common.skip)
@@ -152,7 +147,7 @@ class _Layout extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -168,11 +163,7 @@ class _Layout extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 25),
       child: Column(
         children: [
-          Lottie.asset(
-            Assets.lotties.loading,
-            width: 80,
-            height: 80,
-          ),
+          Lottie.asset(Assets.lotties.loading, width: 80, height: 80),
           const SizedBox(height: 10),
           Text(
             message,
