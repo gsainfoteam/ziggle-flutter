@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/core/presentation/bloc/link_bloc.dart';
@@ -42,7 +43,7 @@ class App extends StatelessWidget {
               sl<AppRouterObserver>(),
             ],
             reevaluateListenable: ReevaluateListenable.stream(
-              sl<AuthBloc>().stream,
+              MergeStream([sl<AuthBloc>().stream, sl<UserBloc>().stream]),
             ),
           ),
           locale: TranslationProvider.of(context).flutterLocale,
