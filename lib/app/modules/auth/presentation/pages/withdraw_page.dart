@@ -59,7 +59,7 @@ class _Layout extends StatelessWidget {
                 onPressed: () => context.showDialog(
                   title: context.t.user.withdraw.title,
                   content: context.t.user.withdraw.confirm,
-                  onConfirm: (_) async {
+                  onConfirm: (c) async {
                     final router = context.router;
                     final bloc = context.read<UserBloc>();
                     final authBloc = context.read<AuthBloc>();
@@ -68,10 +68,12 @@ class _Layout extends StatelessWidget {
                     );
                     bloc.add(const UserEvent.withdraw());
                     await waiter;
+                    if (c.mounted) c.pop();
                     authBloc.add(
                       const AuthEvent.logout(source: PageSource.withdraw),
                     );
-                    router.replaceAll([LoginRoute()]);
+                    // guard의 영향을 받기 위해 feed route로 이동
+                    router.replaceAll([FeedRoute()]);
                   },
                 ),
                 child: Text(context.t.user.withdraw.actions.withdraw),
