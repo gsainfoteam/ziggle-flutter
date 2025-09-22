@@ -6,6 +6,9 @@ part 'group_member_role.g.dart';
 
 @JsonEnum(alwaysCreate: true)
 enum GroupMemberRole {
+  @JsonValue('president')
+  president,
+
   @JsonValue('admin')
   admin,
 
@@ -17,6 +20,8 @@ enum GroupMemberRole {
 
   int toInt() {
     switch (this) {
+      case GroupMemberRole.president:
+        return 0;
       case GroupMemberRole.admin:
         return 1;
       case GroupMemberRole.manager:
@@ -25,6 +30,8 @@ enum GroupMemberRole {
         return 3;
     }
   }
+
+  bool isPresident() => this == GroupMemberRole.president;
 
   bool isAdmin() => this == GroupMemberRole.admin;
 
@@ -36,6 +43,8 @@ enum GroupMemberRole {
 extension GroupMemberRoleX on GroupMemberRole {
   String toLocalizedString(BuildContext context) {
     switch (this) {
+      case GroupMemberRole.president:
+        return context.t.group.memberCard.role.president;
       case GroupMemberRole.admin:
         return context.t.group.memberCard.role.admin;
       case GroupMemberRole.manager:

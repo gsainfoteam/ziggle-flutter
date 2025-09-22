@@ -49,6 +49,10 @@ abstract class GroupRepository {
     required String targetUuid,
     required int roleId,
   });
+  Future<void> changePresident({
+    required String uuid,
+    required String targetUuid,
+  });
   Future<RoleListEntity> getRoles(String groupUuid);
   Future<void> createRole(String groupUuid, RoleEntity role);
   Future<void> updateRole(

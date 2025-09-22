@@ -7,9 +7,12 @@ import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
+import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
+import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_member_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_member_card.dart';
+import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -21,75 +24,101 @@ class GroupManagementMemberPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return BlocProvider<GroupMemberBloc>(
+      lazy: false,
       create: (context) =>
           sl<GroupMemberBloc>()..add(GroupMemberEvent.getMembers(uuid)),
-      child: Scaffold(
-        appBar: ZiggleAppBar.compact(
-          from: PageSource.groupManagement,
-          backLabel: context.t.group.manage.header,
-          title: Text(context.t.group.manage.member.header),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
-          child: BlocBuilder<GroupMemberBloc, GroupMemberState>(
-            builder: (context, state) {
-              return state.maybeWhen(
-                orElse: () => Container(),
-                loading: () => Center(
-                  child: Lottie.asset(Assets.lotties.loading,
-                      height: MediaQuery.of(context).size.width * 0.2,
-                      width: MediaQuery.of(context).size.width * 0.2),
-                ),
-                loaded: (members) {
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: ListView.separated(
-                          itemBuilder: (context, index) =>
-                              GroupMemberCard.editMode(
-                            name: members[index].name,
-                            email: members[index].email!,
-                            role: members[index].role!,
-                            onChanged: (e) {
-                              context.read<GroupMemberBloc>().add(
-                                  GroupMemberEvent.grantRoleToUser(
-                                      uuid,
-                                      members[index].uuid,
-                                      e!,
-                                      members[index].role!));
-                            },
-                            onBanish: () {
-                              context.showDialog<bool>(
-                                title: context.t.group.memberCard.banishTitle,
-                                content: context
-                                    .t.group.memberCard.banishDescription,
-                                onConfirm: (_) {
-                                  context.read<GroupManagementBloc>().add(
-                                      GroupManagementEvent.removeMember(
-                                          uuid, members[index].uuid));
-                                },
-                              );
-                            },
-                          ),
-                          separatorBuilder: (context, index) =>
-                              SizedBox(height: 10),
-                          itemCount: members.length,
-                        ),
-                      ),
-                      SizedBox(height: 30),
-                      ZiggleButton.cta(
-                        child: Text(context.t.group.manage.back),
-                        onPressed: () => context.maybePop(),
-                      ),
-                    ],
-                  );
-                },
-              );
-            },
+      child: Builder(builder: (context) {
+        context.read<GroupMemberBloc>().add(GroupMemberEvent.getMembers(uuid));
+        return Scaffold(
+          appBar: ZiggleAppBar.compact(
+            from: PageSource.groupManagement,
+            backLabel: context.t.group.manage.header,
+            title: Text(context.t.group.manage.member.header),
           ),
-        ),
-      ),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 18),
+            child: BlocBuilder<GroupMemberBloc, GroupMemberState>(
+              builder: (context, state) {
+                return state.maybeWhen(
+                  orElse: () => Container(),
+                  loading: () => Center(
+                    child: Lottie.asset(Assets.lotties.loading,
+                        height: MediaQuery.of(context).size.width * 0.2,
+                        width: MediaQuery.of(context).size.width * 0.2),
+                  ),
+                  loaded: (members, myUuid, presidentUuid) {
+                    return Column(
+                      children: [
+                        Expanded(
+                          child: ListView.separated(
+                            itemBuilder: (context, index) =>
+                                GroupMemberCard.editMode(
+                              name: members[index].name,
+                              email: members[index].email!,
+                              role: members[index].role!,
+                              onChanged: (e) {
+                                if (e == GroupMemberRole.president) {
+                                  context.showDialog<bool>(
+                                    title: context.t.group.memberCard
+                                        .changePresidentTitle(
+                                            name: members[index].name),
+                                    content: context.t.group.memberCard
+                                        .changePresidentDescription,
+                                    onConfirm: (dialogContext) {
+                                      context
+                                          .read<GroupMemberBloc>()
+                                          .add(GroupMemberEvent.changePresident(
+                                            uuid,
+                                            members[index].uuid,
+                                          ));
+                                      Navigator.of(dialogContext).pop();
+                                    },
+                                  );
+                                } else {
+                                  context.read<GroupMemberBloc>().add(
+                                      GroupMemberEvent.grantRoleToUser(
+                                          uuid,
+                                          members[index].uuid,
+                                          e!,
+                                          members[index].role!));
+                                }
+                              },
+                              onBanish: () {
+                                context.showDialog<bool>(
+                                  title: context.t.group.memberCard.banishTitle,
+                                  content: context
+                                      .t.group.memberCard.banishDescription,
+                                  onConfirm: (_) {
+                                    context.read<GroupManagementBloc>().add(
+                                        GroupManagementEvent.removeMember(
+                                            uuid, members[index].uuid));
+                                  },
+                                );
+                              },
+                              uuid: members[index].uuid,
+                              myUuid: myUuid,
+                              presidentUuid: presidentUuid,
+                            ),
+                            separatorBuilder: (context, index) =>
+                                SizedBox(height: 10),
+                            itemCount: members.length,
+                          ),
+                        ),
+                        SizedBox(height: 30),
+                        ZiggleButton.cta(
+                          child: Text(context.t.group.manage.back),
+                          onPressed: () => context.maybePop(),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      }),
     );
   }
 }

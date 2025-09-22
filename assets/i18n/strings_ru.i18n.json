@@ -34,7 +34,8 @@
       "profile": {
         "name": {
           "label": "Название группы",
-          "hint": "ИнфоТим (Infoteam)"
+          "hint": "ИнфоТим (Infoteam)",
+          "sameNameError": "Имя группы уже существует"
         }
       },
       "introduce": {
@@ -87,7 +88,8 @@
         "header": "Обновить ссылку на страницу Notion",
         "hintText": "Введите ссылку на Notion",
         "loading": "Загрузка Notion...",
-        "error": "Не удалось загрузить ссылку на Notion"
+        "error": "Не удалось загрузить ссылку на Notion",
+        "empty": "Пожалуйста, введите ссылку на Notion"
       },
       "invite": {
         "header": "Создать ссылку для приглашения",
@@ -106,10 +108,13 @@
     "memberCard": {
       "role": {
         "role": "Роль",
+        "president": "президент",
         "admin": "Администратор",
         "manager": "Менеджер",
         "member": "член"
       },
+      "changePresidentTitle": "? $name",
+      "changePresidentDescription": "?",
       "banish": "Исключить",
       "banishTitle": "Вы уверены, что хотите исключить этого участника?",
       "banishDescription": "Это действие нельзя отменить."

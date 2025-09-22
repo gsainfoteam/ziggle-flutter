@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/update_president_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
 import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/authority_entity.dart';
@@ -128,6 +129,12 @@ class RestGroupRepository implements GroupRepository {
   Future<void> removeRoleFromUser(
       {required String uuid, required String targetUuid, required int roleId}) {
     return _api.deleteUserRole(uuid, targetUuid, roleId);
+  }
+
+  @override
+  Future<void> changePresident(
+      {required String uuid, required String targetUuid}) {
+    return _api.updatePresident(uuid, UpdatePresidentModel(targetUuid));
   }
 
   @override

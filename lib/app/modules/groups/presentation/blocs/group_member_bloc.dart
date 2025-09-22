@@ -4,21 +4,29 @@ import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/member_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
+import 'package:ziggle/app/modules/user/data/repositories/groups_rest_auth_repository.dart';
+import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.dart';
 
 part 'group_member_bloc.freezed.dart';
 
 @injectable
 class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
   final GroupRepository _repository;
+  final RestAuthRepository _authRepository;
 
-  GroupMemberBloc(this._repository) : super(_Initial()) {
+  GroupMemberBloc(this._repository,
+      @Named.from(GroupsRestAuthRepository) this._authRepository)
+      : super(_Initial()) {
     on<_Load>((event, emit) {
       emit(_Loading());
     });
     on<_GetMembers>((event, emit) async {
       emit(GroupMemberState.loading());
       final members = await _repository.getMembers(event.uuid);
-      emit(GroupMemberState.loaded(members.list));
+      final group = await _repository.getGroup(event.uuid);
+      final myUuid = await _authRepository.info().then((u) => u.uuid);
+      emit(
+          GroupMemberState.loaded(members.list, myUuid, group.president!.uuid));
     });
     on<_RemoveMember>((event, emit) async {
       emit(GroupMemberState.loading());
@@ -47,6 +55,19 @@ class GroupMemberBloc extends Bloc<GroupMemberEvent, GroupMemberState> {
       emit(GroupMemberState.success());
       add(GroupMemberEvent.getMembers(event.uuid));
     });
+    on<_ChangePresident>((event, emit) async {
+      emit(GroupMemberState.loading());
+      try {
+        await _repository.changePresident(
+          uuid: event.uuid,
+          targetUuid: event.targetUuid,
+        );
+      } on Exception catch (e) {
+        emit(_Error(e.toString()));
+      }
+      emit(GroupMemberState.success());
+      add(GroupMemberEvent.getMembers(event.uuid));
+    });
   }
 }
 
@@ -58,13 +79,17 @@ class GroupMemberEvent with _$GroupMemberEvent {
       _RemoveMember;
   const factory GroupMemberEvent.grantRoleToUser(String uuid, String targetUuid,
       GroupMemberRole role, GroupMemberRole previousRole) = _GrantRoleToUser;
+
+  const factory GroupMemberEvent.changePresident(
+      String uuid, String targetUuid) = _ChangePresident;
 }
 
 @freezed
 class GroupMemberState with _$GroupMemberState {
   const factory GroupMemberState.initial() = _Initial;
   const factory GroupMemberState.loading() = _Loading;
-  const factory GroupMemberState.loaded(List<MemberEntity> list) = _Loaded;
+  const factory GroupMemberState.loaded(
+      List<MemberEntity> list, String myUuid, String presidentUuid) = _Loaded;
   const factory GroupMemberState.success() = _Success;
   const factory GroupMemberState.error(String error) = _Error;
 }
