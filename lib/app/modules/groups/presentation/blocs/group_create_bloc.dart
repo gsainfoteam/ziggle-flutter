@@ -21,7 +21,8 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
         final isExisted = await _repository.checkGroupExistence(event.name);
         if (isExisted) {
           emit(
-              _Error(state.draft, t.group.creation.profile.name.sameNameError));
+            _Error(state.draft, t.group.creation.profile.name.sameNameError),
+          );
           return;
         }
       }

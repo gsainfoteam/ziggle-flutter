@@ -5,8 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
-import 'package:ziggle/app/modules/user/data/repositories/groups_rest_auth_repository.dart';
-import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 part 'group_management_bloc.freezed.dart';
@@ -15,12 +13,10 @@ part 'group_management_bloc.freezed.dart';
 class GroupManagementBloc
     extends Bloc<GroupManagementEvent, GroupManagementState> {
   final GroupRepository _repository;
-  final RestAuthRepository _authRepository;
   late GroupEntity _group;
 
-  GroupManagementBloc(this._repository,
-      @Named.from(GroupsRestAuthRepository) this._authRepository)
-      : super(GroupManagementState.initial()) {
+  GroupManagementBloc(this._repository)
+    : super(GroupManagementState.initial()) {
     on<_Load>((event, emit) async {
       emit(GroupManagementState.loading());
       _group = event.group;
@@ -30,19 +26,23 @@ class GroupManagementBloc
     on<_UpdateProfileImage>((event, emit) async {
       emit(GroupManagementState.loading());
       await _repository.modifyProfileImage(
-          uuid: event.uuid, image: event.image);
+        uuid: event.uuid,
+        image: event.image,
+      );
       final updatedGroup = await _repository.getGroup(event.uuid);
       emit(GroupManagementState.success(updatedGroup));
     });
     on<_UpdateName>((event, emit) async {
       emit(GroupManagementState.loading());
       try {
-        await _repository.modifyGroup(
-            uuid: event.uuid,
-            name: event.name,
-            description: _group.description,
-            notionPageId: _group.notionPageId);
+        await _repository.updateGroup(
+          uuid: event.uuid,
+          name: event.name,
+          description: _group.description,
+          notionPageId: _group.notionPageId,
+        );
         final updatedGroup = await _repository.getGroup(event.uuid);
+        _group = updatedGroup;
         emit(GroupManagementState.success(updatedGroup));
       } catch (e) {
         emit(GroupManagementState.error(e.toString()));
@@ -51,12 +51,14 @@ class GroupManagementBloc
     on<_UpdateDescription>((event, emit) async {
       emit(GroupManagementState.loading());
       try {
-        await _repository.modifyGroup(
-            uuid: event.uuid,
-            name: _group.name,
-            description: event.description,
-            notionPageId: _group.notionPageId);
+        await _repository.updateGroup(
+          uuid: event.uuid,
+          name: _group.name,
+          description: event.description,
+          notionPageId: _group.notionPageId,
+        );
         final updatedGroup = await _repository.getGroup(event.uuid);
+        _group = updatedGroup;
         emit(GroupManagementState.success(updatedGroup));
       } on Exception catch (e) {
         emit(GroupManagementState.error(e.toString()));
@@ -64,20 +66,24 @@ class GroupManagementBloc
     });
     on<_UpdateNotionLink>((event, emit) async {
       emit(GroupManagementState.loading());
-      await _repository.modifyGroup(
+      await _repository.updateGroup(
         uuid: event.uuid,
         name: _group.name,
         description: _group.description,
         notionPageId: event.notionLink,
       );
       final updatedGroup = await _repository.getGroup(event.uuid);
+      _group = updatedGroup;
       emit(GroupManagementState.success(updatedGroup));
     });
     on<_RemoveMember>((event, emit) async {
       emit(GroupManagementState.loading());
       await _repository.removeMember(
-          uuid: event.uuid, targetUuid: event.targetUuid);
+        uuid: event.uuid,
+        targetUuid: event.targetUuid,
+      );
       final updatedGroup = await _repository.getGroup(event.uuid);
+      _group = updatedGroup;
       emit(GroupManagementState.success(updatedGroup));
     });
     on<_Delete>((event, emit) async {
@@ -103,15 +109,23 @@ class GroupManagementEvent with _$GroupManagementEvent {
   const factory GroupManagementEvent.load(GroupEntity group) = _Load;
 
   const factory GroupManagementEvent.updateProfileImage(
-      String uuid, File image) = _UpdateProfileImage;
+    String uuid,
+    File image,
+  ) = _UpdateProfileImage;
   const factory GroupManagementEvent.updateName(String uuid, String name) =
       _UpdateName;
   const factory GroupManagementEvent.updateDescription(
-      String uuid, String description) = _UpdateDescription;
+    String uuid,
+    String description,
+  ) = _UpdateDescription;
   const factory GroupManagementEvent.updateNotionLink(
-      String uuid, String? notionLink) = _UpdateNotionLink;
+    String uuid,
+    String? notionLink,
+  ) = _UpdateNotionLink;
   const factory GroupManagementEvent.removeMember(
-      String uuid, String targetUuid) = _RemoveMember;
+    String uuid,
+    String targetUuid,
+  ) = _RemoveMember;
   const factory GroupManagementEvent.delete(String uuid) = _Delete;
   const factory GroupManagementEvent.leave(String uuid) = _Leave;
 }
