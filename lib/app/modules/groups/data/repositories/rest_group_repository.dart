@@ -153,4 +153,10 @@ class RestGroupRepository implements GroupRepository {
     // TODO: implement updateRole
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> checkGroupExistence(String name) async {
+    final response = await _api.checkGroupExistence(name);
+    return response.exist;
+  }
 }

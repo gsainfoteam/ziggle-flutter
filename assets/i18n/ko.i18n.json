@@ -34,7 +34,8 @@
       "profile": {
         "name": {
           "label": "그룹명",
-          "hint": "인포팀 (Infoteam)"
+          "hint": "인포팀 (Infoteam)",
+          "sameNameError": "그룹 이름이 이미 존재합니다"
         }
       },
       "introduce": {
@@ -87,7 +88,8 @@
         "header": "노션 페이지 링크 변경",
         "hintText": "노션 링크 입력",
         "loading": "노션 불러오는 중...",
-        "error": "노션 불러오기 실패"
+        "error": "노션 불러오기 실패",
+        "empty": "노션 링크를 입력해주세요"
       },
       "invite": {
         "header": "초대 링크 생성",

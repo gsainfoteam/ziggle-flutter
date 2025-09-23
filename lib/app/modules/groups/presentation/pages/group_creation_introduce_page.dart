@@ -22,15 +22,8 @@ class GroupCreationIntroducePage extends StatelessWidget {
   }
 }
 
-class _Layout extends StatefulWidget {
+class _Layout extends StatelessWidget {
   const _Layout();
-
-  @override
-  State<_Layout> createState() => _LayoutState();
-}
-
-class _LayoutState extends State<_Layout> {
-  String _content = '';
 
   @override
   Widget build(BuildContext context) {
@@ -54,35 +47,46 @@ class _LayoutState extends State<_Layout> {
           ),
         ),
         const SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Assets.icons.editPencil.svg(width: 24),
-            const SizedBox(width: 10),
-            Text(
-              '${_content.length}/200',
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Palette.grayText,
-              ),
-            ),
-          ],
+        BlocBuilder<GroupCreateBloc, GroupCreateState>(
+          builder: (context, state) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Assets.icons.editPencil.svg(width: 24),
+                const SizedBox(width: 10),
+                Text(
+                  '${state.draft.description.length}/200',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Palette.grayText,
+                  ),
+                ),
+              ],
+            );
+          },
         ),
         const SizedBox(height: 10),
         Container(height: 1, color: Palette.grayBorder),
-        TextFormField(
-          minLines: 7,
-          maxLines: 10,
-          maxLength: 200,
-          onChanged: (v) => setState(() => _content = v),
-          decoration: InputDecoration(
-            counter: const SizedBox.shrink(),
-            border: const OutlineInputBorder(borderSide: BorderSide.none),
-            contentPadding: const EdgeInsets.symmetric(vertical: 13),
-            hintText: context.t.group.creation.introduce.hint,
-            hintStyle: const TextStyle(color: Palette.grayText),
-          ),
+        BlocBuilder<GroupCreateBloc, GroupCreateState>(
+          builder: (context, state) {
+            return TextFormField(
+              minLines: 7,
+              maxLines: 10,
+              maxLength: 200,
+              initialValue: state.draft.description,
+              onChanged: (v) => context
+                  .read<GroupCreateBloc>()
+                  .add(GroupCreateEvent.setDescription(v)),
+              decoration: InputDecoration(
+                counter: const SizedBox.shrink(),
+                border: const OutlineInputBorder(borderSide: BorderSide.none),
+                contentPadding: const EdgeInsets.symmetric(vertical: 13),
+                hintText: context.t.group.creation.introduce.hint,
+                hintStyle: const TextStyle(color: Palette.grayText),
+              ),
+            );
+          },
         ),
         Container(height: 1, color: Palette.grayBorder),
         const SizedBox(height: 30),
@@ -91,23 +95,23 @@ class _LayoutState extends State<_Layout> {
             Expanded(
               child: ZiggleButton.cta(
                 outlined: true,
-                onPressed: () => context.maybePop(),
+                onPressed: () => context.router.maybePop(),
                 child: Text(context.t.common.back),
               ),
             ),
             const SizedBox(width: 10),
-            Expanded(
-              child: ZiggleButton.cta(
-                onPressed: () {
-                  if (_content.isEmpty) return;
-                  context
-                      .read<GroupCreateBloc>()
-                      .add(GroupCreateEvent.setDescription(_content));
-                  const GroupCreationNotionRoute().push(context);
-                },
-                disabled: _content.isEmpty,
-                child: Text(context.t.common.next),
-              ),
+            BlocBuilder<GroupCreateBloc, GroupCreateState>(
+              builder: (context, state) {
+                return Expanded(
+                  child: ZiggleButton.cta(
+                    onPressed: () {
+                      const GroupCreationNotionRoute().push(context);
+                    },
+                    disabled: state.isDescriptionEmpty,
+                    child: Text(context.t.common.next),
+                  ),
+                );
+              },
             ),
           ],
         )

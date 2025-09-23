@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/common/presentation/utils/reactive.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_create_draft_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
+import 'package:ziggle/gen/strings.g.dart';
 
 part 'group_create_bloc.freezed.dart';
 
@@ -14,16 +16,24 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
   final GroupRepository _repository;
 
   GroupCreateBloc(this._repository) : super(const _Draft()) {
-    on<_SetName>(
-      (event, emit) => emit(
+    on<_SetName>((event, emit) async {
+      if (event.name.isNotEmpty) {
+        final isExisted = await _repository.checkGroupExistence(event.name);
+        if (isExisted) {
+          emit(
+              _Error(state.draft, t.group.creation.profile.name.sameNameError));
+          return;
+        }
+      }
+      emit(
         _Draft(
           state.draft.copyWith(
             name: event.name,
             description: state.draft.description,
           ),
         ),
-      ),
-    );
+      );
+    }, transformer: makeEventThrottler());
     on<_SetImage>(
       (event, emit) => emit(_Draft(state.draft.copyWith(image: event.image))),
     );
@@ -68,7 +78,8 @@ sealed class GroupCreateState with _$GroupCreateState {
   const GroupCreateState._();
 
   const factory GroupCreateState.draft([
-    @Default(GroupCreateDraftEntity()) GroupCreateDraftEntity draft,
+    @Default(GroupCreateDraftEntity(notionPageId: ''))
+    GroupCreateDraftEntity draft,
   ]) = _Draft;
   const factory GroupCreateState.loading(GroupCreateDraftEntity draft) =
       _Loading;
@@ -82,4 +93,8 @@ sealed class GroupCreateState with _$GroupCreateState {
   ) = _Error;
 
   bool get isLoading => this is _Loading;
+  bool get isNameEmpty => draft.name.isEmpty;
+  bool get isImageEmpty => draft.image == null;
+  bool get isDescriptionEmpty => draft.description.isEmpty;
+  bool get isNotionPageIdEmpty => draft.notionPageId?.isEmpty ?? true;
 }

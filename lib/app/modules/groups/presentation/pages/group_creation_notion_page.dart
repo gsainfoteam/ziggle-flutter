@@ -1,12 +1,8 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_input.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_create_bloc.dart';
@@ -24,56 +20,37 @@ class GroupCreationNotionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GroupCreationLayout(
+    return GroupCreationLayout(
       step: GroupCreationStep.notion,
-      child: _Layout(),
+      child: BlocProvider(
+        create: (context) => sl<NotionBloc>(),
+        child: _Layout(),
+      ),
     );
   }
 }
 
-class _Layout extends StatefulWidget {
+class _Layout extends StatelessWidget {
   const _Layout();
 
   @override
-  State<_Layout> createState() => _LayoutState();
-}
-
-class _LayoutState extends State<_Layout> {
-  final String _notionPageId = "";
-  late final NotionBloc _notionBloc;
-  late final TextEditingController _controller =
-      TextEditingController(text: _notionPageId);
-  late final BehaviorSubject<String> _subject;
-  late final StreamSubscription<String> _subscription;
-
-  @override
-  initState() {
-    super.initState();
-    _notionBloc = sl<NotionBloc>()
-      ..add(NotionEvent.load(notionLink: _notionPageId));
-    _subject = BehaviorSubject<String>();
-    _subscription = _subject.debounceTime(Duration(seconds: 1)).listen((event) {
-      _notionBloc.add(NotionEvent.load(notionLink: event));
-    });
-    _controller.addListener(() {
-      _notionBloc.add(const NotionEvent.edit());
-      _subject.add(_controller.text);
-      setState(noop);
-    });
-  }
-
-  @override
-  void dispose() {
-    _subscription.cancel();
-    _subject.close();
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _notionBloc,
+    return BlocListener<GroupCreateBloc, GroupCreateState>(
+      listener: (context, state) {
+        state.whenOrNull(
+          done: (_, __) {
+            context.router.popUntilRouteWithName(
+              GroupCreationProfileRoute.name,
+            );
+            context.replaceRoute(const GroupCreationDoneRoute());
+          },
+          error: (_, error) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(error)));
+          },
+        );
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -108,7 +85,12 @@ class _LayoutState extends State<_Layout> {
           ),
           const SizedBox(height: 30),
           ZiggleInput(
-            controller: _controller,
+            onChanged: (v) {
+              context.read<GroupCreateBloc>().add(
+                GroupCreateEvent.setNotionPageId(v),
+              );
+              context.read<NotionBloc>().add(NotionEvent.load(notionLink: v));
+            },
             hintText: context.t.group.creation.notion.hint,
           ),
           Column(
@@ -143,23 +125,19 @@ class _LayoutState extends State<_Layout> {
                     return BlocBuilder<GroupCreateBloc, GroupCreateState>(
                       builder: (context, state) {
                         return ZiggleButton.cta(
-                          emphasize: _controller.text.isNotEmpty,
                           onPressed: () {
                             context.read<GroupCreateBloc>().add(
-                                GroupCreateEvent.setNotionPageId(
-                                    _controller.text));
-                            context
-                                .read<GroupCreateBloc>()
-                                .add(const GroupCreateEvent.create());
-                            context.router.popUntilRouteWithName(
-                                GroupCreationProfileRoute.name);
-                            context
-                                .replaceRoute(const GroupCreationDoneRoute());
+                              const GroupCreateEvent.create(),
+                            );
                           },
-                          disabled: _controller.text.isNotEmpty &&
-                              !notionState.isNotionIdValid,
                           loading: state.isLoading,
-                          child: _controller.text.isEmpty
+                          emphasize:
+                              !state.isNotionPageIdEmpty &&
+                              notionState.isNotionIdValid,
+                          disabled:
+                              !state.isNotionPageIdEmpty &&
+                              !notionState.isNotionIdValid,
+                          child: state.isNotionPageIdEmpty
                               ? Text(context.t.common.skip)
                               : Text(context.t.common.next),
                         );
@@ -169,7 +147,7 @@ class _LayoutState extends State<_Layout> {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -185,11 +163,7 @@ class _LayoutState extends State<_Layout> {
       padding: const EdgeInsets.symmetric(vertical: 25),
       child: Column(
         children: [
-          Lottie.asset(
-            Assets.lotties.loading,
-            width: 80,
-            height: 80,
-          ),
+          Lottie.asset(Assets.lotties.loading, width: 80, height: 80),
           const SizedBox(height: 10),
           Text(
             message,
