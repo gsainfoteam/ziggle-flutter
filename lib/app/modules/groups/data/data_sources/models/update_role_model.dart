@@ -6,7 +6,7 @@ part 'update_role_model.g.dart';
 @freezed
 sealed class UpdateRoleModel with _$UpdateRoleModel {
   factory UpdateRoleModel(
-    List<String> authorities,
+    List<String> permissions,
   ) = _UpdateRoleModel;
 
   factory UpdateRoleModel.fromJson(Map<String, dynamic> json) =>

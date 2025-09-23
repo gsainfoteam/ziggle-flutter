@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
+import 'package:ziggle/app/modules/groups/data/enums/group_role_permission.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/role_entity.dart';
 
 part 'role_model.freezed.dart';
@@ -11,7 +12,7 @@ sealed class RoleModel with _$RoleModel implements RoleEntity {
     required int id,
     required GroupMemberRole name,
     required String groupUuid,
-    required List<String> authorities,
+    required List<GroupRolePermission> permissions,
   }) = _RoleModel;
 
   factory RoleModel.fromJson(Map<String, dynamic> json) =>
