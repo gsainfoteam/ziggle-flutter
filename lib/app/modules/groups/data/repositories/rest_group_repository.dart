@@ -165,7 +165,7 @@ class RestGroupRepository implements GroupRepository {
   Future<void> updateRole(
     String groupUuid,
     int roleId,
-    AuthorityEntity authority,
+    PermissionEntity permission,
   ) {
     throw UnimplementedError();
   }
