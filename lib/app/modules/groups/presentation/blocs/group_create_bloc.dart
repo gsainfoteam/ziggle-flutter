@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
+import 'package:ziggle/app/modules/groups/data/enums/group_role_permission.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_create_draft_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
+import 'package:ziggle/app/modules/groups/domain/entities/role_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
 
 part 'group_create_bloc.freezed.dart';
@@ -33,6 +36,33 @@ class GroupCreateBloc extends Bloc<GroupCreateEvent, GroupCreateState> {
           description: state.draft.description,
           notionPageId: state.draft.notionPageId,
         );
+
+        await _repository.createRole(
+            group.uuid,
+            RoleEntity(
+              id: 2,
+              name: GroupMemberRole.manager,
+              groupUuid: group.uuid,
+              permissions: [
+                GroupRolePermission.memberUpdate,
+                GroupRolePermission.memberDelete,
+                GroupRolePermission.roleUpdate,
+                GroupRolePermission.roleGrant,
+                GroupRolePermission.roleRevoke,
+              ],
+            ));
+
+        await _repository.createRole(
+            group.uuid,
+            RoleEntity(
+              id: 3,
+              name: GroupMemberRole.member,
+              groupUuid: group.uuid,
+              permissions: [
+                GroupRolePermission.memberUpdate,
+              ],
+            ));
+
         emit(_Done(state.draft.copyWith(), group));
       } on Exception catch (e) {
         emit(_Error(state.draft, e.toString()));
