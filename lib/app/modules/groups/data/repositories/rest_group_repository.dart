@@ -3,10 +3,12 @@ import 'dart:io';
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/create_role_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_list_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/modify_group_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/remote/group_api.dart';
 import 'package:ziggle/app/modules/groups/data/enums/group_member_role.dart';
+import 'package:ziggle/app/modules/groups/data/enums/group_role_permission.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/authority_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_list_entity.dart';
@@ -132,8 +134,12 @@ class RestGroupRepository implements GroupRepository {
 
   @override
   Future<void> createRole(String groupUuid, RoleEntity role) {
-    // TODO: implement createRole
-    throw UnimplementedError();
+    final model = CreateRoleModel(
+      name: role.name.name,
+      permissions: role.permissions.map((p) => p.toJson()).toList(),
+    );
+
+    return _api.createRole(groupUuid, model);
   }
 
   @override
