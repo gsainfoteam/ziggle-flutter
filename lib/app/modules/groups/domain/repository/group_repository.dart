@@ -49,7 +49,7 @@ abstract class GroupRepository {
   Future<void> updateRole(
     String groupUuid,
     int roleId,
-    AuthorityEntity authority,
+    PermissionEntity permission,
   );
   Future<void> deleteRole(String groupUuid, int roleId);
   Future<bool> checkGroupExistence(String name);

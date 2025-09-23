@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/modules/core/data/dio/groups_dio.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/create_group_model.dart';
+import 'package:ziggle/app/modules/groups/data/data_sources/models/create_role_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_existence_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_invite_code_response_model.dart';
 import 'package:ziggle/app/modules/groups/data/data_sources/models/group_item_model.dart';
@@ -112,7 +112,7 @@ abstract class GroupApi {
   @POST('{uuid}/role')
   Future<void> createRole(
     @Path('uuid') String uuid,
-    @Body() CreateGroupModel createGroupModel,
+    @Body() CreateRoleModel createRoleModel,
   );
 
   @PATCH('{uuid}/role/{id}')
