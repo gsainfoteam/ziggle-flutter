@@ -5,8 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/groups/domain/entities/group_entity.dart';
 import 'package:ziggle/app/modules/groups/domain/repository/group_repository.dart';
-import 'package:ziggle/app/modules/user/data/repositories/groups_rest_auth_repository.dart';
-import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
 part 'group_management_bloc.freezed.dart';
@@ -15,13 +13,10 @@ part 'group_management_bloc.freezed.dart';
 class GroupManagementBloc
     extends Bloc<GroupManagementEvent, GroupManagementState> {
   final GroupRepository _repository;
-  final RestAuthRepository _authRepository;
   late GroupEntity _group;
 
-  GroupManagementBloc(
-    this._repository,
-    @Named.from(GroupsRestAuthRepository) this._authRepository,
-  ) : super(GroupManagementState.initial()) {
+  GroupManagementBloc(this._repository)
+    : super(GroupManagementState.initial()) {
     on<_Load>((event, emit) async {
       emit(GroupManagementState.loading());
       _group = event.group;
@@ -47,6 +42,7 @@ class GroupManagementBloc
           notionPageId: _group.notionPageId,
         );
         final updatedGroup = await _repository.getGroup(event.uuid);
+        _group = updatedGroup;
         emit(GroupManagementState.success(updatedGroup));
       } catch (e) {
         emit(GroupManagementState.error(e.toString()));
@@ -62,6 +58,7 @@ class GroupManagementBloc
           notionPageId: _group.notionPageId,
         );
         final updatedGroup = await _repository.getGroup(event.uuid);
+        _group = updatedGroup;
         emit(GroupManagementState.success(updatedGroup));
       } on Exception catch (e) {
         emit(GroupManagementState.error(e.toString()));
@@ -76,6 +73,7 @@ class GroupManagementBloc
         notionPageId: event.notionLink,
       );
       final updatedGroup = await _repository.getGroup(event.uuid);
+      _group = updatedGroup;
       emit(GroupManagementState.success(updatedGroup));
     });
     on<_RemoveMember>((event, emit) async {
@@ -85,6 +83,7 @@ class GroupManagementBloc
         targetUuid: event.targetUuid,
       );
       final updatedGroup = await _repository.getGroup(event.uuid);
+      _group = updatedGroup;
       emit(GroupManagementState.success(updatedGroup));
     });
     on<_Delete>((event, emit) async {
