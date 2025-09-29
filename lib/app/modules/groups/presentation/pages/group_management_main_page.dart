@@ -5,6 +5,7 @@ import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_refresh_indicator.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_main_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_list_item.dart';
@@ -51,10 +52,8 @@ class _Layout extends StatelessWidget {
           ),
         ],
       ),
-      body: RefreshIndicator(
+      body: ZiggleRefreshIndicator(
         onRefresh: () => GroupManagementMainBloc.refresh(context),
-        backgroundColor: Palette.white,
-        color: Palette.primary,
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 25, 16, 0),
           child: Column(

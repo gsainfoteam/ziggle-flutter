@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_refresh_indicator.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
@@ -14,7 +15,6 @@ import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
-import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
 
@@ -27,10 +27,8 @@ class ListLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NoticeListBloc, NoticeListState>(
       builder: (context, state) {
-        return RefreshIndicator(
+        return ZiggleRefreshIndicator(
           onRefresh: () => NoticeListBloc.refresh(context),
-          backgroundColor: Palette.white,
-          color: Palette.primary,
           child: state.showLoading
               ? Center(
                   child: Lottie.asset(
