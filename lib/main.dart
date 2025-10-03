@@ -13,6 +13,7 @@ import 'package:ziggle/app/values/fonts.dart';
 import 'package:ziggle/app_bloc_observer.dart';
 import 'package:ziggle/firebase_options.dart';
 import 'package:ziggle/gen/strings.g.dart';
+import 'package:ziggle/hive/hive_adapters.dart';
 import 'package:ziggle/hive/hive_registrar.g.dart';
 
 void main() async {
@@ -43,6 +44,7 @@ void _initCrashlytics() {
 Future<void> _initHive() async {
   await Hive.initFlutter();
   Hive.registerAdapters();
+  Hive.registerAdapter(LanguageAdapter());
 }
 
 Future<void> _initLocale() async {
