@@ -43,8 +43,8 @@ void _initCrashlytics() {
 
 Future<void> _initHive() async {
   await Hive.initFlutter();
-  Hive.registerAdapters();
   Hive.registerAdapter(LanguageAdapter());
+  Hive.registerAdapters();
 }
 
 Future<void> _initLocale() async {
