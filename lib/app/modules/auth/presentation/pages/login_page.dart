@@ -14,7 +14,6 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/api_channel_repository.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
-import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
@@ -27,20 +26,11 @@ bool _isValidPassword(String password) {
 
 @RoutePage()
 class LoginPage extends StatelessWidget {
-  final Function(bool)? onResult;
-  const LoginPage({super.key, this.onResult});
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UserBloc, UserState>(
-      listener: (context, state) => state.mapOrNull(
-        done: (u) {
-          if (u.user == null) return;
-          return onResult?.call(true);
-        },
-      ),
-      child: const _Layout(),
-    );
+    return const _Layout();
   }
 }
 

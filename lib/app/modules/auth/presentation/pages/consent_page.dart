@@ -13,8 +13,7 @@ import 'package:ziggle/gen/strings.g.dart';
 
 @RoutePage()
 class ConsentPage extends StatelessWidget {
-  const ConsentPage({super.key, this.onResult});
-  final Function(bool)? onResult;
+  const ConsentPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class ConsentPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-          child: _Layout(onResult: onResult),
+          child: _Layout(),
         ),
       ),
     );
@@ -31,9 +30,7 @@ class ConsentPage extends StatelessWidget {
 }
 
 class _Layout extends StatelessWidget {
-  const _Layout({this.onResult});
-
-  final Function(bool)? onResult;
+  const _Layout();
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +77,6 @@ class _Layout extends StatelessWidget {
             final waiter = bloc.stream.firstWhere((state) => state.isConsent);
             bloc.add(const UserEvent.consent());
             await waiter;
-            onResult?.call(true);
           },
           child: Text(context.t.user.consent.actions.agree),
         ),
