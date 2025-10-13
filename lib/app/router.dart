@@ -20,10 +20,8 @@ class AppRouter extends RootStackRouter {
         if (resolver.routeName == LoginRoute.name) {
           return resolver.next(true);
         }
-        resolver.redirectUntil(
-          LoginRoute(onResult: (success) => resolver.next(success)),
-        );
-        return;
+        router.push(LoginRoute());
+        return resolver.next(false);
       }
       final consented = user.consent;
       if (!consented) {
@@ -31,10 +29,8 @@ class AppRouter extends RootStackRouter {
             resolver.routeName == WithdrawRoute.name) {
           return resolver.next(true);
         }
-        resolver.redirectUntil(
-          ConsentRoute(onResult: (success) => resolver.next(success)),
-        );
-        return;
+        router.push(ConsentRoute());
+        return resolver.next(false);
       }
       if ([LoginRoute.name, ConsentRoute.name].contains(resolver.routeName)) {
         resolver.next(false);
