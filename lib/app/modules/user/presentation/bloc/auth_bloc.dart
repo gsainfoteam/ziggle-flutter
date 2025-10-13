@@ -26,6 +26,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       return emit.forEach(
         _repository.isSignedIn,
         onData: (v) => v ? const _Authenticated() : const _Unauthenticated(),
+        onError: (error, stackTrace) => _Error(error.toString()),
       );
     }, transformer: restartable());
     on<_Login>((event, emit) async {
