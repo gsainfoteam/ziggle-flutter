@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:ziggle/app/modules/auth/data/data_sources/remote/base_auth_api.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/auth_repository.dart';
@@ -38,7 +39,7 @@ abstract class RestAuthRepository implements AuthRepository {
     try {
       await _api.info();
       return true;
-    } catch (_) {
+    } on DioException {
       return false;
     }
   });
