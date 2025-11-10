@@ -16,8 +16,9 @@ class GroupRoleBloc extends Bloc<GroupRoleEvent, GroupRoleState> {
     });
     on<_GetRoles>((event, emit) async {
       emit(GroupRoleState.loading());
-      final roles = await _repository.getUserRoleInGroup(event.uuid);
-      emit(GroupRoleState.loaded(roles.name));
+      // final roles = await _repository.getUserRoleInGroup(event.uuid);
+      // TODO: 다음 PR에서 implement
+      emit(GroupRoleState.loaded(GroupMemberRole.member));
     });
   }
 }
