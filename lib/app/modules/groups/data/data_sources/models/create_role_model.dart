@@ -7,7 +7,7 @@ part 'create_role_model.g.dart';
 sealed class CreateRoleModel with _$CreateRoleModel {
   factory CreateRoleModel({
     required String name,
-    required List<String> authorities,
+    required List<String> permissions,
   }) = _CreateRoleModel;
 
   factory CreateRoleModel.fromJson(Map<String, dynamic> json) =>
