@@ -12,9 +12,9 @@ sealed class UserInfoModel with _$UserInfoModel {
     required String description,
     required String uuid,
     required DateTime createdAt,
-    required DateTime verifiedAt,
+    DateTime? verifiedAt,
     required String presidentUuid,
-    required DateTime deletedAt,
+    DateTime? deletedAt,
     required String notionPageId,
     required String profileImageKey,
   }) = _UserInfoModel;
