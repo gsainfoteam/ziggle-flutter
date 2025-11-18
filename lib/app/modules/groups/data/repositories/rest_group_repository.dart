@@ -174,9 +174,4 @@ class RestGroupRepository implements GroupRepository {
   Future<void> deleteRole(String groupUuid, int roleId) {
     throw UnimplementedError();
   }
-
-  @override
-  Future<RoleEntity> getUserRoleInGroup(String uuid) {
-    return _api.getUserRoleInGroup(uuid);
-  }
 }
