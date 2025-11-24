@@ -89,10 +89,9 @@ class AppRouter extends RootStackRouter {
         ],
       ),
       AutoRoute(path: '/:type', page: ListRoute.page),
-      CustomRoute(
+      AutoRoute(
         path: '/notice/:id',
         page: SingleNoticeShellRoute.page,
-        customRouteBuilder: _cupertinoRoute,
         children: [
           AutoRoute(path: '', page: DetailRoute.page),
           AutoRoute(
@@ -174,16 +173,5 @@ class AppRouter extends RootStackRouter {
     settings: page,
     builder: (context) => child,
     maintainState: page.maintainState,
-  );
-
-  Route<T> _cupertinoRoute<T>(
-    BuildContext _,
-    Widget child,
-    AutoRoutePage<T> page,
-  ) => CupertinoPageRoute<T>(
-    settings: page,
-    builder: (context) => child,
-    maintainState: page.maintainState,
-    fullscreenDialog: page.fullscreenDialog,
   );
 }
