@@ -40,7 +40,7 @@ class _DetailPageState extends State<DetailPage>
         title: Text(context.t.notice.detail.title),
         backgroundColor: Palette.white,
       ),
-      body: const _Layout(),
+      body: SafeArea(child: const _Layout()),
     );
   }
 }
