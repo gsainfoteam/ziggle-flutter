@@ -17,5 +17,6 @@ abstract class AppTheme {
     cupertinoOverrideTheme: const NoDefaultCupertinoThemeData(
       primaryColor: Palette.primary,
     ),
+    colorScheme: ColorScheme.fromSeed(seedColor: Palette.primary),
   );
 }

@@ -5,7 +5,6 @@ import 'package:lottie/lottie.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_refresh_indicator.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/groups/presentation/blocs/group_management_main_bloc.dart';
 import 'package:ziggle/app/modules/groups/presentation/widgets/group_list_item.dart';
@@ -52,7 +51,7 @@ class _Layout extends StatelessWidget {
           ),
         ],
       ),
-      body: ZiggleRefreshIndicator(
+      body: RefreshIndicator(
         onRefresh: () => GroupManagementMainBloc.refresh(context),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 25, 16, 0),
@@ -76,9 +75,11 @@ class _Layout extends StatelessWidget {
                   return state.when(
                     initial: () => Container(),
                     loading: () => Center(
-                      child: Lottie.asset(Assets.lotties.loading,
-                          height: MediaQuery.of(context).size.width * 0.2,
-                          width: MediaQuery.of(context).size.width * 0.2),
+                      child: Lottie.asset(
+                        Assets.lotties.loading,
+                        height: MediaQuery.of(context).size.width * 0.2,
+                        width: MediaQuery.of(context).size.width * 0.2,
+                      ),
                     ),
                     loaded: (groups) {
                       return Expanded(
@@ -87,23 +88,30 @@ class _Layout extends StatelessWidget {
                           itemBuilder: (context, index) {
                             if (index == groups.list.length) {
                               return Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(0, 15, 0, 25),
+                                padding: const EdgeInsets.fromLTRB(
+                                  0,
+                                  15,
+                                  0,
+                                  25,
+                                ),
                                 child: _InquiryWidget(),
                               );
                             }
                             return GroupListItem(
                               name: groups.list[index].name,
-                              profileImage: state.groups!.list[index]
-                                          .profileImageUrl !=
+                              profileImage:
+                                  state.groups!.list[index].profileImageUrl !=
                                       null
                                   ? Image.network(
                                       state
-                                          .groups!.list[index].profileImageUrl!,
+                                          .groups!
+                                          .list[index]
+                                          .profileImageUrl!,
                                       fit: BoxFit.cover,
                                       errorBuilder:
                                           (context, error, stackTrace) => Assets
-                                              .images.groupDefaultProfile
+                                              .images
+                                              .groupDefaultProfile
                                               .image(),
                                     )
                                   : null,
@@ -154,9 +162,7 @@ class _InquiryWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: ShapeDecoration(
         color: Palette.grayLight,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -164,10 +170,7 @@ class _InquiryWidget extends StatelessWidget {
           Expanded(
             child: Text(
               context.t.group.managementMain.contact,
-              style: const TextStyle(
-                color: Palette.grayText,
-                fontSize: 14,
-              ),
+              style: const TextStyle(color: Palette.grayText, fontSize: 14),
             ),
           ),
         ],

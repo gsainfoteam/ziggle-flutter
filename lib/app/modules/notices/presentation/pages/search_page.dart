@@ -9,7 +9,6 @@ import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/common/presentation/functions/noop.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
-import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_refresh_indicator.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
@@ -135,7 +134,7 @@ class _LayoutState extends State<_Layout> {
             )
           : BlocBuilder<NoticeListBloc, NoticeListState>(
               builder: (context, state) {
-                return ZiggleRefreshIndicator(
+                return RefreshIndicator(
                   onRefresh: () => NoticeListBloc.refresh(context),
                   child: state.showLoading
                       ? Center(
