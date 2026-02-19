@@ -67,5 +67,7 @@
 		<true/>
 		<key>FlutterDeepLinkingEnabled</key>
 		<false/>
+		<key>NSLocalNetworkUsageDescription</key>
+		<string>This app needs access to the local network to discover devices.</string>
 	</dict>
 </plist>
