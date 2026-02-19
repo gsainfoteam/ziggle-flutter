@@ -27,7 +27,7 @@ final _listBannerEntries = [
   BannerEntry(
     asset: Assets.images.bannerInfoteam,
     onTap: () => launchUrlString(
-      'https://infoteam-rulrudino.notion.site/2fb365ea27df8061ae1cdd7067d31580?pvs=105',
+      'https://www.notion.so/infoteam-rulrudino/2026-309365ea27df80488137d0680fd51686?source=copy_link',
     ),
   ),
 ];
