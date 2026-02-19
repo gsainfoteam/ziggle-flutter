@@ -6,7 +6,7 @@ import 'package:ziggle/gen/assets.gen.dart';
 class BannerEntry {
   const BannerEntry({required this.asset, this.onTap});
 
-  final SvgGenImage asset;
+  final AssetGenImage asset;
   final VoidCallback? onTap;
 }
 
@@ -130,7 +130,7 @@ class _BannerItem extends StatelessWidget {
       child: SizedBox(
         height: height,
         width: double.infinity,
-        child: entry.asset.svg(fit: BoxFit.cover),
+        child: entry.asset.image(fit: BoxFit.cover),
       ),
     );
 
