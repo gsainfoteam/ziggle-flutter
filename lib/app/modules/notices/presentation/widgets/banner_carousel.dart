@@ -92,7 +92,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
       padding: EdgeInsets.symmetric(
         horizontal: widget.horizontalPadding,
         vertical: widget.verticalPadding,
-      ),
+      ).copyWith(bottom: 0),
       child: SizedBox(
         height: widget.height,
         child: PageView.builder(
