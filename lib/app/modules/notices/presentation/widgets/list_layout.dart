@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
@@ -10,12 +11,26 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_list_bloc.dart';
 import 'package:ziggle/app/modules/notices/presentation/cubit/share_cubit.dart';
+import 'package:ziggle/app/modules/notices/presentation/widgets/banner_carousel.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/infinite_scroll.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/notice_card.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
+
+final _listBannerEntries = [
+  BannerEntry(
+    asset: Assets.images.bannerPotg,
+    onTap: () => launchUrlString('https://pot-g.gistory.me/'),
+  ),
+  BannerEntry(
+    asset: Assets.images.bannerInfoteam,
+    onTap: () => launchUrlString(
+      'https://www.notion.so/infoteam-rulrudino/2026-309365ea27df80488137d0680fd51686?source=copy_link',
+    ),
+  ),
+];
 
 class ListLayout extends StatelessWidget {
   const ListLayout({super.key, required this.noticeType});
@@ -39,6 +54,9 @@ class ListLayout extends StatelessWidget {
               : InfiniteScroll(
                   onLoadMore: () => NoticeListBloc.loadMore(context),
                   slivers: [
+                    SliverToBoxAdapter(
+                      child: BannerCarousel(banners: _listBannerEntries),
+                    ),
                     SliverSafeArea(
                       top: false,
                       sliver: SliverPadding(
