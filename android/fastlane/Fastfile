@@ -23,7 +23,7 @@ platform :android do
 
     android_app_id = File.open("../../lib/firebase_options.dart").read().match(/appId: '(.*android.*)'/)[1]
     UI.message("Android App ID: #{android_app_id}")
-    debug_info_path = "build/app/outputs/symbols"
+    debug_info_path = "debug-info"
 
     sh(
       "flutter", "build", "appbundle",
