@@ -33,13 +33,12 @@ platform :android do
       "--build-number=#{build_number}",
     )
 
-    # firebase crashlytics:symbols:upload - 핫픽스로 비활성화 (Unstripped native library path 오류)
-    # sh("firebase", "crashlytics:symbols:upload", "--app=#{android_app_id}", "../../#{debug_info_path}")
+    sh("firebase", "crashlytics:symbols:upload", "--app=#{android_app_id}", "../../#{debug_info_path}")
 
-    # symbols_path = File.expand_path("../../build/app/intermediates/merged_native_libs/release/out/lib")
-    # Dir.chdir(symbols_path) do
-    #   sh("zip", "-r", "native_symbol.zip", ".")
-    # end
+    symbols_path = File.expand_path("../../build/app/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib")
+    Dir.chdir(symbols_path) do
+      sh("zip", "-r", "native_symbol.zip", ".")
+    end
 
     upload_to_play_store(
       aab: "../build/app/outputs/bundle/release/app-release.aab",
@@ -47,7 +46,7 @@ platform :android do
       version_name: version_string,
       mapping_paths: [
         "../build/app/outputs/mapping/release/mapping.txt",
-        # "#{symbols_path}/native_symbol.zip",
+        "#{symbols_path}/native_symbol.zip",
       ],
       skip_upload_metadata: true,
       skip_upload_images: true,
