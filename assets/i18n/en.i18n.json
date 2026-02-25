@@ -253,7 +253,10 @@
       "shareContent": "$title\n\nCheck the notice in Ziggle!\n$link",
       "copy": "Copy Link",
       "copied": "Copied",
-      "deadline": "Deadline"
+      "deadline": "Deadline",
+      "report": "Report",
+      "reportDescription": "Are you sure you want to report this notice?",
+      "reported": "Reported"
     },
     "search": {
       "hint": "Search Notice",

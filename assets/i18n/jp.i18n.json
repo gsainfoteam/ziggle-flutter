@@ -253,7 +253,10 @@
       "shareContent": "$title\n\nZiggleでお知らせを確認しましょう！\n$link",
       "copy": "リンクをコピー",
       "copied": "コピー完了",
-      "deadline": "締め切り"
+      "deadline": "締め切り",
+      "report": "通報",
+      "reportDescription": "本当にこのお知らせを通報しますか？",
+      "reported": "通報されました。"
     },
     "search": {
       "hint": "お知らせを検索",

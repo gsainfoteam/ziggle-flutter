@@ -306,6 +306,25 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                     icon: Assets.icons.link.svg(),
                     text: context.t.notice.detail.copy,
                   ),
+                  _ChipButton(
+                    onPressed: () async {
+                      AnalyticsRepository.click(
+                        AnalyticsEvent.noticeReport(widget.notice.id),
+                      );
+                      if (UserBloc.userOrNull(context) == null) {
+                        return context.showToast(context.t.user.login.description);
+                      }
+                      final result = await context.showDialog<bool>(
+                        title: context.t.notice.detail.report,
+                        content: context.t.notice.detail.reportDescription,
+                        onConfirm: (context) => Navigator.pop(context, true),
+                      );
+                      if (result != true || !context.mounted) return;
+                      context.showToast(context.t.notice.detail.reported);
+                    },
+                    icon: Assets.icons.flag.svg(),
+                    text: context.t.notice.detail.report,
+                  ),
                 ],
               ),
             ),
