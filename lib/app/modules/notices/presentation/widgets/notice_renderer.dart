@@ -308,6 +308,12 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                   ),
                   _ChipButton(
                     onPressed: () async {
+                      AnalyticsRepository.click(
+                        AnalyticsEvent.noticeReport(),
+                      );
+                      if (UserBloc.userOrNull(context) == null) {
+                        return context.showToast(context.t.user.login.description);
+                      }
                       final result = await context.showDialog<bool>(
                         title: context.t.notice.detail.report,
                         content: context.t.notice.detail.reportDescription,
