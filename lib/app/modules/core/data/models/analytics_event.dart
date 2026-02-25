@@ -39,7 +39,7 @@ sealed class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.noticeDelete(int id) = _NoticeDelete;
   const factory AnalyticsEvent.noticeSendNotification(int id) =
       _NoticeSendNotification;
-  const factory AnalyticsEvent.noticeReport() = _NoticeReport;
+  const factory AnalyticsEvent.noticeReport(int id) = _NoticeReport;
 
   // 공지 작성 이벤트
   const factory AnalyticsEvent.writeSaveDraft() = _WriteSaveDraft;
