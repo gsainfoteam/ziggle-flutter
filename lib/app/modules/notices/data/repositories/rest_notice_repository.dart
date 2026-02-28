@@ -13,6 +13,7 @@ import 'package:ziggle/app/modules/notices/data/enums/notice_to.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_additional_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_foreign_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
+import 'package:ziggle/app/modules/notices/data/models/get_notice_query_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/get_notices_query_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/modify_notice_model.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
@@ -68,14 +69,21 @@ class RestNoticeRepository implements NoticeRepository {
 
   @override
   Future<NoticeEntity> getNotice(int id, [bool getAllLanguages = false]) async {
-    final notice =
-        await _api.getNotice(id, lang: Language.getCurrentLanguage());
+    final notice = await _api.getNotice(
+      id,
+      GetNoticeQueryModel(lang: Language.getCurrentLanguage()),
+    );
     if (getAllLanguages) {
       final langs = notice.langs;
-      final notices = await Future.wait(langs.map((lang) async {
-        final notice = await _api.getNotice(id, lang: lang);
-        return MapEntry(lang, notice);
-      }));
+      final notices = await Future.wait(
+        langs.map((lang) async {
+          final notice = await _api.getNotice(
+            id,
+            GetNoticeQueryModel(lang: lang),
+          );
+          return MapEntry(lang, notice);
+        }),
+      );
       return notice.copyWith(
         langs: langs,
         addedTitles: {
@@ -100,27 +108,28 @@ class RestNoticeRepository implements NoticeRepository {
   }) {
     return _api.getNotices(
       GetNoticesQueryModel(
-          offset: offset,
-          limit: limit,
-          search: search,
-          tags: tags,
-          my: NoticeMy.fromType(type),
-          orderBy: NoticeSort.fromType(type),
-          lang: Language.getCurrentLanguage(),
-          category: NoticeCategory.fromType(type),
-          groupId: groupId),
+        offset: offset,
+        limit: limit,
+        search: search,
+        tags: tags,
+        my: NoticeMy.fromType(type),
+        orderBy: NoticeSort.fromType(type),
+        lang: Language.getCurrentLanguage(),
+        category: NoticeCategory.fromType(type),
+        groupId: groupId,
+      ),
     );
   }
 
   @override
-  Future<NoticeEntity> modify(
-      {required int id, required String content, DateTime? deadline}) {
+  Future<NoticeEntity> modify({
+    required int id,
+    required String content,
+    DateTime? deadline,
+  }) {
     return _api.modifyNotice(
       id,
-      ModifyNoticeModel(
-        body: content,
-        deadline: deadline,
-      ),
+      ModifyNoticeModel(body: content, deadline: deadline),
     );
   }
 
@@ -168,8 +177,9 @@ class RestNoticeRepository implements NoticeRepository {
         return existingTag ?? await _createTag(tag);
       }),
     );
-    final uploadedImages =
-        images.isEmpty ? <String>[] : await _imageApi.uploadImages(images);
+    final uploadedImages = images.isEmpty
+        ? <String>[]
+        : await _imageApi.uploadImages(images);
     final uploadedDocuments = documents.isEmpty
         ? <String>[]
         : await _documentApi.uploadDocuments(documents);
@@ -215,6 +225,6 @@ class RestNoticeRepository implements NoticeRepository {
   @override
   Future<NoticeEntity> sendNotification(int id) async {
     await _api.alarm(id);
-    return _api.getNotice(id);
+    return _api.getNotice(id, GetNoticeQueryModel());
   }
 }
