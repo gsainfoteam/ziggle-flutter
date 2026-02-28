@@ -16,11 +16,13 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
   final AnalyticsRepository _analyticsRepository;
 
   NoticeBloc(this._repository, this._analyticsRepository)
-      : super(const _Initial()) {
+    : super(const _Initial()) {
     on<_Load>((event, emit) async {
       try {
         emit(_Loaded(event.entity));
-        emit(_Loaded(await _repository.getNotice(event.entity.id)));
+        emit(
+          _Loaded(await _repository.getNotice(event.entity.id, isViewed: true)),
+        );
       } catch (e) {
         emit(NoticeState.error(e.toString()));
       }
@@ -68,7 +70,9 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
       try {
         emit(_Loaded(state.entity!.removeReaction(event.reaction)));
         await _repository.removeReaction(
-            state.entity!.id, event.reaction.emoji);
+          state.entity!.id,
+          event.reaction.emoji,
+        );
         emit(_Loaded(await _repository.getNotice(state.entity!.id)));
       } catch (e) {
         emit(NoticeState.error(e.toString()));
@@ -78,7 +82,10 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
       if (state.entity == null) return;
       try {
         emit(_Loading(state.entity!));
-        final notice = await _repository.getNotice(state.entity!.id, true);
+        final notice = await _repository.getNotice(
+          state.entity!.id,
+          getAllLanguages: true,
+        );
         emit(_Loaded(notice));
       } catch (e) {
         emit(NoticeState.error(e.toString()));
