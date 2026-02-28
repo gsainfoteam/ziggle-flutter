@@ -7,7 +7,7 @@ part 'get_notice_query_model.g.dart';
 @Freezed(toJson: true)
 sealed class GetNoticeQueryModel with _$GetNoticeQueryModel {
   const factory GetNoticeQueryModel({
-    Language? lang,
+    required Language lang,
     @Default(false) bool isViewed,
   }) = _GetNoticeQueryModel;
 }

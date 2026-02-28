@@ -232,6 +232,9 @@ class RestNoticeRepository implements NoticeRepository {
   @override
   Future<NoticeEntity> sendNotification(int id) async {
     await _api.alarm(id);
-    return _api.getNotice(id, GetNoticeQueryModel());
+    return _api.getNotice(
+      id,
+      GetNoticeQueryModel(lang: Language.getCurrentLanguage()),
+    );
   }
 }
