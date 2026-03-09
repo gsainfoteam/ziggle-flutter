@@ -256,7 +256,10 @@
       "deadline": "締め切り",
       "report": "通報",
       "reportDescription": "本当にこのお知らせを通報しますか？",
-      "reported": "通報されました。"
+      "reported": "通報しました。",
+      "block": "お知らせをブロック",
+      "blockDescription": "本当にこのお知らせをブロックしますか？",
+      "blocked": "ブロックしました。"
     },
     "search": {
       "hint": "お知らせを検索",
