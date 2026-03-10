@@ -24,12 +24,6 @@ final _listBannerEntries = [
     asset: Assets.images.bannerPotg,
     onTap: () => launchUrlString('https://pot-g.gistory.me/'),
   ),
-  BannerEntry(
-    asset: Assets.images.bannerInfoteam,
-    onTap: () => launchUrlString(
-      'https://www.notion.so/infoteam-rulrudino/2026-309365ea27df80488137d0680fd51686?source=copy_link',
-    ),
-  ),
 ];
 
 class ListLayout extends StatelessWidget {

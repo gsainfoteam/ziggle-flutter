@@ -312,7 +312,9 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                         AnalyticsEvent.noticeReport(widget.notice.id),
                       );
                       if (UserBloc.userOrNull(context) == null) {
-                        return context.showToast(context.t.user.login.description);
+                        return context.showToast(
+                          context.t.user.login.description,
+                        );
                       }
                       final result = await context.showDialog<bool>(
                         title: context.t.notice.detail.report,
@@ -321,9 +323,37 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                       );
                       if (result != true || !context.mounted) return;
                       context.showToast(context.t.notice.detail.reported);
+                      context.router.maybePop();
                     },
                     icon: Assets.icons.flag.svg(),
                     text: context.t.notice.detail.report,
+                  ),
+                  _ChipButton(
+                    icon: Assets.icons.warningTriangle.svg(
+                      colorFilter: const ColorFilter.mode(
+                        Palette.black,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    onPressed: () async {
+                      AnalyticsRepository.click(
+                        AnalyticsEvent.noticeBlock(widget.notice.id),
+                      );
+                      if (UserBloc.userOrNull(context) == null) {
+                        return context.showToast(
+                          context.t.user.login.description,
+                        );
+                      }
+                      final result = await context.showDialog<bool>(
+                        title: context.t.notice.detail.block,
+                        content: context.t.notice.detail.blockDescription,
+                        onConfirm: (context) => Navigator.pop(context, true),
+                      );
+                      if (result != true || !context.mounted) return;
+                      context.showToast(context.t.notice.detail.blocked);
+                      context.router.maybePop();
+                    },
+                    text: context.t.notice.detail.block,
                   ),
                 ],
               ),

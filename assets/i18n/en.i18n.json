@@ -256,7 +256,10 @@
       "deadline": "Deadline",
       "report": "Report",
       "reportDescription": "Are you sure you want to report this notice?",
-      "reported": "Reported"
+      "reported": "Reported.",
+      "block": "Block Notice",
+      "blockDescription": "Are you sure you want to block this notice?",
+      "blocked": "Blocked."
     },
     "search": {
       "hint": "Search Notice",

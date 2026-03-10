@@ -256,7 +256,10 @@
       "deadline": "마감기한",
       "report": "신고",
       "reportDescription": "정말 이 공지를 신고하시겠습니까?",
-      "reported": "신고되었습니다."
+      "reported": "신고되었습니다.",
+      "block": "공지 차단",
+      "blockDescription": "정말 이 공지를 차단하시겠습니까?",
+      "blocked": "차단되었습니다."
     },
     "search": {
       "hint": "공지 검색",
