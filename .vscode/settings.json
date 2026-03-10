@@ -1,4 +1,12 @@
 {
-  "cSpell.words": ["lotties", "pressable", "SHORTWEEKDAYS", "ziggle"],
-  "files.readonlyInclude": { "assets/i18n/*": true }
+  "cSpell.words": [
+    "lotties",
+    "pressable",
+    "SHORTWEEKDAYS",
+    "ziggle"
+  ],
+  "files.readonlyInclude": {
+    "assets/i18n/*": true
+  },
+  "dart.flutterSdkPath": ".fvm/versions/3.32.8"
 }

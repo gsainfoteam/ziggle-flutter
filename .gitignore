@@ -57,3 +57,6 @@ locator.config.dart
 
 # env
 .env
+
+# FVM Version Cache
+.fvm/
