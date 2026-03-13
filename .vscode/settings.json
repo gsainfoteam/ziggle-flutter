@@ -1,10 +1,5 @@
 {
-  "cSpell.words": [
-    "lotties",
-    "pressable",
-    "SHORTWEEKDAYS",
-    "ziggle"
-  ],
+  "cSpell.words": ["fvmrc", "lotties", "pressable", "SHORTWEEKDAYS", "ziggle"],
   "files.readonlyInclude": {
     "assets/i18n/*": true
   },

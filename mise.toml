@@ -1,0 +1,2 @@
+[tools]
+flutter = "{{ exec(command='cat .fvmrc | jq -r .flutter') }}"
