@@ -3,5 +3,5 @@
   "files.readonlyInclude": {
     "assets/i18n/*": true
   },
-  "dart.flutterSdkPath": ".fvm/versions/3.35.7"
+  "dart.flutterSdkPath": ".fvm/flutter_sdk"
 }
