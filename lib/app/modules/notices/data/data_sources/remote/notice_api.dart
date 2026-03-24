@@ -2,10 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:ziggle/app/modules/core/data/dio/ziggle_dio.dart';
-import 'package:ziggle/app/modules/core/domain/enums/language.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_additional_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_foreign_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/create_notice_model.dart';
+import 'package:ziggle/app/modules/notices/data/models/get_notice_query_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/get_notices_query_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/modify_notice_model.dart';
 import 'package:ziggle/app/modules/notices/data/models/notice_list_model.dart';
@@ -30,10 +30,9 @@ abstract class NoticeApi {
 
   @GET('{id}')
   Future<NoticeModel> getNotice(
-    @Path('id') int id, {
-    @Query('lang') Language? lang,
-    @Query('isViewed') bool isViewed = false,
-  });
+    @Path('id') int id,
+    @Queries() GetNoticeQueryModel query,
+  );
 
   @PATCH('{id}')
   Future<NoticeModel> modifyNotice(

@@ -17,7 +17,11 @@ abstract class NoticeRepository {
     String? groupId,
   });
 
-  Future<NoticeEntity> getNotice(int id, [bool getAllLanguages = false]);
+  Future<NoticeEntity> getNotice(
+    int id, {
+    bool isViewed = false,
+    bool getAllLanguages = false,
+  });
 
   Future<NoticeEntity> addReaction(int id, String emoji);
   Future<NoticeEntity> removeReaction(int id, String emoji);
