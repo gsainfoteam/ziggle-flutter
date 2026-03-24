@@ -28,7 +28,8 @@ abstract class WebAuth2OAuthRepository implements OAuthRepository {
         .replaceAll('=', '');
 
     final scopes = [
-      'profile',
+      'name',
+      'picture',
       'email',
       'student_id',
       'offline_access',
