@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
+import 'package:injectable/injectable.dart';
 import 'package:nonce/nonce.dart';
 import 'package:ziggle/app/modules/auth/data/data_sources/remote/oauth_api.dart';
 import 'package:ziggle/app/modules/auth/data/models/token_request_with_code_model.dart';
@@ -12,12 +13,13 @@ import 'package:ziggle/app/values/strings.dart';
 import '../../../user/domain/exceptions/invalid_authorization_code_exception.dart';
 import '../../domain/repositories/oauth_repository.dart';
 
-abstract class WebAuth2OAuthRepository implements OAuthRepository {
+@Singleton(as: OAuthRepository)
+class WebAuth2OAuthRepository implements OAuthRepository {
   bool recentLogout = false;
-  final String clientId;
   final OAuthApi _api;
+  final String clientId = Strings.ziggleIdpClientId;
 
-  WebAuth2OAuthRepository(this._api, {required this.clientId});
+  WebAuth2OAuthRepository(this._api);
 
   @override
   Future<TokenEntity> getToken() async {
@@ -27,13 +29,7 @@ abstract class WebAuth2OAuthRepository implements OAuthRepository {
         .encode(sha256.convert(utf8.encode(codeVerifier)).bytes)
         .replaceAll('=', '');
 
-    final scopes = [
-      'name',
-      'picture',
-      'email',
-      'student_id',
-      'offline_access',
-    ];
+    final scopes = ['name', 'picture', 'email', 'student_id', 'offline_access'];
     final prompt = recentLogout ? 'login' : 'consent';
     final authorizeUri = Uri(
       scheme: Uri.parse(Strings.idpBaseUrl).scheme,

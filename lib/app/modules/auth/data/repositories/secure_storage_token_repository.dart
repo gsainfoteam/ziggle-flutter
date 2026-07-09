@@ -3,11 +3,12 @@ import 'package:injectable/injectable.dart';
 import 'package:ziggle/app/modules/auth/data/repositories/flutter_secure_storage_token_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
 
-@named
-@Singleton(as: TokenRepository)
-class ZiggleFlutterSecureStorageTokenRepository
-    extends FlutterSecureStorageTokenRepository {
-  ZiggleFlutterSecureStorageTokenRepository(FlutterSecureStorage storage)
+@Singleton(
+  as: TokenRepository,
+  dispose: FlutterSecureStorageTokenRepository.dispose,
+)
+class SecureStorageTokenRepository extends FlutterSecureStorageTokenRepository {
+  SecureStorageTokenRepository(FlutterSecureStorage storage)
     : super(
         storage: storage,
         tokenKey: '_ziggle_token',

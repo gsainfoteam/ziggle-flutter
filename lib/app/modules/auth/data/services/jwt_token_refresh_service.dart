@@ -1,23 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mutex/mutex.dart';
+import 'package:ziggle/app/modules/auth/data/data_sources/remote/auth_api.dart';
 import 'package:ziggle/app/modules/auth/data/services/token_refresh_service.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
-import 'package:ziggle/app/modules/auth/data/data_sources/remote/auth_api.dart';
-import 'package:ziggle/app/modules/user/data/repositories/ziggle_flutter_secure_storage_token_repository.dart';
 
 @singleton
-class ZiggleTokenRefreshService implements TokenRefreshService {
+class JwtTokenRefreshService implements TokenRefreshService {
   final TokenRepository _repository;
   final AuthApi _authApi;
 
   @override
   final mutex = ReadWriteMutex();
 
-  ZiggleTokenRefreshService(
-    @Named.from(ZiggleFlutterSecureStorageTokenRepository) this._repository,
-    this._authApi,
-  );
+  JwtTokenRefreshService(this._repository, this._authApi);
 
   @override
   Future<bool> refresh() async {
