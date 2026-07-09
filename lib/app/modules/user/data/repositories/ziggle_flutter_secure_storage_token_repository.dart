@@ -8,13 +8,11 @@ import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dar
 class ZiggleFlutterSecureStorageTokenRepository
     extends FlutterSecureStorageTokenRepository {
   ZiggleFlutterSecureStorageTokenRepository(FlutterSecureStorage storage)
-      : super(
-          storage: storage,
-          tokenKey: '_ziggle_token',
-          expiredAtKey: '_ziggle_expiredAt',
-          refreshTokenKey: '_ziggle_refreshToken',
-          refreshTokenExpiredAtKey: '_ziggle_refreshTokenExpiredAt',
-        );
+    : super(
+        storage: storage,
+        tokenKey: '_ziggle_token',
+        expiredAtKey: '_ziggle_expiredAt',
+      );
 
   @override
   @PostConstruct(preResolve: true)
