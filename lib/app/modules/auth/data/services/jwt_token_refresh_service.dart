@@ -31,8 +31,12 @@ class JwtTokenRefreshService implements TokenRefreshService {
     } on DioException catch (e) {
       final status = e.response?.statusCode;
       if (status == 401 || status == 403) {
-        await _repository.deleteToken();
+        try {
+          await _repository.deleteToken();
+        } catch (_) {}
       }
+      return false;
+    } catch (_) {
       return false;
     } finally {
       mutex.release();
