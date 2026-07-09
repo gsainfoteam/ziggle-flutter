@@ -7,12 +7,16 @@ part 'user_model.g.dart';
 @freezed
 sealed class UserModel with _$UserModel implements UserEntity {
   const UserModel._();
+
+  @override
+  bool get hasConsented => consent != null;
+
   const factory UserModel({
     required String email,
     required String name,
     @JsonKey(name: 'studentNumber') String? studentId,
     required String uuid,
-    @Default(true) bool consent,
+    DateTime? consent,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

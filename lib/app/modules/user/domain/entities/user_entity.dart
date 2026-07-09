@@ -3,7 +3,7 @@ class UserEntity {
   final String name;
   final String? studentId;
   final String uuid;
-  final bool consent;
+  final DateTime? consent;
 
   UserEntity({
     required this.email,
@@ -12,4 +12,6 @@ class UserEntity {
     required this.consent,
     required this.uuid,
   });
+
+  bool get hasConsented => consent != null;
 }

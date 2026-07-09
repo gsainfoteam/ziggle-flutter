@@ -23,7 +23,7 @@ class AppRouter extends RootStackRouter {
         router.push(LoginRoute());
         return resolver.next(false);
       }
-      final consented = user.consent;
+      final consented = user.hasConsented;
       if (!consented) {
         if (resolver.routeName == ConsentRoute.name ||
             resolver.routeName == WithdrawRoute.name) {

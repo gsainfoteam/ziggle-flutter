@@ -16,6 +16,7 @@ class MemoryApiChannelRepository implements ApiChannelRepository {
   final ZiggleDio _ziggleDio;
 
   MemoryApiChannelRepository(this._ziggleDio) {
+    _ziggleDio.options.baseUrl = _subject.value.ziggleBaseUrl;
     _localSubscription = _subject.listen((value) {
       _ziggleDio.options.baseUrl = value.ziggleBaseUrl;
     });
