@@ -10,7 +10,7 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
-import 'package:ziggle/app/modules/groups/presentation/widgets/sliver_pinned_box_adapter.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/sliver_pinned_box_adapter.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_content_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/entities/notice_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_reaction.dart';

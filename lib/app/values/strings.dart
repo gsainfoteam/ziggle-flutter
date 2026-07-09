@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class Strings {
@@ -10,11 +9,8 @@ abstract class Strings {
   static final idpBaseUrl = dotenv.get('IDP_BASE_URL');
   static final idpApiBaseUrl = dotenv.get('IDP_API_BASE_URL');
   static final ziggleIdpClientId = dotenv.get('ZIGGLE_IDP_CLIENT_ID');
-  static final groupsIdpClientId = dotenv.get('GROUPS_IDP_CLIENT_ID');
   static final ziggleIdpPath = dotenv.get('ZIGGLE_IDP_PATH');
   static final ziggleIdpReLoginPath = dotenv.get('ZIGGLE_IDP_RE_LOGIN_PATH');
-  static final groupsIdpPath = dotenv.get('GROUPS_IDP_PATH');
-  static final groupsIdpReLoginPath = dotenv.get('GROUPS_IDP_RE_LOGIN_PATH');
   static final privacyPolicyUrl = dotenv.get('PRIVACY_POLICY_URL');
   static final termsOfServiceUrl = dotenv.get('TERMS_OF_SERVICE_URL');
   static String heyDeveloperUrl(String? email) =>
@@ -22,7 +18,4 @@ abstract class Strings {
   static const idPRedirectUri = 'ziggle-idp-login-redirect://callback';
   static const recruitmentUrl =
       'https://infoteam-rulrudino.notion.site/185365ea27df802683e0c7374f964784?pvs=105';
-  static final groupsBaseUrl = kDebugMode
-      ? "https://stg.groups.gistory.me"
-      : "https://groups.gistory.me";
 }
