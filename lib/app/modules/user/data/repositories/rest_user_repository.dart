@@ -2,17 +2,16 @@ import 'dart:async';
 
 import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:ziggle/app/modules/auth/domain/repositories/auth_repository.dart';
 import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
 import 'package:ziggle/app/modules/user/data/models/user_model.dart';
-import 'package:ziggle/app/modules/user/data/repositories/rest_auth_repository.dart';
-import 'package:ziggle/app/modules/user/data/repositories/ziggle_rest_auth_repository.dart';
 import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 import 'package:ziggle/app/modules/user/domain/repositories/user_repository.dart';
 
 @Singleton(as: UserRepository, dispose: RestUserRepository.dispose)
 class RestUserRepository implements UserRepository {
   final UserApi _api;
-  final RestAuthRepository _authRepository;
+  final AuthRepository _authRepository;
   final _subject = BehaviorSubject<UserModel?>();
 
   static void dispose(UserRepository inst) {
@@ -20,10 +19,7 @@ class RestUserRepository implements UserRepository {
     instance._subject.close();
   }
 
-  RestUserRepository(
-    this._api,
-    @Named.from(ZiggleRestAuthRepository) this._authRepository,
-  ) {
+  RestUserRepository(this._api, this._authRepository) {
     _authRepository.isSignedIn.listen((signedIn) async {
       if (!signedIn) {
         _subject.add(null);

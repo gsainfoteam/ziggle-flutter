@@ -17,8 +17,6 @@ enum PageSource {
   writeConfigAddHashtag,
   writeConfigPreview,
   unknown,
-  groupManagement,
-  groupManagementMain,
   login,
   withdraw,
 }

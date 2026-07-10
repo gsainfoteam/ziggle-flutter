@@ -1,34 +1,33 @@
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:ziggle/app/modules/auth/data/data_sources/remote/base_auth_api.dart';
+import 'package:injectable/injectable.dart';
+import 'package:ziggle/app/modules/auth/data/data_sources/remote/auth_api.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/auth_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/oauth_repository.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
-import 'package:ziggle/app/modules/groups/domain/entities/group_user_entity.dart';
+import 'package:ziggle/app/modules/user/data/data_sources/remote/user_api.dart';
 
-abstract class RestAuthRepository implements AuthRepository {
-  final BaseAuthApi _api;
+@Singleton(as: AuthRepository)
+class RestAuthRepository implements AuthRepository {
+  final UserApi _userApi;
+  final AuthApi _authApi;
   final TokenRepository _tokenRepository;
   final CookieManager _cookieManager;
   final OAuthRepository _oAuthRepository;
 
-  RestAuthRepository({
-    required BaseAuthApi api,
-    required TokenRepository tokenRepository,
-    required CookieManager cookieManager,
-    required OAuthRepository oAuthRepository,
-  }) : _api = api,
-       _tokenRepository = tokenRepository,
-       _cookieManager = cookieManager,
-       _oAuthRepository = oAuthRepository;
+  RestAuthRepository(
+    this._userApi,
+    this._authApi,
+    this._tokenRepository,
+    this._cookieManager,
+    this._oAuthRepository,
+  );
 
   @override
   Future<void> login() async {
-    final token = await _oAuthRepository.getToken();
-    await _tokenRepository.saveToken(token.accessToken);
-    if (token.refreshToken != null) {
-      await _tokenRepository.saveRefreshToken(token.refreshToken!);
-    }
+    final idpToken = await _oAuthRepository.getToken();
+    final jwt = await _authApi.login('Bearer ${idpToken.accessToken}');
+    await _tokenRepository.saveToken(jwt.accessToken);
   }
 
   @override
@@ -37,7 +36,7 @@ abstract class RestAuthRepository implements AuthRepository {
       return false;
     }
     try {
-      await _api.info();
+      await _userApi.info();
       return true;
     } on DioException {
       return false;
@@ -46,13 +45,11 @@ abstract class RestAuthRepository implements AuthRepository {
 
   @override
   Future<void> logout() async {
+    try {
+      await _authApi.logout();
+    } catch (_) {}
     await _tokenRepository.deleteToken();
     await _cookieManager.cookieJar.deleteAll();
     await _oAuthRepository.setRecentLogout();
-  }
-
-  @override
-  Future<GroupUserEntity> info() async {
-    return await _api.info();
   }
 }
