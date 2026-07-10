@@ -1,6 +1,5 @@
 {
   "cSpell.words": ["fvmrc", "lotties", "pressable", "SHORTWEEKDAYS", "ziggle"],
-  "dart.flutterSdkPath": ".fvm/flutter_sdk",
   "editor.formatOnSave": true,
   "[dart]": {
     "editor.defaultFormatter": "Dart-Code.dart-code"
