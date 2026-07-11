@@ -9,10 +9,14 @@ class SharePlusNoticeShareRepository implements NoticeShareRepository {
   @override
   Future<bool> shareNotice(NoticeEntity notice) async {
     try {
-      final result = await Share.share(t.notice.detail.shareContent(
-        title: notice.titles.current,
-        link: 'https://ziggle.gistory.me/notice/${notice.id}',
-      ));
+      final result = await SharePlus.instance.share(
+        ShareParams(
+          text: t.notice.detail.shareContent(
+            title: notice.titles.current,
+            link: 'https://ziggle.gistory.me/notice/${notice.id}',
+          ),
+        ),
+      );
       return result.status == ShareResultStatus.success;
     } catch (e) {
       return false;
