@@ -1,35 +1,38 @@
 import 'package:dio/dio.dart';
-import 'package:mutex/mutex.dart';
-import 'package:ziggle/app/modules/auth/data/data_sources/remote/oauth_api.dart';
-import 'package:ziggle/app/modules/auth/data/models/token_request_with_refresh_model.dart';
+import 'package:retrofit/retrofit.dart';
+import 'package:ziggle/app/modules/auth/data/services/token_refresh_service.dart';
 import 'package:ziggle/app/modules/auth/domain/repositories/token_repository.dart';
+
+class SkipAuthorize extends Extra {
+  static const _data = {AuthorizeInterceptor._skipKey: true};
+  const SkipAuthorize() : super(_data);
+}
 
 abstract class AuthorizeInterceptor extends Interceptor {
   final TokenRepository repository;
-  static const retriedKey = '_retried';
-  final mutex = ReadWriteMutex();
-  final OAuthApi _oAuthApi;
-  final String clientId;
+  static const _authorizeRetriedKey = '_authorizeRetried';
+  static const _skipKey = '_skip';
 
-  AuthorizeInterceptor(this.repository, this._oAuthApi,
-      {required this.clientId});
+  AuthorizeInterceptor(this.repository);
+
+  TokenRefreshService get tokenRefreshService;
 
   @override
   void onRequest(
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    if (options.retried) return handler.next(options);
+    if (options.skip) return handler.next(options);
 
     try {
-      await mutex.acquireRead();
+      await tokenRefreshService.mutex.acquireRead();
       final token = await repository.token.first;
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
       }
       handler.next(options);
     } finally {
-      mutex.release();
+      tokenRefreshService.mutex.release();
     }
   }
 
@@ -39,50 +42,30 @@ abstract class AuthorizeInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final dio = getDio();
     final statusCode = err.response?.statusCode;
+    if (err.requestOptions.skip) return handler.next(err);
     if (statusCode != 401) return handler.next(err);
     final token = await repository.token.first;
     if (token == null) return handler.next(err);
-    if (err.requestOptions.retried) return handler.next(err);
-    err.requestOptions.retried = true;
+    if (err.requestOptions.authorizeRetried) return handler.next(err);
+    err.requestOptions.authorizeRetried = true;
 
     try {
-      if (!(await refresh())) return handler.next(err);
+      if (!(await tokenRefreshService.refresh())) return handler.next(err);
       final retriedResponse = await dio.fetch(err.requestOptions);
       return handler.resolve(retriedResponse);
     } on DioException {
       return super.onError(err, handler);
     }
   }
-
-  Future<bool> refresh() async {
-    if (mutex.isWriteLocked) {
-      await mutex.acquireRead();
-      mutex.release();
-      return true;
-    }
-    await mutex.acquireWrite();
-    try {
-      final token = await repository.refreshToken.first;
-      if (token == null) return false;
-      final res = await _oAuthApi.getTokenFromRefresh(
-        TokenRequestWithRefreshModel(
-          refreshToken: token,
-          clientId: clientId,
-        ),
-      );
-      await repository.saveToken(res.accessToken);
-      await repository.saveRefreshToken(res.refreshToken!);
-      return true;
-    } catch (e) {
-      await repository.deleteToken();
-      return false;
-    } finally {
-      mutex.release();
-    }
-  }
 }
 
 extension _RequestOptionsX on RequestOptions {
-  bool get retried => extra.containsKey(AuthorizeInterceptor.retriedKey);
-  set retried(bool value) => extra[AuthorizeInterceptor.retriedKey] = value;
+  bool get authorizeRetried =>
+      extra.containsKey(AuthorizeInterceptor._authorizeRetriedKey)
+      ? extra[AuthorizeInterceptor._authorizeRetriedKey] as bool
+      : false;
+  set authorizeRetried(bool value) =>
+      extra[AuthorizeInterceptor._authorizeRetriedKey] = value;
+
+  bool get skip => extra.containsKey(AuthorizeInterceptor._skipKey);
 }

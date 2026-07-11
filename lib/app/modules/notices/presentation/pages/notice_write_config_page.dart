@@ -10,15 +10,10 @@ import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_toggle_but
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
 import 'package:ziggle/app/modules/core/domain/enums/page_source.dart';
 import 'package:ziggle/app/modules/core/domain/repositories/analytics_repository.dart';
-import 'package:ziggle/app/modules/groups/presentation/blocs/group_bloc.dart';
-import 'package:ziggle/app/modules/notices/domain/entities/notice_group_entity.dart';
 import 'package:ziggle/app/modules/notices/domain/enums/notice_type.dart';
 import 'package:ziggle/app/modules/notices/presentation/bloc/notice_write_bloc.dart';
-import 'package:ziggle/app/modules/notices/presentation/widgets/account_selector.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/deadline_selector.dart';
 import 'package:ziggle/app/modules/notices/presentation/widgets/tag.dart';
-import 'package:ziggle/app/modules/user/presentation/bloc/group_auth_bloc.dart';
-import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
@@ -45,7 +40,6 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
   late DateTime? _deadline = _draft.deadline;
   late NoticeType? _type = _draft.type;
   late final List<String> _tags = _draft.tags.toList();
-  NoticeGroupEntity? _groupEntity;
 
   void _save() {
     // TODO: is there any way to save when type is not set?
@@ -55,7 +49,7 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
         deadline: _deadline,
         type: _type!,
         tags: _tags,
-        group: _groupEntity,
+        group: _draft.group,
       ),
     );
   }
@@ -102,9 +96,6 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
             child: Column(
               children: [
-                // TODO: uncomment after implementing the GroupAuth
-                // _buildChangeAccount(),
-                // const SizedBox(height: 25),
                 _buildDeadline(),
                 const SizedBox(height: 25),
                 _buildCategory(),
@@ -128,81 +119,6 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildChangeAccount() {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      decoration: const BoxDecoration(
-        color: Palette.grayLight,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              const SizedBox(width: 5),
-              Assets.images.defaultProfile.image(width: 40),
-              const SizedBox(width: 10),
-              BlocBuilder<GroupBloc, GroupState>(
-                builder: (context, groupState) {
-                  return BlocBuilder<UserBloc, UserState>(
-                    builder: (context, userState) {
-                      return Row(
-                        children: [
-                          Text(
-                            _groupEntity?.uuid != null
-                                ? (_groupEntity?.name ?? "Unknown Group")
-                                : userState.user!.name,
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Palette.black,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
-              const Spacer(),
-              ZigglePressable(
-                onPressed: () async {
-                  // TODO: Remove after implementing the GroupAuth
-                  context.read<GroupAuthBloc>().add(GroupAuthEvent.login());
-                  final groupEntity =
-                      await ZiggleBottomSheet.show<NoticeGroupEntity>(
-                        context: context,
-                        title: context.t.notice.write.changeAccount,
-                        builder: (context) => AccountSelector(
-                          onChanged: (v) => Navigator.pop(context, v),
-                        ),
-                      );
-
-                  setState(() => _groupEntity = groupEntity);
-                },
-                child: Row(
-                  children: [
-                    Text(
-                      context.t.notice.write.changeAccount,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Palette.grayText,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Assets.icons.arrowRight.svg(width: 20, height: 20),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

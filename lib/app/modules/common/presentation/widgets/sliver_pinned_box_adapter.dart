@@ -4,11 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class SliverPinnedBoxAdapter extends SingleChildRenderObjectWidget {
-  const SliverPinnedBoxAdapter({
-    super.key,
-    super.child,
-    this.pinned = true,
-  });
+  const SliverPinnedBoxAdapter({super.key, super.child, this.pinned = true});
 
   final bool pinned;
 
@@ -55,8 +51,8 @@ class _RenderSliverPinnedBoxAdapter extends RenderSliverSingleBoxAdapter {
   }
 
   @override
-  bool hitTestSelf(
-          {required double mainAxisPosition,
-          required double crossAxisPosition}) =>
-      true;
+  bool hitTestSelf({
+    required double mainAxisPosition,
+    required double crossAxisPosition,
+  }) => true;
 }
