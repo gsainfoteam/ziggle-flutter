@@ -113,7 +113,8 @@ jobs:
         if: env.run == 'true'
         run: |
           dart run slang
-          dart run build_runner build --delete-conflicting-outputs
+          dart run build_runner clean
+          dart run build_runner build
       - name: Run fastlane
         if: env.run == 'true'
         run: bundle exec fastlane test
