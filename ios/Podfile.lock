@@ -1,12 +1,12 @@
 PODS:
-  - amplitude_flutter (0.0.1):
-    - AmplitudeSwift (~> 1.14)
+  - amplitude_flutter (4.4.0):
+    - AmplitudeSwift (~> 1.17.5)
     - Flutter
     - FlutterMacOS
   - AmplitudeCore (1.4.8)
-  - AmplitudeSwift (1.18.6):
-    - AmplitudeCore (< 2.0.0, >= 1.4.8)
-    - AnalyticsConnector (~> 1.3.2)
+  - AmplitudeSwift (1.17.5):
+    - AmplitudeCore (< 2.0.0, >= 1.4.1)
+    - AnalyticsConnector (~> 1.3.0)
   - AnalyticsConnector (1.3.2)
   - app_links (6.4.1):
     - Flutter
@@ -193,7 +193,7 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - permission_handler_apple (9.3.0):
+  - permission_handler_apple (9.4.8):
     - Flutter
   - PromisesObjC (2.4.1)
   - PromisesSwift (2.4.1):
@@ -302,9 +302,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
 
 SPEC CHECKSUMS:
-  amplitude_flutter: 4eb26cea5f147c917075bc8cb57449de518159a5
+  amplitude_flutter: a430a891abbd9e486f53d2ab499af9ead0bb8047
   AmplitudeCore: d0952b5b193f6926777bcaf73ad2bea47a7706da
-  AmplitudeSwift: 26519eb436aaa3490b0317b183643bf491411094
+  AmplitudeSwift: 89f675b8b81a2710ef244324d2083641ffb702b6
   AnalyticsConnector: b6961a64f7a15207d7cc8a8529e64cccc482c066
   app_links: 3dbc685f76b1693c66a6d9dd1e9ab6f73d97dc0a
   Firebase: a8539b633d474fbeb654c7043f9c1649e274045b
@@ -332,18 +332,18 @@ SPEC CHECKSUMS:
   GoogleAppMeasurement: a6d37949071d456e9147dac6789c4342e0e7a8c5
   GoogleDataTransport: aae35b7ea0c09004c3797d53c8c41f66f219d6a7
   GoogleUtilities: 766ace00c6b10d8148408f329d10c4f051931850
-  image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
+  image_picker_ios: e0ece4aa2a75771a7de3fa735d26d90817041326
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
-  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
-  permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
+  path_provider_foundation: bb55f6dbba17d0dccd6737fe6f7f34fbd0376880
+  permission_handler_apple: 92d754bbaa7361d436db2d6c3c1c2a0fdcec462e
   PromisesObjC: 752c3227f599e3467650e47ea36f433eeb10c273
   PromisesSwift: 217dea0fd5d2ad65222a109c48698add13cc1c5b
   quill_native_bridge_ios: f47af4b14e7757968486641656c5d23250cee521
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
   sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
-  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
+  url_launcher_ios: 7a95fa5b60cc718a708b8f2966718e93db0cef1b
 
 PODFILE CHECKSUM: 2d0335ed3228e15c2630252f9afb1a07d86311d0
 
