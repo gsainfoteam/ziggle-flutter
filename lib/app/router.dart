@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart' hide CupertinoSheetRoute;
 import 'package:sheet/route.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 
@@ -14,8 +15,9 @@ class AppRouter extends RootStackRouter {
       if (resolver.routeName == SplashRoute.name) {
         return resolver.next(true);
       }
-      final user = sl<UserBloc>().state.user;
-      final authenticated = user != null;
+      // 로그인 여부는 토큰으로 판단한다. 프로필(user)이 없다고 해서
+      // 비로그인인 것은 아니다 - 미동의 유저는 로그인 상태이지만 프로필이 없다.
+      final authenticated = sl<AuthBloc>().state.hasUser;
       if (!authenticated) {
         if (resolver.routeName == LoginRoute.name) {
           return resolver.next(true);
@@ -23,7 +25,13 @@ class AppRouter extends RootStackRouter {
         router.push(LoginRoute());
         return resolver.next(false);
       }
-      final consented = user.hasConsented;
+      final userState = sl<UserBloc>().state;
+      // 프로필 조회 결과를 아직 못 받았으면 판단을 미룬다.
+      if (!userState.isLoaded) {
+        return resolver.next(false);
+      }
+      final user = userState.user;
+      final consented = user?.hasConsented ?? false;
       if (!consented) {
         if (resolver.routeName == ConsentRoute.name ||
             resolver.routeName == WithdrawRoute.name) {
