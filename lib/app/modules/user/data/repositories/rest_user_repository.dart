@@ -29,10 +29,11 @@ class RestUserRepository implements UserRepository {
       try {
         final user = await _api.info();
         _subject.add(user);
-      } on DioException catch (e) {
+      } catch (e) {
         // 여기로 왔다는 건 로그인은 됐는데, 에러가 떴다는 말임.
         // 이때 에러가 consent가 없는 에러인 경우에만 예외 처리를 해줘야 함.
-        if (e.response?.data['message'] == "Consent required") {
+        // 어떤 에러가 나든 반드시 emit 해야 UserBloc이 initial에 갇히지 않음.
+        if (_isConsentRequired(e)) {
           const noConsent = UserModel(
             email: 'noconsent',
             name: 'noconsent',
@@ -44,6 +45,14 @@ class RestUserRepository implements UserRepository {
         }
       }
     });
+  }
+
+  /// 응답 body가 Map이 아니거나 비어 있을 수 있으므로 방어적으로 확인한다.
+  static bool _isConsentRequired(Object error) {
+    if (error is! DioException) return false;
+    final data = error.response?.data;
+    if (data is! Map) return false;
+    return data['message'] == 'Consent required';
   }
 
   @override
