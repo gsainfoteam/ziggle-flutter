@@ -48,6 +48,7 @@ class RestUserRepository implements UserRepository {
   }
 
   /// 응답 body가 Map이 아니거나 비어 있을 수 있으므로 방어적으로 확인한다.
+  /// consent 이슈로 넘어가지 않는 문제를 해결하기 위해 기존 코드에서 Consent required 문구에 대한 예외를 적용
   static bool _isConsentRequired(Object error) {
     if (error is! DioException) return false;
     final data = error.response?.data;
