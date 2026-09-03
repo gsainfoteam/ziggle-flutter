@@ -11,10 +11,6 @@ import 'package:ziggle/app/modules/user/domain/repositories/user_repository.dart
 
 @Singleton(as: UserRepository, dispose: RestUserRepository.dispose)
 class RestUserRepository implements UserRepository {
-  /// 서버가 미동의 유저에게 내려주는 메시지.
-  /// `UnauthorizedException('Consent required')` -> 401 + {"message": "Consent required"}
-  static const _consentRequiredMessage = 'consent required';
-
   final UserApi _api;
   final AuthRepository _authRepository;
   final _subject = BehaviorSubject<UserModel?>();
@@ -30,7 +26,23 @@ class RestUserRepository implements UserRepository {
         _subject.add(null);
         return;
       }
-      await refetchMe();
+      try {
+        final user = await _api.info();
+        _subject.add(user);
+      } on DioException catch (e) {
+        // 여기로 왔다는 건 로그인은 됐는데, 에러가 떴다는 말임.
+        // 이때 에러가 consent가 없는 에러인 경우에만 예외 처리를 해줘야 함.
+        if (e.response?.data['message'] == "Consent required") {
+          const noConsent = UserModel(
+            email: 'noconsent',
+            name: 'noconsent',
+            uuid: 'noconsent',
+          );
+          _subject.add(noConsent);
+        } else {
+          _subject.add(null);
+        }
+      }
     });
   }
 
@@ -43,27 +55,10 @@ class RestUserRepository implements UserRepository {
       final user = await _api.info();
       _subject.add(user);
       return user;
-    } on DioException catch (e) {
-      // 로그인은 되었으나 아직 약관에 동의하지 않은 상태.
-      // 프로필이 없을 뿐 인증은 유효하므로 동의 화면으로 넘겨야 한다.
-      if (_isConsentRequired(e)) {
-        _subject.add(null);
-        return null;
-      }
-      // 네트워크 오류 등 일시적인 실패를 미동의로 오해하지 않는다.
-      // 이미 받아둔 정보가 있으면 유지하고, 없으면(최초 구동) 비로그인으로 둔다.
-      if (!_subject.hasValue) _subject.add(null);
-      return _subject.value;
+    } catch (_) {
+      _subject.add(null);
+      return null;
     }
-  }
-
-  bool _isConsentRequired(DioException e) {
-    if (e.response?.statusCode != 401) return false;
-    final message = switch (e.response?.data) {
-      {'message': final String m} => m,
-      _ => null,
-    };
-    return message?.trim().toLowerCase() == _consentRequiredMessage;
   }
 
   @override
