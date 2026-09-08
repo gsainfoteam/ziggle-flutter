@@ -23,7 +23,7 @@ platform :android do
 
     android_app_id = File.open("../../lib/firebase_options.dart").read().match(/appId: '(.*android.*)'/)[1]
     UI.message("Android App ID: #{android_app_id}")
-    debug_info_path = "debug-info"
+    debug_info_path = File.expand_path("../../debug-info")
 
     sh(
       "flutter", "build", "appbundle",
@@ -33,11 +33,15 @@ platform :android do
       "--build-number=#{build_number}",
     )
 
+    unless Dir.exist?(debug_info_path)
+      UI.user_error!("Debug info not found at #{debug_info_path}")
+    end
+
     sh(
       "firebase",
       "crashlytics:symbols:upload",
       "--app=#{android_app_id}",
-      File.expand_path("../../#{debug_info_path}")
+      debug_info_path
     )
 
     symbols_path = File.expand_path("../../build/app/intermediates/merged_native_libs/release/mergeReleaseNativeLibs/out/lib")

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/confirm.dart';
 import 'package:ziggle/app/modules/common/presentation/extensions/toast.dart';
+import 'package:ziggle/app/modules/common/presentation/utils/date_format_transform.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/sliver_pinned_box_adapter.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_pressable.dart';
 import 'package:ziggle/app/modules/core/data/models/analytics_event.dart';
@@ -24,6 +25,7 @@ import 'package:ziggle/app/router.gr.dart';
 import 'package:ziggle/app/values/palette.dart';
 import 'package:ziggle/gen/assets.gen.dart';
 import 'package:ziggle/gen/strings.g.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class NoticeRenderer extends StatefulWidget {
   const NoticeRenderer({
@@ -218,6 +220,246 @@ class _NoticeRendererState extends State<NoticeRenderer> {
               ),
             ),
           ),
+
+          // 위에가 태그 영역
+
+          // 여기에 내용 추가 및 AI 요약 추가
+          DecoratedSliver(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Colors.grey.shade300,
+                  width: 0.5,
+                ), // 윗면 테두리
+                bottom: BorderSide(
+                  color: Colors.grey.shade300,
+                  width: 0.5,
+                ), // 아랫면 테두리
+              ),
+            ),
+            sliver: SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+              sliver: SliverToBoxAdapter(
+                child: Table(
+                  defaultVerticalAlignment: TableCellVerticalAlignment.top,
+                  columnWidths: const {
+                    0: IntrinsicColumnWidth(), // max-content: 콘텐츠의 최대 너비만큼 차지
+                    1: FlexColumnWidth(), // 1fr: 남은 공간을 모두 차지
+                  },
+                  children: [
+                    // 첫 번째 행
+                    TableRow(
+                      children: [
+                        // 첫 번째 열 (max-content) + gap-x-6 구현을 위해 우측 패딩 적용
+                        Padding(
+                          padding: EdgeInsets.only(
+                            right: 24.0,
+                            bottom: 6.0,
+                          ), // gap-x-6 (24px), gap-y-3 (12px)
+                          child: Row(
+                            children: [
+                              Assets.icons.calendarBlank.svg(
+                                width: 14,
+                                height: 14,
+                                colorFilter: const ColorFilter.mode(
+                                  Palette.grayText,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              SizedBox(width: 6.0),
+                              Text(
+                                '작성일',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Palette.grayText,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // 두 번째 열 (1fr)
+                        Padding(
+                          padding: EdgeInsets.only(
+                            bottom: 6.0,
+                          ), // gap-y-3 (12px)
+                          child: Text(
+                            DateFromatTransForm(widget.notice.createdAt),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Palette.grayText,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 24.0, bottom: 6.0),
+                          child: Row(
+                            children: [
+                              Assets.icons.eye.svg(
+                                width: 14,
+                                height: 14,
+                                colorFilter: const ColorFilter.mode(
+                                  Palette.grayText,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              SizedBox(width: 6.0),
+                              Text(
+                                '조회수',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Palette.grayText,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // 두 번째 열 (1fr)
+                        Padding(
+                          padding: EdgeInsets.only(
+                            bottom: 6.0,
+                          ), // gap-y-3 (12px)
+                          child: Text(
+                            '${widget.notice.views}',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Palette.grayText,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 24.0, bottom: 6.0),
+                          child: Row(
+                            children: [
+                              Assets.icons.linkDiagonal.svg(
+                                width: 14,
+                                height: 14,
+                                colorFilter: const ColorFilter.mode(
+                                  Palette.grayText,
+                                  BlendMode.srcIn,
+                                ),
+                              ),
+                              SizedBox(width: 6.0),
+                              Text(
+                                '원본 링크',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Palette.grayText,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // 두 번째 열 (1fr)
+                        Padding(
+                          padding: EdgeInsets.only(
+                            bottom: 6.0,
+                          ), // gap-y-3 (12px)
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              minimumSize: Size.zero,
+                              padding: EdgeInsets.zero,
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                            onPressed: () async {
+                              await launchUrlString(widget.notice.crawledUrl);
+                            },
+                            child: Text(
+                              widget.notice.crawledUrl,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Palette.grayText,
+                                fontWeight: FontWeight.w400,
+                                decoration: TextDecoration.underline, // 밑줄 추가
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (widget.notice.documents.isNotEmpty)
+                      TableRow(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right: 24.0, bottom: 6.0),
+                            child: Row(
+                              children: [
+                                Assets.icons.paperclip.svg(
+                                  width: 14,
+                                  height: 14,
+                                  colorFilter: const ColorFilter.mode(
+                                    Palette.grayText,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                                SizedBox(width: 6.0),
+                                Text(
+                                  '첨부파일',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Palette.grayText,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // 두 번째 열 (1fr)
+                          Padding(
+                            padding: EdgeInsets.only(
+                              bottom: 6.0,
+                            ), // gap-y-3 (12px)
+                            child: Column(
+                              children: [
+                                ...widget.notice.documents.map(
+                                  (doc) => Padding(
+                                    padding: const EdgeInsets.only(bottom: 3.0),
+                                    child: TextButton(
+                                      onPressed: () async {
+                                        await launchUrlString(doc["url"] ?? "");
+                                      },
+                                      style: TextButton.styleFrom(
+                                        minimumSize: Size.zero,
+                                        padding: EdgeInsets.zero,
+                                        tapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                      ),
+                                      child: Text(
+                                        doc["name"] ?? "",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Palette.grayText,
+                                          fontWeight: FontWeight.w400,
+                                          decoration: TextDecoration.underline,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // 이미지 영역
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
             sliver: SliverList.separated(
@@ -240,6 +482,8 @@ class _NoticeRendererState extends State<NoticeRenderer> {
               separatorBuilder: (_, _) => const SizedBox(height: 18),
             ),
           ),
+
+          // 본문 영역
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
             sliver: SliverToBoxAdapter(
