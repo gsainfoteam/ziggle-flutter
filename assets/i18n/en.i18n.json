@@ -1,4 +1,11 @@
 {
+  "navigation": {
+    "home": "Home",
+    "category": "Categories",
+    "profile": "Profile",
+    "chatbot": "Open chatbot",
+    "chatbotUnavailable": "Chatbot is currently unavailable. Please try again later."
+  },
   "common": {
     "cancel": "Cancel",
     "next": "Next",
