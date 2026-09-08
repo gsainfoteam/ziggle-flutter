@@ -1,4 +1,11 @@
 {
+  "navigation": {
+    "home": "ホーム",
+    "category": "カテゴリー",
+    "profile": "プロフィール",
+    "chatbot": "チャットボットを開く",
+    "chatbotUnavailable": "現在チャットボットを利用できません。しばらくしてから再度お試しください。"
+  },
   "common": {
     "cancel": "キャンセル",
     "next": "次へ",

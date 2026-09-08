@@ -33,33 +33,39 @@ class _CategoryPageState extends State<CategoryPage>
       appBar: ZiggleAppBar.main(
         onTapSearch: () {
           AnalyticsRepository.click(
-              const AnalyticsEvent.search(PageSource.category));
+            const AnalyticsEvent.search(PageSource.category),
+          );
           const SearchRoute().push(context);
         },
         onTapWrite: () {
           AnalyticsRepository.click(
-              const AnalyticsEvent.write(PageSource.category));
+            const AnalyticsEvent.write(PageSource.category),
+          );
           if (UserBloc.userOrNull(context) == null) {
-            return context.showToast(
-              context.t.user.login.description,
-            );
+            return context.showToast(context.t.user.login.description);
           }
           const NoticeWriteBodyRoute().push(context);
         },
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        // The floating navigation bar contributes its height to bottom padding.
+        padding: EdgeInsets.fromLTRB(
+          18,
+          10,
+          18,
+          10 + MediaQuery.paddingOf(context).bottom,
+        ),
         child: Column(
           children: NoticeType.categories
               .fold<List<List<NoticeType>>>(
                 [],
                 (previousValue, element) =>
                     previousValue.isEmpty || previousValue.last.length == 2
-                        ? [
-                            ...previousValue,
-                            [element]
-                          ]
-                        : [...previousValue..last.add(element)],
+                    ? [
+                        ...previousValue,
+                        [element],
+                      ]
+                    : [...previousValue..last.add(element)],
               )
               .indexed
               .expand(
@@ -75,14 +81,15 @@ class _CategoryPageState extends State<CategoryPage>
                                 child: ZigglePressable(
                                   onPressed: () {
                                     AnalyticsRepository.click(
-                                        AnalyticsEvent.categoryType(
-                                            category.$2));
+                                      AnalyticsEvent.categoryType(category.$2),
+                                    );
                                     ListRoute(type: category.$2).push(context);
                                   },
                                   decoration: BoxDecoration(
                                     color: category.$2.backgroundColor,
                                     borderRadius: const BorderRadius.all(
-                                        Radius.circular(10)),
+                                      Radius.circular(10),
+                                    ),
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
