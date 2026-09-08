@@ -35,7 +35,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     }, transformer: droppable());
     on<_Withdraw>((event, emit) async {
       await _repository.withdraw();
-      emit(const _Initial());
+      // `initial`로 되돌리면 라우터 가드가 "아직 확인 전"으로 보고 이동을 막는다.
+      // 탈퇴는 조회가 끝난 상태이므로 프로필만 비운다.
+      emit(const _Done(null));
     }, transformer: droppable());
   }
 
@@ -60,6 +62,10 @@ sealed class UserState with _$UserState {
   const factory UserState.done(UserEntity? user) = _Done;
 
   bool get isLoading => whenOrNull(loading: () => true) ?? false;
+
+  /// 서버로부터 프로필 조회 결과를 한 번이라도 받았는지.
+  /// `initial`(아직 모름)과 `done(null)`(미동의)을 구분하기 위해 필요하다.
+  bool get isLoaded => this is _Done;
   UserEntity? get user => mapOrNull(done: (e) => e.user);
   bool get isConsent => user?.hasConsented ?? false;
 }
