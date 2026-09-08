@@ -10,12 +10,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build-os: [ubuntu-latest, macos-15]
+        build-os: [ubuntu-latest, macos-26]
         include:
           - os: Android
             build-os: ubuntu-latest
           - os: iOS
-            build-os: macos-15
+            build-os: macos-26
     name: Build ${{ matrix.os }} App and Upload
     runs-on: ${{ matrix.build-os }}
     concurrency:
@@ -61,9 +61,6 @@ jobs:
           bundler-cache: true
           working-directory: ${{ env.directory }}
 
-      - name: Select Xcode for Liquid Glass
-        if: matrix.os == 'iOS'
-        run: sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.35.7"
