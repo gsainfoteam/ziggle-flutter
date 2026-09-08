@@ -4,11 +4,13 @@ publish_to: "none"
 version: 4.4.0
 
 environment:
-  sdk: ^3.8.0
+  sdk: ^3.9.2
 
 dependencies:
   flutter:
     sdk: flutter
+  adaptive_platform_ui: 0.1.111
+  gist_chatbot_flutter: 0.1.1
   firebase_core: ^4.1.0
   firebase_crashlytics: ^5.0.1
   firebase_analytics: ^12.0.1
@@ -60,6 +62,12 @@ dependencies:
   hive_ce: ^2.13.2
   hive_ce_flutter: ^2.3.2
   bloc_concurrency: ^0.3.0
+
+# gist_chatbot_flutter 0.1.1 only uses PackageInfo.fromPlatform().packageName,
+# which is available in 9.x. Keep the current native plugins for this UI change.
+# Remove after the SDK accepts 9.x or the app's plugins migrate together.
+dependency_overrides:
+  package_info_plus: 9.0.1
 
 dev_dependencies:
   flutter_test:
