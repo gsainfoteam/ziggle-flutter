@@ -76,8 +76,10 @@ class ZiggleNavigationBar extends StatelessWidget {
   /// iPad split view) and stacks the tab items.
   static const _regularWidth = 600.0;
 
-  /// Slide-away time while a route covers the native bar.
-  static const _hideDuration = Duration(milliseconds: 200);
+  /// Slide-away time while a route covers the native bar. Callers that open
+  /// a modal over the native bar should wait this long after setting
+  /// [obscured] before pushing, so no platform view is left under the modal.
+  static const hideDuration = Duration(milliseconds: 200);
 
   static List<String> _labels(BuildContext context) => [
     context.t.navigation.home,
@@ -135,7 +137,7 @@ class ZiggleNavigationBar extends StatelessWidget {
           ignoring: obscured,
           child: AnimatedSlide(
             offset: obscured ? const Offset(0, 1) : Offset.zero,
-            duration: _hideDuration,
+            duration: hideDuration,
             curve: Curves.easeInOut,
             child: Stack(
               children: [

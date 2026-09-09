@@ -55,6 +55,14 @@ class _ZiggleBottomNavigationPageState extends State<ZiggleBottomNavigationPage>
       return;
     }
     setState(() => _chatbotOpen = true);
+    if (ZiggleNavigationBar.isNative) {
+      // Let the native bar and button slide off screen first. The modal's
+      // blurred backdrop cannot cover platform views, so they would show
+      // through it, and the glass views paint a black outline while a blur
+      // is composited over them.
+      await Future<void>.delayed(ZiggleNavigationBar.hideDuration);
+      if (!mounted) return;
+    }
     try {
       _chatbot ??= GistChatbot(
         config: GistChatbotConfig(
