@@ -10,8 +10,12 @@ import 'package:ziggle/gen/strings.g.dart';
 
 /// Popo wearing a headset, rasterised from `assets/icons/chatbot.svg` at
 /// 33 pt with strokes matching the tab icons' weight. Not a template image:
-/// it carries its own black and white.
-final _chatIcon = Assets.icons.chatbotPng.image();
+/// it carries its own black and white. [width] scales it for smaller buttons.
+Widget _chatIcon({double? width}) =>
+    Assets.icons.chatbotPng.image(width: width);
+
+/// Mascot width that fits a chat button of [buttonSize].
+double _chatIconWidth(double buttonSize) => buttonSize * 33 / 60;
 
 /// Bottom navigation for the three destinations.
 ///
@@ -46,6 +50,12 @@ class ZiggleNavigationBar extends StatelessWidget {
   /// and takes [ZiggleChatbotButton] in that slot instead.
   static bool get isNative => PlatformInfo.isIOS26OrHigher();
 
+  // Native bar geometry, measured on iOS 26.5. UITabBar changes its layout
+  // with the horizontal size class, so there are two sets of metrics.
+  //
+  // Compact width (iPhone): items stack icon over label, the pill is 60 pt
+  // tall and stops widening at 270 pt, so its edges are predictable and the
+  // chat button can sit a fixed gap beside it.
   static const _chatSize = 60.0;
   static const _chatGap = 12.0;
   static const _edgeMargin = 22.0;
@@ -56,8 +66,20 @@ class ZiggleNavigationBar extends StatelessWidget {
   /// UITabBar stops widening the pill once three items have this much room.
   static const _pillMaxWidth = 270.0;
 
-  /// Slide-away time while a route covers the native bar.
-  static const _hideDuration = Duration(milliseconds: 200);
+  // Regular width (iPad): items go inline, icon beside label, so the pill's
+  // width follows the label text and cannot be predicted. The bar spans the
+  // full width and UIKit centres the pill itself; the 46 pt chat button is
+  // pinned to the trailing edge instead of beside the pill.
+  static const _regularChatSize = 46.0;
+
+  /// Below this width UIKit treats the window as compact (iPhone, narrow
+  /// iPad split view) and stacks the tab items.
+  static const _regularWidth = 600.0;
+
+  /// Slide-away time while a route covers the native bar. Callers that open
+  /// a modal over the native bar should wait this long after setting
+  /// [obscured] before pushing, so no platform view is left under the modal.
+  static const hideDuration = Duration(milliseconds: 200);
 
   static List<String> _labels(BuildContext context) => [
     context.t.navigation.home,
@@ -82,14 +104,30 @@ class ZiggleNavigationBar extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
-        final pillWidth = min(
-          _pillMaxWidth,
-          width - 2 * _edgeMargin - _chatGap - _chatSize,
-        );
-        final side = (width - pillWidth - _chatGap - _chatSize) / 2;
-        final chatLeft = side + pillWidth + _chatGap;
+        final regular = width >= _regularWidth;
+        final double barLeft;
+        final double barRight;
+        final double chatLeft;
+        final double chatSize;
+        if (regular) {
+          barLeft = 0;
+          barRight = 0;
+          chatSize = _regularChatSize;
+          chatLeft = width - _edgeMargin - chatSize;
+        } else {
+          final pillWidth = min(
+            _pillMaxWidth,
+            width - 2 * _edgeMargin - _chatGap - _chatSize,
+          );
+          final side = (width - pillWidth - _chatGap - _chatSize) / 2;
+          barLeft = side - _nativeInset;
+          barRight = width - side - pillWidth - _nativeInset;
+          chatSize = _chatSize;
+          chatLeft = side + pillWidth + _chatGap;
+        }
         // The bar keeps its intrinsic height, which already covers the home
-        // indicator; it draws the pill in its top 60 points.
+        // indicator; it draws the pill at its top edge, 60 pt tall on compact
+        // widths and 46 pt on regular ones, which the chat button matches.
         //
         // While a route covers the shell the whole row slides below the
         // screen. Liquid Glass views cannot be hidden or faded without
@@ -99,15 +137,12 @@ class ZiggleNavigationBar extends StatelessWidget {
           ignoring: obscured,
           child: AnimatedSlide(
             offset: obscured ? const Offset(0, 1) : Offset.zero,
-            duration: _hideDuration,
+            duration: hideDuration,
             curve: Curves.easeInOut,
             child: Stack(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(
-                    left: side - _nativeInset,
-                    right: width - side - pillWidth - _nativeInset,
-                  ),
+                  padding: EdgeInsets.only(left: barLeft, right: barRight),
                   child: NativeTabBarHost(
                     destinations: [
                       for (var i = 0; i < labels.length; i++)
@@ -127,7 +162,7 @@ class ZiggleNavigationBar extends StatelessWidget {
                   top: 0,
                   left: chatLeft,
                   child: SizedBox.square(
-                    dimension: _chatSize,
+                    dimension: chatSize,
                     child: Semantics(
                       label: context.t.navigation.chatbot,
                       button: true,
@@ -137,9 +172,9 @@ class ZiggleNavigationBar extends StatelessWidget {
                         onPressed: onChatbotPressed,
                         style: IOS26ButtonStyle.glass,
                         color: Palette.black,
-                        borderRadius: BorderRadius.circular(_chatSize / 2),
+                        borderRadius: BorderRadius.circular(chatSize / 2),
                         useSmoothRectangleBorder: false,
-                        child: _chatIcon,
+                        child: _chatIcon(width: _chatIconWidth(chatSize)),
                       ),
                     ),
                   ),
@@ -244,7 +279,7 @@ class ZiggleChatbotButton extends StatelessWidget {
           ),
           child: SizedBox.square(
             dimension: _size,
-            child: Center(child: _chatIcon),
+            child: Center(child: _chatIcon()),
           ),
         ),
       ),
