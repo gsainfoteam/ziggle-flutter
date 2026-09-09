@@ -4,7 +4,7 @@ import 'package:ziggle/app/modules/user/domain/entities/user_entity.dart';
 part 'user_model.freezed.dart';
 part 'user_model.g.dart';
 
-@freezed
+@Freezed(fromJson: true)
 sealed class UserModel with _$UserModel implements UserEntity {
   const UserModel._();
 
@@ -19,6 +19,12 @@ sealed class UserModel with _$UserModel implements UserEntity {
     DateTime? consent,
   }) = _UserModel;
 
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    if (json['consent'] is bool) {
+      json['consent'] = json['consent']
+          ? DateTime.now().toIso8601String()
+          : null;
+    }
+    return _$UserModelFromJson(json);
+  }
 }
