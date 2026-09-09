@@ -34,6 +34,10 @@ class _ZiggleBottomNavigationPageState extends State<ZiggleBottomNavigationPage>
   GistChatbot? _chatbot;
   bool _chatbotOpen = false;
 
+  /// Bumped whenever the chatbot is reset, so an open that is still waiting
+  /// for the bar to slide away does not resume under a different account.
+  int _chatbotSession = 0;
+
   /// A route is stacked above this shell, so the native bar must leave the
   /// screen: a platform view would otherwise linger under the pushed page.
   bool _covered = false;
@@ -60,8 +64,14 @@ class _ZiggleBottomNavigationPageState extends State<ZiggleBottomNavigationPage>
       // blurred backdrop cannot cover platform views, so they would show
       // through it, and the glass views paint a black outline while a blur
       // is composited over them.
+      final session = _chatbotSession;
       await Future<void>.delayed(ZiggleNavigationBar.hideDuration);
       if (!mounted) return;
+      if (session != _chatbotSession) {
+        // The account changed while waiting; bring the bar back instead.
+        setState(() => _chatbotOpen = false);
+        return;
+      }
     }
     try {
       _chatbot ??= GistChatbot(
@@ -84,6 +94,7 @@ class _ZiggleBottomNavigationPageState extends State<ZiggleBottomNavigationPage>
   }
 
   void _resetChatbot() {
+    _chatbotSession++;
     // Let the modal finish its reverse transition before disposing its controller.
     final chatbot = _chatbot;
     _chatbot = null;
