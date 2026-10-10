@@ -86,3 +86,13 @@ IOS 앱 빌드를 위해선 flutterfire_cli가 설치되어야 합니다.
 ```bash
 dart pub global activate flutterfire_cli
 ```
+
+## 하단 내비게이션과 챗봇
+
+하단의 홈·카테고리·프로필은 화면 전환용 탭이며, 챗봇 버튼은 현재 탭을 유지한 채 GIST 챗봇 패널을 엽니다. iOS 26 이상에서는 네이티브 Liquid Glass 탭 바와 그 옆의 글래스 버튼을 사용하고(`NativeTabBarHost`가 터치를 UIKit에 즉시 전달합니다), 이전 iOS와 Android에서는 기존 앱 탭 바 위에 같은 모양의 챗봇 버튼을 띄웁니다. iOS 빌드에는 Xcode 26 이상이 필요합니다.
+
+로컬 `.env`와 CI의 `DOTENV` 설정에 `CHATBOT_WIDGET_KEY`를 추가하고, 챗봇 관리자에서 Android/iOS 앱 ID `me.gistory.ziggle`을 허용 목록에 등록하세요. 키가 없으면 챗봇 버튼은 사용 불가 안내를 표시합니다. 앱 로그인 토큰은 챗봇에 전달하지 않습니다.
+
+`gist_chatbot_flutter 0.1.1`의 `package_info_plus` 제약은 10.x이지만 사용하는 API는 `PackageInfo.fromPlatform().packageName`뿐입니다. 기존 로그인 저장소·공유 플러그인을 유지하기 위해 9.0.1로 override합니다. SDK가 9.x 호환 제약을 제공하거나 앱 플러그인을 함께 업그레이드할 때 제거하세요.
+
+검증: `dart run slang`, `flutter test`, `flutter analyze`.

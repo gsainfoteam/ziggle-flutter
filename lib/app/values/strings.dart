@@ -13,6 +13,10 @@ abstract class Strings {
   static final ziggleIdpReLoginPath = dotenv.get('ZIGGLE_IDP_RE_LOGIN_PATH');
   static final privacyPolicyUrl = dotenv.get('PRIVACY_POLICY_URL');
   static final termsOfServiceUrl = dotenv.get('TERMS_OF_SERVICE_URL');
+
+  /// Read on every access so tests can swap the key between cases; the
+  /// `static final` fields above cache the first value they see.
+  static String get chatbotWidgetKey => dotenv.get('CHATBOT_WIDGET_KEY');
   static String heyDeveloperUrl(String? email) =>
       "${dotenv.get('HEY_DEVELOPER_URL')}${email == null ? '' : '&email=$email'}";
   static const idPRedirectUri = 'ziggle-idp-login-redirect://callback';

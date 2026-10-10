@@ -95,13 +95,9 @@ class _Providers extends StatelessWidget {
               error: (message) => context.showToast(message),
             ),
           ),
-          BlocListener<AuthBloc, AuthState>(
+          BlocListener<UserBloc, UserState>(
             listenWhen: (previous, current) =>
-                current.mapOrNull(
-                  authenticated: (_) => true,
-                  unauthenticated: (_) => true,
-                ) ??
-                false,
+                previous.isConsent != current.isConsent,
             listener: (context, state) => context.read<MessagingBloc>().add(
               const MessagingEvent.refresh(),
             ),

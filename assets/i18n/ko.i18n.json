@@ -1,4 +1,11 @@
 {
+  "navigation": {
+    "home": "홈",
+    "category": "카테고리",
+    "profile": "내 정보",
+    "chatbot": "챗봇 열기",
+    "chatbotUnavailable": "지금은 챗봇을 사용할 수 없습니다. 잠시 후 다시 시도해주세요."
+  },
   "common": {
     "cancel": "취소",
     "next": "다음",
