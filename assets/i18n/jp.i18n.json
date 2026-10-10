@@ -34,8 +34,7 @@
       "profile": {
         "name": {
           "label": "グループ名",
-          "hint": "インフォチーム (Infoteam)",
-          "sameNameError": "グループ名はすでに存在します"
+          "hint": "インフォチーム (Infoteam)"
         }
       },
       "introduce": {
@@ -88,8 +87,7 @@
         "header": "ノーションページリンクを更新",
         "hintText": "ノーションリンクを入力してください",
         "loading": "Notionを読み込み中...",
-        "error": "ノーションのリンクの読み込みに失敗しました",
-        "empty": "ノーションリンクを入力してください"
+        "error": "ノーションのリンクの読み込みに失敗しました"
       },
       "invite": {
         "header": "招待リンクを生成",
@@ -259,7 +257,11 @@
       "reported": "通報しました。",
       "block": "お知らせをブロック",
       "blockDescription": "本当にこのお知らせをブロックしますか？",
-      "blocked": "ブロックしました。"
+      "blocked": "ブロックしました。",
+      "createdAt": "作成日",
+      "views": "再生回数",
+      "crawledUrl": "元のリンク",
+      "documents": "添付ファイル"
     },
     "search": {
       "hint": "お知らせを検索",

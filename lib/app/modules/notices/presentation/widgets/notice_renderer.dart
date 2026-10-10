@@ -268,7 +268,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                               ),
                               SizedBox(width: 6.0),
                               Text(
-                                '작성일',
+                                context.t.notice.detail.createdAt,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Palette.grayText,
@@ -310,7 +310,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                               ),
                               SizedBox(width: 6.0),
                               Text(
-                                '조회수',
+                                context.t.notice.detail.views,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Palette.grayText,
@@ -352,7 +352,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                               ),
                               SizedBox(width: 6.0),
                               Text(
-                                '원본 링크',
+                                context.t.notice.detail.crawledUrl,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Palette.grayText,
@@ -406,7 +406,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                                 ),
                                 SizedBox(width: 6.0),
                                 Text(
-                                  '첨부파일',
+                                  context.t.notice.detail.documents,
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Palette.grayText,
