@@ -41,8 +41,7 @@
       "profile": {
         "name": {
           "label": "Group Name",
-          "hint": "인포팀 (Infoteam)",
-          "sameNameError": "Group name already exists"
+          "hint": "인포팀 (Infoteam)"
         }
       },
       "introduce": {
@@ -95,8 +94,7 @@
         "header": "Update Notion Page Link",
         "hintText": "Enter Notion Link",
         "loading": "Loading Notion...",
-        "error": "Failed Loading Notion Link",
-        "empty": "Please enter the Notion link"
+        "error": "Failed Loading Notion Link"
       },
       "invite": {
         "header": "Generate Invite Link",
@@ -266,7 +264,11 @@
       "reported": "Reported.",
       "block": "Block Notice",
       "blockDescription": "Are you sure you want to block this notice?",
-      "blocked": "Blocked."
+      "blocked": "Blocked.",
+      "createdAt": "Date Written",
+      "views": "View Count",
+      "crawledUrl": "Original Link",
+      "documents": "Attachment"
     },
     "search": {
       "hint": "Search Notice",

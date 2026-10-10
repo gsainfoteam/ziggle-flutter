@@ -11,6 +11,7 @@ import '../enums/notice_reaction.dart';
 import 'author_entity.dart';
 import 'notice_content_entity.dart';
 import 'notice_reaction_entity.dart';
+import 'notice_document_entity.dart';
 
 class NoticeEntity {
   final int id;
@@ -27,11 +28,12 @@ class NoticeEntity {
   final List<NoticeReactionEntity> reactions;
   final AuthorEntity author;
   final List<ImageProvider> images;
-  final List<String> documentUrls;
+  final List<NoticeDocumentEntity> documents;
   final bool isReminded;
   final DateTime publishedAt;
   final NoticeGroupEntity? group;
   final NoticeCategory category;
+  final String crawledUrl;
 
   NoticeEntity({
     required this.id,
@@ -48,34 +50,36 @@ class NoticeEntity {
     required this.reactions,
     required this.author,
     required this.images,
-    required this.documentUrls,
+    required this.documents,
     required this.isReminded,
     required this.publishedAt,
     required this.group,
     required this.category,
+    required this.crawledUrl,
   });
 
   factory NoticeEntity.fromId(int id) => NoticeEntity(
-        id: id,
-        views: 0,
-        langs: [],
-        deadline: null,
-        currentDeadline: null,
-        createdAt: DateTime.now(),
-        deletedAt: null,
-        tags: [],
-        titles: {Language.getCurrentLanguage(): ''},
-        contents: {Language.getCurrentLanguage(): ''},
-        additionalContents: [],
-        reactions: [],
-        images: [],
-        documentUrls: [],
-        author: AuthorEntity(name: '', uuid: ''),
-        isReminded: false,
-        publishedAt: DateTime.now(),
-        group: null,
-        category: NoticeCategory.etc,
-      );
+    id: id,
+    views: 0,
+    langs: [],
+    deadline: null,
+    currentDeadline: null,
+    createdAt: DateTime.now(),
+    deletedAt: null,
+    tags: [],
+    titles: {Language.getCurrentLanguage(): ''},
+    contents: {Language.getCurrentLanguage(): ''},
+    additionalContents: [],
+    reactions: [],
+    images: [],
+    documents: [],
+    author: AuthorEntity(name: '', uuid: ''),
+    isReminded: false,
+    publishedAt: DateTime.now(),
+    group: null,
+    category: NoticeCategory.etc,
+    crawledUrl: "",
+  );
   factory NoticeEntity.mock({
     DateTime? deadline,
     required DateTime createdAt,
@@ -88,54 +92,53 @@ class NoticeEntity {
     List<String> imageUrls = const [],
     bool isReminded = false,
     NoticeCategory category = NoticeCategory.etc,
-  }) =>
-      NoticeEntity(
-        id: 0,
-        views: 0,
-        langs: [Language.ko],
-        deadline: deadline,
-        currentDeadline: null,
-        createdAt: createdAt,
-        deletedAt: null,
-        tags: tags,
-        titles: {Language.getCurrentLanguage(): title},
-        contents: {Language.getCurrentLanguage(): content},
-        additionalContents: [],
-        reactions: reactions,
-        author: AuthorEntity(name: authorName, uuid: ''),
-        images:
-            imageUrls.map((url) => CachedNetworkImageProvider(url)).toList(),
-        documentUrls: [],
-        isReminded: isReminded,
-        publishedAt: DateTime.now(),
-        group: null,
-        category: category,
-      );
+  }) => NoticeEntity(
+    id: 0,
+    views: 0,
+    langs: [Language.ko],
+    deadline: deadline,
+    currentDeadline: null,
+    createdAt: createdAt,
+    deletedAt: null,
+    tags: tags,
+    titles: {Language.getCurrentLanguage(): title},
+    contents: {Language.getCurrentLanguage(): content},
+    additionalContents: [],
+    reactions: reactions,
+    author: AuthorEntity(name: authorName, uuid: ''),
+    images: imageUrls.map((url) => CachedNetworkImageProvider(url)).toList(),
+    documents: [],
+    isReminded: isReminded,
+    publishedAt: DateTime.now(),
+    group: null,
+    category: category,
+    crawledUrl: "",
+  );
   factory NoticeEntity.fromDraft({
     required NoticeWriteDraftEntity draft,
     required UserEntity user,
-  }) =>
-      NoticeEntity(
-        id: 0,
-        views: 0,
-        langs: [Language.ko],
-        deadline: draft.deadline,
-        currentDeadline: draft.deadline,
-        createdAt: DateTime.now(),
-        deletedAt: null,
-        tags: draft.tags,
-        titles: draft.titles,
-        contents: draft.bodies,
-        additionalContents: [],
-        reactions: [],
-        author: AuthorEntity(name: user.name, uuid: ''),
-        images: draft.images.map((file) => FileImage(file)).toList(),
-        documentUrls: [],
-        isReminded: false,
-        publishedAt: DateTime.now(),
-        group: draft.group,
-        category: NoticeCategory.fromType(draft.type!)!,
-      );
+  }) => NoticeEntity(
+    id: 0,
+    views: 0,
+    langs: [Language.ko],
+    deadline: draft.deadline,
+    currentDeadline: draft.deadline,
+    createdAt: DateTime.now(),
+    deletedAt: null,
+    tags: draft.tags,
+    titles: draft.titles,
+    contents: draft.bodies,
+    additionalContents: [],
+    reactions: [],
+    author: AuthorEntity(name: user.name, uuid: ''),
+    images: draft.images.map((file) => FileImage(file)).toList(),
+    documents: [],
+    isReminded: false,
+    publishedAt: DateTime.now(),
+    group: draft.group,
+    category: NoticeCategory.fromType(draft.type!)!,
+    crawledUrl: "",
+  );
 }
 
 extension NoticeEntityExtension on NoticeEntity {
@@ -158,28 +161,28 @@ extension NoticeEntityExtension on NoticeEntity {
   NoticeEntity copyWith({
     DateTime? publishedAt,
     List<NoticeReactionEntity>? reactions,
-  }) =>
-      NoticeEntity(
-        id: id,
-        views: views,
-        langs: langs,
-        deadline: deadline,
-        currentDeadline: currentDeadline,
-        createdAt: createdAt,
-        deletedAt: deletedAt,
-        tags: tags,
-        titles: titles,
-        contents: contents,
-        additionalContents: additionalContents,
-        reactions: reactions ?? this.reactions,
-        author: author,
-        images: images,
-        documentUrls: documentUrls,
-        isReminded: isReminded,
-        publishedAt: publishedAt ?? this.publishedAt,
-        group: group,
-        category: category,
-      );
+  }) => NoticeEntity(
+    id: id,
+    views: views,
+    langs: langs,
+    deadline: deadline,
+    currentDeadline: currentDeadline,
+    createdAt: createdAt,
+    deletedAt: deletedAt,
+    tags: tags,
+    titles: titles,
+    contents: contents,
+    additionalContents: additionalContents,
+    reactions: reactions ?? this.reactions,
+    author: author,
+    images: images,
+    documents: documents,
+    isReminded: isReminded,
+    publishedAt: publishedAt ?? this.publishedAt,
+    group: group,
+    category: category,
+    crawledUrl: crawledUrl,
+  );
 
   NoticeEntity addReaction(NoticeReaction reaction) {
     final reactions = [
@@ -209,37 +212,38 @@ extension NoticeEntityExtension on NoticeEntity {
 
   bool get isPublished => publishedAt.isBefore(DateTime.now());
   NoticeEntity addDraft(NoticeWriteDraftEntity draft) => NoticeEntity(
-        id: id,
-        views: views,
-        langs: langs,
-        deadline: deadline,
-        currentDeadline: currentDeadline,
-        createdAt: createdAt,
-        deletedAt: deletedAt,
-        tags: tags,
-        titles: draft.titles.isNotEmpty ? draft.titles : titles,
-        contents: draft.bodies.isNotEmpty ? draft.bodies : contents,
-        additionalContents: [
-          ...additionalContents,
-          ...draft.additionalContent.entries.mapIndexed(
-            (index, content) => NoticeContentEntity(
-              deadline: draft.deadline ?? currentDeadline,
-              id: lastContentId + 1,
-              lang: content.key,
-              content: content.value,
-              createdAt: DateTime.now(),
-            ),
-          ),
-        ],
-        reactions: reactions,
-        author: author,
-        images: images,
-        documentUrls: documentUrls,
-        isReminded: isReminded,
-        publishedAt: publishedAt,
-        group: group,
-        category: category,
-      );
+    id: id,
+    views: views,
+    langs: langs,
+    deadline: deadline,
+    currentDeadline: currentDeadline,
+    createdAt: createdAt,
+    deletedAt: deletedAt,
+    tags: tags,
+    titles: draft.titles.isNotEmpty ? draft.titles : titles,
+    contents: draft.bodies.isNotEmpty ? draft.bodies : contents,
+    additionalContents: [
+      ...additionalContents,
+      ...draft.additionalContent.entries.mapIndexed(
+        (index, content) => NoticeContentEntity(
+          deadline: draft.deadline ?? currentDeadline,
+          id: lastContentId + 1,
+          lang: content.key,
+          content: content.value,
+          createdAt: DateTime.now(),
+        ),
+      ),
+    ],
+    reactions: reactions,
+    author: author,
+    images: images,
+    documents: documents,
+    isReminded: isReminded,
+    publishedAt: publishedAt,
+    group: group,
+    category: category,
+    crawledUrl: crawledUrl,
+  );
 }
 
 extension LanguageContentX on Map<Language, String> {

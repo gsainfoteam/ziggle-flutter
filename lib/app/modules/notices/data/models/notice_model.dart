@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'author_model.dart';
 import 'notice_content_model.dart';
 import 'notice_reaction_model.dart';
+import 'notice_document_model.dart';
 
 part 'notice_model.freezed.dart';
 part 'notice_model.g.dart';
@@ -33,11 +34,12 @@ sealed class NoticeModel with _$NoticeModel implements NoticeEntity {
     required List<NoticeReactionModel> reactions,
     required AuthorModel author,
     @Default([]) List<String> imageUrls,
-    @Default([]) List<String> documentUrls,
+    @Default([]) List<NoticeDocumentModel> documents, // 기존 documentUrls은 안쓰던 값
     @Default(false) bool isReminded,
     required NoticeCategory category,
     NoticeGroupEntity? group,
     required DateTime publishedAt,
+    @Default("") String crawledUrl,
   }) = _NoticeModel;
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>
