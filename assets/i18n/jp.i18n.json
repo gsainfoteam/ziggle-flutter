@@ -259,7 +259,7 @@
       "blockDescription": "本当にこのお知らせをブロックしますか？",
       "blocked": "ブロックしました。",
       "createdAt": "作成日",
-      "views": "再生回数",
+      "views": "閲覧数",
       "crawledUrl": "元のリンク",
       "documents": "添付ファイル"
     },
