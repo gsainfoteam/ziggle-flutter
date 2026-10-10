@@ -8,6 +8,7 @@ import 'package:ziggle/app/modules/notices/domain/enums/notice_category.dart';
 import 'author_model.dart';
 import 'notice_content_model.dart';
 import 'notice_reaction_model.dart';
+import 'notice_document_model.dart';
 
 part 'notice_model.freezed.dart';
 part 'notice_model.g.dart';
@@ -33,7 +34,7 @@ sealed class NoticeModel with _$NoticeModel implements NoticeEntity {
     required List<NoticeReactionModel> reactions,
     required AuthorModel author,
     @Default([]) List<String> imageUrls,
-    @Default([]) List<Map<String, String>> documents, // 기존 documentUrls은 안쓰던 값
+    @Default([]) List<NoticeDocumentModel> documents, // 기존 documentUrls은 안쓰던 값
     @Default(false) bool isReminded,
     required NoticeCategory category,
     NoticeGroupEntity? group,
@@ -55,15 +56,3 @@ sealed class NoticeModel with _$NoticeModel implements NoticeEntity {
   Map<Language, String> get contents =>
       addedContents ?? {Language.getCurrentLanguage(): content};
 }
-
-// {
-//   "createdAt": "2026-10-08T00:00:00.000Z",
-//   "views": 3,
-//   "documents": [
-//     {
-//       "url": "https://www.gist.ac.kr/kr/html/sub05/050209.html?mode=D&no=224007&file_id=84413",
-//       "name": "【붙임】 2026. 하반기 은평구민 장학생 선발 공고.pdf"
-//     }
-//   ],
-//   "crawledUrl": "https://www.gist.ac.kr/kr/html/sub05/050209.html?mode=V&no=224007&GotoPage=1"
-// }

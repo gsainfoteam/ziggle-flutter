@@ -428,7 +428,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                                     padding: const EdgeInsets.only(bottom: 3.0),
                                     child: TextButton(
                                       onPressed: () async {
-                                        await launchUrlString(doc["url"] ?? "");
+                                        await launchUrlString(doc.url);
                                       },
                                       style: TextButton.styleFrom(
                                         minimumSize: Size.zero,
@@ -437,7 +437,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                                             MaterialTapTargetSize.shrinkWrap,
                                       ),
                                       child: Text(
-                                        doc["name"] ?? "",
+                                        doc.name,
                                         style: TextStyle(
                                           fontSize: 14,
                                           color: Palette.grayText,

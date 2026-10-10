@@ -11,6 +11,7 @@ import '../enums/notice_reaction.dart';
 import 'author_entity.dart';
 import 'notice_content_entity.dart';
 import 'notice_reaction_entity.dart';
+import 'notice_document_entity.dart';
 
 class NoticeEntity {
   final int id;
@@ -27,7 +28,7 @@ class NoticeEntity {
   final List<NoticeReactionEntity> reactions;
   final AuthorEntity author;
   final List<ImageProvider> images;
-  final List<Map<String, String>> documents;
+  final List<NoticeDocumentEntity> documents;
   final bool isReminded;
   final DateTime publishedAt;
   final NoticeGroupEntity? group;
