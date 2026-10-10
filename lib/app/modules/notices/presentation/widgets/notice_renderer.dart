@@ -284,7 +284,10 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                             bottom: 6.0,
                           ), // gap-y-3 (12px)
                           child: Text(
-                            DateFromatTransForm(widget.notice.createdAt),
+                            DateFromatTransForm(
+                              widget.notice.createdAt,
+                              context.t.$meta.locale,
+                            ),
                             style: TextStyle(
                               fontSize: 14,
                               color: Palette.grayText,
