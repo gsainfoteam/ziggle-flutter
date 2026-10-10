@@ -222,8 +222,6 @@ class _NoticeRendererState extends State<NoticeRenderer> {
           ),
 
           // 위에가 태그 영역
-
-          // 여기에 내용 추가 및 AI 요약 추가
           DecoratedSliver(
             decoration: BoxDecoration(
               border: Border(
@@ -485,6 +483,61 @@ class _NoticeRendererState extends State<NoticeRenderer> {
               separatorBuilder: (_, _) => const SizedBox(height: 18),
             ),
           ),
+
+          // 여기에 내용 추가 및 AI 요약 추가
+          if (widget.notice.summary.isNotEmpty)
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
+              sliver: SliverToBoxAdapter(
+                child: Container(
+                  padding: const EdgeInsets.only(left: 14, top: 2, bottom: 2),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      left: BorderSide(
+                        color: Palette.primary.withValues(alpha: 0.3),
+                        width: 2,
+                      ),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Assets.icons.sparkle.svg(
+                            width: 14,
+                            height: 14,
+                            colorFilter: const ColorFilter.mode(
+                              Palette.primary,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          SizedBox(width: 4.0),
+                          Text(
+                            context.t.notice.detail.summary,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Palette.primary,
+                              fontWeight: FontWeight.w500,
+                              letterSpacing: 0.3,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 6.0),
+                      Text(
+                        widget.notice.summary,
+                        style: TextStyle(
+                          fontSize: 15,
+                          height: 1.6,
+                          color: Palette.black.withValues(alpha: 0.8),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
 
           // 본문 영역
           SliverPadding(

@@ -268,7 +268,8 @@
       "createdAt": "作成日",
       "views": "閲覧数",
       "crawledUrl": "元のリンク",
-      "documents": "添付ファイル"
+      "documents": "添付ファイル",
+      "summary": "AI要約"
     },
     "search": {
       "hint": "お知らせを検索",

@@ -268,7 +268,8 @@
       "createdAt": "작성일",
       "views": "조회수",
       "crawledUrl": "원본 링크",
-      "documents": "첨부파일"
+      "documents": "첨부파일",
+      "summary": "AI 요약"
     },
     "search": {
       "hint": "공지 검색",

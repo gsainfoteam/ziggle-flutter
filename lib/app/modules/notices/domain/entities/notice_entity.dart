@@ -34,6 +34,7 @@ class NoticeEntity {
   final NoticeGroupEntity? group;
   final NoticeCategory category;
   final String crawledUrl;
+  final String summary;
 
   NoticeEntity({
     required this.id,
@@ -56,6 +57,7 @@ class NoticeEntity {
     required this.group,
     required this.category,
     required this.crawledUrl,
+    required this.summary,
   });
 
   factory NoticeEntity.fromId(int id) => NoticeEntity(
@@ -79,6 +81,7 @@ class NoticeEntity {
     group: null,
     category: NoticeCategory.etc,
     crawledUrl: "",
+    summary: "",
   );
   factory NoticeEntity.mock({
     DateTime? deadline,
@@ -113,6 +116,7 @@ class NoticeEntity {
     group: null,
     category: category,
     crawledUrl: "",
+    summary: "",
   );
   factory NoticeEntity.fromDraft({
     required NoticeWriteDraftEntity draft,
@@ -138,6 +142,7 @@ class NoticeEntity {
     group: draft.group,
     category: NoticeCategory.fromType(draft.type!)!,
     crawledUrl: "",
+    summary: "",
   );
 }
 
@@ -182,6 +187,7 @@ extension NoticeEntityExtension on NoticeEntity {
     group: group,
     category: category,
     crawledUrl: crawledUrl,
+    summary: summary,
   );
 
   NoticeEntity addReaction(NoticeReaction reaction) {
@@ -243,6 +249,7 @@ extension NoticeEntityExtension on NoticeEntity {
     group: group,
     category: category,
     crawledUrl: crawledUrl,
+    summary: summary,
   );
 }
 
