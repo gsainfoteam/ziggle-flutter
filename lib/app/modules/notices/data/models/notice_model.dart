@@ -40,6 +40,7 @@ sealed class NoticeModel with _$NoticeModel implements NoticeEntity {
     NoticeGroupEntity? group,
     required DateTime publishedAt,
     @Default("") String crawledUrl,
+    @Default("") String summary,
   }) = _NoticeModel;
 
   factory NoticeModel.fromJson(Map<String, dynamic> json) =>

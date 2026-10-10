@@ -268,7 +268,8 @@
       "createdAt": "Date Written",
       "views": "View Count",
       "crawledUrl": "Original Link",
-      "documents": "Attachment"
+      "documents": "Attachment",
+      "summary": "AI Summary"
     },
     "search": {
       "hint": "Search Notice",
