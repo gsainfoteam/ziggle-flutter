@@ -490,7 +490,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
           ),
 
           // 여기에 내용 추가 및 AI 요약 추가
-          if (widget.notice.summary != null)
+          if (widget.notice.summary?.isNotEmpty ?? false)
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
               sliver: SliverToBoxAdapter(
