@@ -33,8 +33,8 @@ class NoticeEntity {
   final DateTime publishedAt;
   final NoticeGroupEntity? group;
   final NoticeCategory category;
-  final String crawledUrl;
-  final String summary;
+  final String? crawledUrl;
+  final String? summary;
 
   NoticeEntity({
     required this.id,
@@ -80,8 +80,8 @@ class NoticeEntity {
     publishedAt: DateTime.now(),
     group: null,
     category: NoticeCategory.etc,
-    crawledUrl: "",
-    summary: "",
+    crawledUrl: null,
+    summary: null,
   );
   factory NoticeEntity.mock({
     DateTime? deadline,
@@ -115,8 +115,8 @@ class NoticeEntity {
     publishedAt: DateTime.now(),
     group: null,
     category: category,
-    crawledUrl: "",
-    summary: "",
+    crawledUrl: null,
+    summary: null,
   );
   factory NoticeEntity.fromDraft({
     required NoticeWriteDraftEntity draft,
@@ -141,8 +141,8 @@ class NoticeEntity {
     publishedAt: DateTime.now(),
     group: draft.group,
     category: NoticeCategory.fromType(draft.type!)!,
-    crawledUrl: "",
-    summary: "",
+    crawledUrl: null,
+    summary: null,
   );
 }
 

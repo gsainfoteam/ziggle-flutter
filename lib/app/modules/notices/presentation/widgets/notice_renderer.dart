@@ -337,59 +337,64 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                         ),
                       ],
                     ),
-                    TableRow(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 24.0, bottom: 6.0),
-                          child: Row(
-                            children: [
-                              Assets.icons.linkDiagonal.svg(
-                                width: 14,
-                                height: 14,
-                                colorFilter: const ColorFilter.mode(
-                                  Palette.grayText,
-                                  BlendMode.srcIn,
+
+                    if (widget.notice.crawledUrl != null)
+                      TableRow(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right: 24.0, bottom: 6.0),
+                            child: Row(
+                              children: [
+                                Assets.icons.linkDiagonal.svg(
+                                  width: 14,
+                                  height: 14,
+                                  colorFilter: const ColorFilter.mode(
+                                    Palette.grayText,
+                                    BlendMode.srcIn,
+                                  ),
                                 ),
+                                SizedBox(width: 6.0),
+                                Text(
+                                  context.t.notice.detail.crawledUrl,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Palette.grayText,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          // 두 번째 열 (1fr)
+                          Padding(
+                            padding: EdgeInsets.only(
+                              bottom: 6.0,
+                            ), // gap-y-3 (12px)
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                minimumSize: Size.zero,
+                                padding: EdgeInsets.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               ),
-                              SizedBox(width: 6.0),
-                              Text(
-                                context.t.notice.detail.crawledUrl,
+                              onPressed: () async {
+                                await launchUrlString(
+                                  widget.notice.crawledUrl!,
+                                );
+                              },
+                              child: Text(
+                                widget.notice.crawledUrl!,
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Palette.grayText,
                                   fontWeight: FontWeight.w400,
+                                  decoration: TextDecoration.underline, // 밑줄 추가
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                        // 두 번째 열 (1fr)
-                        Padding(
-                          padding: EdgeInsets.only(
-                            bottom: 6.0,
-                          ), // gap-y-3 (12px)
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              minimumSize: Size.zero,
-                              padding: EdgeInsets.zero,
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            onPressed: () async {
-                              await launchUrlString(widget.notice.crawledUrl);
-                            },
-                            child: Text(
-                              widget.notice.crawledUrl,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Palette.grayText,
-                                fontWeight: FontWeight.w400,
-                                decoration: TextDecoration.underline, // 밑줄 추가
-                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+
                     if (widget.notice.documents.isNotEmpty)
                       TableRow(
                         children: [
@@ -485,7 +490,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
           ),
 
           // 여기에 내용 추가 및 AI 요약 추가
-          if (widget.notice.summary.isNotEmpty)
+          if (widget.notice.summary?.isNotEmpty ?? false)
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
               sliver: SliverToBoxAdapter(
@@ -526,7 +531,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                       ),
                       SizedBox(height: 6.0),
                       Text(
-                        widget.notice.summary,
+                        widget.notice.summary!,
                         style: TextStyle(
                           fontSize: 15,
                           height: 1.6,
