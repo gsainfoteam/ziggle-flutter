@@ -347,6 +347,7 @@
       "title": "Account",
       "logout": "Logout",
       "withdraw": "Withdraw",
+      "editInfo": "Edit Account Info",
       "login": "Login with Infoteam Account"
     },
     "myInfo": "My Info",

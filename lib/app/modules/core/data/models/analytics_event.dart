@@ -120,6 +120,7 @@ sealed class AnalyticsEvent with _$AnalyticsEvent {
   const factory AnalyticsEvent.profileMyNotices() = _ProfileMyNotices;
   const factory AnalyticsEvent.profileFeedback() = _ProfileFeedback;
   const factory AnalyticsEvent.profileLogout(PageSource from) = _ProfileLogout;
+  const factory AnalyticsEvent.profileEditAccount() = _ProfileEditAccount;
   const factory AnalyticsEvent.profileWithdraw() = _ProfileWithdraw;
   const factory AnalyticsEvent.profileLogin(PageSource from) = _ProfileLogin;
   const factory AnalyticsEvent.profileSettingEnableNotification() =
