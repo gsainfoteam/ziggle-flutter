@@ -40,7 +40,7 @@ dependencies:
   rxdart: ^0.28.0
   flutter_bloc: ^9.1.1
   collection: ^1.18.0
-  flutter_inappwebview: ^6.1.5
+  flutter_inappwebview: ^6.2.0-beta.3
   url_launcher: ^6.3.0
   permission_handler: ^12.0.1
   package_info_plus: ^9.0.0
@@ -49,7 +49,7 @@ dependencies:
   auto_route: ^10.1.2
   flutter_local_notifications: ^19.4.2
   vsc_quill_delta_to_html: ^1.0.5
-  dynamic_fonts: ^2.2.1
+  dynamic_fonts: ^3.1.0
   flutter_quill_delta_from_html: ^1.4.1
   share_plus: ^12.0.0
   cached_network_image: ^3.4.1
