@@ -98,7 +98,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         if: env.run == 'true'
         with:
-          ruby-version: "3.2.0"
+          ruby-version: "3.2"
           bundler-cache: true
           working-directory: ${{ env.directory }}
 
