@@ -17,7 +17,8 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "me.gistory.ziggle"
-    compileSdk = flutter.compileSdkVersion
+    // flutter_local_notifications 23 / androidx.core 1.19 require compileSdk 37+.
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
