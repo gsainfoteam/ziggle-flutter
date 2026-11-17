@@ -359,14 +359,15 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
       (_) => QuillToolbarLinkStyleButton(
             controller: controller,
             options: QuillToolbarLinkStyleButtonOptions(
-              childBuilder: (options, extraOptions) => _buildIcon(
+              childBuilder: (dynamic options, dynamic _) => _buildIcon(
                 onPressed: () {
                   showCupertinoDialog<QuillTextLink>(
                     context: context,
                     barrierDismissible: true,
                     builder: (context) => LinkDialog(controller: controller),
                   ).then((link) => link?.submit(controller));
-                  options.afterButtonPressed?.call();
+                  (options as QuillToolbarLinkStyleButtonOptions).afterButtonPressed
+                      ?.call();
                 },
                 isToggled: QuillTextLink.isSelected(controller),
                 child: Assets.icons.link.svg(),
@@ -395,11 +396,16 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
         attribute: attribute,
         controller: controller,
         options: QuillToolbarToggleStyleButtonOptions(
-          childBuilder: (options, extraOptions) => _buildIcon(
-            onPressed: extraOptions.onPressed,
-            isToggled: extraOptions.isToggled,
-            child: child,
-          ),
+          // Typed parameters fail flutter_quill's runtime check against its
+          // `(dynamic, dynamic)` childBuilder type, so cast inside instead.
+          childBuilder: (dynamic _, dynamic extraOptions) {
+            final extra = extraOptions as QuillToolbarToggleStyleButtonExtraOptions;
+            return _buildIcon(
+              onPressed: extra.onPressed,
+              isToggled: extra.isToggled,
+              child: child,
+            );
+          },
         ),
       );
 
