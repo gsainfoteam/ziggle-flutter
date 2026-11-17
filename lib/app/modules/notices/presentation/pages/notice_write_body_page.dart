@@ -175,27 +175,10 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
         ],
       ),
       body: KeyboardActions(
-        disableScroll: true,
-        config: KeyboardActionsConfig(
-          keyboardBarElevation: 0,
-          keyboardSeparatorColor: Palette.grayBorder,
-          keyboardBarColor: Palette.white,
-          actions: [
-            KeyboardActionsItem(focusNode: _koreanTitleFocusNode),
-            KeyboardActionsItem(
-              focusNode: _koreanBodyFocusNode,
-              displayArrows: false,
-              toolbarAlignment: MainAxisAlignment.start,
-              toolbarButtons: _buildToolbarButtons(_koreanBodyController),
-            ),
-            KeyboardActionsItem(focusNode: _englishTitleFocusNode),
-            KeyboardActionsItem(
-              focusNode: _englishBodyFocusNode,
-              displayArrows: false,
-              toolbarAlignment: MainAxisAlignment.start,
-              toolbarButtons: _buildToolbarButtons(_englishBodyController),
-            ),
-          ],
+        theme: KeyboardActionsThemeData(
+          elevation: 0,
+          barColor: Palette.white,
+          integratedBar: true,
         ),
         child: Column(
           children: [
@@ -292,41 +275,82 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     );
   }
 
+  /// Wraps an [Editor] so its title gets the default keyboard bar and its body
+  /// gets the rich text toolbar instead of Prev/Next/Done.
+  Widget _withKeyboardBar({
+    required FocusNode titleFocusNode,
+    required FocusNode bodyFocusNode,
+    required QuillController bodyController,
+    required Widget child,
+  }) {
+    return KeyboardField(
+      focusNode: titleFocusNode,
+      child: KeyboardField(
+        focusNode: bodyFocusNode,
+        showArrows: false,
+        toolbarButtons: [
+          // The bar puts custom buttons after a Spacer; a dominant flex keeps
+          // the toolbar left-aligned like before.
+          (node) => Expanded(
+            flex: 10000,
+            child: Row(
+              children: [
+                for (final button in _buildToolbarButtons(bodyController))
+                  button(node),
+              ],
+            ),
+          ),
+        ],
+        child: child,
+      ),
+    );
+  }
+
   Expanded _buildEditors() {
     return Expanded(
       child: TabBarView(
         controller: _tabController,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          Editor(
+          _withKeyboardBar(
             titleFocusNode: _koreanTitleFocusNode,
             bodyFocusNode: _koreanBodyFocusNode,
-            titleController: _koreanTitleController,
             bodyController: _koreanBodyController,
+            child: Editor(
+              titleFocusNode: _koreanTitleFocusNode,
+              bodyFocusNode: _koreanBodyFocusNode,
+              titleController: _koreanTitleController,
+              bodyController: _koreanBodyController,
+            ),
           ),
-          BlocBuilder<AiBloc, AiState>(
-            builder: (context, state) => Editor(
-              translating: state.isLoading,
-              onTranslate: () {
-                if (_englishBodyController.plainTextEditingValue.text
+          _withKeyboardBar(
+            titleFocusNode: _englishTitleFocusNode,
+            bodyFocusNode: _englishBodyFocusNode,
+            bodyController: _englishBodyController,
+            child: BlocBuilder<AiBloc, AiState>(
+              builder: (context, state) => Editor(
+                translating: state.isLoading,
+                onTranslate: () {
+                  if (_englishBodyController.plainTextEditingValue.text
+                      .trim()
+                      .isNotEmpty) {
+                    return;
+                  }
+                  AnalyticsRepository.click(
+                    const AnalyticsEvent.writeUseAiTranslation(),
+                  );
+                  _translate();
+                },
+                translateEnabled: _englishBodyController
+                    .plainTextEditingValue
+                    .text
                     .trim()
-                    .isNotEmpty) {
-                  return;
-                }
-                AnalyticsRepository.click(
-                  const AnalyticsEvent.writeUseAiTranslation(),
-                );
-                _translate();
-              },
-              translateEnabled: _englishBodyController
-                  .plainTextEditingValue
-                  .text
-                  .trim()
-                  .isEmpty,
-              titleFocusNode: _englishTitleFocusNode,
-              bodyFocusNode: _englishBodyFocusNode,
-              titleController: _englishTitleController,
-              bodyController: _englishBodyController,
+                    .isEmpty,
+                titleFocusNode: _englishTitleFocusNode,
+                bodyFocusNode: _englishBodyFocusNode,
+                titleController: _englishTitleController,
+                bodyController: _englishBodyController,
+              ),
             ),
           ),
         ],
@@ -347,7 +371,9 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     );
   }
 
-  List<ButtonBuilder> _buildToolbarButtons(QuillController controller) {
+  List<KeyboardBarButtonBuilder> _buildToolbarButtons(
+    QuillController controller,
+  ) {
     return [
       (_) => _buildToggleButton(
         controller: controller,
