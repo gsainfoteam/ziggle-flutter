@@ -83,7 +83,7 @@ dev_dependencies:
   flutter_native_splash: ^2.4.3
   hive_ce_generator: ^1.9.2
   plugin_platform_interface: ^2.1.8
-  url_launcher_platform_interface: ^2.3.2
+  flutter_web_auth_2_platform_interface: ^5.0.0
 
 flutter:
   uses-material-design: true

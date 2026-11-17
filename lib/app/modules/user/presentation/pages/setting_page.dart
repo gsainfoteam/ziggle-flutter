@@ -1,7 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:ziggle/app/di/locator.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_app_bar.dart';
 import 'package:ziggle/app/modules/common/presentation/widgets/ziggle_button.dart';
@@ -82,10 +83,7 @@ class _SettingPageState extends State<SettingPage>
                           AnalyticsRepository.click(
                             const AnalyticsEvent.profileEditAccount(),
                           );
-                          launchUrlString(
-                            Strings.accountManagementUrl,
-                            mode: LaunchMode.inAppBrowserView,
-                          );
+                          _openAccountManagement();
                         },
                       ),
                       const SizedBox(height: 20),
@@ -254,5 +252,21 @@ class _Title extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+/// Opens the account site in the same web auth sheet as login, so it slides
+/// up from the bottom and shares the IdP session cookies with it.
+///
+/// The site never redirects to [Strings.idpRedirectScheme], so the call only
+/// ends when the user closes the sheet, which reports a [PlatformException].
+Future<void> _openAccountManagement() async {
+  try {
+    await FlutterWebAuth2.authenticate(
+      url: Strings.accountManagementUrl,
+      callbackUrlScheme: Strings.idpRedirectScheme,
+    );
+  } on PlatformException catch (_) {
+    // Closing the sheet is the expected way out.
   }
 }

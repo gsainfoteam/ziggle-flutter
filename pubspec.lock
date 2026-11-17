@@ -945,7 +945,7 @@ packages:
     source: hosted
     version: "5.1.0"
   flutter_web_auth_2_platform_interface:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: flutter_web_auth_2_platform_interface
       sha256: ba0fbba55bffb47242025f96852ad1ffba34bc451568f56ef36e613612baffab
@@ -2115,7 +2115,7 @@ packages:
     source: hosted
     version: "3.2.6"
   url_launcher_platform_interface:
-    dependency: "direct dev"
+    dependency: transitive
     description:
       name: url_launcher_platform_interface
       sha256: "552f8a1e663569be95a8190206a38187b531910283c3e982193e4f2733f01029"
