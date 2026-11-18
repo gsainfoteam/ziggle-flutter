@@ -77,7 +77,8 @@ jobs:
           path: |
             .dart_tool
             !.dart_tool/**/*.snapshot
-          key: ${{ runner.os }}-dart-tool-${{ hashFiles('pubspec.lock') }}
+            !.dart_tool/build/**
+          key: ${{ runner.os }}-dart-tool-v2-${{ hashFiles('pubspec.lock') }}
       - name: install flutterfire
         if: env.run == 'true'
         run: flutter pub global activate flutterfire_cli
