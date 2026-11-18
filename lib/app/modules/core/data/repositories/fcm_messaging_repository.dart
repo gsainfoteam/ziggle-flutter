@@ -66,7 +66,7 @@ class FcmMessagingRepository implements MessagingRepository, LinkRepository {
     );
     final localNotificationPlugin = FlutterLocalNotificationsPlugin();
     await localNotificationPlugin.initialize(
-      const InitializationSettings(
+      settings: const InitializationSettings(
         android: AndroidInitializationSettings('@drawable/ic_notification'),
         iOS: DarwinInitializationSettings(),
       ),
@@ -114,10 +114,10 @@ class FcmMessagingRepository implements MessagingRepository, LinkRepository {
           ))
         : null;
     FlutterLocalNotificationsPlugin().show(
-      notification.hashCode,
-      notification.title,
-      notification.body,
-      NotificationDetails(
+      id: notification.hashCode,
+      title: notification.title,
+      body: notification.body,
+      notificationDetails: NotificationDetails(
         android: AndroidNotificationDetails(
           _androidNotificationChannel.id,
           _androidNotificationChannel.name,

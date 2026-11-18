@@ -190,29 +190,10 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
         ],
       ),
       body: KeyboardActions(
-        disableScroll: true,
-        config: KeyboardActionsConfig(
-          keyboardBarElevation: 0,
-          keyboardSeparatorColor: Palette.grayBorder,
-          keyboardBarColor: Palette.white,
-          actions: [
-            if (!_prevNotice.isPublished) ...[
-              KeyboardActionsItem(focusNode: _koreanTitleFocusNode),
-              KeyboardActionsItem(
-                focusNode: _koreanBodyFocusNode,
-                displayArrows: false,
-                toolbarAlignment: MainAxisAlignment.start,
-                toolbarButtons: _buildToolbarButtons(_koreanBodyController),
-              ),
-            ],
-            KeyboardActionsItem(focusNode: _englishTitleFocusNode),
-            KeyboardActionsItem(
-              focusNode: _englishBodyFocusNode,
-              displayArrows: false,
-              toolbarAlignment: MainAxisAlignment.start,
-              toolbarButtons: _buildToolbarButtons(_englishBodyController),
-            ),
-          ],
+        theme: KeyboardActionsThemeData(
+          elevation: 0,
+          barColor: Palette.white,
+          integratedBar: true,
         ),
         child: Column(
           children: [
@@ -244,38 +225,88 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     );
   }
 
+  /// Wraps an [Editor] so its title gets the default keyboard bar and its body
+  /// gets the rich text toolbar instead of Prev/Next/Done.
+  Widget _withKeyboardBar({
+    required FocusNode titleFocusNode,
+    required FocusNode bodyFocusNode,
+    required QuillController bodyController,
+    required Widget child,
+  }) {
+    return KeyboardField(
+      focusNode: titleFocusNode,
+      child: KeyboardField(
+        focusNode: bodyFocusNode,
+        showArrows: false,
+        toolbarButtons: [
+          // The bar puts custom buttons after a Spacer; a dominant flex keeps
+          // the toolbar left-aligned like before.
+          (node) => Expanded(
+            flex: 10000,
+            child: Row(
+              children: [
+                for (final button in _buildToolbarButtons(bodyController))
+                  button(node),
+              ],
+            ),
+          ),
+        ],
+        child: child,
+      ),
+    );
+  }
+
   Expanded _buildEditors() {
     return Expanded(
       child: TabBarView(
         controller: _tabController,
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          Editor(
-            titleDisabled: true,
-            titleFocusNode: _koreanTitleFocusNode,
-            bodyFocusNode: _koreanBodyFocusNode,
-            titleController: _koreanTitleController,
-            bodyController: _koreanBodyController,
-          ),
-          Editor(
-            titleDisabled: _prevNotice.contents[Language.en] != null,
-            onTranslate: () {
-              AnalyticsRepository.click(
-                  const AnalyticsEvent.noticeEditBodyUseAiTranslation());
-              if (_englishBodyController.plainTextEditingValue.text
-                  .trim()
-                  .isNotEmpty) {
-                return;
-              }
-              _translate();
-            },
-            translateEnabled: _englishBodyController.plainTextEditingValue.text
-                .trim()
-                .isEmpty,
+          if (_prevNotice.isPublished)
+            Editor(
+              titleDisabled: true,
+              titleFocusNode: _koreanTitleFocusNode,
+              bodyFocusNode: _koreanBodyFocusNode,
+              titleController: _koreanTitleController,
+              bodyController: _koreanBodyController,
+            )
+          else
+            _withKeyboardBar(
+              titleFocusNode: _koreanTitleFocusNode,
+              bodyFocusNode: _koreanBodyFocusNode,
+              bodyController: _koreanBodyController,
+              child: Editor(
+                titleDisabled: true,
+                titleFocusNode: _koreanTitleFocusNode,
+                bodyFocusNode: _koreanBodyFocusNode,
+                titleController: _koreanTitleController,
+                bodyController: _koreanBodyController,
+              ),
+            ),
+          _withKeyboardBar(
             titleFocusNode: _englishTitleFocusNode,
             bodyFocusNode: _englishBodyFocusNode,
-            titleController: _englishTitleController,
             bodyController: _englishBodyController,
+            child: Editor(
+              titleDisabled: _prevNotice.contents[Language.en] != null,
+              onTranslate: () {
+                AnalyticsRepository.click(
+                    const AnalyticsEvent.noticeEditBodyUseAiTranslation());
+                if (_englishBodyController.plainTextEditingValue.text
+                    .trim()
+                    .isNotEmpty) {
+                  return;
+                }
+                _translate();
+              },
+              translateEnabled: _englishBodyController.plainTextEditingValue.text
+                  .trim()
+                  .isEmpty,
+              titleFocusNode: _englishTitleFocusNode,
+              bodyFocusNode: _englishBodyFocusNode,
+              titleController: _englishTitleController,
+              bodyController: _englishBodyController,
+            ),
           ),
         ],
       ),
@@ -301,7 +332,9 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
     );
   }
 
-  List<ButtonBuilder> _buildToolbarButtons(QuillController controller) {
+  List<KeyboardBarButtonBuilder> _buildToolbarButtons(
+    QuillController controller,
+  ) {
     return [
       (_) => _buildToggleButton(
             controller: controller,
@@ -326,14 +359,15 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
       (_) => QuillToolbarLinkStyleButton(
             controller: controller,
             options: QuillToolbarLinkStyleButtonOptions(
-              childBuilder: (options, extraOptions) => _buildIcon(
+              childBuilder: (dynamic options, dynamic _) => _buildIcon(
                 onPressed: () {
                   showCupertinoDialog<QuillTextLink>(
                     context: context,
                     barrierDismissible: true,
                     builder: (context) => LinkDialog(controller: controller),
                   ).then((link) => link?.submit(controller));
-                  options.afterButtonPressed?.call();
+                  (options as QuillToolbarLinkStyleButtonOptions).afterButtonPressed
+                      ?.call();
                 },
                 isToggled: QuillTextLink.isSelected(controller),
                 child: Assets.icons.link.svg(),
@@ -362,11 +396,16 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
         attribute: attribute,
         controller: controller,
         options: QuillToolbarToggleStyleButtonOptions(
-          childBuilder: (options, extraOptions) => _buildIcon(
-            onPressed: extraOptions.onPressed,
-            isToggled: extraOptions.isToggled,
-            child: child,
-          ),
+          // Typed parameters fail flutter_quill's runtime check against its
+          // `(dynamic, dynamic)` childBuilder type, so cast inside instead.
+          childBuilder: (dynamic _, dynamic extraOptions) {
+            final extra = extraOptions as QuillToolbarToggleStyleButtonExtraOptions;
+            return _buildIcon(
+              onPressed: extra.onPressed,
+              isToggled: extra.isToggled,
+              child: child,
+            );
+          },
         ),
       );
 

@@ -51,7 +51,7 @@ jobs:
       - uses: actions/setup-java@v4
         if: matrix.os == 'Android'
         with:
-          java-version: "17"
+          java-version: "21"
           distribution: "temurin"
           cache: "gradle"
 
@@ -63,24 +63,11 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: "3.35.7"
+          flutter-version: "3.50.0"
           channel: "stable"
           cache: true
-      - uses: actions/cache@v4
-        with:
-          path: |
-            .dart_tool
-            !.dart_tool/**/*.snapshot
-          key: ${{ runner.os }}-dart-tool-${{ hashFiles('pubspec.lock') }}
       - name: install flutterfire
         run: flutter pub global activate flutterfire_cli
-      - uses: actions/cache@v4
-        if: matrix.os == 'iOS'
-        with:
-          path: |
-            ~/.cocoapods
-            ~/Library/Caches/CocoaPods
-          key: cocoapods-${{ hashFiles('ios/Podfile.lock') }}
 
       - name: Copy dotenv
         run: |
@@ -91,7 +78,9 @@ jobs:
       - name: Generate files
         run: |
           dart run slang
-          dart run build_runner build --delete-conflicting-outputs
+          dart run build_runner build
+          test -s lib/gen/assets.gen.dart
+          test -s lib/gen/fonts.gen.dart
       - name: Run fastlane
         run: bundle exec fastlane internal
         env:

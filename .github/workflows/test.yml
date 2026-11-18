@@ -68,30 +68,16 @@ jobs:
       - uses: subosito/flutter-action@v2
         if: env.run == 'true'
         with:
-          flutter-version: "3.35.7"
+          flutter-version: "3.50.0"
           channel: "stable"
           cache: true
-      - uses: actions/cache@v4
-        if: env.run == 'true'
-        with:
-          path: |
-            .dart_tool
-            !.dart_tool/**/*.snapshot
-          key: ${{ runner.os }}-dart-tool-${{ hashFiles('pubspec.lock') }}
       - name: install flutterfire
         if: env.run == 'true'
         run: flutter pub global activate flutterfire_cli
-      - uses: actions/cache@v4
-        if: env.run == 'true' && matrix.os == 'iOS'
-        with:
-          path: |
-            ~/.cocoapods
-            ~/Library/Caches/CocoaPods
-          key: cocoapods-${{ hashFiles('ios/Podfile.lock') }}
       - uses: actions/setup-java@v4
         if: env.run == 'true' && matrix.os == 'Android'
         with:
-          java-version: "17"
+          java-version: "21"
           distribution: "temurin"
           cache: "gradle"
 
@@ -113,8 +99,13 @@ jobs:
         if: env.run == 'true'
         run: |
           dart run slang
-          dart run build_runner build --delete-conflicting-outputs
+          dart run build_runner build
+          test -s lib/gen/assets.gen.dart
+          test -s lib/gen/fonts.gen.dart
       - name: Run fastlane
         if: env.run == 'true'
         run: bundle exec fastlane test
+        env:
+          # PR builds are not distributed, and upload-symbols can hang the archive.
+          SKIP_CRASHLYTICS_SYMBOL_UPLOAD: "1"
         working-directory: ${{ env.directory }}
