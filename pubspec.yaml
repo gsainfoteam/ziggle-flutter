@@ -71,19 +71,24 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^6.0.0
   injectable_generator: ^3.1.3
-  build_runner: ^2.4.12
+  build_runner: ^2.15.1
   flutter_gen_runner: ^5.7.0
   retrofit_generator: ^10.0.5
   json_serializable: ^6.15.2
-  freezed: ^3.2.3
+  freezed: ^4.0.3
   auto_route_generator: ^10.6.0
   gsheets: ^0.5.0
   dotenv: ^4.2.0
   flutter_launcher_icons: ^0.14.2
   flutter_native_splash: ^2.4.3
-  hive_ce_generator: ^1.9.2
+  hive_ce_generator: ^1.11.2
   plugin_platform_interface: ^2.1.8
   flutter_web_auth_2_platform_interface: ^5.0.0
+
+# TODO: Remove once auto_route_generator allows analyzer 14.
+# https://github.com/Milad-Akarie/auto_route_library/pull/2339
+dependency_overrides:
+  analyzer: ^14.0.0
 
 flutter:
   uses-material-design: true
