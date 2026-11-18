@@ -26,9 +26,8 @@ abstract class AppModule {
   CookieManager getCookieManager(CookieJar cookieJar) =>
       CookieManager(cookieJar);
 
-  FlutterSecureStorage get flutterSecureStorage => const FlutterSecureStorage(
-        aOptions: AndroidOptions(encryptedSharedPreferences: true),
-      );
+  // v10 migrates data left in EncryptedSharedPreferences on first access.
+  FlutterSecureStorage get flutterSecureStorage => const FlutterSecureStorage();
 
   LanguageSettingRepository getLanguageSettingRepository(
           HiveSettingRepository repo) =>
