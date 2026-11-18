@@ -71,14 +71,6 @@ jobs:
           flutter-version: "3.50.0"
           channel: "stable"
           cache: true
-      - uses: actions/cache@v4
-        if: env.run == 'true'
-        with:
-          path: |
-            .dart_tool
-            !.dart_tool/**/*.snapshot
-            !.dart_tool/build/**
-          key: ${{ runner.os }}-dart-tool-v2-${{ hashFiles('pubspec.lock') }}
       - name: install flutterfire
         if: env.run == 'true'
         run: flutter pub global activate flutterfire_cli
@@ -107,7 +99,9 @@ jobs:
         if: env.run == 'true'
         run: |
           dart run slang
-          dart run build_runner build --delete-conflicting-outputs
+          dart run build_runner build
+          test -s lib/gen/assets.gen.dart
+          test -s lib/gen/fonts.gen.dart
       - name: Run fastlane
         if: env.run == 'true'
         run: bundle exec fastlane test
