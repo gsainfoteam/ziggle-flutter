@@ -51,7 +51,7 @@ jobs:
       - uses: actions/setup-java@v4
         if: matrix.os == 'Android'
         with:
-          java-version: "17"
+          java-version: "21"
           distribution: "temurin"
           cache: "gradle"
 
