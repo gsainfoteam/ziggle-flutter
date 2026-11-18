@@ -105,4 +105,7 @@ jobs:
       - name: Run fastlane
         if: env.run == 'true'
         run: bundle exec fastlane test
+        env:
+          # PR builds are not distributed, and upload-symbols can hang the archive.
+          SKIP_CRASHLYTICS_SYMBOL_UPLOAD: "1"
         working-directory: ${{ env.directory }}
