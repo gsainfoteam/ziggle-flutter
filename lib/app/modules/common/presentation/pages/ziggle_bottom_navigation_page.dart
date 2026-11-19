@@ -38,18 +38,8 @@ class _ZiggleBottomNavigationPageState extends State<ZiggleBottomNavigationPage>
   /// for the bar to slide away does not resume under a different account.
   int _chatbotSession = 0;
 
-  /// A route is stacked above this shell, so the native bar must leave the
-  /// screen: a platform view would otherwise linger under the pushed page.
-  bool _covered = false;
-
   @override
-  void didPushNext() => setState(() => _covered = true);
-
-  @override
-  void didPopNext() {
-    setState(() => _covered = false);
-    AnalyticsRepository.pageView(_currentEvent);
-  }
+  void didPopNext() => AnalyticsRepository.pageView(_currentEvent);
 
   Future<void> _openChatbot() async {
     if (_chatbotOpen) return;
@@ -60,10 +50,10 @@ class _ZiggleBottomNavigationPageState extends State<ZiggleBottomNavigationPage>
     }
     setState(() => _chatbotOpen = true);
     if (ZiggleNavigationBar.isNative) {
-      // Let the native bar and button slide off screen first. The modal's
-      // blurred backdrop cannot cover platform views, so they would show
-      // through it, and the glass views paint a black outline while a blur
-      // is composited over them.
+      // Let the native bar and button slide off screen first. UIKit draws
+      // them above every Flutter route, so they would show through the
+      // modal, and the glass views paint a black outline while a blur is
+      // composited over them.
       final session = _chatbotSession;
       await Future<void>.delayed(ZiggleNavigationBar.hideDuration);
       if (!mounted) return;
@@ -117,6 +107,10 @@ class _ZiggleBottomNavigationPageState extends State<ZiggleBottomNavigationPage>
 
   @override
   Widget build(BuildContext context) {
+    // Anything stacked above this shell, pushed pages as well as dialogs and
+    // sheets, makes the route stop being current. The native bar is drawn
+    // above all Flutter content, so it has to leave the screen then.
+    final covered = !(ModalRoute.isCurrentOf(context) ?? true);
     return BlocListener<UserBloc, UserState>(
       listenWhen: (previous, current) =>
           previous.user?.uuid != current.user?.uuid,
@@ -135,7 +129,7 @@ class _ZiggleBottomNavigationPageState extends State<ZiggleBottomNavigationPage>
                 : ZiggleChatbotButton(onPressed: _openChatbot),
             bottomNavigationBar: ZiggleNavigationBar(
               selectedIndex: tabController.index,
-              obscured: _chatbotOpen || _covered,
+              obscured: _chatbotOpen || covered,
               onDestinationSelected: (index) {
                 AnalyticsRepository.click(_events[index]);
                 context.tabsRouter.setActiveIndex(index);
