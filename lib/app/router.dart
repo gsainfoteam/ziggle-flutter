@@ -18,6 +18,9 @@ class AppRouter extends RootStackRouter {
   Timer? _splashTimer;
   bool _splashMinimumPassed = false;
 
+  /// 스플래시를 벗어나면서 이미 연 링크. 같은 링크를 다시 열지 않는다.
+  LinkState? _openedLink;
+
   @override
   List<AutoRouteGuard> get guards => [
     AutoRouteGuard.simple((resolver, router) async {
@@ -70,9 +73,18 @@ class AppRouter extends RootStackRouter {
   /// 이 가드는 재평가를 포함해 스플래시가 스택에 들어갈 때마다 실행되므로,
   /// 준비가 끝난 뒤에는 스플래시가 다시 올라올 수 없다.
   void _guardSplash(NavigationResolver resolver, StackRouter router) {
+    // 스플래시는 스택의 맨 아래에만 둔다. `redirect`가 없는 링크는 `/`가 되어
+    // 실행 중인 앱 위에 스플래시를 다시 넣으려 하는데, 이때는 그대로 둔다.
+    // 앱을 켤 때와 가드 재평가 중에는 스택이 비어 있다.
+    if (router.stack.isNotEmpty) return resolver.next(false);
     _splashTimer ??= Timer(splashMinimum, () {
       _splashMinimumPassed = true;
-      if (current.name == SplashRoute.name) reevaluateGuards();
+      // 최소 시간 안에 열린 링크가 스플래시를 덮고 있어도, 그 아래의
+      // 스플래시를 지금 정리한다. 나중에 링크 화면을 닫으면 auto_route는
+      // 가드를 다시 실행하지 않으므로, 스플래시가 그대로 드러난다.
+      if (stack.any((page) => page.routeData.name == SplashRoute.name)) {
+        reevaluateGuards();
+      }
     });
     // 로그인 상태와 프로필이 바뀌면 `reevaluateListenable`이 다시 확인한다.
     final ready =
@@ -83,13 +95,14 @@ class AppRouter extends RootStackRouter {
   }
 
   Future<void> _leaveSplash(StackRouter router) async {
-    final link = router.navigatorKey.currentContext
+    final linkState = router.navigatorKey.currentContext
         ?.read<LinkBloc>()
-        .state
-        .whenOrNull(loaded: (link) => link);
+        .state;
+    final link = linkState?.whenOrNull(loaded: (link) => link);
     // 로그인이나 동의가 필요하면 홈의 가드가 그 화면으로 보낸다.
     await router.replaceAll([FeedRoute()]);
-    if (link == null) return;
+    if (link == null || identical(linkState, _openedLink)) return;
+    _openedLink = linkState;
     try {
       await router.pushPath(link);
     } catch (_) {}

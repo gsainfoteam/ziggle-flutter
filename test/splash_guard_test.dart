@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,8 +44,9 @@ class _UserBloc extends UserBloc {
 }
 
 class _LinkRepository implements LinkRepository {
+  final links = StreamController<String>.broadcast();
   @override
-  Stream<String> getLinkStream() => const Stream.empty();
+  Stream<String> getLinkStream() => links.stream;
 }
 
 final _consentedUser = UserEntity(
@@ -72,6 +75,7 @@ class _Router extends AppRouter {
       ),
       children: [AutoRoute(path: 'feed', page: _page(FeedRoute.name))],
     ),
+    AutoRoute(path: '/search', page: _page(SearchRoute.name)),
   ];
 }
 
@@ -79,18 +83,25 @@ void main() {
   late _AuthBloc auth;
   late _UserBloc user;
   late LinkBloc link;
+  late _LinkRepository links;
 
   setUp(() {
     // Created and closed outside the widget test's fake-async zone: inside
     // it, Bloc.close never completes and the test hangs.
     auth = _AuthBloc();
     user = _UserBloc();
-    link = LinkBloc(_LinkRepository());
+    links = _LinkRepository();
+    link = LinkBloc(links)..add(const LinkEvent.init());
     sl.registerSingleton<AuthBloc>(auth);
     sl.registerSingleton<UserBloc>(user);
   });
   tearDown(() async {
-    await Future.wait([auth.close(), user.close(), link.close()]);
+    await Future.wait([
+      auth.close(),
+      user.close(),
+      link.close(),
+      links.links.close(),
+    ]);
     await sl.reset();
   });
 
@@ -157,5 +168,44 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(stack(router), [LoginRoute.name]);
+  });
+
+  testWidgets('a root link neither brings the splash back nor loops', (
+    tester,
+  ) async {
+    auth.set(const AuthState.authenticated());
+    user.changeUser(_consentedUser);
+    final router = await launch(tester);
+    // A link without `redirect` becomes `/`, which is the splash.
+    links.links.add('/');
+    await tester.pump();
+    await router.pushPath('/');
+    await tester.pump(AppRouter.splashMinimum);
+    await tester.pumpAndSettle();
+    expect(stack(router), [ZiggleBottomNavigationRoute.name]);
+
+    // The same while the app is running.
+    await router.pushPath('/');
+    await tester.pumpAndSettle();
+    expect(stack(router), [ZiggleBottomNavigationRoute.name]);
+  });
+
+  testWidgets('a link opened over the splash does not leave it behind', (
+    tester,
+  ) async {
+    auth.set(const AuthState.authenticated());
+    user.changeUser(_consentedUser);
+    final router = await launch(tester);
+    // app.dart pushes every loaded link at once, here on top of the splash.
+    links.links.add('/search');
+    await tester.pump();
+    // Completes only when the page is popped, so do not wait for it.
+    unawaited(router.pushPath('/search'));
+    await tester.pumpAndSettle();
+    expect(stack(router), [SplashRoute.name, SearchRoute.name]);
+
+    await tester.pump(AppRouter.splashMinimum);
+    await tester.pumpAndSettle();
+    expect(stack(router), [ZiggleBottomNavigationRoute.name, SearchRoute.name]);
   });
 }
