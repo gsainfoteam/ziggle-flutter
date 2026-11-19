@@ -16,7 +16,9 @@ abstract class Strings {
 
   /// Read on every access so tests can swap the key between cases; the
   /// `static final` fields above cache the first value they see.
-  static String get chatbotWidgetKey => dotenv.get('CHATBOT_WIDGET_KEY');
+  // Optional: without a key the chatbot button shows an "unavailable" toast.
+  static String get chatbotWidgetKey =>
+      dotenv.maybeGet('CHATBOT_WIDGET_KEY') ?? '';
   static String heyDeveloperUrl(String? email) =>
       "${dotenv.get('HEY_DEVELOPER_URL')}${email == null ? '' : '&email=$email'}";
   static const idPRedirectUri = 'ziggle-idp-login-redirect://callback';
