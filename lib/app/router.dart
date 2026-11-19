@@ -1,19 +1,29 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart' hide CupertinoSheetRoute;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sheet/route.dart';
 import 'package:ziggle/app/di/locator.dart';
+import 'package:ziggle/app/modules/core/presentation/bloc/link_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Page|Layout,Route')
 class AppRouter extends RootStackRouter {
+  /// 스플래시를 최소한 이만큼은 보여 줘서 로고가 깜빡이고 사라지지 않게 한다.
+  static const splashMinimum = Duration(seconds: 1);
+
+  Timer? _splashTimer;
+  bool _splashMinimumPassed = false;
+
   @override
   List<AutoRouteGuard> get guards => [
     AutoRouteGuard.simple((resolver, router) async {
       final context = router.navigatorKey.currentContext;
       if (resolver.routeName == SplashRoute.name) {
-        return resolver.next(true);
+        return _guardSplash(resolver, router);
       }
       // 로그인 여부는 토큰으로 판단한다. 프로필(user)이 없다고 해서
       // 비로그인인 것은 아니다 - 미동의 유저는 로그인 상태이지만 프로필이 없다.
@@ -48,6 +58,42 @@ class AppRouter extends RootStackRouter {
       return resolver.next(true);
     }),
   ];
+
+  /// 스플래시에서 벗어나는 이동은 이 가드만 한다. (#721)
+  ///
+  /// 예전에는 SplashPage가 프로필 로딩을 기다렸다가 직접 홈으로 이동했다.
+  /// 그런데 같은 상태 변화로 `reevaluateListenable`이 가드 재평가도 시작한다.
+  /// 재평가는 스택을 비운 뒤 스플래시를 비동기로 다시 넣는데, 그 사이에
+  /// SplashPage의 `replaceAll`이 끼어들면 스택이 `[홈, 스플래시]`가 되어
+  /// 스플래시에서 멈춘 것처럼 보였다.
+  ///
+  /// 이 가드는 재평가를 포함해 스플래시가 스택에 들어갈 때마다 실행되므로,
+  /// 준비가 끝난 뒤에는 스플래시가 다시 올라올 수 없다.
+  void _guardSplash(NavigationResolver resolver, StackRouter router) {
+    _splashTimer ??= Timer(splashMinimum, () {
+      _splashMinimumPassed = true;
+      if (current.name == SplashRoute.name) reevaluateGuards();
+    });
+    // 로그인 상태와 프로필이 바뀌면 `reevaluateListenable`이 다시 확인한다.
+    final ready =
+        !sl<AuthBloc>().state.isLoading && sl<UserBloc>().state.isLoaded;
+    if (!ready || !_splashMinimumPassed) return resolver.next(true);
+    resolver.next(false);
+    _leaveSplash(router);
+  }
+
+  Future<void> _leaveSplash(StackRouter router) async {
+    final link = router.navigatorKey.currentContext
+        ?.read<LinkBloc>()
+        .state
+        .whenOrNull(loaded: (link) => link);
+    // 로그인이나 동의가 필요하면 홈의 가드가 그 화면으로 보낸다.
+    await router.replaceAll([FeedRoute()]);
+    if (link == null) return;
+    try {
+      await router.pushPath(link);
+    } catch (_) {}
+  }
 
   @override
   List<AutoRoute> get routes {
