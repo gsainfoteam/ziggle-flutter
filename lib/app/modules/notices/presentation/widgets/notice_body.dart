@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:ziggle/app/modules/common/presentation/widgets/route_entrance.dart';
 import 'package:ziggle/app/values/palette.dart';
 
 class NoticeBody extends StatefulWidget {
@@ -20,6 +21,38 @@ class _NoticeBodyState extends State<NoticeBody> {
   double _height = 1;
   final _completer = Completer<void>();
   late final InAppWebViewController _controller;
+
+  /// The WebView is created only after the page has finished sliding in.
+  /// Creating it starts a WKWebView on the platform thread (which runs Dart
+  /// too), and a platform view on screen makes Flutter composite every frame
+  /// around it, so both would make the route transition stutter. The body
+  /// starts 1 pt tall until it has loaded anyway, so nothing visible is lost.
+  bool _showWebView = false;
+  Animation<double>? _entrance;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_showWebView || _entrance != null) return;
+    final entrance = RouteEntrance.of(context);
+    if (entrance == null || entrance.status == AnimationStatus.completed) {
+      _showWebView = true;
+      return;
+    }
+    _entrance = entrance..addStatusListener(_onEntranceStatus);
+  }
+
+  void _onEntranceStatus(AnimationStatus status) {
+    if (status != AnimationStatus.completed) return;
+    _entrance?.removeStatusListener(_onEntranceStatus);
+    if (mounted) setState(() => _showWebView = true);
+  }
+
+  @override
+  void dispose() {
+    _entrance?.removeStatusListener(_onEntranceStatus);
+    super.dispose();
+  }
 
   @override
   void didUpdateWidget(covariant NoticeBody oldWidget) {
@@ -46,6 +79,7 @@ class _NoticeBodyState extends State<NoticeBody> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_showWebView) return SizedBox(height: _height);
     return SizedBox(
       height: _height,
       child: InAppWebView(

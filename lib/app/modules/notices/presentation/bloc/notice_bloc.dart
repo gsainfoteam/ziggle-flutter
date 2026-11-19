@@ -15,8 +15,14 @@ class NoticeBloc extends Bloc<NoticeEvent, NoticeState> {
   final NoticeRepository _repository;
   final AnalyticsRepository _analyticsRepository;
 
-  NoticeBloc(this._repository, this._analyticsRepository)
-    : super(const _Initial()) {
+  /// [initial] makes the bloc start as loaded with a notice the caller
+  /// already has (e.g. from the feed), so the detail page can be built in
+  /// the very first frame of its route transition instead of a frame later.
+  NoticeBloc(
+    this._repository,
+    this._analyticsRepository, {
+    @ignoreParam NoticeEntity? initial,
+  }) : super(initial == null ? const _Initial() : _Loaded(initial)) {
     on<_Load>((event, emit) async {
       try {
         emit(_Loaded(event.entity));
