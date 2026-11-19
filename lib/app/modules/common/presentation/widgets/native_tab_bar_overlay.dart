@@ -119,17 +119,29 @@ class _NativeTabBarOverlayState extends State<NativeTabBarOverlay> {
     final config = _config();
     if (_sameConfig(config, _sent)) return;
     _sent = config;
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      if (!mounted || !identical(_sent, config)) return;
-      try {
-        final height = await _channel.invokeMethod<double>('update', config);
-        if (mounted && height != null && height > 0) _setHeight(height);
-      } on PlatformException catch (e) {
-        debugPrint('Native tab bar update failed: $e');
-        // Retry with the next change.
-        if (identical(_sent, config)) _sent = null;
+    WidgetsBinding.instance.addPostFrameCallback((_) => _send(config));
+  }
+
+  /// How often to retry while the Flutter view is not in a window yet.
+  /// Nothing else would trigger another update if the config stays the
+  /// same, and the bar would never appear.
+  static const _windowRetries = 10;
+  static const _windowRetryDelay = Duration(milliseconds: 100);
+
+  Future<void> _send(Map<String, Object?> config, [int attempt = 0]) async {
+    if (!mounted || !identical(_sent, config)) return;
+    try {
+      final height = await _channel.invokeMethod<double>('update', config);
+      if (mounted && height != null && height > 0) _setHeight(height);
+    } on PlatformException catch (e) {
+      if (e.code == 'no_window' && attempt < _windowRetries) {
+        await Future<void>.delayed(_windowRetryDelay);
+        return _send(config, attempt + 1);
       }
-    });
+      debugPrint('Native tab bar update failed: $e');
+      // Retry with the next change.
+      if (identical(_sent, config)) _sent = null;
+    }
   }
 
   static bool _sameConfig(Map<String, Object?> a, Map<String, Object?>? b) {
