@@ -71,7 +71,18 @@ class CoverResizeImage extends ImageProvider<CoverResizeImageKey> {
         );
       },
     );
-    return imageProvider.loadImage(key._providerCacheKey, decodeCover);
+    final completer = imageProvider.loadImage(
+      key._providerCacheKey,
+      decodeCover,
+    );
+    // 로드에 실패하면 이 키로 등록된 캐시 항목도 지운다. 남겨 두면 같은 크기의
+    // 카드가 실패한 completer를 계속 재사용해서 다시 로드하지 않는다.
+    // 오류가 동기적으로 나면 캐시가 아직 키를 등록하기 전일 수 있으므로
+    // microtask에서 지운다. (ResizeImage와 같은 방식)
+    completer.addEphemeralErrorListener((_, _) {
+      scheduleMicrotask(() => PaintingBinding.instance.imageCache.evict(key));
+    });
+    return completer;
   }
 
   /// 원본을 [width] x [height] 영역에 cover로 맞출 때의 배율.
