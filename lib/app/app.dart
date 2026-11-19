@@ -105,7 +105,7 @@ class _Providers extends StatelessWidget {
           BlocListener<LinkBloc, LinkState>(
             listener: (context, state) => state.mapOrNull(
               loaded: (s) => WidgetsBinding.instance.addPostFrameCallback((_) {
-                _appRouter.pushPath(s.link);
+                _appRouter.openLink(s.link);
               }),
             ),
           ),

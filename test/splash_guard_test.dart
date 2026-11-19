@@ -60,6 +60,27 @@ final _consentedUser = UserEntity(
 PageInfo _page(String name) =>
     PageInfo(name, builder: (_) => Scaffold(body: Text(name)));
 
+/// How many times the search page was created.
+var _searchOpened = 0;
+
+class _SearchPage extends StatefulWidget {
+  const _SearchPage();
+
+  @override
+  State<_SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<_SearchPage> {
+  @override
+  void initState() {
+    super.initState();
+    _searchOpened++;
+  }
+
+  @override
+  Widget build(BuildContext context) => Scaffold(body: Text(SearchRoute.name));
+}
+
 /// The real guards with text-only pages.
 class _Router extends AppRouter {
   @override
@@ -75,7 +96,10 @@ class _Router extends AppRouter {
       ),
       children: [AutoRoute(path: 'feed', page: _page(FeedRoute.name))],
     ),
-    AutoRoute(path: '/search', page: _page(SearchRoute.name)),
+    AutoRoute(
+      path: '/search',
+      page: PageInfo(SearchRoute.name, builder: (_) => const _SearchPage()),
+    ),
   ];
 }
 
@@ -92,6 +116,7 @@ void main() {
     user = _UserBloc();
     links = _LinkRepository();
     link = LinkBloc(links)..add(const LinkEvent.init());
+    _searchOpened = 0;
     sl.registerSingleton<AuthBloc>(auth);
     sl.registerSingleton<UserBloc>(user);
   });
@@ -110,10 +135,18 @@ void main() {
     await tester.pumpWidget(
       BlocProvider<LinkBloc>.value(
         value: link,
-        child: MaterialApp.router(
-          routerConfig: router.config(
-            reevaluateListenable: ReevaluateListenable.stream(
-              MergeStream([auth.stream, user.stream]),
+        // The same listener as in app.dart.
+        child: BlocListener<LinkBloc, LinkState>(
+          listener: (context, state) => state.mapOrNull(
+            loaded: (s) => WidgetsBinding.instance.addPostFrameCallback((_) {
+              router.openLink(s.link);
+            }),
+          ),
+          child: MaterialApp.router(
+            routerConfig: router.config(
+              reevaluateListenable: ReevaluateListenable.stream(
+                MergeStream([auth.stream, user.stream]),
+              ),
             ),
           ),
         ),
@@ -121,6 +154,15 @@ void main() {
     );
     await tester.pump();
     return router;
+  }
+
+  /// The link bloc lives outside the fake-async zone, so deliver real events.
+  Future<void> sendLink(WidgetTester tester, String path) async {
+    await tester.runAsync(() async {
+      links.links.add(path);
+      await pumpEventQueue();
+    });
+    await tester.pump();
   }
 
   List<String> stack(_Router router) => [
@@ -177,35 +219,57 @@ void main() {
     user.changeUser(_consentedUser);
     final router = await launch(tester);
     // A link without `redirect` becomes `/`, which is the splash.
-    links.links.add('/');
-    await tester.pump();
-    await router.pushPath('/');
+    await sendLink(tester, '/');
     await tester.pump(AppRouter.splashMinimum);
     await tester.pumpAndSettle();
     expect(stack(router), [ZiggleBottomNavigationRoute.name]);
 
     // The same while the app is running.
-    await router.pushPath('/');
+    await sendLink(tester, '/');
     await tester.pumpAndSettle();
     expect(stack(router), [ZiggleBottomNavigationRoute.name]);
   });
 
-  testWidgets('a link opened over the splash does not leave it behind', (
+  testWidgets('a link that arrives during the splash opens once over home', (
     tester,
   ) async {
     auth.set(const AuthState.authenticated());
     user.changeUser(_consentedUser);
     final router = await launch(tester);
-    // app.dart pushes every loaded link at once, here on top of the splash.
-    links.links.add('/search');
-    await tester.pump();
-    // Completes only when the page is popped, so do not wait for it.
-    unawaited(router.pushPath('/search'));
+    await sendLink(tester, '/search');
     await tester.pumpAndSettle();
-    expect(stack(router), [SplashRoute.name, SearchRoute.name]);
+    expect(stack(router), [SplashRoute.name]);
 
     await tester.pump(AppRouter.splashMinimum);
     await tester.pumpAndSettle();
     expect(stack(router), [ZiggleBottomNavigationRoute.name, SearchRoute.name]);
+    expect(_searchOpened, 1);
+  });
+
+  testWidgets('a link while the app is running opens once', (tester) async {
+    auth.set(const AuthState.authenticated());
+    user.changeUser(_consentedUser);
+    final router = await launch(tester);
+    await tester.pump(AppRouter.splashMinimum);
+    await tester.pumpAndSettle();
+
+    await sendLink(tester, '/search');
+    await tester.pumpAndSettle();
+    expect(stack(router), [ZiggleBottomNavigationRoute.name, SearchRoute.name]);
+    expect(_searchOpened, 1);
+  });
+
+  testWidgets('a signed-out user is not sent to a link from the splash', (
+    tester,
+  ) async {
+    final router = await launch(tester);
+    await sendLink(tester, '/search');
+    await tester.pump(AppRouter.splashMinimum);
+    auth.set(const AuthState.unauthenticated());
+    user.changeUser(null);
+    await tester.pumpAndSettle();
+
+    expect(stack(router), [LoginRoute.name]);
+    expect(_searchOpened, 0);
   });
 }

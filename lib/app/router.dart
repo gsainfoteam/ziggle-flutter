@@ -2,10 +2,8 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/cupertino.dart' hide CupertinoSheetRoute;
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sheet/route.dart';
 import 'package:ziggle/app/di/locator.dart';
-import 'package:ziggle/app/modules/core/presentation/bloc/link_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/auth_bloc.dart';
 import 'package:ziggle/app/modules/user/presentation/bloc/user_bloc.dart';
 import 'package:ziggle/app/router.gr.dart';
@@ -18,8 +16,30 @@ class AppRouter extends RootStackRouter {
   Timer? _splashTimer;
   bool _splashMinimumPassed = false;
 
-  /// 스플래시를 벗어나면서 이미 연 링크. 같은 링크를 다시 열지 않는다.
-  LinkState? _openedLink;
+  /// 스플래시를 벗어났는지. 그 전에 들어온 링크는 [_pendingLink]에 둔다.
+  bool _splashLeft = false;
+  String? _pendingLink;
+
+  /// 들어온 링크를 연다. 링크는 이 함수에서만 열어서 같은 링크를 두 번 열지
+  /// 않는다.
+  ///
+  /// 스플래시 위에 바로 열면, 스플래시를 벗어날 때 홈으로 바꾸면서 그 화면도
+  /// 사라지므로 다시 열어야 한다. 그래서 스플래시 중에는 링크를 보관했다가
+  /// 홈으로 이동한 뒤에 한 번만 연다.
+  void openLink(String link) {
+    if (!_splashLeft) {
+      _pendingLink = link;
+      return;
+    }
+    _pushLink(link);
+  }
+
+  Future<void> _pushLink(String link) async {
+    try {
+      // 링크 화면을 닫을 때 끝난다. 부르는 쪽은 기다리지 않는다.
+      await pushPath(link);
+    } catch (_) {}
+  }
 
   @override
   List<AutoRouteGuard> get guards => [
@@ -79,9 +99,7 @@ class AppRouter extends RootStackRouter {
     if (router.stack.isNotEmpty) return resolver.next(false);
     _splashTimer ??= Timer(splashMinimum, () {
       _splashMinimumPassed = true;
-      // 최소 시간 안에 열린 링크가 스플래시를 덮고 있어도, 그 아래의
-      // 스플래시를 지금 정리한다. 나중에 링크 화면을 닫으면 auto_route는
-      // 가드를 다시 실행하지 않으므로, 스플래시가 그대로 드러난다.
+      // 최소 시간이 지나기를 기다리던 스플래시를 다시 확인한다.
       if (stack.any((page) => page.routeData.name == SplashRoute.name)) {
         reevaluateGuards();
       }
@@ -94,18 +112,19 @@ class AppRouter extends RootStackRouter {
     _leaveSplash(router);
   }
 
-  Future<void> _leaveSplash(StackRouter router) async {
-    final linkState = router.navigatorKey.currentContext
-        ?.read<LinkBloc>()
-        .state;
-    final link = linkState?.whenOrNull(loaded: (link) => link);
+  void _leaveSplash(StackRouter router) {
+    // `replaceAll`이 돌려주는 Future는 홈을 닫을 때 끝나므로 기다리지 않는다.
     // 로그인이나 동의가 필요하면 홈의 가드가 그 화면으로 보낸다.
-    await router.replaceAll([FeedRoute()]);
-    if (link == null || identical(linkState, _openedLink)) return;
-    _openedLink = linkState;
-    try {
-      await router.pushPath(link);
-    } catch (_) {}
+    unawaited(router.replaceAll([FeedRoute()]));
+    _splashLeft = true;
+    final link = _pendingLink;
+    _pendingLink = null;
+    if (link == null) return;
+    // 홈이 스택에 들어간 뒤에 연다. 로그인이나 동의 화면으로 갔다면 열지 않는다.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final top = stack.lastOrNull?.routeData.name;
+      if (top == ZiggleBottomNavigationRoute.name) _pushLink(link);
+    });
   }
 
   @override
