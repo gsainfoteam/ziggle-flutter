@@ -45,13 +45,25 @@ jobs:
           KEYSTORE: ${{ secrets.KEYSTORE }}
           KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
       # Both platforms upload Dart symbols with the Firebase CLI, whose
-      # crashlytics:symbols:upload command runs on Java.
+      # crashlytics:symbols:upload command runs on Java. On iOS these only
+      # serve the symbol upload, so a failure here must not stop the release.
       - uses: actions/setup-node@v4
+        continue-on-error: ${{ matrix.os == 'iOS' }}
       - uses: w9jds/setup-firebase@main
+        if: matrix.os == 'Android'
         with:
           tools-version: 12.4.5
           gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+      # setup-firebase writes the key to /opt, which may not be writable on
+      # macOS runners, and it fails without a key. iOS installs the CLI alone
+      # and its symbol upload step writes the key to a temporary file.
+      - name: Install Firebase CLI
+        if: matrix.os == 'iOS'
+        continue-on-error: true
+        timeout-minutes: 5
+        run: npm install -g firebase-tools@12.4.5
       - uses: actions/setup-java@v4
+        continue-on-error: ${{ matrix.os == 'iOS' }}
         with:
           java-version: "21"
           distribution: "temurin"
@@ -99,7 +111,9 @@ jobs:
         working-directory: ${{ env.directory }}
 
       - name: Upload Crashlytics dSYMs
-        if: matrix.os == 'iOS'
+        # Also run when fastlane failed after the build (for example in the
+        # Slack notification), since the archive no longer uploads symbols.
+        if: ${{ !cancelled() && matrix.os == 'iOS' }}
         # A failed or slow symbol upload must not fail the release.
         continue-on-error: true
         timeout-minutes: 10
@@ -120,7 +134,7 @@ jobs:
           "$UPLOAD_SYMBOLS" -gsp ios/Runner/GoogleService-Info.plist -p ios "$DSYMS"
 
       - name: Upload Crashlytics Dart symbols
-        if: matrix.os == 'iOS'
+        if: ${{ !cancelled() && matrix.os == 'iOS' }}
         # The app is built with --obfuscate, so Dart stack traces stay
         # unreadable without these. Like the dSYMs, this must not fail the release.
         continue-on-error: true
@@ -135,7 +149,21 @@ jobs:
             echo "::warning::iOS app ID not found in lib/firebase_options.dart; skipping Dart symbol upload"
             exit 0
           fi
-          firebase crashlytics:symbols:upload --app="$IOS_APP_ID" debug-info
+          if ! command -v firebase >/dev/null 2>&1; then
+            echo "::warning::Firebase CLI not found; skipping Dart symbol upload"
+            exit 0
+          fi
+          KEY_FILE="$RUNNER_TEMP/gcp_key.json"
+          trap 'rm -f "$KEY_FILE"' EXIT
+          # Accept the key as raw JSON or base64, as setup-firebase does.
+          case "$FIREBASE_SERVICE_ACCOUNT_KEY" in
+            "{"*) printf '%s' "$FIREBASE_SERVICE_ACCOUNT_KEY" > "$KEY_FILE" ;;
+            *) printf '%s' "$FIREBASE_SERVICE_ACCOUNT_KEY" | base64 --decode > "$KEY_FILE" ;;
+          esac
+          GOOGLE_APPLICATION_CREDENTIALS="$KEY_FILE" \
+            firebase crashlytics:symbols:upload --app="$IOS_APP_ID" debug-info
+        env:
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
 
       - name: action-slack
         uses: 8398a7/action-slack@v3
