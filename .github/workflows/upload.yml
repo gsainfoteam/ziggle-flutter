@@ -18,6 +18,9 @@ jobs:
             build-os: macos-26
     name: Build ${{ matrix.os }} App and Upload
     runs-on: ${{ matrix.build-os }}
+    # A normal run takes about 10 minutes on either platform. Without a limit,
+    # a hung step holds the runner until the 6-hour default.
+    timeout-minutes: 45
     concurrency:
       group: ${{ matrix.os }}-staging
       cancel-in-progress: true
@@ -91,7 +94,31 @@ jobs:
           SLACK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
           SUPPLY_JSON_KEY_DATA: ${{ secrets.SUPPLY_JSON_KEY_DATA }}
+          # upload-symbols can hang inside the Xcode archive, so the archive
+          # skips it and the next step uploads the dSYMs with a time limit.
+          SKIP_CRASHLYTICS_SYMBOL_UPLOAD: "1"
         working-directory: ${{ env.directory }}
+
+      - name: Upload Crashlytics dSYMs
+        if: matrix.os == 'iOS'
+        # A failed or slow symbol upload must not fail the release.
+        continue-on-error: true
+        timeout-minutes: 10
+        run: |
+          DSYMS=build/ios/archive/Runner.xcarchive/dSYMs
+          if [ ! -d "$DSYMS" ]; then
+            echo "::warning::$DSYMS not found; skipping Crashlytics symbol upload"
+            exit 0
+          fi
+          UPLOAD_SYMBOLS=build/ios/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols
+          if [ ! -x "$UPLOAD_SYMBOLS" ]; then
+            UPLOAD_SYMBOLS=$(find "$HOME/Library/Developer/Xcode/DerivedData" -path '*/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/upload-symbols' -type f -perm -u+x 2>/dev/null | head -n 1)
+          fi
+          if [ -z "$UPLOAD_SYMBOLS" ]; then
+            echo "::warning::Crashlytics upload-symbols not found; skipping symbol upload"
+            exit 0
+          fi
+          "$UPLOAD_SYMBOLS" -gsp ios/Runner/GoogleService-Info.plist -p ios "$DSYMS"
 
       - name: action-slack
         uses: 8398a7/action-slack@v3
