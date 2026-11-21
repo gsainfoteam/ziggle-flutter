@@ -44,19 +44,18 @@ jobs:
         env:
           KEYSTORE: ${{ secrets.KEYSTORE }}
           KEYSTORE_PROPERTIES: ${{ secrets.KEYSTORE_PROPERTIES }}
+      # Both platforms upload Dart symbols with the Firebase CLI, whose
+      # crashlytics:symbols:upload command runs on Java.
       - uses: actions/setup-node@v4
-        if: matrix.os == 'Android'
       - uses: w9jds/setup-firebase@main
-        if: matrix.os == 'Android'
         with:
           tools-version: 12.4.5
           gcp_sa_key: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
       - uses: actions/setup-java@v4
-        if: matrix.os == 'Android'
         with:
           java-version: "21"
           distribution: "temurin"
-          cache: "gradle"
+          cache: ${{ matrix.os == 'Android' && 'gradle' || '' }}
 
       - uses: ruby/setup-ruby@v1
         with:
@@ -119,6 +118,24 @@ jobs:
             exit 0
           fi
           "$UPLOAD_SYMBOLS" -gsp ios/Runner/GoogleService-Info.plist -p ios "$DSYMS"
+
+      - name: Upload Crashlytics Dart symbols
+        if: matrix.os == 'iOS'
+        # The app is built with --obfuscate, so Dart stack traces stay
+        # unreadable without these. Like the dSYMs, this must not fail the release.
+        continue-on-error: true
+        timeout-minutes: 10
+        run: |
+          if [ ! -d debug-info ]; then
+            echo "::warning::debug-info not found; skipping Dart symbol upload"
+            exit 0
+          fi
+          IOS_APP_ID=$(sed -n "s/.*appId: '\(.*:ios:[^']*\)'.*/\1/p" lib/firebase_options.dart | head -n 1)
+          if [ -z "$IOS_APP_ID" ]; then
+            echo "::warning::iOS app ID not found in lib/firebase_options.dart; skipping Dart symbol upload"
+            exit 0
+          fi
+          firebase crashlytics:symbols:upload --app="$IOS_APP_ID" debug-info
 
       - name: action-slack
         uses: 8398a7/action-slack@v3
