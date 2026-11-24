@@ -1009,10 +1009,10 @@ packages:
     dependency: "direct main"
     description:
       name: gist_chatbot_flutter
-      sha256: "568c5f16dc2c3f23112c9340541f3b6e56c24a699a16b997a447d08529066aaf"
+      sha256: "9e997edaa1cbce8edadde38fd80f6c137a4f2ca8aeac86aa95c045c794a58dab"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2"
+    version: "0.1.3"
   glob:
     dependency: transitive
     description:
