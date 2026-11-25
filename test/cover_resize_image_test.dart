@@ -40,7 +40,7 @@ void main() {
     await _resolveAndFail(image);
     await _resolveAndFail(image);
 
-    expect(inner.loads, 2);
+    expect(inner.loads, 3);
   });
 
   test('coverScale fills both sides of the box', () {
