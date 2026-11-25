@@ -14,11 +14,17 @@ jobs:
     # touch test/** are checked too.
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # The job runs code from the PR (tests, code generators), so it gets a
+    # read-only token and does not keep it in the git config.
+    permissions:
+      contents: read
     concurrency:
       group: flutter-test-${{ github.event.pull_request.number }}
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Read pinned Flutter version
         id: flutter-version
