@@ -76,7 +76,9 @@ Future<void> _cleanup(_ZiggleApi api, String runId) async {
     final title = notice['title'] as String? ?? '';
     if (!title.startsWith(titlePrefix)) continue;
     final createdAt = DateTime.parse(notice['createdAt'] as String);
-    final fromThisRun = title.contains(runId);
+    // setup writes '<prefix> <runId> <key>', so the space keeps run IDs that
+    // share a beginning (local-...-12 and local-...-123) apart.
+    final fromThisRun = title.startsWith('$titlePrefix $runId ');
     final stale = now.difference(createdAt) > _staleAfter;
     if (!fromThisRun && !stale) continue;
     await api.deleteNotice(notice['id'] as int);
@@ -266,9 +268,20 @@ Map<String, String> _readDotenv() {
   for (final line in file.readAsLinesSync()) {
     final index = line.indexOf('=');
     if (line.trimLeft().startsWith('#') || index < 0) continue;
-    values[line.substring(0, index).trim()] = line.substring(index + 1).trim();
+    values[line.substring(0, index).trim()] = _unquote(
+      line.substring(index + 1).trim(),
+    );
   }
   return values;
+}
+
+/// Drops matching quotes around a value, as flutter_dotenv does for the app.
+String _unquote(String value) {
+  final quoted =
+      value.length >= 2 &&
+      ((value.startsWith('"') && value.endsWith('"')) ||
+          (value.startsWith("'") && value.endsWith("'")));
+  return quoted ? value.substring(1, value.length - 1) : value;
 }
 
 String _randomString() {

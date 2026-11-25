@@ -54,7 +54,7 @@ scripts/e2e/run.sh --device <udid> .maestro/flows/05_reaction.yaml
 
 Android에서 `app.sh install`은 디버그 빌드가 `ziggle.gistory.me` 링크를 열 수 있도록 링크 처리를 켭니다. 디버그 빌드는 `assetlinks.json`에 등록된 키로 서명되지 않아 도메인 인증에 실패하기 때문입니다. 기기가 여러 대 연결되어 있다면 `--device`로 기기를 지정해야 합니다.
 
-결과는 `build/e2e`에 저장됩니다. `junit.xml`에는 시나리오별 결과가 기록되고, `debug/<시나리오>/`에는 단계별 스크린샷과 화면 계층, Maestro 로그, 기기 로그가 저장됩니다. Maestro는 입력한 문자열을 로그에 남기므로, `run.sh`는 실행이 끝나면 결과 파일에서 비밀번호를 지웁니다.
+결과는 실행마다 `build/e2e/<실행 ID>`에 저장되고, `E2E_OUTPUT_DIR`을 지정하면 그 경로에 저장됩니다. `junit.xml`에는 시나리오별 결과가 기록되고, `debug/<시나리오>/`에는 단계별 스크린샷과 화면 계층, Maestro 로그, 기기 로그가 저장됩니다. Maestro는 입력한 문자열을 로그에 남기므로, `run.sh`는 실행이 끝나면 결과 파일에서 비밀번호를 지웁니다.
 
 ## CI
 

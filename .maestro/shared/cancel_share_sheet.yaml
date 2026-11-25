@@ -5,9 +5,11 @@ appId: me.gistory.ziggle
     when:
       platform: Android
     commands:
+      # IDs only the share sheet has (Android 15). Generic android:id/... IDs
+      # such as android:id/content also exist on the app screen.
       - extendedWaitUntil:
           visible:
-            id: "(com.android.intentresolver|android):id/.*"
+            id: "(android|com.android.intentresolver):id/(chooser_header|chooser_headline_row|resolver_list)"
           timeout: 10000
       - takeScreenshot: share_sheet_${SHARE_FROM}
       - back

@@ -5,6 +5,14 @@ on:
     branches:
       - development
 
+# With E2E_GATE on, the upload jobs wait for E2E before they reach their
+# per-platform concurrency group, so an older run could upload after a newer
+# one or cancel its upload. A newer push cancels the whole older run instead,
+# E2E included.
+concurrency:
+  group: upload-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   e2e:
     name: E2E before upload

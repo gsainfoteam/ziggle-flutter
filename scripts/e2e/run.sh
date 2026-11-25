@@ -12,8 +12,8 @@
 # Needs: the E2E app installed on one booted device (see .maestro/README.md),
 # .env in the project root, and E2E_IDP_EMAIL / E2E_IDP_PASSWORD.
 #
-# Results go to $E2E_OUTPUT_DIR (default build/e2e): junit.xml, and per flow
-# the screenshots, view hierarchy and Maestro logs of failed steps.
+# Results go to $E2E_OUTPUT_DIR (default build/e2e/<run id>): junit.xml, and
+# per flow the screenshots, view hierarchy and Maestro and device logs.
 set -euo pipefail
 
 cd "$(dirname "$0")/../.."
@@ -45,7 +45,9 @@ fi
 
 # One ID per run keeps runs on different devices or CI jobs apart.
 run_id="${E2E_RUN_ID:-local-$(date +%Y%m%d%H%M%S)-$RANDOM}"
-output_dir="${E2E_OUTPUT_DIR:-build/e2e}"
+# A directory per run, so runs on two devices from one checkout keep their
+# results apart.
+output_dir="${E2E_OUTPUT_DIR:-build/e2e/$run_id}"
 rm -rf "$output_dir"
 mkdir -p "$output_dir"
 fixtures_env="$output_dir/fixtures.env"
@@ -55,11 +57,29 @@ finish() {
   # Delete the notices of this run even when a flow failed, so their delayed
   # pushes are cancelled and the next run starts clean.
   dart run scripts/e2e/fixtures.dart cleanup --run-id "$run_id" || status=1
-  # Maestro logs the typed text. Keep the password out of saved results.
+  # Maestro logs the typed text, as is and JSON-escaped in commands.json.
+  # Keep every form of the password out of saved results.
   if [[ -d "$output_dir" ]]; then
     PASSWORD="$E2E_IDP_PASSWORD" find "$output_dir" -type f \
       \( -name '*.json' -o -name '*.log' -o -name '*.txt' -o -name '*.xml' -o -name '*.html' \) \
-      -exec perl -pi -e 's/\Q$ENV{PASSWORD}\E/***/g' {} +
+      -exec perl -MJSON::PP -pi -e '
+        BEGIN {
+          my $p = $ENV{PASSWORD};
+          my %forms = ($p => 1);
+          my $chars = $p;
+          utf8::decode($chars);
+          for my $json (JSON::PP->new->allow_nonref, JSON::PP->new->allow_nonref->ascii) {
+            (my $escaped = $json->encode($chars)) =~ s/^"|"$//g;
+            utf8::encode($escaped);
+            $forms{$escaped} = 1;
+            (my $slashes = $escaped) =~ s{/}{\\/}g;
+            $forms{$slashes} = 1;
+          }
+          our $re = join "|", map { quotemeta } sort { length $b <=> length $a } keys %forms;
+        }
+        our $re;
+        s/$re/***/g;
+      ' {} +
   fi
   exit "$status"
 }
