@@ -21,28 +21,31 @@ class ZiggleBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ZiggleButton.text(
-      onPressed: () {
-        AnalyticsRepository.click(AnalyticsEvent.back(from));
-        onBack?.call();
-        context.maybePop();
-      },
-      child: Text.rich(
-        TextSpan(
-          children: [
-            WidgetSpan(
-              alignment: PlaceholderAlignment.middle,
-              child: Assets.icons.navArrowLeft.svg(width: 24, height: 24),
-            ),
-            TextSpan(
-              text: label,
-              style: const TextStyle(
-                fontSize: 16,
-                color: Palette.primary,
-                fontWeight: FontWeight.w400,
+    return Semantics(
+      identifier: 'back',
+      child: ZiggleButton.text(
+        onPressed: () {
+          AnalyticsRepository.click(AnalyticsEvent.back(from));
+          onBack?.call();
+          context.maybePop();
+        },
+        child: Text.rich(
+          TextSpan(
+            children: [
+              WidgetSpan(
+                alignment: PlaceholderAlignment.middle,
+                child: Assets.icons.navArrowLeft.svg(width: 24, height: 24),
               ),
-            )
-          ],
+              TextSpan(
+                text: label,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Palette.primary,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

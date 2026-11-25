@@ -1,0 +1,12 @@
+# Scrolls the feed to the top and pulls it down to fetch the list again.
+appId: me.gistory.ziggle
+---
+- repeat:
+    times: 3
+    commands:
+      - swipe:
+          start: 50%, 25%
+          end: 50%, 85%
+          duration: 600
+- waitForAnimationToEnd:
+    timeout: 10000

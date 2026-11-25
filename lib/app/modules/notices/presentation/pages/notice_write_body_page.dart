@@ -161,15 +161,21 @@ class _LayoutState extends State<_Layout> with SingleTickerProviderStateMixin {
         from: PageSource.write,
         title: Text(context.t.notice.write.title),
         actions: [
-          ZiggleButton.text(
-            disabled: actionDisabled,
-            onPressed: () {
-              AnalyticsRepository.click(const AnalyticsEvent.writeConfig());
-              if (!actionDisabled) _next();
-            },
-            child: Text(
-              context.t.common.done,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          Semantics(
+            identifier: 'write.done',
+            child: ZiggleButton.text(
+              disabled: actionDisabled,
+              onPressed: () {
+                AnalyticsRepository.click(const AnalyticsEvent.writeConfig());
+                if (!actionDisabled) _next();
+              },
+              child: Text(
+                context.t.common.done,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           ),
         ],

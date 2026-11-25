@@ -1,0 +1,68 @@
+# 5. Add and cancel the fire reaction from the feed and the detail.
+#
+# Pass: firing on the feed card marks my reaction on the detail and raises the
+# count by one. Cancelling on the detail and fetching the feed again brings
+# the count back. The notice is created for this run, so it starts at 0.
+appId: me.gistory.ziggle
+name: 05 Add and cancel the fire reaction
+tags:
+  - extended
+env:
+  NOTICE_ID: ${MAESTRO_REACTION_NOTICE_ID}
+---
+- runFlow: ../shared/launch_signed_in.yaml
+- scrollUntilVisible:
+    element:
+      id: notice.card.${NOTICE_ID}.like
+    direction: DOWN
+    timeout: 30000
+    centerElement: true
+- assertVisible:
+    id: notice.card.${NOTICE_ID}.like
+    text: "0"
+    selected: false
+- tapOn:
+    id: notice.card.${NOTICE_ID}.like
+- extendedWaitUntil:
+    visible:
+      id: notice.card.${NOTICE_ID}.like
+      text: "1"
+      selected: true
+    timeout: 10000
+
+- runFlow: ../shared/open_notice_from_feed.yaml
+- scrollUntilVisible:
+    element:
+      id: notice.detail.reaction.like
+    direction: DOWN
+    timeout: 10000
+- assertVisible:
+    id: notice.detail.reaction.like
+    text: "1"
+    selected: true
+- tapOn:
+    id: notice.detail.reaction.like
+- extendedWaitUntil:
+    visible:
+      id: notice.detail.reaction.like
+      text: "0"
+      selected: false
+    timeout: 10000
+
+- tapOn:
+    id: back
+- extendedWaitUntil:
+    visible:
+      id: feed.write
+    timeout: 10000
+- runFlow: ../shared/refresh_feed.yaml
+- scrollUntilVisible:
+    element:
+      id: notice.card.${NOTICE_ID}.like
+    direction: DOWN
+    timeout: 30000
+    centerElement: true
+- assertVisible:
+    id: notice.card.${NOTICE_ID}.like
+    text: "0"
+    selected: false

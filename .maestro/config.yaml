@@ -1,0 +1,5 @@
+# Workspace config. `maestro test .maestro` runs the flows in flows/ only;
+# shared/ holds steps that the flows call with runFlow.
+# Pick a set with --include-tags core or --include-tags extended.
+flows:
+  - "flows/*"

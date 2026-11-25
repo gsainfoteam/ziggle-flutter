@@ -1,0 +1,42 @@
+# Waits for the OS share sheet and closes it without sharing.
+appId: me.gistory.ziggle
+---
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: "(com.android.intentresolver|android):id/.*"
+          timeout: 10000
+      - takeScreenshot: share_sheet_${SHARE_FROM}
+      - back
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: ActivityListView
+          timeout: 10000
+      - takeScreenshot: share_sheet_${SHARE_FROM}
+      # Some iOS versions show a Close button; newer ones close by swiping
+      # the sheet down.
+      - runFlow:
+          when:
+            visible: "Close|닫기"
+          commands:
+            - tapOn: "Close|닫기"
+      - runFlow:
+          when:
+            visible:
+              id: ActivityListView
+          commands:
+            - swipe:
+                from:
+                  id: ActivityListView
+                direction: DOWN
+      - extendedWaitUntil:
+          notVisible:
+            id: ActivityListView
+          timeout: 10000

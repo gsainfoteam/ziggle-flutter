@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# Runs the Maestro E2E flows against the staging API, locally and in CI.
+#
+#   scripts/e2e/run.sh [--device <id>] [--include-tags <tags>] [flow ...]
+#
+# Without flows it runs the .maestro workspace, which config.yaml limits to
+# .maestro/flows. Examples:
+#
+#   scripts/e2e/run.sh --include-tags core
+#   scripts/e2e/run.sh .maestro/flows/05_reaction.yaml
+#
+# Needs: the E2E app installed on one booted device (see .maestro/README.md),
+# .env in the project root, and E2E_IDP_EMAIL / E2E_IDP_PASSWORD.
+#
+# Results go to $E2E_OUTPUT_DIR (default build/e2e): junit.xml, and per flow
+# the screenshots, view hierarchy and Maestro logs of failed steps.
+set -euo pipefail
+
+cd "$(dirname "$0")/../.."
+
+maestro_args=()
+flows=()
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --device | --include-tags | --exclude-tags)
+      maestro_args+=("$1" "$2")
+      shift 2
+      ;;
+    -*)
+      echo "unknown option: $1" >&2
+      exit 64
+      ;;
+    *)
+      flows+=("$1")
+      shift
+      ;;
+  esac
+done
+[[ ${#flows[@]} -eq 0 ]] && flows=(.maestro)
+
+if [[ -z "${E2E_IDP_EMAIL:-}" || -z "${E2E_IDP_PASSWORD:-}" ]]; then
+  echo "set E2E_IDP_EMAIL and E2E_IDP_PASSWORD to the IdP test account" >&2
+  exit 64
+fi
+
+# One ID per run keeps runs on different devices or CI jobs apart.
+run_id="${E2E_RUN_ID:-local-$(date +%Y%m%d%H%M%S)-$RANDOM}"
+output_dir="${E2E_OUTPUT_DIR:-build/e2e}"
+rm -rf "$output_dir"
+mkdir -p "$output_dir"
+fixtures_env="$output_dir/fixtures.env"
+
+finish() {
+  local status=$?
+  # Delete the notices of this run even when a flow failed, so their delayed
+  # pushes are cancelled and the next run starts clean.
+  dart run scripts/e2e/fixtures.dart cleanup --run-id "$run_id" || status=1
+  # Maestro logs the typed text. Keep the password out of saved results.
+  if [[ -d "$output_dir" ]]; then
+    PASSWORD="$E2E_IDP_PASSWORD" find "$output_dir" -type f \
+      \( -name '*.json' -o -name '*.log' -o -name '*.txt' -o -name '*.xml' -o -name '*.html' \) \
+      -exec perl -pi -e 's/\Q$ENV{PASSWORD}\E/***/g' {} +
+  fi
+  exit "$status"
+}
+trap finish EXIT
+
+echo "E2E run $run_id"
+dart run scripts/e2e/fixtures.dart setup --run-id "$run_id" --out "$fixtures_env"
+set -a
+# shellcheck disable=SC1090
+source "$fixtures_env"
+set +a
+export MAESTRO_IDP_EMAIL="$E2E_IDP_EMAIL"
+export MAESTRO_IDP_PASSWORD="$E2E_IDP_PASSWORD"
+export MAESTRO_CLI_NO_ANALYTICS=1
+export MAESTRO_CLI_ANALYSIS_NOTIFICATION_DISABLED=true
+
+maestro test \
+  ${maestro_args[@]+"${maestro_args[@]}"} \
+  --format junit \
+  --output "$output_dir/junit.xml" \
+  --test-output-dir "$output_dir/flows" \
+  --debug-output "$output_dir/debug" \
+  --flatten-debug-output \
+  "${flows[@]}"

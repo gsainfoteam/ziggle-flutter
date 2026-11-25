@@ -1,0 +1,72 @@
+# 2. Publish a notice and read it again.
+#
+# Pass: a notice written with a title and body unique to this run is
+# published, and after the feed is fetched again, opening it shows the same
+# title and body. Its title starts with [E2E] so the runner deletes it.
+appId: me.gistory.ziggle
+name: 02 Publish a notice and read it again
+tags:
+  - core
+env:
+  TITLE: "[E2E] ${MAESTRO_RUN_ID} write ${maestro.platform}"
+  BODY: "E2E ${MAESTRO_RUN_ID} written on ${maestro.platform}"
+  # A feed card reads as one text (author, time, title, body), so the card is
+  # found by a pattern. The run ID has no regex characters.
+  CARD_TEXT: "(?s).*${MAESTRO_RUN_ID} write ${maestro.platform}.*"
+---
+- runFlow: ../shared/launch_signed_in.yaml
+- runFlow: ../shared/write_notice_body.yaml
+- tapOn:
+    id: write.done
+- extendedWaitUntil:
+    visible:
+      id: write.config.category.general
+    timeout: 10000
+- tapOn:
+    id: write.config.category.general
+- tapOn:
+    id: write.config.publish
+- extendedWaitUntil:
+    visible:
+      id: write.consent.upload
+    timeout: 10000
+- tapOn:
+    id: write.consent.notification
+- tapOn:
+    id: write.consent.edit
+- tapOn:
+    id: write.consent.urgent
+- tapOn:
+    id: write.consent.upload
+
+# The app opens the created notice.
+- extendedWaitUntil:
+    visible:
+      id: notice.detail.title
+      text: ${TITLE}
+    timeout: 30000
+- takeScreenshot: 02_published
+
+# Fetch the feed again and open the notice from it.
+- tapOn:
+    id: back
+- extendedWaitUntil:
+    visible:
+      id: feed.write
+    timeout: 10000
+- runFlow: ../shared/refresh_feed.yaml
+- scrollUntilVisible:
+    element: ${CARD_TEXT}
+    direction: DOWN
+    timeout: 30000
+    centerElement: true
+- tapOn: ${CARD_TEXT}
+- extendedWaitUntil:
+    visible:
+      id: notice.detail.title
+      text: ${TITLE}
+    timeout: 20000
+- scrollUntilVisible:
+    element: ${BODY}
+    direction: DOWN
+    timeout: 10000

@@ -37,14 +37,20 @@ class _PopScope extends StatelessWidget {
                   title: context.t.notice.write.pop.title,
                   content: context.t.notice.write.pop.description,
                   buildActions: (context) => [
-                    CupertinoDialogAction(
-                      onPressed: () => Navigator.of(context).pop(true),
-                      child: Text(context.t.notice.write.pop.save),
+                    Semantics(
+                      identifier: 'write.pop.save',
+                      child: CupertinoDialogAction(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: Text(context.t.notice.write.pop.save),
+                      ),
                     ),
-                    CupertinoDialogAction(
-                      isDestructiveAction: true,
-                      onPressed: () => Navigator.of(context).pop(false),
-                      child: Text(context.t.notice.write.pop.withoutSave),
+                    Semantics(
+                      identifier: 'write.pop.withoutSave',
+                      child: CupertinoDialogAction(
+                        isDestructiveAction: true,
+                        onPressed: () => Navigator.of(context).pop(false),
+                        child: Text(context.t.notice.write.pop.withoutSave),
+                      ),
                     ),
                     CupertinoDialogAction(
                       textStyle: const TextStyle(color: Palette.gray),

@@ -1,0 +1,16 @@
+# Opens the notice NOTICE_ID from the feed and waits for its detail screen.
+# The feed is newest first, so a notice created for this run is near the top.
+appId: me.gistory.ziggle
+---
+- scrollUntilVisible:
+    element:
+      id: notice.card.${NOTICE_ID}
+    direction: DOWN
+    timeout: 30000
+    centerElement: true
+- tapOn:
+    id: notice.card.${NOTICE_ID}
+- extendedWaitUntil:
+    visible:
+      id: notice.detail.title
+    timeout: 20000

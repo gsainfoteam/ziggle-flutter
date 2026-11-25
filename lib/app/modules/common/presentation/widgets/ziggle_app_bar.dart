@@ -30,23 +30,29 @@ class ZiggleAppBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: backgroundColor,
         large: true,
         actions: [
-          GestureDetector(
-            onTap: onTapSearch,
-            behavior: HitTestBehavior.translucent,
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Center(
-                child: Assets.icons.search.svg(),
+          Semantics(
+            identifier: 'feed.search',
+            child: GestureDetector(
+              onTap: onTapSearch,
+              behavior: HitTestBehavior.translucent,
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: Center(
+                  child: Assets.icons.search.svg(),
+                ),
               ),
             ),
           ),
-          GestureDetector(
-            onTap: onTapWrite,
-            behavior: HitTestBehavior.translucent,
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Center(
-                child: Assets.icons.write.svg(),
+          Semantics(
+            identifier: 'feed.write',
+            child: GestureDetector(
+              onTap: onTapWrite,
+              behavior: HitTestBehavior.translucent,
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: Center(
+                  child: Assets.icons.write.svg(),
+                ),
               ),
             ),
           ),

@@ -1,0 +1,31 @@
+# 1. Sign in and read a notice from the feed.
+#
+# Pass: after signing in with the staging account, opening the prepared
+# notice shows its title and body, and one back returns to the feed.
+appId: me.gistory.ziggle
+name: 01 Sign in and read a notice from the feed
+tags:
+  - core
+env:
+  NOTICE_ID: ${MAESTRO_READ_NOTICE_ID}
+  NOTICE_TITLE: ${MAESTRO_READ_NOTICE_TITLE}
+  NOTICE_BODY: ${MAESTRO_READ_NOTICE_BODY}
+---
+- runFlow: ../shared/launch_signed_in.yaml
+- runFlow: ../shared/open_notice_from_feed.yaml
+- assertVisible:
+    id: notice.detail.title
+    text: ${NOTICE_TITLE}
+- scrollUntilVisible:
+    element: ${NOTICE_BODY}
+    direction: DOWN
+    timeout: 10000
+- takeScreenshot: 01_detail
+- tapOn:
+    id: back
+- extendedWaitUntil:
+    visible:
+      id: notice.card.${NOTICE_ID}
+    timeout: 10000
+- assertVisible:
+    id: feed.write

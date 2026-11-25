@@ -1,0 +1,29 @@
+# Starts the app with no data and signs in, so each flow begins on the feed
+# regardless of what ran before.
+appId: me.gistory.ziggle
+---
+- runFlow: launch.yaml
+# iOS simulators cannot grant notifications in advance, so the app's
+# permission alert covers the first screen. Accept it when it shows.
+- repeat:
+    times: 20
+    while:
+      notVisible:
+        id: "login.button|feed.write"
+    commands:
+      - runFlow:
+          when:
+            visible: "Allow|허용"
+          commands:
+            - tapOn: "Allow|허용"
+      - waitForAnimationToEnd:
+          timeout: 1500
+- extendedWaitUntil:
+    visible:
+      id: "login.button|feed.write"
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: login.button
+    file: login.yaml

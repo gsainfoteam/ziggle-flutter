@@ -73,19 +73,25 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
         title: Text(context.t.notice.write.configTitle),
         onBack: _save,
         actions: [
-          ZiggleButton.text(
-            disabled: _type == null,
-            onPressed: () {
-              AnalyticsRepository.click(
-                const AnalyticsEvent.writeConfigPublish(),
-              );
-              if (_type != null) {
-                _publish();
-              }
-            },
-            child: Text(
-              context.t.notice.write.publish,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          Semantics(
+            identifier: 'write.config.publish',
+            child: ZiggleButton.text(
+              disabled: _type == null,
+              onPressed: () {
+                AnalyticsRepository.click(
+                  const AnalyticsEvent.writeConfigPublish(),
+                );
+                if (_type != null) {
+                  _publish();
+                }
+              },
+              child: Text(
+                context.t.notice.write.publish,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           ),
         ],
@@ -102,18 +108,21 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                 const SizedBox(height: 25),
                 _buildTags(),
                 const SizedBox(height: 25),
-                ZiggleButton.cta(
-                  disabled: _type == null,
-                  emphasize: false,
-                  onPressed: () {
-                    AnalyticsRepository.click(
-                      const AnalyticsEvent.writeConfigPreview(),
-                    );
-                    if (_type != null) {
-                      _preview();
-                    }
-                  },
-                  child: Text(context.t.notice.write.preview),
+                Semantics(
+                  identifier: 'write.config.preview',
+                  child: ZiggleButton.cta(
+                    disabled: _type == null,
+                    emphasize: false,
+                    onPressed: () {
+                      AnalyticsRepository.click(
+                        const AnalyticsEvent.writeConfigPreview(),
+                      );
+                      if (_type != null) {
+                        _preview();
+                      }
+                    },
+                    child: Text(context.t.notice.write.preview),
+                  ),
                 ),
               ],
             ),
@@ -259,49 +268,53 @@ class _NoticeWriteConfigPageState extends State<NoticeWriteConfigPage>
                     Expanded(
                       child: AspectRatio(
                         aspectRatio: 1,
-                        child: ZigglePressable(
-                          onPressed: () {
-                            AnalyticsRepository.click(
-                              AnalyticsEvent.writeConfigCategory(e.$2),
-                            );
-                            setState(() => _type = e.$2);
-                          },
-                          decoration: BoxDecoration(
-                            color: _type == e.$2
-                                ? Palette.black
-                                : Palette.grayLight,
-                            border: Border.all(
+                        child: Semantics(
+                          identifier: 'write.config.category.${e.$2.name}',
+                          selected: _type == e.$2,
+                          child: ZigglePressable(
+                            onPressed: () {
+                              AnalyticsRepository.click(
+                                AnalyticsEvent.writeConfigCategory(e.$2),
+                              );
+                              setState(() => _type = e.$2);
+                            },
+                            decoration: BoxDecoration(
                               color: _type == e.$2
                                   ? Palette.black
-                                  : Palette.grayBorder,
-                            ),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(10),
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              e.$2.icon.svg(
-                                height: 36,
-                                colorFilter: _type == e.$2
-                                    ? const ColorFilter.mode(
-                                        Palette.white,
-                                        BlendMode.srcIn,
-                                      )
-                                    : null,
+                                  : Palette.grayLight,
+                              border: Border.all(
+                                color: _type == e.$2
+                                    ? Palette.black
+                                    : Palette.grayBorder,
                               ),
-                              const SizedBox(height: 5),
-                              Text(
-                                e.$2.getName(context),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: _type == e.$2
-                                      ? Palette.white
-                                      : Palette.black,
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                e.$2.icon.svg(
+                                  height: 36,
+                                  colorFilter: _type == e.$2
+                                      ? const ColorFilter.mode(
+                                          Palette.white,
+                                          BlendMode.srcIn,
+                                        )
+                                      : null,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 5),
+                                Text(
+                                  e.$2.getName(context),
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: _type == e.$2
+                                        ? Palette.white
+                                        : Palette.black,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

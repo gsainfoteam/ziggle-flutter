@@ -35,15 +35,18 @@ class Editor extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
-          child: ZiggleInput(
-            disabled: titleDisabled,
-            controller: titleController,
-            focusNode: titleFocusNode,
-            showBorder: false,
-            hintText: context.t.notice.write.titleHint,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+          child: Semantics(
+            identifier: 'write.title',
+            child: ZiggleInput(
+              disabled: titleDisabled,
+              controller: titleController,
+              focusNode: titleFocusNode,
+              showBorder: false,
+              hintText: context.t.notice.write.titleHint,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -82,19 +85,22 @@ class Editor extends StatelessWidget {
                   )
                 : Opacity(
                     opacity: bodyController.readOnly ? 0.5 : 1,
-                    child: QuillEditor.basic(
-                      focusNode: bodyFocusNode,
-                      controller: bodyController,
-                      config: QuillEditorConfig(
-                        placeholder: context.t.notice.write.bodyHint,
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        customStyles: const DefaultStyles(
-                          placeHolder: DefaultTextBlockStyle(
-                            TextStyle(fontSize: 16, color: Palette.gray),
-                            HorizontalSpacing.zero,
-                            VerticalSpacing.zero,
-                            VerticalSpacing.zero,
-                            null,
+                    child: Semantics(
+                      identifier: 'write.body',
+                      child: QuillEditor.basic(
+                        focusNode: bodyFocusNode,
+                        controller: bodyController,
+                        config: QuillEditorConfig(
+                          placeholder: context.t.notice.write.bodyHint,
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          customStyles: const DefaultStyles(
+                            placeHolder: DefaultTextBlockStyle(
+                              TextStyle(fontSize: 16, color: Palette.gray),
+                              HorizontalSpacing.zero,
+                              VerticalSpacing.zero,
+                              VerticalSpacing.zero,
+                              null,
+                            ),
                           ),
                         ),
                       ),

@@ -1,0 +1,299 @@
+name: E2E (Maestro)
+
+# Runs the Maestro flows in .maestro/flows on an Android emulator and an iOS
+# simulator against the staging API.
+#
+# - Before internal deploys, upload.yml calls this with the core suite.
+# - During review, run it by hand for one commit, platform and suite or flow.
+# - For a store release candidate, run it by hand with the release suite.
+#
+# A flow that already passed for the same commit, platform and environment is
+# not run again; see "Restore passed flows".
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: Commit to test
+        type: string
+        required: true
+      platform:
+        type: string
+        default: both
+      suite:
+        type: string
+        default: core
+    secrets:
+      E2E_IDP_EMAIL:
+        required: true
+      E2E_IDP_PASSWORD:
+        required: true
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Commit SHA or branch to test (for a PR, its head SHA)
+        type: string
+        required: true
+      platform:
+        description: Device to run on
+        type: choice
+        options:
+          - android
+          - ios
+          - both
+        default: android
+      suite:
+        description: >-
+          core = flows 1-3 (internal deploy gate),
+          release = flows 1-6 (store release candidate),
+          flow = only the flows listed below
+        type: choice
+        options:
+          - core
+          - release
+          - flow
+        default: core
+      flows:
+        description: "With suite=flow: file names in .maestro/flows, space separated (e.g. 05_reaction.yaml)"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+env:
+  MAESTRO_VERSION: "2.12.1"
+  # Part of the key that records passed flows. Change it when the device,
+  # OS image or staging setup changes, so earlier passes are not reused.
+  E2E_ENVIRONMENT: staging-android35-ios26-v1
+
+jobs:
+  plan:
+    name: Plan E2E run
+    runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.plan.outputs.sha }}
+      platforms: ${{ steps.plan.outputs.platforms }}
+      flows: ${{ steps.plan.outputs.flows }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
+      - id: plan
+        env:
+          PLATFORM: ${{ inputs.platform }}
+          SUITE: ${{ inputs.suite }}
+          FLOWS: ${{ inputs.flows }}
+        run: |
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          case "$PLATFORM" in
+            both) echo 'platforms=["android","ios"]' >> "$GITHUB_OUTPUT" ;;
+            android | ios) echo "platforms=[\"$PLATFORM\"]" >> "$GITHUB_OUTPUT" ;;
+            *) echo "::error::unknown platform $PLATFORM"; exit 1 ;;
+          esac
+          case "$SUITE" in
+            core) flows=$(grep -l -- '- core' .maestro/flows/*.yaml) ;;
+            release) flows=$(ls .maestro/flows/*.yaml) ;;
+            flow)
+              flows=""
+              for f in $FLOWS; do
+                path=".maestro/flows/$(basename "$f")"
+                [[ -f "$path" ]] || { echo "::error::no flow $path"; exit 1; }
+                flows+="$path "
+              done
+              [[ -n "$flows" ]] || { echo "::error::suite=flow needs flows"; exit 1; }
+              ;;
+            *) echo "::error::unknown suite $SUITE"; exit 1 ;;
+          esac
+          flows=$(xargs <<< "$flows")
+          echo "flows=$flows" >> "$GITHUB_OUTPUT"
+          echo "Flows: $flows"
+
+  e2e:
+    name: E2E ${{ matrix.platform }}
+    needs: plan
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ${{ fromJSON(needs.plan.outputs.platforms) }}
+    runs-on: ${{ matrix.platform == 'ios' && 'macos-26' || 'ubuntu-latest' }}
+    timeout-minutes: 60
+    env:
+      E2E_RUN_ID: gh-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.platform }}
+      E2E_OUTPUT_DIR: build/e2e
+      PASSED_DIR: build/e2e-passed
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.plan.outputs.sha }}
+
+      - name: Restore passed flows
+        id: passed
+        uses: actions/cache/restore@v4
+        with:
+          path: build/e2e-passed
+          key: e2e-passed-${{ env.E2E_ENVIRONMENT }}-${{ matrix.platform }}-${{ needs.plan.outputs.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: e2e-passed-${{ env.E2E_ENVIRONMENT }}-${{ matrix.platform }}-${{ needs.plan.outputs.sha }}-
+
+      - name: Pick flows to run
+        id: pick
+        env:
+          FLOWS: ${{ needs.plan.outputs.flows }}
+        run: |
+          mkdir -p "$PASSED_DIR"
+          todo=""
+          for f in $FLOWS; do
+            name=$(basename "$f")
+            if [[ -f "$PASSED_DIR/$name" ]]; then
+              echo "Reusing the earlier pass of $name for this commit"
+            else
+              todo+="$f "
+            fi
+          done
+          todo=$(xargs <<< "$todo")
+          echo "flows=$todo" >> "$GITHUB_OUTPUT"
+          if [[ -z "$todo" ]]; then
+            echo "All requested flows already passed for this commit." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Read pinned Flutter version
+        if: steps.pick.outputs.flows != ''
+        id: flutter-version
+        run: echo "version=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@v2
+        if: steps.pick.outputs.flows != ''
+        with:
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          channel: stable
+          cache: true
+      - uses: actions/setup-java@v4
+        if: steps.pick.outputs.flows != ''
+        with:
+          java-version: "21"
+          distribution: temurin
+          cache: ${{ matrix.platform == 'android' && 'gradle' || '' }}
+
+      - name: Create E2E dotenv
+        if: steps.pick.outputs.flows != ''
+        # The IdP and link settings only. No analytics keys: the debug build
+        # uses the mock analytics and must not send events.
+        run: echo '${{ vars.DOTENV }}' > .env
+
+      - name: Generate files
+        if: steps.pick.outputs.flows != ''
+        run: |
+          flutter pub get
+          dart run slang
+          dart run build_runner build
+
+      - name: Install Maestro
+        if: steps.pick.outputs.flows != ''
+        run: |
+          curl -fsSL "https://get.maestro.mobile.dev" | MAESTRO_VERSION="$MAESTRO_VERSION" bash
+          echo "$HOME/.maestro/bin" >> "$GITHUB_PATH"
+
+      - name: Build app
+        if: steps.pick.outputs.flows != ''
+        run: scripts/e2e/app.sh build ${{ matrix.platform }}
+
+      - name: Enable KVM
+        if: steps.pick.outputs.flows != '' && matrix.platform == 'android'
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Run flows (Android)
+        if: steps.pick.outputs.flows != '' && matrix.platform == 'android'
+        id: android
+        uses: reactivecircus/android-emulator-runner@v2
+        env:
+          E2E_IDP_EMAIL: ${{ secrets.E2E_IDP_EMAIL }}
+          E2E_IDP_PASSWORD: ${{ secrets.E2E_IDP_PASSWORD }}
+          FLOWS: ${{ steps.pick.outputs.flows }}
+        with:
+          api-level: 35
+          target: playstore
+          arch: x86_64
+          profile: pixel_7
+          disable-animations: true
+          emulator-boot-timeout: 900
+          script: scripts/e2e/app.sh install android && scripts/e2e/run.sh $FLOWS
+
+      - name: Boot simulator (iOS)
+        if: steps.pick.outputs.flows != '' && matrix.platform == 'ios'
+        id: simulator
+        run: |
+          # The newest iPhone on the newest installed iOS runtime.
+          udid=$(xcrun simctl list devices available --json | jq -r '
+            .devices | to_entries
+            | map(select(.key | test("iOS-[0-9]+(-[0-9]+)*$")))
+            | sort_by(.key | capture("iOS-(?<v>[0-9]+(-[0-9]+)*)").v | split("-") | map(tonumber))
+            | last.value | map(select(.name | startswith("iPhone"))) | last.udid')
+          echo "udid=$udid" >> "$GITHUB_OUTPUT"
+          xcrun simctl boot "$udid"
+          xcrun simctl bootstatus "$udid"
+          xcrun simctl list devices | grep "$udid"
+
+      - name: Run flows (iOS)
+        if: steps.pick.outputs.flows != '' && matrix.platform == 'ios'
+        env:
+          E2E_IDP_EMAIL: ${{ secrets.E2E_IDP_EMAIL }}
+          E2E_IDP_PASSWORD: ${{ secrets.E2E_IDP_PASSWORD }}
+          FLOWS: ${{ steps.pick.outputs.flows }}
+          UDID: ${{ steps.simulator.outputs.udid }}
+        run: |
+          scripts/e2e/app.sh install ios "$UDID"
+          # shellcheck disable=SC2086
+          scripts/e2e/run.sh --device "$UDID" $FLOWS
+
+      - name: Record passed flows
+        if: ${{ !cancelled() && steps.pick.outputs.flows != '' }}
+        run: |
+          # A flow passed if its testcase in junit.xml has no failure.
+          [[ -f "$E2E_OUTPUT_DIR/junit.xml" ]] || exit 0
+          for f in .maestro/flows/*.yaml; do
+            name=$(sed -n 's/^name: //p' "$f")
+            [[ -n "$name" ]] || continue
+            if grep -F "name=\"$name\"" "$E2E_OUTPUT_DIR/junit.xml" | grep -q 'status="SUCCESS"'; then
+              touch "$PASSED_DIR/$(basename "$f")"
+            fi
+          done
+          ls "$PASSED_DIR"
+
+      - name: Save passed flows
+        if: ${{ !cancelled() && steps.pick.outputs.flows != '' }}
+        uses: actions/cache/save@v4
+        with:
+          path: build/e2e-passed
+          key: e2e-passed-${{ env.E2E_ENVIRONMENT }}-${{ matrix.platform }}-${{ needs.plan.outputs.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+      - name: Summarize
+        if: ${{ !cancelled() && steps.pick.outputs.flows != '' }}
+        run: |
+          {
+            echo "### E2E ${{ matrix.platform }} @ ${{ needs.plan.outputs.sha }}"
+            echo
+            if [[ -f "$E2E_OUTPUT_DIR/junit.xml" ]]; then
+              echo '| Flow | Result | Time (s) |'
+              echo '|---|---|---|'
+              grep -o '<testcase [^>]*' "$E2E_OUTPUT_DIR/junit.xml" | while read -r line; do
+                name=$(echo "$line" | sed -n 's/.*name="\([^"]*\)".*/\1/p')
+                time=$(echo "$line" | sed -n 's/.*time="\([^"]*\)".*/\1/p')
+                status=$(echo "$line" | sed -n 's/.*status="\([^"]*\)".*/\1/p')
+                echo "| $name | ${status:-?} | $time |"
+              done
+            else
+              echo "No junit.xml: the run stopped before Maestro finished."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload results
+        if: ${{ !cancelled() && steps.pick.outputs.flows != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-${{ matrix.platform }}-${{ github.run_attempt }}
+          # Screenshots, view hierarchy, Maestro and device logs of each step,
+          # with the password removed by run.sh.
+          path: build/e2e
+          retention-days: 7
