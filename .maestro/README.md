@@ -58,7 +58,9 @@ Android에서 `app.sh install`은 디버그 빌드가 `ziggle.gistory.me` 링크
 
 ## CI
 
-`.github/workflows/e2e.yml`이 Android(API 35 에뮬레이터)와 iOS(macos-26의 최신 iPhone 시뮬레이터)에서 시나리오를 실행합니다.
+`.github/workflows/e2e.yml`이 Android(API 35 에뮬레이터)와 iOS(macos-15-intel의 최신 iPhone 시뮬레이터)에서 시나리오를 실행합니다.
+
+iOS는 메모리가 14GB인 Intel 러너에서 실행합니다. 메모리가 7GB인 arm64 러너(macos-26)에서는 iOS 26 시뮬레이터와 Maestro가 메모리를 모두 차지했습니다. 그래서 호스트가 실행 파일을 디스크에서 계속 다시 읽었고, 시뮬레이터가 새 프로세스를 시작하는 데 몇 분씩 걸려 시나리오가 시간 초과로 실패했습니다(#734). 실행 요약의 마지막 줄에 호스트 메모리와 swap 사용량이 표시되므로, swap을 사용했다면 같은 원인을 먼저 의심합니다. GitHub는 마지막 Intel 이미지인 macos-15-intel을 2027년 가을에 종료하므로, 그 전에 메모리가 더 큰 러너로 옮겨야 합니다.
 
 | 시점 | 실행 방법 | 범위 |
 |---|---|---|

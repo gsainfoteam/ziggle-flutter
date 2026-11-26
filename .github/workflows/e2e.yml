@@ -65,7 +65,7 @@ env:
   MAESTRO_VERSION: "2.12.1"
   # Part of the key that records passed flows. Change it when the device,
   # OS image or staging setup changes, so earlier passes are not reused.
-  E2E_ENVIRONMENT: staging-android35-ios26-v1
+  E2E_ENVIRONMENT: staging-android35-ios26-intel-v1
 
 jobs:
   plan:
@@ -116,7 +116,12 @@ jobs:
       fail-fast: false
       matrix:
         platform: ${{ fromJSON(needs.plan.outputs.platforms) }}
-    runs-on: ${{ matrix.platform == 'ios' && 'macos-26' || 'ubuntu-latest' }}
+    # iOS runs on Intel for its memory. The arm64 runners have 7 GB, and the
+    # iOS 26 simulator with Maestro needs more: the host paged executables
+    # back in from disk, so each new simulator process took up to minutes to
+    # start and the flows timed out (#734). The Intel runner has 14 GB.
+    # GitHub retires its last Intel image, macos-15-intel, in fall 2027.
+    runs-on: ${{ matrix.platform == 'ios' && 'macos-15-intel' || 'ubuntu-latest' }}
     timeout-minutes: 60
     env:
       E2E_RUN_ID: gh-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.platform }}
@@ -155,6 +160,15 @@ jobs:
           if [[ -z "$todo" ]]; then
             echo "All requested flows already passed for this commit." >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      - name: Select Xcode (iOS)
+        if: steps.pick.outputs.flows != '' && matrix.platform == 'ios'
+        # The image defaults to Xcode 16, which cannot resolve the Firebase
+        # Swift package. Use the newest installed Xcode 26.
+        run: |
+          xcode=$(printf '%s\n' /Applications/Xcode_26*.app | sort -V | tail -1)
+          sudo xcode-select -s "$xcode"
+          xcodebuild -version
 
       - name: Read pinned Flutter version
         if: steps.pick.outputs.flows != ''
@@ -285,6 +299,12 @@ jobs:
               done
             else
               echo "No junit.xml: the run stopped before Maestro finished."
+            fi
+            # Swap in use means the host ran out of memory, which makes the
+            # simulator slow to start processes (#734).
+            if [[ "$RUNNER_OS" == macOS ]]; then
+              echo
+              echo "Host: $(( $(sysctl -n hw.memsize) / 1073741824 )) GB memory, swap $(sysctl -n vm.swapusage | tr -s ' ')"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
