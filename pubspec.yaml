@@ -1,7 +1,7 @@
 name: ziggle
 description: ziggle
 publish_to: "none"
-version: 4.5.1
+version: 4.5.2
 
 environment:
   sdk: ^3.14.0
@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   adaptive_platform_ui: ^1.0.2
-  gist_chatbot_flutter: ^0.1.2
+  gist_chatbot_flutter: ^0.1.3
   # 2026-11 릴리스부터 Android 플러그인이 AGP built-in Kotlin을 요구한다.
   # adaptive_platform_ui, flutter_web_auth_2가 아직 KGP를 쓰므로 직전 릴리스로 고정한다.
   firebase_core: 5.1.0
