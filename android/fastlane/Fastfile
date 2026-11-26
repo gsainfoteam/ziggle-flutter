@@ -11,6 +11,9 @@ platform :android do
     unless File.exist?(aabPath)
       UI.user_error!("Build failed")
     end
+
+    # Runs the Kotlin unit tests, such as LinkActivityTest.
+    gradle(task: ":app:testDebugUnitTest")
   end
 
   desc "Deploy a new version to the Google Play"

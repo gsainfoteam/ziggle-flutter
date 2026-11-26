@@ -1,0 +1,50 @@
+# Links that both AppLinksLinkRepository.toAppPath (Dart, used on iOS) and
+# LinkActivity.appPath (Kotlin, used on Android) are tested with, so that both
+# apps open the same links. Add a line here when a new link format must open.
+#
+# <link><TAB><app path to open, or - if the app does not open the link>
+
+# Shared notice links
+https://ziggle.gistory.me/notice/123	/notice/123
+https://ziggle.gistory.me/notice/123/	/notice/123
+https://ziggle.gistory.me/notice/123?utm_source=x#top	/notice/123
+https://Ziggle.Gistory.me/notice/123	/notice/123
+
+# Paths are normalized as Dart's Uri does.
+https://ziggle.gistory.me/notice/%31%32%33	/notice/123
+https://ziggle.gistory.me/notice/%2e/123	/notice/123
+https://ziggle.gistory.me/notice/%2E/123	/notice/123
+https://ziggle.gistory.me/notice/x/../123	/notice/123
+https://ziggle.gistory.me/../notice/123	/notice/123
+https://ziggle.gistory.me/notice/123%2F	-
+
+# /app redirect links
+https://ziggle.gistory.me/app?redirect=/notice/123	/notice/123
+https://ziggle.gistory.me/app/?redirect=/notice/123	/notice/123
+https://ziggle.gistory.me/app?redirect=notice/123	/notice/123
+https://ziggle.gistory.me/app?redirect=%2Fnotice%2F%2531	/notice/1
+# The last redirect wins, as in Dart's Uri.queryParameters.
+https://ziggle.gistory.me/app?redirect=/home&redirect=/notice/1	/notice/1
+https://ziggle.gistory.me/app?redirect=/notice/1&redirect=/home	-
+# Query keys are decoded too, so %72edirect is also redirect.
+https://ziggle.gistory.me/app?redirect=/notice/1&%72edirect=/notice/2	/notice/2
+# Notice IDs are ASCII digits only. This one is ARABIC-INDIC DIGIT ONE.
+https://ziggle.gistory.me/app?redirect=%2Fnotice%2F%D9%A1	-
+# A full redirect URL from the web app banner
+https://ziggle.gistory.me/app?redirect=https%3A%2F%2Fziggle.gistory.me%2Fnotice%2F123	/notice/123
+https://ziggle.gistory.me/app?redirect=https%3A%2F%2Fexample.com%2Fnotice%2F123	-
+https://ziggle.gistory.me/app?redirect=//example.com/notice/1	-
+https://ziggle.gistory.me/app?redirect=/home	-
+https://ziggle.gistory.me/app	-
+https://ziggle.gistory.me/app/	-
+
+# Links the app does not open
+https://ziggle.gistory.me/	-
+https://ziggle.gistory.me/home	-
+https://ziggle.gistory.me/notice	-
+https://ziggle.gistory.me/notice/abc	-
+https://ziggle.gistory.me/notice/123/edit	-
+https://example.com/notice/123	-
+http://ziggle.gistory.me/notice/123	-
+ziggle-idp-login-redirect://callback?code=x	-
+::not a url	-

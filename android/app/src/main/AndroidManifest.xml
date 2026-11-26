@@ -36,6 +36,16 @@
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
       </intent-filter>
+    </activity>
+    <!-- Receives App Links and forwards them to MainActivity in the app's own
+         task. See LinkActivity.kt. -->
+    <activity
+      android:name=".LinkActivity"
+      android:exported="true"
+      android:excludeFromRecents="true"
+      android:noHistory="true"
+      android:taskAffinity=""
+      android:theme="@android:style/Theme.NoDisplay">
       <intent-filter android:autoVerify="true">
         <action android:name="android.intent.action.VIEW" />
 
@@ -43,6 +53,7 @@
         <category android:name="android.intent.category.BROWSABLE" />
 
         <data android:scheme="https" android:host="ziggle.gistory.me" android:pathPrefix="/app" />
+        <data android:pathPrefix="/notice/" />
       </intent-filter>
     </activity>
     <activity

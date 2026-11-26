@@ -74,6 +74,7 @@ jobs:
             pubspec.lock
             android/**
             lib/**
+            test/fixtures/**
 
       - name: Changed Files (iOS)
         uses: tj-actions/changed-files@v37.5.0
