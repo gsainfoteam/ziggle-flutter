@@ -71,8 +71,16 @@ flutter {
     source = "../.."
 }
 
+tasks.withType(Test).configureEach {
+    // LinkActivityTest reads the links shared with the Dart tests, so a change
+    // to the file must run the test again.
+    inputs.file(rootProject.file('../test/fixtures/app_links.tsv'))
+        .withPathSensitivity(PathSensitivity.RELATIVE)
+}
+
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
     implementation 'androidx.window:window:1.0.0'
     implementation 'androidx.window:window-java:1.0.0'
+    testImplementation 'junit:junit:4.13.2'
 }

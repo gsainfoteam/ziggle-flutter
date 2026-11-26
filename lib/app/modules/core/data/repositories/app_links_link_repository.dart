@@ -12,8 +12,10 @@ class AppLinksLinkRepository implements LinkRepository {
 
   /// 앱 링크로 열 수 있는 경로. 공지 ID는 정수다.
   ///
-  /// Android의 `LinkActivity.isSupported`도 같은 규칙으로 링크를 거른다.
-  /// 규칙을 바꾸면 그쪽도 함께 바꾼다.
+  /// Android에서는 `LinkActivity.appPath`가 같은 규칙으로 열 경로를 정하고,
+  /// 이 함수는 그 경로로 만든 링크만 받는다. 두 구현은
+  /// `test/fixtures/app_links.tsv`의 링크로 함께 테스트한다. 규칙을 바꾸면
+  /// 그쪽과 fixture도 함께 바꾼다.
   static final _allowedPaths = [RegExp(r'^/notice/\d+$')];
 
   final _linkSubject = BehaviorSubject<String>();

@@ -27,11 +27,15 @@ class LinkActivity : Activity() {
             .addCategory(Intent.CATEGORY_LAUNCHER)
             .setClass(this, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val link = intent.data
-        if (link != null && isSupported(link)) {
-            // Reuse the running MainActivity through onNewIntent. Anything on top
-            // of it, such as a Custom Tab, is closed so the link is shown.
-            main.putExtra(EXTRA_LINK, link.toString())
+        val path = intent.data?.let { link ->
+            appPath(link.scheme, link.host, link.encodedPath) { link.getQueryParameter("redirect") }
+        }
+        if (path != null) {
+            // Forward the path decided here as a plain link, so Flutter opens
+            // exactly the screen this activity decided to open.
+            main.putExtra(EXTRA_LINK, "https://$HOST$path")
+                // Reuse the running MainActivity through onNewIntent. Anything on
+                // top of it, such as a Custom Tab, is closed so the link is shown.
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
         // A link the app does not open only brings the app to the front, like the
@@ -46,46 +50,76 @@ class LinkActivity : Activity() {
 
         /** Same rule as `AppLinksLinkRepository._allowedPaths` in Dart. */
         private val NOTICE_PATH = Regex("^/notice/\\d+$")
+        private val ESCAPE = Regex("%([0-9A-Fa-f]{2})")
 
         /**
-         * Whether the app opens [link]. Must match
-         * `AppLinksLinkRepository.toAppPath` in Dart, which decides the screen.
+         * Returns the app path to open for a link, or null if the app does not
+         * open it. Takes the parts of the link so that it runs in JVM unit tests
+         * without `android.net.Uri`.
+         *
+         * Follows `AppLinksLinkRepository.toAppPath` in Dart, which decides the
+         * screen on iOS. Both are tested with `test/fixtures/app_links.tsv`.
          */
-        internal fun isSupported(link: Uri): Boolean {
-            if (!isZiggle(link.scheme, link.host)) return false
-            var path = link.encodedPath
-            if (normalize(path) == "/app") {
-                val redirect = link.getQueryParameter("redirect") ?: return false
+        internal fun appPath(
+            scheme: String?,
+            host: String?,
+            encodedPath: String?,
+            redirect: () -> String?,
+        ): String? {
+            if (!isZiggle(scheme, host)) return null
+            var path = normalize(encodedPath)
+            if (path == "/app") {
                 // A relative redirect resolves against the link itself.
-                val target = runCatching { URI(link.toString()).resolve(redirect) }
-                    .getOrNull() ?: return false
-                if (!isZiggle(target.scheme, target.host)) return false
-                path = target.rawPath
+                val target = redirect()?.let {
+                    runCatching { URI("https://$HOST${encodedPath.orEmpty()}").resolve(it) }.getOrNull()
+                } ?: return null
+                if (!isZiggle(target.scheme, target.host)) return null
+                path = normalize(target.rawPath)
             }
-            return NOTICE_PATH.matches(normalize(path))
+            return path.takeIf { NOTICE_PATH.matches(it) }
         }
 
         private fun isZiggle(scheme: String?, host: String?) =
             scheme == "https" && host.equals(HOST, ignoreCase = true)
 
-        private val ESCAPE = Regex("%([0-9A-Fa-f]{2})")
-
         /**
-         * Normalizes an encoded path as Dart's `Uri` does: decodes escaped
-         * unreserved characters, so `/notice/%31` is `/notice/1`, and keeps
-         * other escapes such as `%2F`. Then drops a trailing `/`, because the
-         * web opens `/notice/123/` as the same page.
+         * Normalizes an encoded path as Dart's `Uri` does, then drops a trailing
+         * `/`, because the web opens `/notice/123/` as the same page.
          */
         private fun normalize(path: String?): String {
-            val p = ESCAPE.replace(path.orEmpty()) { m ->
-                val c = m.groupValues[1].toInt(16).toChar()
-                if (c in 'A'..'Z' || c in 'a'..'z' || c in '0'..'9' || c in "-._~") {
-                    c.toString()
-                } else {
-                    m.value
+            val p = removeDotSegments(decodeUnreserved(path.orEmpty()))
+            return if (p.length > 1 && p.endsWith("/")) p.dropLast(1) else p
+        }
+
+        /** Decodes escaped unreserved characters, such as `%31`, and keeps other escapes, such as `%2F`. */
+        private fun decodeUnreserved(path: String) = ESCAPE.replace(path) { m ->
+            val c = m.groupValues[1].toInt(16).toChar()
+            if (c in 'A'..'Z' || c in 'a'..'z' || c in '0'..'9' || c in "-._~") c.toString() else m.value
+        }
+
+        /**
+         * Removes `.` and `..` segments. A port of `Uri._removeDotSegments` in
+         * Dart. `java.net.URI.normalize` differs: it keeps a `..` above the root.
+         */
+        private fun removeDotSegments(path: String): String {
+            val output = ArrayList<String>()
+            var appendSlash = false
+            for (segment in path.split('/')) {
+                appendSlash = false
+                when (segment) {
+                    ".." -> {
+                        if (output.isNotEmpty()) {
+                            output.removeAt(output.lastIndex)
+                            if (output.isEmpty()) output.add("")
+                        }
+                        appendSlash = true
+                    }
+                    "." -> appendSlash = true
+                    else -> output.add(segment)
                 }
             }
-            return if (p.length > 1 && p.endsWith("/")) p.dropLast(1) else p
+            if (appendSlash) output.add("")
+            return output.joinToString("/")
         }
 
         /**
