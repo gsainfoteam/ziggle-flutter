@@ -71,14 +71,17 @@ class _Layout extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        ZiggleButton.cta(
-          onPressed: () async {
-            final bloc = context.read<UserBloc>();
-            final waiter = bloc.stream.firstWhere((state) => state.isConsent);
-            bloc.add(const UserEvent.consent());
-            await waiter;
-          },
-          child: Text(context.t.user.consent.actions.agree),
+        Semantics(
+          identifier: 'consent.agree',
+          child: ZiggleButton.cta(
+            onPressed: () async {
+              final bloc = context.read<UserBloc>();
+              final waiter = bloc.stream.firstWhere((state) => state.isConsent);
+              bloc.add(const UserEvent.consent());
+              await waiter;
+            },
+            child: Text(context.t.user.consent.actions.agree),
+          ),
         ),
       ],
     );

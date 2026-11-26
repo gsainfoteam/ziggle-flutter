@@ -1,0 +1,90 @@
+# Signs in from the login screen with the IdP test account.
+# Needs MAESTRO_IDP_EMAIL and MAESTRO_IDP_PASSWORD, which the runner exports.
+# System and IdP texts follow the device language, so they are matched in
+# English and Korean.
+appId: me.gistory.ziggle
+---
+- tapOn:
+    id: login.button
+
+# iOS asks before ASWebAuthenticationSession opens the IdP page.
+- runFlow:
+    when:
+      platform: iOS
+    commands:
+      - extendedWaitUntil:
+          visible: "Continue|계속"
+          timeout: 20000
+      - tapOn: "Continue|계속"
+
+# A fresh Android emulator shows Chrome's first-run screen in the custom tab.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: "com.android.chrome:id/(signin_fre_dismiss_button|url_bar)"
+          timeout: 30000
+      - runFlow:
+          when:
+            visible:
+              id: "com.android.chrome:id/signin_fre_dismiss_button"
+          commands:
+            - tapOn:
+                id: "com.android.chrome:id/signin_fre_dismiss_button"
+
+# The IdP shows the password form unless the browser already has a session,
+# then always the consent page because the app sends prompt=consent.
+- extendedWaitUntil:
+    visible: "m@gm.gist.ac.kr|Continue|계속하기"
+    timeout: 45000
+- runFlow:
+    when:
+      visible: "m@gm.gist.ac.kr"
+    commands:
+      - tapOn: "m@gm.gist.ac.kr"
+      - inputText:
+          text: ${MAESTRO_IDP_EMAIL}
+          label: Input the test account email
+      - tapOn: "Password|비밀번호"
+      - inputText:
+          text: ${MAESTRO_IDP_PASSWORD}
+          label: Input the test account password
+      - hideKeyboard
+      - tapOn: "Log In|로그인"
+# iOS offers to save the password over the consent page. Decline it.
+- repeat:
+    times: 20
+    while:
+      notVisible: "Continue|계속하기"
+    commands:
+      - runFlow:
+          when:
+            visible: "Not Now|지금 안 함"
+          commands:
+            - tapOn: "Not Now|지금 안 함"
+      - waitForAnimationToEnd:
+          timeout: 1500
+- extendedWaitUntil:
+    visible: "Continue|계속하기"
+    timeout: 30000
+- tapOn: "Continue|계속하기"
+
+# Back in the app. A staging account that never agreed to the terms gets the
+# consent screen first.
+- extendedWaitUntil:
+    visible:
+      id: "feed.write|consent.agree"
+    timeout: 30000
+- runFlow:
+    when:
+      visible:
+        id: consent.agree
+    commands:
+      - tapOn:
+          id: consent.agree
+- extendedWaitUntil:
+    visible:
+      id: feed.write
+    timeout: 30000

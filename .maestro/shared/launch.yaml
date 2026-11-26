@@ -1,0 +1,18 @@
+# Launches the app with no data. Notifications are granted up front: Android
+# 13+ still shows the permission prompt over the first screen when it is
+# denied in advance, and the prompt hides the screen from the next steps.
+appId: me.gistory.ziggle
+---
+# Android: reset Chrome as well. A login tab or IdP session left by an earlier
+# flow either covers the app or changes the IdP pages, so every login starts
+# from Chrome's first run and the password form.
+- runFlow:
+    when:
+      platform: Android
+    commands:
+      - clearState: com.android.chrome
+- launchApp:
+    clearState: true
+    clearKeychain: true
+    permissions:
+      notifications: allow

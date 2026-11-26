@@ -197,12 +197,15 @@ class _NoticeRendererState extends State<NoticeRenderer> {
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 9),
             sliver: SliverToBoxAdapter(
-              child: Text(
-                widget.notice.titles.current,
-                style: const TextStyle(
-                  color: Palette.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600,
+              child: Semantics(
+                identifier: 'notice.detail.title',
+                child: Text(
+                  widget.notice.titles.current,
+                  style: const TextStyle(
+                    color: Palette.black,
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
@@ -560,6 +563,8 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                 children: [
                   ...NoticeReaction.values.map(
                     (reaction) => _ChipButton(
+                      identifier: 'notice.detail.reaction.${reaction.name}',
+                      isToggle: true,
                       onPressed: () {
                         AnalyticsRepository.click(
                           AnalyticsEvent.noticeReaction(
@@ -585,6 +590,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                     ),
                   ),
                   _ChipButton(
+                    identifier: 'notice.detail.share',
                     onPressed: () {
                       AnalyticsRepository.click(
                         AnalyticsEvent.noticeShare(
@@ -598,6 +604,7 @@ class _NoticeRendererState extends State<NoticeRenderer> {
                     text: context.t.notice.detail.share,
                   ),
                   _ChipButton(
+                    identifier: 'notice.detail.copy',
                     onPressed: () async {
                       AnalyticsRepository.click(
                         AnalyticsEvent.noticeCopy(widget.notice.id),
@@ -936,12 +943,19 @@ class _AuthorSettingAction extends StatelessWidget {
 
 class _ChipButton extends StatelessWidget {
   const _ChipButton({
+    this.identifier,
+    this.isToggle = false,
     this.isSelected = false,
     required this.icon,
     required this.onPressed,
     required this.text,
   });
 
+  /// E2E 테스트가 버튼을 찾을 때 쓰는 식별자. 읽기 이름에는 영향이 없다.
+  final String? identifier;
+
+  /// 켜고 끄는 버튼이면 선택 상태를 읽기 정보에도 알린다.
+  final bool isToggle;
   final bool isSelected;
   final Widget icon;
   final VoidCallback onPressed;
@@ -949,6 +963,14 @@ class _ChipButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Semantics(
+      identifier: identifier,
+      selected: isToggle ? isSelected : null,
+      child: _buildButton(),
+    );
+  }
+
+  Widget _buildButton() {
     return ZigglePressable(
       onPressed: onPressed,
       decoration: BoxDecoration(

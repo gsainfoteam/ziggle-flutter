@@ -1,0 +1,56 @@
+# 6. Share from the feed and the detail.
+#
+# Pass: the share button on the feed card and on the detail each open the OS
+# share sheet, and cancelling it returns to the screen the user was on.
+appId: me.gistory.ziggle
+name: 06 Share from the feed and the detail
+tags:
+  - extended
+env:
+  NOTICE_ID: ${MAESTRO_SHARE_NOTICE_ID}
+---
+- runFlow: ../shared/launch_signed_in.yaml
+- scrollUntilVisible:
+    element:
+      id: notice.card.${NOTICE_ID}.share
+    direction: DOWN
+    timeout: 30000
+    centerElement: true
+- tapOn:
+    id: notice.card.${NOTICE_ID}.share
+- runFlow:
+    file: ../shared/cancel_share_sheet.yaml
+    env:
+      SHARE_FROM: feed
+# Back on the feed, not on a detail. Closing the sheet may scroll the list,
+# so the check does not depend on the card position.
+- extendedWaitUntil:
+    visible:
+      id: feed.write
+    timeout: 10000
+- assertNotVisible:
+    id: notice.detail.title
+
+- runFlow: ../shared/open_notice_from_feed.yaml
+- scrollUntilVisible:
+    element:
+      id: notice.detail.share
+    direction: DOWN
+    timeout: 10000
+- tapOn:
+    id: notice.detail.share
+- runFlow:
+    file: ../shared/cancel_share_sheet.yaml
+    env:
+      SHARE_FROM: detail
+# Still on the same detail.
+- scrollUntilVisible:
+    element:
+      id: notice.detail.title
+    direction: UP
+    timeout: 10000
+- assertVisible:
+    id: notice.detail.title
+    text: ${MAESTRO_SHARE_NOTICE_TITLE}
+- assertNotVisible:
+    id: feed.write

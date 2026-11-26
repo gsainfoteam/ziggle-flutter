@@ -1,0 +1,18 @@
+# Opens the write screen from the feed and types TITLE and BODY.
+# Maestro types ASCII reliably on both platforms, so the texts are ASCII.
+appId: me.gistory.ziggle
+---
+- tapOn:
+    id: feed.write
+- extendedWaitUntil:
+    visible:
+      id: write.title
+    timeout: 10000
+- tapOn:
+    id: write.title
+- inputText: ${TITLE}
+- tapOn:
+    id: write.body
+- inputText: ${BODY}
+# The keyboard stays up: the next steps tap the app bar, which it does not
+# cover, and iOS cannot hide the keyboard of the rich text editor.

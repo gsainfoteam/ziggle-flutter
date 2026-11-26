@@ -1,0 +1,38 @@
+# 4. Continue a saved draft.
+#
+# Pass: a title and body saved as a draft survive stopping the app, and both
+# fields are filled again when the write screen opens after a relaunch.
+appId: me.gistory.ziggle
+name: 04 Continue a saved draft
+tags:
+  - extended
+env:
+  TITLE: "[E2E] ${MAESTRO_RUN_ID} draft"
+  BODY: "E2E ${MAESTRO_RUN_ID} draft body"
+---
+- runFlow: ../shared/launch_signed_in.yaml
+- runFlow: ../shared/write_notice_body.yaml
+- tapOn:
+    id: back
+- tapOn:
+    id: write.pop.save
+- extendedWaitUntil:
+    visible:
+      id: feed.write
+    timeout: 10000
+- stopApp
+- launchApp:
+    stopApp: true
+- extendedWaitUntil:
+    visible:
+      id: feed.write
+    timeout: 30000
+- tapOn:
+    id: feed.write
+- extendedWaitUntil:
+    visible:
+      id: write.title
+      text: ${TITLE}
+    timeout: 10000
+- assertVisible: ${BODY}
+- takeScreenshot: 04_restored

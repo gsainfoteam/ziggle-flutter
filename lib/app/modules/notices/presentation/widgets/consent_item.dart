@@ -9,8 +9,11 @@ class ConsentItem extends StatelessWidget {
     required this.description,
     required this.isChecked,
     required this.onChanged,
+    this.identifier,
   });
 
+  /// E2E 테스트가 항목을 찾을 때 쓰는 식별자.
+  final String? identifier;
   final String title;
   final String description;
   final bool isChecked;
@@ -18,6 +21,14 @@ class ConsentItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Semantics(
+      identifier: identifier,
+      checked: isChecked,
+      child: _buildItem(),
+    );
+  }
+
+  Widget _buildItem() {
     return GestureDetector(
       onTap: () => onChanged(!isChecked),
       child: AnimatedContainer(

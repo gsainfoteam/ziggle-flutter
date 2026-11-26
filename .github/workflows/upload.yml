@@ -5,8 +5,34 @@ on:
     branches:
       - development
 
+# With E2E_GATE on, the upload jobs wait for E2E before they reach their
+# per-platform concurrency group, so an older run could upload after a newer
+# one or cancel its upload. A newer push cancels the whole older run instead,
+# E2E included.
+concurrency:
+  group: upload-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  e2e:
+    name: E2E before upload
+    # Off until the repository variable E2E_GATE is "true", so the deploy is
+    # not blocked before the test account and device runs are stable.
+    if: vars.E2E_GATE == 'true'
+    uses: ./.github/workflows/e2e.yml
+    with:
+      ref: ${{ github.sha }}
+      platform: both
+      suite: core
+    secrets:
+      E2E_IDP_EMAIL: ${{ secrets.E2E_IDP_EMAIL }}
+      E2E_IDP_PASSWORD: ${{ secrets.E2E_IDP_PASSWORD }}
+
   build-and-upload:
+    needs: e2e
+    # Upload only when the core flows passed on both platforms, or when the
+    # gate is off and the e2e job was skipped.
+    if: ${{ !cancelled() && (needs.e2e.result == 'success' || needs.e2e.result == 'skipped') }}
     strategy:
       fail-fast: false
       matrix:

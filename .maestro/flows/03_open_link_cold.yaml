@@ -1,0 +1,33 @@
+# 3. Open a notice link while the app is not running.
+#
+# Pass: with the session kept, the app is stopped and the OS opens
+# /app?redirect=/notice/<id>. The notice opens once, and one back shows the
+# home feed. See #721 for the splash regression and #722 for opening shared
+# web addresses directly.
+appId: me.gistory.ziggle
+name: 03 Open a notice link while the app is not running
+tags:
+  - core
+env:
+  NOTICE_ID: ${MAESTRO_LINK_NOTICE_ID}
+  NOTICE_TITLE: ${MAESTRO_LINK_NOTICE_TITLE}
+---
+- runFlow: ../shared/launch_signed_in.yaml
+- stopApp
+- openLink:
+    link: https://ziggle.gistory.me/app?redirect=%2Fnotice%2F${NOTICE_ID}
+- extendedWaitUntil:
+    visible:
+      id: notice.detail.title
+      text: ${NOTICE_TITLE}
+    timeout: 30000
+- takeScreenshot: 03_link_opened
+- tapOn:
+    id: back
+# One back leads home, not to a second copy of the notice or the splash.
+- extendedWaitUntil:
+    visible:
+      id: feed.write
+    timeout: 10000
+- assertNotVisible:
+    id: notice.detail.title

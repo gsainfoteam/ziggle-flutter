@@ -96,6 +96,7 @@ class _LayoutState extends State<_Layout> {
                 ),
                 const SizedBox(height: 24),
                 ConsentItem(
+                  identifier: 'write.consent.notification',
                   title: context.t.notice.write.consent.notification.title,
                   description:
                       context.t.notice.write.consent.notification.description,
@@ -110,6 +111,7 @@ class _LayoutState extends State<_Layout> {
                 ),
                 const SizedBox(height: 10),
                 ConsentItem(
+                  identifier: 'write.consent.edit',
                   title: context.t.notice.write.consent.edit.title,
                   description: context.t.notice.write.consent.edit.description,
                   isChecked: _edit,
@@ -123,6 +125,7 @@ class _LayoutState extends State<_Layout> {
                 ),
                 const SizedBox(height: 10),
                 ConsentItem(
+                  identifier: 'write.consent.urgent',
                   title: context.t.notice.write.consent.urgent.title,
                   description:
                       context.t.notice.write.consent.urgent.description,
@@ -137,17 +140,20 @@ class _LayoutState extends State<_Layout> {
                 ),
                 const SizedBox(height: 24),
                 BlocBuilder<NoticeWriteBloc, NoticeWriteState>(
-                  builder: (context, state) => ZiggleButton.cta(
-                    loading: state.isLoading,
-                    disabled: !_notification || !_edit || !_urgent,
-                    onPressed: () {
-                      AnalyticsRepository.click(
-                          const AnalyticsEvent.writeConfigPublishUpload());
-                      if (_notification && _edit && _urgent) {
-                        _publish();
-                      }
-                    },
-                    child: Text(context.t.notice.write.consent.upload),
+                  builder: (context, state) => Semantics(
+                    identifier: 'write.consent.upload',
+                    child: ZiggleButton.cta(
+                      loading: state.isLoading,
+                      disabled: !_notification || !_edit || !_urgent,
+                      onPressed: () {
+                        AnalyticsRepository.click(
+                            const AnalyticsEvent.writeConfigPublishUpload());
+                        if (_notification && _edit && _urgent) {
+                          _publish();
+                        }
+                      },
+                      child: Text(context.t.notice.write.consent.upload),
+                    ),
                   ),
                 )
               ],
