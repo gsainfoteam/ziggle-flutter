@@ -18,6 +18,12 @@ void main() {
       );
     });
 
+    // Android's `LinkActivity.normalize` decodes the same escapes.
+    test('decodes escaped unreserved characters in the path', () {
+      expect(path('https://ziggle.gistory.me/notice/%31%32%33'), '/notice/123');
+      expect(path('https://ziggle.gistory.me/notice/123%2F'), isNull);
+    });
+
     test('accepts the host in any case', () {
       expect(path('https://Ziggle.Gistory.me/notice/123'), '/notice/123');
     });

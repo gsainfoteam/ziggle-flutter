@@ -68,9 +68,23 @@ class LinkActivity : Activity() {
         private fun isZiggle(scheme: String?, host: String?) =
             scheme == "https" && host.equals(HOST, ignoreCase = true)
 
-        /** Drops a trailing `/`. The web opens `/notice/123/` as the same page. */
+        private val ESCAPE = Regex("%([0-9A-Fa-f]{2})")
+
+        /**
+         * Normalizes an encoded path as Dart's `Uri` does: decodes escaped
+         * unreserved characters, so `/notice/%31` is `/notice/1`, and keeps
+         * other escapes such as `%2F`. Then drops a trailing `/`, because the
+         * web opens `/notice/123/` as the same page.
+         */
         private fun normalize(path: String?): String {
-            val p = path.orEmpty()
+            val p = ESCAPE.replace(path.orEmpty()) { m ->
+                val c = m.groupValues[1].toInt(16).toChar()
+                if (c in 'A'..'Z' || c in 'a'..'z' || c in '0'..'9' || c in "-._~") {
+                    c.toString()
+                } else {
+                    m.value
+                }
+            }
             return if (p.length > 1 && p.endsWith("/")) p.dropLast(1) else p
         }
 
