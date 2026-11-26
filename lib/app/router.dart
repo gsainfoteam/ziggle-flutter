@@ -93,8 +93,8 @@ class AppRouter extends RootStackRouter {
   /// 이 가드는 재평가를 포함해 스플래시가 스택에 들어갈 때마다 실행되므로,
   /// 준비가 끝난 뒤에는 스플래시가 다시 올라올 수 없다.
   void _guardSplash(NavigationResolver resolver, StackRouter router) {
-    // 스플래시는 스택의 맨 아래에만 둔다. `redirect`가 없는 링크는 `/`가 되어
-    // 실행 중인 앱 위에 스플래시를 다시 넣으려 하는데, 이때는 그대로 둔다.
+    // 스플래시는 스택의 맨 아래에만 둔다. `/`로 가는 링크(예: 푸시 알림의
+    // path)는 실행 중인 앱 위에 스플래시를 다시 넣으려 하는데, 이때는 그대로 둔다.
     // 앱을 켤 때와 가드 재평가 중에는 스택이 비어 있다.
     if (router.stack.isNotEmpty) return resolver.next(false);
     _splashTimer ??= Timer(splashMinimum, () {
