@@ -23,6 +23,9 @@ https://ziggle.gistory.me/app?redirect=/notice/123	/notice/123
 https://ziggle.gistory.me/app/?redirect=/notice/123	/notice/123
 https://ziggle.gistory.me/app?redirect=notice/123	/notice/123
 https://ziggle.gistory.me/app?redirect=%2Fnotice%2F%2531	/notice/1
+# The last redirect wins, as in Dart's Uri.queryParameters.
+https://ziggle.gistory.me/app?redirect=/home&redirect=/notice/1	/notice/1
+https://ziggle.gistory.me/app?redirect=/notice/1&redirect=/home	-
 # A full redirect URL from the web app banner
 https://ziggle.gistory.me/app?redirect=https%3A%2F%2Fziggle.gistory.me%2Fnotice%2F123	/notice/123
 https://ziggle.gistory.me/app?redirect=https%3A%2F%2Fexample.com%2Fnotice%2F123	-

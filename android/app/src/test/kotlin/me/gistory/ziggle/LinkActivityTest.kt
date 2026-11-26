@@ -33,10 +33,11 @@ class LinkActivityTest {
     private fun appPath(link: String): String? {
         val uri = runCatching { URI(link) }.getOrNull() ?: return null
         return LinkActivity.appPath(uri.scheme, uri.host, uri.rawPath) {
-            // Like Uri.getQueryParameter: the first value, with `+` as a space.
+            // Like Uri.getQueryParameters(...).lastOrNull(): the last value,
+            // with `+` as a space.
             uri.rawQuery?.split('&')
                 ?.map { it.split('=', limit = 2) }
-                ?.firstOrNull { it[0] == "redirect" }
+                ?.lastOrNull { it[0] == "redirect" }
                 ?.let { URLDecoder.decode(it.getOrElse(1) { "" }, Charsets.UTF_8) }
         }
     }

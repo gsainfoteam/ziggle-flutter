@@ -28,7 +28,10 @@ class LinkActivity : Activity() {
             .setClass(this, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         val path = intent.data?.let { link ->
-            appPath(link.scheme, link.host, link.encodedPath) { link.getQueryParameter("redirect") }
+            // The last value, as Dart's Uri.queryParameters takes.
+            appPath(link.scheme, link.host, link.encodedPath) {
+                link.getQueryParameters("redirect").lastOrNull()
+            }
         }
         if (path != null) {
             // Forward the path decided here as a plain link, so Flutter opens
