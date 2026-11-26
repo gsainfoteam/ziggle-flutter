@@ -2,7 +2,6 @@ package me.gistory.ziggle
 
 import java.io.File
 import java.net.URI
-import java.net.URLDecoder
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -27,18 +26,12 @@ class LinkActivityTest {
     }
 
     /**
-     * Splits [link] as `android.net.Uri` does for [LinkActivity] and calls
-     * [LinkActivity.appPath]. A link that does not parse is not opened.
+     * Passes the raw parts of [link], which [LinkActivity] reads from
+     * `android.net.Uri`, to [LinkActivity.appPath]. A link that does not parse
+     * is not opened.
      */
     private fun appPath(link: String): String? {
         val uri = runCatching { URI(link) }.getOrNull() ?: return null
-        return LinkActivity.appPath(uri.scheme, uri.host, uri.rawPath) {
-            // Like Uri.getQueryParameters(...).lastOrNull(): the last value,
-            // with `+` as a space.
-            uri.rawQuery?.split('&')
-                ?.map { it.split('=', limit = 2) }
-                ?.lastOrNull { it[0] == "redirect" }
-                ?.let { URLDecoder.decode(it.getOrElse(1) { "" }, Charsets.UTF_8) }
-        }
+        return LinkActivity.appPath(uri.scheme, uri.host, uri.rawPath, uri.rawQuery)
     }
 }

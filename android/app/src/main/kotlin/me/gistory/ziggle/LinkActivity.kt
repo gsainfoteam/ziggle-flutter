@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import java.net.URI
+import java.net.URLDecoder
 
 /**
  * Receives App Links and forwards them to [MainActivity] in the app's own task.
@@ -27,12 +28,7 @@ class LinkActivity : Activity() {
             .addCategory(Intent.CATEGORY_LAUNCHER)
             .setClass(this, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        val path = intent.data?.let { link ->
-            // The last value, as Dart's Uri.queryParameters takes.
-            appPath(link.scheme, link.host, link.encodedPath) {
-                link.getQueryParameters("redirect").lastOrNull()
-            }
-        }
+        val path = intent.data?.let { appPath(it.scheme, it.host, it.encodedPath, it.encodedQuery) }
         if (path != null) {
             // Forward the path decided here as a plain link, so Flutter opens
             // exactly the screen this activity decided to open.
@@ -51,14 +47,18 @@ class LinkActivity : Activity() {
         private const val EXTRA_LINK = "me.gistory.ziggle.LINK"
         private const val HOST = "ziggle.gistory.me"
 
-        /** Same rule as `AppLinksLinkRepository._allowedPaths` in Dart. */
-        private val NOTICE_PATH = Regex("^/notice/\\d+$")
+        /**
+         * Same rule as `AppLinksLinkRepository._allowedPaths` in Dart. `[0-9]`,
+         * not `\d`, because `\d` on Android also matches non-ASCII digits.
+         */
+        private val NOTICE_PATH = Regex("^/notice/[0-9]+$")
         private val ESCAPE = Regex("%([0-9A-Fa-f]{2})")
 
         /**
          * Returns the app path to open for a link, or null if the app does not
-         * open it. Takes the parts of the link so that it runs in JVM unit tests
-         * without `android.net.Uri`.
+         * open it. Takes the raw parts of the link and decodes them itself, as
+         * Dart's `Uri` does, instead of relying on how `android.net.Uri`
+         * decodes them. This also lets it run in JVM unit tests.
          *
          * Follows `AppLinksLinkRepository.toAppPath` in Dart, which decides the
          * screen on iOS. Both are tested with `test/fixtures/app_links.tsv`.
@@ -67,13 +67,13 @@ class LinkActivity : Activity() {
             scheme: String?,
             host: String?,
             encodedPath: String?,
-            redirect: () -> String?,
+            encodedQuery: String?,
         ): String? {
             if (!isZiggle(scheme, host)) return null
             var path = normalize(encodedPath)
             if (path == "/app") {
                 // A relative redirect resolves against the link itself.
-                val target = redirect()?.let {
+                val target = redirect(encodedQuery)?.let {
                     runCatching { URI("https://$HOST${encodedPath.orEmpty()}").resolve(it) }.getOrNull()
                 } ?: return null
                 if (!isZiggle(target.scheme, target.host)) return null
@@ -81,6 +81,19 @@ class LinkActivity : Activity() {
             }
             return path.takeIf { NOTICE_PATH.matches(it) }
         }
+
+        /**
+         * The last `redirect` value, with keys and values decoded as Dart's
+         * `Uri.queryParameters` does, so `%72edirect` is also `redirect`.
+         */
+        private fun redirect(encodedQuery: String?): String? = encodedQuery?.split('&')
+            ?.map { it.split('=', limit = 2) }
+            ?.lastOrNull { decodeQuery(it[0]) == "redirect" }
+            ?.let { decodeQuery(it.getOrElse(1) { "" }) }
+
+        /** Decodes `+` as a space and `%XX` escapes. Keeps a malformed escape as it is. */
+        private fun decodeQuery(s: String) =
+            runCatching { URLDecoder.decode(s, "UTF-8") }.getOrDefault(s)
 
         private fun isZiggle(scheme: String?, host: String?) =
             scheme == "https" && host.equals(HOST, ignoreCase = true)

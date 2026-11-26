@@ -26,6 +26,10 @@ https://ziggle.gistory.me/app?redirect=%2Fnotice%2F%2531	/notice/1
 # The last redirect wins, as in Dart's Uri.queryParameters.
 https://ziggle.gistory.me/app?redirect=/home&redirect=/notice/1	/notice/1
 https://ziggle.gistory.me/app?redirect=/notice/1&redirect=/home	-
+# Query keys are decoded too, so %72edirect is also redirect.
+https://ziggle.gistory.me/app?redirect=/notice/1&%72edirect=/notice/2	/notice/2
+# Notice IDs are ASCII digits only. This one is ARABIC-INDIC DIGIT ONE.
+https://ziggle.gistory.me/app?redirect=%2Fnotice%2F%D9%A1	-
 # A full redirect URL from the web app banner
 https://ziggle.gistory.me/app?redirect=https%3A%2F%2Fziggle.gistory.me%2Fnotice%2F123	/notice/123
 https://ziggle.gistory.me/app?redirect=https%3A%2F%2Fexample.com%2Fnotice%2F123	-
