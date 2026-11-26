@@ -8,6 +8,52 @@ on:
       - development-v4
 
 jobs:
+  flutter-test:
+    name: Flutter unit and widget tests
+    # Runs on every PR commit regardless of the changed paths, so PRs that only
+    # touch test/** are checked too.
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # The job runs code from the PR (tests, code generators), so it gets a
+    # read-only token and does not keep it in the git config.
+    permissions:
+      contents: read
+    concurrency:
+      group: flutter-test-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Read pinned Flutter version
+        id: flutter-version
+        run: echo "version=$(jq -r .flutter .fvmrc)" >> "$GITHUB_OUTPUT"
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ steps.flutter-version.outputs.version }}
+          channel: "stable"
+          cache: true
+
+      - name: Create test dotenv
+        # pubspec.yaml bundles .env as an asset, so the file must exist. Tests
+        # load the values they need with dotenv.loadFromString and must not
+        # depend on repository variables or production service keys.
+        run: echo "# empty .env for flutter test" > .env
+
+      - name: Generate files
+        run: |
+          flutter pub get
+          dart run slang
+          dart run build_runner build
+          test -s lib/gen/assets.gen.dart
+          test -s lib/gen/fonts.gen.dart
+
+      - name: Run tests
+        # The github reporter prints each failing test with its error and
+        # stack trace and adds an annotation to the PR checks.
+        run: flutter test --reporter github
+
   check-test-required:
     name: Check if test is required
     runs-on: ubuntu-latest
