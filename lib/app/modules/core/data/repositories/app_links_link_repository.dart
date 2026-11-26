@@ -11,6 +11,9 @@ class AppLinksLinkRepository implements LinkRepository {
   static const host = 'ziggle.gistory.me';
 
   /// 앱 링크로 열 수 있는 경로. 공지 ID는 정수다.
+  ///
+  /// Android의 `LinkActivity.isSupported`도 같은 규칙으로 링크를 거른다.
+  /// 규칙을 바꾸면 그쪽도 함께 바꾼다.
   static final _allowedPaths = [RegExp(r'^/notice/\d+$')];
 
   final _linkSubject = BehaviorSubject<String>();
