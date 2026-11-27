@@ -95,6 +95,9 @@ export MAESTRO_IDP_EMAIL="$E2E_IDP_EMAIL"
 export MAESTRO_IDP_PASSWORD="$E2E_IDP_PASSWORD"
 export MAESTRO_CLI_NO_ANALYTICS=1
 export MAESTRO_CLI_ANALYSIS_NOTIFICATION_DISABLED=true
+# The iOS driver took up to 116 s to start on a CI simulator, close to
+# Maestro's default of 120 s (#734).
+export MAESTRO_DRIVER_STARTUP_TIMEOUT="${MAESTRO_DRIVER_STARTUP_TIMEOUT:-300000}"
 
 maestro test \
   ${maestro_args[@]+"${maestro_args[@]}"} \
